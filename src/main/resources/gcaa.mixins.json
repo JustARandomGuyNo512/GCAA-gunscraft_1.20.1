@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "sheridan.gcaa.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "gcaa.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+    "TestItemRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
