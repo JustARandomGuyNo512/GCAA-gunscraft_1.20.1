@@ -4,6 +4,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.network.packets.c2s.SyncPlayerStatusPacket;
+import sheridan.gcaa.network.packets.s2c.BroadcastPlayerStatusPacket;
 
 public class PacketHandler
 {
@@ -16,6 +18,8 @@ public class PacketHandler
         simpleChannel = NetworkRegistry.newSimpleChannel(new ResourceLocation(GCAA.MODID, "common"), ()-> PROTOCOL_VERSION,
                 (s) ->true, (s) ->true);
 
+        registerPacket(SyncPlayerStatusPacket.class, new SyncPlayerStatusPacket());
+        registerPacket(BroadcastPlayerStatusPacket.class, new BroadcastPlayerStatusPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

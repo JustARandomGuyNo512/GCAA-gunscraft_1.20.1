@@ -80,6 +80,18 @@ public final class ModelPart {
         this.zScale = tag.getFloat(8);
     }
 
+    public void copyFrom(float[] translation) {
+        this.x = translation[0];
+        this.y = translation[1];
+        this.z = translation[2];
+        this.xRot = translation[3];
+        this.yRot = translation[4];
+        this.zRot = translation[5];
+        this.xScale = translation[6];
+        this.yScale = translation[7];
+        this.zScale = translation[8];
+    }
+
     public void copyFrom(ModelPart modelPart) {
         this.xScale = modelPart.xScale;
         this.yScale = modelPart.yScale;

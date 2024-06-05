@@ -3,6 +3,8 @@ package sheridan.gcaa;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -10,6 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -18,11 +21,14 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
+import sheridan.gcaa.capability.PlayerStatusEvents;
+import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.events.Test;
 import sheridan.gcaa.client.model.assets.ModelLoader;
+import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.network.PacketHandler;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(GCAA.MODID)
@@ -34,11 +40,10 @@ public class GCAA {
     public GCAA() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register the commonSetup method for modloading
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {modEventBus.addListener(this::onClientSetup);});
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::onClientSetup));
         modEventBus.addListener(this::commonSetup);
 
-        // Register ourselves for server and other game events we are interested in
+        ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -53,27 +58,19 @@ public class GCAA {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        // Some common setup code
+        MinecraftForge.EVENT_BUS.register(PlayerStatusEvents.class);
+        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, this::attachCapabilityEvent);
+        PacketHandler.register();
         LOGGER.info("HELLO FROM COMMON SETUP");
         LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class ClientModEvents {
-
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+    public void attachCapabilityEvent(AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject() instanceof Player player) {
+            if (!player.getCapability(PlayerStatusProvider.CAPABILITY).isPresent()) {
+                event.addCapability(new ResourceLocation(MODID, "player_status"), new PlayerStatusProvider());
+            }
         }
     }
 }
