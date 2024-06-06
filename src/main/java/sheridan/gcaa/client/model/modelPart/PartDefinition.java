@@ -32,6 +32,7 @@ public class PartDefinition {
         return partdefinition;
     }
 
+
     public ModelPart bake(int textureWidth, int textureHeight) {
         Object2ObjectArrayMap<String, ModelPart> object2arrayobject = this.children.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, (p_171593_) -> {
             return p_171593_.getValue().bake(textureWidth, textureHeight);

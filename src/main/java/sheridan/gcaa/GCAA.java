@@ -27,6 +27,7 @@ import sheridan.gcaa.capability.PlayerStatusEvents;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.events.Test;
 import sheridan.gcaa.client.model.assets.ModelLoader;
+import sheridan.gcaa.client.model.modelPart.LayerDefinition;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.network.PacketHandler;
 
@@ -54,7 +55,7 @@ public class GCAA {
     @OnlyIn(Dist.CLIENT)
     private void onClientSetup(final FMLClientSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(Test.class);
-        ModelLoader.loadModelAsset(new ResourceLocation(MODID, "custom_models/guns/glock19.geo.json"));
+        LayerDefinition testModel = ModelLoader.loadModelAsset(new ResourceLocation(MODID, "custom_models/guns/glock19.geo.json"));
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

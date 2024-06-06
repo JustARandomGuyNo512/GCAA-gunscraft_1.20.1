@@ -56,6 +56,9 @@ public final class ModelPart {
         this.loadPose(this.initialPose);
     }
 
+    /**
+     * Set the model part's pose to the given pose(scale is not included).
+     * */
     public void loadPose(PartPose partPose) {
         this.x = partPose.x;
         this.y = partPose.y;
@@ -68,6 +71,9 @@ public final class ModelPart {
         this.zScale = 1.0F;
     }
 
+    /**
+     * Set the model part's pose to the given listTag, which is a list of 9 floats(x, y, z, rotX, rotY, rotZ).
+     * */
     public void copyFrom(ListTag tag) {
         this.x = tag.getFloat(0);
         this.y = tag.getFloat(1);
@@ -80,6 +86,9 @@ public final class ModelPart {
         this.zScale = tag.getFloat(8);
     }
 
+    /**
+     * Set the model part's pose to the given array, which is an array of 9 floats(x, y, z, rotX, rotY, rotZ).
+     * */
     public void copyFrom(float[] translation) {
         this.x = translation[0];
         this.y = translation[1];
@@ -92,6 +101,9 @@ public final class ModelPart {
         this.zScale = translation[8];
     }
 
+    /**
+     * Copy the model part's pose from the given model part.
+     * */
     public void copyFrom(ModelPart modelPart) {
         this.xScale = modelPart.xScale;
         this.yScale = modelPart.yScale;
