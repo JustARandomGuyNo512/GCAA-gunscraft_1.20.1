@@ -17,7 +17,10 @@ import sheridan.gcaa.client.model.modelPart.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ModelLoader {
@@ -25,10 +28,10 @@ public class ModelLoader {
 
     /**
      * This method is not thread safe.
-     *
+     * <p>
      * The model should only contain and must contain one group named 'root' in the top layer and all others part should be children of the root part.
      * In simple words, the model structure should be a tree. Root is the root of the tree. and all others part are branches of the tree.
-     *
+     * <p>
      * Reads bedrock 1.12.2 format json model file, returns the layer definition of the model.
      * Call layer.get().bakeRoot().getChild("root") to get the root part of the model.
      */
@@ -147,7 +150,10 @@ public class ModelLoader {
                 }
             }
         }
-    };
+    }
+
+    ;
+
     private static void handleRotateSubCubes(PartDefinition mainBone, JsonArray cubes, Vector3f parentPivot, Integer rIndex) {
         for (JsonElement element : cubes) {
             JsonObject cube = element.getAsJsonObject();

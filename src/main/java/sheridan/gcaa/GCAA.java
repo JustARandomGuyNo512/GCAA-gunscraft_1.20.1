@@ -58,7 +58,6 @@ public class GCAA {
     private void onClientSetup(final FMLClientSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(Test.class);
         LayerDefinition testModel = AdventurersArsenalLib.loadBedRockGunModel(new ResourceLocation(MODID, "custom_models/guns/glock19.geo.json"));
-        ModelPart root = testModel.bakeRoot().getChild("root");
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
