@@ -17,25 +17,23 @@ import sheridan.gcaa.client.model.modelPart.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ModelLoader {
     private static final Gson GSON_INSTANCE = new Gson();
 
-    /***
-     * @param location the location of the model file.
-     * @return The layer definition of the model's 'root' layer.
-     * @apiNote This method is not thread safe. The model should only contain and must contain one group named 'root' in the top layer and all others part should be children of the root part.
+    /**
+     * This method is not thread safe.
+     *
+     * The model should only contain and must contain one group named 'root' in the top layer and all others part should be children of the root part.
      * In simple words, the model structure should be a tree. Root is the root of the tree. and all others part are branches of the tree.
-     * Read bedrock 1.12.2 format json model file, returns the layer definition of the model.
+     *
+     * Reads bedrock 1.12.2 format json model file, returns the layer definition of the model.
      * Call layer.get().bakeRoot().getChild("root") to get the root part of the model.
      */
     public static LayerDefinition loadModelAsset(ResourceLocation location) {
-        AtomicReference<LayerDefinition> layer = new AtomicReference<>();
+        AtomicReference<LayerDefinition> resultRef = new AtomicReference<>(null);
         try {
             ResourceManager manager = Minecraft.getInstance().getResourceManager();
             manager.getResource(location).ifPresent(res -> {
@@ -48,7 +46,8 @@ public class ModelLoader {
                         }
                         reader.close();
                         String json = stringBuilder.toString();
-                        layer.set(readJsonStr(json));
+                        LayerDefinition result = readJsonStr(json);
+                        resultRef.set(result);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -59,23 +58,20 @@ public class ModelLoader {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return layer.get();
+        return resultRef.get();
     }
 
     public static LayerDefinition readJsonStr(String json) {
         MeshDefinition meshDefinition = new MeshDefinition();
         PartDefinition model = meshDefinition.getRoot();
-
         JsonObject jsonObject = GSON_INSTANCE.fromJson(json, JsonObject.class);
         Vec2 texture = readTextureSize(jsonObject.getAsJsonArray("minecraft:geometry").get(0).getAsJsonObject().getAsJsonObject("description"));
-
         readBones(jsonObject.getAsJsonArray("minecraft:geometry").get(0).getAsJsonObject().getAsJsonArray("bones"), model);
-
         return LayerDefinition.create(meshDefinition, (int) texture.x, (int) texture.y);
     }
 
     private static Vec2 readTextureSize(JsonObject jsonObject) {
-        return new Vec2(jsonObject.get("texture_width").getAsInt() + 0.000001f, jsonObject.get("texture_height").getAsInt() + 0.000001f);
+        return new Vec2(jsonObject.get("texture_width").getAsInt(), jsonObject.get("texture_height").getAsInt());
     }
 
     private static void readBones(JsonArray bones, PartDefinition model) {
@@ -91,7 +87,9 @@ public class ModelLoader {
                 PartDefinition root;
                 if (bone.has("rotation")) {
                     Vector3f rotation = getRotation(bone);
-                    root = model.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offsetAndRotation(-pivot.x, -pivot.y + 24.0F, pivot.z, rotation.x, rotation.y, rotation.z));
+                    root = model.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offsetAndRotation(
+                            -pivot.x, -pivot.y + 24.0F,
+                            pivot.z, rotation.x, rotation.y, rotation.z));
                 } else {
                     root = model.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(-pivot.x, -pivot.y + 24.0F, pivot.z));
                 }
@@ -135,7 +133,9 @@ public class ModelLoader {
                     }
                     if (bone.has("rotation")) {
                         Vector3f rotation = getRotation(bone);
-                        boneDefinition = parentBone.addOrReplaceChild(name, cubeListBuilder, PartPose.offsetAndRotation(-pivot.x, -pivot.y, pivot.z, rotation.x, rotation.y, rotation.z));
+                        boneDefinition = parentBone.addOrReplaceChild(name, cubeListBuilder, PartPose.offsetAndRotation(
+                                -pivot.x, -pivot.y, pivot.z,
+                                rotation.x, rotation.y, rotation.z));
                     } else {
                         boneDefinition = parentBone.addOrReplaceChild(name, cubeListBuilder, PartPose.offset(-pivot.x, -pivot.y, pivot.z));
                     }
@@ -164,7 +164,7 @@ public class ModelLoader {
                 float originY = pivot.y - (size.y + origin.y);
                 float originZ = pivot.z - origin.z;
                 float offsetX = pivot.x + parentPivot.x;
-                float offsetY = - pivot.y + parentPivot.y;
+                float offsetY = -pivot.y + parentPivot.y;
                 float offsetZ = pivot.z - parentPivot.z;
                 Vector3f offsetRotation = getRotation(cube);
                 mainBone.addOrReplaceChild("r" + rIndex, CubeListBuilder.create().addBox(faces, originX, originY, originZ, size.x, size.y, size.z),
@@ -182,11 +182,10 @@ public class ModelLoader {
                     Vector3f origin = getAsVec3(cube, "origin");
                     Vector3f size = getAsVec3(cube, "size");
                     float originX = origin.x;
-                    float originY = - origin.y - size.y + parentPivot.y;
+                    float originY = -origin.y - size.y + parentPivot.y;
                     float originZ = origin.z - parentPivot.z;
                     cubeListBuilder.addBox(faces, originX, originY, originZ, size.x, size.y, size.z);
                 }
-                cubes.remove(element);
             }
         }
     }
@@ -263,10 +262,8 @@ public class ModelLoader {
         );
     }
 
-
     private static String getParentName(JsonObject bone) {
         return bone.has("parent") ? bone.get("parent").getAsString() : null;
     }
-
 
 }

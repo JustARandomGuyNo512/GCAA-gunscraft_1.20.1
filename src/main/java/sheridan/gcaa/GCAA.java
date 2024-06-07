@@ -28,7 +28,9 @@ import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.events.Test;
 import sheridan.gcaa.client.model.assets.ModelLoader;
 import sheridan.gcaa.client.model.modelPart.LayerDefinition;
+import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.lib.AdventurersArsenalLib;
 import sheridan.gcaa.network.PacketHandler;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -55,7 +57,8 @@ public class GCAA {
     @OnlyIn(Dist.CLIENT)
     private void onClientSetup(final FMLClientSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(Test.class);
-        LayerDefinition testModel = ModelLoader.loadModelAsset(new ResourceLocation(MODID, "custom_models/guns/glock19.geo.json"));
+        LayerDefinition testModel = AdventurersArsenalLib.loadBedRockGunModel(new ResourceLocation(MODID, "custom_models/guns/glock19.geo.json"));
+        ModelPart root = testModel.bakeRoot().getChild("root");
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
