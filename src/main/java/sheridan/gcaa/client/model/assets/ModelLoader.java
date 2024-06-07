@@ -147,8 +147,7 @@ public class ModelLoader {
                 }
             }
         }
-    }
-
+    };
     private static void handleRotateSubCubes(PartDefinition mainBone, JsonArray cubes, Vector3f parentPivot, Integer rIndex) {
         for (JsonElement element : cubes) {
             JsonObject cube = element.getAsJsonObject();
@@ -173,6 +172,7 @@ public class ModelLoader {
         }
     }
 
+
     private static void handleCubesNonRotate(CubeListBuilder cubeListBuilder, JsonArray cubes, Vector3f parentPivot) {
         for (JsonElement element : cubes) {
             JsonObject cube = element.getAsJsonObject();
@@ -188,6 +188,7 @@ public class ModelLoader {
                 }
             }
         }
+
     }
 
     private static Set<ModelPart.UvPolygon> getFaces(JsonObject uv) {
