@@ -23,15 +23,19 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
+import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.capability.PlayerStatusEvents;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.events.Test;
+import sheridan.gcaa.client.model.assets.AnimationLoader;
 import sheridan.gcaa.client.model.assets.ModelLoader;
 import sheridan.gcaa.client.model.modelPart.LayerDefinition;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.lib.AdventurersArsenalLib;
 import sheridan.gcaa.network.PacketHandler;
+
+import java.util.Map;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(GCAA.MODID)
@@ -57,7 +61,15 @@ public class GCAA {
     @OnlyIn(Dist.CLIENT)
     private void onClientSetup(final FMLClientSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(Test.class);
-        LayerDefinition testModel = AdventurersArsenalLib.loadBedRockGunModel(new ResourceLocation(MODID, "custom_models/guns/glock19.geo.json"));
+        //LayerDefinition testModel = AdventurersArsenalLib.loadBedRockGunModel(new ResourceLocation(MODID, "custom_models/guns/glock19.geo.json"));
+        Map<String, AnimationDefinition> animations = AdventurersArsenalLib.loadBedRockAnimation(new ResourceLocation(MODID, "custom_animations/guns/model.animation.json"));
+//        for (Map.Entry<String, AnimationDefinition> entry : animations.entrySet())  {
+//            System.out.println(entry.getKey());
+//            System.out.println("\n\n");
+//            System.out.println(entry.getValue());
+//            System.out.println("===================================");
+//        }
+//        System.out.println("\n\n\n\n\n\n\n\n\n\n");
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

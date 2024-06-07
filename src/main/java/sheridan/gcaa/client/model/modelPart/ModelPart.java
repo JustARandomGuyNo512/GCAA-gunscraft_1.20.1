@@ -439,7 +439,7 @@ public final class ModelPart {
         }
 
        public void polygons(List<Polygon> polygons) {
-            polygons.addAll(List.of(this.polygons));
+            polygons.addAll(Arrays.asList(this.polygons));
        }
     }
 
