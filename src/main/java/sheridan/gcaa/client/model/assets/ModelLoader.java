@@ -152,8 +152,6 @@ public class ModelLoader {
         }
     }
 
-    ;
-
     private static void handleRotateSubCubes(PartDefinition mainBone, JsonArray cubes, Vector3f parentPivot, Integer rIndex) {
         for (JsonElement element : cubes) {
             JsonObject cube = element.getAsJsonObject();
