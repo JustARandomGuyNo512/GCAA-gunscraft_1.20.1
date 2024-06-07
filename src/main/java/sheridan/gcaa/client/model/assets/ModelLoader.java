@@ -17,10 +17,7 @@ import sheridan.gcaa.client.model.modelPart.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ModelLoader {
@@ -35,7 +32,7 @@ public class ModelLoader {
      * Call layer.get().bakeRoot().getChild("root") to get the root part of the model.
      */
     public static LayerDefinition loadModelAsset(ResourceLocation location) {
-        AtomicReference<LayerDefinition> layer = new AtomicReference<>();
+        AtomicReference<LayerDefinition> resultRef = new AtomicReference<>(null);
         try {
             ResourceManager manager = Minecraft.getInstance().getResourceManager();
             manager.getResource(location).ifPresent(res -> {
@@ -48,7 +45,8 @@ public class ModelLoader {
                         }
                         reader.close();
                         String json = stringBuilder.toString();
-                        layer.set(readJsonStr(json));
+                        LayerDefinition result = readJsonStr(json);
+                        resultRef.set(result);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -59,7 +57,7 @@ public class ModelLoader {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return layer.get();
+        return resultRef.get();
     }
 
     public static LayerDefinition readJsonStr(String json) {
@@ -147,8 +145,7 @@ public class ModelLoader {
                 }
             }
         }
-    }
-
+    };
     private static void handleRotateSubCubes(PartDefinition mainBone, JsonArray cubes, Vector3f parentPivot, Integer rIndex) {
         for (JsonElement element : cubes) {
             JsonObject cube = element.getAsJsonObject();
@@ -173,6 +170,7 @@ public class ModelLoader {
         }
     }
 
+
     private static void handleCubesNonRotate(CubeListBuilder cubeListBuilder, JsonArray cubes, Vector3f parentPivot) {
         for (JsonElement element : cubes) {
             JsonObject cube = element.getAsJsonObject();
@@ -186,9 +184,9 @@ public class ModelLoader {
                     float originZ = origin.z - parentPivot.z;
                     cubeListBuilder.addBox(faces, originX, originY, originZ, size.x, size.y, size.z);
                 }
-                cubes.remove(element);
             }
         }
+
     }
 
     private static Set<ModelPart.UvPolygon> getFaces(JsonObject uv) {
