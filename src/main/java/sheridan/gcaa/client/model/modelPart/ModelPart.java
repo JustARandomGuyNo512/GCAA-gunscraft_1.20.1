@@ -276,6 +276,32 @@ public final class ModelPart {
         return Stream.concat(Stream.of(this), this.children.values().stream().flatMap(ModelPart::getAllParts));
     }
 
+    public void print() {
+        System.out.println(this.toString());
+        for (Cube cube : cubes) {
+            System.out.println(cube);
+        }
+        for (Map.Entry<String, ModelPart> partEntry : children.entrySet()) {
+            System.out.print(partEntry.getKey());
+            partEntry.getValue().print();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                ", xRot=" + xRot +
+                ", yRot=" + yRot +
+                ", zRot=" + zRot +
+                ", xScale=" + xScale +
+                ", yScale=" + yScale +
+                ", zScale=" + zScale +
+                '}';
+    }
+
     public static class UvPolygon {
         public Direction direction;
         public float u1;
@@ -441,6 +467,18 @@ public final class ModelPart {
        public void polygons(List<Polygon> polygons) {
             polygons.addAll(Arrays.asList(this.polygons));
        }
+
+        @Override
+        public String toString() {
+            return "Cube{" +
+                    "minX=" + minX +
+                    ", minY=" + minY +
+                    ", minZ=" + minZ +
+                    ", maxX=" + maxX +
+                    ", maxY=" + maxY +
+                    ", maxZ=" + maxZ +
+                    '}';
+        }
     }
 
     @OnlyIn(Dist.CLIENT)

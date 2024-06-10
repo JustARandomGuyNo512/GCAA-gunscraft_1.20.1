@@ -37,7 +37,6 @@ import sheridan.gcaa.network.PacketHandler;
 
 import java.util.Map;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(GCAA.MODID)
 public class GCAA {
 
@@ -50,7 +49,8 @@ public class GCAA {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::onClientSetup));
         modEventBus.addListener(this::commonSetup);
 
-        ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModItems.ITEMS.register(modEventBus);
+        ModTabs.MOD_TABS.register(modEventBus);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -61,15 +61,7 @@ public class GCAA {
     @OnlyIn(Dist.CLIENT)
     private void onClientSetup(final FMLClientSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(Test.class);
-        //LayerDefinition testModel = AdventurersArsenalLib.loadBedRockGunModel(new ResourceLocation(MODID, "custom_models/guns/glock19.geo.json"));
-        Map<String, AnimationDefinition> animations = AdventurersArsenalLib.loadBedRockAnimation(new ResourceLocation(MODID, "custom_animations/guns/model.animation.json"));
-//        for (Map.Entry<String, AnimationDefinition> entry : animations.entrySet())  {
-//            System.out.println(entry.getKey());
-//            System.out.println("\n\n");
-//            System.out.println(entry.getValue());
-//            System.out.println("===================================");
-//        }
-//        System.out.println("\n\n\n\n\n\n\n\n\n\n");
+        Clients.onSetUp(event);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

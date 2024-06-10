@@ -78,121 +78,125 @@ public class ModelLoader {
     }
 
     private static void readBones(JsonArray bones, PartDefinition model) {
-        boolean findRoot = false;
-        Map<String, PartDefinition> bonesMap = null;
-        Map<PartDefinition, JsonObject> jsonObjectMap = null;
+        checkValid(bones);
+        Map<String, PartDefinition> bonesMap = new HashMap<>();
+        Map<PartDefinition, JsonObject> jsonObjectMap = new HashMap<>();
+        constructSkeleton(bones, model, bonesMap, jsonObjectMap);
+        Integer cubeIndex = 0;
+        loadCubesForBones(bones, bonesMap, cubeIndex);
+    }
+
+    private static void loadCubesForBones(JsonArray bones, Map<String, PartDefinition> bonesMap, Integer cubeIndex) {
         for (JsonElement element : bones) {
             JsonObject bone = element.getAsJsonObject();
-            if ("root".equals(bone.get("name").getAsString())) {
-                bonesMap = new HashMap<>();
-                jsonObjectMap = new HashMap<>();
+            if (bone.has("cubes")) {
+                String name = bone.get("name").getAsString();
+                PartDefinition boneDefinition = bonesMap.get(name);
                 Vector3f pivot = getPivot(bone);
-                PartDefinition root;
-                if (bone.has("rotation")) {
-                    Vector3f rotation = getRotation(bone);
-                    root = model.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offsetAndRotation(
-                            -pivot.x, -pivot.y + 24.0F,
-                            pivot.z, rotation.x, rotation.y, rotation.z));
-                } else {
-                    root = model.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(-pivot.x, -pivot.y + 24.0F, pivot.z));
+                CubeListBuilder cubeListBuilder = CubeListBuilder.create();
+                for (JsonElement cubeElement : bone.get("cubes").getAsJsonArray()) {
+                    JsonObject cube = cubeElement.getAsJsonObject();
+                    Set<ModelPart.UvPolygon> faces = getFaces(cube.getAsJsonObject("uv"));
+                    if (faces.isEmpty()) {
+                        continue;
+                    }
+                    //#origin = pivot.x - size.x   pivot.y   pivot.z
+                    //#from = -size.x - origin.x   origin.y   origin.z
+                    //#to = -origin.x   origin.y _ size.y   size.z + origin.z
+                    Vector3f origin = getAsVec3(cube, "origin");
+                    if (hasRotation(cube)) {
+                        Vector3f cubePivot = getPivot(cube);
+                        Vector3f cubeRotation = getRotation(cube);
+                        Vector3f size = getAsVec3(cube, "size");
+                        Vector3f _origin = new Vector3f(-cubePivot.x, cubePivot.y, cubePivot.z);
+                        Vector3f _from = new Vector3f(-size.x - origin.x, origin.y, origin.z);
+                        float originX = -_from.x + (_origin.x - size.x);
+                        float originY = -_from.y + (_origin.y - size.y);
+                        float originZ = _from.z - _origin.z;
+                        boneDefinition.addOrReplaceChild( name + "_r_" + cubeIndex,
+                                CubeListBuilder.create().addBox(
+                                faces,
+                                originX, originY, originZ,
+                                size.x, size.y, size.z
+                        ),
+                                PartPose.offsetAndRotation(
+                                cubePivot.x, -cubePivot.y + pivot.y, cubePivot.z - pivot.z,
+                                cubeRotation.x, cubeRotation.y, cubeRotation.z));
+                        cubeIndex ++;
+                    } else {
+                        Vector3f size = getAsVec3(cube, "size");
+                        Vector3f _origin = new Vector3f(-pivot.x, pivot.y, pivot.z);
+                        Vector3f _from = new Vector3f(-size.x - origin.x, origin.y, origin.z);
+                        Vector3f _to = new Vector3f(-origin.x, origin.y + size.y, size.z + origin.z);
+                        float originX = _origin.x - _to.x;
+                        float originY = -_from.y - size.y + _origin.y;
+                        float originZ = _from.z - _origin.z;
+                        cubeListBuilder.addBox(faces, originX, originY, originZ, size.x, size.y, size.z);
+                    }
                 }
-                bonesMap.put("root", root);
-                jsonObjectMap.put(root, bone);
-                findRoot = true;
-                break;
+                boneDefinition.putCubes(cubeListBuilder);
             }
         }
-        if (!findRoot) {
-            throw new RuntimeException("Can't find necessary bone named 'root' in the top layer.");
+    }
+    
+    private static void constructSkeleton(JsonArray bones, PartDefinition main, Map<String, PartDefinition> bonesMap, Map<PartDefinition, JsonObject> jsonObjectMap) {
+        for (JsonElement element : bones) {
+            JsonObject bone = element.getAsJsonObject();
+            if (bone.has("parent")) {
+                String parent = bone.get("parent").getAsString();
+                PartDefinition parentBone = bonesMap.get(parent);
+                if (parentBone == null) {
+                    throw new RuntimeException("Can't find parent of the bone named " + parent);
+                }
+                String name = bone.get("name").getAsString();
+                Vector3f pivot = getPivot(bone);
+                Vector3f parentPivot = getPivot(jsonObjectMap.get(parentBone));
+                PartDefinition boneDefinition;
+                if (bone.has("rotation")) {
+                    Vector3f rotation = getRotation(bone);
+                    boneDefinition = parentBone.addOrReplaceChild(name, PartPose.offsetAndRotation(pivot.x, -pivot.y - parentPivot.y, pivot.z - parentPivot.z, rotation.x, rotation.y, rotation.z));
+                } else {
+                    boneDefinition = parentBone.addOrReplaceChild(name, PartPose.offset(pivot.x, -pivot.y + parentPivot.y, pivot.z - parentPivot.z));
+                }
+                bonesMap.put(name, boneDefinition);
+                jsonObjectMap.put(boneDefinition, bone);
+            } else {
+                String name = bone.get("name").getAsString();
+                Vector3f pivot = getPivot(bone);
+                PartDefinition root;
+                if (!bone.has("rotation")) {
+                    root = main.addOrReplaceChild("root", PartPose.offset(pivot.x, -pivot.y, pivot.z));
+                } else {
+                    Vector3f rotate = getRotation(bone);
+                    root = main.addOrReplaceChild("root", PartPose.offsetAndRotation(pivot.x, -pivot.y, pivot.z, rotate.x, rotate.y, rotate.z));
+                }
+                bonesMap.put(name, root);
+                jsonObjectMap.put(root, bone);
+            }
         }
-        Integer rIndex = 0;
+    }
+    
+    private static void checkValid(JsonArray bones) {
+        boolean hasRoot = false;
         for (JsonElement element : bones) {
             JsonObject bone = element.getAsJsonObject();
             String name = bone.get("name").getAsString();
-            if ("root".equals(name)) {
-                continue;
-            }
-            String parent = getParentName(bone);
-            if (parent == null) {
-                throw new RuntimeException("The bone named '" + name + "' has no parent.");
-            } else {
-                PartDefinition parentBone = bonesMap.get(parent);
-                if (parentBone == null) {
-                    throw new RuntimeException("Can't find parent of the bone named " + name);
-                } else {
-                    JsonObject parentJson = jsonObjectMap.get(parentBone);
-                    if (parentJson == null) {
-                        throw new RuntimeException("Can't find parent json of the bone named " + name);
-                    }
-                    Vector3f parentPivot = getPivot(parentJson);
-                    Vector3f pivot = getPivot(bone);
-                    PartDefinition boneDefinition;
-                    CubeListBuilder cubeListBuilder = CubeListBuilder.create();
-                    boolean hasCubes = bone.has("cubes");
-                    JsonArray cubes = hasCubes ? bone.get("cubes").getAsJsonArray() : null;
-                    hasCubes = hasCubes && !cubes.isEmpty();
-                    if (hasCubes) {
-                        handleCubesNonRotate(cubeListBuilder, cubes, parentPivot);
-                    }
-                    if (bone.has("rotation")) {
-                        Vector3f rotation = getRotation(bone);
-                        boneDefinition = parentBone.addOrReplaceChild(name, cubeListBuilder, PartPose.offsetAndRotation(
-                                -pivot.x, -pivot.y, pivot.z,
-                                rotation.x, rotation.y, rotation.z));
+            boolean hasParent = bone.has("parent");
+            if (!hasParent) {
+                if ("root".equals(name)) {
+                    if (!hasRoot) {
+                        hasRoot = true;
                     } else {
-                        boneDefinition = parentBone.addOrReplaceChild(name, cubeListBuilder, PartPose.offset(-pivot.x, -pivot.y, pivot.z));
+                        throw new RuntimeException("There are multiple root bones.");
                     }
-                    if (hasCubes && !cubes.isEmpty()) {
-                        handleRotateSubCubes(boneDefinition, cubes, parentPivot, rIndex);
-                    }
-                    bonesMap.put(name, boneDefinition);
-                    jsonObjectMap.put(boneDefinition, bone);
+                } else {
+                    throw new RuntimeException("The bone named '" + name + "' has no parent.");
                 }
             }
         }
-    }
-
-    private static void handleRotateSubCubes(PartDefinition mainBone, JsonArray cubes, Vector3f parentPivot, Integer rIndex) {
-        for (JsonElement element : cubes) {
-            JsonObject cube = element.getAsJsonObject();
-            if (hasRotation(cube)) {
-                Set<ModelPart.UvPolygon> faces = getFaces(cube.getAsJsonObject("uv"));
-                if (faces.isEmpty()) {
-                    continue;
-                }
-                Vector3f origin = getAsVec3(cube, "origin");
-                Vector3f size = getAsVec3(cube, "size");
-                Vector3f pivot = getAsVec3(cube, "pivot");
-                float originX = origin.x - pivot.x;
-                float originY = pivot.y - (size.y + origin.y);
-                float originZ = pivot.z - origin.z;
-                float offsetX = pivot.x + parentPivot.x;
-                float offsetY = -pivot.y + parentPivot.y;
-                float offsetZ = pivot.z - parentPivot.z;
-                Vector3f offsetRotation = getRotation(cube);
-                mainBone.addOrReplaceChild("r" + rIndex, CubeListBuilder.create().addBox(faces, originX, originY, originZ, size.x, size.y, size.z),
-                        PartPose.offsetAndRotation(offsetX, offsetY, offsetZ, offsetRotation.x, offsetRotation.y, offsetRotation.z));
-            }
+        if (!hasRoot) {
+            throw new RuntimeException("There is no root bone.");
         }
-    }
-
-
-    private static void handleCubesNonRotate(CubeListBuilder cubeListBuilder, JsonArray cubes, Vector3f parentPivot) {
-        for (JsonElement element : cubes) {
-            JsonObject cube = element.getAsJsonObject();
-            if (!hasRotation(cube)) {
-                Set<ModelPart.UvPolygon> faces = getFaces(cube.getAsJsonObject("uv"));
-                if (!faces.isEmpty()) {
-                    Vector3f origin = getAsVec3(cube, "origin");
-                    Vector3f size = getAsVec3(cube, "size");
-                    float originX = origin.x;
-                    float originY = -origin.y - size.y + parentPivot.y;
-                    float originZ = origin.z - parentPivot.z;
-                    cubeListBuilder.addBox(faces, originX, originY, originZ, size.x, size.y, size.z);
-                }
-            }
-        }
-
     }
 
     private static Set<ModelPart.UvPolygon> getFaces(JsonObject uv) {
@@ -254,9 +258,13 @@ public class ModelLoader {
     private static boolean hasRotation(JsonObject object) {
         if (object.has("rotation")) {
             Vector3f vector3f = getRotation(object);
-            return vector3f.x == 0.0F && vector3f.y == 0.0F && vector3f.z == 0.0F;
+            return isNotZero(vector3f.x) || isNotZero(vector3f.y) || isNotZero(vector3f.z);
         }
         return false;
+    }
+
+    private static boolean isNotZero(float val) {
+        return !(val >= 0.0F - 1e-8) || !(val <= 0.0F + 1e-8);
     }
 
     private static Vector3f getRotation(JsonObject bone) {
@@ -265,10 +273,6 @@ public class ModelLoader {
                 (float) Math.toRadians(bone.get("rotation").getAsJsonArray().get(1).getAsFloat()),
                 (float) Math.toRadians(bone.get("rotation").getAsJsonArray().get(2).getAsFloat())
         );
-    }
-
-    private static String getParentName(JsonObject bone) {
-        return bone.has("parent") ? bone.get("parent").getAsString() : null;
     }
 
 }

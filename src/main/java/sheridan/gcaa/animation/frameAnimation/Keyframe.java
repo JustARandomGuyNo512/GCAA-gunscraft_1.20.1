@@ -22,9 +22,4 @@ public record Keyframe(float timestamp, Vector3f target, AnimationChannel.Interp
     public AnimationChannel.Interpolation interpolation() {
         return this.interpolation;
     }
-
-    @Override
-    public String toString() {
-        return "Keyframe{timestamp=" + this.timestamp + ", target=" + this.target + ", interpolation=" + this.interpolation + '}';
-    }
 }

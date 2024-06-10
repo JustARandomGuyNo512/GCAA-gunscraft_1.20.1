@@ -42,7 +42,7 @@ authors="sheridan" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-GunsCraft-Adventurer's Arsenal: Expand your arsenal in Minecraft with a diverse selection of beautifully crafted firearms and a highly customizable weapon modification system. Equip yourself for any adventure in survival mode with unique weapons tailored to your style. Are you ready to blaze new trails?
+GunsCraft-Adventurer's Arsenal(in development): Expand your arsenal in Minecraft with a diverse selection of beautifully crafted firearms and a highly customizable weapon modification system. Equip yourself for any adventure in survival mode with unique weapons tailored to your style. Are you ready to blaze new trails?
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.gcaa]] #optional

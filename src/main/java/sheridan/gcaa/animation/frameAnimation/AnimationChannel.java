@@ -65,8 +65,4 @@ public record AnimationChannel(AnimationChannel.Target target, Keyframe... keyfr
         Vector3f apply(Vector3f var1, float var2, Keyframe[] var3, int var4, int var5, float var6);
     }
 
-    @Override
-    public String toString() {
-        return "AnimationChannel{target=" + this.target + ", keyframes=" + Arrays.stream(this.keyframes).map(Keyframe::toString).collect(Collectors.toList()) + '}';
-    }
 }

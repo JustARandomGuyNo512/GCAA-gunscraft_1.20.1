@@ -30,6 +30,9 @@ public abstract class HierarchicalModel<E extends Entity> extends EntityModel<E>
         this.root().render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
     }
 
+    @Override
+    public void setupAnim(E pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {}
+
     public abstract ModelPart root();
 
     public Optional<ModelPart> getAnyDescendantWithName(String pName) {

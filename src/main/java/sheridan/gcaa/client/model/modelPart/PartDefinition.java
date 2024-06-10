@@ -7,6 +7,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,14 +23,32 @@ public class PartDefinition {
         this.partPose = partPose;
     }
 
+    PartDefinition(PartPose partPose) {
+        this.cubes = new ArrayList<>();
+        this.partPose = partPose;
+    }
+
     public PartDefinition addOrReplaceChild(String name, CubeListBuilder builder, PartPose partPose) {
         PartDefinition partdefinition = new PartDefinition(builder.getCubes(), partPose);
         PartDefinition partdefinition1 = this.children.put(name, partdefinition);
         if (partdefinition1 != null) {
             partdefinition.children.putAll(partdefinition1.children);
         }
-
         return partdefinition;
+    }
+
+    public PartDefinition addOrReplaceChild(String name, PartPose partPose) {
+        PartDefinition partdefinition = new PartDefinition(partPose);
+        PartDefinition partdefinition1 = this.children.put(name, partdefinition);
+        if (partdefinition1 != null) {
+            partdefinition.children.putAll(partdefinition1.children);
+        }
+        return partdefinition;
+    }
+
+    public PartDefinition putCubes(CubeListBuilder builder) {
+        this.cubes.addAll(builder.getCubes());
+        return this;
     }
 
 

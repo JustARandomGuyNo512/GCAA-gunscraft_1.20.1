@@ -20,15 +20,6 @@ public record AnimationDefinition(float lengthInSeconds, boolean looping, Map<St
         return this.boneAnimations;
     }
 
-    public void print() {
-        System.out.println(lengthInSeconds);
-        System.out.println(looping);
-        for (Map.Entry<String, List<AnimationChannel>> entry : boneAnimations.entrySet()) {
-            System.out.println(entry.getKey());
-            System.out.println(boneAnimations);
-        }
-    }
-
     @OnlyIn(Dist.CLIENT)
     public static class Builder {
         private final float length;

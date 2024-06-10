@@ -1,6 +1,5 @@
 package sheridan.gcaa.capability;
 
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
@@ -58,6 +57,9 @@ public class PlayerStatusEvents {
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event) {
 //        PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getOriginal()), new AfterPlayerRebornPacket());
+        if (event.getOriginal().level().isClientSide() && event.isWasDeath()) {
+            System.out.println("Player is reborn client side");
+        }
     }
 
 }

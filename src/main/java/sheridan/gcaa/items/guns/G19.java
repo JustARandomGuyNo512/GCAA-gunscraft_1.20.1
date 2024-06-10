@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.guns.impl;
+package sheridan.gcaa.items.guns;
 
 import sheridan.gcaa.items.guns.Gun;
 
