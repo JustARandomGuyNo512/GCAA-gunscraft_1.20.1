@@ -3,9 +3,6 @@ package sheridan.gcaa.client.model.modelPart;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.util.RandomSource;
@@ -13,6 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.*;
 
+import java.lang.Math;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -29,11 +27,11 @@ public final class ModelPart {
     public float zScale = 1.0F;
     public boolean visible = true;
     private boolean meshed = false;
-    private Polygon[] polygons;
     public boolean skipDraw;
     private final List<Cube> cubes;
     private final Map<String, ModelPart> children;
     private PartPose initialPose = PartPose.ZERO;
+    public static final String SUB_R = "_SUB_R_";
 
     public ModelPart(List<Cube> cubes, Map<String, ModelPart> children) {
         this.cubes = cubes;
@@ -161,20 +159,28 @@ public final class ModelPart {
         }
     }
 
-    /**
-     * Transforms all cubes to a more simple polygon array, which can make render faster.
-     *
-     * Removes all the cubes from cube list of this model part.
-     * The cube list will be empty after this call returns.
-     */
+
     public void meshing() {
-        meshed = true;
-        List<Polygon> allPolygons = new ArrayList<>();
-        for (Cube cube : cubes) {
-            cube.polygons(allPolygons);
+        Set<String> removeParts = new HashSet<>();
+        for (String key : this.children.keySet()) {
+            if (key.startsWith(SUB_R)) {
+                ModelPart part = this.children.get(key);
+                Cube cube = part.getCube(0);
+                for (Polygon polygon : cube.polygons) {
+                    polygon.applyRotation(part.xRot, part.yRot, part.zRot);
+                    polygon.applyMove(part.x, part.y, part.z);
+                }
+                this.cubes.add(cube);
+                removeParts.add(key);
+            }
         }
-        polygons = allPolygons.toArray(new Polygon[0]);
-        this.cubes.clear();
+        for (String key : removeParts) {
+            this.children.remove(key);
+        }
+    }
+
+    public Cube getCube(int index) {
+        return cubes.get(index);
     }
 
 
@@ -222,28 +228,9 @@ public final class ModelPart {
     }
 
     private void compile(PoseStack.Pose pose, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
-        if (meshed) {
-            Matrix4f matrix4f = pose.pose();
-            Matrix3f matrix3f = pose.normal();
-            for (Polygon polygon : polygons) {
-                Vector3f vector3f = matrix3f.transform(new Vector3f(polygon.normal));
-                float f = vector3f.x();
-                float f1 = vector3f.y();
-                float f2 = vector3f.z();
-                for(Vertex vertex : polygon.vertices) {
-                    float f3 = vertex.pos.x() * 0.0625F;
-                    float f4 = vertex.pos.y() * 0.0625F;
-                    float f5 = vertex.pos.z() * 0.0625F;
-                    Vector4f vector4f = matrix4f.transform(new Vector4f(f3, f4, f5, 1.0F));
-                    pVertexConsumer.vertex(vector4f.x(), vector4f.y(), vector4f.z(), pRed, pGreen, pBlue, pAlpha, vertex.u, vertex.v, pPackedOverlay, pPackedLight, f, f1, f2);
-                }
-            }
-        } else {
-            for(Cube cube : this.cubes) {
-                cube.compile(pose, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
-            }
+        for(Cube cube : this.cubes) {
+            cube.compile(pose, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
         }
-
     }
 
     public Cube getRandomCube(RandomSource randomSource) {
@@ -507,6 +494,45 @@ public final class ModelPart {
             }
 
         }
+
+        public void applyRotation(float angleX, float angleY, float angleZ) {
+            for (int i = 0; i < vertices.length; i++) {
+                vertices[i] = vertices[i].rotate(angleX, angleY, angleZ);
+            }
+            rotateNormal(this.normal, angleX, angleY, angleZ);
+        }
+
+        public void applyMove(float x, float y, float z) {
+            for (Vertex vertex : vertices) {
+                vertex.move(x, y, z);
+            }
+        }
+
+        private void rotateNormal(Vector3f normal, float angleX, float angleY, float angleZ) {
+            // Rotate around X axis
+            float cosX = (float) Math.cos(angleX);
+            float sinX = (float) Math.sin(angleX);
+            float y = normal.y * cosX - normal.z * sinX;
+            float z = normal.y * sinX + normal.z * cosX;
+            normal.y = y;
+            normal.z = z;
+
+            // Rotate around Y axis
+            float cosY = (float) Math.cos(angleY);
+            float sinY = (float) Math.sin(angleY);
+            float x = normal.x * cosY + normal.z * sinY;
+            z = -normal.x * sinY + normal.z * cosY;
+            normal.x = x;
+            normal.z = z;
+
+            // Rotate around Z axis
+            float cosZ = (float) Math.cos(angleZ);
+            float sinZ = (float) Math.sin(angleZ);
+            x = normal.x * cosZ - normal.y * sinZ;
+            y = normal.x * sinZ + normal.y * cosZ;
+            normal.x = x;
+            normal.y = y;
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -537,6 +563,27 @@ public final class ModelPart {
             this.pos = pos;
             this.u = u;
             this.v = v;
+        }
+
+        public void move(float x, float y, float z) {
+            this.pos.add(x, y, z);
+        }
+
+        public Vertex rotate(float angleX, float angleY, float angleZ) {
+            Vector3f newPos = new Vector3f(pos);
+            float cosX = (float) Math.cos(angleX);
+            float sinX = (float) Math.sin(angleX);
+
+            newPos.set(pos.x, pos.y * cosX - pos.z * sinX, pos.y * sinX + pos.z * cosX);
+            float cosY = (float) Math.cos(angleY);
+            float sinY = (float) Math.sin(angleY);
+            newPos.set(newPos.x * cosY + newPos.z * sinY, newPos.y, -newPos.x * sinY + newPos.z * cosY);
+
+            float cosZ = (float) Math.cos(angleZ);
+            float sinZ = (float) Math.sin(angleZ);
+            newPos.set(newPos.x * cosZ - newPos.y * sinZ, newPos.x * sinZ + newPos.y * cosZ, newPos.z);
+
+            return new Vertex(newPos, u, v);
         }
     }
 

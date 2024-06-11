@@ -35,7 +35,7 @@ public class ModelLoader {
      * Reads bedrock 1.12.2 format json model file, returns the layer definition of the model.
      * Call layer.get().bakeRoot().getChild("root") to get the root part of the model.
      */
-    public static LayerDefinition loadModelAsset(ResourceLocation location) {
+    public static LayerDefinition loadModelLayer(ResourceLocation location) {
         AtomicReference<LayerDefinition> resultRef = new AtomicReference<>(null);
         try {
             ResourceManager manager = Minecraft.getInstance().getResourceManager();
@@ -100,9 +100,6 @@ public class ModelLoader {
                     if (faces.isEmpty()) {
                         continue;
                     }
-                    //#origin = pivot.x - size.x   pivot.y   pivot.z
-                    //#from = -size.x - origin.x   origin.y   origin.z
-                    //#to = -origin.x   origin.y _ size.y   size.z + origin.z
                     Vector3f origin = getAsVec3(cube, "origin");
                     if (hasRotation(cube)) {
                         Vector3f cubePivot = getPivot(cube);
@@ -113,7 +110,7 @@ public class ModelLoader {
                         float originX = -_from.x + (_origin.x - size.x);
                         float originY = -_from.y + (_origin.y - size.y);
                         float originZ = _from.z - _origin.z;
-                        boneDefinition.addOrReplaceChild( name + "_r_" + cubeIndex,
+                        boneDefinition.addOrReplaceChild(ModelPart.SUB_R + cubeIndex + name,
                                 CubeListBuilder.create().addBox(
                                 faces,
                                 originX, originY, originZ,
@@ -149,6 +146,9 @@ public class ModelLoader {
                     throw new RuntimeException("Can't find parent of the bone named " + parent);
                 }
                 String name = bone.get("name").getAsString();
+                if (name.startsWith(ModelPart.SUB_R)) {
+                    throw new RuntimeException("illegal bone name: " + name + " bone name can not start with " + ModelPart.SUB_R);
+                }
                 Vector3f pivot = getPivot(bone);
                 Vector3f parentPivot = getPivot(jsonObjectMap.get(parentBone));
                 PartDefinition boneDefinition;
@@ -162,6 +162,9 @@ public class ModelLoader {
                 jsonObjectMap.put(boneDefinition, bone);
             } else {
                 String name = bone.get("name").getAsString();
+                if (name.startsWith(ModelPart.SUB_R)) {
+                    throw new RuntimeException("illegal bone name: " + name + " bone name can not start with " + ModelPart.SUB_R);
+                }
                 Vector3f pivot = getPivot(bone);
                 PartDefinition root;
                 if (!bone.has("rotation")) {

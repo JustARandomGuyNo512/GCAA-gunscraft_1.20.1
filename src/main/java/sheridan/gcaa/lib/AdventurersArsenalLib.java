@@ -13,10 +13,10 @@ public class AdventurersArsenalLib {
 
     /**
      * This method relies on Minecraft ResourceManager.
-     * @see ModelLoader#loadModelAsset(ResourceLocation)
+     * @see ModelLoader#loadModelLayer(ResourceLocation)
      * */
     public static LayerDefinition loadBedRockGunModel(ResourceLocation modelLocation) {
-        return ModelLoader.loadModelAsset(modelLocation);
+        return ModelLoader.loadModelLayer(modelLocation);
     }
 
     /**

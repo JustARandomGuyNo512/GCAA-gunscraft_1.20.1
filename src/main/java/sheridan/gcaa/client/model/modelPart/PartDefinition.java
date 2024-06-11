@@ -8,6 +8,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -60,7 +61,7 @@ public class PartDefinition {
         }, Object2ObjectArrayMap::new));
         List<ModelPart.Cube> list = this.cubes.stream().map((p_171589_) -> {
             return p_171589_.bake(textureWidth, textureHeight);
-        }).collect(ImmutableList.toImmutableList());
+        }).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
         ModelPart modelpart = new ModelPart(list, object2arrayobject);
         modelpart.setInitialPose(this.partPose);
         modelpart.loadPose(this.partPose);
