@@ -31,6 +31,7 @@ public class ModelLoader {
      * <p>
      * The model should only contain and must contain one group named 'root' in the top layer and all others part should be children of the root part.
      * In simple words, the model structure should be a tree. Root is the root of the tree. and all others part are branches of the tree.
+     * All bone names in model structure can not start with "_SUB_R_", because this is a reserved prefix for sub-parts.
      * <p>
      * Reads bedrock 1.12.2 format json model file, returns the layer definition of the model.
      * Call layer.get().bakeRoot().getChild("root") to get the root part of the model.
@@ -110,7 +111,7 @@ public class ModelLoader {
                         float originX = -_from.x + (_origin.x - size.x);
                         float originY = -_from.y + (_origin.y - size.y);
                         float originZ = _from.z - _origin.z;
-                        boneDefinition.addOrReplaceChild(ModelPart.SUB_R + cubeIndex + name,
+                        boneDefinition.addOrReplaceChild("_SUB_R_" + cubeIndex + name,
                                 CubeListBuilder.create().addBox(
                                 faces,
                                 originX, originY, originZ,
@@ -146,8 +147,8 @@ public class ModelLoader {
                     throw new RuntimeException("Can't find parent of the bone named " + parent);
                 }
                 String name = bone.get("name").getAsString();
-                if (name.startsWith(ModelPart.SUB_R)) {
-                    throw new RuntimeException("illegal bone name: " + name + " bone name can not start with " + ModelPart.SUB_R);
+                if (name.startsWith("_SUB_R_")) {
+                    throw new RuntimeException("illegal bone name: " + name + " bone name can not start with '_SUB_R_'");
                 }
                 Vector3f pivot = getPivot(bone);
                 Vector3f parentPivot = getPivot(jsonObjectMap.get(parentBone));
@@ -162,8 +163,8 @@ public class ModelLoader {
                 jsonObjectMap.put(boneDefinition, bone);
             } else {
                 String name = bone.get("name").getAsString();
-                if (name.startsWith(ModelPart.SUB_R)) {
-                    throw new RuntimeException("illegal bone name: " + name + " bone name can not start with " + ModelPart.SUB_R);
+                if (name.startsWith("_SUB_R_")) {
+                    throw new RuntimeException("illegal bone name: " + name + " bone name can not start with '_SUB_R_'");
                 }
                 Vector3f pivot = getPivot(bone);
                 PartDefinition root;

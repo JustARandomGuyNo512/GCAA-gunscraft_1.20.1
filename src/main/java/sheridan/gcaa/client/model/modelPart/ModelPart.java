@@ -31,7 +31,6 @@ public final class ModelPart {
     private final List<Cube> cubes;
     private final Map<String, ModelPart> children;
     private PartPose initialPose = PartPose.ZERO;
-    public static final String SUB_R = "_SUB_R_";
 
     public ModelPart(List<Cube> cubes, Map<String, ModelPart> children) {
         this.cubes = cubes;
@@ -163,7 +162,7 @@ public final class ModelPart {
     public void meshing() {
         Set<String> removeParts = new HashSet<>();
         for (String key : this.children.keySet()) {
-            if (key.startsWith(SUB_R)) {
+            if (key.startsWith("_SUB_R_")) {
                 ModelPart part = this.children.get(key);
                 Cube cube = part.getCube(0);
                 for (Polygon polygon : cube.polygons) {
