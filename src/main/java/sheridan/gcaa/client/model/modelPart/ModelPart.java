@@ -26,11 +26,12 @@ public final class ModelPart {
     public float yScale = 1.0F;
     public float zScale = 1.0F;
     public boolean visible = true;
-    private boolean meshed = false;
     public boolean skipDraw;
     private final List<Cube> cubes;
     private final Map<String, ModelPart> children;
     private PartPose initialPose = PartPose.ZERO;
+    private Polygon[] polygons;
+    private boolean meshed = false;
 
     public ModelPart(List<Cube> cubes, Map<String, ModelPart> children) {
         this.cubes = cubes;
@@ -144,11 +145,32 @@ public final class ModelPart {
 
     public void render(PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
         if (this.visible) {
-            if (!this.cubes.isEmpty() || !this.children.isEmpty()) {
+            if (!this.cubes.isEmpty() || !this.children.isEmpty() || this.polygons != null) {
                 pPoseStack.pushPose();
                 this.translateAndRotate(pPoseStack);
                 if (!this.skipDraw) {
-                    this.compile(pPoseStack.last(), pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+                    if (meshed) {
+                        Matrix4f matrix4f = pPoseStack.last().pose();
+                        Matrix3f matrix3f = pPoseStack.last().normal();
+                        for(Polygon polygon : this.polygons) {
+                            Vector3f vector3f = matrix3f.transform(new Vector3f(polygon.normal));
+                            for(Vertex vertex : polygon.vertices) {
+                                float f3 = vertex.pos.x() * 0.0625F;
+                                float f4 = vertex.pos.y() * 0.0625F;
+                                float f5 = vertex.pos.z() * 0.0625F;
+                                Vector4f vector4f = matrix4f.transform(new Vector4f(f3, f4, f5, 1.0F));
+                                pVertexConsumer.vertex(
+                                        vector4f.x(), vector4f.y(), vector4f.z(),
+                                        pRed, pGreen, pBlue, pAlpha,
+                                        vertex.u, vertex.v,
+                                        pPackedOverlay, pPackedLight,
+                                        vector3f.x(), vector3f.y(), vector3f.z());
+                            }
+                        }
+
+                    } else {
+                        this.compile(pPoseStack.last(), pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+                    }
                 }
                 for(ModelPart modelpart : this.children.values()) {
                     modelpart.render(pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
@@ -158,8 +180,24 @@ public final class ModelPart {
         }
     }
 
-
+    /**
+     * This method consolidates the child parts of the model into a single mesh.
+     * It processes child parts with names starting with "_SUB_R_", applying
+     * their respective rotations and translations, and combines their polygons
+     * into a unified structure for optimized rendering.
+     * <p>
+     * This method is crucial for preparing the model for efficient rendering,
+     * ensuring that all necessary transformations are applied and reducing the
+     * complexity of the rendering process.
+     * </p>
+     *
+     * Note: This method should be called only once. Subsequent calls will have
+     * no effect if the mesh has already been processed.
+     */
     public void meshing() {
+        if (meshed) {
+            return;
+        }
         Set<String> removeParts = new HashSet<>();
         for (String key : this.children.keySet()) {
             if (key.startsWith("_SUB_R_")) {
@@ -176,16 +214,18 @@ public final class ModelPart {
         for (String key : removeParts) {
             this.children.remove(key);
         }
+        List<Polygon> allPolygon = new ArrayList<>();
+        for (Cube cube : cubes) {
+            cube.polygons(allPolygon);
+        }
+        polygons = allPolygon.toArray(new Polygon[0]);
+        meshed = true;
     }
 
     public Cube getCube(int index) {
         return cubes.get(index);
     }
 
-
-    public boolean isMeshed() {
-        return meshed;
-    }
 
     public void visit(PoseStack pPoseStack, Visitor pVisitor) {
         this.visit(pPoseStack, pVisitor, "");
@@ -508,7 +548,6 @@ public final class ModelPart {
         }
 
         private void rotateNormal(Vector3f normal, float angleX, float angleY, float angleZ) {
-            // Rotate around X axis
             float cosX = (float) Math.cos(angleX);
             float sinX = (float) Math.sin(angleX);
             float y = normal.y * cosX - normal.z * sinX;
@@ -516,7 +555,6 @@ public final class ModelPart {
             normal.y = y;
             normal.z = z;
 
-            // Rotate around Y axis
             float cosY = (float) Math.cos(angleY);
             float sinY = (float) Math.sin(angleY);
             float x = normal.x * cosY + normal.z * sinY;
@@ -524,7 +562,6 @@ public final class ModelPart {
             normal.x = x;
             normal.z = z;
 
-            // Rotate around Z axis
             float cosZ = (float) Math.cos(angleZ);
             float sinZ = (float) Math.sin(angleZ);
             x = normal.x * cosZ - normal.y * sinZ;

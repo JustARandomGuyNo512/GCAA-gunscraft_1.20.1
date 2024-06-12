@@ -23,6 +23,8 @@ public class G19Model extends HierarchicalModel<Entity> implements IGunModel{
         root.getChild("left_arm_left_side").visible = false;
         root.getChild("slide").meshing();
         root.getChild("grid").meshing();
+        root.getChild("barrel").meshing();
+        root.getChild("mag").meshing();
     }
 
     @Override

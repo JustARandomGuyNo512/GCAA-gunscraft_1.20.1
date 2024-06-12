@@ -22,6 +22,8 @@ import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.client.render.utils.Quaternions;
 import sheridan.gcaa.items.guns.IGun;
 
+import java.util.function.Function;
+
 @Mixin(ItemRenderer.class)
 public class RenderItemMixin {
 
@@ -29,21 +31,21 @@ public class RenderItemMixin {
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
     public void Other(ItemStack itemStackIn, ItemDisplayContext transformTypeIn, boolean p_115146_, PoseStack poseStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, BakedModel p_115151_, CallbackInfo ci) {
         if (itemStackIn != null && itemStackIn.getItem() instanceof IGun gun) {
-            IGunModel model = GunModelRegistry.getModel(gun);
-            if (model != null) {
-                poseStackIn.mulPose(Axis.ZP.rotationDegrees(180));
-                model.render(new GunRenderContext(
-                        bufferIn,
-                        poseStackIn,
-                        itemStackIn,
-                        gun,
-                        transformTypeIn,
-                        false,
-                        combinedLightIn,
-                        combinedOverlayIn
-                ));
-                ci.cancel();
-            }
+//            IGunModel model = GunModelRegistry.getModel(gun);
+//            if (model != null) {
+//                poseStackIn.mulPose(Axis.ZP.rotationDegrees(180));
+//                model.render(new GunRenderContext(
+//                        bufferIn,
+//                        poseStackIn,
+//                        itemStackIn,
+//                        gun,
+//                        transformTypeIn,
+//                        false,
+//                        combinedLightIn,
+//                        combinedOverlayIn
+//                ));
+//                ci.cancel();
+//            }
         }
     }
 
