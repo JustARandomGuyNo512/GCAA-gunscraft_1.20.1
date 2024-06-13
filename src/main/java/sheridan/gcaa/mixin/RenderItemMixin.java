@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
+import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.items.guns.IGun;
 
@@ -49,8 +50,10 @@ public class RenderItemMixin {
         if (livingEntityIn instanceof Player) {
             if (itemStackIn != null && itemStackIn.getItem() instanceof IGun gun) {
                 IGunModel model = GunModelRegistry.getModel(gun);
-                if (model != null) {
+                DisplayData displayData = GunModelRegistry.getTransform(gun);
+                if (model != null && displayData != null) {
                     poseStackIn.mulPose(Axis.ZP.rotationDegrees(180));
+                    displayData.applyTransform(transformTypeIn, poseStackIn, DisplayData.HandPos.MAIN_HAND_RIFLE);
                     model.render(new GunRenderContext(
                             bufferIn,
                             poseStackIn,

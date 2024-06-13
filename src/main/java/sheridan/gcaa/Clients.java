@@ -23,9 +23,9 @@ public class Clients {
     public static void onSetUp(final FMLClientSetupEvent event) {
         GunModelRegistry.registerModel(ModItems.G19.get(), new G19Model());
         GunModelRegistry.registerTransform(ModItems.G19.get(), new DisplayData()
-                .setFirstPersonMain(0, 0, 0, POS)
-                .setFirstPersonMain(0, 0, 0, ROT)
-                .setFirstPersonMain(0, 0, 0, SCALE));
+                .setFirstPersonMain(0.5f, 0.5f, 0.5f, SCALE)
+                .setFirstPersonRight(0.5f, 0.5f, 0.5f, SCALE)
+                .setFirstPersonLeft(0.5f, 0.5f, 0.5f, SCALE));
     }
 
 

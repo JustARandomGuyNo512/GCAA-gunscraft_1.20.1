@@ -14,20 +14,20 @@ public class DisplayData {
     public enum HandPos {
         MAIN_HAND_RIFLE, DOUBLE_PISTOL, RIGHT_PISTOL, LEFT_PISTOL
     }
-    float[] firstPersonMain;
-    float[] firstPersonRight;
-    float[] firstPersonLeft;
-    float[] thirdPersonRight;
-    float[] thirdPersonLeft;
-    float[] ground;
-    float[] frame;
-    boolean[] FPM;
-    boolean[] FPR;
-    boolean[] FPL;
-    boolean[] TPR;
-    boolean[] TPL;
-    boolean[] G;
-    boolean[] F;
+    private float[] firstPersonMain;
+    private float[] firstPersonRight;
+    private float[] firstPersonLeft;
+    private float[] thirdPersonRight;
+    private float[] thirdPersonLeft;
+    private float[] ground;
+    private float[] frame;
+    private boolean[] FPM;
+    private boolean[] FPR;
+    private boolean[] FPL;
+    private boolean[] TPR;
+    private boolean[] TPL;
+    private boolean[] G;
+    private boolean[] F;
     public DisplayData() {}
 
     public void applyTransform(ItemDisplayContext displayContext, PoseStack poseStack, HandPos pos) {
@@ -50,53 +50,62 @@ public class DisplayData {
     }
 
     void applyTransform(float[] transform, boolean[] mark, PoseStack poseStack) {
+        if (mark == null || transform == null) {return;}
         if (mark[0]) {poseStack.translate(transform[0], transform[1], transform[2]);}
         if (mark[1]) {poseStack.mulPose(new Quaternionf().rotateXYZ(transform[3], transform[4], transform[5]));}
         if (mark[2]) {poseStack.scale(transform[6], transform[7], transform[8]);}
     }
 
     public DisplayData setFirstPersonMain(float x, float y, float z, DataType type) {
+        FPM = FPM == null ? new boolean[] {false, false, false} : FPM;
+        firstPersonMain = firstPersonMain == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : firstPersonMain;
         setData(firstPersonMain, x, y, z, type, FPM);
         return this;
     }
 
     public DisplayData setFirstPersonRight(float x, float y, float z, DataType type) {
+        FPR = FPR == null ? new boolean[]{false, false, false} : FPR;
+        firstPersonRight = firstPersonRight == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : firstPersonRight;
         setData(firstPersonRight, x, y, z, type, FPR);
         return this;
     }
 
     public DisplayData setFirstPersonLeft(float x, float y, float z, DataType type) {
+        FPL = FPL == null ? new boolean[] {false, false, false} : FPL;
+        firstPersonLeft = firstPersonLeft == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : firstPersonLeft;
         setData(firstPersonLeft, x, y, z, type, FPL);
         return this;
     }
 
     public DisplayData setThirdPersonRight(float x, float y, float z, DataType type) {
+        TPR = TPR == null ? new boolean[] {false, false, false} : TPR;
+        thirdPersonRight = thirdPersonRight == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : thirdPersonRight;
         setData(thirdPersonRight, x, y, z, type, TPR);
         return this;
     }
 
     public DisplayData setThirdPersonLeft(float x, float y, float z, DataType type) {
+        TPL = TPL == null ? new boolean[] {false, false, false} : TPL;
+        thirdPersonLeft = thirdPersonLeft == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : thirdPersonLeft;
         setData(thirdPersonLeft, x, y, z, type, TPL);
         return this;
     }
 
     public DisplayData setGround(float x, float y, float z, DataType type) {
+        G = G == null ? new boolean[] {false, false, false} : G;
+        ground = ground == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : ground;
         setData(ground, x, y, z, type, G);
         return this;
     }
 
     public DisplayData setFrame(float x, float y, float z, DataType type) {
+        F = F == null ? new boolean[] {false, false, false} : F;
+        frame = frame == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : frame;
         setData(frame, x, y, z, type, F);
         return this;
     }
 
     void setData(float[] transform, float x, float y, float z, DataType type, boolean[] mark) {
-        if (mark == null) {
-            mark = new boolean[] {false, false, false};
-        }
-        if (transform == null) {
-            transform = new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1};
-        }
         switch (type) {
             case POS -> {setPos(transform, x, y, z); mark[0] = true;}
             case ROT -> {setRot(transform, x, y, z); mark[1] = true;}
