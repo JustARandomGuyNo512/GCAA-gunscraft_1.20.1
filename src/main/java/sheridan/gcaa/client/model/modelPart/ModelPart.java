@@ -167,7 +167,6 @@ public final class ModelPart {
                                         vector3f.x(), vector3f.y(), vector3f.z());
                             }
                         }
-
                     } else {
                         this.compile(pPoseStack.last(), pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
                     }

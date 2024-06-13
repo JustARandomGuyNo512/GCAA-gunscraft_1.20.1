@@ -5,9 +5,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.items.guns.IGun;
 
+@OnlyIn(Dist.CLIENT)
 public class GunRenderContext {
     public MultiBufferSource bufferSource;
     public PoseStack poseStack;
