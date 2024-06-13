@@ -23,7 +23,7 @@ public class GunModelRegistry {
         return gunModelMap.get(gun);
     }
 
-    public static DisplayData getTransform(IGun gun) {
+    public static DisplayData getDisplayData(IGun gun) {
         return gunTransformMap.get(gun);
     }
 }

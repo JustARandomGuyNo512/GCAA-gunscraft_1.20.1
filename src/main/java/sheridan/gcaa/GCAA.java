@@ -10,6 +10,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -26,6 +29,7 @@ import org.slf4j.Logger;
 import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.capability.PlayerStatusEvents;
 import sheridan.gcaa.capability.PlayerStatusProvider;
+import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.events.Test;
 import sheridan.gcaa.client.model.assets.AnimationLoader;
 import sheridan.gcaa.client.model.assets.ModelLoader;
@@ -79,5 +83,28 @@ public class GCAA {
                 event.addCapability(new ResourceLocation(MODID, "player_status"), new PlayerStatusProvider());
             }
         }
+    }
+
+    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class RegistryEvents {
+
+        @OnlyIn(Dist.CLIENT)
+        @SubscribeEvent
+        public static void onRegisterRenderer(EntityRenderersEvent.RegisterRenderers event) {
+
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        @SubscribeEvent
+        public static void registerKeyMapping(RegisterKeyMappingsEvent event) {
+            KeyBinds.register(event);
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        @SubscribeEvent
+        public static void onRegisterParticleFactories(RegisterParticleProvidersEvent event) {
+
+        }
+
     }
 }

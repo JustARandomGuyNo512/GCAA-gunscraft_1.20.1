@@ -27,21 +27,21 @@ public class RenderItemMixin {
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
     public void Other(ItemStack itemStackIn, ItemDisplayContext transformTypeIn, boolean p_115146_, PoseStack poseStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, BakedModel p_115151_, CallbackInfo ci) {
         if (itemStackIn != null && itemStackIn.getItem() instanceof IGun gun) {
-//            IGunModel model = GunModelRegistry.getModel(gun);
-//            if (model != null) {
-//                poseStackIn.mulPose(Axis.ZP.rotationDegrees(180));
-//                model.render(new GunRenderContext(
-//                        bufferIn,
-//                        poseStackIn,
-//                        itemStackIn,
-//                        gun,
-//                        transformTypeIn,
-//                        false,
-//                        combinedLightIn,
-//                        combinedOverlayIn
-//                ));
-//                ci.cancel();
-//            }
+            IGunModel model = GunModelRegistry.getModel(gun);
+            if (model != null) {
+                poseStackIn.mulPose(Axis.ZP.rotationDegrees(180));
+                model.render(new GunRenderContext(
+                        bufferIn,
+                        poseStackIn,
+                        itemStackIn,
+                        gun,
+                        transformTypeIn,
+                        false,
+                        combinedLightIn,
+                        combinedOverlayIn
+                ));
+                ci.cancel();
+            }
         }
     }
 
@@ -50,7 +50,7 @@ public class RenderItemMixin {
         if (livingEntityIn instanceof Player) {
             if (itemStackIn != null && itemStackIn.getItem() instanceof IGun gun) {
                 IGunModel model = GunModelRegistry.getModel(gun);
-                DisplayData displayData = GunModelRegistry.getTransform(gun);
+                DisplayData displayData = GunModelRegistry.getDisplayData(gun);
                 if (model != null && displayData != null) {
                     poseStackIn.mulPose(Axis.ZP.rotationDegrees(180));
                     displayData.applyTransform(transformTypeIn, poseStackIn, DisplayData.HandPos.MAIN_HAND_RIFLE);
