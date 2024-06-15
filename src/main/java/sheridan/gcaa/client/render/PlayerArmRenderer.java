@@ -75,14 +75,14 @@ public class PlayerArmRenderer {
                 if (arm != null && sleeve != null) {
                     VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(playerTexture));
                     arm.copyFrom(posePart);
-                    arm.yScale = 1.5f * sy;
+                    arm.yScale = sy;
                     arm.xScale = sx;
                     arm.zScale = sz;
                     arm.render(poseStack, vertexConsumer, light, overlay, 1, 1, 1, 1);
                     sleeve.copyFrom(posePart);
-                    sleeve.xScale = 1.25F * sx;
-                    sleeve.yScale = 1.5F * sy;
-                    sleeve.zScale = 1.25F * sz;
+                    sleeve.xScale = 1.2F * sx;
+                    sleeve.yScale = sy;
+                    sleeve.zScale = 1.2F * sz;
                     sleeve.render(poseStack, vertexConsumer, light, overlay, 1, 1, 1, 1);
                     arm.resetPose();
                     sleeve.resetPose();

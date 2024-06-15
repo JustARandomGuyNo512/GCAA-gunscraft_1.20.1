@@ -24,11 +24,11 @@ public class DisplayData {
     public void applyTransform(ItemDisplayContext displayContext, PoseStack poseStack, HandPos pos) {
         switch (displayContext) {
             case FIRST_PERSON_RIGHT_HAND -> handleFirstPersonRightTrans(poseStack, pos);
-            case FIRST_PERSON_LEFT_HAND -> applyTransform(transforms[3], emptyMarks[3], poseStack);
-            case THIRD_PERSON_RIGHT_HAND -> applyTransform(transforms[4], emptyMarks[4], poseStack);
-            case THIRD_PERSON_LEFT_HAND -> applyTransform(transforms[5], emptyMarks[5], poseStack);
-            case GROUND -> applyTransform(transforms[6], emptyMarks[6], poseStack);
-            case FIXED -> applyTransform(transforms[7], emptyMarks[7], poseStack);
+            case FIRST_PERSON_LEFT_HAND -> applyTransform(transforms[2], emptyMarks[2], poseStack);
+            case THIRD_PERSON_RIGHT_HAND -> applyTransform(transforms[3], emptyMarks[3], poseStack);
+            case THIRD_PERSON_LEFT_HAND -> applyTransform(transforms[4], emptyMarks[4], poseStack);
+            case GROUND -> applyTransform(transforms[5], emptyMarks[5], poseStack);
+            case FIXED -> applyTransform(transforms[6], emptyMarks[6], poseStack);
         }
     }
 
@@ -114,13 +114,20 @@ public class DisplayData {
         return transforms[i][j];
     }
 
-    public void set(int index, float x, float y, float z, DataType type) {
-        checkAndSet(index, x, y, z, type);
+    public DisplayData set(int index, float val, DataType type) {
+        checkAndSet(index, val, val, val, type);
+        return this;
     }
 
-    public void set(int index, float[] transform) {
+    public DisplayData set(int index, float x, float y, float z, DataType type) {
+        checkAndSet(index, x, y, z, type);
+        return this;
+    }
+
+    public DisplayData set(int index, float[] transform) {
         int len = Math.min(transforms[index].length, transform.length);
         System.arraycopy(transform, 0, transforms[index], 0, len);
+        return this;
     }
 
     public DisplayData setFirstPersonMain(float x, float y, float z, DataType type) {
@@ -161,7 +168,7 @@ public class DisplayData {
     protected void checkAndSet(int index, float x, float y, float z, DataType type) {
         emptyMarks[index] = emptyMarks[index].length == 0 ? new boolean[] {false, false, false} : emptyMarks[index];
         transforms[index] = transforms[index].length == 0 ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : transforms[index];
-        setData(transforms[0], x, y, z, type, emptyMarks[index]);
+        setData(transforms[index], x, y, z, type, emptyMarks[index]);
     }
 
     void setData(float[] transform, float x, float y, float z, DataType type, boolean[] mark) {

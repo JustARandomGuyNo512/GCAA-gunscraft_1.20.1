@@ -23,13 +23,13 @@ public class Clients {
     public static void onSetUp(final FMLClientSetupEvent event) {
         GunModelRegistry.registerModel(ModItems.G19.get(), new G19Model());
         GunModelRegistry.registerTransform(ModItems.G19.get(), new DisplayData()
-                .setFirstPersonMain(0f, 0f, 0, POS).setFirstPersonMain(0.5f, 0.5f, 0.5f, SCALE)
-                .setFirstPersonRight(0.5f, 0.5f, 0.5f, POS).setFirstPersonRight(0.5f, 0.5f, 0.5f, ROT).setFirstPersonRight(0.5f, 0.5f, 0.5f, SCALE)
-                .setFirstPersonLeft(0.5f, 0.5f, 0.5f, POS).setFirstPersonLeft(0.5f, 0.5f, 0.5f, ROT).setFirstPersonLeft(0.5f, 0.5f, 0.5f, SCALE)
-                .setThirdPersonLeft(0f, 0f, 0, POS).setThirdPersonLeft(0.5f, 0.5f, 0.5f, SCALE)
-                .setThirdPersonRight(0f, 0f, 0, POS).setThirdPersonRight(0.5f, 0.5f, 0.5f, SCALE)
-                .setGround(0f, 0f, 0, POS).setGround(0.5f, 0.5f, 0.5f, SCALE)
-                .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).setFrame(0.5f, 0.5f, 0.5f, SCALE)
+                .setFirstPersonMain(0f, 0f, 0, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.16f, SCALE)
+                .setFirstPersonRight(0, 0, 0, POS).setFirstPersonRight(0, 0, 0, ROT).set(DisplayData.FIRST_PERSON_RIGHT, 0.16f, SCALE)
+                .setFirstPersonLeft(0, 0, 0, POS).setFirstPersonLeft(0, 0, 0, ROT).set(DisplayData.FIRST_PERSON_LEFT, 0.16f, SCALE)
+                .setThirdPersonLeft(0f, 0f, 0, POS).set(DisplayData.THIRD_PERSON_LEFT, 0.16f, SCALE)
+                .setThirdPersonRight(0f, 0f, 0, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.16f, SCALE)
+                .setGround(0f, 0f, 0, POS).set(DisplayData.GROUND, 0.16f, SCALE)
+                .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).set(DisplayData.FIXED, 0.16f, SCALE)
         );
 
     }
