@@ -52,11 +52,12 @@ public class RenderItemMixin {
                 IGunModel model = GunModelRegistry.getModel(gun);
                 DisplayData displayData = GunModelRegistry.getDisplayData(gun);
                 if (model != null && displayData != null) {
-                    poseStackIn.mulPose(Axis.ZP.rotationDegrees(180));
-                    displayData.applyTransform(transformTypeIn, poseStackIn, DisplayData.HandPos.MAIN_HAND_RIFLE);
+                    PoseStack poseStack = transformTypeIn.firstPerson() ? new PoseStack() : poseStackIn;
+                    poseStack.mulPose(Axis.ZP.rotationDegrees(180));
+                    displayData.applyTransform(transformTypeIn, poseStack, DisplayData.HandPos.MAIN_HAND_RIFLE);
                     model.render(new GunRenderContext(
                             bufferIn,
-                            poseStackIn,
+                            poseStack,
                             itemStackIn,
                             gun,
                             transformTypeIn,

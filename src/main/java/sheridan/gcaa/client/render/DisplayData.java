@@ -6,6 +6,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
 
+import java.util.Arrays;
+
 @OnlyIn(Dist.CLIENT)
 public class DisplayData {
     public enum DataType {
@@ -14,95 +16,152 @@ public class DisplayData {
     public enum HandPos {
         MAIN_HAND_RIFLE, DOUBLE_PISTOL, RIGHT_PISTOL, LEFT_PISTOL
     }
-    private float[] firstPersonMain;
-    private float[] firstPersonRight;
-    private float[] firstPersonLeft;
-    private float[] thirdPersonRight;
-    private float[] thirdPersonLeft;
-    private float[] ground;
-    private float[] frame;
-    private boolean[] FPM;
-    private boolean[] FPR;
-    private boolean[] FPL;
-    private boolean[] TPR;
-    private boolean[] TPL;
-    private boolean[] G;
-    private boolean[] F;
+    public static final int FIRST_PERSON_MAIN = 0, FIRST_PERSON_RIGHT = 1, FIRST_PERSON_LEFT = 2, THIRD_PERSON_RIGHT = 3, THIRD_PERSON_LEFT = 4, GROUND = 5, FIXED = 6;
+    private final float[][] transforms = new float[][] {{}, {}, {}, {}, {}, {}, {}};
+    private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}, {}, {}, {}};
     public DisplayData() {}
 
     public void applyTransform(ItemDisplayContext displayContext, PoseStack poseStack, HandPos pos) {
         switch (displayContext) {
             case FIRST_PERSON_RIGHT_HAND -> handleFirstPersonRightTrans(poseStack, pos);
-            case FIRST_PERSON_LEFT_HAND -> applyTransform(firstPersonLeft, FPL, poseStack);
-            case THIRD_PERSON_RIGHT_HAND -> applyTransform(thirdPersonRight, FPR, poseStack);
-            case THIRD_PERSON_LEFT_HAND -> applyTransform(thirdPersonLeft, FPL, poseStack);
-            case GROUND -> applyTransform(ground, G, poseStack);
-            case FIXED -> applyTransform(frame, F, poseStack);
+            case FIRST_PERSON_LEFT_HAND -> applyTransform(transforms[3], emptyMarks[3], poseStack);
+            case THIRD_PERSON_RIGHT_HAND -> applyTransform(transforms[4], emptyMarks[4], poseStack);
+            case THIRD_PERSON_LEFT_HAND -> applyTransform(transforms[5], emptyMarks[5], poseStack);
+            case GROUND -> applyTransform(transforms[6], emptyMarks[6], poseStack);
+            case FIXED -> applyTransform(transforms[7], emptyMarks[7], poseStack);
         }
     }
 
     void handleFirstPersonRightTrans(PoseStack poseStack, HandPos pos) {
         if (pos == HandPos.MAIN_HAND_RIFLE) {
-            applyTransform(firstPersonMain, FPM, poseStack);
+            applyTransform(transforms[0], emptyMarks[0], poseStack);
         } else if (pos == HandPos.DOUBLE_PISTOL) {
-            applyTransform(firstPersonRight, FPR, poseStack);
+            applyTransform(transforms[1], emptyMarks[1], poseStack);
         }
     }
 
     void applyTransform(float[] transform, boolean[] mark, PoseStack poseStack) {
-        if (mark == null || transform == null) {return;}
+        if (mark.length == 0 || transform.length == 0) {return;}
         if (mark[0]) {poseStack.translate(transform[0], transform[1], transform[2]);}
         if (mark[1]) {poseStack.mulPose(new Quaternionf().rotateXYZ(transform[3], transform[4], transform[5]));}
         if (mark[2]) {poseStack.scale(transform[6], transform[7], transform[8]);}
     }
 
+    public float[] getFirstPersonMain() {
+        return transforms[0];
+    }
+
+    public float[] getFirstPersonRight() {
+        return transforms[1];
+    }
+
+    public float[] getFirstPersonLeft() {
+        return transforms[2];
+    }
+
+    public float[] getThirdPersonRight() {
+        return transforms[3];
+    }
+
+    public float[] getThirdPersonLeft() {
+        return transforms[4];
+    }
+
+    public float[] getGround() {
+        return transforms[5];
+    }
+
+    public float[] getFrame() {
+        return transforms[6];
+    }
+
+    public float[] get(int index) {
+        if (index < 0 || index > 6) {
+            return null;
+        }
+        return transforms[index];
+    }
+
+    public float[][] copy() {
+        return new float[][] {
+                Arrays.copyOf(transforms[0], transforms[0].length),
+                Arrays.copyOf(transforms[1], transforms[1].length),
+                Arrays.copyOf(transforms[2], transforms[2].length),
+                Arrays.copyOf(transforms[3], transforms[3].length),
+                Arrays.copyOf(transforms[4], transforms[4].length),
+                Arrays.copyOf(transforms[5], transforms[5].length),
+                Arrays.copyOf(transforms[6], transforms[6].length),
+        };
+    }
+
+    public boolean[][] getEmptyMarks() {
+        return emptyMarks;
+    }
+
+    public boolean[] emptyMarksOf(int index) {
+        return emptyMarks[index];
+    }
+
+    public boolean isEmpty(int index) {
+        return emptyMarks[index].length == 0;
+    }
+
+    public void set(int i, int j, float val) {
+        transforms[i][j] = val;
+    }
+
+    public float get(int i, int j) {
+        return transforms[i][j];
+    }
+
+    public void set(int index, float x, float y, float z, DataType type) {
+        checkAndSet(index, x, y, z, type);
+    }
+
+    public void set(int index, float[] transform) {
+        int len = Math.min(transforms[index].length, transform.length);
+        System.arraycopy(transform, 0, transforms[index], 0, len);
+    }
+
     public DisplayData setFirstPersonMain(float x, float y, float z, DataType type) {
-        FPM = FPM == null ? new boolean[] {false, false, false} : FPM;
-        firstPersonMain = firstPersonMain == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : firstPersonMain;
-        setData(firstPersonMain, x, y, z, type, FPM);
+        checkAndSet(0, x, y, z, type);
         return this;
     }
 
     public DisplayData setFirstPersonRight(float x, float y, float z, DataType type) {
-        FPR = FPR == null ? new boolean[]{false, false, false} : FPR;
-        firstPersonRight = firstPersonRight == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : firstPersonRight;
-        setData(firstPersonRight, x, y, z, type, FPR);
+        checkAndSet(1, x, y, z, type);
         return this;
     }
 
     public DisplayData setFirstPersonLeft(float x, float y, float z, DataType type) {
-        FPL = FPL == null ? new boolean[] {false, false, false} : FPL;
-        firstPersonLeft = firstPersonLeft == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : firstPersonLeft;
-        setData(firstPersonLeft, x, y, z, type, FPL);
+        checkAndSet(2, x, y, z, type);
         return this;
     }
 
     public DisplayData setThirdPersonRight(float x, float y, float z, DataType type) {
-        TPR = TPR == null ? new boolean[] {false, false, false} : TPR;
-        thirdPersonRight = thirdPersonRight == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : thirdPersonRight;
-        setData(thirdPersonRight, x, y, z, type, TPR);
+        checkAndSet(3, x, y, z, type);
         return this;
     }
 
     public DisplayData setThirdPersonLeft(float x, float y, float z, DataType type) {
-        TPL = TPL == null ? new boolean[] {false, false, false} : TPL;
-        thirdPersonLeft = thirdPersonLeft == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : thirdPersonLeft;
-        setData(thirdPersonLeft, x, y, z, type, TPL);
+        checkAndSet(4, x, y, z, type);
         return this;
     }
 
     public DisplayData setGround(float x, float y, float z, DataType type) {
-        G = G == null ? new boolean[] {false, false, false} : G;
-        ground = ground == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : ground;
-        setData(ground, x, y, z, type, G);
+        checkAndSet(5, x, y, z, type);
         return this;
     }
 
     public DisplayData setFrame(float x, float y, float z, DataType type) {
-        F = F == null ? new boolean[] {false, false, false} : F;
-        frame = frame == null ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : frame;
-        setData(frame, x, y, z, type, F);
+        checkAndSet(6, x, y, z, type);
         return this;
+    }
+
+    protected void checkAndSet(int index, float x, float y, float z, DataType type) {
+        emptyMarks[index] = emptyMarks[index].length == 0 ? new boolean[] {false, false, false} : emptyMarks[index];
+        transforms[index] = transforms[index].length == 0 ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : transforms[index];
+        setData(transforms[0], x, y, z, type, emptyMarks[index]);
     }
 
     void setData(float[] transform, float x, float y, float z, DataType type, boolean[] mark) {
