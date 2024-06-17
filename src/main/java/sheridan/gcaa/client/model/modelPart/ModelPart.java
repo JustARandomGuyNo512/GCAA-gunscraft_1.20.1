@@ -193,9 +193,9 @@ public final class ModelPart {
      * Note: This method should be called only once. Subsequent calls will have
      * no effect if the mesh has already been processed.
      */
-    public void meshing() {
+    public ModelPart meshing() {
         if (meshed) {
-            return;
+            return this;
         }
         Set<String> removeParts = new HashSet<>();
         for (String key : this.children.keySet()) {
@@ -219,6 +219,7 @@ public final class ModelPart {
         }
         polygons = allPolygon.toArray(new Polygon[0]);
         meshed = true;
+        return this;
     }
 
     public Cube getCube(int index) {

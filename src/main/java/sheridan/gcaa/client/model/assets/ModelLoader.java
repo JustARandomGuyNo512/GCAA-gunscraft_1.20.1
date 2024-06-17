@@ -117,9 +117,10 @@ public class ModelLoader {
                                 originX, originY, originZ,
                                 size.x, size.y, size.z
                         ),
-                                PartPose.offsetAndRotation(
-                                cubePivot.x, -cubePivot.y + pivot.y, cubePivot.z - pivot.z,
-                                cubeRotation.x, cubeRotation.y, cubeRotation.z));
+                                PartPose.offsetAndRotation(//1.08579
+                                cubePivot.x - pivot.x, -cubePivot.y + pivot.y, cubePivot.z - pivot.z,
+                                cubeRotation.x, cubeRotation.y, cubeRotation.z
+                                ));
                         cubeIndex ++;
                     } else {
                         Vector3f size = getAsVec3(cube, "size");
@@ -155,7 +156,10 @@ public class ModelLoader {
                 PartDefinition boneDefinition;
                 if (bone.has("rotation")) {
                     Vector3f rotation = getRotation(bone);
-                    boneDefinition = parentBone.addOrReplaceChild(name, PartPose.offsetAndRotation(pivot.x, -pivot.y - parentPivot.y, pivot.z - parentPivot.z, rotation.x, rotation.y, rotation.z));
+                    boneDefinition = parentBone.addOrReplaceChild(name, PartPose.offsetAndRotation(
+                            pivot.x, -pivot.y - parentPivot.y, pivot.z - parentPivot.z,
+                            rotation.x, rotation.y, rotation.z
+                    ));
                 } else {
                     boneDefinition = parentBone.addOrReplaceChild(name, PartPose.offset(pivot.x, -pivot.y + parentPivot.y, pivot.z - parentPivot.z));
                 }

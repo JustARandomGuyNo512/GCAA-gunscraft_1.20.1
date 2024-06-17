@@ -39,11 +39,11 @@ public class G19Model extends HierarchicalModel<Entity> implements IGunModel{
         gun_arm = root.getChild("gun_arm");
         gun = gun_arm.getChild("gun");
         right_arm = gun_arm.getChild("right_arm");
-        barrel = gun.getChild("barrel");
+        barrel = gun.getChild("barrel").meshing();
         muzzle_point = barrel.getChild("muzzle_point");
-        grid = gun.getChild("grid");
-        slide = gun.getChild("slide");
-        mag = gun.getChild("mag");
+        grid = gun.getChild("grid").meshing();
+        slide = gun.getChild("slide").meshing();
+        mag = gun.getChild("mag").meshing();
         mag_point = mag.getChild("mag_point");
     }
 
@@ -56,6 +56,7 @@ public class G19Model extends HierarchicalModel<Entity> implements IGunModel{
     public void render(GunRenderContext gunRenderContext) {
         VertexConsumer vertexConsumer = gunRenderContext.bufferSource.getBuffer(RenderType.entityCutout(TEXTURE));
         PoseStack poseStack = gunRenderContext.poseStack;
+        ModelPart leftArm = gunRenderContext.mainHand ? left_arm_right_side : left_arm_left_side;
         root.translateAndRotate(poseStack);
         poseStack.pushPose();
         gun_arm.translateAndRotate(poseStack);
@@ -66,9 +67,11 @@ public class G19Model extends HierarchicalModel<Entity> implements IGunModel{
         gunRenderContext.render(grid, vertexConsumer);
         gunRenderContext.render(mag, vertexConsumer);
         poseStack.popPose();
-        PlayerArmRenderer.INSTANCE.render(right_arm, gunRenderContext.packedLight, gunRenderContext.packedOverlay, true, gunRenderContext.bufferSource, poseStack);
+        if (gunRenderContext.mainHand) {
+            gunRenderContext.renderArm(right_arm, true);
+        }
         poseStack.popPose();
-        PlayerArmRenderer.INSTANCE.render(left_arm_right_side, gunRenderContext.packedLight, gunRenderContext.packedOverlay, false, gunRenderContext.bufferSource, poseStack);
+        gunRenderContext.renderArm(leftArm, false);
     }
 
     @Override

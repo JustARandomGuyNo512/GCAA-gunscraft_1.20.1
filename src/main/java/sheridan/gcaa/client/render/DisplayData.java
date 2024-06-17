@@ -14,7 +14,7 @@ public class DisplayData {
         POS, ROT, SCALE
     }
     public enum HandPos {
-        MAIN_HAND_RIFLE, DOUBLE_PISTOL, RIGHT_PISTOL, LEFT_PISTOL
+        MAIN_HAND_RIFLE, DOUBLE_PISTOL, RIGHT_PISTOL, LEFT_PISTOL, NONE
     }
     public static final int FIRST_PERSON_MAIN = 0, FIRST_PERSON_RIGHT = 1, FIRST_PERSON_LEFT = 2, THIRD_PERSON_RIGHT = 3, THIRD_PERSON_LEFT = 4, GROUND = 5, FIXED = 6;
     private final float[][] transforms = new float[][] {{}, {}, {}, {}, {}, {}, {}};
@@ -113,6 +113,7 @@ public class DisplayData {
     public float get(int i, int j) {
         return transforms[i][j];
     }
+
 
     public DisplayData set(int index, float val, DataType type) {
         checkAndSet(index, val, val, val, type);

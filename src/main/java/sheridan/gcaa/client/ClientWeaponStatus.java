@@ -1,5 +1,19 @@
 package sheridan.gcaa.client;
 
-public class ClientWeaponStatus {
+import java.util.concurrent.atomic.AtomicBoolean;
 
+public class ClientWeaponStatus {
+    public final boolean mainHand;
+    public AtomicBoolean buttonDown;
+    public AtomicBoolean holdingGun;
+    public int fireCount = 0;
+    public boolean ads = false;
+    public float adsProgress = 0;
+    public long lastFire = 0;
+
+    public ClientWeaponStatus(boolean mainHand) {
+        this.mainHand = mainHand;
+        buttonDown = new AtomicBoolean(false);
+        holdingGun = new AtomicBoolean(false);
+    }
 }

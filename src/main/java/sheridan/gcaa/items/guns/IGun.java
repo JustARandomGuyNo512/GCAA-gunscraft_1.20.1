@@ -1,5 +1,8 @@
 package sheridan.gcaa.items.guns;
 
-public interface IGun {
+import sheridan.gcaa.items.GunProperties;
 
+public interface IGun {
+    GunProperties getGunProperties();
+    boolean canHoldInOneHand();
 }

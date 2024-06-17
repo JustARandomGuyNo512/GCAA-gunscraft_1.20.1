@@ -15,15 +15,15 @@ import sheridan.gcaa.GCAA;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class Test {
-    public static ShaderInstance renderTypeTest;
+//    public static ShaderInstance renderTypeTest;
 
-    @SubscribeEvent
-    public static void textureTest(RegisterShadersEvent event){
-        try {
-            event.registerShader(new ShaderInstance(event.getResourceProvider(), new ResourceLocation(GCAA.MODID, ""), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP), (shaderInstance) -> {renderTypeTest = shaderInstance;});
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @SubscribeEvent
+//    public static void textureTest(RegisterShadersEvent event){
+//        try {
+//            event.registerShader(new ShaderInstance(event.getResourceProvider(), new ResourceLocation(GCAA.MODID, ""), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP), (shaderInstance) -> {renderTypeTest = shaderInstance;});
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

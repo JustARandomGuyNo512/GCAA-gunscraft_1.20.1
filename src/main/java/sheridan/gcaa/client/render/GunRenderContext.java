@@ -47,4 +47,16 @@ public class GunRenderContext {
             part.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a);
         }
     }
+
+    public void renderArmLong(ModelPart pose, boolean mainHand) {
+        if (isFirstPerson) {
+            PlayerArmRenderer.INSTANCE.renderLong(pose, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
+        }
+    }
+
+    public void renderArm(ModelPart pose, boolean mainHand) {
+        if (isFirstPerson) {
+            PlayerArmRenderer.INSTANCE.render(pose, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
+        }
+    }
 }

@@ -55,6 +55,10 @@ public class PlayerArmRenderer {
         render(posePart, light, overlay, 1, 1, 1, mainHand, bufferSource, poseStack);
     }
 
+    public void renderLong(ModelPart posePart, int light, int overlay, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack) {
+        render(posePart, light, overlay, 1, 1.5f, 1, mainHand, bufferSource, poseStack);
+    }
+
     public void render(ModelPart posePart, int light, int overlay, float scale, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack) {
         render(posePart, light, overlay, scale, scale, scale, mainHand, bufferSource, poseStack);
     }
@@ -80,9 +84,9 @@ public class PlayerArmRenderer {
                     arm.zScale = sz;
                     arm.render(poseStack, vertexConsumer, light, overlay, 1, 1, 1, 1);
                     sleeve.copyFrom(posePart);
-                    sleeve.xScale = 1.2F * sx;
+                    sleeve.xScale = 1.12F * sx;
                     sleeve.yScale = sy;
-                    sleeve.zScale = 1.2F * sz;
+                    sleeve.zScale = 1.12F * sz;
                     sleeve.render(poseStack, vertexConsumer, light, overlay, 1, 1, 1, 1);
                     arm.resetPose();
                     sleeve.resetPose();

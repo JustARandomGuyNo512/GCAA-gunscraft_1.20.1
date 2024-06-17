@@ -30,6 +30,9 @@ import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.capability.PlayerStatusEvents;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.KeyBinds;
+import sheridan.gcaa.client.events.ClientPlayerEvents;
+import sheridan.gcaa.client.events.ControllerEvents;
+import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.events.Test;
 import sheridan.gcaa.client.model.assets.AnimationLoader;
 import sheridan.gcaa.client.model.assets.ModelLoader;
@@ -65,6 +68,9 @@ public class GCAA {
     @OnlyIn(Dist.CLIENT)
     private void onClientSetup(final FMLClientSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(Test.class);
+        MinecraftForge.EVENT_BUS.register(RenderEvents.class);
+        MinecraftForge.EVENT_BUS.register(ControllerEvents.class);
+        MinecraftForge.EVENT_BUS.register(ClientPlayerEvents.class);
         Clients.onSetUp(event);
     }
 

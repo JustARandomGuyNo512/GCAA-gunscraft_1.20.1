@@ -44,7 +44,6 @@ public class GunDebugAdjustScreen extends Screen {
         if (operationIndex == 1) {operationStr = "rotation";}
         if (operationIndex == 2) {operationStr = "scale";}
         pGuiGraphics.drawString(font, operationStr, (this.width - font.width(operationStr)) / 2, 26, 0xFFFFFF);
-
     }
 
     @Override
@@ -79,6 +78,9 @@ public class GunDebugAdjustScreen extends Screen {
             viewIndex %= 7;
             p_280814_.setMessage(Component.literal(viewModeNames[viewIndex]));
         }).width(100).pos(300, 20).build());
+        rowHelper.addChild(Button.builder(Component.literal("print"), (p_280814_) -> {
+            printToConsole();
+        }).width(100).pos(50, 180).build());
         for (int i = 0; i < 3; i ++) {
             int finalI = i;
             rowHelper.addChild(Button.builder(Component.literal("p" + i + "+"), (p_280814_) -> {
@@ -93,6 +95,14 @@ public class GunDebugAdjustScreen extends Screen {
         }
     }
 
+    private void printToConsole() {
+        float[] params = displayData.get(viewIndex);
+        String paramsStr = params[0] * 16 + "," + params[1] * 16 + "," + params[2] * 16 + "   " +
+                Math.toDegrees(params[3]) + "," + Math.toDegrees(params[4]) + "," + Math.toDegrees(params[5]) + "   " +
+                params[6] + "," + params[7] + "," + params[8];
+        System.out.println(paramsStr);
+    }
+
     private void add(int argIndex) {
         displayData.set(viewIndex, operationIndex * 3 + argIndex, displayData.get(viewIndex, operationIndex * 3 + argIndex) + get());
     }
@@ -102,6 +112,7 @@ public class GunDebugAdjustScreen extends Screen {
     }
 
     private float get() {
+        System.out.println(operationIndex);
         switch (operationIndex) {
             case 0 -> {return p / 16;}
             case 1 -> {return (float) Math.toRadians(p);}
