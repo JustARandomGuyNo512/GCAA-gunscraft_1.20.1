@@ -15,10 +15,5 @@ public class Gun extends BaseItem implements IGun {
     public GunProperties getGunProperties() {
         return gunProperties;
     }
-
-    @Override
-    public boolean canHoldInOneHand() {
-        return gunProperties.getCanHoldInOneHand();
-    }
 }
 

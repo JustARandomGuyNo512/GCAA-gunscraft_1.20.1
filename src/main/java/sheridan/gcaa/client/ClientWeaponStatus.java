@@ -6,6 +6,8 @@ public class ClientWeaponStatus {
     public final boolean mainHand;
     public AtomicBoolean buttonDown;
     public AtomicBoolean holdingGun;
+    public float equipProgress;
+    public float equipProgressParticle;
     public int fireCount = 0;
     public boolean ads = false;
     public float adsProgress = 0;

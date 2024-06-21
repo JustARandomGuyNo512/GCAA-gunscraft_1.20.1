@@ -11,7 +11,6 @@ import java.util.TimerTask;
 
 public class ClientWeaponLooper extends TimerTask {
     int mainHandDelay;
-    int offHandDelay;
 
     @Override
     public void run() {
@@ -32,9 +31,6 @@ public class ClientWeaponLooper extends TimerTask {
             if (mainHandDelay <= 0 && Clients.mainButtonDown()) {
                 postShootTask(player, true);
             }
-            if (offHandDelay <= 0 && Clients.offButtonDown()) {
-                postShootTask(player, false);
-            }
             handleCoolDown();
         } catch (Exception ignored){}
     }
@@ -45,16 +41,13 @@ public class ClientWeaponLooper extends TimerTask {
             if (stack.getItem() instanceof IGun) {
                 if (mainHand) {
 
-                } else {
-
-                }
+                } else {}
             }
         }
     }
 
     private void handleCoolDown() {
         mainHandDelay = mainHandDelay > 0 ? mainHandDelay : mainHandDelay - 1;
-        offHandDelay = offHandDelay > 0 ? offHandDelay : offHandDelay - 1;
     }
 
 

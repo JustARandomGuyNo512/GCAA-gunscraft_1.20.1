@@ -9,24 +9,21 @@ import sheridan.gcaa.network.IPacket;
 import java.util.function.Supplier;
 
 public class SyncPlayerStatusPacket implements IPacket<SyncPlayerStatusPacket> {
-    public long lastShootLeft;
-    public long lastShootRight;
+    public long lastShoot;
     public long lastChamberAction;
     public boolean reloading;
 
     public SyncPlayerStatusPacket() {}
 
-    public SyncPlayerStatusPacket(long lastShootLeft, long lastShootRight, long lastChamberAction, boolean reloading) {
-        this.lastShootLeft = lastShootLeft;
-        this.lastShootRight = lastShootRight;
+    public SyncPlayerStatusPacket(long lastShootLeft, long lastChamberAction, boolean reloading) {
+        this.lastShoot = lastShootLeft;
         this.lastChamberAction = lastChamberAction;
         this.reloading = reloading;
     }
 
     @Override
     public void encode(SyncPlayerStatusPacket message, FriendlyByteBuf buffer) {
-        buffer.writeLong(message.lastShootLeft);
-        buffer.writeLong(message.lastShootRight);
+        buffer.writeLong(message.lastShoot);
         buffer.writeLong(message.lastChamberAction);
         buffer.writeBoolean(message.reloading);
     }
@@ -34,8 +31,7 @@ public class SyncPlayerStatusPacket implements IPacket<SyncPlayerStatusPacket> {
     @Override
     public SyncPlayerStatusPacket decode(FriendlyByteBuf buffer) {
         SyncPlayerStatusPacket packet = new SyncPlayerStatusPacket();
-        packet.lastShootLeft = buffer.readLong();
-        packet.lastShootRight = buffer.readLong();
+        packet.lastShoot = buffer.readLong();
         packet.lastChamberAction = buffer.readLong();
         packet.reloading = buffer.readBoolean();
         return packet;
@@ -47,8 +43,7 @@ public class SyncPlayerStatusPacket implements IPacket<SyncPlayerStatusPacket> {
             ServerPlayer player = supplier.get().getSender();
             if (player != null) {
                 player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((capability -> {
-                    capability.setLastShootLeft(message.lastShootLeft);
-                    capability.setLastShootRight(message.lastShootRight);
+                    capability.setLastShoot(message.lastShoot);
                     capability.setLastChamberAction(message.lastChamberAction);
                     capability.setReloading(message.reloading);
                     capability.dataChanged = true;

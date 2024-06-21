@@ -29,8 +29,7 @@ public class PlayerStatusEvents {
                         PacketHandler.simpleChannel.send(PacketDistributor.TRACKING_ENTITY.with(() -> event.player),
                                 new BroadcastPlayerStatusPacket(
                                         player.getId(),
-                                        cap.getLastShootLeft(),
-                                        cap.getLastShootRight(),
+                                        cap.getLastShoot(),
                                         cap.getLastChamberAction(),
                                         cap.isReloading()
                                 ));
@@ -42,8 +41,7 @@ public class PlayerStatusEvents {
                     if (cap.dataChanged) {
                         PacketHandler.simpleChannel.send(PacketDistributor.TRACKING_ENTITY.with(() -> event.player),
                                 new SyncPlayerStatusPacket(
-                                        cap.getLastShootLeft(),
-                                        cap.getLastShootRight(),
+                                        cap.getLastShoot(),
                                         cap.getLastChamberAction(),
                                         cap.isReloading()
                                 ));

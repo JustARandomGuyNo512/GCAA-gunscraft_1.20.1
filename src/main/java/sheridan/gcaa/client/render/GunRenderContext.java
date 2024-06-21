@@ -18,7 +18,6 @@ public class GunRenderContext {
     public IGun gun;
     public ItemDisplayContext transformType;
     public boolean isFirstPerson;
-    public boolean mainHand = false;
     public float r = 1;
     public float g = 1;
     public float b = 1;
@@ -26,12 +25,11 @@ public class GunRenderContext {
     public int packedLight;
     public int packedOverlay;
 
-    public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, boolean mainHand, int packedLight, int packedOverlay) {
+    public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType,int packedLight, int packedOverlay) {
         this.bufferSource = bufferSource;
         this.poseStack = poseStack;
         this.itemStack = itemStack;
         this.transformType = transformType;
-        this.mainHand = mainHand;
         this.packedLight = packedLight;
         this.packedOverlay = packedOverlay;
         this.gun = gun;

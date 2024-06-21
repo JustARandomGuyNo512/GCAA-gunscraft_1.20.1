@@ -5,7 +5,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -15,12 +14,6 @@ import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.guns.IGun;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GunDebugAdjustScreen extends Screen {
     private boolean originalInit = false;
@@ -30,7 +23,7 @@ public class GunDebugAdjustScreen extends Screen {
     private int viewIndex = 0;
     private EditBox editBox;
     private float p;
-    private static String[] viewModeNames = {"FirstPersonMain", "FirstPersonRight", "FirstPersonLeft","ThirdPersonRight","ThirdPersonLeft","Ground","Frame"};
+    private static String[] viewModeNames = {"FirstPersonMain", "ThirdPersonRight", "Ground","Frame"};
     public GunDebugAdjustScreen() {
         super(Component.literal("Gun Debug Adjust Screen"));
     }
@@ -75,7 +68,7 @@ public class GunDebugAdjustScreen extends Screen {
         }).width(40).pos(130, 20).build());
         rowHelper.addChild(Button.builder(Component.literal("FirstPersonMain"), (p_280814_) -> {
             viewIndex ++;
-            viewIndex %= 7;
+            viewIndex %= 4;
             p_280814_.setMessage(Component.literal(viewModeNames[viewIndex]));
         }).width(100).pos(300, 20).build());
         rowHelper.addChild(Button.builder(Component.literal("print"), (p_280814_) -> {
@@ -112,7 +105,6 @@ public class GunDebugAdjustScreen extends Screen {
     }
 
     private float get() {
-        System.out.println(operationIndex);
         switch (operationIndex) {
             case 0 -> {return p / 16;}
             case 1 -> {return (float) Math.toRadians(p);}

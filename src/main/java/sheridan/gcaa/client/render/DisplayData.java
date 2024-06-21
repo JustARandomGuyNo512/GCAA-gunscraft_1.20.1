@@ -13,32 +13,24 @@ public class DisplayData {
     public enum DataType {
         POS, ROT, SCALE
     }
-    public enum HandPos {
-        MAIN_HAND_RIFLE, DOUBLE_PISTOL, RIGHT_PISTOL, LEFT_PISTOL, NONE
-    }
-    public static final int FIRST_PERSON_MAIN = 0, FIRST_PERSON_RIGHT = 1, FIRST_PERSON_LEFT = 2, THIRD_PERSON_RIGHT = 3, THIRD_PERSON_LEFT = 4, GROUND = 5, FIXED = 6;
-    private final float[][] transforms = new float[][] {{}, {}, {}, {}, {}, {}, {}};
-    private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}, {}, {}, {}};
+    public static final int
+            FIRST_PERSON_MAIN = 0,
+            THIRD_PERSON_RIGHT = 1,
+            GROUND = 2,
+            FIXED = 3;
+    private final float[][] transforms = new float[][] {{}, {}, {}, {}};
+    private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}};
     public DisplayData() {}
 
-    public void applyTransform(ItemDisplayContext displayContext, PoseStack poseStack, HandPos pos) {
+    public void applyTransform(ItemDisplayContext displayContext, PoseStack poseStack) {
         switch (displayContext) {
-            case FIRST_PERSON_RIGHT_HAND -> handleFirstPersonRightTrans(poseStack, pos);
-            case FIRST_PERSON_LEFT_HAND -> applyTransform(transforms[2], emptyMarks[2], poseStack);
-            case THIRD_PERSON_RIGHT_HAND -> applyTransform(transforms[3], emptyMarks[3], poseStack);
-            case THIRD_PERSON_LEFT_HAND -> applyTransform(transforms[4], emptyMarks[4], poseStack);
-            case GROUND -> applyTransform(transforms[5], emptyMarks[5], poseStack);
-            case FIXED -> applyTransform(transforms[6], emptyMarks[6], poseStack);
+            case FIRST_PERSON_RIGHT_HAND -> applyTransform(transforms[0], emptyMarks[0], poseStack);
+            case THIRD_PERSON_RIGHT_HAND -> applyTransform(transforms[1], emptyMarks[1], poseStack);
+            case GROUND -> applyTransform(transforms[2], emptyMarks[2], poseStack);
+            case FIXED -> applyTransform(transforms[3], emptyMarks[3], poseStack);
         }
     }
 
-    void handleFirstPersonRightTrans(PoseStack poseStack, HandPos pos) {
-        if (pos == HandPos.MAIN_HAND_RIFLE) {
-            applyTransform(transforms[0], emptyMarks[0], poseStack);
-        } else if (pos == HandPos.DOUBLE_PISTOL) {
-            applyTransform(transforms[1], emptyMarks[1], poseStack);
-        }
-    }
 
     void applyTransform(float[] transform, boolean[] mark, PoseStack poseStack) {
         if (mark.length == 0 || transform.length == 0) {return;}
@@ -51,32 +43,20 @@ public class DisplayData {
         return transforms[0];
     }
 
-    public float[] getFirstPersonRight() {
+    public float[] getThirdPersonRight() {
         return transforms[1];
     }
 
-    public float[] getFirstPersonLeft() {
-        return transforms[2];
-    }
-
-    public float[] getThirdPersonRight() {
+    public float[] getGround() {
         return transforms[3];
     }
 
-    public float[] getThirdPersonLeft() {
+    public float[] getFrame() {
         return transforms[4];
     }
 
-    public float[] getGround() {
-        return transforms[5];
-    }
-
-    public float[] getFrame() {
-        return transforms[6];
-    }
-
     public float[] get(int index) {
-        if (index < 0 || index > 6) {
+        if (index < 0 || index > 4) {
             return null;
         }
         return transforms[index];
@@ -88,22 +68,7 @@ public class DisplayData {
                 Arrays.copyOf(transforms[1], transforms[1].length),
                 Arrays.copyOf(transforms[2], transforms[2].length),
                 Arrays.copyOf(transforms[3], transforms[3].length),
-                Arrays.copyOf(transforms[4], transforms[4].length),
-                Arrays.copyOf(transforms[5], transforms[5].length),
-                Arrays.copyOf(transforms[6], transforms[6].length),
         };
-    }
-
-    public boolean[][] getEmptyMarks() {
-        return emptyMarks;
-    }
-
-    public boolean[] emptyMarksOf(int index) {
-        return emptyMarks[index];
-    }
-
-    public boolean isEmpty(int index) {
-        return emptyMarks[index].length == 0;
     }
 
     public void set(int i, int j, float val) {
@@ -136,33 +101,18 @@ public class DisplayData {
         return this;
     }
 
-    public DisplayData setFirstPersonRight(float x, float y, float z, DataType type) {
+    public DisplayData setThirdPersonRight(float x, float y, float z, DataType type) {
         checkAndSet(1, x, y, z, type);
         return this;
     }
 
-    public DisplayData setFirstPersonLeft(float x, float y, float z, DataType type) {
+    public DisplayData setGround(float x, float y, float z, DataType type) {
         checkAndSet(2, x, y, z, type);
         return this;
     }
 
-    public DisplayData setThirdPersonRight(float x, float y, float z, DataType type) {
-        checkAndSet(3, x, y, z, type);
-        return this;
-    }
-
-    public DisplayData setThirdPersonLeft(float x, float y, float z, DataType type) {
-        checkAndSet(4, x, y, z, type);
-        return this;
-    }
-
-    public DisplayData setGround(float x, float y, float z, DataType type) {
-        checkAndSet(5, x, y, z, type);
-        return this;
-    }
-
     public DisplayData setFrame(float x, float y, float z, DataType type) {
-        checkAndSet(6, x, y, z, type);
+        checkAndSet(3, x, y, z, type);
         return this;
     }
 

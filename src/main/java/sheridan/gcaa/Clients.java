@@ -27,25 +27,17 @@ import static sheridan.gcaa.client.render.DisplayData.DataType.SCALE;
 public class Clients {
     @OnlyIn(Dist.CLIENT)
     public static ClientWeaponStatus mainHandStatus = new ClientWeaponStatus(true);
+    @Deprecated
     @OnlyIn(Dist.CLIENT)
     public static ClientWeaponStatus offHandStatus = new ClientWeaponStatus(false);
     @OnlyIn(Dist.CLIENT)
     public static boolean mainButtonDown() {
         return mainHandStatus.buttonDown.get();
     }
+    @Deprecated
     @OnlyIn(Dist.CLIENT)
-    public static boolean offButtonDown() {
-        return offHandStatus.buttonDown.get();
-    }
-    @OnlyIn(Dist.CLIENT)
-    private static volatile DisplayData.HandPos handPose;
-    @OnlyIn(Dist.CLIENT)
-    public static void setHandPose(DisplayData.HandPos pos) {
-        handPose = pos;
-    }
-    @OnlyIn(Dist.CLIENT)
-    public static DisplayData.HandPos getHandPose() {
-        return handPose;
+    public static boolean holdingGun() {
+        return mainHandStatus.holdingGun.get() || offHandStatus.holdingGun.get();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -55,13 +47,10 @@ public class Clients {
 
         GunModelRegistry.registerModel(ModItems.G19.get(), new G19Model());
         GunModelRegistry.registerTransform(ModItems.G19.get(), new DisplayData()
-                .setFirstPersonMain(-0.5f,1.6f,-3.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.12f, SCALE)
-                .setFirstPersonRight(0, 0, 0, POS).setFirstPersonRight(0, 0, 0, ROT).set(DisplayData.FIRST_PERSON_RIGHT, 0.12f, SCALE)
-                .setFirstPersonLeft(1.1f,1.8f,-3.8f, POS).setFirstPersonLeft(0,0,-11.8f, ROT).set(DisplayData.FIRST_PERSON_LEFT, 0.12f, SCALE)
-                .setThirdPersonLeft(0f, 0f, 0, POS).set(DisplayData.THIRD_PERSON_LEFT, 0.2f, SCALE)
-                .setThirdPersonRight(0f, 0f, 0, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.2f, SCALE)
-                .setGround(0f, 0f, 0, POS).set(DisplayData.GROUND, 0.2f, SCALE)
-                .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).set(DisplayData.FIXED, 0.4f, SCALE)
+                .setFirstPersonMain(-0.46f,1.31f,-3.1f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.1f, SCALE)
+                .setThirdPersonRight(0f, 0f, 0, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
+                .setGround(0f, 0f, 0, POS).set(DisplayData.GROUND, 0.15f, SCALE)
+                .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).set(DisplayData.FIXED, 0.3f, SCALE)
         );
 
         GunModelRegistry.registerModel(ModItems.AKM.get(), new AkmModel());
@@ -74,16 +63,13 @@ public class Clients {
 
     }
 
-
-
-    public static void updateClientPlayerStatus(int id, long lastShootRight, long lastShootLeft, long lastChamber, boolean reloading) {
+    public static void updateClientPlayerStatus(int id, long lastShootLeft, long lastChamber, boolean reloading) {
         ClientLevel clientLevel = Minecraft.getInstance().level;
         if (clientLevel != null) {
             Entity entity = clientLevel.getEntity(id);
             if (entity instanceof Player player) {
                 player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
-                    cap.setLastShootRight(lastShootRight);
-                    cap.setLastShootLeft(lastShootLeft);
+                    cap.setLastShoot(lastShootLeft);
                     cap.setReloading(reloading);
                     cap.setLastChamberAction(lastChamber);
                     cap.dataChanged = false;
@@ -92,6 +78,7 @@ public class Clients {
         }
     }
 
+    @Deprecated
     public static IGun[] getGuns(Player player) {
         ItemStack stackMain = player.getMainHandItem();
         ItemStack stackOff = player.getOffhandItem();

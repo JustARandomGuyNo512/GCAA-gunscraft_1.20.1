@@ -4,7 +4,30 @@ public class GunProperties {
     private float baseDamage;
     private float adsSpeed;
     private int fireDelay;
-    private boolean canHoldInOneHand;
+    private int reloadLength;
+    private int fullReloadLength;
+
+    public GunProperties() {}
+
+
+
+    public int getReloadLength() {
+        return reloadLength;
+    }
+
+    public GunProperties setReloadLength(int reloadLength) {
+        this.reloadLength = reloadLength;
+        return this;
+    }
+
+    public int getFullReloadLength() {
+        return fullReloadLength;
+    }
+
+    public GunProperties setFullReloadLength(int fullReloadLength) {
+        this.fullReloadLength = fullReloadLength;
+        return this;
+    }
 
     public GunProperties setBaseDamage(float baseDamage) {
         this.baseDamage = baseDamage;
@@ -21,13 +44,5 @@ public class GunProperties {
         return this;
     }
 
-    public GunProperties setCanHoldInOneHand(boolean canHoldInOneHand) {
-        this.canHoldInOneHand = canHoldInOneHand;
-        return this;
-    }
-
-    public boolean getCanHoldInOneHand() {
-        return canHoldInOneHand;
-    }
 
 }

@@ -7,8 +7,7 @@ public class PlayerStatus {
 
     static {
         EMPTY = new PlayerStatus();
-        EMPTY.lastShootLeft = -1L;
-        EMPTY.lastShootRight = -1L;
+        EMPTY.lastShoot = -1L;
         EMPTY.lastChamberAction = -1L;
         EMPTY.reloading = false;
         EMPTY.dataChanged = false;
@@ -16,8 +15,7 @@ public class PlayerStatus {
 
     public PlayerStatus() {}
 
-    private long lastShootRight;
-    private long lastShootLeft;
+    private long lastShoot;
     private long lastChamberAction;
     private boolean reloading;
     public boolean dataChanged;
@@ -25,31 +23,19 @@ public class PlayerStatus {
     public void saveToNbt(CompoundTag tag) {}
 
     public void readFromNbt(CompoundTag tag) {
-        lastShootRight = 0L;
-        lastShootLeft = 0L;
+        lastShoot = 0L;
         lastChamberAction = 0L;
         reloading = false;
         dataChanged = true;
     }
 
-    public long getLastShootRight() {
-        return lastShootRight;
+    public long getLastShoot() {
+        return lastShoot;
     }
 
-    public void setLastShootRight(long lastShootRight) {
-        if (lastShootRight != this.lastShootRight) {
-            this.lastShootRight = lastShootRight;
-            dataChanged = true;
-        }
-    }
-
-    public long getLastShootLeft() {
-        return lastShootLeft;
-    }
-
-    public void setLastShootLeft(long lastShootLeft) {
-        if (lastShootLeft != this.lastShootLeft) {
-            this.lastShootLeft = lastShootLeft;
+    public void setLastShoot(long lastShoot) {
+        if (lastShoot != this.lastShoot) {
+            this.lastShoot = lastShoot;
             dataChanged = true;
         }
     }

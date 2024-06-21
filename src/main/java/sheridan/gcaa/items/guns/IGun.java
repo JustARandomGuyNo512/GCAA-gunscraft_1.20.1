@@ -4,5 +4,6 @@ import sheridan.gcaa.items.GunProperties;
 
 public interface IGun {
     GunProperties getGunProperties();
-    boolean canHoldInOneHand();
+    @Deprecated
+    default boolean canHoldInOneHand() {return false;}
 }

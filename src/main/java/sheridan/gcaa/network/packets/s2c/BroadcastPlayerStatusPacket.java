@@ -11,17 +11,15 @@ import java.util.function.Supplier;
 
 public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatusPacket> {
     public int id;
-    public long lastShootLeft;
-    public long lastShootRight;
+    public long lastShoot;
     public long lastChamberAction;
     public boolean reloading;
 
     public BroadcastPlayerStatusPacket() {}
 
-    public BroadcastPlayerStatusPacket(int id, long lastShootLeft, long lastShootRight, long lastChamberAction, boolean reloading) {
+    public BroadcastPlayerStatusPacket(int id, long lastShootLeft, long lastChamberAction, boolean reloading) {
         this.id = id;
-        this.lastShootLeft = lastShootLeft;
-        this.lastShootRight = lastShootRight;
+        this.lastShoot = lastShootLeft;
         this.lastChamberAction = lastChamberAction;
         this.reloading = reloading;
     }
@@ -29,8 +27,7 @@ public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatu
     @Override
     public void encode(BroadcastPlayerStatusPacket message, FriendlyByteBuf buffer) {
         buffer.writeInt(message.id);
-        buffer.writeLong(message.lastShootLeft);
-        buffer.writeLong(message.lastShootRight);
+        buffer.writeLong(message.lastShoot);
         buffer.writeLong(message.lastChamberAction);
         buffer.writeBoolean(message.reloading);
     }
@@ -39,8 +36,7 @@ public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatu
     public BroadcastPlayerStatusPacket decode(FriendlyByteBuf buffer) {
         BroadcastPlayerStatusPacket packet = new BroadcastPlayerStatusPacket();
         packet.id = buffer.readInt();
-        packet.lastShootLeft = buffer.readLong();
-        packet.lastShootRight = buffer.readLong();
+        packet.lastShoot = buffer.readLong();
         packet.lastChamberAction = buffer.readLong();
         packet.reloading = buffer.readBoolean();
         return packet;
@@ -48,16 +44,13 @@ public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatu
 
     @Override
     public void handle(BroadcastPlayerStatusPacket message, Supplier<NetworkEvent.Context> supplier) {
-        supplier.get().enqueueWork(() -> {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
-                    Clients.updateClientPlayerStatus(
-                            message.id,
-                            message.lastShootRight,
-                            message.lastShootLeft,
-                            message.lastChamberAction,
-                            message.reloading
-                    ));
-        });
+        supplier.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+                Clients.updateClientPlayerStatus(
+                        message.id,
+                        message.lastShoot,
+                        message.lastChamberAction,
+                        message.reloading
+                )));
         supplier.get().setPacketHandled(true);
     }
 }

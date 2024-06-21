@@ -10,11 +10,8 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import sheridan.gcaa.network.PacketHandler;
-import sheridan.gcaa.network.packets.s2c.BroadcastPlayerStatusPacket;
 
 public class PlayerStatusProvider implements ICapabilityProvider, INBTSerializable {
     public PlayerStatus playerStatus;
@@ -54,17 +51,12 @@ public class PlayerStatusProvider implements ICapabilityProvider, INBTSerializab
         return player.getCapability(PlayerStatusProvider.CAPABILITY).orElse(PlayerStatus.EMPTY);
     }
 
-    public static void setLastShootLeft(Player player, long lastShootLeft)  {
+    public static void setLastShoot(Player player, long lastShootLeft)  {
         player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
-            cap.setLastShootLeft(lastShootLeft);
+            cap.setLastShoot(lastShootLeft);
         });
     }
 
-    public static void setLastShootRight(Player player, long lastShootRight)  {
-        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
-            cap.setLastShootRight(lastShootRight);
-        });
-    }
 
     public static void setLastChamberAction(Player player, long lastChamberAction)  {
         player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
