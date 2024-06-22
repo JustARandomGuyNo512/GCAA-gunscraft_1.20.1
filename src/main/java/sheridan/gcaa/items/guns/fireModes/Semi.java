@@ -10,6 +10,9 @@ import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunFirePacket;
 
 public class Semi implements IGunFireMode {
+
+    public static final Semi SEMI = new Semi();
+
     @Override
     public String getName() {
         return null;
@@ -22,7 +25,7 @@ public class Semi implements IGunFireMode {
 
     @Override
     public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
-        gun.clientShoot(itemStack, player);
+        gun.clientShoot(itemStack, player, this);
         PacketHandler.simpleChannel.sendToServer(new GunFirePacket());
         Clients.mainHandStatus.buttonDown.set(false);
         Clients.mainHandStatus.fireCount = 0;
@@ -30,7 +33,7 @@ public class Semi implements IGunFireMode {
 
     @Override
     public void shoot(Player player, ItemStack itemStack, IGun gun) {
-        gun.shoot(itemStack, player);
+        gun.shoot(itemStack, player, this);
     }
 
     @Override

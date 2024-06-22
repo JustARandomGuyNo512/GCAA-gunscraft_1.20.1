@@ -52,9 +52,7 @@ public class PlayerStatusProvider implements ICapabilityProvider, INBTSerializab
     }
 
     public static void setLastShoot(Player player, long lastShootLeft)  {
-        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
-            cap.setLastShoot(lastShootLeft);
-        });
+        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> cap.setLastShoot(lastShootLeft));
     }
 
 

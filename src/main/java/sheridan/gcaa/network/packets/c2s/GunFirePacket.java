@@ -1,6 +1,7 @@
 package sheridan.gcaa.network.packets.c2s;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 import sheridan.gcaa.network.IPacket;
 
@@ -21,6 +22,12 @@ public class GunFirePacket implements IPacket<GunFirePacket> {
 
     @Override
     public void handle(GunFirePacket message, Supplier<NetworkEvent.Context> supplier) {
+        supplier.get().enqueueWork(() -> {
+            ServerPlayer player = supplier.get().getSender();
+            if (player != null) {
 
+            }
+        });
+        supplier.get().setPacketHandled(true);
     }
 }

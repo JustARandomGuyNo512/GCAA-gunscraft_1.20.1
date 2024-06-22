@@ -10,6 +10,9 @@ import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunFirePacket;
 
 public class Auto implements IGunFireMode {
+
+    public static final Auto AUTO = new Auto();
+
     @Override
     public String getName() {
         return "auto";
@@ -17,12 +20,12 @@ public class Auto implements IGunFireMode {
 
     @Override
     public boolean canFire(Player player, ItemStack itemStack, IGun gun) {
-        return false;
+        return gun.getAmmoLeft(itemStack) > 0;
     }
 
     @Override
     public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
-        gun.clientShoot(itemStack, player);
+        gun.clientShoot(itemStack, player, this);
         PacketHandler.simpleChannel.sendToServer(new GunFirePacket());
         Clients.mainHandStatus.fireCount ++;
     }

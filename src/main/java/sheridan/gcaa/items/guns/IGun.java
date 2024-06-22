@@ -10,8 +10,8 @@ public interface IGun {
     default boolean canHoldInOneHand() {return false;}
     Gun getGun();
     int getAmmoLeft(ItemStack stack);
-    void clientShoot(ItemStack stack, Player player);
-    void shoot(ItemStack stack, Player player);
+    void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode);
+    void shoot(ItemStack stack, Player player, IGunFireMode fireMode);
     IGunFireMode getFireMode(ItemStack stack);
     int getBurstCount();
     ICaliber getCaliber();

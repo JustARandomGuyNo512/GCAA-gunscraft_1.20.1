@@ -1,8 +1,6 @@
 package sheridan.gcaa.client.events;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.MouseHandler;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,14 +23,14 @@ public class ControllerEvents {
             if (player != null && !player.isSpectator() && !player.isSwimming()) {
                 ItemStack stack = player.getMainHandItem();
                 if (stack.getItem() instanceof IGun) {
-                    if (event.getButton() == InputConstants.MOUSE_BUTTON_RIGHT) {
+                    if (event.getButton() == 0) {
                         if (event.getAction() == 1) {
                             Clients.mainHandStatus.buttonDown.set(true);
                         } else if (event.getAction() == 0) {
                             Clients.mainHandStatus.buttonDown.set(false);
                         }
                         event.setCanceled(true);
-                    } else if (event.getButton() == InputConstants.MOUSE_BUTTON_LEFT) {
+                    } else if (event.getButton() == 1) {
                         Clients.mainHandStatus.ads = event.getAction() == 1;
                         event.setCanceled(true);
                     }

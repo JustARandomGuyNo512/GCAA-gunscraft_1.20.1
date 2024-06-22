@@ -25,10 +25,8 @@ import org.slf4j.Logger;
 import sheridan.gcaa.capability.PlayerStatusEvents;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.KeyBinds;
-import sheridan.gcaa.client.events.ClientPlayerEvents;
-import sheridan.gcaa.client.events.ControllerEvents;
-import sheridan.gcaa.client.events.RenderEvents;
-import sheridan.gcaa.client.events.Test;
+import sheridan.gcaa.client.events.*;
+import sheridan.gcaa.entities.ModEntities;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.network.PacketHandler;
 
@@ -47,6 +45,7 @@ public class GCAA {
 
         ModItems.ITEMS.register(modEventBus);
         ModTabs.MOD_TABS.register(modEventBus);
+        ModEntities.ENTITIES.register(modEventBus);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -60,6 +59,7 @@ public class GCAA {
         MinecraftForge.EVENT_BUS.register(RenderEvents.class);
         MinecraftForge.EVENT_BUS.register(ControllerEvents.class);
         MinecraftForge.EVENT_BUS.register(ClientPlayerEvents.class);
+        MinecraftForge.EVENT_BUS.register(ClientEvents.class);
         Clients.onSetUp(event);
     }
 

@@ -4,9 +4,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.items.BaseItem;
 import sheridan.gcaa.items.GunProperties;
+
+import java.util.List;
 
 public class Gun extends BaseItem implements IGun {
     private final GunProperties gunProperties;
@@ -28,23 +32,26 @@ public class Gun extends BaseItem implements IGun {
 
     @Override
     public int getAmmoLeft(ItemStack stack) {
-        return 0;
-    }
-
-
-    @Override
-    public void clientShoot(ItemStack stack, Player player) {
-
+        return checkAndGet(stack).getInt("ammo_left");
     }
 
     @Override
-    public void shoot(ItemStack stack, Player player) {
+    public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
+        Clients.mainHandStatus.lastFire = System.currentTimeMillis();
+        PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
+
+    }
+
+    @Override
+    public void shoot(ItemStack stack, Player player, IGunFireMode fireMode) {
 
     }
 
     @Override
     public IGunFireMode getFireMode(ItemStack stack) {
-        return null;
+        int index = checkAndGet(stack).getInt("fire_mode_index");
+        List<IGunFireMode> fireModes = gunProperties.fireModes;
+        return fireModes.get(index % fireModes.size());
     }
 
     @Override
@@ -56,6 +63,7 @@ public class Gun extends BaseItem implements IGun {
     public ICaliber getCaliber() {
         return gunProperties.getCaliber();
     }
+
 
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
@@ -81,7 +89,12 @@ public class Gun extends BaseItem implements IGun {
         if (!nbt.contains("inner_version")) {
             nbt.putInt("inner_version", getVersion());
         }
-
+        if (!nbt.contains("fire_mode_index")) {
+            nbt.putInt("fire_mode_index", 0);
+        }
+        if (!nbt.contains("ammo_left")) {
+            nbt.putInt("ammo_left", this.gunProperties.magSize);
+        }
         pStack.setTag(nbt);
     }
 

@@ -20,6 +20,7 @@ import sheridan.gcaa.items.guns.IGun;
 import sheridan.gcaa.items.guns.IGunFireMode;
 
 import java.util.Timer;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static sheridan.gcaa.client.render.DisplayData.DataType.POS;
 import static sheridan.gcaa.client.render.DisplayData.DataType.ROT;
@@ -40,6 +41,8 @@ public class Clients {
     public static boolean holdingGun() {
         return mainHandStatus.holdingGun.get() || offHandStatus.holdingGun.get();
     }
+    @OnlyIn(Dist.CLIENT)
+    public static ReentrantLock lock = new ReentrantLock();
 
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {
@@ -90,9 +93,16 @@ public class Clients {
 
     @OnlyIn(Dist.CLIENT)
     public static void handleClientShoot(ItemStack stack, IGun gun, Player player) {
-        IGunFireMode fireMode = gun.getFireMode(stack);
-        if (fireMode != null && fireMode.canFire(player, stack, gun)) {
-            fireMode.clientShoot(player, stack, gun);
+        try {
+            lock.lock();
+            IGunFireMode fireMode = gun.getFireMode(stack);
+            if (fireMode != null && fireMode.canFire(player, stack, gun)) {
+                fireMode.clientShoot(player, stack, gun);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
         }
     }
 }

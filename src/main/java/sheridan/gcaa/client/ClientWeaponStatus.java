@@ -8,6 +8,7 @@ public class ClientWeaponStatus {
     public AtomicBoolean holdingGun;
     public float equipProgress;
     public int fireCount = 0;
+    public int chargeTick = 0;
     public boolean ads = false;
     public float adsProgress = 0;
     public long lastFire = 0;
