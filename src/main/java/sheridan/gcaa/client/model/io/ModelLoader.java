@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.model.assets;
+package sheridan.gcaa.client.model.io;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -117,7 +117,7 @@ public class ModelLoader {
                                 originX, originY, originZ,
                                 size.x, size.y, size.z
                         ),
-                                PartPose.offsetAndRotation(//1.08579
+                                PartPose.offsetAndRotation(
                                 cubePivot.x - pivot.x, -cubePivot.y + pivot.y, cubePivot.z - pivot.z,
                                 cubeRotation.x, cubeRotation.y, cubeRotation.z
                                 ));

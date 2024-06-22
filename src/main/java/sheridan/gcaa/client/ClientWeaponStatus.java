@@ -11,7 +11,7 @@ public class ClientWeaponStatus {
     public int chargeTick = 0;
     public boolean ads = false;
     public float adsProgress = 0;
-    public long lastFire = 0;
+    public long lastShoot = 0;
     public long lastReload = 0;
 
     public ClientWeaponStatus(boolean mainHand) {

@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.model.assets;
+package sheridan.gcaa.client.model.io;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

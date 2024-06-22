@@ -5,8 +5,8 @@ import net.minecraft.resources.ResourceLocation;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.ClientWeaponStatus;
-import sheridan.gcaa.client.model.assets.AnimationLoader;
-import sheridan.gcaa.client.model.assets.ModelLoader;
+import sheridan.gcaa.client.model.io.AnimationLoader;
+import sheridan.gcaa.client.model.io.ModelLoader;
 import sheridan.gcaa.client.model.modelPart.LayerDefinition;
 
 import java.util.Map;

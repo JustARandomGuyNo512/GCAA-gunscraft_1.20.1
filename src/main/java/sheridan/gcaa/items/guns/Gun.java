@@ -37,7 +37,7 @@ public class Gun extends BaseItem implements IGun {
 
     @Override
     public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
-        Clients.mainHandStatus.lastFire = System.currentTimeMillis();
+        Clients.mainHandStatus.lastShoot = System.currentTimeMillis();
         PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
 
     }

@@ -67,8 +67,6 @@ public class GCAA {
         MinecraftForge.EVENT_BUS.register(PlayerStatusEvents.class);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, this::attachCapabilityEvent);
         PacketHandler.register();
-        LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
     }
 
 
