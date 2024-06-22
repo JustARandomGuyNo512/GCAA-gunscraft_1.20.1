@@ -26,24 +26,21 @@ public class ControllerEvents {
                 ItemStack stack = player.getMainHandItem();
                 if (stack.getItem() instanceof IGun) {
                     if (event.getButton() == InputConstants.MOUSE_BUTTON_RIGHT) {
-                        event.setCanceled(handleMouseInput(event.getAction(), event.getButton()));
+                        if (event.getAction() == 1) {
+                            Clients.mainHandStatus.buttonDown.set(true);
+                        } else if (event.getAction() == 0) {
+                            Clients.mainHandStatus.buttonDown.set(false);
+                        }
+                        event.setCanceled(true);
                     } else if (event.getButton() == InputConstants.MOUSE_BUTTON_LEFT) {
-                        event.setCanceled(handleMouseInput(event.getAction(), event.getButton()));
+                        Clients.mainHandStatus.ads = event.getAction() == 1;
+                        event.setCanceled(true);
                     }
                 }
             }
         }
     }
 
-    private static boolean handleMouseInput(int action, int button) {
-        boolean cancel = true;
-        if (button == 1) {
-
-        } else if (button == 0) {
-
-        }
-        return cancel;
-    }
 
     @SubscribeEvent
     public static void onButtonPress(InputEvent.Key event) {

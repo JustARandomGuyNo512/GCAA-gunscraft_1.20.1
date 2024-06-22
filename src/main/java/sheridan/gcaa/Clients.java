@@ -86,4 +86,11 @@ public class Clients {
         IGun gunOff = stackOff.getItem() instanceof IGun ? (IGun) stackOff.getItem() : null;
         return new IGun[]{gunMain, gunOff};
     }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void handleClientShoot(ItemStack stack, IGun gun, Player player) {
+        if (gun.tryShoot(stack, player)) {
+            gun.preShoot(stack, player);
+        }
+    }
 }

@@ -4,6 +4,6 @@ import sheridan.gcaa.items.GunProperties;
 
 public class G19 extends Gun {
     public G19() {
-        super(new GunProperties());
+        super(new GunProperties(null, null));
     }
 }

@@ -45,14 +45,15 @@ public class RenderItemMixin {
     @Inject(at = @At("HEAD"), method = "renderStatic(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;ZLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/level/Level;III)V", cancellable = true)
     public void FirstAndThirdPersonAndEntity(LivingEntity livingEntityIn, ItemStack itemStackIn, ItemDisplayContext transformTypeIn, boolean leftHand, PoseStack poseStackIn, MultiBufferSource bufferIn, Level level, int combinedLightIn, int combinedOverlayIn, int p_174252_, CallbackInfo ci) {
         if (livingEntityIn instanceof Player) {
-            if (leftHand) {
-                ci.cancel();
-                return;
-            }
             if (itemStackIn != null && itemStackIn.getItem() instanceof IGun gun) {
+                if (leftHand) {
+                    ci.cancel();
+                    return;
+                }
                 IGunModel model = GunModelRegistry.getModel(gun);
                 DisplayData displayData = GunModelRegistry.getDisplayData(gun);
                 renderer.renderWithEntity(livingEntityIn, poseStackIn, itemStackIn, transformTypeIn, bufferIn, gun, combinedLightIn, combinedOverlayIn, false, model, displayData);
+                ci.cancel();
             }
         }
     }

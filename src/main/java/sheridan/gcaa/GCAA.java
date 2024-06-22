@@ -1,12 +1,9 @@
 package sheridan.gcaa;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -22,11 +19,9 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
-import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.capability.PlayerStatusEvents;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.KeyBinds;
@@ -34,21 +29,15 @@ import sheridan.gcaa.client.events.ClientPlayerEvents;
 import sheridan.gcaa.client.events.ControllerEvents;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.events.Test;
-import sheridan.gcaa.client.model.assets.AnimationLoader;
-import sheridan.gcaa.client.model.assets.ModelLoader;
-import sheridan.gcaa.client.model.modelPart.LayerDefinition;
-import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.items.ModItems;
-import sheridan.gcaa.lib.AdventurersArsenalLib;
 import sheridan.gcaa.network.PacketHandler;
-
-import java.util.Map;
 
 @Mod(GCAA.MODID)
 public class GCAA {
 
     public static final String MODID = "gcaa";
     public static final Logger LOGGER = LogUtils.getLogger();
+    public static final int INNER_VERSION = 1;
 
     public GCAA() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

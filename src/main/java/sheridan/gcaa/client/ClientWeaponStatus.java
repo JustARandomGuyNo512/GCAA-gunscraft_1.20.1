@@ -7,11 +7,11 @@ public class ClientWeaponStatus {
     public AtomicBoolean buttonDown;
     public AtomicBoolean holdingGun;
     public float equipProgress;
-    public float equipProgressParticle;
     public int fireCount = 0;
     public boolean ads = false;
     public float adsProgress = 0;
     public long lastFire = 0;
+    public long lastReload = 0;
 
     public ClientWeaponStatus(boolean mainHand) {
         this.mainHand = mainHand;

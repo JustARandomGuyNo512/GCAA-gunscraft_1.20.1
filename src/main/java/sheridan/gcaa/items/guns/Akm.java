@@ -4,6 +4,6 @@ import sheridan.gcaa.items.GunProperties;
 
 public class Akm extends Gun{
     public Akm() {
-        super(new GunProperties());
+        super(new GunProperties(null, null));
     }
 }

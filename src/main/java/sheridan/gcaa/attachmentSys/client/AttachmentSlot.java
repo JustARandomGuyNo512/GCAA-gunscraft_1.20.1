@@ -1,7 +1,11 @@
 package sheridan.gcaa.attachmentSys.client;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import java.util.*;
 
+@OnlyIn(Dist.CLIENT)
 public class AttachmentSlot {
     public static final String ROOT = "ROOT";
     public final String slotName;

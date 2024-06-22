@@ -9,7 +9,7 @@ import sheridan.gcaa.client.model.modelPart.LayerDefinition;
 
 import java.util.Map;
 
-public class AdventurersArsenalLib {
+public class ArsenalLib {
 
     /**
      * This method relies on Minecraft ResourceManager.

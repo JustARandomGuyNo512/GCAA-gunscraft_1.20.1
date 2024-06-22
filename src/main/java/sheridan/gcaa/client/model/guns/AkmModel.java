@@ -2,9 +2,7 @@ package sheridan.gcaa.client.model.guns;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,7 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.modelPart.*;
 import sheridan.gcaa.client.render.GunRenderContext;
-import sheridan.gcaa.lib.AdventurersArsenalLib;
+import sheridan.gcaa.lib.ArsenalLib;
 
 @OnlyIn(Dist.CLIENT)
 public class AkmModel extends HierarchicalModel<Entity> implements IGunModel{
@@ -28,7 +26,7 @@ public class AkmModel extends HierarchicalModel<Entity> implements IGunModel{
             dust_cover, mag, grip,
             safety, body, stock;
     public AkmModel() {
-        this.root = AdventurersArsenalLib.loadBedRockGunModel(
+        this.root = ArsenalLib.loadBedRockGunModel(
                         new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm.geo.json"))
                 .bakeRoot().getChild("root");
         this.gun_arm = root.getChild("gun_arm");

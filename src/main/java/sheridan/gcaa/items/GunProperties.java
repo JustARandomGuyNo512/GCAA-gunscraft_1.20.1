@@ -1,15 +1,23 @@
 package sheridan.gcaa.items;
 
+import sheridan.gcaa.items.guns.ICaliber;
+import sheridan.gcaa.items.guns.IGunFireMode;
+
+import java.util.List;
+
 public class GunProperties {
     private float baseDamage;
     private float adsSpeed;
     private int fireDelay;
     private int reloadLength;
     private int fullReloadLength;
+    private final List<IGunFireMode> fireModes;
+    private final ICaliber caliber;
 
-    public GunProperties() {}
-
-
+    public GunProperties(List<IGunFireMode> fireModes, ICaliber caliber) {
+        this.fireModes = fireModes;
+        this.caliber = caliber;
+    }
 
     public int getReloadLength() {
         return reloadLength;
@@ -44,5 +52,8 @@ public class GunProperties {
         return this;
     }
 
+    public List<IGunFireMode> getFireModes() {
+        return fireModes;
+    }
 
 }
