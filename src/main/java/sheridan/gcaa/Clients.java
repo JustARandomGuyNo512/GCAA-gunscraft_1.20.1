@@ -17,6 +17,7 @@ import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.guns.IGunFireMode;
 
 import java.util.Timer;
 
@@ -89,8 +90,9 @@ public class Clients {
 
     @OnlyIn(Dist.CLIENT)
     public static void handleClientShoot(ItemStack stack, IGun gun, Player player) {
-        if (gun.tryShoot(stack, player)) {
-            gun.preShoot(stack, player);
+        IGunFireMode fireMode = gun.getFireMode(stack);
+        if (fireMode != null && fireMode.canFire(player, stack, gun)) {
+            fireMode.clientShoot(player, stack, gun);
         }
     }
 }

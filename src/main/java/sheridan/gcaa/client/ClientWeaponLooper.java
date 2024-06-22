@@ -4,11 +4,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.items.guns.IGun;
 
 import java.util.TimerTask;
 
+@OnlyIn(Dist.CLIENT)
 public class ClientWeaponLooper extends TimerTask {
     int mainHandDelay;
 
@@ -20,28 +23,22 @@ public class ClientWeaponLooper extends TimerTask {
             if (!Minecraft.getInstance().isWindowActive() || minecraft.isPaused() || minecraft.screen != null) {
                 return;
             }
-            if (player == null) {
-                handleCoolDown();
-                return;
-            }
-            if (player.isSpectator() || player.isSwimming() || player.isInLava()) {
+            if (player == null || player.isSpectator() || player.isSwimming() || player.isInLava()) {
                 handleCoolDown();
                 return;
             }
             if (mainHandDelay <= 0 && Clients.mainButtonDown()) {
-                postShootTask(player, true);
+                postShootTask(player);
             }
             handleCoolDown();
         } catch (Exception ignored){}
     }
 
-    private void postShootTask(Player player, boolean mainHand) {
+    private void postShootTask(Player player) {
         if (player != null) {
-            ItemStack stack = mainHand ? player.getMainHandItem() : player.getOffhandItem();
+            ItemStack stack = player.getMainHandItem();
             if (stack.getItem() instanceof IGun gun) {
-                if (mainHand) {
-                    Clients.handleClientShoot(stack, gun, player);
-                } else {}
+                Clients.handleClientShoot(stack, gun, player);
             }
         }
     }
@@ -49,6 +46,5 @@ public class ClientWeaponLooper extends TimerTask {
     private void handleCoolDown() {
         mainHandDelay = mainHandDelay > 0 ? mainHandDelay : mainHandDelay - 1;
     }
-
 
 }

@@ -36,8 +36,7 @@ public record AnimationChannel(AnimationChannel.Target target, Keyframe... keyfr
         public static final AnimationChannel.Target ROTATION = ModelPart::offsetRotation;
         public static final AnimationChannel.Target SCALE = ModelPart::offsetScale;
 
-        public Targets() {
-        }
+        public Targets() {}
     }
 
     @OnlyIn(Dist.CLIENT)

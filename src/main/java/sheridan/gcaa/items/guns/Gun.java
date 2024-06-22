@@ -7,10 +7,6 @@ import net.minecraft.world.level.Level;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.items.BaseItem;
 import sheridan.gcaa.items.GunProperties;
-import sheridan.gcaa.network.PacketHandler;
-import sheridan.gcaa.network.packets.c2s.GunFirePacket;
-
-import java.util.List;
 
 public class Gun extends BaseItem implements IGun {
     private final GunProperties gunProperties;
@@ -35,18 +31,10 @@ public class Gun extends BaseItem implements IGun {
         return 0;
     }
 
-    @Override
-    public boolean tryShoot(ItemStack stack, Player player) {
-        return getFireMode(stack).canFire(player, stack, this);
-    }
 
     @Override
-    public void preShoot(ItemStack stack, Player player) {
-        IGunFireMode fireMode = getFireMode(stack);
-        if (player.level().isClientSide) {
-            fireMode.preShoot(player, stack, this);
-            PacketHandler.simpleChannel.sendToServer(new GunFirePacket());
-        }
+    public void clientShoot(ItemStack stack, Player player) {
+
     }
 
     @Override
@@ -57,6 +45,16 @@ public class Gun extends BaseItem implements IGun {
     @Override
     public IGunFireMode getFireMode(ItemStack stack) {
         return null;
+    }
+
+    @Override
+    public int getBurstCount() {
+        return 0;
+    }
+
+    @Override
+    public ICaliber getCaliber() {
+        return gunProperties.getCaliber();
     }
 
     @Override

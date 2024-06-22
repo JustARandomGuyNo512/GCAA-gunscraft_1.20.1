@@ -12,6 +12,11 @@ public class GunProperties {
     private int reloadLength;
     private int fullReloadLength;
     private final List<IGunFireMode> fireModes;
+
+    public ICaliber getCaliber() {
+        return caliber;
+    }
+
     private final ICaliber caliber;
 
     public GunProperties(List<IGunFireMode> fireModes, ICaliber caliber) {

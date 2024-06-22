@@ -18,7 +18,7 @@ public class Charge implements IGunFireMode {
     }
 
     @Override
-    public void preShoot(Player player, ItemStack itemStack, IGun gun) {
+    public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
 
     }
 

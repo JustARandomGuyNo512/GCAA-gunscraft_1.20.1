@@ -3,8 +3,11 @@ package sheridan.gcaa.items.guns.fireModes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.items.guns.IGun;
 import sheridan.gcaa.items.guns.IGunFireMode;
+import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.network.packets.c2s.GunFirePacket;
 
 public class Semi implements IGunFireMode {
     @Override
@@ -18,13 +21,16 @@ public class Semi implements IGunFireMode {
     }
 
     @Override
-    public void preShoot(Player player, ItemStack itemStack, IGun gun) {
-
+    public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
+        gun.clientShoot(itemStack, player);
+        PacketHandler.simpleChannel.sendToServer(new GunFirePacket());
+        Clients.mainHandStatus.buttonDown.set(false);
+        Clients.mainHandStatus.fireCount = 0;
     }
 
     @Override
     public void shoot(Player player, ItemStack itemStack, IGun gun) {
-
+        gun.shoot(itemStack, player);
     }
 
     @Override

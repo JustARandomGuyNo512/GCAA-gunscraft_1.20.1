@@ -15,7 +15,7 @@ public interface IGunFireMode {
      * Handle fire in client side
      * */
     @OnlyIn(Dist.CLIENT)
-    void preShoot(Player player, ItemStack itemStack, IGun gun);
+    void clientShoot(Player player, ItemStack itemStack, IGun gun);
 
     /**
      * Handle fire in server side

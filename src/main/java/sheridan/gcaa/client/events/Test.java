@@ -15,6 +15,7 @@ import sheridan.gcaa.GCAA;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class Test {
+
 //    public static ShaderInstance renderTypeTest;
 
 //    @SubscribeEvent
