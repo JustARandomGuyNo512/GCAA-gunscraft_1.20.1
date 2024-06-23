@@ -13,7 +13,7 @@ import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
 
 @OnlyIn(Dist.CLIENT)
-public class AkmModel extends HierarchicalModel<Entity> implements IGunModel{
+public class AkmModel extends GenericGunModel{
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm.png");
     private final ModelPart root;
     private final ModelPart gun_arm;
@@ -48,31 +48,6 @@ public class AkmModel extends HierarchicalModel<Entity> implements IGunModel{
     }
 
     @Override
-    public void render(GunRenderContext gunRenderContext) {
-        PoseStack poseStack = gunRenderContext.poseStack;
-        root.translateAndRotate(poseStack);
-        poseStack.pushPose();
-        gun_arm.translateAndRotate(poseStack);
-        gunRenderContext.renderArmLong(right_arm, true);
-        gun.translateAndRotate(poseStack);
-        VertexConsumer vertexConsumer = gunRenderContext.bufferSource.getBuffer(RenderType.entityCutout(TEXTURE));
-        gunRenderContext.render(barrel, vertexConsumer);
-        gunRenderContext.render(rail_set, vertexConsumer);
-        gunRenderContext.render(slide, vertexConsumer);
-        gunRenderContext.render(muzzle, vertexConsumer);
-        gunRenderContext.render(handguard, vertexConsumer);
-        gunRenderContext.render(IS, vertexConsumer);
-        gunRenderContext.render(dust_cover, vertexConsumer);
-        gunRenderContext.render(mag, vertexConsumer);
-        gunRenderContext.render(grip, vertexConsumer);
-        gunRenderContext.render(safety, vertexConsumer);
-        gunRenderContext.render(body, vertexConsumer);
-        gunRenderContext.render(stock, vertexConsumer);
-        poseStack.popPose();
-        gunRenderContext.renderArmLong(left_arm, false);
-    }
-
-    @Override
     public void handleGunTranslate(PoseStack poseStack) {
         root.translateAndRotate(poseStack);
         gun_arm.translateAndRotate(poseStack);
@@ -80,7 +55,54 @@ public class AkmModel extends HierarchicalModel<Entity> implements IGunModel{
     }
 
     @Override
-    public ModelPart root() {
+    public ModelPart getRoot() {
         return root;
+    }
+
+    @Override
+    public ModelPart getGunArmLayer() {
+        return gun_arm;
+    }
+
+    @Override
+    public ModelPart getGunLayer() {
+        return gun;
+    }
+
+    @Override
+    public ModelPart getLeftArm() {
+        return left_arm;
+    }
+
+    @Override
+    public ModelPart getRightArm() {
+        return right_arm;
+    }
+
+    @Override
+    public void renderGunModel(GunRenderContext context) {
+        VertexConsumer vertexConsumer = context.bufferSource.getBuffer(RenderType.entityCutout(TEXTURE));
+        context.render(barrel, vertexConsumer);
+        context.render(rail_set, vertexConsumer);
+        context.render(slide, vertexConsumer);
+        context.render(muzzle, vertexConsumer);
+        context.render(handguard, vertexConsumer);
+        context.render(IS, vertexConsumer);
+        context.render(dust_cover, vertexConsumer);
+        context.render(mag, vertexConsumer);
+        context.render(grip, vertexConsumer);
+        context.render(safety, vertexConsumer);
+        context.render(body, vertexConsumer);
+        context.render(stock, vertexConsumer);
+    }
+
+    @Override
+    public void renderAttachmentsModel(GunRenderContext context) {
+
+    }
+
+    @Override
+    protected boolean longArm() {
+        return true;
     }
 }

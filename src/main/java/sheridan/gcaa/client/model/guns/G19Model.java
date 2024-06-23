@@ -13,7 +13,7 @@ import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
 
 @OnlyIn(Dist.CLIENT)
-public class G19Model extends HierarchicalModel<Entity> implements IGunModel{
+public class G19Model extends GenericGunModel{
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.png");
     private final ModelPart root;
     private final ModelPart barrel;
@@ -45,27 +45,47 @@ public class G19Model extends HierarchicalModel<Entity> implements IGunModel{
     }
 
     @Override
-    public ModelPart root() {
+    public ModelPart getRoot() {
         return root;
     }
 
     @Override
-    public void render(GunRenderContext gunRenderContext) {
-        VertexConsumer vertexConsumer = gunRenderContext.bufferSource.getBuffer(RenderType.entityCutout(TEXTURE));
-        PoseStack poseStack = gunRenderContext.poseStack;
-        root.translateAndRotate(poseStack);
-        poseStack.pushPose();
-        gun_arm.translateAndRotate(poseStack);
-        poseStack.pushPose();
-        gun.translateAndRotate(poseStack);
-        gunRenderContext.render(barrel, vertexConsumer);
-        gunRenderContext.render(slide, vertexConsumer);
-        gunRenderContext.render(grid, vertexConsumer);
-        gunRenderContext.render(mag, vertexConsumer);
-        poseStack.popPose();
-        gunRenderContext.renderArm(right_arm, true);
-        poseStack.popPose();
-        gunRenderContext.renderArm(left_arm, false);
+    public ModelPart getGunArmLayer() {
+        return gun_arm;
+    }
+
+    @Override
+    public ModelPart getGunLayer() {
+        return gun;
+    }
+
+    @Override
+    public ModelPart getLeftArm() {
+        return left_arm;
+    }
+
+    @Override
+    public ModelPart getRightArm() {
+        return right_arm;
+    }
+
+    @Override
+    public void renderGunModel(GunRenderContext context) {
+        VertexConsumer vertexConsumer = context.bufferSource.getBuffer(RenderType.entityCutout(TEXTURE));
+        context.render(barrel, vertexConsumer);
+        context.render(slide, vertexConsumer);
+        context.render(grid, vertexConsumer);
+        context.render(mag, vertexConsumer);
+    }
+
+    @Override
+    public void renderAttachmentsModel(GunRenderContext context) {
+
+    }
+
+    @Override
+    protected boolean longArm() {
+        return false;
     }
 
     @Override

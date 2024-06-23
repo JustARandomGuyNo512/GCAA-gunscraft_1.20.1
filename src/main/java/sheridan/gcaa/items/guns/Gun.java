@@ -9,6 +9,8 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.items.BaseItem;
 import sheridan.gcaa.items.GunProperties;
+import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.network.packets.c2s.GunFirePacket;
 
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class Gun extends BaseItem implements IGun {
     public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
         Clients.mainHandStatus.lastShoot = System.currentTimeMillis();
         PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
+        PacketHandler.simpleChannel.sendToServer(new GunFirePacket());
 
     }
 
