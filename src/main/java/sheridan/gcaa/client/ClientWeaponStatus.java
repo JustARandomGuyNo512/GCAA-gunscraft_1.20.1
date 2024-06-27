@@ -1,11 +1,20 @@
 package sheridan.gcaa.client;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+
+@OnlyIn(Dist.CLIENT)
 public class ClientWeaponStatus {
     public final boolean mainHand;
-    public AtomicBoolean buttonDown;
-    public AtomicBoolean holdingGun;
+    public final AtomicBoolean buttonDown;
+    public final AtomicBoolean holdingGun;
+    public final AtomicInteger fireDelay;
+    public final AtomicReference<ItemStack> weapon;
     public float equipProgress;
     public int fireCount = 0;
     public int chargeTick = 0;
@@ -18,5 +27,15 @@ public class ClientWeaponStatus {
         this.mainHand = mainHand;
         buttonDown = new AtomicBoolean(false);
         holdingGun = new AtomicBoolean(false);
+        fireDelay = new AtomicInteger(0);
+        weapon = new AtomicReference<>(ItemStack.EMPTY);
+    }
+
+    public void onGunEquipped() {
+
+    }
+
+    public void onGunUnEquipped() {
+
     }
 }

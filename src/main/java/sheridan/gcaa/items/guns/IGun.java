@@ -1,5 +1,7 @@
 package sheridan.gcaa.items.guns;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.items.GunProperties;
@@ -15,4 +17,8 @@ public interface IGun {
     IGunFireMode getFireMode(ItemStack stack);
     int getBurstCount();
     ICaliber getCaliber();
+    CompoundTag getPropertiesTag(ItemStack stack);
+    ListTag getAttachmentsListTag(ItemStack stack);
+    boolean shouldUpdate(int version);
+    void setPropertiesTag(ItemStack stack, CompoundTag tag);
 }

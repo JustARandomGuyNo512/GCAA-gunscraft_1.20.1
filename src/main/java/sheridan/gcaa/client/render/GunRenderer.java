@@ -41,8 +41,8 @@ public class GunRenderer implements IGunRenderer{
             if (isFirstPerson) {
                 PoseStack poseStack = new PoseStack();
                 poseStack.mulPose(Axis.ZP.rotationDegrees(180));
-                GlobalWeaponBobbing.INSTANCE.handleTranslation(poseStack);
                 displayData.applyTransform(type, poseStack);
+                GlobalWeaponBobbing.INSTANCE.handleTranslation(poseStack);
                 model.render(new GunRenderContext(bufferIn, poseStack, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn));
             } else {
                 stackIn.mulPose(Axis.ZP.rotationDegrees(180));

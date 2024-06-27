@@ -1,9 +1,14 @@
 package sheridan.gcaa.items.guns;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.capability.PlayerStatusProvider;
@@ -67,6 +72,25 @@ public class Gun extends BaseItem implements IGun {
         return gunProperties.getCaliber();
     }
 
+    @Override
+    public CompoundTag getPropertiesTag(ItemStack stack) {
+        return checkAndGet(stack).contains("properties") ? checkAndGet(stack).getCompound("properties") : new CompoundTag();
+    }
+
+    @Override
+    public ListTag getAttachmentsListTag(ItemStack stack) {
+        return checkAndGet(stack).contains("attachments") ? checkAndGet(stack).getList("attachments", Tag.TAG_COMPOUND) : new ListTag();
+    }
+
+    @Override
+    public boolean shouldUpdate(int version) {
+        return version != GCAA.INNER_VERSION;
+    }
+
+    @Override
+    public void setPropertiesTag(ItemStack stack, CompoundTag tag) {
+        checkAndGet(stack).put("properties", tag);
+    }
 
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
@@ -90,7 +114,7 @@ public class Gun extends BaseItem implements IGun {
             nbt = new CompoundTag();
         }
         if (!nbt.contains("inner_version")) {
-            nbt.putInt("inner_version", getVersion());
+            nbt.putInt("inner_version", genVersion());
         }
         if (!nbt.contains("fire_mode_index")) {
             nbt.putInt("fire_mode_index", 0);
@@ -98,11 +122,22 @@ public class Gun extends BaseItem implements IGun {
         if (!nbt.contains("ammo_left")) {
             nbt.putInt("ammo_left", this.gunProperties.magSize);
         }
+        if (!nbt.contains("properties")) {
+            nbt.put("properties", gunProperties.getInitialData());
+        }
+        if (!nbt.contains("attachments")) {
+            nbt.put("attachments", new ListTag());
+        }
         pStack.setTag(nbt);
     }
 
-    protected int getVersion() {
+    protected int genVersion() {
         return GCAA.INNER_VERSION;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }
 

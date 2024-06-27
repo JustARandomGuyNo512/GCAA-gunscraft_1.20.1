@@ -1,12 +1,18 @@
 package sheridan.gcaa.attachmentSys.client;
 
+import net.minecraft.nbt.FloatTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 public class AttachmentSlot {
+    public static final AttachmentSlot EMPTY = new AttachmentSlot();
     public static final String ROOT = "ROOT";
     public final String slotName;
     private final float[] translation = new float[] {
@@ -17,6 +23,8 @@ public class AttachmentSlot {
     private final Set<String> acceptedAttachments;
     private final Map<String, AttachmentSlot> children = new HashMap<>();
     private boolean root = false;
+    private boolean locked = false;
+    private int depth = 0;
 
     /**
      * Create a root slot of an attachment tree.
@@ -46,7 +54,7 @@ public class AttachmentSlot {
         translation[8] = sz;
     }
 
-    public AttachmentSlot(String slotName, Set<String> acceptedAttachments, float[] translation) {
+    public AttachmentSlot(String slotName, Set<String> acceptedAttachments, float... translation) {
         this.slotName = slotName;
         this.acceptedAttachments = acceptedAttachments;
         int len = Math.max(translation.length, this.translation.length);
@@ -87,7 +95,9 @@ public class AttachmentSlot {
      * @return current slot.
      * */
     public AttachmentSlot addChild(AttachmentSlot child) {
-        this.children.put(child.getSlotName(), child);
+        if (child != null) {
+            this.children.put(child.getSlotName(), child);
+        }
         return this;
     }
 
@@ -142,6 +152,14 @@ public class AttachmentSlot {
         return null;
     }
 
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public AttachmentSlot setLocked(boolean locked) {
+        this.locked = locked;
+        return this;
+    }
 
     public boolean isRoot() {
         return root;
@@ -160,5 +178,17 @@ public class AttachmentSlot {
         return slot;
     }
 
-
+    public ListTag getTranslationTag() {
+        ListTag list = new ListTag();
+        list.add(FloatTag.valueOf(translation[0]));
+        list.add(FloatTag.valueOf(translation[1]));
+        list.add(FloatTag.valueOf(translation[2]));
+        list.add(FloatTag.valueOf(translation[3]));
+        list.add(FloatTag.valueOf(translation[4]));
+        list.add(FloatTag.valueOf(translation[5]));
+        list.add(FloatTag.valueOf(translation[6]));
+        list.add(FloatTag.valueOf(translation[7]));
+        list.add(FloatTag.valueOf(translation[8]));
+        return list;
+    }
 }

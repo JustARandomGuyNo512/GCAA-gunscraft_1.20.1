@@ -1,12 +1,15 @@
 package sheridan.gcaa.client.model.registry;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.guns.IGun;
 
 import java.util.Map;
 
+@OnlyIn(Dist.CLIENT)
 public class GunModelRegistry {
     static Map<IGun, IGunModel> gunModelMap = new Object2ObjectArrayMap<>();
     static Map<IGun, DisplayData> gunTransformMap = new Object2ObjectArrayMap<>();

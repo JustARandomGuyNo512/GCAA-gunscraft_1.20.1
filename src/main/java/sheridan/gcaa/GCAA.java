@@ -4,7 +4,6 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -20,13 +19,13 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 import sheridan.gcaa.capability.PlayerStatusEvents;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.events.*;
 import sheridan.gcaa.entities.ModEntities;
+import sheridan.gcaa.events.CommonEvents;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.network.PacketHandler;
 
@@ -65,6 +64,7 @@ public class GCAA {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(PlayerStatusEvents.class);
+        MinecraftForge.EVENT_BUS.register(CommonEvents.class);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, this::attachCapabilityEvent);
         PacketHandler.register();
     }

@@ -2,12 +2,21 @@ package sheridan.gcaa.lib;
 
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.attachmentSys.client.AttachmentSlot;
+import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
+import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.ClientWeaponStatus;
+import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.io.AnimationLoader;
 import sheridan.gcaa.client.model.io.ModelLoader;
 import sheridan.gcaa.client.model.modelPart.LayerDefinition;
+import sheridan.gcaa.client.model.registry.GunModelRegistry;
+import sheridan.gcaa.client.render.DisplayData;
+import sheridan.gcaa.items.guns.IGun;
 
 import java.util.Map;
 
@@ -32,8 +41,32 @@ public class ArsenalLib {
     /**
      * Gets the client weapon status in main hand.
      * */
-    public ClientWeaponStatus getClientWeaponStatus() {
+    public static ClientWeaponStatus getClientWeaponStatus() {
         return Clients.mainHandStatus;
     }
 
+    /**
+     * Register a gun model and display data, only in client side, you should better call this method in FMLClientSetupEvent stage
+     * */
+    @OnlyIn(Dist.CLIENT)
+    public static void registerGunModel(IGun gun, IGunModel model, DisplayData displayData) {
+        GunModelRegistry.registerModel(gun, model);
+        GunModelRegistry.registerTransform(gun, displayData);
+    }
+
+    /**
+     * Register a gun attachment slot, only in client side, you should better call this method in FMLClientSetupEvent stage
+     * */
+    @OnlyIn(Dist.CLIENT)
+    public static void registerGunAttachments(IGun gun, AttachmentSlot slot) {
+        AttachmentRegister.registerAttachmentSlot(gun, slot);
+    }
+
+    /**
+     * Get the attachments' handler.
+     * @see AttachmentsHandler
+     * */
+    public static AttachmentsHandler attachmentsHandler() {
+        return AttachmentsHandler.INSTANCE;
+    }
 }

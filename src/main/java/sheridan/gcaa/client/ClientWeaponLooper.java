@@ -38,7 +38,7 @@ public class ClientWeaponLooper extends TimerTask {
         if (player != null) {
             ItemStack stack = player.getMainHandItem();
             if (stack.getItem() instanceof IGun gun) {
-                Clients.handleClientShoot(stack, gun, player);
+                mainHandDelay = Clients.handleClientShoot(stack, gun, player);
             }
         }
     }

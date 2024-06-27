@@ -27,24 +27,22 @@ public class KeyframeAnimations {
         for(Map.Entry<String, List<AnimationChannel>> entry : definition.boneAnimations().entrySet()) {
             Optional<ModelPart> optional = root.getAnyDescendantWithName(entry.getKey());
             List<AnimationChannel> list = entry.getValue();
-            optional.ifPresent((modelPart) -> {
-                list.forEach((channel) -> {
-                    Keyframe[] keyframes = channel.keyframes();
-                    int currentIndex = Math.max(0, Mth.binarySearch(0, keyframes.length, (p_232315_) -> f <= keyframes[p_232315_].timestamp()) - 1);
-                    int nextIndex = Math.min(keyframes.length - 1, currentIndex + 1);
-                    Keyframe prevFrame = keyframes[currentIndex];
-                    Keyframe nextFrame = keyframes[nextIndex];
-                    float f1 = f - prevFrame.timestamp();
-                    float f2;
-                    if (nextIndex != currentIndex) {
-                        f2 = Mth.clamp(f1 / (nextFrame.timestamp() - prevFrame.timestamp()), 0.0F, 1.0F);
-                    } else {
-                        f2 = 0.0F;
-                    }
-                    nextFrame.interpolation().apply(direction, f2, keyframes, currentIndex, nextIndex, scale);
-                    channel.target().apply(modelPart, direction);
-                });
-            });
+            optional.ifPresent((modelPart) -> list.forEach((channel) -> {
+                Keyframe[] keyframes = channel.keyframes();
+                int currentIndex = Math.max(0, Mth.binarySearch(0, keyframes.length, (p_232315_) -> f <= keyframes[p_232315_].timestamp()) - 1);
+                int nextIndex = Math.min(keyframes.length - 1, currentIndex + 1);
+                Keyframe prevFrame = keyframes[currentIndex];
+                Keyframe nextFrame = keyframes[nextIndex];
+                float f1 = f - prevFrame.timestamp();
+                float f2;
+                if (nextIndex != currentIndex) {
+                    f2 = Mth.clamp(f1 / (nextFrame.timestamp() - prevFrame.timestamp()), 0.0F, 1.0F);
+                } else {
+                    f2 = 0.0F;
+                }
+                nextFrame.interpolation().apply(direction, f2, keyframes, currentIndex, nextIndex, scale);
+                channel.target().apply(modelPart, direction);
+            }));
         }
 
     }
@@ -88,5 +86,21 @@ public class KeyframeAnimations {
         }
     }
 
+    public static class Mark{
+        public AnimationDefinition animationDefinition;
+        public long timeStamp;
+        public Vector3f direction = DEFAULT_DIRECTION;
+
+        public Mark(AnimationDefinition animationDefinition, long timeStamp, Vector3f direction) {
+            this.animationDefinition = animationDefinition;
+            this.timeStamp = timeStamp;
+            this.direction = direction;
+        }
+
+        public Mark(AnimationDefinition animationDefinition, long timeStamp) {
+            this.animationDefinition = animationDefinition;
+            this.timeStamp = timeStamp;
+        }
+    }
 
 }
