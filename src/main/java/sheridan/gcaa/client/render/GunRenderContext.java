@@ -3,6 +3,7 @@ package sheridan.gcaa.client.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -40,6 +41,16 @@ public class GunRenderContext {
         part.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a);
     }
 
+    public VertexConsumer getBuffer(RenderType renderType) {
+        return bufferSource.getBuffer(renderType);
+    }
+
+    public void render(VertexConsumer vertexConsumer, ModelPart... parts) {
+        for (ModelPart part : parts) {
+            part.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a);
+        }
+    }
+
     public void renderIf(ModelPart part, VertexConsumer vertexConsumer, boolean condition)  {
         if (condition) {
             part.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a);
@@ -56,5 +67,18 @@ public class GunRenderContext {
         if (isFirstPerson) {
             PlayerArmRenderer.INSTANCE.render(pose, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
         }
+    }
+
+    public GunRenderContext pushPose() {
+        poseStack.pushPose();
+        return this;
+    }
+
+    public void popPose() {
+        poseStack.popPose();
+    }
+
+    public void translateAndRotateTo(ModelPart posePart) {
+        posePart.translateAndRotate(poseStack);
     }
 }

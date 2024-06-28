@@ -15,18 +15,35 @@ public abstract class GCAAStyleGunModel extends HierarchicalModel<Entity> implem
     public void render(GunRenderContext gunRenderContext) {
         PoseStack poseStack = gunRenderContext.poseStack;
         getRoot().translateAndRotate(poseStack);
-        ModelPart leftArm = ReloadingHandler.INSTANCE.reloading() ? getReloadingArm() : getLeftArm();
-        boolean longArm = longArm();
-        if (longArm) {
-            gunRenderContext.renderArmLong(getRightArm(), true);
-            gunRenderContext.renderArmLong(leftArm, false);
-        } else {
-            gunRenderContext.renderArm(getRightArm(), true);
-            gunRenderContext.renderArm(leftArm, false);
-        }
+        renderArm(gunRenderContext);
         getGunLayer().translateAndRotate(poseStack);
         renderGunModel(gunRenderContext);
         renderAttachmentsModel(gunRenderContext);
+    }
+
+    private void renderArm(GunRenderContext gunRenderContext) {
+        boolean reloading = ReloadingHandler.INSTANCE.reloading();
+        ModelPart leftArm = reloading ? getReloadingArm() : getLeftArm();
+        boolean longArm = longArm();
+        if (longArm) {
+            gunRenderContext.renderArmLong(getRightArm(), true);
+            if (reloading) {
+                gunRenderContext.pushPose().translateAndRotateTo(getReloadingLayer());
+                gunRenderContext.renderArmLong(leftArm, false);
+                gunRenderContext.popPose();
+            } else {
+                gunRenderContext.renderArmLong(leftArm, false);
+            }
+        } else {
+            gunRenderContext.renderArm(getRightArm(), true);
+            if (reloading) {
+                gunRenderContext.pushPose().translateAndRotateTo(getReloadingLayer());
+                gunRenderContext.renderArm(leftArm, false);
+                gunRenderContext.popPose();
+            } else {
+                gunRenderContext.renderArm(leftArm, false);
+            }
+        }
     }
 
     @Override
@@ -46,6 +63,8 @@ public abstract class GCAAStyleGunModel extends HierarchicalModel<Entity> implem
     public abstract ModelPart getGunLayer();
 
     public abstract ModelPart getReloadingArm();
+
+    public abstract ModelPart getReloadingLayer();
 
     protected abstract boolean longArm();
 
