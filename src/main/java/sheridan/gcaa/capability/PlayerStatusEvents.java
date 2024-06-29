@@ -23,40 +23,23 @@ public class PlayerStatusEvents {
     public static void playerServerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             Player player = event.player;
-            if (!event.player.level().isClientSide()) {//send broadcast
+            if (!event.player.level().isClientSide()) {
                 player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
                     if (cap.dataChanged) {
                         PacketHandler.simpleChannel.send(PacketDistributor.TRACKING_ENTITY.with(() -> event.player),
-                                new BroadcastPlayerStatusPacket(
-                                        player.getId(),
-                                        cap.getLastShoot(),
-                                        cap.getLastChamberAction(),
-                                        cap.isReloading()
-                                ));
+                                new BroadcastPlayerStatusPacket(player.getId(), cap.getLastShoot(), cap.getLastChamberAction(), cap.isReloading()));
                         cap.dataChanged = false;
                     }
                 });
-            } else {// send to server
+            } else {
                 player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
                     if (cap.dataChanged) {
                         PacketHandler.simpleChannel.sendToServer(
-                                new SyncPlayerStatusPacket(
-                                        cap.getLastShoot(),
-                                        cap.getLastChamberAction(),
-                                        cap.isReloading()
-                                ));
+                                new SyncPlayerStatusPacket(cap.getLastShoot(), cap.getLastChamberAction(), cap.isReloading()));
                         cap.dataChanged = false;
                     }
                 });
             }
-        }
-    }
-
-    @SubscribeEvent
-    public void onPlayerClone(PlayerEvent.Clone event) {
-//        PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getOriginal()), new AfterPlayerRebornPacket());
-        if (event.getOriginal().level().isClientSide() && event.isWasDeath()) {
-            System.out.println("Player is reborn client side");
         }
     }
 

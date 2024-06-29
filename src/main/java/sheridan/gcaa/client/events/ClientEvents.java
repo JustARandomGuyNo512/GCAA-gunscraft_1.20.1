@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
+import sheridan.gcaa.items.AutoRegister;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class ClientEvents {
@@ -19,7 +20,9 @@ public class ClientEvents {
             } catch (Exception ignored) {}
             if (!Clients.clientRegistriesHandled) {
                 ForgeRegistries.ITEMS.getEntries().forEach(entry -> {
-                    AttachmentRegister.onHandleRegistriesInit(entry);
+                    if (entry.getValue() instanceof AutoRegister autoRegister) {
+                        autoRegister.clientRegister(entry);
+                    }
                 });
                 Clients.clientRegistriesHandled = true;
             }

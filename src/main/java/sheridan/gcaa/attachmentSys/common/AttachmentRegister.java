@@ -18,7 +18,7 @@ public class AttachmentRegister {
     @OnlyIn(Dist.CLIENT)
     private static final Map<IGun, AttachmentSlot> attachmentSlots = new Object2ObjectArrayMap<>();
 
-    public static void onHandleRegistriesInit(Map.Entry<ResourceKey<Item>, Item> entry) {
+    public static void register(Map.Entry<ResourceKey<Item>, Item> entry) {
         if (entry.getValue() instanceof IAttachment attachment) {
             attachments.put(entry.getKey().location().toString(), attachment);
             registryKeys.put(attachment, entry.getKey().location());

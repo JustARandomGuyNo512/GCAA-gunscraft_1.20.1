@@ -83,7 +83,7 @@ public class GlobalWeaponBobbing {
         @Override
         void handleIdleMove(PoseStack poseStack, float idleProgress, float particleTicks, float scaleFactor) {
             float pitch = Mth.sin(idleProgress + PI * 0.5f) * 0.004f;
-            float yaw = Mth.sin(idleProgress) * 0.01f;
+            float yaw = Mth.sin(idleProgress) * 0.015f;
             float roll = Mth.sin(idleProgress) * 0.01f;
             poseStack.translate(0, yaw, roll * 0.025f);
             poseStack.mulPose(new Quaternionf().rotateXYZ(-pitch, 0, 0));

@@ -8,19 +8,19 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.entities.projectiles.GenericProjectile;
+import sheridan.gcaa.entities.projectiles.Bullet;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
 
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES;
-    public static final RegistryObject<EntityType<GenericProjectile>> GENERIC_PROJECTILE;
+    public static final RegistryObject<EntityType<Bullet>> GENERIC_PROJECTILE;
 
 
     static {
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, GCAA.MODID);
-        GENERIC_PROJECTILE = registerProjectile("projectile", GenericProjectile::new);
+        GENERIC_PROJECTILE = registerProjectile("projectile", Bullet::new);
 
     }
 

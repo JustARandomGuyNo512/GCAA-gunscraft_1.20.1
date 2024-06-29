@@ -16,7 +16,7 @@ public class GunFirePacket implements IPacket<GunFirePacket> {
 
     @Override
     public GunFirePacket decode(FriendlyByteBuf buffer) {
-        return null;
+        return new GunFirePacket();
     }
 
     @Override
