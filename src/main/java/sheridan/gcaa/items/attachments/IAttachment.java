@@ -9,12 +9,12 @@ import sheridan.gcaa.items.guns.IGun;
 
 public interface IAttachment {
     @OnlyIn(Dist.CLIENT)
-    boolean canAttach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot);
+    String canAttach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot);
 
     void onAttach(ItemStack stack, IGun gun, CompoundTag data);
 
     @OnlyIn(Dist.CLIENT)
-    boolean canDetach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot);
+    String canDetach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot);
 
     void onDetach(ItemStack stack, IGun gun, CompoundTag data);
 

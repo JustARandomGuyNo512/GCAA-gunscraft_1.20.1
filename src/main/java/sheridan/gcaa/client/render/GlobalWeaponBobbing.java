@@ -51,7 +51,7 @@ public class GlobalWeaponBobbing {
             handleEquipProgress(poseStack, equipProgress);
             idleProgress += globalWeaponBobbing.timer;
             handleIdleMove(poseStack, idleProgress, globalWeaponBobbing.particleTicks, scaleFactor);
-            if (idleProgress >= 2 * Math.PI) {
+            if (idleProgress >= 2 * PI) {
                 idleProgress = 0;
             }
         }
@@ -63,7 +63,7 @@ public class GlobalWeaponBobbing {
     }
 
     private static class DefaultBobbingController extends BobbingController {
-        private static final float EQUIP_HEIGHT = 1f;
+        private static final float EQUIP_HEIGHT = 1.5f;
 
         @Override
         float getAimingFactor() {
@@ -82,11 +82,11 @@ public class GlobalWeaponBobbing {
 
         @Override
         void handleIdleMove(PoseStack poseStack, float idleProgress, float particleTicks, float scaleFactor) {
-            float pitch = Mth.sin(idleProgress + PI * 0.5f) * 0.005f;
+            float pitch = Mth.sin(idleProgress + PI * 0.5f) * 0.004f;
             float yaw = Mth.sin(idleProgress) * 0.01f;
             float roll = Mth.sin(idleProgress) * 0.01f;
-            poseStack.translate(0, yaw * 0.65f, roll * 0.05f);
-            poseStack.mulPose(new Quaternionf().rotateXYZ(pitch, 0, roll));
+            poseStack.translate(0, yaw, roll * 0.025f);
+            poseStack.mulPose(new Quaternionf().rotateXYZ(-pitch, 0, 0));
         }
     }
 }

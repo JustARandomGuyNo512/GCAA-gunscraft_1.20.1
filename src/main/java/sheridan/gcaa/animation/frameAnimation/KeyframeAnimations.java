@@ -23,7 +23,6 @@ public class KeyframeAnimations {
             return;
         }
         float f = definition.looping() ? timeDis % definition.lengthInSeconds() : timeDis;
-
         for(Map.Entry<String, List<AnimationChannel>> entry : definition.boneAnimations().entrySet()) {
             Optional<ModelPart> optional = root.getAnyDescendantWithName(entry.getKey());
             List<AnimationChannel> list = entry.getValue();

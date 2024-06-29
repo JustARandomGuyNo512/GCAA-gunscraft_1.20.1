@@ -14,11 +14,13 @@ public abstract class GCAAStyleGunModel extends HierarchicalModel<Entity> implem
     @Override
     public void render(GunRenderContext gunRenderContext) {
         PoseStack poseStack = gunRenderContext.poseStack;
+        animationGlobal(gunRenderContext);
         getRoot().translateAndRotate(poseStack);
         renderArm(gunRenderContext);
         getGunLayer().translateAndRotate(poseStack);
         renderGunModel(gunRenderContext);
         renderAttachmentsModel(gunRenderContext);
+        afterRender(gunRenderContext);
     }
 
     private void renderArm(GunRenderContext gunRenderContext) {
@@ -67,6 +69,10 @@ public abstract class GCAAStyleGunModel extends HierarchicalModel<Entity> implem
     public abstract ModelPart getReloadingLayer();
 
     protected abstract boolean longArm();
+
+    protected void animationGlobal(GunRenderContext gunRenderContext) {}
+
+    protected void afterRender(GunRenderContext gunRenderContext) {}
 
     public abstract void renderGunModel(GunRenderContext context);
     public abstract void renderAttachmentsModel(GunRenderContext context);

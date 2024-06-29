@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.items.guns.IGun;
 
@@ -35,6 +36,10 @@ public class GunRenderContext {
         this.packedOverlay = packedOverlay;
         this.gun = gun;
         this.isFirstPerson = transformType.firstPerson();
+    }
+
+    public boolean reloading() {
+        return ReloadingHandler.INSTANCE.reloading();
     }
 
     public void render(ModelPart part, VertexConsumer vertexConsumer) {
@@ -78,7 +83,8 @@ public class GunRenderContext {
         poseStack.popPose();
     }
 
-    public void translateAndRotateTo(ModelPart posePart) {
+    public GunRenderContext translateAndRotateTo(ModelPart posePart) {
         posePart.translateAndRotate(poseStack);
+        return this;
     }
 }

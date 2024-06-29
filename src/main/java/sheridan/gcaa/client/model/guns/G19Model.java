@@ -8,10 +8,15 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.model.modelPart.*;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
+
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class G19Model extends GCAAStyleGunModel{
@@ -29,6 +34,9 @@ public class G19Model extends GCAAStyleGunModel{
     private final ModelPart _reloading;
     private final ModelPart gun;
 
+    private final AnimationDefinition shoot;
+    private final AnimationDefinition shootInnerMove;
+
     public G19Model() {
         this.root = ArsenalLib.loadBedRockGunModel(
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.geo.json"))
@@ -44,6 +52,10 @@ public class G19Model extends GCAAStyleGunModel{
         slide = gun.getChild("slide").meshing();
         mag = _reloading.getChild("mag").meshing();
         mag_point = mag.getChild("mag_point");
+
+        Map<String, AnimationDefinition> animations = ArsenalLib.loadBedRockAnimation(new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.animation.json"));
+        shoot = animations.get("shoot");
+        shootInnerMove = animations.get("shootInnerMove");
     }
 
     @Override
@@ -74,6 +86,19 @@ public class G19Model extends GCAAStyleGunModel{
     @Override
     public ModelPart getRightArm() {
         return right_arm;
+    }
+
+    @Override
+    protected void animationGlobal(GunRenderContext context) {
+        KeyframeAnimations.animate(this, shoot, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
+        KeyframeAnimations.animate(this, shootInnerMove, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
+    }
+
+    @Override
+    protected void afterRender(GunRenderContext gunRenderContext) {
+        root.resetPose();
+        slide.resetPose();
+        barrel.resetPose();
     }
 
     @Override

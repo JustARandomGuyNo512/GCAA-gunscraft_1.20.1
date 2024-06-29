@@ -39,7 +39,7 @@ public class PlayerStatusEvents {
             } else {// send to server
                 player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
                     if (cap.dataChanged) {
-                        PacketHandler.simpleChannel.send(PacketDistributor.TRACKING_ENTITY.with(() -> event.player),
+                        PacketHandler.simpleChannel.sendToServer(
                                 new SyncPlayerStatusPacket(
                                         cap.getLastShoot(),
                                         cap.getLastChamberAction(),
