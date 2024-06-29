@@ -15,12 +15,12 @@ import java.util.function.BiFunction;
 
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES;
-    public static final RegistryObject<EntityType<Bullet>> GENERIC_PROJECTILE;
+    public static final RegistryObject<EntityType<Bullet>> BULLET;
 
 
     static {
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, GCAA.MODID);
-        GENERIC_PROJECTILE = registerProjectile("projectile", Bullet::new);
+        BULLET = registerProjectile("bullet", Bullet::new);
 
     }
 

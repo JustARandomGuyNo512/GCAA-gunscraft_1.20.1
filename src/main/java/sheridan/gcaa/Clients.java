@@ -13,7 +13,6 @@ import sheridan.gcaa.client.ClientWeaponLooper;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.model.guns.AkmModel;
 import sheridan.gcaa.client.model.guns.G19Model;
-import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.guns.IGun;
@@ -53,7 +52,7 @@ public class Clients {
         timer.schedule(new ClientWeaponLooper(), 0, 5);
 
         ArsenalLib.registerGunModel(ModItems.G19.get(), new G19Model(), new DisplayData()
-                .setFirstPersonMain(-0.46f,1.21f,-3.05f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.1f, SCALE)
+                .setFirstPersonMain(-0.46f,1.25f,-3.05f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.1f, SCALE)
                 .setThirdPersonRight(0f, 0f, 0.5f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 0, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).set(DisplayData.FIXED, 0.3f, SCALE));
@@ -79,15 +78,6 @@ public class Clients {
                 });
             }
         }
-    }
-
-    @Deprecated
-    public static IGun[] getGuns(Player player) {
-        ItemStack stackMain = player.getMainHandItem();
-        ItemStack stackOff = player.getOffhandItem();
-        IGun gunMain = stackMain.getItem() instanceof IGun ? (IGun) stackMain.getItem() : null;
-        IGun gunOff = stackOff.getItem() instanceof IGun ? (IGun) stackOff.getItem() : null;
-        return new IGun[]{gunMain, gunOff};
     }
 
     @OnlyIn(Dist.CLIENT)

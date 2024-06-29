@@ -5,8 +5,11 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
+import sheridan.gcaa.client.render.fx.MuzzleFlash;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class DisplayData {
@@ -20,6 +23,7 @@ public class DisplayData {
             FIXED = 3;
     private final float[][] transforms = new float[][] {{}, {}, {}, {}};
     private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}};
+    private final Map<String, MuzzleFlash> muzzleFlashMap = new HashMap<>();
     public DisplayData() {}
 
     public void applyTransform(ItemDisplayContext displayContext, PoseStack poseStack) {
@@ -113,6 +117,19 @@ public class DisplayData {
 
     public DisplayData setFrame(float x, float y, float z, DataType type) {
         checkAndSet(3, x, y, z, type);
+        return this;
+    }
+
+    public Map<String, MuzzleFlash> getMuzzleFlashMap() {
+        return muzzleFlashMap;
+    }
+
+    public MuzzleFlash getMuzzleFlash(String status) {
+        return muzzleFlashMap.get(status);
+    }
+
+    public DisplayData addMuzzleFlash(String statusName, MuzzleFlash muzzleFlash) {
+        muzzleFlashMap.put(statusName, muzzleFlash);
         return this;
     }
 

@@ -9,6 +9,8 @@ import java.util.List;
 
 public class Caliber9x19mm implements ICaliber {
 
+    public static final Caliber9x19mm INSTANCE = new Caliber9x19mm();
+
     @Override
     public String getName() {
         return "9x19mm";

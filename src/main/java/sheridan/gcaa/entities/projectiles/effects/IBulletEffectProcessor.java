@@ -5,4 +5,5 @@ import sheridan.gcaa.entities.projectiles.IBullet;
 public interface IBulletEffectProcessor {
     void process(IBullet bullet);
     int getCost();
+    String getName();
 }

@@ -25,6 +25,7 @@ import sheridan.gcaa.capability.PlayerStatusEvents;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.events.*;
+import sheridan.gcaa.client.render.entity.BulletRenderer;
 import sheridan.gcaa.entities.ModEntities;
 import sheridan.gcaa.events.CommonEvents;
 import sheridan.gcaa.items.ModItems;
@@ -86,7 +87,7 @@ public class GCAA {
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
         public static void onRegisterRenderer(EntityRenderersEvent.RegisterRenderers event) {
-
+            event.registerEntityRenderer(ModEntities.BULLET.get(), BulletRenderer::new);
         }
 
         @OnlyIn(Dist.CLIENT)
