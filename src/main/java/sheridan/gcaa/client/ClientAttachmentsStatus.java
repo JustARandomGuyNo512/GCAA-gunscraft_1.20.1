@@ -1,9 +1,9 @@
-package sheridan.gcaa.animation.recoilAnimation;
+package sheridan.gcaa.client;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class RecoilData {
+public class ClientAttachmentsStatus {
 
 }

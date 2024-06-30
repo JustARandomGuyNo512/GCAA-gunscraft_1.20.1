@@ -4,10 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
@@ -34,8 +32,8 @@ public class G19Model extends GCAAStyleGunModel{
     private final ModelPart _reloading;
     private final ModelPart gun;
 
+    private final AnimationDefinition recoil;
     private final AnimationDefinition shoot;
-    private final AnimationDefinition shootInnerMove;
 
     public G19Model() {
         this.root = ArsenalLib.loadBedRockGunModel(
@@ -54,8 +52,8 @@ public class G19Model extends GCAAStyleGunModel{
         mag_point = mag.getChild("mag_point");
 
         Map<String, AnimationDefinition> animations = ArsenalLib.loadBedRockAnimation(new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.animation.json"));
+        recoil = animations.get("recoil");
         shoot = animations.get("shoot");
-        shootInnerMove = animations.get("shootInnerMove");
     }
 
     @Override
@@ -90,8 +88,8 @@ public class G19Model extends GCAAStyleGunModel{
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
+        KeyframeAnimations.animate(this, recoil, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
         KeyframeAnimations.animate(this, shoot, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
-        KeyframeAnimations.animate(this, shootInnerMove, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
     }
 
     @Override
@@ -124,5 +122,10 @@ public class G19Model extends GCAAStyleGunModel{
     public void handleGunTranslate(PoseStack poseStack) {
         root.translateAndRotate(poseStack);
         gun.translateAndRotate(poseStack);
+    }
+
+    @Override
+    public AnimationDefinition getRecoilAnimation() {
+        return recoil;
     }
 }

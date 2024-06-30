@@ -5,6 +5,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
+import sheridan.gcaa.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.render.fx.MuzzleFlash;
 
 import java.util.Arrays;
@@ -24,6 +25,7 @@ public class DisplayData {
     private final float[][] transforms = new float[][] {{}, {}, {}, {}};
     private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}};
     private final Map<String, MuzzleFlash> muzzleFlashMap = new HashMap<>();
+    private InertialRecoilData inertialRecoilData;
     public DisplayData() {}
 
     public void applyTransform(ItemDisplayContext displayContext, PoseStack poseStack) {
@@ -83,6 +85,14 @@ public class DisplayData {
         return transforms[i][j];
     }
 
+    public DisplayData setInertialRecoilData(InertialRecoilData inertialRecoilData) {
+        this.inertialRecoilData = inertialRecoilData;
+        return this;
+    }
+
+    public InertialRecoilData getInertialRecoilData() {
+        return this.inertialRecoilData;
+    }
 
     public DisplayData set(int index, float val, DataType type) {
         checkAndSet(index, val, val, val, type);
@@ -164,4 +174,6 @@ public class DisplayData {
         transform[7] = sy;
         transform[8] = sz;
     }
+
+
 }

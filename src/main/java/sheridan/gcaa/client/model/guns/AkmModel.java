@@ -8,6 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.modelPart.*;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
@@ -53,6 +54,11 @@ public class AkmModel extends GCAAStyleGunModel{
     public void handleGunTranslate(PoseStack poseStack) {
         root.translateAndRotate(poseStack);
         gun.translateAndRotate(poseStack);
+    }
+
+    @Override
+    public AnimationDefinition getRecoilAnimation() {
+        return null;
     }
 
     @Override

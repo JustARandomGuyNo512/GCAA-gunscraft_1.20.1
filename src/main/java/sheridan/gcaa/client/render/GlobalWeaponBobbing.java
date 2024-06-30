@@ -50,8 +50,8 @@ public class GlobalWeaponBobbing {
             float aimingFactor = getAimingFactor();
             handleEquipProgress(poseStack, equipProgress);
             idleProgress += globalWeaponBobbing.timer;
-            handleIdleMove(poseStack, idleProgress, globalWeaponBobbing.particleTicks, scaleFactor);
-            if (idleProgress >= 2 * PI) {
+            handleIdleMove(poseStack, idleProgress * 2, globalWeaponBobbing.particleTicks, scaleFactor);
+            if (idleProgress >= PI) {
                 idleProgress = 0;
             }
         }
@@ -82,7 +82,7 @@ public class GlobalWeaponBobbing {
 
         @Override
         void handleIdleMove(PoseStack poseStack, float idleProgress, float particleTicks, float scaleFactor) {
-            float pitch = Mth.sin(idleProgress + PI * 0.5f) * 0.004f;
+            float pitch = Mth.sin(idleProgress + PI * 0.75f) * 0.0035f;
             float yaw = Mth.sin(idleProgress) * 0.015f;
             float roll = Mth.sin(idleProgress) * 0.01f;
             poseStack.translate(0, yaw, roll * 0.025f);
