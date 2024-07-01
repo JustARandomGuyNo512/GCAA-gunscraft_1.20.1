@@ -5,15 +5,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.animation.frameAnimation.KeyframeAnimations;
+import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
 public class RecoilAnimationHandler {
-    private final List<KeyframeAnimations.Mark> recoilAnimationList = new ArrayList<>();
+    private final Deque<KeyframeAnimations.Mark> recoils = new ArrayDeque<>();
     private static final Timer timer = new Timer();
     public static final InertialRecoilHandler INERTIAL_RECOIL_HANDLER = new InertialRecoilHandler();
     public static final RecoilAnimationHandler INSTANCE = new RecoilAnimationHandler();
@@ -23,13 +21,18 @@ public class RecoilAnimationHandler {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                INERTIAL_RECOIL_HANDLER.update(0.001f);
+                INERTIAL_RECOIL_HANDLER.update(0.01f);
             }
         }, 0, 10);
     }
 
-    public void onShoot(AnimationDefinition recoilAnimation) {
-
+    public void onShoot(AnimationDefinition recoilAnimation, long shootTime) {
+        if (recoils.size() < MAX_LEN) {
+            recoils.add(new KeyframeAnimations.Mark(recoilAnimation, shootTime));
+        } else {
+            recoils.poll();
+            recoils.add(new KeyframeAnimations.Mark(recoilAnimation, shootTime));
+        }
     }
 
     public void onShoot(InertialRecoilData inertialRecoilData) {
@@ -40,7 +43,17 @@ public class RecoilAnimationHandler {
 
     }
 
-    public void handleTranslation(PoseStack poseStack) {
+    public void handleRecoil(HierarchicalModel<?> root) {
+        for (KeyframeAnimations.Mark mark : recoils) {
+            if (!KeyframeAnimations.checkIfOutOfTime(mark.timeStamp, 0, mark.animationDefinition)) {
+                KeyframeAnimations.animate(root, mark.animationDefinition, mark.timeStamp, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
+            } else {
+                recoils.remove(mark);
+            }
+        }
+    }
+
+    public void handleInertialRecoil(PoseStack poseStack) {
 
     }
 

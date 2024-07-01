@@ -11,6 +11,8 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.network.packets.c2s.SwitchFireModePacket;
 
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
@@ -48,6 +50,11 @@ public class ControllerEvents {
             if (KeyBinds.OPEN_DEBUG_SCREEN.isDown() && event.getAction() == 1) {
                 if (stackMain.getItem() instanceof IGun) {
                     Minecraft.getInstance().setScreen(new GunDebugAdjustScreen());
+                }
+            } else if (KeyBinds.SWITCH_FIRE_MODE.isDown() && event.getAction() == 1) {
+                if (stackMain.getItem() instanceof IGun) {
+                    Clients.mainHandStatus.buttonDown.set(false);
+                    PacketHandler.simpleChannel.sendToServer(new SwitchFireModePacket());
                 }
             }
         }

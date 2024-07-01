@@ -97,6 +97,19 @@ public class Gun extends BaseItem implements IGun {
     }
 
     @Override
+    public void switchFireMode(ItemStack stack) {
+        CompoundTag tag = checkAndGet(stack);
+        int index = (tag.getInt("fire_mode_index") + 1) % gunProperties.fireModes.size();
+        tag.putInt("fire_mode_index", index);
+    }
+
+    @Override
+    public int getFireDelay(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("fire_delay") ? properties.getInt("fire_delay") : 0;
+    }
+
+    @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
     }

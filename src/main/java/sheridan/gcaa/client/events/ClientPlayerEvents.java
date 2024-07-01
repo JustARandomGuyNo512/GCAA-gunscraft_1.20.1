@@ -20,6 +20,9 @@ public class ClientPlayerEvents {
                 ItemStack stackMain = player.getMainHandItem();
                 IGun gunMain = stackMain.getItem() instanceof IGun ? (IGun) stackMain.getItem() : null;
                 Clients.mainHandStatus.holdingGun.set(gunMain != null);
+                if (gunMain != null) {
+                    Clients.mainHandStatus.fireDelay.set(gunMain.getFireDelay(stackMain));
+                }
             }
         }
     }

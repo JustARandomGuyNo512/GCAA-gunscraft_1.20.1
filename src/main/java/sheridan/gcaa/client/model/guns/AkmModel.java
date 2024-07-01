@@ -7,11 +7,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.animation.frameAnimation.KeyframeAnimations;
+import sheridan.gcaa.animation.recoilAnimation.RecoilAnimationHandler;
 import sheridan.gcaa.client.model.modelPart.*;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
+
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class AkmModel extends GCAAStyleGunModel{
@@ -27,6 +32,10 @@ public class AkmModel extends GCAAStyleGunModel{
             muzzle, handguard, IS,
             dust_cover, mag, grip,
             safety, body, stock;
+
+    private final AnimationDefinition recoil;
+    private final AnimationDefinition shoot;
+
     public AkmModel() {
         this.root = ArsenalLib.loadBedRockGunModel(
                         new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm.geo.json"))
@@ -48,6 +57,10 @@ public class AkmModel extends GCAAStyleGunModel{
         safety = gun.getChild("safety").meshing();
         body = gun.getChild("body").meshing();
         stock = gun.getChild("stock").meshing();
+
+        Map<String, AnimationDefinition> animations = ArsenalLib.loadBedRockAnimation(new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm.animation.json"));
+        recoil = animations.get("recoil");
+        shoot = animations.get("shoot");
     }
 
     @Override
@@ -58,7 +71,7 @@ public class AkmModel extends GCAAStyleGunModel{
 
     @Override
     public AnimationDefinition getRecoilAnimation() {
-        return null;
+        return recoil;
     }
 
     @Override
@@ -87,6 +100,14 @@ public class AkmModel extends GCAAStyleGunModel{
     }
 
     @Override
+    protected void animationGlobal(GunRenderContext gunRenderContext) {
+        if (gunRenderContext.isFirstPerson) {
+            RecoilAnimationHandler.INSTANCE.handleRecoil(this);
+            KeyframeAnimations.animate(this, shoot, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
+        }
+    }
+
+    @Override
     public void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         context.render(vertexConsumer, barrel, rail_set, slide, muzzle, handguard, IS, dust_cover, grip, safety, body, stock);
@@ -98,6 +119,12 @@ public class AkmModel extends GCAAStyleGunModel{
     @Override
     public void renderAttachmentsModel(GunRenderContext context) {
 
+    }
+
+    @Override
+    protected void afterRender(GunRenderContext gunRenderContext) {
+        root.resetPose();
+        slide.resetPose();
     }
 
     @Override

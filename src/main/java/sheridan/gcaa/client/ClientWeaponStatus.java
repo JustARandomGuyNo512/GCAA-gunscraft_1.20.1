@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientWeaponStatus {
+    public final ClientAttachmentsStatus attachmentsStatus;
     public final boolean mainHand;
     public final AtomicBoolean buttonDown;
     public final AtomicBoolean holdingGun;
@@ -29,6 +30,7 @@ public class ClientWeaponStatus {
         holdingGun = new AtomicBoolean(false);
         fireDelay = new AtomicInteger(0);
         weapon = new AtomicReference<>(ItemStack.EMPTY);
+        attachmentsStatus = new ClientAttachmentsStatus();
     }
 
     public void onGunEquipped() {

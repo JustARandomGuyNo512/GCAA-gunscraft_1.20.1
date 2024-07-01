@@ -20,7 +20,7 @@ public class InertialRecoilData {
     public float aimingRotateScale;
     public float randomX;
     public float randomY;
-    public int id;
+    public final int id;
 
     public InertialRecoilData(float up, float upDesc, float back, float backDesc, float rotate, float rotateDesc, float randomX, float randomY, Vector3f aimingScaleModifier) {
         this.up = up;

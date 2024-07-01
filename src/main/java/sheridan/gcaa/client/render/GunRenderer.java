@@ -9,12 +9,16 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.Clients;
+import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.animation.recoilAnimation.RecoilAnimationHandler;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.render.gui.AttachmentsGuiContext;
 import sheridan.gcaa.items.guns.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class GunRenderer implements IGunRenderer{
+    private long tempLastFire = 0;
 
     @Override
     public void renderInGuiScreen(ItemStack itemStack, GuiGraphics guiGraphics, IGun gun, IGunModel model, AttachmentsGuiContext attachmentsGuiContext) {
@@ -43,6 +47,13 @@ public class GunRenderer implements IGunRenderer{
                 poseStack.mulPose(Axis.ZP.rotationDegrees(180));
                 displayData.applyTransform(type, poseStack);
                 GlobalWeaponBobbing.INSTANCE.handleTranslation(poseStack);
+                if (tempLastFire != Clients.mainHandStatus.lastShoot) {
+                    tempLastFire = Clients.mainHandStatus.lastShoot;
+                    AnimationDefinition recoil = model.getRecoilAnimation();
+                    if (recoil != null) {
+                        RecoilAnimationHandler.INSTANCE.onShoot(recoil, tempLastFire);
+                    }
+                }
                 model.render(new GunRenderContext(bufferIn, poseStack, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn));
             } else {
                 stackIn.mulPose(Axis.ZP.rotationDegrees(180));

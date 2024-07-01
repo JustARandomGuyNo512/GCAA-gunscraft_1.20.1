@@ -10,6 +10,7 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.animation.frameAnimation.KeyframeAnimations;
+import sheridan.gcaa.animation.recoilAnimation.RecoilAnimationHandler;
 import sheridan.gcaa.client.model.modelPart.*;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
@@ -88,8 +89,10 @@ public class G19Model extends GCAAStyleGunModel{
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
-        KeyframeAnimations.animate(this, recoil, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
-        KeyframeAnimations.animate(this, shoot, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
+        if (context.isFirstPerson) {
+            RecoilAnimationHandler.INSTANCE.handleRecoil(this);
+            KeyframeAnimations.animate(this, shoot, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
+        }
     }
 
     @Override

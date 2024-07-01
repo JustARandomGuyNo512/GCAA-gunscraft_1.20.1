@@ -44,7 +44,7 @@ public class ClientWeaponLooper extends TimerTask {
     }
 
     private void handleCoolDown() {
-        mainHandDelay = mainHandDelay > 0 ? mainHandDelay : mainHandDelay - 1;
+        mainHandDelay = mainHandDelay > 0 ? mainHandDelay - 1 : mainHandDelay;
     }
 
 }
