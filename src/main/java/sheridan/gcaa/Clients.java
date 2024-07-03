@@ -60,7 +60,7 @@ public class Clients {
                 .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).set(DisplayData.FIXED, 0.3f, SCALE));
 
         ArsenalLib.registerGunModel(ModItems.AKM.get(), new AkmModel(), new DisplayData()
-                .setFirstPersonMain(-0.85f,2.4f,-2.35f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.12f, SCALE)
+                .setFirstPersonMain(-0.8f,2.32f,-2.35f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.12f, SCALE)
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 0, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).set(DisplayData.FIXED, 0.3f, SCALE)

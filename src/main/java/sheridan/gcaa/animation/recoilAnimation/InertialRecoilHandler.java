@@ -18,7 +18,7 @@ public class InertialRecoilHandler {
     public static final InertialRecoilHandler INSTANCE = new InertialRecoilHandler();
     private final AtomicReference<InertialRecoilData> data = new AtomicReference<>(null);
     private final AtomicBoolean enabled = new AtomicBoolean(false);
-    private static final float UP_FACTOR = 0.12f;
+    private static final float UP_FACTOR = 0.09f;
     private static final float BACK_FACTOR = 0.18f;
     private static final float ROTATE_FACTOR = 0.025f;
 
@@ -48,10 +48,10 @@ public class InertialRecoilHandler {
 //            float scaleY = 1;
 //            float scaleZ = 1;
             float scaleRot = 1;
-//            Player player = Minecraft.getInstance().player;
-//            if (player != null && player.isCrouching()) {
-//                scaleRot = Math.max(0.2f, scaleRot - 0.08f);
-//            }
+            Player player = Minecraft.getInstance().player;
+            if (player != null && player.isCrouching()) {
+                scaleRot = Math.max(0.2f, scaleRot - 0.1f);
+            }
             float r0 = (rotate + randomY) * scaleRot * ROTATE_FACTOR;
             float r1 = randomX * scaleRot * ROTATE_FACTOR;
 
@@ -64,15 +64,15 @@ public class InertialRecoilHandler {
         if (data == null) {
             clear();
         } else {
-            randomYSpeed += 0.5f * randomDirectionY;
+            randomYSpeed += 0.28f * randomDirectionY;
             if (randomYSpeed < 0) {
-                randomYSpeed *= 0.25f;
+                randomYSpeed *= 0.2f;
             }
-            randomXSpeed += 0.5f * randomDirectionX;
+            randomXSpeed += 0.4f * randomDirectionX;
             startTime = System.currentTimeMillis();
-            backSpeed += 0.6f;
-            rotateSpeed += 0.5f;
-            upSpeed += 0.1f;
+            backSpeed += 0.55f;
+            rotateSpeed += 0.85f;
+            upSpeed += 0.075f;
             this.data.set(data);
             enabled.set(true);
         }
@@ -107,7 +107,7 @@ public class InertialRecoilHandler {
                     backSpeed *= 0.55f;
                 }
             } else {
-                backSpeed -= backSpeed > 0 ? back * 0.15f : back * 0.02f;
+                backSpeed -= backSpeed > 0 ? back * 0.15f : back * 0.05f;
                 if (backSpeed < 0) {
                     backSpeed *= 0.35f;
                 }
@@ -117,9 +117,9 @@ public class InertialRecoilHandler {
                 back = backSpeed = 0;
             }
 
-            upSpeed -= up * 0.05f;
+            upSpeed -= up * 0.06f;
             upSpeed *= 0.5f;
-            up += upSpeed;
+            up += upSpeed * 0.7f;
             if (shouldClear(upSpeed, up)) {
                 upSpeed = up = 0;
             }
@@ -131,16 +131,16 @@ public class InertialRecoilHandler {
                 rotateSpeed = rotate = 0;
             }
 
-            randomX += randomXSpeed * 0.35f;
+            randomX += randomXSpeed * 0.3f;
             randomXSpeed *= 0.925f;
-            randomX *= 0.915f;
+            randomX *= 0.92f;
             if (shouldClear(randomXSpeed, randomX)) {
                 randomXSpeed = randomX = 0;
             }
 
-            randomY += randomYSpeed * 0.35f;
+            randomY += randomYSpeed * 0.3f;
             randomYSpeed *= 0.925f;
-            randomY *= 0.915f;
+            randomY *= 0.92f;
             if (shouldClear(randomYSpeed, randomY)) {
                 randomYSpeed = randomY = 0;
             }
