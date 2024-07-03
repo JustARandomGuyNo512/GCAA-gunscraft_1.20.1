@@ -18,7 +18,7 @@ public class InertialRecoilHandler {
     public static final InertialRecoilHandler INSTANCE = new InertialRecoilHandler();
     private final AtomicReference<InertialRecoilData> data = new AtomicReference<>(null);
     private final AtomicBoolean enabled = new AtomicBoolean(false);
-    private static final float UP_FACTOR = 0.15f;
+    private static final float UP_FACTOR = 0.12f;
     private static final float BACK_FACTOR = 0.18f;
     private static final float ROTATE_FACTOR = 0.025f;
 
@@ -66,7 +66,7 @@ public class InertialRecoilHandler {
         } else {
             randomYSpeed += 0.5f * randomDirectionY;
             if (randomYSpeed < 0) {
-                randomYSpeed *= 0.5f;
+                randomYSpeed *= 0.25f;
             }
             randomXSpeed += 0.5f * randomDirectionX;
             startTime = System.currentTimeMillis();
@@ -131,16 +131,16 @@ public class InertialRecoilHandler {
                 rotateSpeed = rotate = 0;
             }
 
-            randomX += randomXSpeed * 0.4f;
-            randomXSpeed *= 0.92f;
-            randomX *= 0.91f;
+            randomX += randomXSpeed * 0.35f;
+            randomXSpeed *= 0.925f;
+            randomX *= 0.915f;
             if (shouldClear(randomXSpeed, randomX)) {
                 randomXSpeed = randomX = 0;
             }
 
-            randomY += randomYSpeed * 0.4f;
-            randomYSpeed *= 0.92f;
-            randomY *= 0.91f;
+            randomY += randomYSpeed * 0.35f;
+            randomYSpeed *= 0.925f;
+            randomY *= 0.915f;
             if (shouldClear(randomYSpeed, randomY)) {
                 randomYSpeed = randomY = 0;
             }
