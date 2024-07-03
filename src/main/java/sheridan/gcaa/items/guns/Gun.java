@@ -14,7 +14,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.animation.recoilAnimation.InertialRecoilData;
+import sheridan.gcaa.animation.recoilAnimation.RecoilAnimationHandler;
 import sheridan.gcaa.capability.PlayerStatusProvider;
+import sheridan.gcaa.client.model.registry.GunModelRegistry;
+import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.BaseItem;
 import sheridan.gcaa.items.GunProperties;
 import sheridan.gcaa.items.guns.fireModes.ArmPoseHandler;
@@ -47,11 +51,25 @@ public class Gun extends BaseItem implements IGun {
         // return checkAndGet(stack).getInt("ammo_left");
     }
 
+    protected float randomIndex() {
+        return Math.random() <= 0.5 ? 1 : -1;
+    }
+
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
         Clients.mainHandStatus.lastShoot = System.currentTimeMillis();
         PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
         PacketHandler.simpleChannel.sendToServer(new GunFirePacket());
+        DisplayData data = GunModelRegistry.getDisplayData(this);
+        if (data != null) {
+            InertialRecoilData inertialRecoilData = data.getInertialRecoilData();
+            if (inertialRecoilData != null) {
+                float directionX = randomIndex();
+                float directionY = randomIndex();
+                RecoilAnimationHandler.INSTANCE.onShoot(inertialRecoilData, directionX, directionY);
+            }
+        }
     }
 
     @Override

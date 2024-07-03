@@ -74,6 +74,8 @@ public abstract class GCAAStyleGunModel extends HierarchicalModel<Entity> implem
 
     protected void afterRender(GunRenderContext gunRenderContext) {}
 
+    protected void initModelParts() {}
+
     public abstract void renderGunModel(GunRenderContext context);
     public abstract void renderAttachmentsModel(GunRenderContext context);
 }

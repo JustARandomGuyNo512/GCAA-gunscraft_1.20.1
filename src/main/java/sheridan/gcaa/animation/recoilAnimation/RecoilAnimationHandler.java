@@ -21,7 +21,7 @@ public class RecoilAnimationHandler {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                INERTIAL_RECOIL_HANDLER.update(0.01f);
+                INERTIAL_RECOIL_HANDLER.update();
             }
         }, 0, 10);
     }
@@ -35,8 +35,8 @@ public class RecoilAnimationHandler {
         }
     }
 
-    public void onShoot(InertialRecoilData inertialRecoilData) {
-
+    public void onShoot(InertialRecoilData inertialRecoilData, float randomDirectionX, float randomDirectionY) {
+        INERTIAL_RECOIL_HANDLER.onShoot(inertialRecoilData, randomDirectionX, randomDirectionY);
     }
 
     public void onShoot(AnimationDefinition recoilAnimation, InertialRecoilData inertialRecoilData) {
@@ -53,8 +53,8 @@ public class RecoilAnimationHandler {
         }
     }
 
-    public void handleInertialRecoil(PoseStack poseStack) {
-
+    public void handleInertialRecoil(PoseStack poseStack, InertialRecoilData data) {
+        INERTIAL_RECOIL_HANDLER.applyTransform(poseStack, data.id, false);
     }
 
     public void update() {
