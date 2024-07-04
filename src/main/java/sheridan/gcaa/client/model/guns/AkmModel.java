@@ -71,7 +71,7 @@ public class AkmModel extends GCAAStyleGunModel{
 
     @Override
     public AnimationDefinition getRecoilAnimation() {
-        return recoil;
+        return null;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class AkmModel extends GCAAStyleGunModel{
     @Override
     protected void animationGlobal(GunRenderContext gunRenderContext) {
         if (gunRenderContext.isFirstPerson) {
-            RecoilAnimationHandler.INSTANCE.handleRecoil(this);
+            KeyframeAnimations.animate(this, recoil, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
             KeyframeAnimations.animate(this, shoot, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
         }
     }

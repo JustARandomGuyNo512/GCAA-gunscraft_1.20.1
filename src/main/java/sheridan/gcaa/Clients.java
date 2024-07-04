@@ -60,11 +60,11 @@ public class Clients {
                 .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).set(DisplayData.FIXED, 0.3f, SCALE));
 
         ArsenalLib.registerGunModel(ModItems.AKM.get(), new AkmModel(), new DisplayData()
-                .setFirstPersonMain(-0.8f,2.32f,-2.35f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.12f, SCALE)
+                .setFirstPersonMain(-0.8f,2.33f,-2.35f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.12f, SCALE)
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 0, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).set(DisplayData.FIXED, 0.3f, SCALE)
-                .setInertialRecoilData(new InertialRecoilData(0.01f, 0.0028f, 0.4f, 0.04f, 1f, 0.01f, 0.2f, 0.1f, new Vector3f(0.55f, 0.7f, 0.6f))));
+                .setInertialRecoilData(new InertialRecoilData(0.075f, 0.06f, 0.6f, 0.08f, 0.85f,  0.09f, 0.4f, 0.28f, new Vector3f(0.55f, 0.7f, 0.6f))));
 
     }
 

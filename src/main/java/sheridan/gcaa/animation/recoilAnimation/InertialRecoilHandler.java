@@ -64,15 +64,15 @@ public class InertialRecoilHandler {
         if (data == null) {
             clear();
         } else {
-            randomYSpeed += 0.28f * randomDirectionY;
+            randomYSpeed += data.randomY * randomDirectionY;
             if (randomYSpeed < 0) {
                 randomYSpeed *= 0.2f;
             }
-            randomXSpeed += 0.4f * randomDirectionX;
+            randomXSpeed += data.randomX * randomDirectionX;
             startTime = System.currentTimeMillis();
-            backSpeed += 0.55f;
-            rotateSpeed += 0.85f;
-            upSpeed += 0.075f;
+            backSpeed += data.back;
+            rotateSpeed += data.rotate;
+            upSpeed += data.up;
             this.data.set(data);
             enabled.set(true);
         }
@@ -99,15 +99,15 @@ public class InertialRecoilHandler {
 
     public void update() {
         if (enabled.get() && this.data.get() != null) {
-
+            InertialRecoilData recoilData = data.get();
             back += backSpeed;
             if (back > 0) {
-                backSpeed -= back * 0.08f;
+                backSpeed -= back * recoilData.backDesc;
                 if (backSpeed < 0) {
                     backSpeed *= 0.55f;
                 }
             } else {
-                backSpeed -= backSpeed > 0 ? back * 0.15f : back * 0.05f;
+                backSpeed -= backSpeed > 0 ? back * recoilData.backDesc * 1.6f : back * recoilData.backDesc * 0.65f;
                 if (backSpeed < 0) {
                     backSpeed *= 0.35f;
                 }
@@ -117,14 +117,14 @@ public class InertialRecoilHandler {
                 back = backSpeed = 0;
             }
 
-            upSpeed -= up * 0.06f;
+            upSpeed -= up * recoilData.upDesc;
             upSpeed *= 0.5f;
             up += upSpeed * 0.7f;
             if (shouldClear(upSpeed, up)) {
                 upSpeed = up = 0;
             }
 
-            rotateSpeed -= rotate * 0.1f;
+            rotateSpeed -= rotate * recoilData.rotateDesc;
             rotateSpeed *= 0.7f;
             rotate += rotateSpeed;
             if (shouldClear(rotateSpeed, rotate)) {

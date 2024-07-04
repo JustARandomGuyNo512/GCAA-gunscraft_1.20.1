@@ -10,6 +10,7 @@ import sheridan.gcaa.Clients;
 
 @OnlyIn(Dist.CLIENT)
 public class GlobalWeaponBobbing {
+    private static final IWeaponBobbing DEFAULT = new DefaultBobbingController();
     public static final GlobalWeaponBobbing INSTANCE = new GlobalWeaponBobbing();
     public IWeaponBobbing weaponBobbing;
     public float particleTicks = 0;
@@ -19,7 +20,7 @@ public class GlobalWeaponBobbing {
     public static final float PI = 3.14159265358979323846f;
 
     GlobalWeaponBobbing() {
-        weaponBobbing = new DefaultBobbingController();
+        weaponBobbing = DEFAULT;
     }
 
     public void handleTranslation(PoseStack poseStack) {
@@ -34,6 +35,14 @@ public class GlobalWeaponBobbing {
         long now = System.currentTimeMillis();
         timer = (float) (now - lastUpdate) * 0.001f;
         lastUpdate = now;
+    }
+
+    public void setWeaponBobbing(IWeaponBobbing weaponBobbing) {
+        this.weaponBobbing = weaponBobbing;
+    }
+
+    public void useDefault() {
+        this.weaponBobbing = DEFAULT;
     }
 
     public interface IWeaponBobbing {
@@ -85,8 +94,10 @@ public class GlobalWeaponBobbing {
             float pitch = Mth.sin(idleProgress + PI * 0.75f) * 0.0035f;
             float yaw = Mth.sin(idleProgress) * 0.015f;
             float roll = Mth.sin(idleProgress) * 0.01f;
-            poseStack.translate(0, yaw, roll * 0.025f);
-            poseStack.mulPose(new Quaternionf().rotateXYZ(-pitch, 0, 0));
+            float lastFireDis = (System.currentTimeMillis() - Clients.mainHandStatus.lastShoot) * 0.001f;
+            scaleFactor = Math.min(lastFireDis, 1f) * scaleFactor;
+            poseStack.translate(0, yaw * scaleFactor, roll * 0.025f * scaleFactor);
+            poseStack.mulPose(new Quaternionf().rotateXYZ(-pitch * scaleFactor, 0, 0));
         }
     }
 }
