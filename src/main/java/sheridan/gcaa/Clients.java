@@ -2,9 +2,11 @@ package sheridan.gcaa;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -56,7 +58,8 @@ public class Clients {
     public static AtomicBoolean cancelLooperWork = new AtomicBoolean(false);
     @OnlyIn(Dist.CLIENT)
     public static AtomicBoolean cancelLooperWorkWithCoolDown = new AtomicBoolean(false);
-
+    @OnlyIn(Dist.CLIENT)
+    public static RandomSource randomSource = new LegacyRandomSource(0);
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {
         clientWeaponLooperTimer.scheduleAtFixedRate(new ClientWeaponLooper(), 0, 5L);

@@ -8,6 +8,6 @@ import java.util.List;
 
 public class G19 extends Gun {
     public G19() {
-        super(new GunProperties(List.of(Semi.SEMI), Caliber9x19mm.INSTANCE).setFireDelay(30));
+        super(new GunProperties(List.of(Semi.SEMI), Caliber9x19mm.INSTANCE).setRPM(500));
     }
 }

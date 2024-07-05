@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -58,6 +59,7 @@ public class Gun extends BaseItem implements IGun {
         return Math.random() <= 0.5 ? 1 : -1;
     }
 
+    long lastFire = 0;
     @OnlyIn(Dist.CLIENT)
     @Override
     public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
@@ -73,6 +75,9 @@ public class Gun extends BaseItem implements IGun {
                 RecoilAnimationHandler.INSTANCE.onShoot(inertialRecoilData, directionX, directionY);
             }
         }
+        ModSounds.clientSound(1, 1, player, ModSounds.AKM_FIRE.get());
+        System.out.println(System.currentTimeMillis() - lastFire);
+        lastFire = System.currentTimeMillis();
     }
 
     @Override

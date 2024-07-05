@@ -11,6 +11,6 @@ import java.util.Arrays;
 
 public class Akm extends Gun{
     public Akm() {
-        super(new GunProperties(Arrays.asList(Semi.SEMI, Auto.AUTO), Caliber7_62x39mm.INSTANCE).setFireDelay(20));
+        super(new GunProperties(Arrays.asList(Semi.SEMI, Auto.AUTO), Caliber7_62x39mm.INSTANCE).setRPM(600));
     }
 }

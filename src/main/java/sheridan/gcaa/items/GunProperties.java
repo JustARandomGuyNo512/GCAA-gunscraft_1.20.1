@@ -54,6 +54,19 @@ public class GunProperties{
         return this;
     }
 
+    /**
+     * set the rate of fire in rounds per minute, this is not accurate.
+     * <br>
+     * the fire delay will be calculated based on the 200 tps looping rate (fireDelay = 60000 / rpm / 5).
+     * <br>
+     * so if you set the rpm to 600, the fire delay will be 20 and real rpm is 600, but if you put 650, the fire
+     * delay is 18, and real rpm is 666.
+     * */
+    public GunProperties setRPM(int rpm) {
+        float ms = 60000f / rpm;
+        return setFireDelay((int) (ms / 5));
+    }
+
     public CompoundTag getInitialData() {
         CompoundTag tag = new CompoundTag();
         tag.putLong("date", Commons.SERVER_START_TIME);
