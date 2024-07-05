@@ -1,3 +1,4 @@
 {
-  "item.akm.fire": { "subtitle": "item.akm.fire", "sounds": [{ "name": "gcaa:akm/akm_fire" }]}
+  "item.akm.fire": { "subtitle": "item.akm.fire", "sounds": [{ "name": "gcaa:akm/akm_fire" }]},
+  "item.g19.fire": { "subtitle": "item.g19.fire", "sounds": [{ "name": "gcaa:g19/g19_fire" }]}
 }

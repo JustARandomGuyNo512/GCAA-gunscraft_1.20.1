@@ -1,10 +1,11 @@
 package sheridan.gcaa.items;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.Commons;
+import sheridan.gcaa.items.guns.Gun;
 import sheridan.gcaa.items.guns.ICaliber;
-import sheridan.gcaa.items.guns.IGun;
 import sheridan.gcaa.items.guns.IGunFireMode;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public class GunProperties{
     public int fullReloadLength;
     public int magSize;
     public final List<IGunFireMode> fireModes;
+    public RegistryObject<SoundEvent> fireSound;
+    public RegistryObject<SoundEvent> suppressedSound;
 
     public ICaliber getCaliber() {
         return caliber;
@@ -54,6 +57,11 @@ public class GunProperties{
         return this;
     }
 
+    public GunProperties setMagSize(int magSize) {
+        this.magSize = magSize;
+        return this;
+    }
+
     /**
      * set the rate of fire in rounds per minute, this is not accurate.
      * <br>
@@ -67,6 +75,16 @@ public class GunProperties{
         return setFireDelay((int) (ms / 5));
     }
 
+    public GunProperties setFireSound(RegistryObject<SoundEvent> fireSound) {
+        this.fireSound = fireSound;
+        return this;
+    }
+
+    public GunProperties setSuppressedSound(RegistryObject<SoundEvent> suppressedSound) {
+        this.suppressedSound = suppressedSound;
+        return this;
+    }
+
     public CompoundTag getInitialData() {
         CompoundTag tag = new CompoundTag();
         tag.putLong("date", Commons.SERVER_START_TIME);
@@ -76,7 +94,7 @@ public class GunProperties{
         tag.putInt("reload_length", reloadLength);
         tag.putInt("full_reload_length", fullReloadLength);
         tag.putInt("mag_size", magSize);
-        tag.putString("muzzle_flash", "normal");
+        tag.putString("muzzle_flash", Gun.MUZZLE_STATE_NORMAL);
         return tag;
     }
 

@@ -4,7 +4,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -32,6 +31,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Gun extends BaseItem implements IGun {
+    public static final String MUZZLE_STATE_NORMAL = "normal";
+    public static final String MUZZLE_STATE_SUPPRESSED = "suppressed";
+    public static final String MUZZLE_STATE_COMPENSATOR = "compensator";
     private final GunProperties gunProperties;
 
     public Gun(GunProperties gunProperties) {
@@ -59,7 +61,6 @@ public class Gun extends BaseItem implements IGun {
         return Math.random() <= 0.5 ? 1 : -1;
     }
 
-    long lastFire = 0;
     @OnlyIn(Dist.CLIENT)
     @Override
     public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
@@ -75,9 +76,25 @@ public class Gun extends BaseItem implements IGun {
                 RecoilAnimationHandler.INSTANCE.onShoot(inertialRecoilData, directionX, directionY);
             }
         }
-        ModSounds.clientSound(1, 1, player, ModSounds.AKM_FIRE.get());
-        System.out.println(System.currentTimeMillis() - lastFire);
-        lastFire = System.currentTimeMillis();
+        handleClientFireSound(stack, player);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    protected void handleClientFireSound(ItemStack stack, Player player) {
+        String muzzleState = getMuzzleFlash(stack);
+        if (MUZZLE_STATE_SUPPRESSED.equals(muzzleState)) {
+            if (gunProperties.suppressedSound != null) {
+                ModSounds.clientSound(1, 1, player, gunProperties.suppressedSound.get());
+            } else {
+                if (gunProperties.fireSound != null) {
+                    ModSounds.clientSound(0.5f, 1.6f, player, gunProperties.fireSound.get());
+                }
+            }
+        } else {
+            if (gunProperties.fireSound != null) {
+                ModSounds.clientSound(1, 1, player, gunProperties.fireSound.get());
+            }
+        }
     }
 
     @Override
