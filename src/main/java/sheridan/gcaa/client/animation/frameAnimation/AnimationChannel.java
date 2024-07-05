@@ -3,16 +3,13 @@
 // (powered by FernFlower decompiler)
 //
 
-package sheridan.gcaa.animation.frameAnimation;
+package sheridan.gcaa.client.animation.frameAnimation;
 
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @OnlyIn(Dist.CLIENT)
 public record AnimationChannel(AnimationChannel.Target target, Keyframe... keyframes) {

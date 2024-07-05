@@ -143,6 +143,9 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+    maven {
+        url "https://cursemaven.com"
+    }
 }
 
 dependencies {
@@ -164,6 +167,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    implementation fg.deobf("curse.maven:oculus-581495:5108615")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

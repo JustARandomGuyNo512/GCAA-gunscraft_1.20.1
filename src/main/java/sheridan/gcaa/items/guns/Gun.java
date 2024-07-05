@@ -14,8 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.animation.recoilAnimation.InertialRecoilData;
-import sheridan.gcaa.animation.recoilAnimation.RecoilAnimationHandler;
+import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
+import sheridan.gcaa.client.animation.recoilAnimation.RecoilAnimationHandler;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
@@ -125,6 +125,18 @@ public class Gun extends BaseItem implements IGun {
     public int getFireDelay(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
         return properties.contains("fire_delay") ? properties.getInt("fire_delay") : 0;
+    }
+
+    @Override
+    public String getMuzzleFlash(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("muzzle_flash") ? properties.getString("muzzle_flash") : "normal";
+    }
+
+    @Override
+    public void setMuzzleFlash(ItemStack stack, String status) {
+        CompoundTag properties = getPropertiesTag(stack);
+        properties.putString("muzzle_flash", status);
     }
 
     @Override

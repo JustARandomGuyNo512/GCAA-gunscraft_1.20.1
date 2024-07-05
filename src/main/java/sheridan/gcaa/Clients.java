@@ -9,13 +9,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.joml.Vector3f;
-import sheridan.gcaa.animation.recoilAnimation.InertialRecoilData;
+import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.ClientWeaponLooper;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.model.guns.AkmModel;
 import sheridan.gcaa.client.model.guns.G19Model;
 import sheridan.gcaa.client.render.DisplayData;
+import sheridan.gcaa.client.render.fx.CommonMuzzleFlashes;
+import sheridan.gcaa.client.render.fx.MuzzleFlashDisplayData;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.guns.IGun;
 import sheridan.gcaa.items.guns.IGunFireMode;
@@ -64,7 +66,9 @@ public class Clients {
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 0, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).set(DisplayData.FIXED, 0.3f, SCALE)
-                .setInertialRecoilData(new InertialRecoilData(0.075f, 0.06f, 0.6f, 0.08f, 0.85f,  0.09f, 0.4f, 0.28f, new Vector3f(0.55f, 0.7f, 0.6f))));
+                .setInertialRecoilData(new InertialRecoilData(0.075f, 0.06f, 0.6f, 0.08f, 0.85f,  0.085f, 0.4f, 0.28f, new Vector3f(0.55f, 0.7f, 0.6f)))
+                .addMuzzleFlash("normal", CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 4.9f, -98.6f).setScale(1.7f))
+        );
 
     }
 

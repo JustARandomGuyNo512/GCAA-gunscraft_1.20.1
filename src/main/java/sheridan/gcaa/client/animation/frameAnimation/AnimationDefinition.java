@@ -1,4 +1,4 @@
-package sheridan.gcaa.animation.frameAnimation;
+package sheridan.gcaa.client.animation.frameAnimation;
 
 import com.google.common.collect.Maps;
 import java.util.List;

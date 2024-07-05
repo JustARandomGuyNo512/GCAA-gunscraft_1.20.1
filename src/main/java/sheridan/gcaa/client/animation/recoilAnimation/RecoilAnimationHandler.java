@@ -1,10 +1,10 @@
-package sheridan.gcaa.animation.recoilAnimation;
+package sheridan.gcaa.client.animation.recoilAnimation;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
-import sheridan.gcaa.animation.frameAnimation.KeyframeAnimations;
+import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 
 import java.util.*;

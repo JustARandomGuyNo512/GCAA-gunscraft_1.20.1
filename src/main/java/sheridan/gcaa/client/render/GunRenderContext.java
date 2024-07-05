@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.items.guns.IGun;
@@ -26,6 +27,8 @@ public class GunRenderContext {
     public float a = 1;
     public int packedLight;
     public int packedOverlay;
+    public long lastShoot;
+    public DisplayData.MuzzleFlashEntry muzzleFlashEntry;
 
     public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType,int packedLight, int packedOverlay) {
         this.bufferSource = bufferSource;
@@ -36,6 +39,20 @@ public class GunRenderContext {
         this.packedOverlay = packedOverlay;
         this.gun = gun;
         this.isFirstPerson = transformType.firstPerson();
+        lastShoot = Clients.mainHandStatus.lastShoot;
+    }
+
+    public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, int packedLight, int packedOverlay, DisplayData.MuzzleFlashEntry muzzleFlashEntry) {
+        this.bufferSource = bufferSource;
+        this.poseStack = poseStack;
+        this.itemStack = itemStack;
+        this.transformType = transformType;
+        this.packedLight = packedLight;
+        this.packedOverlay = packedOverlay;
+        this.gun = gun;
+        this.isFirstPerson = transformType.firstPerson();
+        this.muzzleFlashEntry = muzzleFlashEntry;
+        lastShoot = Clients.mainHandStatus.lastShoot;
     }
 
     public boolean reloading() {
@@ -86,5 +103,11 @@ public class GunRenderContext {
     public GunRenderContext translateAndRotateTo(ModelPart posePart) {
         posePart.translateAndRotate(poseStack);
         return this;
+    }
+
+    public void renderMuzzleFlash(float scale) {
+        if (muzzleFlashEntry != null) {
+            muzzleFlashEntry.muzzleFlash.render(poseStack, bufferSource, muzzleFlashEntry.displayData, scale, lastShoot, isFirstPerson);
+        }
     }
 }

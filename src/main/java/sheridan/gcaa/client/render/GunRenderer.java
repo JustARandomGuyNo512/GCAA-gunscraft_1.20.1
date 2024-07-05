@@ -10,9 +10,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
-import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
-import sheridan.gcaa.animation.recoilAnimation.InertialRecoilData;
-import sheridan.gcaa.animation.recoilAnimation.RecoilAnimationHandler;
+import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
+import sheridan.gcaa.client.animation.recoilAnimation.RecoilAnimationHandler;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.render.gui.AttachmentsGuiContext;
 import sheridan.gcaa.items.guns.IGun;
@@ -41,8 +41,11 @@ public class GunRenderer implements IGunRenderer{
             justRenderModel(itemStackIn, type, stackIn, bufferIn, combinedLightIn, combinedOverlayIn, gun, model, displayData);
             return;
         }
+
         if (model != null && displayData != null) {
             boolean isFirstPerson = type.firstPerson();
+            String muzzleFlash = gun.getMuzzleFlash(itemStackIn);
+            DisplayData.MuzzleFlashEntry muzzleFlashEntry = displayData.getMuzzleFlashEntry(muzzleFlash);
             if (isFirstPerson) {
                 PoseStack poseStack = new PoseStack();
                 poseStack.mulPose(Axis.ZP.rotationDegrees(180));
@@ -59,11 +62,11 @@ public class GunRenderer implements IGunRenderer{
                 if (inertialRecoilData != null) {
                     RecoilAnimationHandler.INSTANCE.handleInertialRecoil(poseStack, inertialRecoilData);
                 }
-                model.render(new GunRenderContext(bufferIn, poseStack, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn));
+                model.render(new GunRenderContext(bufferIn, poseStack, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry));
             } else {
                 stackIn.mulPose(Axis.ZP.rotationDegrees(180));
                 displayData.applyTransform(type, stackIn);
-                model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn));
+                model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry));
             }
         }
     }

@@ -1,4 +1,4 @@
-package sheridan.gcaa.animation.frameAnimation;
+package sheridan.gcaa.client.animation.frameAnimation;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;

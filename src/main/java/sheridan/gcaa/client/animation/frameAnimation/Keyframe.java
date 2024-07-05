@@ -3,7 +3,7 @@
 // (powered by FernFlower decompiler)
 //
 
-package sheridan.gcaa.animation.frameAnimation;
+package sheridan.gcaa.client.animation.frameAnimation;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

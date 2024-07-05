@@ -63,6 +63,7 @@ public class GunProperties{
         tag.putInt("reload_length", reloadLength);
         tag.putInt("full_reload_length", fullReloadLength);
         tag.putInt("mag_size", magSize);
+        tag.putString("muzzle_flash", "normal");
         return tag;
     }
 

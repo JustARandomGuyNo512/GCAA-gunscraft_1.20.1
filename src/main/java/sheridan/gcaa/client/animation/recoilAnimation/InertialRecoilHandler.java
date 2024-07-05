@@ -1,15 +1,12 @@
-package sheridan.gcaa.animation.recoilAnimation;
+package sheridan.gcaa.client.animation.recoilAnimation;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
 
-import java.util.List;
-import java.util.Timer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -66,7 +63,7 @@ public class InertialRecoilHandler {
         } else {
             randomYSpeed += data.randomY * randomDirectionY;
             if (randomYSpeed < 0) {
-                randomYSpeed *= 0.2f;
+                randomYSpeed *= 0.25f;
             }
             randomXSpeed += data.randomX * randomDirectionX;
             startTime = System.currentTimeMillis();

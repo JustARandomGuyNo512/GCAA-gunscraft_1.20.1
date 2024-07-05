@@ -7,10 +7,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.joml.Vector3f;
-import sheridan.gcaa.animation.frameAnimation.AnimationChannel;
-import sheridan.gcaa.animation.frameAnimation.AnimationDefinition;
-import sheridan.gcaa.animation.frameAnimation.KeyframeAnimations;
-import sheridan.gcaa.animation.frameAnimation.Keyframe;
+import sheridan.gcaa.client.animation.frameAnimation.AnimationChannel;
+import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
+import sheridan.gcaa.client.animation.frameAnimation.Keyframe;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

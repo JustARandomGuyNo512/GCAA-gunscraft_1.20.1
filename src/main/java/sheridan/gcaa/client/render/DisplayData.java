@@ -5,8 +5,9 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
-import sheridan.gcaa.animation.recoilAnimation.InertialRecoilData;
+import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.render.fx.MuzzleFlash;
+import sheridan.gcaa.client.render.fx.MuzzleFlashDisplayData;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class DisplayData {
             FIXED = 3;
     private final float[][] transforms = new float[][] {{}, {}, {}, {}};
     private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}};
-    private final Map<String, MuzzleFlash> muzzleFlashMap = new HashMap<>();
+    private final Map<String, MuzzleFlashEntry> muzzleFlashMap = new HashMap<>();
     private InertialRecoilData inertialRecoilData;
     public DisplayData() {}
 
@@ -130,16 +131,19 @@ public class DisplayData {
         return this;
     }
 
-    public Map<String, MuzzleFlash> getMuzzleFlashMap() {
+    public Map<String, MuzzleFlashEntry> getMuzzleFlashMap() {
         return muzzleFlashMap;
     }
 
     public MuzzleFlash getMuzzleFlash(String status) {
+        return muzzleFlashMap.get(status).muzzleFlash;
+    }
+    public MuzzleFlashEntry getMuzzleFlashEntry(String status) {
         return muzzleFlashMap.get(status);
     }
 
-    public DisplayData addMuzzleFlash(String statusName, MuzzleFlash muzzleFlash) {
-        muzzleFlashMap.put(statusName, muzzleFlash);
+    public DisplayData addMuzzleFlash(String statusName, MuzzleFlash muzzleFlash, MuzzleFlashDisplayData data) {
+        muzzleFlashMap.put(statusName, new MuzzleFlashEntry(data, muzzleFlash));
         return this;
     }
 
@@ -175,5 +179,14 @@ public class DisplayData {
         transform[8] = sz;
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public static class MuzzleFlashEntry {
+        public MuzzleFlashDisplayData displayData;
+        public MuzzleFlash muzzleFlash;
 
+        public MuzzleFlashEntry(MuzzleFlashDisplayData displayData, MuzzleFlash muzzleFlash) {
+            this.displayData = displayData;
+            this.muzzleFlash = muzzleFlash;
+        }
+    }
 }
