@@ -30,6 +30,7 @@ import sheridan.gcaa.entities.ModEntities;
 import sheridan.gcaa.events.CommonEvents;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.sounds.ModSounds;
 
 @Mod(GCAA.MODID)
 public class GCAA {
@@ -49,6 +50,7 @@ public class GCAA {
         ModTabs.MOD_TABS.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
+        ModSounds.register(FMLJavaModLoadingContext.get().getModEventBus());
         MinecraftForge.EVENT_BUS.register(this);
     }
 

@@ -24,6 +24,7 @@ import sheridan.gcaa.items.guns.IGunFireMode;
 import sheridan.gcaa.lib.ArsenalLib;
 
 import java.util.Timer;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static sheridan.gcaa.client.render.DisplayData.DataType.POS;
@@ -49,12 +50,16 @@ public class Clients {
     public static ReentrantLock lock = new ReentrantLock();
     @OnlyIn(Dist.CLIENT)
     public static boolean clientRegistriesHandled = false;
+    @OnlyIn(Dist.CLIENT)
+    public static Timer clientWeaponLooperTimer = new Timer();
+    @OnlyIn(Dist.CLIENT)
+    public static AtomicBoolean cancelLooperWork = new AtomicBoolean(false);
+    @OnlyIn(Dist.CLIENT)
+    public static AtomicBoolean cancelLooperWorkWithCoolDown = new AtomicBoolean(false);
 
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {
-        Timer timer = new Timer();
-        timer.schedule(new ClientWeaponLooper(), 0, 5);
-
+        clientWeaponLooperTimer.scheduleAtFixedRate(new ClientWeaponLooper(), 0, 5L);
         ArsenalLib.registerGunModel(ModItems.G19.get(), new G19Model(), new DisplayData()
                 .setFirstPersonMain(-0.46f,1.25f,-3.02f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.1f, SCALE)
                 .setThirdPersonRight(0f, 0f, 0.5f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
@@ -66,8 +71,8 @@ public class Clients {
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 0, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).set(DisplayData.FIXED, 0.3f, SCALE)
-                .setInertialRecoilData(new InertialRecoilData(0.075f, 0.06f, 0.6f, 0.08f, 0.85f,  0.085f, 0.4f, 0.28f, new Vector3f(0.55f, 0.7f, 0.6f)))
-                .addMuzzleFlash("normal", CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 4.9f, -98.6f).setScale(1.7f))
+                .setInertialRecoilData(new InertialRecoilData(0.075f, 0.06f, 0.625f, 0.08f, 0.9f,  0.08f, 0.4f, 0.28f, new Vector3f(0.55f, 0.7f, 0.6f)))
+                .addMuzzleFlash("normal", CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 4.9f, -98.6f).setScale(1.8f))
         );
 
     }
@@ -86,6 +91,8 @@ public class Clients {
             }
         }
     }
+
+
 
     @OnlyIn(Dist.CLIENT)
     public static int handleClientShoot(ItemStack stack, IGun gun, Player player) {

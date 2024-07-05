@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Ammunition extends BaseItem {
-    public static final Map<Enchantment, Integer> EMPTY_ENCHANTMENT_MAP = new HashMap<>();
     public static final int MAX_CALIBER_MUN = 10;
 
     public Ammunition(int maxProvideCount) {

@@ -18,12 +18,12 @@ public class RecoilAnimationHandler {
     private static final int MAX_LEN = 12;
 
     protected RecoilAnimationHandler() {
-        timer.schedule(new TimerTask() {
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 INERTIAL_RECOIL_HANDLER.update();
             }
-        }, 0, 10);
+        }, 0, 10L);
     }
 
     public void onShoot(AnimationDefinition recoilAnimation, long shootTime) {

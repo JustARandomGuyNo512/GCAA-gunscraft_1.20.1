@@ -101,7 +101,7 @@ public class InertialRecoilHandler {
             if (back > 0) {
                 backSpeed -= back * recoilData.backDesc;
                 if (backSpeed < 0) {
-                    backSpeed *= 0.55f;
+                    backSpeed *= 0.58f;
                 }
             } else {
                 backSpeed -= backSpeed > 0 ? back * recoilData.backDesc * 1.6f : back * recoilData.backDesc * 0.65f;

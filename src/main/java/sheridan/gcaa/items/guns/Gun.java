@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,8 +25,10 @@ import sheridan.gcaa.items.GunProperties;
 import sheridan.gcaa.items.guns.fireModes.ArmPoseHandler;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunFirePacket;
+import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.List;
+import java.util.Map;
 
 public class Gun extends BaseItem implements IGun {
     private final GunProperties gunProperties;
@@ -193,6 +196,36 @@ public class Gun extends BaseItem implements IGun {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return false;
+    }
+
+    @Override
+    public Map<Enchantment, Integer> getAllEnchantments(ItemStack stack) {
+        return EMPTY_ENCHANTMENT_MAP;
+    }
+
+    @Override
+    public int getEnchantmentValue() {
+        return 0;
+    }
+
+    @Override
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+        return false;
+    }
+
+    @Override
+    public boolean isEnchantable(@NotNull ItemStack itemStack) {
+        return false;
+    }
+
+    @Override
+    public boolean isRepairable(@NotNull ItemStack stack) {
+        return false;
     }
 }
 
