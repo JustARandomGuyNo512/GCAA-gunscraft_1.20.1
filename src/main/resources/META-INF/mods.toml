@@ -22,7 +22,7 @@ modId="gcaa" #mandatory
 version="${file.jarVersion}" #mandatory
 # A display name for the mod
 displayName="Guns Craft-Adventurer's Arsenal" #mandatory
-# A URL to query for updates for this mod. See the JSON update specification <here>
+# A URL to query for updates for this mod. See the JSON handle specification <here>
 #updateJSONURL="http://myurl.me/" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
 #displayURL="http://example.com/" #optional

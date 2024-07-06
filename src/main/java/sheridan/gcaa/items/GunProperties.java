@@ -2,7 +2,6 @@ package sheridan.gcaa.items;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.Commons;
 import sheridan.gcaa.items.guns.Gun;
@@ -20,13 +19,15 @@ public class GunProperties{
     public final int magSize;
     public final float recoilPitch;
     public final float recoilYaw;
+    public final float recoilPitchControl;
+    public final float recoilYawControl;
     public final List<IGunFireMode> fireModes;
     public final RegistryObject<SoundEvent> fireSound;
     public final RegistryObject<SoundEvent> suppressedSound;
     public final ICaliber caliber;
 
     public GunProperties(float baseDamage, float adsSpeed, int fireDelay, int reloadLength, int fullReloadLength,
-                         int magSize, float recoilPitch, float recoilYaw, List<IGunFireMode> fireModes,
+                         int magSize, float recoilPitch, float recoilYaw, float recoilPitchControl, float recoilYawControl, List<IGunFireMode> fireModes,
                          RegistryObject<SoundEvent> fireSound, RegistryObject<SoundEvent> suppressedSound, ICaliber caliber) {
         this.baseDamage = baseDamage;
         this.adsSpeed = adsSpeed;
@@ -36,6 +37,8 @@ public class GunProperties{
         this.magSize = magSize;
         this.recoilPitch = recoilPitch;
         this.recoilYaw = recoilYaw;
+        this.recoilPitchControl = recoilPitchControl;
+        this.recoilYawControl = recoilYawControl;
         this.fireModes = fireModes;
         this.fireSound = fireSound;
         this.suppressedSound = suppressedSound;
@@ -55,7 +58,7 @@ public class GunProperties{
     }
 
     /**
-     * get the initial data tag when the gun data initialize or update
+     * get the initial data tag when the gun data initialize or handle
      * <br>
      * 1.when a new gun ItemStack instance is created, this method will be called to get the initial data tag.
      * <br>
@@ -72,8 +75,10 @@ public class GunProperties{
         tag.putInt("reload_length", reloadLength);
         tag.putInt("full_reload_length", fullReloadLength);
         tag.putInt("mag_size", magSize);
-        tag.putFloat("recoilPitch", recoilPitch);
-        tag.putFloat("recoilYaw", recoilYaw);
+        tag.putFloat("recoil_pitch", recoilPitch);
+        tag.putFloat("recoil_yaw", recoilYaw);
+        tag.putFloat("recoil_pitch_control", recoilPitchControl);
+        tag.putFloat("recoil_yaw_control", recoilYawControl);
         tag.putString("muzzle_flash", Gun.MUZZLE_STATE_NORMAL);
         return tag;
     }
@@ -84,6 +89,14 @@ public class GunProperties{
 
     public void setRecoilYaw(CompoundTag propertiesTag, float val) {
         propertiesTag.putFloat("recoil_yaw", val);
+    }
+
+    public void setRecoilPitchControl(CompoundTag propertiesTag, float val) {
+        propertiesTag.putFloat("recoil_pitch_control", val);
+    }
+
+    public void setRecoilYawControl(CompoundTag propertiesTag, float val) {
+        propertiesTag.putFloat("recoil_yaw_control", val);
     }
 
 

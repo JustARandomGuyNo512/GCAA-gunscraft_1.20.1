@@ -27,4 +27,6 @@ public interface IGun {
     boolean isSniper();
     float getRecoilPitch(ItemStack stack);
     float getRecoilYaw(ItemStack stack);
+    float getRecoilPitchControl(ItemStack stack);
+    float getRecoilYawControl(ItemStack stack);
 }

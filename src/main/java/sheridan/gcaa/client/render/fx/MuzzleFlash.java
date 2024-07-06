@@ -40,7 +40,9 @@ public class MuzzleFlash {
             displayData.applyTrans(stack, scale);
             if (randomRotate) {
                 int seed = Math.max(0, RANDOM.nextInt()) % rotateSeed;
-                stack.mulPose(new Quaternionf().rotateXYZ(0,0,seed * rotation));
+                if (seed != 0) {
+                    stack.mulPose(new Quaternionf().rotateXYZ(0,0,seed * rotation));
+                }
             }
             int index = Math.abs(RANDOM.nextInt()) % muzzleFlashTexture.getCount();
             muzzleFlashTexture.render(index, stack, bufferSource, isFirstPerson);

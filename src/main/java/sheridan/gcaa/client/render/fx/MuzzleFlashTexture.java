@@ -28,17 +28,11 @@ public class MuzzleFlashTexture {
     }
 
     public void render(int index, PoseStack poseStack, MultiBufferSource buffer, boolean isFirstPerson) {
-        if (index < 0 || index >= count) {
-            return;
-        }
-        VertexConsumer vertexConsumer = buffer.getBuffer(RenderTypes.getMuzzleFlash(texture));
-        if (!isFirstPerson) {
+        if (index >= 0 && index < count) {
+            VertexConsumer vertexConsumer = buffer.getBuffer(RenderTypes.getMuzzleFlash(texture));
             draw(poseStack, 0, 0, 0, 0, vertexConsumer, index);
-        }
-        draw(poseStack, 2, 1.5707963267948966f,  0,  -0.5f,  vertexConsumer, index);
-        draw(poseStack, 1, 1.5707963267948966f, -1.5707963267948966f,   -0.5f,  vertexConsumer, index);
-        if (isFirstPerson) {
-            draw(poseStack, 0, 0, 0,  0, vertexConsumer, index);
+            draw(poseStack, 2, 1.5707963267948966f,  0,  -0.5f,  vertexConsumer, index);
+            draw(poseStack, 1, 1.5707963267948966f, -1.5707963267948966f,   -0.5f,  vertexConsumer, index);
         }
     }
 

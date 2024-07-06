@@ -17,6 +17,7 @@ public class ClientPlayerEvents {
         if (event.phase == TickEvent.Phase.END) {
             Player player = event.player;
             if (player != null && player.level().isClientSide()) {
+                Clients.clientPlayerId = player.getId();
                 ItemStack stackMain = player.getMainHandItem();
                 IGun gunMain = stackMain.getItem() instanceof IGun ? (IGun) stackMain.getItem() : null;
                 Clients.mainHandStatus.holdingGun.set(gunMain != null);

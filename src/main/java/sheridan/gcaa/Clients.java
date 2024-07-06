@@ -57,6 +57,8 @@ public class Clients {
     public static AtomicBoolean cancelLooperWork = new AtomicBoolean(false);
     @OnlyIn(Dist.CLIENT)
     public static AtomicBoolean cancelLooperWorkWithCoolDown = new AtomicBoolean(false);
+    @OnlyIn(Dist.CLIENT)
+    public static int clientPlayerId = 0;
 
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {

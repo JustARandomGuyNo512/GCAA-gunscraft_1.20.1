@@ -18,6 +18,7 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.recoilAnimation.RecoilAnimationHandler;
 import sheridan.gcaa.capability.PlayerStatusProvider;
+import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.BaseItem;
@@ -68,14 +69,15 @@ public class Gun extends BaseItem implements IGun {
         PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
         PacketHandler.simpleChannel.sendToServer(new GunFirePacket());
         DisplayData data = GunModelRegistry.getDisplayData(this);
+        float directionY = randomIndex();
         if (data != null) {
             InertialRecoilData inertialRecoilData = data.getInertialRecoilData();
             if (inertialRecoilData != null) {
                 float directionX = randomIndex();
-                float directionY = randomIndex();
                 RecoilAnimationHandler.INSTANCE.onShoot(inertialRecoilData, directionX, directionY);
             }
         }
+        RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionY);
         handleClientFireSound(stack, player);
     }
 
@@ -176,6 +178,18 @@ public class Gun extends BaseItem implements IGun {
     }
 
     @Override
+    public float getRecoilPitchControl(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("recoil_pitch_control") ? properties.getFloat("recoil_pitch_control") : 0;
+    }
+
+    @Override
+    public float getRecoilYawControl(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("recoil_yaw_control") ? properties.getFloat("recoil_yaw_control") : 0;
+    }
+
+    @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
     }
@@ -230,9 +244,6 @@ public class Gun extends BaseItem implements IGun {
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
-
-
-
 
 
     @Override

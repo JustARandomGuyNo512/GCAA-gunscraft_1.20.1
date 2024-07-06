@@ -38,14 +38,17 @@ public class GlobalWeaponBobbing {
     }
 
     public void setWeaponBobbing(IWeaponBobbing weaponBobbing) {
+        this.weaponBobbing.clear();
         this.weaponBobbing = weaponBobbing;
     }
 
     public void useDefault() {
+        this.weaponBobbing.clear();
         this.weaponBobbing = DEFAULT;
     }
 
     public interface IWeaponBobbing {
+        void clear();
         void handleTranslation(PoseStack poseStack, GlobalWeaponBobbing globalWeaponBobbing);
     }
 
@@ -98,6 +101,11 @@ public class GlobalWeaponBobbing {
             scaleFactor = Math.min(lastFireDis, 1f) * scaleFactor;
             poseStack.translate(0, yaw * scaleFactor, roll * 0.025f * scaleFactor);
             poseStack.mulPose(new Quaternionf().rotateXYZ(-pitch * scaleFactor, 0, 0));
+        }
+
+        @Override
+        public void clear() {
+
         }
     }
 }

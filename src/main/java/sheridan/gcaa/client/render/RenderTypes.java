@@ -26,7 +26,7 @@ public class RenderTypes extends RenderType {
             return TEMP.get(baseKey);
         } else {
             RenderType baseType = RenderType.create(GCAA.MODID + ":" + "muzzle_flash", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
-                    VertexFormat.Mode.QUADS, 256, true, false,
+                    VertexFormat.Mode.QUADS, 256, true, true,
                     CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
                             .setTextureState(new TextureStateShard(texture, false, false))
                             .setLightmapState(LightmapStateShard.LIGHTMAP)
