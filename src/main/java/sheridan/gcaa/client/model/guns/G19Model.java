@@ -89,8 +89,10 @@ public class G19Model extends GCAAStyleGunModel{
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
-        if (context.isFirstPerson) {
-            RecoilAnimationHandler.INSTANCE.handleRecoil(this);
+        if (context.isFirstPerson || context.isThirdPerson()) {
+            if (context.isFirstPerson) {
+                RecoilAnimationHandler.INSTANCE.handleRecoil(this);
+            }
             KeyframeAnimations.animate(this, shoot, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
         }
     }

@@ -43,10 +43,10 @@ public class Clients {
     public static boolean mainButtonDown() {
         return mainHandStatus.buttonDown.get();
     }
-    @Deprecated
+
     @OnlyIn(Dist.CLIENT)
     public static boolean holdingGun() {
-        return mainHandStatus.holdingGun.get() || offHandStatus.holdingGun.get();
+        return mainHandStatus.holdingGun.get();
     }
     @OnlyIn(Dist.CLIENT)
     public static ReentrantLock lock = new ReentrantLock();

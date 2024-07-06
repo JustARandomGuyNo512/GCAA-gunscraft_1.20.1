@@ -99,7 +99,7 @@ public class AkmModel extends GCAAStyleGunModel{
 
     @Override
     protected void animationGlobal(GunRenderContext gunRenderContext) {
-        if (gunRenderContext.isFirstPerson) {
+        if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
             KeyframeAnimations.animate(this, recoil, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
             KeyframeAnimations.animate(this, shoot, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
         }

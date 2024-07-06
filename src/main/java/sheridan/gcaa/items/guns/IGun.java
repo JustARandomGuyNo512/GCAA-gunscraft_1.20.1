@@ -24,5 +24,7 @@ public interface IGun {
     void switchFireMode(ItemStack stack);
     int getFireDelay(ItemStack stack);
     String getMuzzleFlash(ItemStack stack);
-    void setMuzzleFlash(ItemStack stack, String status);
+    boolean isSniper();
+    float getRecoilPitch(ItemStack stack);
+    float getRecoilYaw(ItemStack stack);
 }

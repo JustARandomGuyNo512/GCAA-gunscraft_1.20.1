@@ -97,47 +97,57 @@ public class InertialRecoilHandler {
     public void update() {
         if (enabled.get() && this.data.get() != null) {
             InertialRecoilData recoilData = data.get();
-            back += backSpeed;
-            if (back > 0) {
-                backSpeed -= back * recoilData.backDesc;
-                if (backSpeed < 0) {
-                    backSpeed *= 0.58f;
+            if (back != 0 || backSpeed != 0) {
+                back += backSpeed;
+                if (back > 0) {
+                    backSpeed -= back * recoilData.backDesc;
+                    if (backSpeed < 0) {
+                        backSpeed *= 0.58f;
+                    }
+                } else {
+                    backSpeed -= backSpeed > 0 ? back * recoilData.backDesc * 1.6f : back * recoilData.backDesc * 0.65f;
+                    if (backSpeed < 0) {
+                        backSpeed *= 0.35f;
+                    }
                 }
-            } else {
-                backSpeed -= backSpeed > 0 ? back * recoilData.backDesc * 1.6f : back * recoilData.backDesc * 0.65f;
-                if (backSpeed < 0) {
-                    backSpeed *= 0.35f;
-                }
+                backSpeed *= 0.8f;
             }
-            backSpeed *= 0.8f;
             if (shouldClear(backSpeed, back)) {
                 back = backSpeed = 0;
             }
 
-            upSpeed -= up * recoilData.upDesc;
-            upSpeed *= 0.5f;
-            up += upSpeed * 0.7f;
+            if (up != 0 || upSpeed != 0) {
+                upSpeed -= up * recoilData.upDesc;
+                upSpeed *= 0.5f;
+                up += upSpeed * 0.7f;
+            }
             if (shouldClear(upSpeed, up)) {
                 upSpeed = up = 0;
             }
 
-            rotateSpeed -= rotate * recoilData.rotateDesc;
-            rotateSpeed *= 0.7f;
-            rotate += rotateSpeed;
+            if (rotate != 0 || rotateSpeed != 0) {
+                rotateSpeed -= rotate * recoilData.rotateDesc;
+                rotateSpeed *= 0.7f;
+                rotate += rotateSpeed;
+            }
             if (shouldClear(rotateSpeed, rotate)) {
                 rotateSpeed = rotate = 0;
             }
 
-            randomX += randomXSpeed * 0.3f;
-            randomXSpeed *= 0.925f;
-            randomX *= 0.92f;
+            if (randomX != 0 || randomXSpeed != 0) {
+                randomX += randomXSpeed * 0.3f;
+                randomXSpeed *= 0.925f;
+                randomX *= 0.92f;
+            }
             if (shouldClear(randomXSpeed, randomX)) {
                 randomXSpeed = randomX = 0;
             }
 
-            randomY += randomYSpeed * 0.3f;
-            randomYSpeed *= 0.925f;
-            randomY *= 0.92f;
+            if (randomY != 0 || randomYSpeed != 0) {
+                randomY += randomYSpeed * 0.3f;
+                randomYSpeed *= 0.925f;
+                randomY *= 0.92f;
+            }
             if (shouldClear(randomYSpeed, randomY)) {
                 randomYSpeed = randomY = 0;
             }

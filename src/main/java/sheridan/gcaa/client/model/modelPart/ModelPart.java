@@ -58,60 +58,79 @@ public final class ModelPart {
      * Set the model part's pose to the given pose(scale is not included).
      * */
     public void loadPose(PartPose partPose) {
-        this.x = partPose.x;
-        this.y = partPose.y;
-        this.z = partPose.z;
-        this.xRot = partPose.xRot;
-        this.yRot = partPose.yRot;
-        this.zRot = partPose.zRot;
-        this.xScale = 1.0F;
-        this.yScale = 1.0F;
-        this.zScale = 1.0F;
+        x = partPose.x;
+        y = partPose.y;
+        z = partPose.z;
+        xRot = partPose.xRot;
+        yRot = partPose.yRot;
+        zRot = partPose.zRot;
+        xScale = 1.0F;
+        yScale = 1.0F;
+        zScale = 1.0F;
     }
 
     /**
      * Set the model part's pose to the given listTag, which is a list of 9 floats(x, y, z, rotX, rotY, rotZ).
      * */
     public void copyFrom(ListTag tag) {
-        this.x = tag.getFloat(0);
-        this.y = tag.getFloat(1);
-        this.z = tag.getFloat(2);
-        this.xRot = tag.getFloat(3);
-        this.yRot = tag.getFloat(4);
-        this.zRot = tag.getFloat(5);
-        this.xScale = tag.getFloat(6);
-        this.yScale = tag.getFloat(7);
-        this.zScale = tag.getFloat(8);
+        x = tag.getFloat(0);
+        y = tag.getFloat(1);
+        z = tag.getFloat(2);
+        xRot = tag.getFloat(3);
+        yRot = tag.getFloat(4);
+        zRot = tag.getFloat(5);
+        xScale = tag.getFloat(6);
+        yScale = tag.getFloat(7);
+        zScale = tag.getFloat(8);
     }
 
     /**
      * Set the model part's pose to the given array, which is an array of 9 floats(x, y, z, rotX, rotY, rotZ).
      * */
     public void copyFrom(float[] translation) {
-        this.x = translation[0];
-        this.y = translation[1];
-        this.z = translation[2];
-        this.xRot = translation[3];
-        this.yRot = translation[4];
-        this.zRot = translation[5];
-        this.xScale = translation[6];
-        this.yScale = translation[7];
-        this.zScale = translation[8];
+        x = translation[0];
+        y = translation[1];
+        z = translation[2];
+        xRot = translation[3];
+        yRot = translation[4];
+        zRot = translation[5];
+        xScale = translation[6];
+        yScale = translation[7];
+        zScale = translation[8];
     }
 
     /**
      * Copy the model part's pose from the given model part.
      * */
     public void copyFrom(ModelPart modelPart) {
-        this.xScale = modelPart.xScale;
-        this.yScale = modelPart.yScale;
-        this.zScale = modelPart.zScale;
-        this.xRot = modelPart.xRot;
-        this.yRot = modelPart.yRot;
-        this.zRot = modelPart.zRot;
-        this.x = modelPart.x;
-        this.y = modelPart.y;
-        this.z = modelPart.z;
+        xScale = modelPart.xScale;
+        yScale = modelPart.yScale;
+        zScale = modelPart.zScale;
+        xRot = modelPart.xRot;
+        yRot = modelPart.yRot;
+        zRot = modelPart.zRot;
+        x = modelPart.x;
+        y = modelPart.y;
+        z = modelPart.z;
+    }
+
+    /**
+     * @param progress a float between 0 and 1, where 0 is the current pose and 1 is the target pose.
+     * @param to the target pose.
+     * <p>
+     *           do a linear pose lerp between the current pose and the target pose.
+     * </p>
+     * */
+    public void lerpTo(ModelPart to, float progress) {
+        xScale += (to.xScale - xScale) * progress;
+        yScale += (to.yScale - yScale) * progress;
+        zScale += (to.zScale - zScale) * progress;
+        xRot += (to.xRot - xRot) * progress;
+        yRot += (to.yRot - yRot) * progress;
+        zRot += (to.zRot - zRot) * progress;
+        x += (to.x - x) * progress;
+        y += (to.y - y) * progress;
+        z += (to.z - z) * progress;
     }
 
     public boolean hasChild(String childName) {

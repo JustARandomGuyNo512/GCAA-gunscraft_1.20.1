@@ -110,4 +110,8 @@ public class GunRenderContext {
             muzzleFlashEntry.muzzleFlash.render(poseStack, bufferSource, muzzleFlashEntry.displayData, scale, lastShoot, isFirstPerson);
         }
     }
+
+    public boolean isThirdPerson() {
+        return transformType == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || transformType == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND;
+    }
 }

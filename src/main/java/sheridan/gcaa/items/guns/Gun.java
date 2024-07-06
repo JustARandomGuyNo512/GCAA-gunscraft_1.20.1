@@ -84,15 +84,15 @@ public class Gun extends BaseItem implements IGun {
         String muzzleState = getMuzzleFlash(stack);
         if (MUZZLE_STATE_SUPPRESSED.equals(muzzleState)) {
             if (gunProperties.suppressedSound != null) {
-                ModSounds.clientSound(1, 1, player, gunProperties.suppressedSound.get());
+                ModSounds.clientSound(1f, 1f + ((float) Math.random() * 0.1f), player, gunProperties.suppressedSound.get());
             } else {
                 if (gunProperties.fireSound != null) {
-                    ModSounds.clientSound(0.5f, 1.6f, player, gunProperties.fireSound.get());
+                    ModSounds.clientSound(0.5f, 1.6f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
                 }
             }
         } else {
             if (gunProperties.fireSound != null) {
-                ModSounds.clientSound(1, 1, player, gunProperties.fireSound.get());
+                ModSounds.clientSound(1f, 1f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
             }
         }
     }
@@ -116,7 +116,7 @@ public class Gun extends BaseItem implements IGun {
 
     @Override
     public ICaliber getCaliber() {
-        return gunProperties.getCaliber();
+        return gunProperties.caliber;
     }
 
     @Override
@@ -159,9 +159,20 @@ public class Gun extends BaseItem implements IGun {
     }
 
     @Override
-    public void setMuzzleFlash(ItemStack stack, String status) {
+    public boolean isSniper() {
+        return false;
+    }
+
+    @Override
+    public float getRecoilPitch(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        properties.putString("muzzle_flash", status);
+        return properties.contains("recoil_pitch") ? properties.getFloat("recoil_pitch") : 0;
+    }
+
+    @Override
+    public float getRecoilYaw(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("recoil_yaw") ? properties.getFloat("recoil_yaw") : 0;
     }
 
     @Override
@@ -219,6 +230,10 @@ public class Gun extends BaseItem implements IGun {
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
+
+
+
+
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {

@@ -22,6 +22,7 @@ public class RecoilAnimationHandler {
             @Override
             public void run() {
                 INERTIAL_RECOIL_HANDLER.update();
+                RecoilCameraHandler.INSTANCE.update();
             }
         }, 0, 10L);
     }
@@ -57,7 +58,4 @@ public class RecoilAnimationHandler {
         INERTIAL_RECOIL_HANDLER.applyTransform(poseStack, data.id, false);
     }
 
-    public void update() {
-
-    }
 }
