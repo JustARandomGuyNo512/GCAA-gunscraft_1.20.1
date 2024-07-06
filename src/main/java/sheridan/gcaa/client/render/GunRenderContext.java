@@ -100,6 +100,9 @@ public class GunRenderContext {
         poseStack.popPose();
     }
 
+    /**
+     * apply translation and rotation to a layer
+     * */
     public GunRenderContext translateAndRotateTo(ModelPart posePart) {
         posePart.translateAndRotate(poseStack);
         return this;

@@ -12,7 +12,7 @@ import sheridan.gcaa.client.render.RenderTypes;
 
 @OnlyIn(Dist.CLIENT)
 public class MuzzleFlashTexture {
-    private static final float BASE_ALPHA = 0.8f;
+    private static final float BASE_ALPHA = 0.9f;
     private final ResourceLocation texture;
     private final int count;
     private final float quadSize;

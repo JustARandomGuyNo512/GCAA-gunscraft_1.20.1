@@ -43,7 +43,6 @@ public class Clients {
     public static boolean mainButtonDown() {
         return mainHandStatus.buttonDown.get();
     }
-
     @OnlyIn(Dist.CLIENT)
     public static boolean holdingGun() {
         return mainHandStatus.holdingGun.get();
@@ -93,8 +92,6 @@ public class Clients {
             }
         }
     }
-
-
 
     @OnlyIn(Dist.CLIENT)
     public static int handleClientShoot(ItemStack stack, IGun gun, Player player) {

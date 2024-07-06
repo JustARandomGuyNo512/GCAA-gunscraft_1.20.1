@@ -29,7 +29,7 @@ public class RenderTypes extends RenderType {
                     VertexFormat.Mode.QUADS, 256, true, false,
                     CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
                             .setTextureState(new TextureStateShard(texture, false, false))
-                            .setLightmapState(LightmapStateShard.NO_LIGHTMAP)
+                            .setLightmapState(LightmapStateShard.LIGHTMAP)
                             .setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL).setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(false));
             TEMP.put(baseKey, baseType);
         }
