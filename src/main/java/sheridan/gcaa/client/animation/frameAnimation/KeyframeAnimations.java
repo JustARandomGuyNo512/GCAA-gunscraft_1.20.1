@@ -15,9 +15,9 @@ import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public class KeyframeAnimations {
-    public static final Vector3f DEFAULT_DIRECTION = new Vector3f(1,1,1f);
+    private static final Vector3f INTERPOLATION_RESULT_CACHE = new Vector3f(0,0,0);
 
-    public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, long shift, float scale, Vector3f direction, boolean stopIfOutOfTime) {
+    public static void _animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, long shift, float scaleX, float scaleY, float scaleZ, boolean stopIfOutOfTime) {
         float timeDis = (float)(System.currentTimeMillis() - (startTime + shift)) * 0.001F;
         if (stopIfOutOfTime && (!definition.looping() && timeDis > definition.lengthInSeconds())) {
             return;
@@ -39,15 +39,43 @@ public class KeyframeAnimations {
                 } else {
                     f2 = 0.0F;
                 }
-                nextFrame.interpolation().apply(direction, f2, keyframes, currentIndex, nextIndex, scale);
-                channel.target().apply(modelPart, direction);
+                nextFrame.interpolation().apply(INTERPOLATION_RESULT_CACHE, f2, keyframes, currentIndex, nextIndex, scaleX, scaleY, scaleZ);
+                channel.target().apply(modelPart, INTERPOLATION_RESULT_CACHE);
             }));
         }
 
     }
 
-    public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, long shift, float scale, Vector3f direction) {
-        animate(root, definition, startTime, shift, scale, direction, true);
+    public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, float scale) {
+        _animate(root, definition, startTime, 0, scale, scale, scale, true);
+    }
+
+    public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, float scaleX, float scaleY, float scaleZ) {
+        _animate(root, definition, startTime, 0, scaleX, scaleY, scaleZ, true);
+    }
+    public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, Vector3f scales) {
+        _animate(root, definition, startTime, 0, scales.x, scales.y, scales.z, true);
+    }
+
+    public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, long shift, float scale) {
+        _animate(root, definition, startTime, shift, scale, scale, scale, true);
+    }
+    public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, long shift, float scaleX, float scaleY, float scaleZ) {
+        _animate(root, definition, startTime, shift, scaleX, scaleY, scaleZ, true);
+    }
+    public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, long shift, Vector3f scales) {
+        _animate(root, definition, startTime, shift, scales.x, scales.y, scales.z, true);
+    }
+
+    public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, long shift, float scale, boolean stopIfOutOfTime)  {
+        _animate(root, definition, startTime, shift, scale, scale, scale, stopIfOutOfTime);
+    }
+
+    public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, long shift, float scaleX, float scaleY, float scaleZ, boolean stopIfOutOfTime) {
+        _animate(root, definition, startTime, shift, scaleX, scaleY, scaleZ, stopIfOutOfTime);
+    }
+    public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, long shift, Vector3f scales, boolean stopIfOutOfTime) {
+        _animate(root, definition, startTime, shift, scales.x, scales.y, scales.z, stopIfOutOfTime);
     }
 
     public static boolean checkIfOutOfTime(long startTime, long shift, AnimationDefinition definition) {
@@ -85,15 +113,17 @@ public class KeyframeAnimations {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static class Mark{
+        private static final Vector3f DEFAULT_SCALE = new Vector3f(1,1,1);
         public AnimationDefinition animationDefinition;
         public long timeStamp;
-        public Vector3f direction = DEFAULT_DIRECTION;
+        public Vector3f scales = DEFAULT_SCALE;
 
-        public Mark(AnimationDefinition animationDefinition, long timeStamp, Vector3f direction) {
+        public Mark(AnimationDefinition animationDefinition, long timeStamp, Vector3f scales) {
             this.animationDefinition = animationDefinition;
             this.timeStamp = timeStamp;
-            this.direction = direction;
+            this.scales = scales;
         }
 
         public Mark(AnimationDefinition animationDefinition, long timeStamp) {

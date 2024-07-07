@@ -57,7 +57,7 @@ public class RecoilAnimationHandler {
     public void handleRecoil(HierarchicalModel<?> root) {
         for (KeyframeAnimations.Mark mark : recoils) {
             if (!KeyframeAnimations.checkIfOutOfTime(mark.timeStamp, 0, mark.animationDefinition)) {
-                KeyframeAnimations.animate(root, mark.animationDefinition, mark.timeStamp, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
+                KeyframeAnimations.animate(root, mark.animationDefinition, mark.timeStamp, mark.scales);
             } else {
                 recoils.remove(mark);
             }

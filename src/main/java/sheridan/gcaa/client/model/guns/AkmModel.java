@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BowItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
@@ -101,8 +100,8 @@ public class AkmModel extends GCAAStyleGunModel{
     @Override
     protected void animationGlobal(GunRenderContext gunRenderContext) {
         if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
-            KeyframeAnimations.animate(this, recoil, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
-            KeyframeAnimations.animate(this, shoot, Clients.mainHandStatus.lastShoot, 0, 1, KeyframeAnimations.DEFAULT_DIRECTION);
+            KeyframeAnimations.animate(this, recoil, Clients.mainHandStatus.lastShoot,1);
+            KeyframeAnimations.animate(this, shoot, Clients.mainHandStatus.lastShoot,1);
         }
     }
 

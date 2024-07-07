@@ -111,7 +111,7 @@ public class RecoilCameraHandler {
         @Override
         public boolean shake(float particleTicks, PoseStack poseStack, IGun gun, Player player, ItemStack itemStack) {
             if (System.currentTimeMillis() - Clients.mainHandStatus.lastShoot < 1000L) {
-                KeyframeAnimations.animate(CameraCastModel.INSTANCE, RECOIL_SHAKE, Clients.mainHandStatus.lastShoot, 0, -1, KeyframeAnimations.DEFAULT_DIRECTION);
+                KeyframeAnimations.animate(CameraCastModel.INSTANCE, RECOIL_SHAKE, Clients.mainHandStatus.lastShoot, -1);
                 CameraCastModel.applyToPose(poseStack);
                 CameraCastModel.reset();
             }
