@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.render.fx;
+package sheridan.gcaa.client.render.fx.muzzleFlash;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;

@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.render.fx;
+package sheridan.gcaa.client.render.fx.muzzleFlash;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,18 +13,23 @@ import java.util.Random;
 public class MuzzleFlash {
     private static final Random RANDOM = new Random();
     private final List<MuzzleFlashTexture> textures;
-    private final boolean randomRotate;
-    private final float rotation;
-    private final int rotateSeed;
+    private boolean randomRotate;
+    private float rotation;
+    private int rotateSeed;
 
 
     public MuzzleFlash(List<MuzzleFlashTexture> textures, boolean randomRotate, int rotateSeed) {
-        this.textures = textures;
-        this.randomRotate = randomRotate;
-        this.rotateSeed = rotateSeed;
-        this.rotation = (float) Math.toRadians(360f / rotateSeed);
+        this(textures);
+        if (rotateSeed > 0) {
+            this.randomRotate = randomRotate;
+            this.rotateSeed = rotateSeed;
+            this.rotation = (float) Math.toRadians(360f / rotateSeed);
+        }
     }
 
+    /**
+     * create a muzzle flash without random rotation
+     * */
     public MuzzleFlash(List<MuzzleFlashTexture> textures) {
         this.textures = textures;
         this.randomRotate = false;

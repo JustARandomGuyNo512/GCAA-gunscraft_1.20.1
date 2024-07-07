@@ -24,8 +24,10 @@ public class RecoilAnimationHandler {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                INERTIAL_RECOIL_HANDLER.update();
-                RecoilCameraHandler.INSTANCE.handle();
+                try {
+                    INERTIAL_RECOIL_HANDLER.update();
+                    RecoilCameraHandler.INSTANCE.handle();
+                } catch (Exception ignore) {}
             }
         }, 0, 10L);
     }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IAmmunition {
     List<ICaliber> getCalibersProvided();
-    int getBulletLeft(ICaliber caliber);
+    int getBulletLeftFor(ICaliber caliber);
     int getMaxPoints();
     int getPointsLeft();
     List<IBulletEffectProcessor> getBulletEffectProcessors(ItemStack stack);

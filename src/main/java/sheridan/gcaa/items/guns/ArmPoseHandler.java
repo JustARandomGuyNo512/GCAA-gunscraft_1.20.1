@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.guns.fireModes;
+package sheridan.gcaa.items.guns;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.world.InteractionHand;

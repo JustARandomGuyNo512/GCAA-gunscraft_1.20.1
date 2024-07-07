@@ -19,7 +19,7 @@ public class Caliber9x19mm implements ICaliber {
     }
 
     @Override
-    public void fireBullet(IAmmunition ammunition, List<IBulletEffectProcessor> effectProcessors, IGun gun, Player player, ItemStack gunStack) {
+    public void fireBullet(IAmmunition ammunition, ItemStack ammunitionStack, IGun gun, Player player, ItemStack gunStack) {
 
     }
 

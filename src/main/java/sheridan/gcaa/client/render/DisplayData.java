@@ -6,8 +6,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
-import sheridan.gcaa.client.render.fx.MuzzleFlash;
-import sheridan.gcaa.client.render.fx.MuzzleFlashDisplayData;
+import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlash;
+import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
 
 import java.util.Arrays;
 import java.util.HashMap;

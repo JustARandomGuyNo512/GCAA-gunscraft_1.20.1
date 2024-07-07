@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface ICaliber {
     String getName();
-    void fireBullet(IAmmunition ammunition, List<IBulletEffectProcessor> effectProcessors, IGun gun, Player player, ItemStack gunStack);
+    void fireBullet(IAmmunition ammunition, ItemStack ammunitionStack, IGun gun, Player player, ItemStack gunStack);
     int getCost();
 }

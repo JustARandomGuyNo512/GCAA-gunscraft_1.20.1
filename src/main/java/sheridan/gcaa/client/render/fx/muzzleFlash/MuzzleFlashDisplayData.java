@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.render.fx;
+package sheridan.gcaa.client.render.fx.muzzleFlash;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraftforge.api.distmarker.Dist;

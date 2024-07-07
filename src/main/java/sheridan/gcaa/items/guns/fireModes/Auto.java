@@ -32,7 +32,7 @@ public class Auto implements IGunFireMode {
 
     @Override
     public void shoot(Player player, ItemStack itemStack, IGun gun) {
-
+        gun.shoot(itemStack, player, this);
     }
 
     @Override

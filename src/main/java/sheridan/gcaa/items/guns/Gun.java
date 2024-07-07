@@ -23,7 +23,6 @@ import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.BaseItem;
 import sheridan.gcaa.items.GunProperties;
-import sheridan.gcaa.items.guns.fireModes.ArmPoseHandler;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunFirePacket;
 import sheridan.gcaa.sounds.ModSounds;
@@ -67,7 +66,6 @@ public class Gun extends BaseItem implements IGun {
     public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
         Clients.mainHandStatus.lastShoot = System.currentTimeMillis();
         PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
-        PacketHandler.simpleChannel.sendToServer(new GunFirePacket());
         DisplayData data = GunModelRegistry.getDisplayData(this);
         float directionY = randomIndex();
         if (data != null) {
@@ -101,7 +99,11 @@ public class Gun extends BaseItem implements IGun {
 
     @Override
     public void shoot(ItemStack stack, Player player, IGunFireMode fireMode) {
-
+        int ammoLeft = getAmmoLeft(stack);
+        if (ammoLeft > 0) {
+            ICaliber caliber = gunProperties.caliber;
+            caliber.fireBullet(null, null, this, player, stack);
+        }
     }
 
     @Override
