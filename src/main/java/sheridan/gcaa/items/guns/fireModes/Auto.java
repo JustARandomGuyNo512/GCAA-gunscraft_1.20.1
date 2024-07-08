@@ -3,6 +3,8 @@ package sheridan.gcaa.items.guns.fireModes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.items.guns.IGun;
 import sheridan.gcaa.items.guns.IGunFireMode;
@@ -26,7 +28,6 @@ public class Auto implements IGunFireMode {
     @Override
     public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
         gun.clientShoot(itemStack, player, this);
-        PacketHandler.simpleChannel.sendToServer(new GunFirePacket());
         Clients.mainHandStatus.fireCount ++;
     }
 

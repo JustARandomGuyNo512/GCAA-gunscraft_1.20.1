@@ -66,6 +66,7 @@ public class Gun extends BaseItem implements IGun {
     public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
         Clients.mainHandStatus.lastShoot = System.currentTimeMillis();
         PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
+        PacketHandler.simpleChannel.sendToServer(new GunFirePacket());
         DisplayData data = GunModelRegistry.getDisplayData(this);
         float directionY = randomIndex();
         if (data != null) {

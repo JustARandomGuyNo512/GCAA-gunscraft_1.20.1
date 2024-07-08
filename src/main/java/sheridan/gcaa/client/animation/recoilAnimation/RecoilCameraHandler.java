@@ -91,6 +91,8 @@ public class RecoilCameraHandler {
 
     @OnlyIn(Dist.CLIENT)
     private static class CameraShakeHandler implements ICameraShakeHandler {
+        private static final ModelPart CAMERA = createBodyLayer().bakeRoot().getChild("root");
+
         private static final AnimationDefinition RECOIL_SHAKE = AnimationDefinition.Builder.withLength(0.3333F)
                 .addAnimation("root", new AnimationChannel(AnimationChannel.Targets.ROTATION,
                         new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
@@ -103,50 +105,40 @@ public class RecoilCameraHandler {
                 .build();
 
 
+        private static LayerDefinition createBodyLayer() {
+            MeshDefinition meshdefinition = new MeshDefinition();
+            meshdefinition.getRoot().addOrReplaceChild("root", CubeListBuilder.create().texOffs(0, 2), PartPose.offset(0.0F, 0.0F, 0.0F));
+            return LayerDefinition.create(meshdefinition, 0, 0);
+        }
+
+        public static void applyToPose(PoseStack poseStack) {
+            if (CAMERA.xRot != 0.0F || CAMERA.yRot != 0.0F || CAMERA.zRot != 0.0F) {
+                poseStack.mulPose((new Quaternionf()).rotationZYX(CAMERA.zRot, CAMERA.yRot, CAMERA.xRot));
+            }
+            if (CAMERA.xScale != 1.0F || CAMERA.yScale != 1.0F || CAMERA.zScale != 1.0F) {
+                poseStack.scale(CAMERA.xScale, CAMERA.yScale, CAMERA.zScale);
+            }
+        }
+
+        public static void reset() {
+            CAMERA.resetPose();
+        }
+
         @Override
         public void clear() {
-
+            reset();
         }
 
         @Override
         public boolean shake(float particleTicks, PoseStack poseStack, IGun gun, Player player, ItemStack itemStack) {
             if (System.currentTimeMillis() - Clients.mainHandStatus.lastShoot < 1000L) {
-                KeyframeAnimations.animate(CameraCastModel.INSTANCE, RECOIL_SHAKE, Clients.mainHandStatus.lastShoot, -1);
-                CameraCastModel.applyToPose(poseStack);
-                CameraCastModel.reset();
+                KeyframeAnimations._animateToModelPart(CAMERA, RECOIL_SHAKE, Clients.mainHandStatus.lastShoot, 0, -1, -1, -1, true);
+                applyToPose(poseStack);
+                reset();
             }
             return false;
         }
 
-        @OnlyIn(Dist.CLIENT)
-        private static class CameraCastModel extends HierarchicalModel<Entity> {
-            public static final CameraCastModel INSTANCE = new CameraCastModel();
-            public static final ModelPart CAMERA = createBodyLayer().bakeRoot().getChild("root");
-
-            public static void applyToPose(PoseStack poseStack) {
-                if (CAMERA.xRot != 0.0F || CAMERA.yRot != 0.0F || CAMERA.zRot != 0.0F) {
-                    poseStack.mulPose((new Quaternionf()).rotationZYX(CAMERA.zRot, CAMERA.yRot, CAMERA.xRot));
-                }
-                if (CAMERA.xScale != 1.0F || CAMERA.yScale != 1.0F || CAMERA.zScale != 1.0F) {
-                    poseStack.scale(CAMERA.xScale, CAMERA.yScale, CAMERA.zScale);
-                }
-            }
-
-            public static void reset() {
-                CAMERA.resetPose();
-            }
-
-            private static LayerDefinition createBodyLayer() {
-                MeshDefinition meshdefinition = new MeshDefinition();
-                meshdefinition.getRoot().addOrReplaceChild("root", CubeListBuilder.create().texOffs(0, 2), PartPose.offset(0.0F, 0.0F, 0.0F));
-                return LayerDefinition.create(meshdefinition, 0, 0);
-            }
-
-            @Override
-            public ModelPart root() {
-                return CAMERA;
-            }
-        }
     }
 
 }

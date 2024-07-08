@@ -9,6 +9,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public interface IGunFireMode {
     String getName();
 
+    @OnlyIn(Dist.CLIENT)
     boolean canFire(Player player, ItemStack itemStack, IGun gun);
 
     /**

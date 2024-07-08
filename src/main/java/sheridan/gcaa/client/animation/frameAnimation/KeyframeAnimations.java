@@ -28,7 +28,7 @@ public class KeyframeAnimations {
             List<AnimationChannel> list = entry.getValue();
             optional.ifPresent((modelPart) -> list.forEach((channel) -> {
                 Keyframe[] keyframes = channel.keyframes();
-                int currentIndex = Math.max(0, Mth.binarySearch(0, keyframes.length, (p_232315_) -> f <= keyframes[p_232315_].timestamp()) - 1);
+                int currentIndex = Math.max(0, Mth.binarySearch(0, keyframes.length, (index) -> f <= keyframes[index].timestamp()) - 1);
                 int nextIndex = Math.min(keyframes.length - 1, currentIndex + 1);
                 Keyframe prevFrame = keyframes[currentIndex];
                 Keyframe nextFrame = keyframes[nextIndex];
@@ -42,6 +42,34 @@ public class KeyframeAnimations {
                 nextFrame.interpolation().apply(INTERPOLATION_RESULT_CACHE, f2, keyframes, currentIndex, nextIndex, scaleX, scaleY, scaleZ);
                 channel.target().apply(modelPart, INTERPOLATION_RESULT_CACHE);
             }));
+        }
+
+    }
+
+    public static void _animateToModelPart(ModelPart pose, AnimationDefinition definition, long startTime, long shift, float scaleX, float scaleY, float scaleZ, boolean stopIfOutOfTime) {
+        float timeDis = (float)(System.currentTimeMillis() - (startTime + shift)) * 0.001F;
+        if (stopIfOutOfTime && (!definition.looping() && timeDis > definition.lengthInSeconds())) {
+            return;
+        }
+        float f = definition.looping() ? timeDis % definition.lengthInSeconds() : timeDis;
+        for(Map.Entry<String, List<AnimationChannel>> entry : definition.boneAnimations().entrySet()) {
+            List<AnimationChannel> list = entry.getValue();
+            list.forEach((channel) -> {
+                Keyframe[] keyframes = channel.keyframes();
+                int currentIndex = Math.max(0, Mth.binarySearch(0, keyframes.length, (index) -> f <= keyframes[index].timestamp()) - 1);
+                int nextIndex = Math.min(keyframes.length - 1, currentIndex + 1);
+                Keyframe prevFrame = keyframes[currentIndex];
+                Keyframe nextFrame = keyframes[nextIndex];
+                float f1 = f - prevFrame.timestamp();
+                float f2;
+                if (nextIndex != currentIndex) {
+                    f2 = Mth.clamp(f1 / (nextFrame.timestamp() - prevFrame.timestamp()), 0.0F, 1.0F);
+                } else {
+                    f2 = 0.0F;
+                }
+                nextFrame.interpolation().apply(INTERPOLATION_RESULT_CACHE, f2, keyframes, currentIndex, nextIndex, scaleX, scaleY, scaleZ);
+                channel.target().apply(pose, INTERPOLATION_RESULT_CACHE);
+            });
         }
 
     }
