@@ -65,7 +65,7 @@ public class InertialRecoilHandler {
             if (randomYSpeed < 0) {
                 randomYSpeed *= 0.5f;
             }
-            randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.25f);
+            randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f);
             startTime = System.currentTimeMillis();
             backSpeed += data.back;
             rotateSpeed += data.rotate;

@@ -50,8 +50,21 @@ public final class ModelPart {
         this.initialPose = partPose;
     }
 
+    /**
+     * Load initial pose
+     * */
     public void resetPose() {
         this.loadPose(this.initialPose);
+    }
+
+    /**
+     * Load initial pose for children and self
+     * */
+    public void resetPoseAll() {
+        resetPose();
+        for (ModelPart modelPart : this.children.values()) {
+            modelPart.resetPoseAll();
+        }
     }
 
     /**

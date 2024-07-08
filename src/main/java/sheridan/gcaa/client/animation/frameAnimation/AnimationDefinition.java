@@ -45,9 +45,7 @@ public record AnimationDefinition(float lengthInSeconds, boolean looping, Map<St
         }
 
         public AnimationDefinition.Builder addAnimation(String pBone, AnimationChannel pAnimationChannel) {
-            (this.animationByBone.computeIfAbsent(pBone, (p_232278_) -> {
-                return Lists.newArrayList();
-            })).add(pAnimationChannel);
+            (this.animationByBone.computeIfAbsent(pBone, (p_232278_) -> Lists.newArrayList())).add(pAnimationChannel);
             return this;
         }
 
