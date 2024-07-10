@@ -16,4 +16,9 @@ public class G19 extends Gun {
                 0, 15, 1f, 1f, 0.1f, 0.1f, List.of(Semi.SEMI),
                 ModSounds.G19_FIRE, null, Caliber9x19mm.INSTANCE));
     }
+
+    @Override
+    public boolean isPistol() {
+        return true;
+    }
 }

@@ -10,6 +10,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.phys.Vec2;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import sheridan.gcaa.client.model.modelPart.*;
@@ -23,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+@OnlyIn(Dist.CLIENT)
 public class ModelLoader {
     private static final Gson GSON_INSTANCE = new Gson();
 

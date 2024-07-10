@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationChannel;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+@OnlyIn(Dist.CLIENT)
 public class AnimationLoader {
     private static final Gson GSON_INSTANCE = new Gson();
 

@@ -169,6 +169,11 @@ public class Gun extends BaseItem implements IGun {
     }
 
     @Override
+    public boolean isPistol() {
+        return false;
+    }
+
+    @Override
     public float getRecoilPitch(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
         return properties.contains("recoil_pitch") ? properties.getFloat("recoil_pitch") : 0;

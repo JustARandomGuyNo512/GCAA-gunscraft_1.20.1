@@ -100,12 +100,12 @@ public class InertialRecoilHandler {
             if (back != 0 || backSpeed != 0) {
                 back += backSpeed;
                 if (back > 0) {
-                    backSpeed -= back * recoilData.backDesc;
+                    backSpeed -= back * recoilData.backDec;
                     if (backSpeed < 0) {
                         backSpeed *= 0.58f;
                     }
                 } else {
-                    backSpeed -= backSpeed > 0 ? back * recoilData.backDesc * 1.6f : back * recoilData.backDesc * 0.65f;
+                    backSpeed -= backSpeed > 0 ? back * recoilData.backDec * 1.6f : back * recoilData.backDec * 0.65f;
                     if (backSpeed < 0) {
                         backSpeed *= 0.35f;
                     }
@@ -117,7 +117,7 @@ public class InertialRecoilHandler {
             }
 
             if (up != 0 || upSpeed != 0) {
-                upSpeed -= up * recoilData.upDesc;
+                upSpeed -= up * recoilData.upDec;
                 upSpeed *= 0.5f;
                 up += upSpeed * 0.7f;
             }
@@ -126,7 +126,7 @@ public class InertialRecoilHandler {
             }
 
             if (rotate != 0 || rotateSpeed != 0) {
-                rotateSpeed -= rotate * recoilData.rotateDesc;
+                rotateSpeed -= rotate * recoilData.rotateDec;
                 rotateSpeed *= 0.7f;
                 rotate += rotateSpeed;
             }
@@ -152,7 +152,7 @@ public class InertialRecoilHandler {
                 randomYSpeed = randomY = 0;
             }
 
-            if (System.currentTimeMillis() - startTime > 1000) {
+            if (System.currentTimeMillis() - startTime > 1500) {
                 clear(true);
             }
         }

@@ -10,11 +10,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class InertialRecoilData {
     private static final AtomicInteger TEMP_ID = new AtomicInteger(0);
     public float up;
-    public float upDesc;
+    public float upDec;
     public float back;
-    public float backDesc;
+    public float backDec;
     public float rotate;
-    public float rotateDesc;
+    public float rotateDec;
     public float aimingScaleUp;
     public float aimingBackScale;
     public float aimingRotateScale;
@@ -22,13 +22,13 @@ public class InertialRecoilData {
     public float randomY;
     public final int id;
 
-    public InertialRecoilData(float up, float upDesc, float back, float backDesc, float rotate, float rotateDesc, float randomX, float randomY, Vector3f aimingScaleModifier) {
+    public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX, float randomY, Vector3f aimingScaleModifier) {
         this.up = up;
-        this.upDesc = upDesc;
+        this.upDec = upDec;
         this.back = back;
-        this.backDesc = backDesc;
+        this.backDec = backDec;
         this.rotate = rotate;
-        this.rotateDesc = rotateDesc;
+        this.rotateDec = rotateDec;
         this.aimingScaleUp = aimingScaleModifier.x;
         this.aimingBackScale = aimingScaleModifier.y;
         this.aimingRotateScale = aimingScaleModifier.z;
