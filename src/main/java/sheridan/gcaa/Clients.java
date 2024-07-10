@@ -57,6 +57,10 @@ public class Clients {
     public static AtomicBoolean cancelLooperWorkWithCoolDown = new AtomicBoolean(false);
     @OnlyIn(Dist.CLIENT)
     public static int clientPlayerId = 0;
+    @OnlyIn(Dist.CLIENT)
+    public static long lastShootMain() {
+        return mainHandStatus.lastShoot;
+    }
 
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {

@@ -39,7 +39,7 @@ public class GunRenderContext {
         this.packedOverlay = packedOverlay;
         this.gun = gun;
         this.isFirstPerson = transformType.firstPerson();
-        lastShoot = Clients.mainHandStatus.lastShoot;
+        lastShoot = Clients.lastShootMain();
     }
 
     public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, int packedLight, int packedOverlay, DisplayData.MuzzleFlashEntry muzzleFlashEntry) {
@@ -52,7 +52,7 @@ public class GunRenderContext {
         this.gun = gun;
         this.isFirstPerson = transformType.firstPerson();
         this.muzzleFlashEntry = muzzleFlashEntry;
-        lastShoot = Clients.mainHandStatus.lastShoot;
+        lastShoot = Clients.lastShootMain();
     }
 
     public boolean reloading() {

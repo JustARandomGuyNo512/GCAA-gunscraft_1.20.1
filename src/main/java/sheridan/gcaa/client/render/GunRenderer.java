@@ -52,8 +52,8 @@ public class GunRenderer implements IGunRenderer{
                 displayData.applyTransform(type, poseStack);
                 GlobalWeaponBobbing.INSTANCE.handleTranslation(poseStack);
                 InertialRecoilData inertialRecoilData = displayData.getInertialRecoilData();
-                if (tempLastFire != Clients.mainHandStatus.lastShoot) {
-                    tempLastFire = Clients.mainHandStatus.lastShoot;
+                if (tempLastFire != Clients.lastShootMain()) {
+                    tempLastFire = Clients.lastShootMain();
                     AnimationDefinition recoil = model.getRecoilAnimation();
                     if (recoil != null) {
                         RecoilAnimationHandler.INSTANCE.onShoot(recoil, tempLastFire);

@@ -2,8 +2,8 @@ package sheridan.gcaa.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
@@ -20,8 +20,11 @@ public class GlobalWeaponBobbing {
     public float timer = 0;
     public long lastUpdate = System.currentTimeMillis();
     public static final float PI = 3.14159265358979323846f;
+    public static final float HALF_PI = 3.14159265358979323846f / 2f;
+    public float sprintingProgress;
+    public boolean shouldApplySprintingTranslation = false;
     public IGun gun;
-    public Player player;
+    public LocalPlayer player;
 
     GlobalWeaponBobbing() {
         weaponBobbing = DEFAULT;
@@ -35,9 +38,17 @@ public class GlobalWeaponBobbing {
 
     public void update(float particleTicks, float equipProgress) {
         if (player != null && gun !=null) {
+            long now = System.currentTimeMillis();
             this.particleTicks = particleTicks;
             this.equipProgress = equipProgress;
-            long now = System.currentTimeMillis();
+            shouldApplySprintingTranslation = player.isSprinting() && now - Clients.lastShootMain() > gun.applySprintingPoseDelay();
+            if (shouldApplySprintingTranslation) {
+                sprintingProgress = Math.min(sprintingProgress + timer, 1.0f);
+            } else {
+                if (sprintingProgress != 0) {
+                    sprintingProgress = Math.max(sprintingProgress - timer, 0f);
+                }
+            }
             timer = (float) (now - lastUpdate) * 0.001f;
             lastUpdate = now;
         } else {
@@ -68,6 +79,15 @@ public class GlobalWeaponBobbing {
     private static class DefaultBobbing implements IWeaponBobbing {
         private static final float EQUIP_HEIGHT = 1.5f;
         private float idleProgress = 0;
+        float walkDis;
+        float swing;
+        float swingRx;
+        float swingRy;
+        float sprintingFactor;
+        float scaleFactor;
+        float idlePitch;
+        float idleYaw;
+        float idleRoll;
 
         @Override
         public void clear() {
@@ -77,23 +97,45 @@ public class GlobalWeaponBobbing {
         @Override
         public void handleTranslation(PoseStack poseStack, GlobalWeaponBobbing instance) {
             IGun gun = instance.gun;
-            Player player = instance.player;
-            float equipProgress = instance.equipProgress;
-            float aimingFactor = Clients.mainHandStatus.ads ? 0.25f : 1f;
-            float scaleFactor = aimingFactor * (player.isCrouching() ? 0.5f : 1f);
-
-            poseStack.translate(0, EQUIP_HEIGHT * equipProgress, 0);
+            LocalPlayer player = instance.player;
             idleProgress += instance.timer;
-            float pitch = Mth.sin(idleProgress + PI * 0.75f) * 0.0035f;
-            float yaw = Mth.sin(idleProgress) * 0.015f;
-            float roll = Mth.sin(idleProgress) * 0.01f;
-            float lastFireDis = (System.currentTimeMillis() - Clients.mainHandStatus.lastShoot) * 0.001f;
-            scaleFactor = Math.min(lastFireDis, 1f) * scaleFactor;
-            float yFactor = gun.isPistol() ? 0.5f : 1f;
-            poseStack.translate(0, yaw * scaleFactor * yFactor, roll * 0.025f * scaleFactor);
-            poseStack.mulPose(new Quaternionf().rotateXYZ(-pitch * scaleFactor, 0, 0));
-            if (idleProgress >= PI) {
+            if (idleProgress > PI * 2) {
                 idleProgress = 0;
+            }
+            float idle = idleProgress * 2;
+            float particleTick = instance.particleTicks;
+            float aimingFactor = 1f - Clients.mainHandStatus.adsProgress * 0.75f;
+            walkDis = player.walkDist - player.walkDistO;
+            swing = -(player.walkDist + walkDis * particleTick) * PI;
+            float bob = Mth.lerp(particleTick, player.oBob, player.bob);
+            sprintingFactor = player.isSprinting() ? Math.min(bob * 10f, 1f) : 1f;
+            scaleFactor = aimingFactor * (player.isSprinting() ? 1f + sprintingFactor * 0.3f : 1f);
+            float idleScale = Math.min((System.currentTimeMillis() - Clients.lastShootMain()) * 0.001f, 1f) * scaleFactor;
+            float scaledBob = bob * scaleFactor;
+            float pistolFactor = gun.isPistol() ? 0.5f : 1f;
+            float bobRY = Mth.rotLerp(particleTick, player.yBobO, player.yBob);
+            float headRY = Mth.rotLerp(particleTick, player.yHeadRotO, player.yHeadRot);
+            swingRy = Mth.clamp((headRY - bobRY) * 0.003f, -0.1f, 0.1f) * pistolFactor;
+            float bobRX = Mth.rotLerp(particleTick, player.xBobO, player.xBob);
+            float headRX = Mth.rotLerp(particleTick, player.xRotO, player.getXRot());
+            swingRx = Mth.clamp((headRX - bobRX) * 0.003f, -0.1f, 0.1f) * pistolFactor;
+            idlePitch = Mth.sin(idle + PI * 0.75f) * 0.0035f;
+            idleYaw = Mth.sin(idle) * 0.015f;
+            idleRoll = Mth.sin(idle) * 0.00025f;
+            poseStack.translate(
+                    Mth.sin(swing - PI * 0.125f) * scaledBob * 0.12f + swingRy * aimingFactor,
+                    (1.1f - Math.abs(Mth.cos(swing - PI * 0.1f))) * scaledBob * 0.25f +
+                            EQUIP_HEIGHT * instance.equipProgress - swingRx * 0.5f * aimingFactor
+                            + idleYaw * idleScale * pistolFactor,
+                    scaledBob * 0.5f + idleRoll * idleScale);
+            poseStack.mulPose(new Quaternionf().rotateXYZ(
+                    -Math.abs(Mth.cos(swing - PI * 0.023F) * bob) * scaleFactor * 0.12f
+                            + swingRx * 0.8f * aimingFactor - idlePitch * idleScale,
+                    swingRy * 0.9f * aimingFactor,
+                    -swingRy * aimingFactor * pistolFactor));
+
+            if (instance.shouldApplySprintingTranslation) {
+
             }
 
         }
