@@ -9,9 +9,11 @@ import org.joml.Quaternionf;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantLock;
 
 @OnlyIn(Dist.CLIENT)
 public class InertialRecoilHandler {
+    private final ReentrantLock lock = new ReentrantLock();
     public static final InertialRecoilHandler INSTANCE = new InertialRecoilHandler();
     private final AtomicReference<InertialRecoilData> data = new AtomicReference<>(null);
     private final AtomicBoolean enabled = new AtomicBoolean(false);
@@ -19,11 +21,11 @@ public class InertialRecoilHandler {
     private static final float BACK_FACTOR = 0.18f;
     private static final float ROTATE_FACTOR = 0.025f;
 
-    private volatile float up;
-    private volatile float back;
-    private volatile float rotate;
-    private volatile float randomX;
-    private volatile float randomY;
+    private float up;
+    private float back;
+    private float rotate;
+    private float randomX;
+    private float randomY;
 
     private float upSpeed;
     private float backSpeed;
@@ -61,17 +63,22 @@ public class InertialRecoilHandler {
         if (data == null) {
             clear();
         } else {
-            randomYSpeed += data.randomY * randomDirectionY;
-            if (randomYSpeed < 0) {
-                randomYSpeed *= 0.5f;
+            try {
+                lock.lock();
+                randomYSpeed += data.randomY * randomDirectionY;
+                if (randomYSpeed < 0) {
+                    randomYSpeed *= 0.5f;
+                }
+                randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f);
+                startTime = System.currentTimeMillis();
+                backSpeed += data.back;
+                rotateSpeed += data.rotate;
+                upSpeed += data.up;
+                this.data.set(data);
+                enabled.set(true);
+            } finally {
+                lock.unlock();
             }
-            randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f);
-            startTime = System.currentTimeMillis();
-            backSpeed += data.back;
-            rotateSpeed += data.rotate;
-            upSpeed += data.up;
-            this.data.set(data);
-            enabled.set(true);
         }
     }
 
@@ -96,64 +103,69 @@ public class InertialRecoilHandler {
 
     public void update() {
         if (enabled.get() && this.data.get() != null) {
-            InertialRecoilData recoilData = data.get();
-            if (back != 0 || backSpeed != 0) {
-                back += backSpeed;
-                if (back > 0) {
-                    backSpeed -= back * recoilData.backDec;
-                    if (backSpeed < 0) {
-                        backSpeed *= 0.58f;
+            try {
+                lock.lock();
+                InertialRecoilData recoilData = data.get();
+                if (back != 0 || backSpeed != 0) {
+                    back += backSpeed;
+                    if (back > 0) {
+                        backSpeed -= back * recoilData.backDec;
+                        if (backSpeed < 0) {
+                            backSpeed *= 0.58f;
+                        }
+                    } else {
+                        backSpeed -= backSpeed > 0 ? back * recoilData.backDec * 1.6f : back * recoilData.backDec * 0.65f;
+                        if (backSpeed < 0) {
+                            backSpeed *= 0.35f;
+                        }
                     }
-                } else {
-                    backSpeed -= backSpeed > 0 ? back * recoilData.backDec * 1.6f : back * recoilData.backDec * 0.65f;
-                    if (backSpeed < 0) {
-                        backSpeed *= 0.35f;
-                    }
+                    backSpeed *= 0.81f;
                 }
-                backSpeed *= 0.8f;
-            }
-            if (shouldClear(backSpeed, back)) {
-                back = backSpeed = 0;
-            }
+                if (shouldClear(backSpeed, back)) {
+                    back = backSpeed = 0;
+                }
 
-            if (up != 0 || upSpeed != 0) {
-                upSpeed -= up * recoilData.upDec;
-                upSpeed *= 0.5f;
-                up += upSpeed * 0.7f;
-            }
-            if (shouldClear(upSpeed, up)) {
-                upSpeed = up = 0;
-            }
+                if (up != 0 || upSpeed != 0) {
+                    upSpeed -= up * recoilData.upDec;
+                    upSpeed *= 0.5f;
+                    up += upSpeed * 0.7f;
+                }
+                if (shouldClear(upSpeed, up)) {
+                    upSpeed = up = 0;
+                }
 
-            if (rotate != 0 || rotateSpeed != 0) {
-                rotateSpeed -= rotate * recoilData.rotateDec;
-                rotateSpeed *= 0.7f;
-                rotate += rotateSpeed;
-            }
-            if (shouldClear(rotateSpeed, rotate)) {
-                rotateSpeed = rotate = 0;
-            }
+                if (rotate != 0 || rotateSpeed != 0) {
+                    rotateSpeed -= rotate * recoilData.rotateDec;
+                    rotateSpeed *= 0.7f;
+                    rotate += rotateSpeed;
+                }
+                if (shouldClear(rotateSpeed, rotate)) {
+                    rotateSpeed = rotate = 0;
+                }
 
-            if (randomX != 0 || randomXSpeed != 0) {
-                randomX += randomXSpeed * 0.3f;
-                randomXSpeed *= 0.925f;
-                randomX *= 0.92f;
-            }
-            if (shouldClear(randomXSpeed, randomX)) {
-                randomXSpeed = randomX = 0;
-            }
+                if (randomX != 0 || randomXSpeed != 0) {
+                    randomX += randomXSpeed * 0.3f;
+                    randomXSpeed *= 0.925f;
+                    randomX *= 0.92f;
+                }
+                if (shouldClear(randomXSpeed, randomX)) {
+                    randomXSpeed = randomX = 0;
+                }
 
-            if (randomY != 0 || randomYSpeed != 0) {
-                randomY += randomYSpeed * 0.3f;
-                randomYSpeed *= 0.925f;
-                randomY *= 0.92f;
-            }
-            if (shouldClear(randomYSpeed, randomY)) {
-                randomYSpeed = randomY = 0;
-            }
+                if (randomY != 0 || randomYSpeed != 0) {
+                    randomY += randomYSpeed * 0.3f;
+                    randomYSpeed *= 0.925f;
+                    randomY *= 0.92f;
+                }
+                if (shouldClear(randomYSpeed, randomY)) {
+                    randomYSpeed = randomY = 0;
+                }
 
-            if (System.currentTimeMillis() - startTime > 1500) {
-                clear(true);
+                if (System.currentTimeMillis() - startTime > 1500) {
+                    clear(true);
+                }
+            } finally {
+                lock.unlock();
             }
         }
     }

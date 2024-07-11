@@ -37,27 +37,26 @@ public class GlobalWeaponBobbing {
     }
 
     public void update(float particleTicks, float equipProgress) {
-        if (player != null && gun !=null) {
-            long now = System.currentTimeMillis();
-            this.particleTicks = particleTicks;
-            this.equipProgress = equipProgress;
-            shouldApplySprintingTranslation = player.isSprinting() && now - Clients.lastShootMain() > gun.applySprintingPoseDelay();
-            if (shouldApplySprintingTranslation) {
-                sprintingProgress = Math.min(sprintingProgress + timer, 1.0f);
-            } else {
-                if (sprintingProgress != 0) {
-                    sprintingProgress = Math.max(sprintingProgress - timer, 0f);
+        if (player != null) {
+            if (player.getMainHandItem().getItem() instanceof IGun gun) {
+                this.gun = gun;
+                long now = System.currentTimeMillis();
+                this.particleTicks = particleTicks;
+                this.equipProgress = equipProgress;
+                shouldApplySprintingTranslation = player.isSprinting() && now - Clients.lastShootMain() > gun.applySprintingPoseDelay();
+                if (shouldApplySprintingTranslation) {
+                    sprintingProgress = Math.min(sprintingProgress + timer, 1.0f);
+                } else {
+                    if (sprintingProgress != 0) {
+                        sprintingProgress = Math.max(sprintingProgress - timer, 0f);
+                    }
                 }
+                timer = (float) (now - lastUpdate) * 0.001f;
+                lastUpdate = now;
             }
-            timer = (float) (now - lastUpdate) * 0.001f;
-            lastUpdate = now;
         } else {
             player = Minecraft.getInstance().player;
-            if (player != null && player.getMainHandItem().getItem() instanceof IGun gun) {
-                this.gun = gun;
-            } else {
-                gun = null;
-            }
+            lastUpdate = System.currentTimeMillis();
         }
     }
 
@@ -122,7 +121,7 @@ public class GlobalWeaponBobbing {
             scaleFactor = aimingFactor * (player.isSprinting() ? 1f + sprintingFactor * 0.3f : 1f);
             float idleScale = Math.min((System.currentTimeMillis() - Clients.lastShootMain()) * 0.001f, 1f) * scaleFactor * (player.isCrouching() ? 0.7f : 1f);
             float scaledBob = bob * scaleFactor;
-            float pistolFactor = gun.isPistol() ? 0.3f : 1f;
+            float pistolFactor = gun.isPistol() ? 0.4f : 1f;
             float bobRY = Mth.rotLerp(particleTick, player.yBobO, player.yBob);
             float headRY = Mth.rotLerp(particleTick, player.yHeadRotO, player.yHeadRot);
             swingRy = Mth.clamp((headRY - bobRY) * 0.003f, -0.1f, 0.1f) * pistolFactor;
