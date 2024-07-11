@@ -121,7 +121,7 @@ public class GlobalWeaponBobbing {
             scaleFactor = aimingFactor * (player.isSprinting() ? 1f + sprintingFactor * 0.3f : 1f);
             float idleScale = Math.min((System.currentTimeMillis() - Clients.lastShootMain()) * 0.001f, 1f) * scaleFactor * (player.isCrouching() ? 0.7f : 1f);
             float scaledBob = bob * scaleFactor;
-            float pistolFactor = gun.isPistol() ? 0.4f : 1f;
+            float pistolFactor = gun.isPistol() ? 0.5f : 1f;
             float bobRY = Mth.rotLerp(particleTick, player.yBobO, player.yBob);
             float headRY = Mth.rotLerp(particleTick, player.yHeadRotO, player.yHeadRot);
             swingRy = Mth.clamp((headRY - bobRY) * 0.003f, -0.1f, 0.1f) * pistolFactor;

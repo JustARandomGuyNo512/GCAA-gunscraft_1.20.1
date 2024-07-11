@@ -78,7 +78,7 @@ public class Clients {
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 0, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).set(DisplayData.FIXED, 0.3f, SCALE)
-                .setInertialRecoilData(new InertialRecoilData(0.075f, 0.06f, 0.625f, 0.08f, 0.9f,  0.08f, 0.5f, 0.3f, new Vector3f(0.55f, 0.7f, 0.6f)))
+                .setInertialRecoilData(new InertialRecoilData(0.075f, 0.06f, 0.62f, 0.08f, 0.9f,  0.08f, 0.5f, 0.3f, new Vector3f(0.55f, 0.7f, 0.6f)))
                 .addMuzzleFlash("normal", CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 4.9f, -98.6f).setScale(1.8f))
         );
 

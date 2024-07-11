@@ -11,6 +11,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @OnlyIn(Dist.CLIENT)
 public class RecoilAnimationHandler {
@@ -19,13 +20,18 @@ public class RecoilAnimationHandler {
     public static final InertialRecoilHandler INERTIAL_RECOIL_HANDLER = new InertialRecoilHandler();
     public static final RecoilAnimationHandler INSTANCE = new RecoilAnimationHandler();
     private static final int MAX_KEYFRAME_ANIMATION_LEN = 12;
+    private static final AtomicBoolean enableInertialRecoil = new AtomicBoolean(true);
 
     protected RecoilAnimationHandler() {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 try {
-                    INERTIAL_RECOIL_HANDLER.update();
+                    if (enableInertialRecoil.get()) {
+                        INERTIAL_RECOIL_HANDLER.update();
+                    } else {
+                        INERTIAL_RECOIL_HANDLER.clear();
+                    }
                     RecoilCameraHandler.INSTANCE.handle();
                 } catch (Exception ignore) {}
             }
@@ -69,6 +75,13 @@ public class RecoilAnimationHandler {
      * */
     public void handleInertialRecoil(PoseStack poseStack, InertialRecoilData data) {
         INERTIAL_RECOIL_HANDLER.applyTransform(poseStack, data.id, false);
+    }
+
+    /**
+     * false to stop inertial recoil handler update work and clear data
+     * */
+    public void setEnableInertialRecoil(boolean enable) {
+        enableInertialRecoil.set(enable);
     }
 
 }
