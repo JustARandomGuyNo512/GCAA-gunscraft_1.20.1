@@ -61,6 +61,8 @@ public class Clients {
     public static long lastShootMain() {
         return mainHandStatus.lastShoot;
     }
+    @OnlyIn(Dist.CLIENT)
+    public static volatile long lastClientTick;
 
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {

@@ -64,14 +64,17 @@ public class GlobalWeaponBobbing {
     public void setWeaponBobbing(IWeaponBobbing weaponBobbing) {
         this.weaponBobbing.clear();
         this.weaponBobbing = weaponBobbing;
+        this.weaponBobbing.use();
     }
 
     public void useDefault() {
         this.weaponBobbing.clear();
         this.weaponBobbing = DEFAULT;
+        this.weaponBobbing.use();
     }
 
     public interface IWeaponBobbing {
+        void use();
         void clear();
         void handleTranslation(PoseStack poseStack, GlobalWeaponBobbing instance);
     }
@@ -89,9 +92,16 @@ public class GlobalWeaponBobbing {
         float idleYaw;
         float idleRoll;
 
+
+        @Override
+        public void use() {
+            JumpBobbingHandler.initInstance();
+        }
+
         @Override
         public void clear() {
             idleProgress = 0;
+            JumpBobbingHandler.clear();
         }
 
         @Override
@@ -110,7 +120,7 @@ public class GlobalWeaponBobbing {
             float bob = Mth.lerp(particleTick, player.oBob, player.bob);
             sprintingFactor = player.isSprinting() ? Math.min(bob * 10f, 1f) : 1f;
             scaleFactor = aimingFactor * (player.isSprinting() ? 1f + sprintingFactor * 0.3f : 1f);
-            float idleScale = Math.min((System.currentTimeMillis() - Clients.lastShootMain()) * 0.001f, 1f) * scaleFactor;
+            float idleScale = Math.min((System.currentTimeMillis() - Clients.lastShootMain()) * 0.001f, 1f) * scaleFactor * (player.isCrouching() ? 0.7f : 1f);
             float scaledBob = bob * scaleFactor;
             float pistolFactor = gun.isPistol() ? 0.5f : 1f;
             float bobRY = Mth.rotLerp(particleTick, player.yBobO, player.yBob);
@@ -123,9 +133,9 @@ public class GlobalWeaponBobbing {
             idleYaw = Mth.sin(idle) * 0.015f;
             idleRoll = Mth.sin(idle) * 0.00025f;
             poseStack.translate(
-                    Mth.sin(swing - PI * 0.125f) * scaledBob * 0.12f + swingRy * aimingFactor,
+                    Mth.sin(swing - PI * 0.125f) * scaledBob * 0.12f + swingRy * scaleFactor,
                     (1.1f - Math.abs(Mth.cos(swing - PI * 0.1f))) * scaledBob * 0.25f +
-                            EQUIP_HEIGHT * instance.equipProgress - swingRx * 0.5f * aimingFactor
+                            EQUIP_HEIGHT * instance.equipProgress - (swingRx * 0.5f - JumpBobbingHandler.getOffset() * pistolFactor) * scaleFactor
                             + idleYaw * idleScale * pistolFactor,
                     scaledBob * 0.5f + idleRoll * idleScale);
             poseStack.mulPose(new Quaternionf().rotateXYZ(

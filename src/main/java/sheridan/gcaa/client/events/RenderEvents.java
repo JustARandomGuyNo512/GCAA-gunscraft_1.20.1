@@ -6,6 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
@@ -16,6 +17,11 @@ import sheridan.gcaa.items.guns.IGun;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class RenderEvents {
+
+//    @SubscribeEvent
+//    public static void onRenderTick(TickEvent.RenderTickEvent event) {
+//        System.out.println(event.renderTickTime);
+//    }
 
     @SubscribeEvent
     public static void onRenderHandFP(RenderHandEvent event) {
