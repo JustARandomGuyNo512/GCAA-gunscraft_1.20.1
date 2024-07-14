@@ -58,15 +58,7 @@ public class AttachmentSlot {
         this.slotName = slotName;
         this.acceptedAttachments = acceptedAttachments;
         int len = Math.max(translation.length, this.translation.length);
-        for (int i = 0; i < len; i++) {
-            if (i < 2) {
-                this.translation[i] = -translation[i];
-            } else if (i > 2 && i < 5) {
-                this.translation[i] = (float) Math.toRadians(translation[i]);
-            } else {
-                this.translation[i] = translation[i];
-            }
-        }
+        System.arraycopy(translation, 0, this.translation, 0, len);
     }
 
     public float[] getTranslation() {

@@ -74,6 +74,10 @@ public class KeyframeAnimations {
 
     }
 
+    public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime) {
+        _animate(root, definition, startTime, 0, 1, 1, 1, true);
+    }
+
     public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, float scale) {
         _animate(root, definition, startTime, 0, scale, scale, scale, true);
     }

@@ -9,6 +9,7 @@ import sheridan.gcaa.items.guns.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public interface ICameraShakeHandler {
+    void use();
     void clear();
     boolean shake(float particleTicks, PoseStack poseStack, IGun gun, Player player, ItemStack itemStack);
 }

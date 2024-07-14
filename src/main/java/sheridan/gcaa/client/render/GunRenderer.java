@@ -50,7 +50,9 @@ public class GunRenderer implements IGunRenderer{
                 PoseStack poseStack = new PoseStack();
                 poseStack.mulPose(Axis.ZP.rotationDegrees(180));
                 displayData.applyTransform(type, poseStack);
-                GlobalWeaponBobbing.INSTANCE.handleTranslation(poseStack);
+                if (Clients.handleWeaponBobbing) {
+                    GlobalWeaponBobbing.INSTANCE.handleTranslation(poseStack);
+                }
                 InertialRecoilData inertialRecoilData = displayData.getInertialRecoilData();
                 if (tempLastFire != Clients.lastShootMain()) {
                     tempLastFire = Clients.lastShootMain();

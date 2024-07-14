@@ -1,6 +1,7 @@
 package sheridan.gcaa;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -26,6 +27,8 @@ import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.events.*;
 import sheridan.gcaa.client.render.entity.BulletRenderer;
+import sheridan.gcaa.client.screens.AttachmentsScreen;
+import sheridan.gcaa.client.screens.containers.ModContainers;
 import sheridan.gcaa.entities.ModEntities;
 import sheridan.gcaa.events.CommonEvents;
 import sheridan.gcaa.items.ModItems;
@@ -49,6 +52,7 @@ public class GCAA {
         ModBlocks.BLOCKS.register(modEventBus);
         ModTabs.MOD_TABS.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
+        ModContainers.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
         ModSounds.register(FMLJavaModLoadingContext.get().getModEventBus());
         MinecraftForge.EVENT_BUS.register(this);
@@ -64,6 +68,7 @@ public class GCAA {
         MinecraftForge.EVENT_BUS.register(ControllerEvents.class);
         MinecraftForge.EVENT_BUS.register(ClientPlayerEvents.class);
         MinecraftForge.EVENT_BUS.register(ClientEvents.class);
+        event.enqueueWork(() -> MenuScreens.register(ModContainers.ATTACHMENTS.get(), AttachmentsScreen::new));
         Clients.onSetUp(event);
     }
 

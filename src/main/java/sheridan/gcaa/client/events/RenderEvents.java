@@ -11,6 +11,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.ClientWeaponStatus;
+import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.render.GlobalWeaponBobbing;
 import sheridan.gcaa.client.render.gui.crosshair.CrossHairRenderer;
 import sheridan.gcaa.items.guns.IGun;
@@ -49,5 +50,11 @@ public class RenderEvents {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void handleCameraAnimation(ViewportEvent.ComputeCameraAngles event) {
+        CameraAnimationHandler.INSTANCE.apply(event);
+        CameraAnimationHandler.INSTANCE.clear();
     }
 }

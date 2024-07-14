@@ -4,78 +4,73 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sheridan.gcaa.client.ReloadingHandler;
+import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class GCAAStyleGunModel extends HierarchicalModel<Entity> implements IGunModel {
+    public static final String SLOT_PREFIX = "s_";
+    public final ModelPart root;
+    public final ModelPart gun;
+    public final ModelPart left_arm;
+    public final ModelPart right_arm;
+    public ModelPart camera;
+
+    public GCAAStyleGunModel(ModelPart root) {
+        this.root = root;
+        camera = this.root.getChild("camera");
+        gun = this.root.getChild("gun");
+        left_arm = this.gun.getChild("left_arm");
+        right_arm = this.gun.getChild("right_arm");
+        postInit(gun, root);
+    }
+
     @Override
     public void render(GunRenderContext gunRenderContext) {
         PoseStack poseStack = gunRenderContext.poseStack;
         animationGlobal(gunRenderContext);
-        getRoot().translateAndRotate(poseStack);
-        renderArm(gunRenderContext);
-        getGunLayer().translateAndRotate(poseStack);
+        root.translateAndRotate(poseStack);
+        gun.translateAndRotate(poseStack);
         renderGunModel(gunRenderContext);
         renderAttachmentsModel(gunRenderContext);
         afterRender(gunRenderContext);
     }
 
-    private void renderArm(GunRenderContext gunRenderContext) {
-        boolean reloading = ReloadingHandler.INSTANCE.reloading();
-        ModelPart leftArm = reloading ? getReloadingArm() : getLeftArm();
-        boolean longArm = longArm();
-        if (longArm) {
-            gunRenderContext.renderArmLong(getRightArm(), true);
-            if (reloading) {
-                gunRenderContext.pushPose().translateAndRotateTo(getReloadingLayer());
-                gunRenderContext.renderArmLong(leftArm, false);
-                gunRenderContext.popPose();
-            } else {
-                gunRenderContext.renderArmLong(leftArm, false);
-            }
-        } else {
-            gunRenderContext.renderArm(getRightArm(), true);
-            if (reloading) {
-                gunRenderContext.pushPose().translateAndRotateTo(getReloadingLayer());
-                gunRenderContext.renderArm(leftArm, false);
-                gunRenderContext.popPose();
-            } else {
-                gunRenderContext.renderArm(leftArm, false);
-            }
-        }
+    protected abstract void postInit(ModelPart gun, ModelPart root);
+    protected abstract void renderGunModel(GunRenderContext context);
+    protected abstract void renderAttachmentsModel(GunRenderContext context);
+    protected abstract void animationGlobal(GunRenderContext gunRenderContext);
+    protected abstract void afterRender(GunRenderContext gunRenderContext);
+
+    @Override
+    public void handleGunTranslate(PoseStack poseStack) {
+        root.translateAndRotate(poseStack);
+        gun.translateAndRotate(poseStack);
     }
 
     @Override
-    public void handleGunTranslate(PoseStack poseStack) {}
+    public AnimationDefinition getRecoilAnimation() {
+        return null;
+    }
 
     @Override
     public ModelPart root() {
-        return getRoot();
+        return root;
     }
 
-    public abstract ModelPart getRoot();
+    @Override
+    public ModelPart getSlotPart(String name) {
+        return gun.getChild(SLOT_PREFIX + name);
+    }
 
-    public abstract ModelPart getLeftArm();
-
-    public abstract ModelPart getRightArm();
-
-    public abstract ModelPart getGunLayer();
-
-    public abstract ModelPart getReloadingArm();
-
-    public abstract ModelPart getReloadingLayer();
-
-    protected abstract boolean longArm();
-
-    protected void animationGlobal(GunRenderContext gunRenderContext) {}
-
-    protected void afterRender(GunRenderContext gunRenderContext) {}
-
-    protected void initModelParts() {}
-
-    public abstract void renderGunModel(GunRenderContext context);
-    public abstract void renderAttachmentsModel(GunRenderContext context);
+    @Override
+    public void handleSlotTranslate(PoseStack poseStack, String name) {
+        ModelPart slot = getSlotPart(name);
+        if (slot != null) {
+            handleGunTranslate(poseStack);
+            slot.translateAndRotate(poseStack);
+        }
+    }
 }

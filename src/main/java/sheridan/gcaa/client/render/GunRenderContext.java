@@ -12,9 +12,14 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.utils.RenderMathUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class GunRenderContext {
+    public static final Map<String, PoseStack> GLOBAL_POSE_STORAGE = new HashMap<>();
     public MultiBufferSource bufferSource;
     public PoseStack poseStack;
     public ItemStack itemStack;
@@ -29,6 +34,10 @@ public class GunRenderContext {
     public int packedOverlay;
     public long lastShoot;
     public DisplayData.MuzzleFlashEntry muzzleFlashEntry;
+    public AttachmentRenderEntry leftArmRelocate;
+    public AttachmentRenderEntry rightArmRelocate;
+    public AttachmentRenderEntry scope;
+    public PoseStack[] localPoseStorage;
 
     public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType,int packedLight, int packedOverlay) {
         this.bufferSource = bufferSource;
@@ -60,7 +69,7 @@ public class GunRenderContext {
     }
 
     public void render(ModelPart part, VertexConsumer vertexConsumer) {
-        part.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a);
+        part.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a, true);
     }
 
     public VertexConsumer getBuffer(RenderType renderType) {
@@ -69,13 +78,13 @@ public class GunRenderContext {
 
     public void render(VertexConsumer vertexConsumer, ModelPart... parts) {
         for (ModelPart part : parts) {
-            part.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a);
+            part.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a, true);
         }
     }
 
     public void renderIf(ModelPart part, VertexConsumer vertexConsumer, boolean condition)  {
         if (condition) {
-            part.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a);
+            part.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a, true);
         }
     }
 
@@ -88,6 +97,18 @@ public class GunRenderContext {
     public void renderArm(ModelPart pose, boolean mainHand) {
         if (isFirstPerson) {
             PlayerArmRenderer.INSTANCE.render(pose, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
+        }
+    }
+
+    public void renderArmLong(PoseStack poseStack, boolean mainHand) {
+        if (isFirstPerson) {
+            PlayerArmRenderer.INSTANCE.renderLong(packedLight, packedOverlay, mainHand, bufferSource, poseStack);
+        }
+    }
+
+    public void renderArm(PoseStack poseStack, boolean mainHand) {
+        if (isFirstPerson) {
+            PlayerArmRenderer.INSTANCE.render(packedLight, packedOverlay, mainHand, bufferSource, poseStack);
         }
     }
 
@@ -114,7 +135,35 @@ public class GunRenderContext {
         }
     }
 
+    /**
+     * copy prev poseStack
+     * */
+    public PoseStack copyPrevPose() {
+        return RenderMathUtils.copyPoseStack(poseStack);
+    }
+
     public boolean isThirdPerson() {
         return transformType == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || transformType == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND;
+    }
+
+    /**
+     * copy and save a poseStack instance in local render context in given index(0~9);
+     * */
+    public void saveInLocal(int index, PoseStack poseStack) {
+        if (localPoseStorage == null) {
+            localPoseStorage = new PoseStack[10];
+        }
+        localPoseStorage[index] = RenderMathUtils.copyPoseStack(poseStack);
+    }
+
+    public void savePrevStack(int index) {
+        saveInLocal(index, poseStack);
+    }
+
+    public PoseStack getLocalSavedPose(int index) {
+        if (localPoseStorage != null && index >=0 && index <=9) {
+            return localPoseStorage[index];
+        }
+        return null;
     }
 }

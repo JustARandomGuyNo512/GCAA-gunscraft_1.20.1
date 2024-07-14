@@ -51,19 +51,27 @@ public class PlayerArmRenderer {
         return LayerDefinition.create(meshdefinition, 192, 192);
     }
 
+    public void render(int light, int overlay, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack) {
+        render(ModelPart.EMPTY, light, overlay, 1, 1, 1, mainHand, bufferSource, poseStack, false);
+    }
+
+    public void renderLong(int light, int overlay, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack) {
+        render(ModelPart.EMPTY, light, overlay, 1, 1.5f, 1, mainHand, bufferSource, poseStack, false);
+    }
+
     public void render(ModelPart posePart, int light, int overlay, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack) {
-        render(posePart, light, overlay, 1, 1, 1, mainHand, bufferSource, poseStack);
+        render(posePart, light, overlay, 1, 1, 1, mainHand, bufferSource, poseStack, true);
     }
 
     public void renderLong(ModelPart posePart, int light, int overlay, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack) {
-        render(posePart, light, overlay, 1, 1.5f, 1, mainHand, bufferSource, poseStack);
+        render(posePart, light, overlay, 1, 1.5f, 1, mainHand, bufferSource, poseStack, true);
     }
 
     public void render(ModelPart posePart, int light, int overlay, float scale, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack) {
-        render(posePart, light, overlay, scale, scale, scale, mainHand, bufferSource, poseStack);
+        render(posePart, light, overlay, scale, scale, scale, mainHand, bufferSource, poseStack, true);
     }
 
-    public void render(ModelPart posePart, int light, int overlay, float sx, float sy, float sz, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack) {
+    public void render(ModelPart posePart, int light, int overlay, float sx, float sy, float sz, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack, boolean usePose) {
         AbstractClientPlayer abstractClientPlayer = Minecraft.getInstance().player;
         if (abstractClientPlayer != null) {
             boolean isPlayerModelSlim = "slim".equals(abstractClientPlayer.getModelName());
@@ -78,18 +86,31 @@ public class PlayerArmRenderer {
                 ModelPart sleeve = models[1];
                 if (arm != null && sleeve != null) {
                     VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(playerTexture));
-                    arm.copyFrom(posePart);
-                    arm.yScale = sy;
-                    arm.xScale = sx;
-                    arm.zScale = sz;
-                    arm.render(poseStack, vertexConsumer, light, overlay, 1, 1, 1, 1);
-                    sleeve.copyFrom(posePart);
-                    sleeve.xScale = 1.12F * sx;
-                    sleeve.yScale = sy;
-                    sleeve.zScale = 1.12F * sz;
-                    sleeve.render(poseStack, vertexConsumer, light, overlay, 1, 1, 1, 1);
-                    arm.resetPose();
-                    sleeve.resetPose();
+                    if (usePose) {
+                        arm.copyFrom(posePart);
+                        arm.yScale = sy;
+                        arm.xScale = sx;
+                        arm.zScale = sz;
+                    } else {
+                        poseStack.pushPose();
+                        poseStack.scale(sx, sy, sz);
+                    }
+                    arm.render(poseStack, vertexConsumer, light, overlay, 1, 1, 1, 1, usePose);
+                    if (usePose) {
+                        sleeve.copyFrom(posePart);
+                        sleeve.xScale = 1.12F * sx;
+                        sleeve.yScale = sy;
+                        sleeve.zScale = 1.12F * sz;
+                    } else {
+                        poseStack.scale(1.12F, 1,1.12F);
+                    }
+                    sleeve.render(poseStack, vertexConsumer, light, overlay, 1, 1, 1, 1, usePose);
+                    if (!usePose) {
+                        poseStack.popPose();
+                    } else {
+                        arm.resetPose();
+                        sleeve.resetPose();
+                    }
                 }
             }
         }

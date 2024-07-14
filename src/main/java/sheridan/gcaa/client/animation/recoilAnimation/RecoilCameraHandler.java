@@ -125,6 +125,11 @@ public class RecoilCameraHandler {
         }
 
         @Override
+        public void use() {
+
+        }
+
+        @Override
         public void clear() {
             reset();
         }

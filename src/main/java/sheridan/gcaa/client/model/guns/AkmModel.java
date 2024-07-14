@@ -1,6 +1,5 @@
 package sheridan.gcaa.client.model.guns;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -10,40 +9,39 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
-import sheridan.gcaa.client.model.modelPart.*;
+import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
 
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class AkmModel extends GCAAStyleGunModel{
+public class AkmModel extends GCAAStyleGunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm.png");
-    private final ModelPart root;
-    private final ModelPart gun;
-    private final ModelPart left_arm;
-    private final ModelPart right_arm;
-    private final ModelPart _reloading;
-    private final ModelPart reloading_arm;
-
-    private final ModelPart barrel, rail_set, slide,
+    private ModelPart
+            barrel, rail_set, slide,
             muzzle, handguard, IS,
             dust_cover, mag, grip,
             safety, body, stock;
+
+    private ModelPart
+            slot_grip, slot_mag, slot_rail_set,
+            slot_handguard, slot_muzzle, slot_stock;
 
     private final AnimationDefinition recoil;
     private final AnimationDefinition shoot;
 
     public AkmModel() {
-        this.root = ArsenalLib.loadBedRockGunModel(
+        super(ArsenalLib.loadBedRockGunModel(
                         new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm.geo.json"))
-                .bakeRoot().getChild("root");
-        gun = root.getChild("gun");
-        right_arm = root.getChild("right_arm");
-        left_arm = root.getChild("left_arm");
-        _reloading = gun.getChild("_reloading");
-        mag = _reloading.getChild("mag");
-        reloading_arm = _reloading.getChild("reloading_arm");
+                .bakeRoot().getChild("root"));
+        Map<String, AnimationDefinition> animations = ArsenalLib.loadBedRockAnimation(new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm.animation.json"));
+        recoil = animations.get("recoil");
+        shoot = animations.get("shoot");
+    }
+
+    @Override
+    protected void postInit(ModelPart gun, ModelPart root) {
         barrel = gun.getChild("barrel").meshing();
         rail_set = gun.getChild("rail_set").meshing();
         slide = gun.getChild("slide").meshing();
@@ -55,46 +53,28 @@ public class AkmModel extends GCAAStyleGunModel{
         safety = gun.getChild("safety").meshing();
         body = gun.getChild("body").meshing();
         stock = gun.getChild("stock").meshing();
+        mag = gun.getChild("mag").meshing();
 
-        Map<String, AnimationDefinition> animations = ArsenalLib.loadBedRockAnimation(new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm.animation.json"));
-        recoil = animations.get("recoil");
-        shoot = animations.get("shoot");
+        slot_grip = gun.getChild("s_grip");
+        slot_mag = gun.getChild("s_mag");
+        slot_rail_set = gun.getChild("s_rail_set");
+        slot_handguard = gun.getChild("s_handguard");
+        slot_muzzle = gun.getChild("s_muzzle");
+        slot_stock = gun.getChild("s_stock");
     }
 
     @Override
-    public void handleGunTranslate(PoseStack poseStack) {
-        root.translateAndRotate(poseStack);
-        gun.translateAndRotate(poseStack);
+    public void renderGunModel(GunRenderContext context) {
+        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        context.render(vertexConsumer, barrel, rail_set, slide, muzzle, handguard, IS, mag, dust_cover, grip, safety, body, stock);
+        context.renderArmLong(left_arm, false);
+        context.renderArmLong(right_arm, true);
+        context.renderMuzzleFlash(1.0f);
     }
 
     @Override
-    public AnimationDefinition getRecoilAnimation() {
-        return null;
-    }
+    public void renderAttachmentsModel(GunRenderContext context) {
 
-    @Override
-    public ModelPart getRoot() {
-        return root;
-    }
-
-    @Override
-    public ModelPart getGunLayer() {
-        return gun;
-    }
-
-    @Override
-    public ModelPart getReloadingArm() {
-        return reloading_arm;
-    }
-
-    @Override
-    public ModelPart getLeftArm() {
-        return left_arm;
-    }
-
-    @Override
-    public ModelPart getRightArm() {
-        return right_arm;
     }
 
     @Override
@@ -106,33 +86,9 @@ public class AkmModel extends GCAAStyleGunModel{
     }
 
     @Override
-    public void renderGunModel(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
-        context.render(vertexConsumer, barrel, rail_set, slide, muzzle, handguard, IS, dust_cover, grip, safety, body, stock);
-        context.pushPose().translateAndRotateTo(_reloading);
-        context.render(mag, vertexConsumer);
-        context.popPose();
-        context.renderMuzzleFlash(1.0f);
-    }
-
-    @Override
-    public void renderAttachmentsModel(GunRenderContext context) {
-
-    }
-
-    @Override
     protected void afterRender(GunRenderContext gunRenderContext) {
+        gun.resetPose();
         root.resetPose();
         slide.resetPose();
-    }
-
-    @Override
-    public ModelPart getReloadingLayer() {
-        return _reloading;
-    }
-
-    @Override
-    protected boolean longArm() {
-        return true;
     }
 }

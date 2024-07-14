@@ -5,9 +5,11 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlash;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
+import sheridan.gcaa.utils.RenderMathUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,7 +25,7 @@ public class DisplayData {
             THIRD_PERSON_RIGHT = 1,
             GROUND = 2,
             FIXED = 3;
-    private final float[][] transforms = new float[][] {{}, {}, {}, {}};
+    private final float[][] transforms = new float[][] {{}, {}, {}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}};
     private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}};
     private final Map<String, MuzzleFlashEntry> muzzleFlashMap = new HashMap<>();
     private InertialRecoilData inertialRecoilData;
@@ -128,6 +130,13 @@ public class DisplayData {
 
     public DisplayData setFrame(float x, float y, float z, DataType type) {
         checkAndSet(3, x, y, z, type);
+        return this;
+    }
+
+    public DisplayData setAttachmentScreen(float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz) {
+        transforms[4] = new float[] {x / 16f, y / 16f, z / 16f,
+                (float) Math.toRadians(rx), (float) Math.toRadians(ry), (float) Math.toRadians(rz),
+                sx, sy, sz};
         return this;
     }
 

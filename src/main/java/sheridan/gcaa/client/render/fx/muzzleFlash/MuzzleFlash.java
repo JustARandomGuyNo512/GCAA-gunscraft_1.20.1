@@ -43,6 +43,7 @@ public class MuzzleFlash {
             int texIndex = texNum > 1 ? Math.abs(RANDOM.nextInt()) % texNum : 0;
             MuzzleFlashTexture muzzleFlashTexture = textures.get(texIndex);
             displayData.applyTrans(stack, scale);
+            stack.pushPose();
             if (randomRotate) {
                 int seed = Math.max(0, RANDOM.nextInt()) % rotateSeed;
                 if (seed != 0) {
@@ -51,6 +52,7 @@ public class MuzzleFlash {
             }
             int index = Math.abs(RANDOM.nextInt()) % muzzleFlashTexture.getCount();
             muzzleFlashTexture.render(index, stack, bufferSource, isFirstPerson);
+            stack.popPose();
         }
     }
 }

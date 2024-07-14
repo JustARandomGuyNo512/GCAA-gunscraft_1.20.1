@@ -16,24 +16,9 @@
 					"pivot": [0, 0, 0]
 				},
 				{
-					"name": "right_arm",
+					"name": "camera",
 					"parent": "root",
-					"pivot": [-3.10027, -10.3801, 28.44662],
-					"rotation": [-99.9724, -4.5142, 0.6518],
-					"cubes": [
-						{
-							"origin": [-7.65027, -46.3801, 22.44662],
-							"size": [9, 36, 12],
-							"uv": {
-								"north": {"uv": [132, 60], "uv_size": [9, 54]},
-								"east": {"uv": [120, 60], "uv_size": [12, 54]},
-								"south": {"uv": [153, 60], "uv_size": [9, 54]},
-								"west": {"uv": [141, 60], "uv_size": [12, 54]},
-								"up": {"uv": [132, 48], "uv_size": [9, 12]},
-								"down": {"uv": [141, 60], "uv_size": [9, -12]}
-							}
-						}
-					]
+					"pivot": [4.7, 12, 30.5]
 				},
 				{
 					"name": "gun",
@@ -1466,13 +1451,8 @@
 					"pivot": [0, 5.25, -0.5]
 				},
 				{
-					"name": "_reloading",
-					"parent": "gun",
-					"pivot": [0, -8, 0]
-				},
-				{
 					"name": "mag",
-					"parent": "_reloading",
+					"parent": "gun",
 					"pivot": [0, -11.81722, 1.8],
 					"cubes": [
 						{
@@ -1525,8 +1505,8 @@
 					"pivot": [0, -11.96722, -0.81604]
 				},
 				{
-					"name": "reloading_arm",
-					"parent": "_reloading",
+					"name": "left_arm",
+					"parent": "gun",
 					"pivot": [8.61449, -16.76175, 24.09228],
 					"rotation": [-106.3971, 16.3558, 6.7427],
 					"cubes": [
@@ -1545,24 +1525,45 @@
 					]
 				},
 				{
-					"name": "left_arm",
-					"parent": "root",
-					"pivot": [8.61449, -16.76175, 24.09228],
-					"rotation": [-106.3971, 16.3558, 6.7427],
+					"name": "right_arm",
+					"parent": "gun",
+					"pivot": [-3.10027, -10.3801, 28.44662],
+					"rotation": [-99.9724, -4.5142, 0.6518],
 					"cubes": [
 						{
-							"origin": [4.16449, -52.76175, 18.09228],
+							"origin": [-7.65027, -46.3801, 22.44662],
 							"size": [9, 36, 12],
 							"uv": {
-								"north": {"uv": [108, 156], "uv_size": [9, 54]},
-								"east": {"uv": [96, 156], "uv_size": [12, 54]},
-								"south": {"uv": [129, 156], "uv_size": [9, 54]},
-								"west": {"uv": [117, 156], "uv_size": [12, 54]},
-								"up": {"uv": [108, 144], "uv_size": [9, 12]},
-								"down": {"uv": [117, 156], "uv_size": [9, -12]}
+								"north": {"uv": [132, 60], "uv_size": [9, 54]},
+								"east": {"uv": [120, 60], "uv_size": [12, 54]},
+								"south": {"uv": [153, 60], "uv_size": [9, 54]},
+								"west": {"uv": [141, 60], "uv_size": [12, 54]},
+								"up": {"uv": [132, 48], "uv_size": [9, 12]},
+								"down": {"uv": [141, 60], "uv_size": [9, -12]}
 							}
 						}
 					]
+				},
+				{
+					"name": "s_barrel",
+					"parent": "gun",
+					"pivot": [0, 3.65, -21]
+				},
+				{
+					"name": "s_scope",
+					"parent": "gun",
+					"pivot": [0, 5.06, -0.7]
+				},
+				{
+					"name": "s_grip",
+					"parent": "gun",
+					"pivot": [0, 0, -17.2]
+				},
+				{
+					"name": "s_mag",
+					"parent": "gun",
+					"pivot": [0, -12, -0.8],
+					"rotation": [7.5, 0, 0]
 				}
 			]
 		}

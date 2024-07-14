@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.guns.IGun;
@@ -71,6 +72,9 @@ public class GunDebugAdjustScreen extends Screen {
             viewIndex %= 4;
             p_280814_.setMessage(Component.literal(viewModeNames[viewIndex]));
         }).width(100).pos(300, 20).build());
+        rowHelper.addChild(Button.builder(Component.literal("Bobbing"), (p_280814_) -> {
+            Clients.handleWeaponBobbing = !Clients.handleWeaponBobbing;
+        }).width(50).pos(300, 50).build());
         rowHelper.addChild(Button.builder(Component.literal("print"), (p_280814_) -> {
             printToConsole();
         }).width(100).pos(50, 180).build());

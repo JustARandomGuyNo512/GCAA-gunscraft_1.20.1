@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 @OnlyIn(Dist.CLIENT)
 public final class ModelPart {
+    public static final ModelPart EMPTY = new ModelPart(List.of(), Map.of());
     public float x;
     public float y;
     public float z;
@@ -172,14 +173,16 @@ public final class ModelPart {
     }
 
     public void render(PoseStack poseStack, VertexConsumer vertexConsumer, int pPackedLight, int pPackedOverlay) {
-        this.render(poseStack, vertexConsumer, pPackedLight, pPackedOverlay, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.render(poseStack, vertexConsumer, pPackedLight, pPackedOverlay, 1.0F, 1.0F, 1.0F, 1.0F, true);
     }
 
-    public void render(PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
+    public void render(PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha, boolean usePose) {
         if (this.visible) {
             if (!this.cubes.isEmpty() || !this.children.isEmpty() || this.polygons != null) {
                 pPoseStack.pushPose();
-                this.translateAndRotate(pPoseStack);
+                if (usePose) {
+                    this.translateAndRotate(pPoseStack);
+                }
                 if (!this.skipDraw) {
                     if (meshed) {
                         Matrix4f matrix4f = pPoseStack.last().pose();
@@ -204,12 +207,13 @@ public final class ModelPart {
                     }
                 }
                 for(ModelPart modelpart : this.children.values()) {
-                    modelpart.render(pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+                    modelpart.render(pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha, true);
                 }
                 pPoseStack.popPose();
             }
         }
     }
+
 
     /**
      * This method consolidates the child parts of the model into a single mesh.

@@ -20,7 +20,6 @@ public class GlobalWeaponBobbing {
     public float timer = 0;
     public long lastUpdate = System.currentTimeMillis();
     public static final float PI = 3.14159265358979323846f;
-    public static final float HALF_PI = 3.14159265358979323846f / 2f;
     public float sprintingProgress;
     public boolean shouldApplySprintingTranslation = false;
     public IGun gun;
@@ -132,8 +131,8 @@ public class GlobalWeaponBobbing {
             idleYaw = Mth.sin(idle) * 0.015f;
             idleRoll = Mth.sin(idle) * 0.00025f;
             poseStack.translate(
-                    Mth.sin(swing - PI * 0.125f) * scaledBob * 0.12f + swingRy * scaleFactor,
-                    (1.1f - Math.abs(Mth.cos(swing - PI * 0.1f))) * scaledBob * 0.25f +
+                    Mth.sin(swing - PI * 0.125f) * scaledBob * 0.115f + swingRy * scaleFactor,
+                    (1.08f - Math.abs(Mth.cos(swing - PI * 0.1f))) * scaledBob * 0.25f +
                             EQUIP_HEIGHT * instance.equipProgress - (swingRx * 0.5f - JumpBobbingHandler.getOffset() * pistolFactor) * scaleFactor
                             + idleYaw * idleScale * pistolFactor,
                     scaledBob * 0.5f + idleRoll * idleScale);
@@ -143,9 +142,7 @@ public class GlobalWeaponBobbing {
                     swingRy * 0.9f * aimingFactor,
                     -swingRy * aimingFactor * pistolFactor));
 
-            if (instance.shouldApplySprintingTranslation) {
 
-            }
 
         }
 
