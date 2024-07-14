@@ -64,7 +64,8 @@ public class Clients {
     @OnlyIn(Dist.CLIENT)
     public static volatile long lastClientTick;
     public static boolean handleWeaponBobbing = true;
-
+    @OnlyIn(Dist.CLIENT)
+    public static boolean debugKeyDown = false;
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {
         clientWeaponLooperTimer.scheduleAtFixedRate(new ClientWeaponLooper(), 0, 5L);
@@ -78,7 +79,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AKM.get(), new AkmModel(), new DisplayData()
-                .setFirstPersonMain(-5.5f,18.5f,-18.5f, POS)
+                .setFirstPersonMain(-5.5f,18.1f,-17.3f, POS)
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 0, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(0f, 0f, 0, POS).setFrame(0f, 0f, 0, ROT).set(DisplayData.FIXED, 0.3f, SCALE)

@@ -17,7 +17,7 @@ public class Semi implements IGunFireMode {
 
     @Override
     public String getName() {
-        return null;
+        return "semi";
     }
 
     @Override

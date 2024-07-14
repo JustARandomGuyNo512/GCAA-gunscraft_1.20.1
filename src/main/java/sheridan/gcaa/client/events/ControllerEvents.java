@@ -1,6 +1,7 @@
 package sheridan.gcaa.client.events;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -52,11 +53,14 @@ public class ControllerEvents {
                     Minecraft.getInstance().setScreen(new GunDebugAdjustScreen());
                 }
             } else if (KeyBinds.SWITCH_FIRE_MODE.isDown() && event.getAction() == 1) {
-                if (stackMain.getItem() instanceof IGun) {
-                    Clients.mainHandStatus.buttonDown.set(false);
-                    PacketHandler.simpleChannel.sendToServer(new SwitchFireModePacket());
+                if (stackMain.getItem() instanceof IGun gun) {
+                    if (gun.getGunProperties().fireModes.size() > 1) {
+                        Clients.mainHandStatus.buttonDown.set(false);
+                        player.playSound(SoundEvents.LEVER_CLICK, 0.5f, 1.5f);PacketHandler.simpleChannel.sendToServer(new SwitchFireModePacket());
+                    }
                 }
             }
+            Clients.debugKeyDown = KeyBinds.DEBUG_KEY.isDown();
         }
     }
 }

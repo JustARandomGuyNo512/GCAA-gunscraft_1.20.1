@@ -21,13 +21,14 @@ public class GunProperties{
     public final float recoilYaw;
     public final float recoilPitchControl;
     public final float recoilYawControl;
+    public final int weight;
     public final List<IGunFireMode> fireModes;
     public final RegistryObject<SoundEvent> fireSound;
     public final RegistryObject<SoundEvent> suppressedSound;
     public final ICaliber caliber;
 
     public GunProperties(float baseDamage, float adsSpeed, int fireDelay, int reloadLength, int fullReloadLength,
-                         int magSize, float recoilPitch, float recoilYaw, float recoilPitchControl, float recoilYawControl, List<IGunFireMode> fireModes,
+                         int magSize, float recoilPitch, float recoilYaw, float recoilPitchControl, float recoilYawControl, int weight, List<IGunFireMode> fireModes,
                          RegistryObject<SoundEvent> fireSound, RegistryObject<SoundEvent> suppressedSound, ICaliber caliber) {
         this.baseDamage = baseDamage;
         this.adsSpeed = adsSpeed;
@@ -43,6 +44,7 @@ public class GunProperties{
         this.fireSound = fireSound;
         this.suppressedSound = suppressedSound;
         this.caliber = caliber;
+        this.weight = weight;
     }
     /**
      * get the rate of fire in rounds per minute, this is not accurate.
@@ -80,6 +82,7 @@ public class GunProperties{
         tag.putFloat("recoil_pitch_control", recoilPitchControl);
         tag.putFloat("recoil_yaw_control", recoilYawControl);
         tag.putString("muzzle_flash", Gun.MUZZLE_STATE_NORMAL);
+        tag.putInt("weight", weight);
         return tag;
     }
 

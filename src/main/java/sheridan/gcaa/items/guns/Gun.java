@@ -1,5 +1,6 @@
 package sheridan.gcaa.items.guns;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -53,8 +54,13 @@ public class Gun extends BaseItem implements IGun {
 
     @Override
     public int getAmmoLeft(ItemStack stack) {
-        return 1;
-        // return checkAndGet(stack).getInt("ammo_left");
+        return checkAndGet(stack).getInt("ammo_left");
+    }
+
+    @Override
+    public int getMagSize(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("mag_size") ? properties.getInt("mag_size") : -1;
     }
 
     protected float randomIndex() {
@@ -197,11 +203,6 @@ public class Gun extends BaseItem implements IGun {
         return properties.contains("recoil_yaw_control") ? properties.getFloat("recoil_yaw_control") : 0;
     }
 
-    @Override
-    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-        return super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
-    }
-
     protected CompoundTag checkAndGet(ItemStack stack) {
         CompoundTag nbt = stack.getTag();
         if (nbt == null) {
@@ -282,6 +283,16 @@ public class Gun extends BaseItem implements IGun {
     @Override
     public boolean isRepairable(@NotNull ItemStack stack) {
         return false;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        ItemStack mainHandStack = Minecraft.getInstance().player != null ? Minecraft.getInstance().player.getMainHandItem() : null;
+        if (Clients.debugKeyDown) {
+            System.out.println("old:" + oldStack.getItem() + "   new:" + newStack.getItem() + "   is old:" + oldStack.equals(mainHandStack) + "   is new:" + newStack.equals(mainHandStack) + "   slot change:" + slotChanged);
+        }
+        return slotChanged;
     }
 }
 

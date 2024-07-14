@@ -78,7 +78,7 @@ public class GlobalWeaponBobbing {
     }
 
     private static class DefaultBobbing implements IWeaponBobbing {
-        private static final float EQUIP_HEIGHT = 1.5f;
+        private static final float EQUIP_HEIGHT = 1.75f;
         private float idleProgress = 0;
         float walkDis;
         float swing;

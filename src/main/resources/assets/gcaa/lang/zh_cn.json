@@ -1,4 +1,12 @@
 {
   "item.gcaa.g19": "格洛克 19",
-  "item.gcaa.akm": "Akm"
+  "item.gcaa.akm": "Akm",
+
+  "tooltip.gunscraft.auto": "全自动",
+  "tooltip.gunscraft.semi": "单发",
+  "tooltip.gunscraft.burst": "连发",
+
+  "keys.categories.gcaa": "GCAA：按键绑定",
+  "key.gcaa.open_debug_gun_screen": "打开调试枪械界面（仅debug模式）",
+  "key.gcaa.switch_fire_mode": "切换开火模式"
 }

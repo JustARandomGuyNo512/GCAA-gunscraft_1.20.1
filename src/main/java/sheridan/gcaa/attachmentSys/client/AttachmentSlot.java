@@ -15,11 +15,7 @@ public class AttachmentSlot {
     public static final AttachmentSlot EMPTY = new AttachmentSlot();
     public static final String ROOT = "ROOT";
     public final String slotName;
-    private final float[] translation = new float[] {
-            0, 0, 0,
-            0, 0, 0,
-            1, 1, 1
-    };
+
     private final Set<String> acceptedAttachments;
     private final Map<String, AttachmentSlot> children = new HashMap<>();
     private boolean root = false;
@@ -35,34 +31,11 @@ public class AttachmentSlot {
         acceptedAttachments = Collections.emptySet();
     }
 
+
     public AttachmentSlot(String slotName, Set<String> acceptedAttachments) {
         this.slotName = slotName;
         this.acceptedAttachments = acceptedAttachments;
-    }
 
-    public AttachmentSlot(String slotName, Set<String> acceptedAttachments, float x, float y, float z, float rx , float ry, float rz, float sx, float sy, float sz) {
-        this.slotName = slotName;
-        this.acceptedAttachments = acceptedAttachments;
-        translation[0] = -x;
-        translation[1] = -y;
-        translation[2] = z;
-        translation[3] = (float) Math.toRadians(rx);
-        translation[4] = (float) Math.toRadians(ry);
-        translation[5] = (float) Math.toRadians(rz);
-        translation[6] = sx;
-        translation[7] = sy;
-        translation[8] = sz;
-    }
-
-    public AttachmentSlot(String slotName, Set<String> acceptedAttachments, float... translation) {
-        this.slotName = slotName;
-        this.acceptedAttachments = acceptedAttachments;
-        int len = Math.max(translation.length, this.translation.length);
-        System.arraycopy(translation, 0, this.translation, 0, len);
-    }
-
-    public float[] getTranslation() {
-        return translation;
     }
 
     /**
@@ -161,7 +134,7 @@ public class AttachmentSlot {
      * Deep copy this slot and its children.
      * */
     public AttachmentSlot copy() {
-        AttachmentSlot slot = new AttachmentSlot(this.slotName, this.acceptedAttachments, this.getTranslation());
+        AttachmentSlot slot = new AttachmentSlot(this.slotName, this.acceptedAttachments);
         if (hasChildren()) {
             for (AttachmentSlot child : children.values()) {
                 slot.addChild(child.copy());
@@ -170,17 +143,4 @@ public class AttachmentSlot {
         return slot;
     }
 
-    public ListTag getTranslationTag() {
-        ListTag list = new ListTag();
-        list.add(FloatTag.valueOf(translation[0]));
-        list.add(FloatTag.valueOf(translation[1]));
-        list.add(FloatTag.valueOf(translation[2]));
-        list.add(FloatTag.valueOf(translation[3]));
-        list.add(FloatTag.valueOf(translation[4]));
-        list.add(FloatTag.valueOf(translation[5]));
-        list.add(FloatTag.valueOf(translation[6]));
-        list.add(FloatTag.valueOf(translation[7]));
-        list.add(FloatTag.valueOf(translation[8]));
-        return list;
-    }
 }

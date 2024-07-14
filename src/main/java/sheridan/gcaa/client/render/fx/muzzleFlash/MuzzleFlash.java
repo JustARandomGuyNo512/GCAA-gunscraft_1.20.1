@@ -43,16 +43,20 @@ public class MuzzleFlash {
             int texIndex = texNum > 1 ? Math.abs(RANDOM.nextInt()) % texNum : 0;
             MuzzleFlashTexture muzzleFlashTexture = textures.get(texIndex);
             displayData.applyTrans(stack, scale);
-            stack.pushPose();
+            boolean popStack = false;
             if (randomRotate) {
                 int seed = Math.max(0, RANDOM.nextInt()) % rotateSeed;
                 if (seed != 0) {
+                    stack.pushPose();
+                    popStack = true;
                     stack.mulPose(new Quaternionf().rotateXYZ(0,0,seed * rotation));
                 }
             }
             int index = Math.abs(RANDOM.nextInt()) % muzzleFlashTexture.getCount();
             muzzleFlashTexture.render(index, stack, bufferSource, isFirstPerson);
-            stack.popPose();
+            if (popStack) {
+                stack.popPose();
+            }
         }
     }
 }

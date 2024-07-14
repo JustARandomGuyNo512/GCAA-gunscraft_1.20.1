@@ -57,10 +57,9 @@ public class AttachmentsHandler {
         }
     }
 
-    private CompoundTag getMark(IAttachment attachment, ListTag translation, String slotName) {
+    private CompoundTag getMark(IAttachment attachment,String slotName) {
         CompoundTag tag = new CompoundTag();
         tag.putString("id", AttachmentRegister.getKey(attachment).toString());
-        tag.put("trans", translation);
         tag.putString("slot_name", slotName);
         return tag;
     }
