@@ -68,6 +68,11 @@ public class Gun extends BaseItem implements IGun {
     }
 
     @Override
+    public void setAmmoLeft(ItemStack stack, int ammoLeft) {
+        checkAndGet(stack).putInt("ammo_left", ammoLeft);
+    }
+
+    @Override
     public int getMagSize(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
         return properties.contains("mag_size") ? properties.getInt("mag_size") : -1;
@@ -120,6 +125,7 @@ public class Gun extends BaseItem implements IGun {
         if (ammoLeft > 0) {
             ICaliber caliber = gunProperties.caliber;
             caliber.fireBullet(null, null, this, player, stack);
+            setAmmoLeft(stack, ammoLeft - 1);
         }
     }
 
@@ -311,7 +317,7 @@ public class Gun extends BaseItem implements IGun {
 
     public float getEquipSpeedModifier(ItemStack itemStack, IGun gun) {
         float weight = Mth.clamp(gun.getWeight(itemStack), 5, 40);
-        return ((weight - 5f) / (40f - 5f)) * (-3.5f);
+        return ((weight - 5f) / (35f)) * (-3.5f);
     }
 
     @Override
@@ -324,7 +330,13 @@ public class Gun extends BaseItem implements IGun {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
+        //tooltip.add(Component.literal("test"));
+    }
 
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public int getDefaultTooltipHideFlags(@NotNull ItemStack stack) {
+        return ItemStack.TooltipPart.MODIFIERS.getMask();
     }
 }
 

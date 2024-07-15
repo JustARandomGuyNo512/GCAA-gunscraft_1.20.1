@@ -13,6 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
@@ -103,5 +104,15 @@ public class RenderEvents {
         guiGraphics.drawString(font, ammoLeft + "", 0.8f * width, 0.8f * height, -1,  true);
         guiGraphics.setColor(1, 1, 1, 1);
         guiGraphics.drawString(font, " / " + magSize, 0.8f * width + font.width(ammoLeft + ""), 0.8f * height, -1,  true);
+    }
+
+    @SubscribeEvent
+    public static void onItemTooltip(ItemTooltipEvent event) {
+//        if (Clients.debugKeyDown) {
+//            if (event.getItemStack().getItem() instanceof IGun) {
+                //System.out.println(event.getToolTip().toString());
+                //System.out.println("===================================");
+           //}
+        //}
     }
 }
