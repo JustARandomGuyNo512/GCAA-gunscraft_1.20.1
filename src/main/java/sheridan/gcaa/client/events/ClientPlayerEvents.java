@@ -27,10 +27,12 @@ public class ClientPlayerEvents {
                 if (gunMain != null) {
                     Clients.mainHandStatus.fireDelay.set(gunMain.getFireDelay(stackMain));
                 }
-                JumpBobbingHandler jumpBobbingHandler = JumpBobbingHandler.getInstance();
-                if (jumpBobbingHandler != null) {
-                    jumpBobbingHandler.handle((LocalPlayer) event.player);
-                }
+            }
+        }
+        if (event.phase == TickEvent.Phase.END && event.player != null && event.player.level().isClientSide())  {
+            JumpBobbingHandler jumpBobbingHandler = JumpBobbingHandler.getInstance();
+            if (jumpBobbingHandler != null) {
+                jumpBobbingHandler.handle((LocalPlayer) event.player);
             }
         }
     }
