@@ -13,6 +13,12 @@ public class CameraAnimationHandler {
     public float roll;
 
     public void set(ModelPart cameraPosePart) {
+        yaw = cameraPosePart.yRot;
+        pitch = cameraPosePart.xRot;
+        roll = cameraPosePart.zRot;
+    }
+
+    public void mix(ModelPart cameraPosePart) {
         yaw += cameraPosePart.yRot;
         pitch += cameraPosePart.xRot;
         roll += cameraPosePart.zRot;

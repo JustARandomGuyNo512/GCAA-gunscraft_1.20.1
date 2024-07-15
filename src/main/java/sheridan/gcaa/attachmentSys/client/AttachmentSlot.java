@@ -39,7 +39,7 @@ public class AttachmentSlot {
     }
 
     /**
-     * Returns a set of attachment item registry name that this slot accepts.
+     * Returns a mix of attachment item registry name that this slot accepts.
      * */
     public Set<String> getAcceptedAttachments() {
         return acceptedAttachments;
@@ -67,9 +67,9 @@ public class AttachmentSlot {
     }
 
     /**
-     * Add a set of child slots to this slot.
+     * Add a mix of child slots to this slot.
      *
-     * @param children the set of child slots to add.
+     * @param children the mix of child slots to add.
      * @return current slot.
      * */
     public AttachmentSlot addChildren(Set<AttachmentSlot> children) {
