@@ -2,6 +2,7 @@ package sheridan.gcaa.items;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.Commons;
 import sheridan.gcaa.items.guns.Gun;
@@ -11,6 +12,8 @@ import sheridan.gcaa.items.guns.IGunFireMode;
 import java.util.List;
 
 public class GunProperties{
+    public static final float MIN_WEIGHT = 5f;
+    public static final float MAX_WEIGHT = 40f;
     public final float baseDamage;
     public final float adsSpeed;
     public final int fireDelay;
@@ -21,14 +24,14 @@ public class GunProperties{
     public final float recoilYaw;
     public final float recoilPitchControl;
     public final float recoilYawControl;
-    public final int weight;
+    public final float weight;
     public final List<IGunFireMode> fireModes;
     public final RegistryObject<SoundEvent> fireSound;
     public final RegistryObject<SoundEvent> suppressedSound;
     public final ICaliber caliber;
 
     public GunProperties(float baseDamage, float adsSpeed, int fireDelay, int reloadLength, int fullReloadLength,
-                         int magSize, float recoilPitch, float recoilYaw, float recoilPitchControl, float recoilYawControl, int weight, List<IGunFireMode> fireModes,
+                         int magSize, float recoilPitch, float recoilYaw, float recoilPitchControl, float recoilYawControl, float weight, List<IGunFireMode> fireModes,
                          RegistryObject<SoundEvent> fireSound, RegistryObject<SoundEvent> suppressedSound, ICaliber caliber) {
         this.baseDamage = baseDamage;
         this.adsSpeed = adsSpeed;
@@ -44,7 +47,7 @@ public class GunProperties{
         this.fireSound = fireSound;
         this.suppressedSound = suppressedSound;
         this.caliber = caliber;
-        this.weight = weight;
+        this.weight = Mth.clamp(weight, MIN_WEIGHT, MAX_WEIGHT);
     }
     /**
      * get the rate of fire in rounds per minute, this is not accurate.
@@ -82,7 +85,7 @@ public class GunProperties{
         tag.putFloat("recoil_pitch_control", recoilPitchControl);
         tag.putFloat("recoil_yaw_control", recoilYawControl);
         tag.putString("muzzle_flash", Gun.MUZZLE_STATE_NORMAL);
-        tag.putInt("weight", weight);
+        tag.putFloat("weight", weight);
         return tag;
     }
 
@@ -102,5 +105,7 @@ public class GunProperties{
         propertiesTag.putFloat("recoil_yaw_control", val);
     }
 
-
+    public void setWeight(CompoundTag propertiesTag, float val) {
+        propertiesTag.putFloat("weight", Mth.clamp(val, MIN_WEIGHT, MAX_WEIGHT));
+    }
 }

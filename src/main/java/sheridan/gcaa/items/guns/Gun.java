@@ -1,10 +1,17 @@
 package sheridan.gcaa.items.guns;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -36,10 +43,13 @@ public class Gun extends BaseItem implements IGun {
     public static final String MUZZLE_STATE_SUPPRESSED = "suppressed";
     public static final String MUZZLE_STATE_COMPENSATOR = "compensator";
     private final GunProperties gunProperties;
+    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
     public Gun(GunProperties gunProperties) {
         super(new Properties().stacksTo(1));
         this.gunProperties = gunProperties;
+        defaultModifiers = ArrayListMultimap.create();
+        defaultModifiers.put(Attributes.ATTACK_SPEED, new EditableAttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", 0, AttributeModifier.Operation.ADDITION));
     }
 
     @Override
@@ -203,6 +213,12 @@ public class Gun extends BaseItem implements IGun {
         return properties.contains("recoil_yaw_control") ? properties.getFloat("recoil_yaw_control") : 0;
     }
 
+    @Override
+    public float getWeight(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("weight") ? properties.getFloat("weight") : 0;
+    }
+
     protected CompoundTag checkAndGet(ItemStack stack) {
         CompoundTag nbt = stack.getTag();
         if (nbt == null) {
@@ -250,12 +266,6 @@ public class Gun extends BaseItem implements IGun {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
-
-
-    @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return false;
     }
@@ -288,11 +298,33 @@ public class Gun extends BaseItem implements IGun {
     @OnlyIn(Dist.CLIENT)
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-        ItemStack mainHandStack = Minecraft.getInstance().player != null ? Minecraft.getInstance().player.getMainHandItem() : null;
-        if (Clients.debugKeyDown) {
-            System.out.println("old:" + oldStack.getItem() + "   new:" + newStack.getItem() + "   is old:" + oldStack.equals(mainHandStack) + "   is new:" + newStack.equals(mainHandStack) + "   slot change:" + slotChanged);
+        if (slotChanged) {
+            Clients.setEquipDelay(3);
+            Player player = Minecraft.getInstance().player;
+            if (player != null) {
+                player.resetAttackStrengthTicker();
+            }
         }
-        return slotChanged;
+        return Clients.getEquipDelay() > 0;
+    }
+
+    public float getEquipSpeedModifier(ItemStack itemStack, IGun gun) {
+        float weight = Mth.clamp(gun.getWeight(itemStack), 5, 40);
+        return ((weight - 5f) / (40f - 5f)) * (-3.5f);
+    }
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        List<AttributeModifier> attributeModifiers = (List<AttributeModifier>) defaultModifiers.get(Attributes.ATTACK_SPEED);
+        EditableAttributeModifier attributeModifier = (EditableAttributeModifier) attributeModifiers.get(0);
+
+        attributeModifier.setAmount(getEquipSpeedModifier(stack, this));
+        return this.defaultModifiers;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
+
     }
 }
 

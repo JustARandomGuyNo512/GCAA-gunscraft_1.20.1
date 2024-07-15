@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class Akm extends Gun{
     public Akm() {
         super(new GunProperties(0f, 0f, GunProperties.getRPM(600), 0,
-                0, 30, 2.5f, 0.8f, 0.1f, 0.1f, 8, Arrays.asList(Semi.SEMI, Auto.AUTO),
+                0, 30, 2.5f, 0.8f, 0.1f, 0.1f, 10, Arrays.asList(Semi.SEMI, Auto.AUTO),
                 ModSounds.AKM_FIRE, null, Caliber7_62x39mm.INSTANCE));
     }
 }

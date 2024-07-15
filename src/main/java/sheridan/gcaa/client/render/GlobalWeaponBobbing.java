@@ -78,7 +78,7 @@ public class GlobalWeaponBobbing {
     }
 
     private static class DefaultBobbing implements IWeaponBobbing {
-        private static final float EQUIP_HEIGHT = 1.75f;
+        private static final float EQUIP_HEIGHT = 3f;
         private float idleProgress = 0;
         float walkDis;
         float swing;
@@ -133,14 +133,14 @@ public class GlobalWeaponBobbing {
             poseStack.translate(
                     Mth.sin(swing - PI * 0.125f) * scaledBob * 0.115f + swingRy * scaleFactor,
                     (1.08f - Math.abs(Mth.cos(swing - PI * 0.1f))) * scaledBob * 0.25f +
-                            EQUIP_HEIGHT * instance.equipProgress - (swingRx * 0.5f - JumpBobbingHandler.getOffset() * pistolFactor) * scaleFactor
+                            EQUIP_HEIGHT * pistolFactor * instance.equipProgress - (swingRx * 0.5f - JumpBobbingHandler.getOffset() * pistolFactor) * scaleFactor
                             + idleYaw * idleScale * pistolFactor,
                     scaledBob * 0.5f + idleRoll * idleScale);
             poseStack.mulPose(new Quaternionf().rotateXYZ(
                     -Math.abs(Mth.cos(swing - PI * 0.023F) * bob) * scaleFactor * 0.12f
-                            + swingRx * 0.8f * aimingFactor - idlePitch * idleScale,
+                            + swingRx * 0.8f * aimingFactor - idlePitch * idleScale + instance.equipProgress * 0.2f,
                     swingRy * 0.9f * aimingFactor,
-                    -swingRy * aimingFactor * pistolFactor));
+                    -swingRy * aimingFactor * pistolFactor + instance.equipProgress));
 
 
 

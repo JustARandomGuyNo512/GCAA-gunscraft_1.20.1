@@ -1,6 +1,7 @@
 package sheridan.gcaa.client.events;
 
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,7 +17,7 @@ public class ClientPlayerEvents {
 
     @SubscribeEvent
     public static void onClientPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
+        if (event.phase == TickEvent.Phase.START) {
             Player player = event.player;
             if (player != null && player.level().isClientSide()) {
                 Clients.clientPlayerId = player.getId();

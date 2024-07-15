@@ -31,6 +31,7 @@ public interface IGun {
     float getRecoilYaw(ItemStack stack);
     float getRecoilPitchControl(ItemStack stack);
     float getRecoilYawControl(ItemStack stack);
+    float getWeight(ItemStack stack);
     default int applySprintingPoseDelay() {
         return 1000;
     }

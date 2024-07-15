@@ -67,6 +67,20 @@ public class Clients {
     @OnlyIn(Dist.CLIENT)
     public static boolean debugKeyDown = false;
     @OnlyIn(Dist.CLIENT)
+    public static int getEquipDelay() {
+        return mainHandStatus.equipDelay;
+    }
+    @OnlyIn(Dist.CLIENT)
+    public static void equipDelayCoolDown() {
+        mainHandStatus.equipDelay = Math.max(0, mainHandStatus.equipDelay-1);
+    }
+    @OnlyIn(Dist.CLIENT)
+    public static void setEquipDelay(int delay) {
+        mainHandStatus.equipDelay = delay;
+    }
+
+
+    @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {
         clientWeaponLooperTimer.scheduleAtFixedRate(new ClientWeaponLooper(), 0, 5L);
         ArsenalLib.registerGunModel(ModItems.G19.get(), new G19Model(), new DisplayData()
