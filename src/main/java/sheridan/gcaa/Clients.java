@@ -119,6 +119,15 @@ public class Clients {
     }
 
     @OnlyIn(Dist.CLIENT)
+    public static boolean allowFireBtnDown(ItemStack stack, IGun gun, Player player) {
+        return mainHandStatus.equipProgress == 0;
+    }
+
+    public static boolean allowAdsStart(ItemStack stack, IGun gun, Player player) {
+        return mainHandStatus.equipProgress == 0;
+    }
+
+    @OnlyIn(Dist.CLIENT)
     public static int handleClientShoot(ItemStack stack, IGun gun, Player player) {
         try {
             lock.lock();

@@ -299,6 +299,7 @@ public class Gun extends BaseItem implements IGun {
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         if (slotChanged) {
+            Clients.mainHandStatus.buttonDown.set(false);
             Clients.setEquipDelay(3);
             Player player = Minecraft.getInstance().player;
             if (player != null) {
@@ -317,7 +318,6 @@ public class Gun extends BaseItem implements IGun {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         List<AttributeModifier> attributeModifiers = (List<AttributeModifier>) defaultModifiers.get(Attributes.ATTACK_SPEED);
         EditableAttributeModifier attributeModifier = (EditableAttributeModifier) attributeModifiers.get(0);
-
         attributeModifier.setAmount(getEquipSpeedModifier(stack, this));
         return this.defaultModifiers;
     }

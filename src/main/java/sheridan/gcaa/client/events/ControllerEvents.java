@@ -25,16 +25,16 @@ public class ControllerEvents {
             Player player = Minecraft.getInstance().player;
             if (player != null && !player.isSpectator() && !player.isSwimming()) {
                 ItemStack stack = player.getMainHandItem();
-                if (stack.getItem() instanceof IGun) {
+                if (stack.getItem() instanceof IGun gun) {
                     if (event.getButton() == 0) {
                         if (event.getAction() == 1) {
-                            Clients.mainHandStatus.buttonDown.set(true);
+                            Clients.mainHandStatus.buttonDown.set(Clients.allowFireBtnDown(stack, gun, player));
                         } else if (event.getAction() == 0) {
                             Clients.mainHandStatus.buttonDown.set(false);
                         }
                         event.setCanceled(true);
                     } else if (event.getButton() == 1) {
-                        Clients.mainHandStatus.ads = event.getAction() == 1;
+                        Clients.mainHandStatus.ads = (event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
                         event.setCanceled(true);
                     }
                 }

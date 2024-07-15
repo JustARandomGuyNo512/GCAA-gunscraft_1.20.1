@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -29,11 +30,13 @@ public class RenderEvents {
 
     @SubscribeEvent
     public static void onRenderHandFP(RenderHandEvent event) {
-        ClientWeaponStatus status = Clients.mainHandStatus;
-        status.equipProgress = event.getEquipProgress();
-        if (Clients.mainHandStatus.holdingGun.get()) {
-            if (Minecraft.getInstance().options.bobView().get()) {
-                GlobalWeaponBobbing.INSTANCE.update(event.getPartialTick(), status.equipProgress);
+        if (event.getHand() == InteractionHand.MAIN_HAND) {
+            ClientWeaponStatus status = Clients.mainHandStatus;
+            status.equipProgress = event.getEquipProgress();
+            if (Clients.mainHandStatus.holdingGun.get()) {
+                if (Minecraft.getInstance().options.bobView().get()) {
+                    GlobalWeaponBobbing.INSTANCE.update(event.getPartialTick(), status.equipProgress);
+                }
             }
         }
     }
