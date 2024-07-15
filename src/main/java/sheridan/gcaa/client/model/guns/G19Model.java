@@ -12,10 +12,6 @@ import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
-import sheridan.gcaa.lib.ArsenalLib;
-
-import java.util.Map;
-
 @OnlyIn(Dist.CLIENT)
 public class G19Model extends GCAAStyleGunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.png");
@@ -26,10 +22,8 @@ public class G19Model extends GCAAStyleGunModel {
     private final AnimationDefinition shoot;
 
     public G19Model() {
-        super(ArsenalLib.loadBedRockGunModel(
-                        new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.geo.json"))
-                .bakeRoot().getChild("root"));
-        Map<String, AnimationDefinition> animations = ArsenalLib.loadBedRockAnimation(new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.animation.json"));
+        super(new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.geo.json"),
+                new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.animation.json"));
         recoil = animations.get("recoil");
         shoot = animations.get("shoot");
     }
@@ -83,13 +77,4 @@ public class G19Model extends GCAAStyleGunModel {
         return recoil;
     }
 
-    @Override
-    public AnimationDefinition getReload() {
-        return null;
-    }
-
-    @Override
-    public AnimationDefinition getFullReload() {
-        return null;
-    }
 }

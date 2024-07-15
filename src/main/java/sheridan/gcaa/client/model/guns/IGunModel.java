@@ -16,4 +16,5 @@ public interface IGunModel {
     void handleSlotTranslate(PoseStack poseStack, String name);
     AnimationDefinition getReload();
     AnimationDefinition getFullReload();
+    AnimationDefinition get(String name);
 }

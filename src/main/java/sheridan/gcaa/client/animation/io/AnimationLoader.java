@@ -39,7 +39,7 @@ public class AnimationLoader {
      * STEP interpretation is not supported and will be read as LINEAR instead.
      * */
     public static Map<String, AnimationDefinition> loadAnimationCollection(ResourceLocation location, boolean readSounds) {
-        AtomicReference<Map<String, AnimationDefinition>> resultRef = new AtomicReference<>(null);
+        AtomicReference<Map<String, AnimationDefinition>> resultRef = new AtomicReference<>(new HashMap<>());
         try {
             ResourceManager manager = Minecraft.getInstance().getResourceManager();
             manager.getResource(location).ifPresent(res -> {

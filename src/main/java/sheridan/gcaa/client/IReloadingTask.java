@@ -21,7 +21,7 @@ public interface IReloadingTask {
      * */
     int getCustomPayload();
     /**
-     * called when a task be break, for example: shotgun can shoot while reloading, you can write some logical code to execute this method before the task be discarded.
+     * When this task is broken, the onBreak() method is executed, for example: shotgun can shoot while reloading,you can write some logical code to execute this method before the task be discarded. and then the tick() method is executed one last time
      * */
     void onBreak();
     /**

@@ -22,7 +22,6 @@ public class ClientWeaponStatus {
     public boolean ads = false;
     public float adsProgress = 0;
     public long lastShoot = 0;
-    public long lastReload = 0;
     public int equipDelay = 0;
 
     public ClientWeaponStatus(boolean mainHand) {
