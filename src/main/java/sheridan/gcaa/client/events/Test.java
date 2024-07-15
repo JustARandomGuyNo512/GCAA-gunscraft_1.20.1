@@ -8,9 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.capability.PlayerStatusProvider;
 
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
@@ -27,4 +29,11 @@ public class Test {
 //        }
 //    }
 
+
+//    @SubscribeEvent
+//    public static void onPlayerTick(TickEvent.PlayerTickEvent event)  {
+//        if (event.phase == TickEvent.Phase.END) {
+//            System.out.println(PlayerStatusProvider.getStatus(event.player).isReloading() + " " + event.player.level().isClientSide);
+//        }
+//    }
 }

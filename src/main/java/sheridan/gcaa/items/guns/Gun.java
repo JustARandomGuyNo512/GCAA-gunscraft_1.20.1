@@ -23,8 +23,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.ReloadingTask;
+import sheridan.gcaa.client.IReloadingTask;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
-import sheridan.gcaa.client.animation.recoilAnimation.RecoilAnimationHandler;
+import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
@@ -94,7 +96,7 @@ public class Gun extends BaseItem implements IGun {
             InertialRecoilData inertialRecoilData = data.getInertialRecoilData();
             if (inertialRecoilData != null) {
                 float directionX = randomIndex();
-                RecoilAnimationHandler.INSTANCE.onShoot(inertialRecoilData, directionX, directionY);
+                AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY);
             }
         }
         RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionY);
@@ -223,6 +225,32 @@ public class Gun extends BaseItem implements IGun {
     public float getWeight(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
         return properties.contains("weight") ? properties.getFloat("weight") : 0;
+    }
+
+    @Override
+    public boolean clientReload(ItemStack stack, Player player) {
+        boolean allow = getAmmoLeft(stack) < getMagSize(stack);
+        if (allow) {
+            PlayerStatusProvider.setReloading(player, true);
+        }
+        return allow;
+    }
+
+    @Override
+    public void reload(ItemStack stack, Player player) {
+        //TODO handle reloading features
+        setAmmoLeft(stack, getMagSize(stack));
+    }
+
+    @Override
+    public int getReloadLength(ItemStack stack, boolean fullReload) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return fullReload ? properties.getInt("full_reload_length") : properties.getInt("reload_length");
+    }
+
+    @Override
+    public IReloadingTask getReloadingTask(ItemStack stack) {
+        return new ReloadingTask(stack, this);
     }
 
     protected CompoundTag checkAndGet(ItemStack stack) {

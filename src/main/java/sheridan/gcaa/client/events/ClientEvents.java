@@ -8,6 +8,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.items.AutoRegister;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
@@ -21,6 +22,7 @@ public class ClientEvents {
             try {
                 Clients.cancelLooperWork.set(!Minecraft.getInstance().isWindowActive() || minecraft.isPaused() || minecraft.screen != null);
                 Clients.cancelLooperWorkWithCoolDown.set(player == null || player.isSpectator() || player.isSwimming() || player.isInLava());
+                AnimationHandler.INSTANCE.onClientTick();
                 Clients.lock.lock();
             } catch (Exception ignored) {}
             if (!Clients.clientRegistriesHandled) {

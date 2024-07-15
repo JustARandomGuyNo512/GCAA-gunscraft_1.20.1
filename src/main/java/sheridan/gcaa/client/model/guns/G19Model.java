@@ -9,7 +9,7 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
-import sheridan.gcaa.client.animation.recoilAnimation.RecoilAnimationHandler;
+import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
@@ -65,7 +65,7 @@ public class G19Model extends GCAAStyleGunModel {
     protected void animationGlobal(GunRenderContext context) {
         if (context.isFirstPerson || context.isThirdPerson()) {
             if (context.isFirstPerson) {
-                RecoilAnimationHandler.INSTANCE.handleRecoil(this);
+                AnimationHandler.INSTANCE.applyRecoil(this);
             }
             KeyframeAnimations.animate(this, shoot, Clients.lastShootMain(), 1);
         }
@@ -81,5 +81,15 @@ public class G19Model extends GCAAStyleGunModel {
     @Override
     public AnimationDefinition getRecoilAnimation() {
         return recoil;
+    }
+
+    @Override
+    public AnimationDefinition getReload() {
+        return null;
+    }
+
+    @Override
+    public AnimationDefinition getFullReload() {
+        return null;
     }
 }

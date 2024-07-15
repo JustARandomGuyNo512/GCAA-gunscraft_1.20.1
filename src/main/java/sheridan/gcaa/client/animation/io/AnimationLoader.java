@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.model.io;
+package sheridan.gcaa.client.animation.io;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -27,6 +27,10 @@ import java.util.concurrent.atomic.AtomicReference;
 public class AnimationLoader {
     private static final Gson GSON_INSTANCE = new Gson();
 
+    public static Map<String, AnimationDefinition> loadAnimationCollection(ResourceLocation location) {
+        return loadAnimationCollection(location, false);
+    }
+
     /**
      * This method is not guaranteed to be thread-safe.
      * <p>
@@ -34,7 +38,7 @@ public class AnimationLoader {
      * <p>
      * STEP interpretation is not supported and will be read as LINEAR instead.
      * */
-    public static Map<String, AnimationDefinition> loadAnimationCollection(ResourceLocation location) {
+    public static Map<String, AnimationDefinition> loadAnimationCollection(ResourceLocation location, boolean readSounds) {
         AtomicReference<Map<String, AnimationDefinition>> resultRef = new AtomicReference<>(null);
         try {
             ResourceManager manager = Minecraft.getInstance().getResourceManager();

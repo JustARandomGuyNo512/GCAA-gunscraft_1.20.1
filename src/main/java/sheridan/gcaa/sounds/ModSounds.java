@@ -33,9 +33,9 @@ public class ModSounds {
     }
 
     /**
-     * play a sound immediately in client side by given path.
+     * play a sound immediately in client side by given name.
      * @param name the registry path of the sound event. such as: new ResourceLocation(your_mod.MODID, name).
-     *             the "name" is the name then a sound event registered, not the key of this sound event in sounds.json.
+     *             the "name" is the name when a sound event registered, not the key of this sound event in sounds.json.
      * */
     @OnlyIn(Dist.CLIENT)
     public static void clientSound(float vol, float pit, Player player, ResourceLocation name) {

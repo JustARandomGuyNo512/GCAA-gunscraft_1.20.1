@@ -5,6 +5,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.network.packets.c2s.GunFirePacket;
+import sheridan.gcaa.network.packets.c2s.GunReloadPacket;
 import sheridan.gcaa.network.packets.c2s.SwitchFireModePacket;
 import sheridan.gcaa.network.packets.c2s.SyncPlayerStatusPacket;
 import sheridan.gcaa.network.packets.s2c.BroadcastPlayerStatusPacket;
@@ -24,6 +25,7 @@ public class PacketHandler
         registerPacket(BroadcastPlayerStatusPacket.class, new BroadcastPlayerStatusPacket());
         registerPacket(GunFirePacket.class, new GunFirePacket());
         registerPacket(SwitchFireModePacket.class, new SwitchFireModePacket());
+        registerPacket(GunReloadPacket.class, new GunReloadPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

@@ -14,4 +14,6 @@ public interface IGunModel {
     AnimationDefinition getRecoilAnimation();
     ModelPart getSlotPart(String name);
     void handleSlotTranslate(PoseStack poseStack, String name);
+    AnimationDefinition getReload();
+    AnimationDefinition getFullReload();
 }

@@ -11,7 +11,7 @@ import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.model.guns.IGunModel;
-import sheridan.gcaa.client.model.io.AnimationLoader;
+import sheridan.gcaa.client.animation.io.AnimationLoader;
 import sheridan.gcaa.client.model.io.ModelLoader;
 import sheridan.gcaa.client.model.modelPart.LayerDefinition;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;

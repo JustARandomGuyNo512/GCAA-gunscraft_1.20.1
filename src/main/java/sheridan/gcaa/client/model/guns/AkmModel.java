@@ -91,4 +91,14 @@ public class AkmModel extends GCAAStyleGunModel {
         root.resetPose();
         slide.resetPose();
     }
+
+    @Override
+    public AnimationDefinition getReload() {
+        return null;
+    }
+
+    @Override
+    public AnimationDefinition getFullReload() {
+        return null;
+    }
 }

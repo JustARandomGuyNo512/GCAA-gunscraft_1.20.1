@@ -52,19 +52,27 @@ public class PlayerStatusProvider implements ICapabilityProvider, INBTSerializab
     }
 
     public static void setLastShoot(Player player, long lastShootLeft)  {
+        if (player == null) {
+            return;
+        }
         player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> cap.setLastShoot(lastShootLeft));
     }
 
 
     public static void setLastChamberAction(Player player, long lastChamberAction)  {
+        if (player == null) {
+            return;
+        }
         player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
             cap.setLastChamberAction(lastChamberAction);
         });
     }
 
     public static void setReloading(Player player, boolean reloading)  {
-        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
-            cap.setReloading(reloading);
-        });
+        if (player != null) {
+            player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
+                cap.setReloading(reloading);
+            });
+        }
     }
 }

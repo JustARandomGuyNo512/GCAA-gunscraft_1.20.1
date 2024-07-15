@@ -1,6 +1,8 @@
 package sheridan.gcaa.client.animation.frameAnimation;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -8,6 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
+import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.List;
 import java.util.Map;
@@ -130,9 +133,9 @@ public class KeyframeAnimations {
     @OnlyIn(Dist.CLIENT)
     public static class SoundPoint{
         public int tick;
-        public String soundName;
+        public ResourceLocation soundName;
 
-        public SoundPoint(int tick, String soundName) {
+        public SoundPoint(int tick, ResourceLocation soundName) {
             this.tick = tick;
             this.soundName = soundName;
         }
@@ -140,7 +143,7 @@ public class KeyframeAnimations {
         public void playSound() {
             Player player = Minecraft.getInstance().player;
             if (player != null) {
-                //SoundEvents.playSound(soundName, player, 1, 1);
+                ModSounds.clientSound(1,1, player, soundName);
             }
         }
     }
@@ -151,6 +154,9 @@ public class KeyframeAnimations {
         public AnimationDefinition animationDefinition;
         public long timeStamp;
         public Vector3f scales = DEFAULT_SCALE;
+        private int tick;
+        private int prevSoundIndex = -1;
+        private boolean enableSound = false;
 
         public Mark(AnimationDefinition animationDefinition, long timeStamp, Vector3f scales) {
             this.animationDefinition = animationDefinition;
@@ -161,6 +167,27 @@ public class KeyframeAnimations {
         public Mark(AnimationDefinition animationDefinition, long timeStamp) {
             this.animationDefinition = animationDefinition;
             this.timeStamp = timeStamp;
+        }
+
+        public Mark enableSound(boolean enableSound) {
+            this.enableSound = enableSound;
+            return this;
+        }
+
+        public void onClientTick() {
+            if (enableSound) {
+                List<SoundPoint> soundPoints = animationDefinition.soundPoints();
+                if (soundPoints == null || !(soundPoints.size() > 0)) {
+                    return;
+                }
+                int soundIndex = Math.max(0, Mth.binarySearch(0, soundPoints.size(),
+                        (index) -> tick < soundPoints.get(index).tick) - 1);
+                if (soundIndex != prevSoundIndex) {
+                    soundPoints.get(soundIndex).playSound();
+                    prevSoundIndex = soundIndex;
+                }
+            }
+            tick++;
         }
     }
 

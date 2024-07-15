@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
-import sheridan.gcaa.client.animation.recoilAnimation.RecoilAnimationHandler;
+import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.render.gui.AttachmentsGuiContext;
 import sheridan.gcaa.items.guns.IGun;
@@ -58,11 +58,11 @@ public class GunRenderer implements IGunRenderer{
                     tempLastFire = Clients.lastShootMain();
                     AnimationDefinition recoil = model.getRecoilAnimation();
                     if (recoil != null) {
-                        RecoilAnimationHandler.INSTANCE.onShoot(recoil, tempLastFire);
+                        AnimationHandler.INSTANCE.pushRecoil(recoil, tempLastFire);
                     }
                 }
                 if (inertialRecoilData != null) {
-                    RecoilAnimationHandler.INSTANCE.handleInertialRecoil(poseStack, inertialRecoilData);
+                    AnimationHandler.INSTANCE.applyInertialRecoil(poseStack, inertialRecoilData);
                 }
                 model.render(new GunRenderContext(bufferIn, poseStack, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry));
             } else {

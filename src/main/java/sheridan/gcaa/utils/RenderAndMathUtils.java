@@ -2,14 +2,11 @@ package sheridan.gcaa.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-@OnlyIn(Dist.CLIENT)
-public class RenderMathUtils {
+public class RenderAndMathUtils {
     public static float sLerp(float progress) {
         float f1 = progress * progress;
         float f2 = 1.0f - (1.0f - progress) * (1.0f - progress);
@@ -58,5 +55,9 @@ public class RenderMathUtils {
 
     public static void _printVec3f(Vector3f vector3f) {
         System.out.println(vector3f.x + " " + vector3f.y + " " + vector3f.z);
+    }
+
+    public static int secondsToTicks(float seconds) {
+        return (int) (seconds / 0.05f);
     }
 }

@@ -1,6 +1,7 @@
 package sheridan.gcaa.client.events;
 
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -9,8 +10,11 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.render.JumpBobbingHandler;
 import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.sounds.ModSounds;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class ClientPlayerEvents {
@@ -34,6 +38,7 @@ public class ClientPlayerEvents {
             if (jumpBobbingHandler != null) {
                 jumpBobbingHandler.handle((LocalPlayer) event.player);
             }
+            ReloadingHandler.INSTANCE.tick();
         }
     }
 

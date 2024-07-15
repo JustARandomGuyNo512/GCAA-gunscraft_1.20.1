@@ -12,7 +12,7 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.items.guns.IGun;
-import sheridan.gcaa.utils.RenderMathUtils;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -139,7 +139,7 @@ public class GunRenderContext {
      * copy prev poseStack
      * */
     public PoseStack copyPrevPose() {
-        return RenderMathUtils.copyPoseStack(poseStack);
+        return RenderAndMathUtils.copyPoseStack(poseStack);
     }
 
     public boolean isThirdPerson() {
@@ -153,7 +153,7 @@ public class GunRenderContext {
         if (localPoseStorage == null) {
             localPoseStorage = new PoseStack[10];
         }
-        localPoseStorage[index] = RenderMathUtils.copyPoseStack(poseStack);
+        localPoseStorage[index] = RenderAndMathUtils.copyPoseStack(poseStack);
     }
 
     public void savePrevStack(int index) {

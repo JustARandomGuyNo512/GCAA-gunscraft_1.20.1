@@ -1,6 +1,8 @@
 package sheridan.gcaa.client.animation.frameAnimation;
 
 import com.google.common.collect.Maps;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.compress.utils.Lists;
 
 @OnlyIn(Dist.CLIENT)
-public record AnimationDefinition(float lengthInSeconds, boolean looping, Map<String, List<AnimationChannel>> boneAnimations) {
+public record AnimationDefinition(float lengthInSeconds, boolean looping, Map<String, List<AnimationChannel>> boneAnimations, List<KeyframeAnimations.SoundPoint> soundPoints)  {
     public float lengthInSeconds() {
         return this.lengthInSeconds;
     }
@@ -20,11 +22,16 @@ public record AnimationDefinition(float lengthInSeconds, boolean looping, Map<St
         return this.boneAnimations;
     }
 
+    public List<KeyframeAnimations.SoundPoint> soundPoints() {
+        return this.soundPoints;
+    }
+
     @OnlyIn(Dist.CLIENT)
     public static class Builder {
         private final float length;
         private final Map<String, List<AnimationChannel>> animationByBone = Maps.newHashMap();
         private boolean looping;
+        private List<KeyframeAnimations.SoundPoint> soundPoints;
 
         public static AnimationDefinition.Builder withLength(float pLengthInSeconds) {
             return new AnimationDefinition.Builder(pLengthInSeconds);
@@ -49,8 +56,16 @@ public record AnimationDefinition(float lengthInSeconds, boolean looping, Map<St
             return this;
         }
 
+        public AnimationDefinition.Builder addSoundPoint(KeyframeAnimations.SoundPoint soundPoint) {
+            if (soundPoints == null) {
+                soundPoints = new ArrayList<>();
+            }
+            soundPoints.add(soundPoint);
+            return this;
+        }
+
         public AnimationDefinition build() {
-            return new AnimationDefinition(this.length, this.looping, this.animationByBone);
+            return new AnimationDefinition(this.length, this.looping, this.animationByBone, soundPoints);
         }
     }
 }

@@ -10,6 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.KeyBinds;
+import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.guns.IGun;
 import sheridan.gcaa.network.PacketHandler;
@@ -59,8 +60,18 @@ public class ControllerEvents {
                         player.playSound(SoundEvents.LEVER_CLICK, 0.5f, 1.5f);PacketHandler.simpleChannel.sendToServer(new SwitchFireModePacket());
                     }
                 }
+            } else if (KeyBinds.RELOAD.isDown() && event.getAction() == 1) {
+                handleReload(stackMain, player);
             }
             Clients.debugKeyDown = KeyBinds.DEBUG_KEY.isDown();
+        }
+    }
+
+    private static void handleReload(ItemStack stack, Player player) {
+        if (stack.getItem() instanceof IGun gun) {
+            if (gun.clientReload(stack, player)) {
+                ReloadingHandler.INSTANCE.setTask(gun.getReloadingTask(stack));
+            }
         }
     }
 }
