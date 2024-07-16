@@ -39,6 +39,14 @@ public class ArsenalLib {
     }
 
     /**
+     * This method relies on Minecraft ResourceManager.
+     * @see AnimationLoader#loadAnimationCollection(ResourceLocation)
+     * */
+    public static Map<String, AnimationDefinition> loadBedRockAnimationWithSound(ResourceLocation modelLocation) {
+        return AnimationLoader.loadAnimationCollection(modelLocation, true);
+    }
+
+    /**
      * Gets the client weapon status in main hand.
      * */
     public static ClientWeaponStatus getClientWeaponStatus() {

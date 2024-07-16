@@ -39,6 +39,7 @@ public interface IGun {
     void reload(ItemStack stack, Player player);
     int getReloadLength(ItemStack stack, boolean fullReload);
     IReloadingTask getReloadingTask(ItemStack stack);
+    int getInnerVersion(ItemStack stack);
     default int applySprintingPoseDelay() {
         return 1000;
     }

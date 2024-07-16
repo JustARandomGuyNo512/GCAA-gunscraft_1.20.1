@@ -253,6 +253,11 @@ public class Gun extends BaseItem implements IGun {
         return new ReloadingTask(stack, this);
     }
 
+    @Override
+    public int getInnerVersion(ItemStack stack) {
+        return checkAndGet(stack).getInt("inner_version");
+    }
+
     protected CompoundTag checkAndGet(ItemStack stack) {
         CompoundTag nbt = stack.getTag();
         if (nbt == null) {

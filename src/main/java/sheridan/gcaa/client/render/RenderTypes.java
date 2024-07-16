@@ -32,7 +32,7 @@ public class RenderTypes extends RenderType {
                             .setLightmapState(LightmapStateShard.LIGHTMAP)
                             .setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL).setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(false));
             TEMP.put(baseKey, baseType);
+            return baseType;
         }
-        return TEMP.get(baseKey);
     }
 }

@@ -12,7 +12,10 @@ import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.ReloadingHandler;
+import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.JumpBobbingHandler;
+import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.guns.IGun;
 import sheridan.gcaa.sounds.ModSounds;
 
@@ -39,6 +42,10 @@ public class ClientPlayerEvents {
                 jumpBobbingHandler.handle((LocalPlayer) event.player);
             }
             ReloadingHandler.INSTANCE.tick();
+            if (Clients.debugKeyDown) {
+                AnimationDefinition definition = GunModelRegistry.getModel(ModItems.AKM.get()).get("reload");
+                definition.print();
+            }
         }
     }
 

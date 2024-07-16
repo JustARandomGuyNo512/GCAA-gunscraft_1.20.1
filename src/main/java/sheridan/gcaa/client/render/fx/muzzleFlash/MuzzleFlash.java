@@ -40,7 +40,7 @@ public class MuzzleFlash {
     public void render(PoseStack stack, MultiBufferSource bufferSource, MuzzleFlashDisplayData displayData, float scale, long startTime, boolean isFirstPerson) {
         if (displayData != null && (System.currentTimeMillis() - startTime) <= displayData.length && !textures.isEmpty()) {
             int texNum = textures.size();
-            int texIndex = texNum > 1 ? Math.abs(RANDOM.nextInt()) % texNum : 0;
+            int texIndex = texNum > 1 ? RANDOM.nextInt(texNum) : 0;
             MuzzleFlashTexture muzzleFlashTexture = textures.get(texIndex);
             displayData.applyTrans(stack, scale);
             boolean popStack = false;
@@ -52,7 +52,7 @@ public class MuzzleFlash {
                     stack.mulPose(new Quaternionf().rotateXYZ(0,0,seed * rotation));
                 }
             }
-            int index = Math.abs(RANDOM.nextInt()) % muzzleFlashTexture.getCount();
+            int index = RANDOM.nextInt(muzzleFlashTexture.getCount());
             muzzleFlashTexture.render(index, stack, bufferSource, isFirstPerson);
             if (popStack) {
                 stack.popPose();

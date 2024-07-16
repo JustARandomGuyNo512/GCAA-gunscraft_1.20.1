@@ -30,6 +30,7 @@ public class CommonEvents {
         if (event.getEntity() instanceof Player player) {
             ItemStack stack = event.getTo();
             if (stack.getItem() instanceof IGun gun) {
+                //gun.getInnerVersion(stack);
                 //gun.getGun().onCraftedBy(stack, null, null);
                 //AttachmentsHandler.INSTANCE.checkAndUpdate(stack);
 

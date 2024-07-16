@@ -146,6 +146,14 @@ public class KeyframeAnimations {
                 ModSounds.clientSound(1,1, player, soundName);
             }
         }
+
+        @Override
+        public String toString() {
+            return "SoundPoint{" +
+                    "tick=" + tick +
+                    ", soundName=" + soundName +
+                    '}';
+        }
     }
 
     @OnlyIn(Dist.CLIENT)

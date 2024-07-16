@@ -2,6 +2,7 @@ package sheridan.gcaa.client.animation.io;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +14,7 @@ import sheridan.gcaa.client.animation.frameAnimation.AnimationChannel;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.animation.frameAnimation.Keyframe;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -54,9 +56,10 @@ public class AnimationLoader {
                         String json = stringBuilder.toString();
                         JsonObject jsonObject = GSON_INSTANCE.fromJson(json, JsonObject.class);
                         JsonObject animations = jsonObject.getAsJsonObject("animations");
+                        String modid = readSounds ? location.getNamespace() : "";
                         Map<String, AnimationDefinition> animationsMap = new HashMap<>();
                         for (String key : animations.keySet()) {
-                            AnimationDefinition animation = readAnimation(animations.getAsJsonObject(key));
+                            AnimationDefinition animation = readAnimation(animations.getAsJsonObject(key), readSounds ,modid);
                             animationsMap.put(key, animation);
                         }
                         resultRef.set(animationsMap);
@@ -73,7 +76,7 @@ public class AnimationLoader {
         return resultRef.get();
     }
 
-    private static AnimationDefinition readAnimation(JsonObject jsonObject) {
+    private static AnimationDefinition readAnimation(JsonObject jsonObject, boolean readSounds, String modid) {
         float length = jsonObject.get("animation_length").getAsFloat();
         boolean loop = jsonObject.has("loop") && jsonObject.get("loop").getAsBoolean();
         AnimationDefinition.Builder builder = AnimationDefinition.Builder.withLength(length).setLooping(loop);
@@ -93,33 +96,43 @@ public class AnimationLoader {
                 builder.addAnimation(bone, scale);
             }
         }
+        if (readSounds && jsonObject.has("sound_effects")) {
+            JsonObject sounds = jsonObject.getAsJsonObject("sound_effects");
+            for (String key : sounds.keySet()) {
+                JsonObject soundPointObject = sounds.getAsJsonObject(key);
+                ResourceLocation soundName = new ResourceLocation(modid, soundPointObject.get("effect").getAsString());
+                int tick = RenderAndMathUtils.secondsToTicks(Float.parseFloat(key));
+                builder.addSoundPoint(new KeyframeAnimations.SoundPoint(tick, soundName));
+            }
+        }
         return builder.build();
     }
 
     private static AnimationChannel readRotation(JsonObject jsonObject) {
-        if (!jsonObject.has("rotation")) {
-            return null;
-        } else {
-            List<Keyframe> keyframes = readKeyframes(jsonObject.getAsJsonObject("rotation"), "rotation");
-            return new AnimationChannel(AnimationChannel.Targets.ROTATION, keyframes.toArray(new Keyframe[0]));
-        }
+        return readChannel(jsonObject, "rotation", AnimationChannel.Targets.ROTATION);
     }
 
     private static AnimationChannel readPosition(JsonObject jsonObject) {
-        if (!jsonObject.has("position")) {
-            return null;
-        } else {
-            List<Keyframe> keyframes = readKeyframes(jsonObject.getAsJsonObject("position"), "position");
-            return new AnimationChannel(AnimationChannel.Targets.POSITION, keyframes.toArray(new Keyframe[0]));
-        }
+        return readChannel(jsonObject, "position", AnimationChannel.Targets.POSITION);
     }
 
     private static AnimationChannel readScale(JsonObject jsonObject) {
-        if (!jsonObject.has("scale")) {
+        return readChannel(jsonObject, "scale", AnimationChannel.Targets.SCALE);
+    }
+
+    private static AnimationChannel readChannel(JsonObject jsonObject, String type, AnimationChannel.Target target) {
+        if (!jsonObject.has(type)) {
             return null;
         } else {
-            List<Keyframe> keyframes = readKeyframes(jsonObject.getAsJsonObject("scale"), "scale");
-            return new AnimationChannel(AnimationChannel.Targets.SCALE, keyframes.toArray(new Keyframe[0]));
+            List<Keyframe> keyframes = new ArrayList<>();
+            JsonElement content = jsonObject.get(type);
+            if (content.isJsonArray()) {
+                Vector3f scale = getAsVector3f(content.getAsJsonArray());
+                keyframes.add(new Keyframe(0, getVec(scale, type), AnimationChannel.Interpolations.LINEAR));
+            } else if (content.isJsonObject()) {
+                keyframes = readKeyframes(content.getAsJsonObject(), type);
+            }
+            return new AnimationChannel(target, keyframes.toArray(new Keyframe[0]));
         }
     }
 

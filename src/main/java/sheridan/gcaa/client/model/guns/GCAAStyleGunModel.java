@@ -33,7 +33,7 @@ public abstract class GCAAStyleGunModel extends HierarchicalModel<Entity> implem
         left_arm = this.gun.getChild("left_arm");
         right_arm = this.gun.getChild("right_arm");
         postInit(gun, root);
-        animations = ArsenalLib.loadBedRockAnimation(animationPath);
+        animations = ArsenalLib.loadBedRockAnimationWithSound(animationPath);
     }
 
     @Override
