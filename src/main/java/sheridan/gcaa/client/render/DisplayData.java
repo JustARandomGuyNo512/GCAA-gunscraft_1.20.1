@@ -22,9 +22,10 @@ public class DisplayData {
             FIRST_PERSON_MAIN = 0,
             THIRD_PERSON_RIGHT = 1,
             GROUND = 2,
-            FIXED = 3;
-    private final float[][] transforms = new float[][] {{}, {}, {}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}};
-    private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}};
+            FRAME = 3,
+            GUI = 4;
+    private final float[][] transforms = new float[][] {{}, {}, {}, {}, {}};
+    private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}, {}};
     private final Map<String, MuzzleFlashEntry> muzzleFlashMap = new HashMap<>();
     private InertialRecoilData inertialRecoilData;
     public DisplayData() {}
@@ -35,6 +36,7 @@ public class DisplayData {
             case THIRD_PERSON_RIGHT_HAND -> applyTransform(transforms[1], emptyMarks[1], poseStack);
             case GROUND -> applyTransform(transforms[2], emptyMarks[2], poseStack);
             case FIXED -> applyTransform(transforms[3], emptyMarks[3], poseStack);
+            case GUI -> applyTransform(transforms[4], emptyMarks[4], poseStack);
         }
     }
 
@@ -63,7 +65,7 @@ public class DisplayData {
     }
 
     public float[] get(int index) {
-        if (index < 0 || index > 4) {
+        if (index < 0 || index > 5) {
             return null;
         }
         return transforms[index];
@@ -75,6 +77,7 @@ public class DisplayData {
                 Arrays.copyOf(transforms[1], transforms[1].length),
                 Arrays.copyOf(transforms[2], transforms[2].length),
                 Arrays.copyOf(transforms[3], transforms[3].length),
+                Arrays.copyOf(transforms[4], transforms[4].length),
         };
     }
 
@@ -131,10 +134,8 @@ public class DisplayData {
         return this;
     }
 
-    public DisplayData setAttachmentScreen(float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz) {
-        transforms[4] = new float[] {x / 16f, y / 16f, z / 16f,
-                (float) Math.toRadians(rx), (float) Math.toRadians(ry), (float) Math.toRadians(rz),
-                sx, sy, sz};
+    public DisplayData setGUI(float x, float y, float z, DataType type) {
+        checkAndSet(4, x, y, z, type);
         return this;
     }
 
@@ -145,6 +146,7 @@ public class DisplayData {
     public MuzzleFlash getMuzzleFlash(String status) {
         return muzzleFlashMap.get(status).muzzleFlash;
     }
+
     public MuzzleFlashEntry getMuzzleFlashEntry(String status) {
         return muzzleFlashMap.get(status);
     }

@@ -2,8 +2,11 @@ package sheridan.gcaa.client.events;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,12 +38,23 @@ public class ControllerEvents {
                         }
                         event.setCanceled(true);
                     } else if (event.getButton() == 1) {
-                        Clients.mainHandStatus.ads = (event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
-                        event.setCanceled(true);
+                        if (shouldHandleRightClick()) {
+                            Clients.mainHandStatus.ads = (event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
+                            event.setCanceled(true);
+                        }
                     }
                 }
             }
         }
+    }
+
+    private static boolean shouldHandleRightClick() {
+        HitResult result = Minecraft.getInstance().hitResult;
+        if (result != null && result.getType() == HitResult.Type.ENTITY) {
+            EntityHitResult entityRayTraceResult = (EntityHitResult) result;
+            return !(entityRayTraceResult.getEntity() instanceof ItemFrame);
+        }
+        return true;
     }
 
 
