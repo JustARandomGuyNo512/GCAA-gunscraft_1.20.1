@@ -22,6 +22,7 @@ public class Caliber7_62x39mm implements ICaliber {
 //        arrow.setBaseDamage(arrow.getBaseDamage() + 5);
 //        arrow.setPos(arrow.position().add(player.getLookAngle()));
 //        player.level().addFreshEntity(arrow);
+
     }
 
     @Override
