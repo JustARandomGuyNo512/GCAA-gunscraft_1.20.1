@@ -11,29 +11,39 @@ public class CameraAnimationHandler {
     public float yaw;
     public float pitch;
     public float roll;
+    private boolean dirty = false;
 
     public void set(ModelPart cameraPosePart) {
         yaw = cameraPosePart.yRot;
         pitch = cameraPosePart.xRot;
         roll = cameraPosePart.zRot;
+        if (yaw != 0 || pitch != 0 || roll != 0) {
+            dirty = true;
+        }
     }
 
     public void mix(ModelPart cameraPosePart) {
         yaw += cameraPosePart.yRot;
         pitch += cameraPosePart.xRot;
         roll += cameraPosePart.zRot;
+        if (yaw != 0 || pitch != 0 || roll != 0) {
+            dirty = true;
+        }
     }
 
     public void apply(ViewportEvent.ComputeCameraAngles event) {
-        event.setYaw(yaw + event.getYaw());
-        event.setPitch(pitch + event.getPitch());
-        event.setRoll(roll + event.getRoll());
+        if (dirty) {
+            event.setYaw((float) Math.toDegrees(yaw) + event.getYaw());
+            event.setPitch((float) Math.toDegrees(pitch) + event.getPitch());
+            event.setRoll((float) Math.toDegrees(roll) + event.getRoll());
+        }
     }
 
     public void clear() {
         yaw = 0;
         pitch = 0;
         roll = 0;
+        dirty = false;
     }
 
 }

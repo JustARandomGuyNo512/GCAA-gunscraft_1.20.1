@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
+import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.sounds.ModSounds;
@@ -132,6 +133,7 @@ public class KeyframeAnimations {
 
     @OnlyIn(Dist.CLIENT)
     public static class SoundPoint{
+        public static final ResourceLocation EMPTY_SOUND = new ResourceLocation(GCAA.MODID, "empty_sound");
         public int tick;
         public ResourceLocation soundName;
 
@@ -141,6 +143,9 @@ public class KeyframeAnimations {
         }
 
         public void playSound() {
+            if (EMPTY_SOUND.equals(this.soundName)) {
+                return;
+            }
             Player player = Minecraft.getInstance().player;
             if (player != null) {
                 ModSounds.clientSound(1,1, player, soundName);

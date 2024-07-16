@@ -71,7 +71,8 @@ public class ControllerEvents {
                 if (stackMain.getItem() instanceof IGun gun) {
                     if (gun.getGunProperties().fireModes.size() > 1) {
                         Clients.mainHandStatus.buttonDown.set(false);
-                        player.playSound(SoundEvents.LEVER_CLICK, 0.5f, 1.5f);PacketHandler.simpleChannel.sendToServer(new SwitchFireModePacket());
+                        player.playSound(SoundEvents.LEVER_CLICK, 0.5f, 1.5f);
+                        PacketHandler.simpleChannel.sendToServer(new SwitchFireModePacket());
                     }
                 }
             } else if (KeyBinds.RELOAD.isDown() && event.getAction() == 1) {

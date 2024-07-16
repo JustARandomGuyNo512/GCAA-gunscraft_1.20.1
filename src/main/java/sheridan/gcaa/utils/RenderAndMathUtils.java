@@ -53,10 +53,6 @@ public class RenderAndMathUtils {
         return result;
     }
 
-    public static void _printVec3f(Vector3f vector3f) {
-        System.out.println(vector3f.x + " " + vector3f.y + " " + vector3f.z);
-    }
-
     public static int secondsToTicks(float seconds) {
         return (int) (seconds / 0.05f);
     }

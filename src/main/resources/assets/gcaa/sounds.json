@@ -1,4 +1,7 @@
 {
+  "item.generic.ak_mag_off": { "subtitle": "item.generic.ak_mag_off", "sounds": [{ "name": "gcaa:generic/ak_mag_off" }]},
+  "item.generic.ak_mag_attach": { "subtitle": "item.generic.ak_mag_attach", "sounds": [{ "name": "gcaa:generic/ak_mag_attach" }]},
+
   "item.akm.fire": { "subtitle": "item.akm.fire", "sounds": [{ "name": "gcaa:akm/akm_fire" }]},
   "item.g19.fire": { "subtitle": "item.g19.fire", "sounds": [{ "name": "gcaa:g19/g19_fire" }]}
 }

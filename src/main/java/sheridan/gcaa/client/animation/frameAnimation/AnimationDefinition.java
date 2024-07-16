@@ -65,6 +65,7 @@ public record AnimationDefinition(float lengthInSeconds, boolean looping, Map<St
         public AnimationDefinition.Builder addSoundPoint(KeyframeAnimations.SoundPoint soundPoint) {
             if (soundPoints == null) {
                 soundPoints = new ArrayList<>();
+                soundPoints.add(new KeyframeAnimations.SoundPoint(0, KeyframeAnimations.SoundPoint.EMPTY_SOUND));
             }
             soundPoints.add(soundPoint);
             return this;

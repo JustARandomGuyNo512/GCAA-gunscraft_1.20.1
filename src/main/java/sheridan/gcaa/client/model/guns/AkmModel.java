@@ -7,6 +7,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.animation.AnimationHandler;
+import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
@@ -77,6 +79,8 @@ public class AkmModel extends GCAAStyleGunModel {
         if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
             KeyframeAnimations.animate(this, recoil, Clients.lastShootMain(),1);
             KeyframeAnimations.animate(this, shoot, Clients.lastShootMain(),1);
+            AnimationHandler.INSTANCE.applyReload(this);
+            CameraAnimationHandler.INSTANCE.mix(camera);
         }
     }
 
@@ -85,6 +89,10 @@ public class AkmModel extends GCAAStyleGunModel {
         gun.resetPose();
         root.resetPose();
         slide.resetPose();
+        left_arm.resetPose();
+        right_arm.resetPose();
+        camera.resetPose();
+        mag.resetPose();
     }
 
 }

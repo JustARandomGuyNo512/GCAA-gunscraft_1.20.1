@@ -19,8 +19,8 @@ public class ArmPoseHandler implements IClientItemExtensions {
 
     @Override
     public HumanoidModel.ArmPose getArmPose(LivingEntity entityLiving, InteractionHand hand, ItemStack itemStack) {
-        AtomicReference<HumanoidModel.ArmPose> pose = new AtomicReference<>(null);
-        if (entityLiving instanceof Player player) {
+        AtomicReference<HumanoidModel.ArmPose> pose = new AtomicReference<>(HumanoidModel.ArmPose.EMPTY);
+        if (hand == InteractionHand.MAIN_HAND && entityLiving instanceof Player player) {
             player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent(status -> {
                 if (status.isReloading()) {
                     pose.set(HumanoidModel.ArmPose.CROSSBOW_CHARGE);
