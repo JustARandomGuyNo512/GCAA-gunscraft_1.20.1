@@ -27,7 +27,7 @@ import sheridan.gcaa.items.guns.IGun;
 
 @Mixin(ItemRenderer.class)
 public class RenderItemMixin {
-    private static IGunRenderer renderer = new GunRenderer();
+    private static final IGunRenderer renderer = new GunRenderer();
 
     // all model, ground, gui, other
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)

@@ -3,6 +3,7 @@ package sheridan.gcaa.client.render.fx.muzzleFlash;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,14 +14,14 @@ import sheridan.gcaa.client.render.RenderTypes;
 @OnlyIn(Dist.CLIENT)
 public class MuzzleFlashTexture {
     private static final float BASE_ALPHA = 0.9f;
-    private final ResourceLocation texture;
     private final int count;
     private final float quadSize;
+    private final RenderType renderType;
 
     public MuzzleFlashTexture(ResourceLocation texture, int count) {
-        this.texture = texture;
         quadSize = 1f / count;
         this.count = count;
+        this.renderType = RenderTypes.getMuzzleFlash(texture);
     }
 
     public int getCount() {
@@ -29,7 +30,7 @@ public class MuzzleFlashTexture {
 
     public void render(int index, PoseStack poseStack, MultiBufferSource buffer, boolean isFirstPerson) {
         if (index >= 0 && index < count) {
-            VertexConsumer vertexConsumer = buffer.getBuffer(RenderTypes.getMuzzleFlash(texture));
+            VertexConsumer vertexConsumer = buffer.getBuffer(renderType);
             draw(poseStack, 0, 0, 0, 0, vertexConsumer, index);
             draw(poseStack, 2, 1.5707963267948966f,  0,  -0.5f,  vertexConsumer, index);
             draw(poseStack, 1, 1.5707963267948966f, -1.5707963267948966f,   -0.5f,  vertexConsumer, index);

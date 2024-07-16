@@ -21,18 +21,12 @@ public class RenderTypes extends RenderType {
     }
 
     public static RenderType getMuzzleFlash(ResourceLocation texture) {
-        String baseKey = texture.toString() + ":" + "muzzle_flash";
-        if (TEMP.containsKey(baseKey)) {
-            return TEMP.get(baseKey);
-        } else {
-            RenderType baseType = RenderType.create(GCAA.MODID + ":" + "muzzle_flash", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
-                    VertexFormat.Mode.QUADS, 256, true, true,
-                    CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
-                            .setTextureState(new TextureStateShard(texture, false, false))
-                            .setLightmapState(LightmapStateShard.LIGHTMAP)
-                            .setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL).setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(false));
-            TEMP.put(baseKey, baseType);
-            return baseType;
-        }
+        return RenderType.create("muzzle_flash", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
+                VertexFormat.Mode.QUADS, 256, true, true,
+                CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
+                        .setTextureState(new TextureStateShard(texture, false, false))
+                        .setLightmapState(LightmapStateShard.LIGHTMAP)
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL).setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(false));
+
     }
 }

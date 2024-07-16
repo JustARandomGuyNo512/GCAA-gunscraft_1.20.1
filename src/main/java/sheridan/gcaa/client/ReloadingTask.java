@@ -30,7 +30,6 @@ public class ReloadingTask implements IReloadingTask{
         tick = 0;
         ammoLeft = gun.getAmmoLeft(itemStack);
         length = gun.getReloadLength(itemStack, ammoLeft == 0);
-        System.out.println(length);
         completed = false;
     }
 
@@ -69,6 +68,7 @@ public class ReloadingTask implements IReloadingTask{
     public void onCancel() {
         PlayerStatusProvider.setReloading(Minecraft.getInstance().player, false);
         AnimationHandler.INSTANCE.clearReload();
+        System.out.println("canceling");
     }
 
     @Override

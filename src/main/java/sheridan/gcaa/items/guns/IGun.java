@@ -43,4 +43,5 @@ public interface IGun {
     default int applySprintingPoseDelay() {
         return 1000;
     }
+    default boolean allowShootWhileReloading() {return false;}
 }
