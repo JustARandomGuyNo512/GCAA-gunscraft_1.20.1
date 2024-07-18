@@ -35,6 +35,7 @@ public interface IGun {
     float getRecoilPitchControl(ItemStack stack);
     float getRecoilYawControl(ItemStack stack);
     float getWeight(ItemStack stack);
+    float[] getSpread(ItemStack stack);
     boolean clientReload(ItemStack stack, Player player);
     void reload(ItemStack stack, Player player);
     int getReloadLength(ItemStack stack, boolean fullReload);

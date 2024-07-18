@@ -27,7 +27,7 @@ public class ControllerEvents {
     public static void mouseEvent(InputEvent.MouseButton.Pre event) {
         if (Minecraft.getInstance().isWindowActive() && !Minecraft.getInstance().isPaused() && Minecraft.getInstance().screen == null) {
             Player player = Minecraft.getInstance().player;
-            if (player != null && !player.isSpectator() && !player.isSwimming()) {
+            if (player != null && !player.isSpectator()) {
                 ItemStack stack = player.getMainHandItem();
                 if (stack.getItem() instanceof IGun gun) {
                     if (event.getButton() == 0) {

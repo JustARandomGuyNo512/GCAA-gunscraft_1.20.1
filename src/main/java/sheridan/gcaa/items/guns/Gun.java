@@ -228,6 +228,14 @@ public class Gun extends BaseItem implements IGun {
     }
 
     @Override
+    public float[] getSpread(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        float minSpread = properties.contains("min_spread") ? properties.getFloat("min_spread") : 0;
+        float maxSpread = properties.contains("max_spread") ? properties.getFloat("max_spread") : 0;
+        return new float[] {minSpread, maxSpread};
+    }
+
+    @Override
     public boolean clientReload(ItemStack stack, Player player) {
         boolean allow = getAmmoLeft(stack) < getMagSize(stack);
         if (allow) {

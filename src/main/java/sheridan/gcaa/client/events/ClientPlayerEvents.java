@@ -33,6 +33,10 @@ public class ClientPlayerEvents {
                 Clients.mainHandStatus.holdingGun.set(gunMain != null);
                 if (gunMain != null) {
                     Clients.mainHandStatus.fireDelay.set(gunMain.getFireDelay(stackMain));
+                    float[] spread = gunMain.getSpread(stackMain);
+                    float minSpread = spread[0];
+                    float maxSpread = spread[1];
+                    Clients.mainHandStatus.spread = minSpread;
                 }
             }
         }

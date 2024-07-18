@@ -16,6 +16,8 @@ public class GunProperties{
     public static final float MAX_WEIGHT = 40f;
     public final float baseDamage;
     public final float adsSpeed;
+    public final float minSpread;
+    public final float maxSpread;
     public final int fireDelay;
     public final int reloadLength;
     public final int fullReloadLength;
@@ -30,12 +32,14 @@ public class GunProperties{
     public final RegistryObject<SoundEvent> suppressedSound;
     public final ICaliber caliber;
 
-    public GunProperties(float baseDamage, float adsSpeed, int fireDelay, int reloadLength, int fullReloadLength,
+    public GunProperties(float baseDamage, float adsSpeed, float minSpread, float maxSpread, int fireDelay, int reloadLength, int fullReloadLength,
                          int magSize, float recoilPitch, float recoilYaw, float recoilPitchControl, float recoilYawControl, float weight, List<IGunFireMode> fireModes,
                          RegistryObject<SoundEvent> fireSound, RegistryObject<SoundEvent> suppressedSound, ICaliber caliber) {
         this.baseDamage = baseDamage;
         this.adsSpeed = adsSpeed;
         this.fireDelay = fireDelay;
+        this.minSpread = minSpread;
+        this.maxSpread = maxSpread;
         this.reloadLength = reloadLength;
         this.fullReloadLength = fullReloadLength;
         this.magSize = magSize;
@@ -76,6 +80,8 @@ public class GunProperties{
         tag.putLong("date", Commons.SERVER_START_TIME);
         tag.putFloat("base_damage", baseDamage);
         tag.putFloat("ads_speed", adsSpeed);
+        tag.putFloat("min_spread", minSpread);
+        tag.putFloat("max_spread", maxSpread);
         tag.putInt("fire_delay", fireDelay);
         tag.putInt("reload_length", reloadLength);
         tag.putInt("full_reload_length", fullReloadLength);

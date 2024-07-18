@@ -23,6 +23,7 @@ public class ClientWeaponStatus {
     public float adsProgress = 0;
     public long lastShoot = 0;
     public int equipDelay = 0;
+    public float spread = 0;
 
     public ClientWeaponStatus(boolean mainHand) {
         this.mainHand = mainHand;

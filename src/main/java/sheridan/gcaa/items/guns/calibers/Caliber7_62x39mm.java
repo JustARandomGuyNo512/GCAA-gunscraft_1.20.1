@@ -16,12 +16,6 @@ public class Caliber7_62x39mm implements ICaliber {
 
     @Override
     public void fireBullet(IAmmunition ammunition, ItemStack ammunitionStack, IGun gun, Player player, ItemStack gunStack) {
-//        ArrowItem arrowItem = (ArrowItem) Items.ARROW;
-//        AbstractArrow arrow = arrowItem.createArrow(player.level(), ItemStack.EMPTY, player);
-//        arrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 4.2f, 1F);
-//        arrow.setBaseDamage(arrow.getBaseDamage() + 5);
-//        arrow.setPos(arrow.position().add(player.getLookAngle()));
-//        player.level().addFreshEntity(arrow);
 
     }
 

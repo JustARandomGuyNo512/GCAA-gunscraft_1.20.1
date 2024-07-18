@@ -120,7 +120,7 @@ public class Clients {
 
     @OnlyIn(Dist.CLIENT)
     public static boolean allowFireBtnDown(ItemStack stack, IGun gun, Player player) {
-        boolean allow = mainHandStatus.equipProgress == 0;
+        boolean allow = mainHandStatus.equipProgress == 0 && !player.isSwimming();
         if (allow && ReloadingHandler.INSTANCE.reloading()) {
             allow = gun.allowShootWhileReloading();
         }
@@ -128,7 +128,7 @@ public class Clients {
     }
 
     public static boolean allowAdsStart(ItemStack stack, IGun gun, Player player) {
-        return mainHandStatus.equipProgress == 0;
+        return mainHandStatus.equipProgress == 0 && !player.isSwimming();
     }
 
     @OnlyIn(Dist.CLIENT)
