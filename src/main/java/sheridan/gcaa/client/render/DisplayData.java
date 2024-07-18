@@ -23,9 +23,10 @@ public class DisplayData {
             THIRD_PERSON_RIGHT = 1,
             GROUND = 2,
             FRAME = 3,
-            GUI = 4;
-    private final float[][] transforms = new float[][] {{}, {}, {}, {}, {}};
-    private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}, {}};
+            GUI = 4,
+            AIMING = 5;
+    private final float[][] transforms = new float[][] {{}, {}, {}, {}, {}, {}};
+    private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}, {}, {}};
     private final Map<String, MuzzleFlashEntry> muzzleFlashMap = new HashMap<>();
     private InertialRecoilData inertialRecoilData;
     public DisplayData() {}

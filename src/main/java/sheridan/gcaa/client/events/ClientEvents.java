@@ -36,11 +36,11 @@ public class ClientEvents {
         }
 
         if (event.phase == TickEvent.Phase.END) {
-            Clients.lastClientTick = System.currentTimeMillis();
-            Clients.equipDelayCoolDown();
             if (Clients.lock.isLocked()) {
                 Clients.lock.unlock();
             }
+            Clients.lastClientTick = System.currentTimeMillis();
+            Clients.equipDelayCoolDown();
         }
     }
 

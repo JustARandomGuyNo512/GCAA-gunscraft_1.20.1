@@ -15,11 +15,11 @@ public class ClientWeaponStatus {
     public final AtomicBoolean buttonDown;
     public final AtomicBoolean holdingGun;
     public final AtomicInteger fireDelay;
+    public final AtomicBoolean ads;
     public final AtomicReference<ItemStack> weapon;
     public float equipProgress;
     public int fireCount = 0;
     public int chargeTick = 0;
-    public boolean ads = false;
     public float adsProgress = 0;
     public long lastShoot = 0;
     public int equipDelay = 0;
@@ -28,16 +28,11 @@ public class ClientWeaponStatus {
         this.mainHand = mainHand;
         buttonDown = new AtomicBoolean(false);
         holdingGun = new AtomicBoolean(false);
+        ads = new AtomicBoolean(false);
         fireDelay = new AtomicInteger(0);
         weapon = new AtomicReference<>(ItemStack.EMPTY);
         attachmentsStatus = new ClientAttachmentsStatus();
     }
 
-    public void onGunEquipped() {
 
-    }
-
-    public void onGunUnEquipped() {
-
-    }
 }

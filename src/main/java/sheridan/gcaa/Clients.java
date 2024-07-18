@@ -35,9 +35,6 @@ import static sheridan.gcaa.client.render.DisplayData.DataType.SCALE;
 public class Clients {
     @OnlyIn(Dist.CLIENT)
     public static ClientWeaponStatus mainHandStatus = new ClientWeaponStatus(true);
-    @Deprecated
-    @OnlyIn(Dist.CLIENT)
-    public static ClientWeaponStatus offHandStatus = new ClientWeaponStatus(false);
     @OnlyIn(Dist.CLIENT)
     public static boolean mainButtonDown() {
         return mainHandStatus.buttonDown.get();

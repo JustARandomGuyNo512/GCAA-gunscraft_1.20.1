@@ -21,6 +21,10 @@ public class ReloadingHandler {
         return reloadingTask != null;
     }
 
+    public static boolean isReloading() {
+        return INSTANCE.reloading();
+    }
+
     public int getLastPayload() {
         return lastPayload;
     }
@@ -47,6 +51,10 @@ public class ReloadingHandler {
             reloadingTask.tick(Minecraft.getInstance().player);
         }
         clearTask();
+    }
+
+    public static boolean disFromLastReload(long ms) {
+        return System.currentTimeMillis() - INSTANCE.getLastStartReload() > ms;
     }
 
     private void clearTask() {

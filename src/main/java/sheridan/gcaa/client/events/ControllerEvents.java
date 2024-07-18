@@ -39,7 +39,7 @@ public class ControllerEvents {
                         event.setCanceled(true);
                     } else if (event.getButton() == 1) {
                         if (shouldHandleRightClick()) {
-                            Clients.mainHandStatus.ads = (event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
+                            Clients.mainHandStatus.ads.set(event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
                             event.setCanceled(true);
                         }
                     }
@@ -85,6 +85,7 @@ public class ControllerEvents {
     private static void handleReload(ItemStack stack, Player player) {
         if (stack.getItem() instanceof IGun gun) {
             if (gun.clientReload(stack, player)) {
+                Clients.mainHandStatus.buttonDown.set(false);
                 ReloadingHandler.INSTANCE.setTask(gun.getReloadingTask(stack));
             }
         }

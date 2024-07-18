@@ -1,6 +1,11 @@
 {
   "item.generic.ak_mag_off": { "subtitle": "item.generic.ak_mag_off", "sounds": [{ "name": "gcaa:generic/ak_mag_off" }]},
   "item.generic.ak_mag_attach": { "subtitle": "item.generic.ak_mag_attach", "sounds": [{ "name": "gcaa:generic/ak_mag_attach" }]},
+  "item.generic.ak_charge": { "subtitle": "item.generic.ak_charge", "sounds": [{ "name": "gcaa:generic/ak_charge" }]},
+  "item.generic.pistol_slide_back": { "subtitle": "item.generic.pistol_slide_back", "sounds": [{ "name": "gcaa:generic/pistol_slide_back" }]},
+  "item.generic.pistol_slide_forward": { "subtitle": "item.generic.pistol_slide_forward", "sounds": [{ "name": "gcaa:generic/pistol_slide_forward" }]},
+  "item.generic.smg_mag_attach": { "subtitle": "item.generic.smg_mag_attach", "sounds": [{ "name": "gcaa:generic/smg_mag_attach" }]},
+  "item.generic.smg_mag_off": { "subtitle": "item.generic.smg_mag_off", "sounds": [{ "name": "gcaa:generic/smg_mag_off" }]},
 
   "item.akm.fire": { "subtitle": "item.akm.fire", "sounds": [{ "name": "gcaa:akm/akm_fire" }]},
   "item.g19.fire": { "subtitle": "item.g19.fire", "sounds": [{ "name": "gcaa:g19/g19_fire" }]}

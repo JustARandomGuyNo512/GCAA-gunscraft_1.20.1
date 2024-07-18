@@ -38,6 +38,7 @@ public class GunRenderContext {
     public AttachmentRenderEntry rightArmRelocate;
     public AttachmentRenderEntry scope;
     public PoseStack[] localPoseStorage;
+    public int ammoLeft;
 
     public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType,int packedLight, int packedOverlay) {
         this.bufferSource = bufferSource;
@@ -49,6 +50,7 @@ public class GunRenderContext {
         this.gun = gun;
         this.isFirstPerson = transformType.firstPerson();
         lastShoot = Clients.lastShootMain();
+        ammoLeft = gun.getAmmoLeft(itemStack);
     }
 
     public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, int packedLight, int packedOverlay, DisplayData.MuzzleFlashEntry muzzleFlashEntry) {
@@ -62,6 +64,7 @@ public class GunRenderContext {
         this.isFirstPerson = transformType.firstPerson();
         this.muzzleFlashEntry = muzzleFlashEntry;
         lastShoot = Clients.lastShootMain();
+        ammoLeft = gun.getAmmoLeft(itemStack);
     }
 
     public boolean reloading() {

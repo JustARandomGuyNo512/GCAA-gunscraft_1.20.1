@@ -24,7 +24,7 @@ public class GunDebugAdjustScreen extends Screen {
     private int viewIndex = 0;
     private EditBox editBox;
     private float p;
-    private static String[] viewModeNames = {"FirstPersonMain", "ThirdPersonRight", "Ground","Frame", "GUI"};
+    private static String[] viewModeNames = {"FirstPersonMain", "ThirdPersonRight", "Ground","Frame", "GUI", "Aiming"};
     public GunDebugAdjustScreen() {
         super(Component.literal("Gun Debug Adjust Screen"));
     }
@@ -69,7 +69,7 @@ public class GunDebugAdjustScreen extends Screen {
         }).width(40).pos(130, 20).build());
         rowHelper.addChild(Button.builder(Component.literal("FirstPersonMain"), (p_280814_) -> {
             viewIndex ++;
-            viewIndex %= 5;
+            viewIndex %= viewModeNames.length;
             p_280814_.setMessage(Component.literal(viewModeNames[viewIndex]));
         }).width(100).pos(300, 20).build());
         rowHelper.addChild(Button.builder(Component.literal("Bobbing"), (p_280814_) -> {

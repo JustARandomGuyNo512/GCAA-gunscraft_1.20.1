@@ -7,6 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
@@ -21,7 +22,7 @@ public class AkmModel extends GCAAStyleGunModel {
             barrel, rail_set, slide,
             muzzle, handguard, IS,
             dust_cover, mag, grip,
-            safety, body, stock;
+            safety, body, stock, bullet;
 
     private ModelPart
             slot_grip, slot_mag, slot_rail_set,
@@ -51,6 +52,7 @@ public class AkmModel extends GCAAStyleGunModel {
         body = gun.getChild("body").meshing();
         stock = gun.getChild("stock").meshing();
         mag = gun.getChild("mag").meshing();
+        bullet = mag.getChild("bullet").meshing();
 
         slot_grip = gun.getChild("s_grip");
         slot_mag = gun.getChild("s_mag");
@@ -63,6 +65,7 @@ public class AkmModel extends GCAAStyleGunModel {
     @Override
     public void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        bullet.visible = ReloadingHandler.isReloading() || ReloadingHandler.disFromLastReload(1000);
         context.render(vertexConsumer, barrel, rail_set, slide, muzzle, handguard, IS, mag, dust_cover, grip, safety, body, stock);
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);
