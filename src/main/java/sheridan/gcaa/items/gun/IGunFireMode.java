@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.guns;
+package sheridan.gcaa.items.gun;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;

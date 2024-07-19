@@ -20,8 +20,8 @@ import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.muzzleFlash.CommonMuzzleFlashes;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
 import sheridan.gcaa.items.ModItems;
-import sheridan.gcaa.items.guns.IGun;
-import sheridan.gcaa.items.guns.IGunFireMode;
+import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.items.gun.IGunFireMode;
 import sheridan.gcaa.lib.ArsenalLib;
 
 import java.util.Timer;
@@ -76,7 +76,10 @@ public class Clients {
     public static void setEquipDelay(int delay) {
         mainHandStatus.equipDelay = delay;
     }
-
+    @OnlyIn(Dist.CLIENT)
+    public static boolean isInAds() {
+        return mainHandStatus.ads.get();
+    }
 
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {
@@ -128,7 +131,7 @@ public class Clients {
     }
 
     public static boolean allowAdsStart(ItemStack stack, IGun gun, Player player) {
-        return mainHandStatus.equipProgress == 0 && !player.isSwimming();
+        return mainHandStatus.equipProgress == 0 && !player.isSwimming() && !ReloadingHandler.isReloading();
     }
 
     @OnlyIn(Dist.CLIENT)

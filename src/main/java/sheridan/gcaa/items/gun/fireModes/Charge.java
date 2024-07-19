@@ -1,13 +1,11 @@
-package sheridan.gcaa.items.guns.fireModes;
+package sheridan.gcaa.items.gun.fireModes;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
-import sheridan.gcaa.items.guns.IGun;
-import sheridan.gcaa.items.guns.IGunFireMode;
+import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.items.gun.IGunFireMode;
 
 public class Charge implements IGunFireMode {
 

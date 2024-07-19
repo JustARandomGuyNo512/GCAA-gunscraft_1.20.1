@@ -9,7 +9,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
-import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.gun.IGun;
 
 public class AttachmentMenu extends AbstractContainerMenu {
     public Inventory playerInventory;

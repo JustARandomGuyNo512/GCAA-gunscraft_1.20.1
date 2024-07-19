@@ -1,13 +1,10 @@
-package sheridan.gcaa.items.guns.calibers;
+package sheridan.gcaa.items.gun.calibers;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import sheridan.gcaa.entities.projectiles.effects.IBulletEffectProcessor;
 import sheridan.gcaa.items.ammunitions.IAmmunition;
-import sheridan.gcaa.items.guns.ICaliber;
-import sheridan.gcaa.items.guns.IGun;
-
-import java.util.List;
+import sheridan.gcaa.items.gun.ICaliber;
+import sheridan.gcaa.items.gun.IGun;
 
 public class Caliber9x19mm implements ICaliber {
 

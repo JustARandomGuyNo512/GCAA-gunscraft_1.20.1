@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.guns;
+package sheridan.gcaa.items.gun;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;

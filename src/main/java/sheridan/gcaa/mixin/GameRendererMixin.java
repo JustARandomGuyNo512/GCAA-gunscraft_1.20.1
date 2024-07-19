@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sheridan.gcaa.client.animation.recoilAnimation.ICameraShakeHandler;
 import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
-import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.gun.IGun;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {

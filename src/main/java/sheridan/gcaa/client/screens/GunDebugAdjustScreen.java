@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
-import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.gun.IGun;
 
 
 public class GunDebugAdjustScreen extends Screen {

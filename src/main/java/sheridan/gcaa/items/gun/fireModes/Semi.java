@@ -1,23 +1,19 @@
-package sheridan.gcaa.items.guns.fireModes;
+package sheridan.gcaa.items.gun.fireModes;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
-import sheridan.gcaa.items.guns.IGun;
-import sheridan.gcaa.items.guns.IGunFireMode;
-import sheridan.gcaa.network.PacketHandler;
-import sheridan.gcaa.network.packets.c2s.GunFirePacket;
+import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.items.gun.IGunFireMode;
 
-public class Auto implements IGunFireMode {
+public class Semi implements IGunFireMode {
 
-    public static final Auto AUTO = new Auto();
+    public static final Semi SEMI = new Semi();
 
     @Override
     public String getName() {
-        return "auto";
+        return "semi";
     }
 
     @Override
@@ -28,7 +24,8 @@ public class Auto implements IGunFireMode {
     @Override
     public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
         gun.clientShoot(itemStack, player, this);
-        Clients.mainHandStatus.fireCount ++;
+        Clients.mainHandStatus.buttonDown.set(false);
+        Clients.mainHandStatus.fireCount = 0;
     }
 
     @Override
@@ -38,6 +35,6 @@ public class Auto implements IGunFireMode {
 
     @Override
     public Component getTooltipName() {
-        return Component.translatable("tooltip.gunscraft.auto");
+        return Component.translatable("tooltip.gunscraft.semi");
     }
 }

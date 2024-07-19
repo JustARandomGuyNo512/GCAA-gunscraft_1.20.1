@@ -16,7 +16,7 @@ import sheridan.gcaa.client.model.io.ModelLoader;
 import sheridan.gcaa.client.model.modelPart.LayerDefinition;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
-import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.gun.IGun;
 
 import java.util.Map;
 

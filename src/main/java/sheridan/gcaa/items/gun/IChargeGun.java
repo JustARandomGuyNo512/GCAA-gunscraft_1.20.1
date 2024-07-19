@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.guns;
+package sheridan.gcaa.items.gun;
 
 public interface IChargeGun {
 

@@ -3,7 +3,7 @@ package sheridan.gcaa.network.packets.c2s;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
-import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.IPacket;
 
 import java.util.function.Supplier;

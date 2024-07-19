@@ -1,13 +1,13 @@
-package sheridan.gcaa.items;
+package sheridan.gcaa.items.gun;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.Commons;
-import sheridan.gcaa.items.guns.Gun;
-import sheridan.gcaa.items.guns.ICaliber;
-import sheridan.gcaa.items.guns.IGunFireMode;
+import sheridan.gcaa.items.gun.Gun;
+import sheridan.gcaa.items.gun.ICaliber;
+import sheridan.gcaa.items.gun.IGunFireMode;
 
 import java.util.List;
 

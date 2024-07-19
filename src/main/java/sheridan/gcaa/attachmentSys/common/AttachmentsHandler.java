@@ -11,7 +11,7 @@ import sheridan.gcaa.attachmentSys.client.AttachmentSlot;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.ISubSlotActivator;
 import sheridan.gcaa.items.attachments.ISubSlotProvider;
-import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.gun.IGun;
 
 import java.util.ArrayList;
 import java.util.List;

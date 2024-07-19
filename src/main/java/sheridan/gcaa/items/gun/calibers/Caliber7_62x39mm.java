@@ -1,10 +1,10 @@
-package sheridan.gcaa.items.guns.calibers;
+package sheridan.gcaa.items.gun.calibers;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.items.ammunitions.IAmmunition;
-import sheridan.gcaa.items.guns.ICaliber;
-import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.gun.ICaliber;
+import sheridan.gcaa.items.gun.IGun;
 
 public class Caliber7_62x39mm implements ICaliber {
     public static final Caliber7_62x39mm INSTANCE = new Caliber7_62x39mm();

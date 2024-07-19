@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.render;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.gui.GuiGraphics;
@@ -15,7 +16,7 @@ import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.render.gui.AttachmentsGuiContext;
-import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class GunRenderer implements IGunRenderer{
@@ -66,6 +67,7 @@ public class GunRenderer implements IGunRenderer{
                 }
                 model.render(new GunRenderContext(bufferIn, poseStack, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry));
             } else {
+
                 stackIn.mulPose(Axis.ZP.rotationDegrees(180));
                 displayData.applyTransform(type, stackIn);
                 model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry));

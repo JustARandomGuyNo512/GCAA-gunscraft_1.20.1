@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.guns;
+package sheridan.gcaa.items.gun;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -32,7 +32,6 @@ import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.BaseItem;
-import sheridan.gcaa.items.GunProperties;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunFirePacket;
 import sheridan.gcaa.sounds.ModSounds;
@@ -257,6 +256,12 @@ public class Gun extends BaseItem implements IGun {
     public float getWeight(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
         return properties.contains("weight") ? properties.getFloat("weight") : 0;
+    }
+
+    @Override
+    public float getAdsSpeed(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("ads_speed") ? properties.getFloat("ads_speed") : 0;
     }
 
     @Override

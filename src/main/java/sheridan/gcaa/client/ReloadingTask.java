@@ -9,7 +9,7 @@ import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
-import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunReloadPacket;
 

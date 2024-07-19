@@ -12,11 +12,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import org.joml.Matrix4f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class CrossHairRenderer {

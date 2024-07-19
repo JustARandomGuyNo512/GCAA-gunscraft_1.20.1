@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sheridan.gcaa.Commons;
 import sheridan.gcaa.items.AutoRegister;
 import sheridan.gcaa.items.NoRepair;
-import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.gun.IGun;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {
@@ -30,7 +30,7 @@ public class CommonEvents {
         if (event.getEntity() instanceof Player player) {
             ItemStack stack = event.getTo();
             if (stack.getItem() instanceof IGun gun) {
-                //gun.getInnerVersion(stack);
+                gun.getInnerVersion(stack);
                 //gun.getGun().onCraftedBy(stack, null, null);
                 //AttachmentsHandler.INSTANCE.checkAndUpdate(stack);
 

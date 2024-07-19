@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -21,10 +20,8 @@ import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.render.GlobalWeaponBobbing;
 import sheridan.gcaa.client.render.gui.crosshair.CrossHairRenderer;
-import sheridan.gcaa.items.guns.IGun;
-import sheridan.gcaa.items.guns.IGunFireMode;
-
-import java.awt.*;
+import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.items.gun.IGunFireMode;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class RenderEvents {

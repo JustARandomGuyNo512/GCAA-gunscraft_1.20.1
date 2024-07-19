@@ -15,7 +15,7 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
-import sheridan.gcaa.items.guns.IGun;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.SwitchFireModePacket;
 

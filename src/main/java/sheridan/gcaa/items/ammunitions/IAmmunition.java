@@ -2,7 +2,7 @@ package sheridan.gcaa.items.ammunitions;
 
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.entities.projectiles.effects.IBulletEffectProcessor;
-import sheridan.gcaa.items.guns.ICaliber;
+import sheridan.gcaa.items.gun.ICaliber;
 
 import java.util.List;
 

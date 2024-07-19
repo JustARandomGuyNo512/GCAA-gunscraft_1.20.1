@@ -1,13 +1,17 @@
 package sheridan.gcaa.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
+import sheridan.gcaa.Clients;
+import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlash;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,7 +37,7 @@ public class DisplayData {
 
     public void applyTransform(ItemDisplayContext displayContext, PoseStack poseStack) {
         switch (displayContext) {
-            case FIRST_PERSON_RIGHT_HAND -> applyTransform(transforms[0], emptyMarks[0], poseStack);
+            case FIRST_PERSON_RIGHT_HAND -> applyTransformFirstPerson(poseStack);
             case THIRD_PERSON_RIGHT_HAND -> applyTransform(transforms[1], emptyMarks[1], poseStack);
             case GROUND -> applyTransform(transforms[2], emptyMarks[2], poseStack);
             case FIXED -> applyTransform(transforms[3], emptyMarks[3], poseStack);
@@ -41,6 +45,18 @@ public class DisplayData {
         }
     }
 
+
+    void applyTransformFirstPerson(PoseStack poseStack)  {
+        float progress = Clients.mainHandStatus.getLerpAdsProgress(Minecraft.getInstance().getFrameTime());
+        if (progress != 0) {
+            float lerpProgress = RenderAndMathUtils.sLerp(progress);
+            //TODO: handle ads transform...
+        } else {
+            if (emptyMarks[0][0]) {poseStack.translate(transforms[0][0], transforms[0][1], transforms[0][2]);}
+            if (emptyMarks[0][1]) {poseStack.mulPose(new Quaternionf().rotateXYZ(transforms[0][3], transforms[0][4], transforms[0][5]));}
+            if (emptyMarks[0][2]) {poseStack.scale(transforms[0][6], transforms[0][7], transforms[0][8]);}
+        }
+    }
 
     void applyTransform(float[] transform, boolean[] mark, PoseStack poseStack) {
         if (mark.length == 0 || transform.length == 0) {return;}

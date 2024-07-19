@@ -1,16 +1,13 @@
-package sheridan.gcaa.items.guns;
+package sheridan.gcaa.items.gun;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.client.IReloadingTask;
-import sheridan.gcaa.items.GunProperties;
 
 public interface IGun {
     GunProperties getGunProperties();
-
     @Deprecated
     default boolean canHoldInOneHand() {return false;}
     Gun getGun();
@@ -40,6 +37,7 @@ public interface IGun {
     float getShootSpread(ItemStack stack);
     float getSpreadRecover(ItemStack stack);
     float getWeight(ItemStack stack);
+    float getAdsSpeed(ItemStack stack);
     float[] getSpread(ItemStack stack);
     boolean clientReload(ItemStack stack, Player player);
     void reload(ItemStack stack, Player player);
@@ -50,4 +48,5 @@ public interface IGun {
         return 1000;
     }
     default boolean allowShootWhileReloading() {return false;}
+    default boolean shouldHandleAds(ItemStack stack) {return true;}
 }
