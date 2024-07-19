@@ -2,6 +2,7 @@ package sheridan.gcaa.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -29,7 +30,7 @@ public class DisplayData {
             FRAME = 3,
             GUI = 4,
             AIMING = 5;
-    private final float[][] transforms = new float[][] {{}, {}, {}, {}, {}, {}};
+    private final float[][] transforms = new float[][] {{0, 0, 0, 0, 0, 0, 1, 1, 1}, {}, {}, {}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}};
     private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}, {}, {}};
     private final Map<String, MuzzleFlashEntry> muzzleFlashMap = new HashMap<>();
     private InertialRecoilData inertialRecoilData;
@@ -47,15 +48,41 @@ public class DisplayData {
 
 
     void applyTransformFirstPerson(PoseStack poseStack)  {
-        float progress = Clients.mainHandStatus.getLerpAdsProgress(Minecraft.getInstance().getFrameTime());
+        ClientWeaponStatus status = Clients.mainHandStatus;
+        float progress = status.getLerpAdsProgress(Minecraft.getInstance().getFrameTime());
         if (progress != 0) {
             float lerpProgress = RenderAndMathUtils.sLerp(progress);
-            //TODO: handle ads transform...
+            if (status.adsPos != null) {
+                float x = Mth.lerp(lerpProgress, transforms[0][0], status.adsPos.x);
+                float y = Mth.lerp(lerpProgress, transforms[0][1], status.adsPos.y);
+                float z = Mth.lerp(lerpProgress, transforms[0][2], status.adsPos.z);
+                poseStack.translate(x, y, z);
+            } else {
+                if (emptyMarks[0][0] || emptyMarks[5][0]) {
+                    float x = Mth.lerp(lerpProgress, transforms[0][0], transforms[5][0]);
+                    float y = Mth.lerp(lerpProgress, transforms[0][1], transforms[5][1]);
+                    float z = Mth.lerp(lerpProgress, transforms[0][2], transforms[5][2]);
+                    poseStack.translate(x, y, z);
+                }
+            }
+            if (status.adsRot != null) {
+                float rx = Mth.lerp(lerpProgress, transforms[0][3], status.adsRot.x);
+                float ry = Mth.lerp(lerpProgress, transforms[0][4], status.adsRot.y);
+                float rz = Mth.lerp(lerpProgress, transforms[0][5], status.adsRot.z);
+                poseStack.mulPose(new Quaternionf().rotateXYZ(rx, ry, rz));
+            } else {
+                if (emptyMarks[0][1] || emptyMarks[5][1]){
+                    float rx = Mth.lerp(lerpProgress, transforms[0][3], transforms[5][3]);
+                    float ry = Mth.lerp(lerpProgress, transforms[0][4], transforms[5][4]);
+                    float rz = Mth.lerp(lerpProgress, transforms[0][5], transforms[5][5]);
+                    poseStack.mulPose(new Quaternionf().rotateXYZ(rx, ry, rz));
+                }
+            }
         } else {
             if (emptyMarks[0][0]) {poseStack.translate(transforms[0][0], transforms[0][1], transforms[0][2]);}
             if (emptyMarks[0][1]) {poseStack.mulPose(new Quaternionf().rotateXYZ(transforms[0][3], transforms[0][4], transforms[0][5]));}
-            if (emptyMarks[0][2]) {poseStack.scale(transforms[0][6], transforms[0][7], transforms[0][8]);}
         }
+        if (emptyMarks[0][2]) {poseStack.scale(transforms[0][6], transforms[0][7], transforms[0][8]);}
     }
 
     void applyTransform(float[] transform, boolean[] mark, PoseStack poseStack) {
@@ -132,27 +159,32 @@ public class DisplayData {
     }
 
     public DisplayData setFirstPersonMain(float x, float y, float z, DataType type) {
-        checkAndSet(0, x, y, z, type);
+        checkAndSet(FIRST_PERSON_MAIN, x, y, z, type);
         return this;
     }
 
     public DisplayData setThirdPersonRight(float x, float y, float z, DataType type) {
-        checkAndSet(1, x, y, z, type);
+        checkAndSet(THIRD_PERSON_RIGHT, x, y, z, type);
         return this;
     }
 
     public DisplayData setGround(float x, float y, float z, DataType type) {
-        checkAndSet(2, x, y, z, type);
+        checkAndSet(GROUND, x, y, z, type);
         return this;
     }
 
     public DisplayData setFrame(float x, float y, float z, DataType type) {
-        checkAndSet(3, x, y, z, type);
+        checkAndSet(FRAME, x, y, z, type);
         return this;
     }
 
     public DisplayData setGUI(float x, float y, float z, DataType type) {
-        checkAndSet(4, x, y, z, type);
+        checkAndSet(GUI, x, y, z, type);
+        return this;
+    }
+
+    public DisplayData setAds(float x, float y, float z, DataType type) {
+        checkAndSet(AIMING, x, y, z, type);
         return this;
     }
 

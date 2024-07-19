@@ -48,7 +48,9 @@ public class RenderEvents {
                 if (player != null) {
                     ItemStack stack = player.getMainHandItem();
                     if (stack.getItem() instanceof IGun gun && !gun.isSniper()) {
-                        CrossHairRenderer.INSTANCE.render(0, 16, gun, event.getGuiGraphics(), player, stack, event.getWindow(), event.getPartialTick());
+                        if (!Clients.mainHandStatus.ads.get()) {
+                            CrossHairRenderer.INSTANCE.render(0, 16, gun, event.getGuiGraphics(), player, stack, event.getWindow(), event.getPartialTick());
+                        }
                         event.setCanceled(true);
                     }
                     if (Clients.mainHandStatus.ads.get()) {

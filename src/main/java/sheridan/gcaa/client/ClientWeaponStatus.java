@@ -5,6 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Vector3f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.items.gun.IGun;
 
@@ -30,6 +31,8 @@ public class ClientWeaponStatus {
     public long lastShoot = 0;
     public int equipDelay = 0;
     public float spread = 0;
+    public Vector3f adsPos;
+    public Vector3f adsRot;
 
     public ClientWeaponStatus(boolean mainHand) {
         this.mainHand = mainHand;
@@ -49,14 +52,16 @@ public class ClientWeaponStatus {
                     adsProgress = Math.min(adsSpeed + adsProgress, 1);
                 } else {
                     float speed = adsSpeed == 0 ? 0.005f : adsSpeed;
+                    lastAdsProgress = adsProgress;
                     adsProgress = Math.max(adsProgress - speed * 2, 0);
                 }
             } else {
                 ads.set(false);
             }
         } else {
-            if (adsProgress != 0) {
+            if (adsProgress != 0 || lastAdsProgress != 0) {
                 float speed = adsSpeed == 0 ? 0.005f : adsSpeed;
+                lastAdsProgress = adsProgress;
                 adsProgress = Math.max(adsProgress - speed * 2, 0);
             }
         }
