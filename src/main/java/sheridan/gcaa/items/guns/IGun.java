@@ -10,6 +10,7 @@ import sheridan.gcaa.items.GunProperties;
 
 public interface IGun {
     GunProperties getGunProperties();
+
     @Deprecated
     default boolean canHoldInOneHand() {return false;}
     Gun getGun();
@@ -34,6 +35,10 @@ public interface IGun {
     float getRecoilYaw(ItemStack stack);
     float getRecoilPitchControl(ItemStack stack);
     float getRecoilYawControl(ItemStack stack);
+    float getWalkingSpreadFactor(ItemStack stack);
+    float getSprintingSpreadFactor(ItemStack stack);
+    float getShootSpread(ItemStack stack);
+    float getSpreadRecover(ItemStack stack);
     float getWeight(ItemStack stack);
     float[] getSpread(ItemStack stack);
     boolean clientReload(ItemStack stack, Player player);

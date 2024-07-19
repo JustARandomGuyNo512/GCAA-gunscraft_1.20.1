@@ -14,32 +14,36 @@ import java.util.List;
 public class GunProperties{
     public static final float MIN_WEIGHT = 5f;
     public static final float MAX_WEIGHT = 40f;
-    public final float baseDamage;
-    public final float adsSpeed;
-    public final float minSpread;
-    public final float maxSpread;
-    public final int fireDelay;
-    public final int reloadLength;
-    public final int fullReloadLength;
-    public final int magSize;
-    public final float recoilPitch;
-    public final float recoilYaw;
-    public final float recoilPitchControl;
-    public final float recoilYawControl;
-    public final float weight;
-    public final List<IGunFireMode> fireModes;
-    public final RegistryObject<SoundEvent> fireSound;
-    public final RegistryObject<SoundEvent> suppressedSound;
-    public final ICaliber caliber;
+    public float adsSpeed;
+    public float minSpread;
+    public float maxSpread;
+    public float shootSpread;
+    public float spreadRecover;
+    public int fireDelay;
+    public int reloadLength;
+    public int fullReloadLength;
+    public int magSize;
+    public float recoilPitch;
+    public float recoilYaw;
+    public float recoilPitchControl;
+    public float recoilYawControl;
+    public float weight;
+    public float walkingSpreadFactor = 1.3f;
+    public float sprintingSpreadFactor = 1.6f;
+    public List<IGunFireMode> fireModes;
+    public RegistryObject<SoundEvent> fireSound;
+    public RegistryObject<SoundEvent> suppressedSound;
+    public ICaliber caliber;
 
-    public GunProperties(float baseDamage, float adsSpeed, float minSpread, float maxSpread, int fireDelay, int reloadLength, int fullReloadLength,
+    public GunProperties(float adsSpeed, float minSpread, float maxSpread, float shootSpread, float spreadRecover, int fireDelay, int reloadLength, int fullReloadLength,
                          int magSize, float recoilPitch, float recoilYaw, float recoilPitchControl, float recoilYawControl, float weight, List<IGunFireMode> fireModes,
                          RegistryObject<SoundEvent> fireSound, RegistryObject<SoundEvent> suppressedSound, ICaliber caliber) {
-        this.baseDamage = baseDamage;
         this.adsSpeed = adsSpeed;
         this.fireDelay = fireDelay;
         this.minSpread = minSpread;
+        this.shootSpread = shootSpread;
         this.maxSpread = maxSpread;
+        this.spreadRecover = spreadRecover;
         this.reloadLength = reloadLength;
         this.fullReloadLength = fullReloadLength;
         this.magSize = magSize;
@@ -78,10 +82,11 @@ public class GunProperties{
     public CompoundTag getInitialData() {
         CompoundTag tag = new CompoundTag();
         tag.putLong("date", Commons.SERVER_START_TIME);
-        tag.putFloat("base_damage", baseDamage);
         tag.putFloat("ads_speed", adsSpeed);
         tag.putFloat("min_spread", minSpread);
         tag.putFloat("max_spread", maxSpread);
+        tag.putFloat("shoot_spread", shootSpread);
+        tag.putFloat("spread_recover", spreadRecover);
         tag.putInt("fire_delay", fireDelay);
         tag.putInt("reload_length", reloadLength);
         tag.putInt("full_reload_length", fullReloadLength);
@@ -92,6 +97,8 @@ public class GunProperties{
         tag.putFloat("recoil_yaw_control", recoilYawControl);
         tag.putString("muzzle_flash", Gun.MUZZLE_STATE_NORMAL);
         tag.putFloat("weight", weight);
+        tag.putFloat("walking_spread_factor", walkingSpreadFactor);
+        tag.putFloat("sprinting_spread_factor", sprintingSpreadFactor);
         return tag;
     }
 

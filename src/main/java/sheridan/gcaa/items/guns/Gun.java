@@ -101,6 +101,14 @@ public class Gun extends BaseItem implements IGun {
         }
         RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionY);
         handleClientFireSound(stack, player);
+        float spread = getShootSpread(stack);
+        if (player.isCrouching()) {
+            spread *= 0.8f;
+        }
+        if (Clients.mainHandStatus.ads.get() && Clients.mainHandStatus.adsProgress > 0.7f) {
+            spread *= 0.7f;
+        }
+        Clients.mainHandStatus.spread += spread;
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -219,6 +227,30 @@ public class Gun extends BaseItem implements IGun {
     public float getRecoilYawControl(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
         return properties.contains("recoil_yaw_control") ? properties.getFloat("recoil_yaw_control") : 0;
+    }
+
+    @Override
+    public float getWalkingSpreadFactor(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("walking_spread_factor") ? properties.getFloat("walking_spread_factor") : 1.3f;
+    }
+
+    @Override
+    public float getSprintingSpreadFactor(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("sprinting_spread_factor") ? properties.getFloat("sprinting_spread_factor") : 1.6f;
+    }
+
+    @Override
+    public float getShootSpread(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("shoot_spread") ? properties.getFloat("shoot_spread") : 0;
+    }
+
+    @Override
+    public float getSpreadRecover(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("spread_recover") ? properties.getFloat("spread_recover") : 0.1f;
     }
 
     @Override
