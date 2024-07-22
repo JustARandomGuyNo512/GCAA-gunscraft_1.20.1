@@ -21,7 +21,7 @@ public interface IGunFireMode {
     /**
      * Handle fire in server side
      * */
-    void shoot(Player player, ItemStack itemStack, IGun gun);
+    void shoot(Player player, ItemStack itemStack, IGun gun, float spread);
 
     Component getTooltipName();
 }

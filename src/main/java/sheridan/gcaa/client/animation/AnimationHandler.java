@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
@@ -77,7 +78,7 @@ public class AnimationHandler {
      * apply inertial recoil transform to a pose stack
      * */
     public void applyInertialRecoil(PoseStack poseStack, InertialRecoilData data) {
-        INERTIAL_RECOIL_HANDLER.applyTransform(poseStack, data.id, false);
+        INERTIAL_RECOIL_HANDLER.applyTransform(poseStack, data.id, Clients.isInAds());
     }
 
     /**

@@ -13,6 +13,7 @@ public class RenderAndMathUtils {
         return Mth.lerp(progress, f1, f2);
     }
 
+
     public static PoseStack lerpPoseStack(PoseStack from, PoseStack to, float progress) {
         PoseStack res = new PoseStack();
         lerpPoseStack(from, to, res, progress, true, true, true);
@@ -51,6 +52,10 @@ public class RenderAndMathUtils {
         result.last().pose().set(stack.last().pose());
         result.last().normal().set(stack.last().normal());
         return result;
+    }
+
+    public static float randomIndex() {
+        return Math.random() <= 0.5 ? 1 : -1;
     }
 
     public static int secondsToTicks(float seconds) {

@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.events;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -23,25 +24,25 @@ public class ClientPlayerEvents {
 
     @SubscribeEvent
     public static void onClientPlayerTick(TickEvent.PlayerTickEvent event) {
+        Player player = event.player;
         if (event.phase == TickEvent.Phase.START) {
-            Player player = event.player;
-            if (player != null && player.level().isClientSide()) {
+            if (player != null && player.level().isClientSide() && player == Minecraft.getInstance().player) {
                 Clients.clientPlayerId = player.getId();
                 ItemStack stackMain = player.getMainHandItem();
                 IGun gunMain = stackMain.getItem() instanceof IGun ? (IGun) stackMain.getItem() : null;
                 Clients.mainHandStatus.holdingGun.set(gunMain != null);
                 if (gunMain != null) {
                     Clients.mainHandStatus.fireDelay.set(gunMain.getFireDelay(stackMain));
-                    Clients.mainHandStatus.adsSpeed = gunMain.getAdsSpeed(stackMain) * 0.05f;
+                    Clients.mainHandStatus.adsSpeed = Math.min(gunMain.getAdsSpeed(stackMain) * 0.05f, 0.25f);
                 }
                 Clients.mainHandStatus.updatePlayerSpread(stackMain, gunMain, player);
                 Clients.mainHandStatus.handleAds(stackMain, gunMain, player);
             }
         }
-        if (event.phase == TickEvent.Phase.END && event.player != null && event.player.level().isClientSide())  {
+        if (event.phase == TickEvent.Phase.END && player != null && player.level().isClientSide() && player == Minecraft.getInstance().player)  {
             JumpBobbingHandler jumpBobbingHandler = JumpBobbingHandler.getInstance();
             if (jumpBobbingHandler != null) {
-                jumpBobbingHandler.handle((LocalPlayer) event.player);
+                jumpBobbingHandler.handle((LocalPlayer) player);
             }
             ReloadingHandler.INSTANCE.tick();
             if (Clients.debugKeyDown) {

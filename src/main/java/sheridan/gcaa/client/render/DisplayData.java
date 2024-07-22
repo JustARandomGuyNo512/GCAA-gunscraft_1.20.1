@@ -52,15 +52,16 @@ public class DisplayData {
         float progress = status.getLerpAdsProgress(Minecraft.getInstance().getFrameTime());
         if (progress != 0) {
             float lerpProgress = RenderAndMathUtils.sLerp(progress);
+            float yLerp = Clients.isInAds() ? lerpProgress * lerpProgress : lerpProgress;
             if (status.adsPos != null) {
                 float x = Mth.lerp(lerpProgress, transforms[0][0], status.adsPos.x);
-                float y = Mth.lerp(lerpProgress, transforms[0][1], status.adsPos.y);
+                float y = Mth.lerp(yLerp, transforms[0][1], status.adsPos.y);
                 float z = Mth.lerp(lerpProgress, transforms[0][2], status.adsPos.z);
                 poseStack.translate(x, y, z);
             } else {
                 if (emptyMarks[0][0] || emptyMarks[5][0]) {
                     float x = Mth.lerp(lerpProgress, transforms[0][0], transforms[5][0]);
-                    float y = Mth.lerp(lerpProgress, transforms[0][1], transforms[5][1]);
+                    float y = Mth.lerp(yLerp, transforms[0][1], transforms[5][1]);
                     float z = Mth.lerp(lerpProgress, transforms[0][2], transforms[5][2]);
                     poseStack.translate(x, y, z);
                 }

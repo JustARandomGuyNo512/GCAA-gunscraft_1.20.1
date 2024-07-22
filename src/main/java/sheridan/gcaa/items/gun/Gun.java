@@ -35,6 +35,7 @@ import sheridan.gcaa.items.BaseItem;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunFirePacket;
 import sheridan.gcaa.sounds.ModSounds;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -79,27 +80,25 @@ public class Gun extends BaseItem implements IGun {
         return properties.contains("mag_size") ? properties.getInt("mag_size") : -1;
     }
 
-    protected float randomIndex() {
-        return Math.random() <= 0.5 ? 1 : -1;
-    }
 
     @OnlyIn(Dist.CLIENT)
     @Override
     public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
         Clients.mainHandStatus.lastShoot = System.currentTimeMillis();
         PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
-        PacketHandler.simpleChannel.sendToServer(new GunFirePacket());
+        PacketHandler.simpleChannel.sendToServer(new GunFirePacket(Clients.getSpread(this, player, stack)));
         DisplayData data = GunModelRegistry.getDisplayData(this);
-        float directionY = randomIndex();
+        float directionY = RenderAndMathUtils.randomIndex();
         if (data != null) {
             InertialRecoilData inertialRecoilData = data.getInertialRecoilData();
             if (inertialRecoilData != null) {
-                float directionX = randomIndex();
+                float directionX = RenderAndMathUtils.randomIndex();
+                Clients.mainHandStatus.lastRecoilDirection = directionX;
                 AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY);
             }
         }
         RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionY);
-        handleClientFireSound(stack, player);
+        handleFireSound(stack, player);
         float spread = getShootSpread(stack);
         if (player.isCrouching()) {
             spread *= 0.8f;
@@ -110,30 +109,32 @@ public class Gun extends BaseItem implements IGun {
         Clients.mainHandStatus.spread += spread;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    protected void handleClientFireSound(ItemStack stack, Player player) {
+    protected void handleFireSound(ItemStack stack, Player player) {
         String muzzleState = getMuzzleFlash(stack);
         if (MUZZLE_STATE_SUPPRESSED.equals(muzzleState)) {
             if (gunProperties.suppressedSound != null) {
-                ModSounds.clientSound(1f, 1f + ((float) Math.random() * 0.1f), player, gunProperties.suppressedSound.get());
+                ModSounds.sound(gunProperties.fireSoundVol, 1f + ((float) Math.random() * 0.1f), player, gunProperties.suppressedSound.get());
             } else {
                 if (gunProperties.fireSound != null) {
-                    ModSounds.clientSound(0.5f, 1.6f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
+                    ModSounds.sound(gunProperties.fireSoundVol * 0.4f, 1.6f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
                 }
             }
         } else {
             if (gunProperties.fireSound != null) {
-                ModSounds.clientSound(1f, 1f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
+                ModSounds.sound(gunProperties.fireSoundVol, 1f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
             }
         }
     }
 
     @Override
-    public void shoot(ItemStack stack, Player player, IGunFireMode fireMode) {
+    public void shoot(ItemStack stack, Player player, IGunFireMode fireMode, float spread) {
         int ammoLeft = getAmmoLeft(stack);
         if (ammoLeft > 0) {
             ICaliber caliber = gunProperties.caliber;
-            caliber.fireBullet(null, null, this, player, stack);
+            if (!player.level().isClientSide) {
+                caliber.fireBullet(null, null, this, player, stack, spread);
+                handleFireSound(stack, player);
+            }
             setAmmoLeft(stack, ammoLeft - 1);
         }
     }

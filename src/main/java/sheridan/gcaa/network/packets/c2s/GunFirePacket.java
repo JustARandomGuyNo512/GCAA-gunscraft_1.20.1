@@ -10,13 +10,23 @@ import sheridan.gcaa.network.IPacket;
 import java.util.function.Supplier;
 
 public class GunFirePacket implements IPacket<GunFirePacket> {
+    public float spread;
+
+    public GunFirePacket(float spread) {
+        this.spread = spread;
+    }
+
+    public GunFirePacket() {
+    }
 
     @Override
-    public void encode(GunFirePacket message, FriendlyByteBuf buffer) {}
+    public void encode(GunFirePacket message, FriendlyByteBuf buffer) {
+        buffer.writeFloat(message.spread);
+    }
 
     @Override
     public GunFirePacket decode(FriendlyByteBuf buffer) {
-        return new GunFirePacket();
+        return new GunFirePacket(buffer.readFloat());
     }
 
     @Override
@@ -26,7 +36,7 @@ public class GunFirePacket implements IPacket<GunFirePacket> {
             if (player != null) {
                 ItemStack stack = player.getMainHandItem();
                 if (stack.getItem() instanceof IGun gun) {
-                    gun.getFireMode(stack).shoot(player, stack, gun);
+                    gun.getFireMode(stack).shoot(player, stack, gun, message.spread);
                 }
             }
         });

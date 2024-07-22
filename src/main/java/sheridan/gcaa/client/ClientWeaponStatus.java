@@ -33,6 +33,7 @@ public class ClientWeaponStatus {
     public float spread = 0;
     public Vector3f adsPos;
     public Vector3f adsRot;
+    public float lastRecoilDirection = 1;
 
     public ClientWeaponStatus(boolean mainHand) {
         this.mainHand = mainHand;
@@ -51,20 +52,23 @@ public class ClientWeaponStatus {
                     lastAdsProgress = adsProgress;
                     adsProgress = Math.min(adsSpeed + adsProgress, 1);
                 } else {
-                    float speed = adsSpeed == 0 ? 0.005f : adsSpeed;
-                    lastAdsProgress = adsProgress;
-                    adsProgress = Math.max(adsProgress - speed * 2, 0);
+                    exitAds();
                 }
             } else {
                 ads.set(false);
             }
         } else {
             if (adsProgress != 0 || lastAdsProgress != 0) {
-                float speed = adsSpeed == 0 ? 0.005f : adsSpeed;
-                lastAdsProgress = adsProgress;
-                adsProgress = Math.max(adsProgress - speed * 2, 0);
+                exitAds();
             }
         }
+    }
+
+    private void exitAds() {
+        float speed = adsSpeed == 0 ? 0.005f : adsSpeed;
+        speed = Math.min(speed * 1.5f, 0.25f);
+        lastAdsProgress = adsProgress;
+        adsProgress = Math.max(adsProgress - speed * 1.5f, 0);
     }
 
     public void updatePlayerSpread(ItemStack stack, IGun gun, Player player) {

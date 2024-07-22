@@ -32,7 +32,7 @@ public class Burst implements IGunFireMode {
     }
 
     @Override
-    public void shoot(Player player, ItemStack itemStack, IGun gun) {
+    public void shoot(Player player, ItemStack itemStack, IGun gun, float spread) {
 
     }
 

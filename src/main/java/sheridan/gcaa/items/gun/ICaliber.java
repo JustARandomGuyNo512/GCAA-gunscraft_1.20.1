@@ -6,6 +6,6 @@ import sheridan.gcaa.items.ammunitions.IAmmunition;
 
 public interface ICaliber {
     String getName();
-    void fireBullet(IAmmunition ammunition, ItemStack ammunitionStack, IGun gun, Player player, ItemStack gunStack);
+    void fireBullet(IAmmunition ammunition, ItemStack ammunitionStack, IGun gun, Player player, ItemStack gunStack, float spread);
     int getCost();
 }

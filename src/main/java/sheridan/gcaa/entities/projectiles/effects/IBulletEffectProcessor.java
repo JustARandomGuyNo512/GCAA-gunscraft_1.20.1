@@ -1,9 +1,9 @@
 package sheridan.gcaa.entities.projectiles.effects;
 
-import sheridan.gcaa.entities.projectiles.IBullet;
+import sheridan.gcaa.entities.projectiles.IProjectile;
 
 public interface IBulletEffectProcessor {
-    void process(IBullet bullet);
+    void process(IProjectile bullet);
     int getCost();
     String getName();
 }

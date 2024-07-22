@@ -2,10 +2,12 @@ package sheridan.gcaa.client.animation.recoilAnimation;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
+import sheridan.gcaa.Clients;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -44,17 +46,23 @@ public class InertialRecoilHandler {
             }
         }
         if (enabled.get()) {
-//            float scaleY = 1;
-//            float scaleZ = 1;
+            InertialRecoilData data = this.data.get();
+            float scaleY = 1;
+            float scaleZ = 1;
             float scaleRot = 1;
             Player player = Minecraft.getInstance().player;
             if (player != null && player.isCrouching()) {
-                scaleRot = Math.max(0.2f, scaleRot - 0.1f);
+                scaleRot *= 0.9f;
+            }
+            float adsProgress = Clients.mainHandStatus.adsProgress;
+            if (aiming || adsProgress > 0) {
+                scaleY = Mth.lerp(adsProgress, scaleY, data.aimingScaleUp);
+                scaleZ = Mth.lerp(adsProgress, scaleZ, data.aimingBackScale);
+                scaleRot = Mth.lerp(adsProgress, scaleRot, data.aimingRotateScale);
             }
             float r0 = (rotate + randomY) * scaleRot * ROTATE_FACTOR;
             float r1 = randomX * scaleRot * ROTATE_FACTOR;
-
-            poseStack.translate(0, -up * UP_FACTOR, back * BACK_FACTOR);
+            poseStack.translate(0, -up * UP_FACTOR * scaleY, back * BACK_FACTOR * scaleZ);
             poseStack.mulPose(new Quaternionf().rotateXYZ(- r0, r1, 0));
         }
     }

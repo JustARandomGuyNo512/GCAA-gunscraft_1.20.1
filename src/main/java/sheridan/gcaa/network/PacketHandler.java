@@ -9,6 +9,7 @@ import sheridan.gcaa.network.packets.c2s.GunReloadPacket;
 import sheridan.gcaa.network.packets.c2s.SwitchFireModePacket;
 import sheridan.gcaa.network.packets.c2s.SyncPlayerStatusPacket;
 import sheridan.gcaa.network.packets.s2c.BroadcastPlayerStatusPacket;
+import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
 
 public class PacketHandler
 {
@@ -26,6 +27,7 @@ public class PacketHandler
         registerPacket(GunFirePacket.class, new GunFirePacket());
         registerPacket(SwitchFireModePacket.class, new SwitchFireModePacket());
         registerPacket(GunReloadPacket.class, new GunReloadPacket());
+        registerPacket(ClientPlayParticlePacket.class, new ClientPlayParticlePacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

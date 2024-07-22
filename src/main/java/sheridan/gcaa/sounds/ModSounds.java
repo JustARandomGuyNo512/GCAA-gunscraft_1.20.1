@@ -3,8 +3,6 @@ package sheridan.gcaa.sounds;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -33,23 +31,21 @@ public class ModSounds {
     }
 
     /**
-     * play a sound immediately in client side.
+     * play a sound immediately.
      * */
-    @OnlyIn(Dist.CLIENT)
-    public static void clientSound(float vol, float pit, Player player, SoundEvent soundEvent) {
+    public static void sound(float vol, float pit, Player player, SoundEvent soundEvent) {
         player.playSound(soundEvent, vol, pit);
     }
 
     /**
-     * play a sound immediately in client side by given name.
+     * play a sound immediately.
      * @param name the registry path of the sound event. such as: new ResourceLocation(your_mod.MODID, name).
      *             the "name" is the name when a sound event registered, not the key of this sound event in sounds.json.
      * */
-    @OnlyIn(Dist.CLIENT)
-    public static void clientSound(float vol, float pit, Player player, ResourceLocation name) {
+    public static void sound(float vol, float pit, Player player, ResourceLocation name) {
         SoundEvent soundEvent = ForgeRegistries.SOUND_EVENTS.getValue(name);
         if (soundEvent != null) {
-            clientSound(vol, pit, player, soundEvent);
+            sound(vol, pit, player, soundEvent);
         }
     }
 }

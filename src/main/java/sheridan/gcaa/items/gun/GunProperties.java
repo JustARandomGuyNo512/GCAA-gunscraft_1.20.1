@@ -19,6 +19,7 @@ public class GunProperties{
     public float maxSpread;
     public float shootSpread;
     public float spreadRecover;
+    public float fireSoundVol;
     public int fireDelay;
     public int reloadLength;
     public int fullReloadLength;
@@ -35,13 +36,14 @@ public class GunProperties{
     public RegistryObject<SoundEvent> suppressedSound;
     public ICaliber caliber;
 
-    public GunProperties(float adsSpeed, float minSpread, float maxSpread, float shootSpread, float spreadRecover, int fireDelay, int reloadLength, int fullReloadLength,
+    public GunProperties(float adsSpeed, float minSpread, float maxSpread, float shootSpread, float spreadRecover, float fireSoundVol, int fireDelay, int reloadLength, int fullReloadLength,
                          int magSize, float recoilPitch, float recoilYaw, float recoilPitchControl, float recoilYawControl, float weight, List<IGunFireMode> fireModes,
                          RegistryObject<SoundEvent> fireSound, RegistryObject<SoundEvent> suppressedSound, ICaliber caliber) {
         this.adsSpeed = adsSpeed;
         this.fireDelay = fireDelay;
         this.minSpread = minSpread;
         this.shootSpread = shootSpread;
+        this.fireSoundVol = fireSoundVol;
         this.maxSpread = maxSpread;
         this.spreadRecover = spreadRecover;
         this.reloadLength = reloadLength;
@@ -99,6 +101,7 @@ public class GunProperties{
         tag.putFloat("weight", weight);
         tag.putFloat("walking_spread_factor", walkingSpreadFactor);
         tag.putFloat("sprinting_spread_factor", sprintingSpreadFactor);
+        tag.putFloat("fire_sound_vol", fireSoundVol);
         return tag;
     }
 

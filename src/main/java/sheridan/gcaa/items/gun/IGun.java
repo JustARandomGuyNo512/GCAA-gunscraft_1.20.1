@@ -15,7 +15,7 @@ public interface IGun {
     void setAmmoLeft(ItemStack stack, int ammoLeft);
     int getMagSize(ItemStack stack);
     void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode);
-    void shoot(ItemStack stack, Player player, IGunFireMode fireMode);
+    void shoot(ItemStack stack, Player player, IGunFireMode fireMode, float spread);
     IGunFireMode getFireMode(ItemStack stack);
     int getBurstCount();
     ICaliber getCaliber();
@@ -49,4 +49,7 @@ public interface IGun {
     }
     default boolean allowShootWhileReloading() {return false;}
     default boolean shouldHandleAds(ItemStack stack) {return true;}
+    default boolean isFreeBlot() {
+        return false;
+    }
 }

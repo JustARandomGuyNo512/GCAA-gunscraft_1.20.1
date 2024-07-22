@@ -3,14 +3,17 @@ package sheridan.gcaa.client.render;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.AnimationHandler;
@@ -65,12 +68,15 @@ public class GunRenderer implements IGunRenderer{
                 if (inertialRecoilData != null) {
                     AnimationHandler.INSTANCE.applyInertialRecoil(poseStack, inertialRecoilData);
                 }
-                model.render(new GunRenderContext(bufferIn, poseStack, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry));
+                model.render(new GunRenderContext(bufferIn, poseStack, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry, Clients.lastShootMain() + 10L));
             } else {
-
-                stackIn.mulPose(Axis.ZP.rotationDegrees(180));
-                displayData.applyTransform(type, stackIn);
-                model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry));
+                if (entityIn instanceof Player player) {
+                    stackIn.mulPose(Axis.ZP.rotationDegrees(180));
+                    displayData.applyTransform(type, stackIn);
+                    boolean isLocalPlayer = player == Minecraft.getInstance().player;
+                    long lastShoot = PlayerStatusProvider.getStatus(player).getLastShoot() + (isLocalPlayer ? 10L : 100L);
+                    model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry, lastShoot));
+                }
             }
         }
     }

@@ -2,7 +2,6 @@ package sheridan.gcaa.client.animation.frameAnimation;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -148,7 +147,7 @@ public class KeyframeAnimations {
             }
             Player player = Minecraft.getInstance().player;
             if (player != null) {
-                ModSounds.clientSound(1,1, player, soundName);
+                ModSounds.sound(1,1, player, soundName);
             }
         }
 
