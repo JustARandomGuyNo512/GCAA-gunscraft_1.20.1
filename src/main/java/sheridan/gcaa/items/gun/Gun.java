@@ -130,7 +130,7 @@ public class Gun extends BaseItem implements IGun {
     public void shoot(ItemStack stack, Player player, IGunFireMode fireMode, float spread) {
         int ammoLeft = getAmmoLeft(stack);
         if (ammoLeft > 0) {
-            ICaliber caliber = gunProperties.caliber;
+            Caliber caliber = gunProperties.caliber;
             if (!player.level().isClientSide) {
                 caliber.fireBullet(null, null, this, player, stack, spread);
                 handleFireSound(stack, player);
@@ -152,7 +152,7 @@ public class Gun extends BaseItem implements IGun {
     }
 
     @Override
-    public ICaliber getCaliber() {
+    public Caliber getCaliber() {
         return gunProperties.caliber;
     }
 

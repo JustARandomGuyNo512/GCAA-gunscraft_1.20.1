@@ -6,12 +6,15 @@ import net.minecraft.world.level.Level;
 import sheridan.gcaa.entities.ModEntities;
 import sheridan.gcaa.entities.projectiles.Projectile;
 import sheridan.gcaa.items.ammunitions.IAmmunition;
-import sheridan.gcaa.items.gun.ICaliber;
+import sheridan.gcaa.items.gun.Caliber;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.items.gun.ProjectileData;
 
-public class Caliber9x19mm implements ICaliber {
+public class Caliber9x19mm extends Caliber {
 
-    public static final Caliber9x19mm INSTANCE = new Caliber9x19mm();
+    public Caliber9x19mm(ProjectileData projectileData) {
+        super(projectileData);
+    }
 
     @Override
     public String getName() {
@@ -21,12 +24,7 @@ public class Caliber9x19mm implements ICaliber {
     @Override
     public void fireBullet(IAmmunition ammunition, ItemStack ammunitionStack, IGun gun, Player player, ItemStack gunStack, float spread) {
         Level level = player.level();
-        float damage = (float) (5 * (Math.round((Math.random() - 0.5) * 20) * 0.01 + 1));
-        Projectile projectile = new Projectile(
-                ModEntities.PROJECTILE.get(), level, player,
-                player.getLookAngle(), 3.6f, spread, damage,
-                0, 0, 3 * 16, 0, gun);
-        level.addFreshEntity(projectile);
+        level.addFreshEntity(defaultProjectile(player, level, spread, gun));
     }
 
     @Override
