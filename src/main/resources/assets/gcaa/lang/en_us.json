@@ -8,6 +8,7 @@
 
   "keys.categories.gcaa": "GCAA: key bindings",
   "key.gcaa.open_debug_gun_screen": "show gun debug screen (only debug mode)",
+  "key.gcaa.open_attachments_screen": "show gun attachments screen",
   "key.gcaa.switch_fire_mode": "switch fire mode",
   "key.gcaa.reload": "reload your gun"
 }

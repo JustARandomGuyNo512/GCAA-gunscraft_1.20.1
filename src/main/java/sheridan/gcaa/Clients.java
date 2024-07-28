@@ -88,8 +88,10 @@ public class Clients {
     }
     @OnlyIn(Dist.CLIENT)
     public static boolean isInAds() {
-        return mainHandStatus.ads.get();
+        return mainHandStatus.ads;
     }
+    @OnlyIn(Dist.CLIENT)
+    public static boolean shouldHideFPRender = false;
 
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {
@@ -101,6 +103,7 @@ public class Clients {
                 .setFrame(-2, 0f, 0f, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-2.1f, 0f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.5f, SCALE)
                 .setAds(0,5.6f,-22.5f, POS)
+                .setAttachmentScreen(-0.4f, -0.3f, -3.7f, POS).setAttachmentScreen(0f, 90f, 0, ROT).set(DisplayData.ATTACHMENT_SCREEN, 0.1f, SCALE)
                 .setInertialRecoilData(new InertialRecoilData(0.2f,0.05f,0.4f,0.07f,2.8f,0.1f,0.5f, 0.5f, new Vector3f(0.5f, 0.5f, 0.5f)))
                 .addMuzzleFlash("normal", CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 3.65f, -21f))
         );
@@ -112,6 +115,7 @@ public class Clients {
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
                 .setAds(0,14,-11, POS)
+                .setAttachmentScreen(0, -0.1f, -2.6f, POS).setAttachmentScreen(0f, 90f, 0, ROT).set(DisplayData.ATTACHMENT_SCREEN, 0.03f, SCALE)
                 .setInertialRecoilData(new InertialRecoilData(0.075f, 0.06f, 0.62f, 0.08f, 0.9f,  0.08f, 0.5f, 0.3f, new Vector3f(0.55f, 0.65f, 0.5f)))
                 .addMuzzleFlash("normal", CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 4.9f, -98.6f).setScale(1.8f))
         );
@@ -121,6 +125,7 @@ public class Clients {
     public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, boolean reloading) {
         ClientLevel clientLevel = Minecraft.getInstance().level;
         if (clientLevel != null) {
+            //LightTexture.pack()
             Entity entity = clientLevel.getEntity(id);
             if (entity instanceof Player player) {
                 player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {

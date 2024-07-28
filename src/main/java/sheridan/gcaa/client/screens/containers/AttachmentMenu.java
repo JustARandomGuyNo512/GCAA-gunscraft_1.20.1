@@ -13,7 +13,7 @@ import sheridan.gcaa.items.gun.IGun;
 
 public class AttachmentMenu extends AbstractContainerMenu {
     public Inventory playerInventory;
-    public SimpleContainer suitableAttachmentsShow;
+    //public SimpleContainer suitableAttachmentsShow;
 
     public static class JustLookSlot extends Slot {
 
@@ -25,14 +25,14 @@ public class AttachmentMenu extends AbstractContainerMenu {
     protected AttachmentMenu(@Nullable MenuType<?> menuType, int pContainerId, Inventory playerInventory) {
         super(menuType, pContainerId);
         this.playerInventory = playerInventory;
-//        for (int i = 0; i < 3; i++) {
-//            for(int j = 0; j < 9; ++j) {
-//                this.addSlot(new Slot(playerInventory, (i + 1) * 9 + j, 84 + j * 18, 133 + i * 18));
-//            }
-//        }
-//        for (int i = 0; i < 9; i++) {
-//            this.addSlot(new Slot(playerInventory, i, 84 + i * 18, 191));
-//        }
+        for (int i = 0; i < 3; i++) {
+            for(int j = 0; j < 9; ++j) {
+                this.addSlot(new Slot(playerInventory, (i + 1) * 9 + j, 8 + j * 18, 163 + i * 18));
+            }
+        }
+        for (int i = 0; i < 9; i++) {
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 221));
+        }
 //
 //        suitableAttachmentsShow = new SimpleContainer(12);
 //

@@ -17,12 +17,11 @@ import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.GunRenderer;
-import sheridan.gcaa.client.render.IGunRenderer;
 import sheridan.gcaa.items.gun.IGun;
 
 @Mixin(ItemRenderer.class)
 public class RenderItemMixin {
-    private static final IGunRenderer renderer = new GunRenderer();
+    //private static final IGunRenderer renderer = new GunRenderer();
 
     // all model, ground, gui, other
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
@@ -31,7 +30,7 @@ public class RenderItemMixin {
             if (!leftHand) {
                 IGunModel model = GunModelRegistry.getModel(gun);
                 DisplayData displayData = GunModelRegistry.getDisplayData(gun);
-                renderer.justRenderModel(itemStackIn, transformTypeIn, poseStackIn, bufferIn, combinedLightIn, combinedOverlayIn, gun, model, displayData);
+                GunRenderer.justRenderModel(itemStackIn, transformTypeIn, poseStackIn, bufferIn, combinedLightIn, combinedOverlayIn, gun, model, displayData);
             }
             ci.cancel();
         }
@@ -47,7 +46,7 @@ public class RenderItemMixin {
                 }
                 IGunModel model = GunModelRegistry.getModel(gun);
                 DisplayData displayData = GunModelRegistry.getDisplayData(gun);
-                renderer.renderWithEntity(livingEntityIn, poseStackIn, itemStackIn, transformTypeIn, bufferIn, gun, combinedLightIn, combinedOverlayIn, false, model, displayData);
+                GunRenderer.renderWithEntity(livingEntityIn, poseStackIn, itemStackIn, transformTypeIn, bufferIn, gun, combinedLightIn, combinedOverlayIn, false, model, displayData);
                 ci.cancel();
             }
         }

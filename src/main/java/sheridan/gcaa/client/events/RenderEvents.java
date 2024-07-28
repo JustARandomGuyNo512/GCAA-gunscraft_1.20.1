@@ -2,9 +2,11 @@ package sheridan.gcaa.client.events;
 
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -12,14 +14,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
+import sheridan.gcaa.client.model.guns.IGunModel;
+import sheridan.gcaa.client.model.registry.GunModelRegistry;
+import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.GlobalWeaponBobbing;
+import sheridan.gcaa.client.render.GunRenderer;
 import sheridan.gcaa.client.render.gui.crosshair.CrossHairRenderer;
+import sheridan.gcaa.client.screens.AttachmentsScreen;
+import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 
@@ -48,12 +55,15 @@ public class RenderEvents {
                 if (player != null) {
                     ItemStack stack = player.getMainHandItem();
                     if (stack.getItem() instanceof IGun gun && !gun.isSniper()) {
-                        if (!Clients.mainHandStatus.ads.get()) {
+                        if (!Clients.mainHandStatus.ads && !Clients.shouldHideFPRender) {
                             CrossHairRenderer.INSTANCE.render(0, 16, gun, event.getGuiGraphics(), player, stack, event.getWindow(), event.getPartialTick());
                         }
                         event.setCanceled(true);
                     }
-                    if (Clients.mainHandStatus.ads.get()) {
+                    if (Clients.mainHandStatus.ads) {
+                        event.setCanceled(true);
+                    }
+                    if (Clients.shouldHideFPRender) {
                         event.setCanceled(true);
                     }
                 }
@@ -108,13 +118,33 @@ public class RenderEvents {
         guiGraphics.drawString(font, " / " + magSize, 0.8f * width + font.width(ammoLeft + ""), 0.8f * height, -1,  true);
     }
 
+
+    private static final BufferBuilder GUN_MODEL_BUFFER = new BufferBuilder(1024 * 1024);
     @SubscribeEvent
-    public static void onItemTooltip(ItemTooltipEvent event) {
-//        if (Clients.debugKeyDown) {
-//            if (event.getItemStack().getItem() instanceof IGun) {
-                //System.out.println(event.getToolTip().toString());
-                //System.out.println("===================================");
-           //}
-        //}
+    public static void renderAttachmentScreenModel(RenderLevelStageEvent event) {
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL) {
+            Minecraft minecraft = Minecraft.getInstance();
+            Player player = minecraft.player;
+            if (player != null && (minecraft.screen instanceof AttachmentsScreen || minecraft.screen instanceof GunDebugAdjustScreen)) {
+                if (minecraft.screen instanceof GunDebugAdjustScreen gunDebugAdjustScreen) {
+                    if (!"AttachmentScreen".equals(gunDebugAdjustScreen.getViewModeName())) {
+                        Clients.shouldHideFPRender = false;
+                        return;
+                    }
+                }
+                ItemStack itemStack = player.getMainHandItem();
+                if (itemStack.getItem() instanceof IGun gun) {
+                    Clients.shouldHideFPRender = true;
+                    IGunModel model = GunModelRegistry.getModel(gun);
+                    DisplayData displayData = GunModelRegistry.getDisplayData(gun);
+                    MultiBufferSource.BufferSource bufferSource = MultiBufferSource.immediate(GUN_MODEL_BUFFER);
+                    GunRenderer.renderInAttachmentScreen(itemStack, gun,model, bufferSource, displayData);
+                    bufferSource.endBatch();
+                    GUN_MODEL_BUFFER.clear();
+                    return;
+                }
+            }
+            Clients.shouldHideFPRender = false;
+        }
     }
 }

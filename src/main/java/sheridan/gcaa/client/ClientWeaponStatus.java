@@ -20,7 +20,7 @@ public class ClientWeaponStatus {
     public final AtomicBoolean buttonDown;
     public final AtomicBoolean holdingGun;
     public final AtomicInteger fireDelay;
-    public final AtomicBoolean ads;
+    public boolean ads;
     public final AtomicReference<ItemStack> weapon;
     public float equipProgress;
     public int fireCount = 0;
@@ -39,14 +39,14 @@ public class ClientWeaponStatus {
         this.mainHand = mainHand;
         buttonDown = new AtomicBoolean(false);
         holdingGun = new AtomicBoolean(false);
-        ads = new AtomicBoolean(false);
+        ads = false;
         fireDelay = new AtomicInteger(0);
         weapon = new AtomicReference<>(ItemStack.EMPTY);
         attachmentsStatus = new ClientAttachmentsStatus();
     }
 
     public void handleAds(ItemStack stack, IGun gun, Player player) {
-        if (ads.get()) {
+        if (ads) {
             if (gun != null && !player.swinging) {
                 if (gun.shouldHandleAds(stack)) {
                     lastAdsProgress = adsProgress;
@@ -55,7 +55,7 @@ public class ClientWeaponStatus {
                     exitAds();
                 }
             } else {
-                ads.set(false);
+                ads = false;
             }
         } else {
             if (adsProgress != 0 || lastAdsProgress != 0) {

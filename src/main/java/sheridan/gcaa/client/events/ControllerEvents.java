@@ -17,6 +17,7 @@ import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.network.packets.c2s.OpenAttachmentScreenPacket;
 import sheridan.gcaa.network.packets.c2s.SwitchFireModePacket;
 
 
@@ -39,7 +40,7 @@ public class ControllerEvents {
                         event.setCanceled(true);
                     } else if (event.getButton() == 1) {
                         if (shouldHandleRightClick()) {
-                            Clients.mainHandStatus.ads.set(event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
+                            Clients.mainHandStatus.ads = (event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
                             event.setCanceled(true);
                         }
                     }
@@ -77,6 +78,8 @@ public class ControllerEvents {
                 }
             } else if (KeyBinds.RELOAD.isDown() && event.getAction() == 1) {
                 handleReload(stackMain, player);
+            } else if (KeyBinds.OPEN_ATTACHMENTS_SCREEN.isDown() && event.getAction() == 1) {
+                PacketHandler.simpleChannel.sendToServer(new OpenAttachmentScreenPacket());
             }
             Clients.debugKeyDown = KeyBinds.DEBUG_KEY.isDown();
         }

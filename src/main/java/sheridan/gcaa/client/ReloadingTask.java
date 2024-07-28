@@ -5,6 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.model.guns.IGunModel;
@@ -76,6 +77,7 @@ public class ReloadingTask implements IReloadingTask{
         if (model != null) {
             AnimationHandler.INSTANCE.startReload(ammoLeft == 0 ? model.getFullReload() : model.getReload());
         }
+        Clients.mainHandStatus.ads = false;
     }
 
 }

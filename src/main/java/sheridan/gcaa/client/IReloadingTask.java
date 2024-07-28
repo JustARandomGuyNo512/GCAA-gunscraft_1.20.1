@@ -26,7 +26,7 @@ public interface IReloadingTask {
      * */
     void onCancel();
     /**
-     * called when this task be mix to ReloadingHandler.
+     * called when this task be set to ReloadingHandler.
      * */
     void start();
     /**

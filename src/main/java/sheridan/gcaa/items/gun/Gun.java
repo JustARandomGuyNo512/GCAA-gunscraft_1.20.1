@@ -103,7 +103,7 @@ public class Gun extends BaseItem implements IGun {
         if (player.isCrouching()) {
             spread *= 0.8f;
         }
-        if (Clients.mainHandStatus.ads.get() && Clients.mainHandStatus.adsProgress > 0.7f) {
+        if (Clients.mainHandStatus.ads && Clients.mainHandStatus.adsProgress > 0.7f) {
             spread *= 0.7f;
         }
         Clients.mainHandStatus.spread += spread;

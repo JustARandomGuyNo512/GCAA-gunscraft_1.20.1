@@ -29,9 +29,10 @@ public class DisplayData {
             GROUND = 2,
             FRAME = 3,
             GUI = 4,
-            AIMING = 5;
-    private final float[][] transforms = new float[][] {{0, 0, 0, 0, 0, 0, 1, 1, 1}, {}, {}, {}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}};
-    private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}, {}, {}};
+            AIMING = 5,
+            ATTACHMENT_SCREEN = 6;
+    private final float[][] transforms = new float[][] {{0, 0, 0, 0, 0, 0, 1, 1, 1}, {}, {}, {}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1}};
+    private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}, {}, {}, {}};
     private final Map<String, MuzzleFlashEntry> muzzleFlashMap = new HashMap<>();
     private InertialRecoilData inertialRecoilData;
     public DisplayData() {}
@@ -46,6 +47,9 @@ public class DisplayData {
         }
     }
 
+    public void applyAttachmentScreenTransform(PoseStack poseStack) {
+        applyTransform(transforms[6], emptyMarks[6], poseStack);
+    }
 
     void applyTransformFirstPerson(PoseStack poseStack)  {
         ClientWeaponStatus status = Clients.mainHandStatus;
@@ -110,7 +114,7 @@ public class DisplayData {
     }
 
     public float[] get(int index) {
-        if (index < 0 || index > 5) {
+        if (index < 0 || index > transforms.length - 1) {
             return null;
         }
         return transforms[index];
@@ -123,6 +127,8 @@ public class DisplayData {
                 Arrays.copyOf(transforms[2], transforms[2].length),
                 Arrays.copyOf(transforms[3], transforms[3].length),
                 Arrays.copyOf(transforms[4], transforms[4].length),
+                Arrays.copyOf(transforms[5], transforms[5].length),
+                Arrays.copyOf(transforms[6], transforms[6].length),
         };
     }
 
@@ -186,6 +192,11 @@ public class DisplayData {
 
     public DisplayData setAds(float x, float y, float z, DataType type) {
         checkAndSet(AIMING, x, y, z, type);
+        return this;
+    }
+
+    public DisplayData setAttachmentScreen(float x, float y, float z, DataType type) {
+        checkAndSet(ATTACHMENT_SCREEN, x, y, z, type);
         return this;
     }
 

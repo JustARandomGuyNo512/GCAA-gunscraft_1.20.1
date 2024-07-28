@@ -11,7 +11,7 @@ import sheridan.gcaa.client.screens.containers.AttachmentMenu;
 public class AttachmentMenuProvider implements MenuProvider {
     @Override
     public Component getDisplayName() {
-        return Component.translatable("container.gunscraft.attachments");
+        return Component.translatable("container.gcaa.attachments");
     }
 
     @Nullable

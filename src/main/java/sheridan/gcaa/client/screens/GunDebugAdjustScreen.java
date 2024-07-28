@@ -10,12 +10,14 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.gun.IGun;
 
-
+@OnlyIn(Dist.CLIENT)
 public class GunDebugAdjustScreen extends Screen {
     private boolean originalInit = false;
     private float[][] originalData;
@@ -24,7 +26,7 @@ public class GunDebugAdjustScreen extends Screen {
     private int viewIndex = 0;
     private EditBox editBox;
     private float p;
-    private static String[] viewModeNames = {"FirstPersonMain", "ThirdPersonRight", "Ground","Frame", "GUI", "Aiming"};
+    private static String[] viewModeNames = {"FirstPersonMain", "ThirdPersonRight", "Ground","Frame", "GUI", "Aiming", "AttachmentScreen"};
     public GunDebugAdjustScreen() {
         super(Component.literal("Gun Debug Adjust Screen"));
     }
@@ -98,6 +100,10 @@ public class GunDebugAdjustScreen extends Screen {
                 Math.toDegrees(params[3]) + "," + Math.toDegrees(params[4]) + "," + Math.toDegrees(params[5]) + "   " +
                 params[6] + "," + params[7] + "," + params[8];
         System.out.println(paramsStr);
+    }
+
+    public String getViewModeName() {
+        return viewModeNames[viewIndex];
     }
 
     private void add(int argIndex) {
