@@ -47,8 +47,10 @@ public class DisplayData {
         }
     }
 
-    public void applyAttachmentScreenTransform(PoseStack poseStack) {
-        applyTransform(transforms[6], emptyMarks[6], poseStack);
+    public void applyAttachmentScreenTransform(PoseStack poseStack, float x, float y, float rx, float ry, float scale) {
+        poseStack.translate(transforms[6][0] + x, transforms[6][1] + y, transforms[6][2]);
+        poseStack.mulPose(new Quaternionf().rotateXYZ(transforms[6][3], (float) (transforms[6][4] + Math.toRadians(ry)), (float) (transforms[6][5] + Math.toRadians(rx))));
+        poseStack.scale(transforms[6][6] * scale, transforms[6][7] * scale, transforms[6][8] * scale);
     }
 
     void applyTransformFirstPerson(PoseStack poseStack)  {

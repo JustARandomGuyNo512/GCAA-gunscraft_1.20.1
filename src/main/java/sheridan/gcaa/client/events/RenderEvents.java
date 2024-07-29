@@ -3,6 +3,7 @@ package sheridan.gcaa.client.events;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,6 +17,9 @@ import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.joml.Quaternionf;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
@@ -27,6 +31,7 @@ import sheridan.gcaa.client.render.GunRenderer;
 import sheridan.gcaa.client.render.gui.crosshair.CrossHairRenderer;
 import sheridan.gcaa.client.screens.AttachmentsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
+import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 
@@ -72,6 +77,16 @@ public class RenderEvents {
     }
 
     @SubscribeEvent
+    public static void onRenderInventoryTab(RenderGuiOverlayEvent.Pre event) {
+        if (event.getOverlay().id().equals(VanillaGuiOverlay.HOTBAR.id())) {
+            Minecraft minecraft = Minecraft.getInstance();
+            if (minecraft.screen instanceof AttachmentsScreen) {
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void handleCameraAnimation(ViewportEvent.ComputeCameraAngles event) {
         CameraAnimationHandler.INSTANCE.apply(event);
         CameraAnimationHandler.INSTANCE.clear();
@@ -80,6 +95,9 @@ public class RenderEvents {
     @SubscribeEvent
     public static void renderGunInfo(RenderGuiEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.screen instanceof AttachmentsScreen) {
+            return;
+        }
         Player player = minecraft.player;
         if (player != null) {
             ItemStack stack = player.getMainHandItem();
@@ -120,6 +138,37 @@ public class RenderEvents {
 
 
     private static final BufferBuilder GUN_MODEL_BUFFER = new BufferBuilder(1024 * 1024);
+    private static float x, y, rx, ry, scale = 1;
+    public static void setAttachmentScreenModelPos(float x, float y) {
+        RenderEvents.x = x;
+        RenderEvents.y = y;
+    }
+
+    public static void setAttachmentScreenModelScale(float scale) {
+        RenderEvents.scale = scale;
+    }
+
+    public static void setAttachmentScreenModelRot(float rx, float ry) {
+        RenderEvents.rx = rx;
+        RenderEvents.ry = ry;
+    }
+
+    public static float getAttachmentScreenModelScale() {
+        return scale;
+    }
+
+    public static Vector2f getAttachmentScreenModelPos() {
+        return new Vector2f(x, y);
+    }
+
+    public static Vector2f getAttachmentScreenModelRot() {
+        return new Vector2f(rx, ry);
+    }
+
+    public static void resetAttachmentScreenModelState() {
+        x = y = rx = ry = 0;
+        scale = 1;
+    }
     @SubscribeEvent
     public static void renderAttachmentScreenModel(RenderLevelStageEvent event) {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL) {
@@ -129,6 +178,7 @@ public class RenderEvents {
                 if (minecraft.screen instanceof GunDebugAdjustScreen gunDebugAdjustScreen) {
                     if (!"AttachmentScreen".equals(gunDebugAdjustScreen.getViewModeName())) {
                         Clients.shouldHideFPRender = false;
+                        resetAttachmentScreenModelState();
                         return;
                     }
                 }
@@ -138,13 +188,22 @@ public class RenderEvents {
                     IGunModel model = GunModelRegistry.getModel(gun);
                     DisplayData displayData = GunModelRegistry.getDisplayData(gun);
                     MultiBufferSource.BufferSource bufferSource = MultiBufferSource.immediate(GUN_MODEL_BUFFER);
-                    GunRenderer.renderInAttachmentScreen(itemStack, gun,model, bufferSource, displayData);
+                    PoseStack poseStack = new PoseStack();
+                    //handleAttachmentModelTrans(poseStack);
+                    GunRenderer.renderInAttachmentScreen(poseStack, itemStack, gun, model, bufferSource, displayData, x, y, rx, ry, scale);
                     bufferSource.endBatch();
                     GUN_MODEL_BUFFER.clear();
                     return;
                 }
             }
             Clients.shouldHideFPRender = false;
+            resetAttachmentScreenModelState();
         }
     }
+
+//    private static void handleAttachmentModelTrans(PoseStack poseStack) {
+//        poseStack.translate(x, y, 0);
+//        poseStack.mulPose(new Quaternionf().rotateXYZ((float) Math.toRadians(rx), (float) Math.toRadians(ry), 0));
+//        poseStack.scale(scale, scale, scale);
+//    }
 }
