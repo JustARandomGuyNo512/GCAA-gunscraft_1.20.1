@@ -1,12 +1,13 @@
-### Gunscarft [枪械工艺] Mod - README
+### Guns Craft-Adventurer's Arsenal [枪械工艺：冒险者的武器库] Mod - README
 
 #### 项目简介
-Gunscarft [枪械工艺] 是一个为 Minecraft Forge Java Edition 1.20.1 开发的枪械模组。这是 Gunscarft 系列的续作，旨在为游戏带来更多样化的武器体验。
-
-#### 功能特色
-- **多样化的枪械**：丰富的武器种类供你选择，满足不同战斗需求。
-- **自定义配件**：为你的武器添加配件，提升战斗力。
-- **真实音效与动画**：增强游戏沉浸感。
+Guns Craft-Adventurer's Arsenal [枪械工艺：冒险者的武器库] 是一个为 Minecraft Forge Java Edition 1.20.1 开发的枪械模组。这是 Gunscarft 系列的续作，旨在为游戏带来更多样化的武器体验。
+1. 精致的枪械，配件模型
+2. 多样化配件，弹药系统
+3. 生存模式可用
+4. 全面的动画系统
+5. 外置资源文件配置，高自定义度
+6. 提供对外API，使用GCAA框架搭建更多mod
 
 #### 安装与使用
 1. 克隆或下载本项目的源代码：
@@ -33,26 +34,27 @@ Gunscarft [枪械工艺] 是一个为 Minecraft Forge Java Edition 1.20.1 开发
 - 以自己的名义发布此项目的源代码或编译后的 jar 文件以及本项目的任何资源。
 - 对作者进行羞辱。
 
-**注意：** 运行任何通过非官方渠道获取的本项目的编译后程序文件由用户自己负责！
+**注意：** 运行任何通过非官方渠道获取的本项目的编译后程序文件后果由用户自己负责！
 
 #### 开发者
-- 作者：Your Name
-- GitHub: [yourusername](https://github.com/yourusername)
+- 作者：sheridan
+- GitHub: [JustARandomGuyNo512](https://github.com/JustARandomGuyNo512)
 
 #### 贡献
 欢迎提交 issue 和 pull request，以帮助我们改进此项目。
 
 ---
 
-### Gunscarft [Firearm Craft] Mod - README
+### Guns Craft-Adventurer's Arsenal [GCAA] Mod - README
 
 #### Project Introduction
-Gunscarft [Firearm Craft] is a firearm mod developed for Minecraft Forge Java Edition 1.20.1. It is the sequel to the Gunscarft series, aiming to bring a more diverse weapon experience to the game.
-
-#### Features
-- **Variety of Firearms**: A wide range of weapons to choose from to meet different combat needs.
-- **Customizable Attachments**: Add attachments to your weapons to enhance combat effectiveness.
-- **Realistic Sounds and Animations**: Enhance game immersion.
+Guns Craft-Adventurer's Arsenal [GCAA] is a firearm mod developed for Minecraft Forge Java Edition 1.20.1. It is the sequel to the Gunscarft series, aiming to bring a more diverse weapon experience to the game.
+1. Exquisite firearms, accessory models
+2. Diversified accessories, ammunition system
+3. Survival mode is available
+4. Comprehensive animation system
+5. External resource file configuration, high customization
+6. Provide external API, use GCAA framework to build more mods
 
 #### Installation and Usage
 1. Clone or download the project's source code:
@@ -82,8 +84,8 @@ Gunscarft [Firearm Craft] is a firearm mod developed for Minecraft Forge Java Ed
 **Note:** Running any compiled program files obtained through unofficial channels is at the user's own risk!
 
 #### Developer
-- Author: Your Name
-- GitHub: [yourusername](https://github.com/yourusername)
+- Author: sheridan
+- GitHub: [JustARandomGuyNo512](https://github.com/JustARandomGuyNo512)
 
 #### Contributions
 Issues and pull requests are welcome to help improve this project.
