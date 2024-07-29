@@ -30,8 +30,8 @@ Guns Craft-Adventurer's Arsenal [枪械工艺：冒险者的武器库] 是一个
 - 与朋友分享构建完成的 mod jar 文件。
 
 **你不能：**
-- 以自己的名义传播此项目的源代码。
-- 以自己的名义发布此项目的源代码或编译后的 jar 文件以及本项目的任何资源。
+- 以任何人的名义传播此项目的源代码。
+- 以任何人的名义发布此项目的源代码或编译后的 jar 文件以及本项目的任何资源。
 - 对作者进行羞辱。
 
 **注意：** 运行任何通过非官方渠道获取的本项目的编译后程序文件后果由用户自己负责！
@@ -77,8 +77,8 @@ Guns Craft-Adventurer's Arsenal [GCAA] is a firearm mod developed for Minecraft 
 - Share the built mod jar file with your friends.
 
 **You may not:**
-- Distribute this project's source code under your own name.
-- Publish this project's source code, compiled jar file, or any resources under your own name.
+- Releasing the project's source code under someone else's name.
+- Publish this project's source code, compiled jar file, or any resources under anyone's name.
 - Insult the author.
 
 **Note:** Running any compiled program files obtained through unofficial channels is at the user's own risk!
