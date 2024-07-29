@@ -11,7 +11,7 @@ Gunscarft [枪械工艺] 是一个为 Minecraft Forge Java Edition 1.20.1 开发
 #### 安装与使用
 1. 克隆或下载本项目的源代码：
    ```bash
-   git clone https://github.com/yourusername/gunscarft.git
+   git clone git@github.com:JustARandomGuyNo512/GCAA-gunscraft_1.20.1.git
    ```
 2. 使用 Gradle 构建项目：
    ```bash
@@ -57,7 +57,7 @@ Gunscarft [Firearm Craft] is a firearm mod developed for Minecraft Forge Java Ed
 #### Installation and Usage
 1. Clone or download the project's source code:
    ```bash
-   git clone https://github.com/yourusername/gunscarft.git
+   git clone git@github.com:JustARandomGuyNo512/GCAA-gunscraft_1.20.1.git
    ```
 2. Build the project using Gradle:
    ```bash
@@ -89,5 +89,3 @@ Gunscarft [Firearm Craft] is a firearm mod developed for Minecraft Forge Java Ed
 Issues and pull requests are welcome to help improve this project.
 
 ---
-
-你可以在 GitHub 仓库的 README.md 文件中包含以上内容。请根据需要替换 "yourusername" 和 "Your Name"。
