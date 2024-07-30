@@ -66,7 +66,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
         if (isRollingModel) {
             modelRY = tempModelRY + (float) (pMouseX - dragStartX);
             modelRX = tempModelRX + (float) (pMouseY - dragStartY);
-            RenderEvents.setAttachmentScreenModelRot(-modelRX, modelRY);
+            RenderEvents.setAttachmentScreenModelRot(-modelRX, -modelRY);
         }
         return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
     }

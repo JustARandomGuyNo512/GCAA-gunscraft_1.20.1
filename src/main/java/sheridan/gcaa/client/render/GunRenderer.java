@@ -10,7 +10,6 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Quaternionf;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;

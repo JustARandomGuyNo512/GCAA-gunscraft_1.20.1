@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
@@ -26,13 +27,13 @@ public class GunDebugAdjustScreen extends Screen {
     private int viewIndex = 0;
     private EditBox editBox;
     private float p;
-    private static String[] viewModeNames = {"FirstPersonMain", "ThirdPersonRight", "Ground","Frame", "GUI", "Aiming", "AttachmentScreen"};
+    private static final String[] viewModeNames = {"FirstPersonMain", "ThirdPersonRight", "Ground","Frame", "GUI", "Aiming", "AttachmentScreen"};
     public GunDebugAdjustScreen() {
         super(Component.literal("Gun Debug Adjust Screen"));
     }
 
     @Override
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         Font font = Minecraft.getInstance().font;
         pGuiGraphics.drawString(font, "Gun Debug Adjust Screen", (this.width - font.width("Gun Debug Adjust Screen")) / 2, 6, 0xFFFFFF);
@@ -49,8 +50,10 @@ public class GunDebugAdjustScreen extends Screen {
         gridlayout.defaultCellSetting().padding(4, 4, 4, 0);
         GridLayout.RowHelper rowHelper = gridlayout.createRowHelper(2);
         rowHelper.addChild(Button.builder(Component.literal("close"), (p_280814_) -> {
-            this.minecraft.setScreen(null);
-            this.minecraft.mouseHandler.grabMouse();
+            if (this.minecraft != null) {
+                this.minecraft.setScreen(null);
+                this.minecraft.mouseHandler.grabMouse();
+            }
         }).width(50).build(), 2, gridlayout.newCellSettings().paddingTop(50));
         editBox = new EditBox(Minecraft.getInstance().font, 50, 150, 100, 20, Component.literal("p"));
         editBox.setValue("0.1");
@@ -60,37 +63,21 @@ public class GunDebugAdjustScreen extends Screen {
     }
 
     private void initBtn(GridLayout.RowHelper rowHelper) {
-        rowHelper.addChild(Button.builder(Component.literal("pos"), (p_280814_) -> {
-            operationIndex = 0;
-        }).width(40).pos(50, 20).build());
-        rowHelper.addChild(Button.builder(Component.literal("rot"), (p_280814_) -> {
-            operationIndex = 1;
-        }).width(40).pos(90, 20).build());
-        rowHelper.addChild(Button.builder(Component.literal("scale"), (p_280814_) -> {
-            operationIndex = 2;
-        }).width(40).pos(130, 20).build());
+        rowHelper.addChild(Button.builder(Component.literal("pos"), (p_280814_) -> operationIndex = 0).width(40).pos(50, 20).build());
+        rowHelper.addChild(Button.builder(Component.literal("rot"), (p_280814_) -> operationIndex = 1).width(40).pos(90, 20).build());
+        rowHelper.addChild(Button.builder(Component.literal("scale"), (p_280814_) -> operationIndex = 2).width(40).pos(130, 20).build());
         rowHelper.addChild(Button.builder(Component.literal("FirstPersonMain"), (p_280814_) -> {
             viewIndex ++;
             viewIndex %= viewModeNames.length;
             p_280814_.setMessage(Component.literal(viewModeNames[viewIndex]));
         }).width(100).pos(300, 20).build());
-        rowHelper.addChild(Button.builder(Component.literal("Bobbing"), (p_280814_) -> {
-            Clients.handleWeaponBobbing = !Clients.handleWeaponBobbing;
-        }).width(50).pos(300, 50).build());
-        rowHelper.addChild(Button.builder(Component.literal("print"), (p_280814_) -> {
-            printToConsole();
-        }).width(100).pos(50, 180).build());
+        rowHelper.addChild(Button.builder(Component.literal("Bobbing"), (p_280814_) -> Clients.handleWeaponBobbing = !Clients.handleWeaponBobbing).width(50).pos(300, 50).build());
+        rowHelper.addChild(Button.builder(Component.literal("print"), (p_280814_) -> printToConsole()).width(100).pos(50, 180).build());
         for (int i = 0; i < 3; i ++) {
             int finalI = i;
-            rowHelper.addChild(Button.builder(Component.literal("p" + i + "+"), (p_280814_) -> {
-                add(finalI);
-            }).width(30).pos(50, 45 + 20 * i).build());
-            rowHelper.addChild(Button.builder(Component.literal("p" + i + "-"), (p_280814_) -> {
-                dec(finalI);
-            }).width(30).pos(90, 45 + 20 * i).build());
-            rowHelper.addChild(Button.builder(Component.literal("reset"), (p_280814_) -> {
-                resetData(finalI);
-            }).width(35).pos(130, 45 + 20 * i).build());
+            rowHelper.addChild(Button.builder(Component.literal("p" + i + "+"), (p_280814_) -> add(finalI)).width(30).pos(50, 45 + 20 * i).build());
+            rowHelper.addChild(Button.builder(Component.literal("p" + i + "-"), (p_280814_) -> dec(finalI)).width(30).pos(90, 45 + 20 * i).build());
+            rowHelper.addChild(Button.builder(Component.literal("reset"), (p_280814_) -> resetData(finalI)).width(35).pos(130, 45 + 20 * i).build());
         }
     }
 
