@@ -38,6 +38,6 @@ public class Burst implements IGunFireMode {
 
     @Override
     public Component getTooltipName() {
-        return Component.translatable("tooltip.gunscraft.burst");
+        return Component.translatable("tooltip.fire_mode.burst");
     }
 }

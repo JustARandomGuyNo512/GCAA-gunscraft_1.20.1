@@ -34,6 +34,6 @@ public class Auto implements IGunFireMode {
 
     @Override
     public Component getTooltipName() {
-        return Component.translatable("tooltip.gunscraft.auto");
+        return Component.translatable("tooltip.fire_mode.auto");
     }
 }

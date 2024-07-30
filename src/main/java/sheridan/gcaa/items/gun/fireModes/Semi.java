@@ -35,6 +35,6 @@ public class Semi implements IGunFireMode {
 
     @Override
     public Component getTooltipName() {
-        return Component.translatable("tooltip.gunscraft.semi");
+        return Component.translatable("tooltip.fire_mode.semi");
     }
 }

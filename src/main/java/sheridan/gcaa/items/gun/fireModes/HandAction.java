@@ -33,6 +33,6 @@ public class HandAction implements IGunFireMode {
 
     @Override
     public Component getTooltipName() {
-        return Component.translatable("tooltip.gunscraft.hand_action");
+        return Component.translatable("tooltip.fire_mode.hand_action");
     }
 }

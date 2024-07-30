@@ -2,9 +2,12 @@
   "item.gcaa.g19": "格洛克 19",
   "item.gcaa.akm": "Akm",
 
-  "tooltip.gunscraft.auto": "全自动",
-  "tooltip.gunscraft.semi": "单发",
-  "tooltip.gunscraft.burst": "连发",
+  "tooltip.fire_mode.auto": "全自动",
+  "tooltip.fire_mode.semi": "单发",
+  "tooltip.fire_mode.burst": "连发",
+
+  "tooltip.btn.reset": "重置模型姿态",
+  "tooltip.btn.drag": "拖动模型",
 
   "keys.categories.gcaa": "GCAA：按键绑定",
   "key.gcaa.open_debug_gun_screen": "打开调试枪械界面（仅debug模式）",

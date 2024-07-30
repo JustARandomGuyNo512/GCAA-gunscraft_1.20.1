@@ -41,6 +41,6 @@ public class Charge implements IGunFireMode {
 
     @Override
     public Component getTooltipName() {
-        return Component.translatable("tooltip.gunscraft.charge");
+        return Component.translatable("tooltip.fire_mode.charge");
     }
 }
