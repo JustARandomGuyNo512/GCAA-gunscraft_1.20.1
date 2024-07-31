@@ -1,8 +1,6 @@
 package sheridan.gcaa.client.screens;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;
@@ -17,8 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.screens.containers.AttachmentMenu;
-
-import java.lang.module.ResolutionException;
 
 @OnlyIn(Dist.CLIENT)
 public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
