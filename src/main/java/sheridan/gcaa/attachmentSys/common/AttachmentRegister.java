@@ -15,7 +15,6 @@ import java.util.Map;
 public class AttachmentRegister {
     private static final Map<String, IAttachment> attachments = new Object2ObjectArrayMap<>();
     private static final Map<IAttachment, ResourceLocation> registryKeys = new Object2ObjectArrayMap<>();
-    @OnlyIn(Dist.CLIENT)
     private static final Map<IGun, AttachmentSlot> attachmentSlots = new Object2ObjectArrayMap<>();
 
     public static void register(Map.Entry<ResourceKey<Item>, Item> entry) {
@@ -33,12 +32,10 @@ public class AttachmentRegister {
         return registryKeys.get(attachment);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static void registerAttachmentSlot(IGun gun, AttachmentSlot slot) {
         attachmentSlots.put(gun, slot);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static AttachmentSlot getAttachmentSlot(IGun gun) {
         return attachmentSlots.getOrDefault(gun, AttachmentSlot.EMPTY);
     }

@@ -9,12 +9,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.attachmentSys.client.AttachmentSlot;
+import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.screens.containers.AttachmentMenu;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
@@ -26,6 +31,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
     private static final ResourceLocation SELECTED_SLOT = new ResourceLocation(GCAA.MODID, "textures/gui/component/selected_slot.png");
     private static final ResourceLocation SUITABLE_SLOT_MARK = new ResourceLocation(GCAA.MODID, "textures/gui/component/suitable_slot_mark.png");
 
+    private AttachmentsGuiContext context;
     private boolean isDraggingModel = false;
     private boolean isRollingModel = false;
     private float modelRX;
@@ -37,12 +43,17 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
     private float tempModelRY;
     private float dragStartX;
     private float dragStartY;
+
     public AttachmentsScreen(AttachmentMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         this.width = 176;
         this.height = 241;
         this.imageWidth = 176;
         this.imageHeight = 241;
+    }
+
+    public AttachmentsGuiContext getContext() {
+        return context;
     }
 
     @Override
@@ -56,9 +67,17 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
         resetBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.reset")));
         rowHelper.addChild(resetBtn);
         ImageButton dragBtn = new ImageButton(this.leftPos + 144, 40, 16, 16, 0, 0, 0, DRAG_BTN, 16, 16,  (btn) -> isDraggingModel = true);
-        resetBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.drag")));
+        dragBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.drag")));
         rowHelper.addChild(dragBtn);
         gridlayout.visitWidgets(this::addRenderableWidget);
+        if (this.minecraft != null && this.minecraft.player != null) {
+            Player player = this.minecraft.player;
+            ItemStack stack = player.getMainHandItem();
+            if (stack.getItem() instanceof IGun gun) {
+                AttachmentSlot slot = AttachmentRegister.getAttachmentSlot(gun);
+                this.context = new AttachmentsGuiContext(slot);
+            }
+        }
     }
 
     @Override
@@ -67,6 +86,9 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
     @Override
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        if (context != null) {
+            context.renderIcons(pGuiGraphics);
+        }
     }
 
     @Override

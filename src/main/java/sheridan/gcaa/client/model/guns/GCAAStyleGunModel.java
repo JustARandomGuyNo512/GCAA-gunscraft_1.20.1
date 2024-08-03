@@ -19,7 +19,6 @@ import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class GCAAStyleGunModel extends HierarchicalModel<Entity> implements IGunModel {
-    public static final String SLOT_PREFIX = "s_";
     public final ModelPart root;
     public final ModelPart gun;
     public final ModelPart left_arm;
@@ -72,7 +71,7 @@ public abstract class GCAAStyleGunModel extends HierarchicalModel<Entity> implem
 
     @Override
     public ModelPart getSlotPart(String name) {
-        return gun.getChild(SLOT_PREFIX + name);
+        return gun.getChild(name);
     }
 
     @Override

@@ -16,6 +16,7 @@ import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.model.guns.IGunModel;
+import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.items.gun.IGun;
 
 import static net.minecraft.world.item.ItemDisplayContext.FIXED;
@@ -24,10 +25,15 @@ import static net.minecraft.world.item.ItemDisplayContext.FIXED;
 public class GunRenderer{
     private static long tempLastFire = 0;
 
-    public static void renderInAttachmentScreen(PoseStack poseStack, ItemStack itemStack, IGun gun, IGunModel model, MultiBufferSource bufferSource, DisplayData displayData, float x, float y, float rx, float ry, float scale) {
+    public static void renderInAttachmentScreen(PoseStack poseStack, ItemStack itemStack, IGun gun, IGunModel model, MultiBufferSource bufferSource, DisplayData displayData, float x, float y, float rx, float ry, float scale, AttachmentsGuiContext context) {
         poseStack.mulPose(Axis.ZP.rotationDegrees(180));
         displayData.applyAttachmentScreenTransform(poseStack, x, y, rx, ry, scale);
+        poseStack.pushPose();
         model.render(new GunRenderContext(bufferSource, poseStack, itemStack, gun, FIXED, 15728880, 655360));
+        poseStack.popPose();
+        if (context != null) {
+            context.updateIconPos(poseStack, model);
+        }
     }
 
     public static void justRenderModel(ItemStack itemStackIn, ItemDisplayContext transformTypeIn, PoseStack poseStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, IGun gun, IGunModel model, DisplayData displayData) {

@@ -18,6 +18,7 @@ import java.util.List;
 
 public class AttachmentsHandler {
     public static final AttachmentsHandler INSTANCE = new AttachmentsHandler();
+    public static final String REJECTED = "rejected", PASSED = "passed";
 
     public void checkAndUpdate(ItemStack itemStack) {
         if (itemStack.getItem() instanceof IGun gun) {
@@ -84,7 +85,6 @@ public class AttachmentsHandler {
         return attachments;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public AttachmentSlot getAttachmentSlots(ItemStack itemStack) {
         if (itemStack.getItem() instanceof IGun gun) {
             AttachmentSlot slot = getAttachmentBaseSlots(gun);

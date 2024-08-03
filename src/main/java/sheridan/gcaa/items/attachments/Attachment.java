@@ -10,8 +10,6 @@ import sheridan.gcaa.items.BaseItem;
 import java.util.Map;
 
 public abstract class Attachment extends BaseItem implements IAttachment, AutoRegister {
-    public static final String REJECTED = "rejected", PASSED = "passed";
-
 
     public Attachment() {
 

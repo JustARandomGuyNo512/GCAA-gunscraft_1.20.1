@@ -10,11 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-@OnlyIn(Dist.CLIENT)
 public class AttachmentSlot {
     public static final AttachmentSlot EMPTY = new AttachmentSlot();
-    public static final String ROOT = "ROOT";
+    public static final String ROOT = "__ROOT__";
+    public static final String NONE = "__NONE__";
     public final String slotName;
+    public final String modelSlotName;
 
     private final Set<String> acceptedAttachments;
     private final Map<String, AttachmentSlot> children = new HashMap<>();
@@ -25,17 +26,25 @@ public class AttachmentSlot {
     /**
      * Create a root slot of an attachment tree.
      **/
-    public AttachmentSlot() {
+    protected AttachmentSlot() {
         root = true;
         slotName = ROOT;
+        modelSlotName = NONE;
         acceptedAttachments = Collections.emptySet();
     }
 
+    public static AttachmentSlot root() {
+        return new AttachmentSlot();
+    }
 
-    public AttachmentSlot(String slotName, Set<String> acceptedAttachments) {
+    public AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments) {
         this.slotName = slotName;
         this.acceptedAttachments = acceptedAttachments;
+        this.modelSlotName = modelSlotName;
+    }
 
+    public AttachmentSlot(String slotName, Set<String> acceptedAttachments) {
+        this(slotName, "s_" + slotName, acceptedAttachments);
     }
 
     /**
@@ -51,6 +60,10 @@ public class AttachmentSlot {
 
     public String getSlotName() {
         return slotName;
+    }
+
+    public String getModelSlotName() {
+        return modelSlotName;
     }
 
     /**
@@ -134,7 +147,7 @@ public class AttachmentSlot {
      * Deep copy this slot and its children.
      * */
     public AttachmentSlot copy() {
-        AttachmentSlot slot = new AttachmentSlot(this.slotName, this.acceptedAttachments);
+        AttachmentSlot slot = new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments);
         if (hasChildren()) {
             for (AttachmentSlot child : children.values()) {
                 slot.addChild(child.copy());
@@ -143,4 +156,7 @@ public class AttachmentSlot {
         return slot;
     }
 
+    public Map<String, AttachmentSlot> getChildren() {
+        return children;
+    }
 }

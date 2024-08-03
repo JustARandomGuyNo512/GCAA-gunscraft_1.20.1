@@ -77,6 +77,7 @@ public class GCAA {
         MinecraftForge.EVENT_BUS.register(CommonEvents.class);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, this::attachCapabilityEvent);
         PacketHandler.register();
+        Commons.onCommonSetUp(event);
     }
 
 

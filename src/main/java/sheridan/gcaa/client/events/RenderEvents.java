@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -29,6 +30,7 @@ import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.GlobalWeaponBobbing;
 import sheridan.gcaa.client.render.GunRenderer;
 import sheridan.gcaa.client.render.gui.crosshair.CrossHairRenderer;
+import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.client.screens.AttachmentsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.attachments.Attachment;
@@ -174,8 +176,9 @@ public class RenderEvents {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL) {
             Minecraft minecraft = Minecraft.getInstance();
             Player player = minecraft.player;
-            if (player != null && (minecraft.screen instanceof AttachmentsScreen || minecraft.screen instanceof GunDebugAdjustScreen)) {
-                if (minecraft.screen instanceof GunDebugAdjustScreen gunDebugAdjustScreen) {
+            Screen screen = minecraft.screen;
+            if (player != null && (screen instanceof AttachmentsScreen || screen instanceof GunDebugAdjustScreen)) {
+                if (screen instanceof GunDebugAdjustScreen gunDebugAdjustScreen) {
                     if (!"AttachmentScreen".equals(gunDebugAdjustScreen.getViewModeName())) {
                         Clients.shouldHideFPRender = false;
                         resetAttachmentScreenModelState();
@@ -190,7 +193,8 @@ public class RenderEvents {
                     MultiBufferSource.BufferSource bufferSource = MultiBufferSource.immediate(GUN_MODEL_BUFFER);
                     PoseStack poseStack = new PoseStack();
                     //handleAttachmentModelTrans(poseStack);
-                    GunRenderer.renderInAttachmentScreen(poseStack, itemStack, gun, model, bufferSource, displayData, x, y, rx, ry, scale);
+                    AttachmentsGuiContext context = screen instanceof AttachmentsScreen ? ((AttachmentsScreen) screen).getContext() : null;
+                    GunRenderer.renderInAttachmentScreen(poseStack, itemStack, gun, model, bufferSource, displayData, x, y, rx, ry, scale, context);
                     bufferSource.endBatch();
                     GUN_MODEL_BUFFER.clear();
                     return;
