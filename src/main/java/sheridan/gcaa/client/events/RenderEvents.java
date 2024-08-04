@@ -202,14 +202,17 @@ public class RenderEvents {
                     PoseStack poseStack = new PoseStack();
                     AttachmentsGuiContext context = screen instanceof AttachmentsScreen ? ((AttachmentsScreen) screen).getContext() : null;
                     GL11.glDepthMask(true);
+
                     int currentFrameBuffer = RenderAndMathUtils.getCurrentFramebuffer();
                     RenderAndMathUtils.copyDepthBuffer(currentFrameBuffer,minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
                     glBindFramebuffer(GL_FRAMEBUFFER, currentFrameBuffer);
                     RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
                     RenderSystem.enableDepthTest();
+
                     GunRenderer.renderInAttachmentScreen(poseStack, itemStack, gun, model, bufferSource, displayData, x, y, rx, ry, scale, context);
                     bufferSource.endBatch();
                     GUN_MODEL_BUFFER.clear();
+
                     RenderAndMathUtils.restoreDepthBuffer(currentFrameBuffer,minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
                     glBindFramebuffer(GL_FRAMEBUFFER, currentFrameBuffer);
                     return;

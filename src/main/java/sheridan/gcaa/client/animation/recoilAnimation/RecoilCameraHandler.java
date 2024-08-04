@@ -52,11 +52,11 @@ public class RecoilCameraHandler {
 
     public void handle() {
         if (player != null && player.getId() == Clients.clientPlayerId && enabled.get()) {
-            player.setXRot(player.getXRot() - pitchSpeed * 0.2f);
             pitchSpeed -= pitchControl;
             yawSpeed = yawSpeed > 0 ? yawSpeed - yawControl : yawSpeed + yawControl;
             pitchSpeed *= Mth.clamp(1 - pitchControl * 5f, 0.8f, 0.9f);
             yawSpeed *= Mth.clamp(1 - yawControl * 5f, 0.8f, 0.9f);
+            player.setXRot(player.getXRot() - pitchSpeed * 0.2f);
             player.setYRot(player.getYRot() + yawSpeed * 0.2f);
             if ((pitchSpeed < 0.25f && Math.abs(yawSpeed) < 0.25f) || pitchSpeed < 0) {
                 clear();

@@ -50,7 +50,8 @@ public class AttachmentsGuiContext {
             if (OUT_SCREEN == pos) {
                 continue;
             }
-            guiGraphics.blit(texture, (int) pos.x - 2, (int) pos.y - 2,  0,0, 4, 4, 4, 4);
+            int scale = entry.getKey() == selected ? 4 : 6;
+            guiGraphics.blit(texture, (int) pos.x - scale / 2, (int) pos.y - scale / 2,  0,0, scale, scale, scale, scale);
         }
     }
 
@@ -97,7 +98,7 @@ public class AttachmentsGuiContext {
     }
 
     public boolean onClick(int mx, int my) {
-        float minDis = 99999f;
+        float minDis = Float.MAX_VALUE;
         boolean hasSelected = false;
         for (Map.Entry<AttachmentSlot, Vector3f> entry : guiPosMap.entrySet()) {
             Vector3f pos = entry.getValue();
@@ -107,7 +108,7 @@ public class AttachmentsGuiContext {
             float dx = (int)(pos.x) - mx;
             float dy = (int)(pos.y) - my;
             float dis = (dx * dx + dy * dy);
-            if (dis < 5) {
+            if (dis < (entry.getKey() == selected ? 10 : 5)) {
                 if (dis < minDis) {
                     minDis = dis;
                     selected = entry.getKey();

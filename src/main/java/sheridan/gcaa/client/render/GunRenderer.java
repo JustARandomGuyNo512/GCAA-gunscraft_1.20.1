@@ -26,13 +26,15 @@ public class GunRenderer{
     private static long tempLastFire = 0;
 
     public static void renderInAttachmentScreen(PoseStack poseStack, ItemStack itemStack, IGun gun, IGunModel model, MultiBufferSource bufferSource, DisplayData displayData, float x, float y, float rx, float ry, float scale, AttachmentsGuiContext context) {
-        poseStack.mulPose(Axis.ZP.rotationDegrees(180));
-        displayData.applyAttachmentScreenTransform(poseStack, x, y, rx, ry, scale);
-        poseStack.pushPose();
-        model.render(new GunRenderContext(bufferSource, poseStack, itemStack, gun, FIXED, 15728880, 655360));
-        poseStack.popPose();
-        if (context != null) {
-            context.updateIconPos(poseStack, model);
+        if (displayData != null) {
+            poseStack.mulPose(Axis.ZP.rotationDegrees(180));
+            displayData.applyAttachmentScreenTransform(poseStack, x, y, rx, ry, scale);
+            poseStack.pushPose();
+            model.render(new GunRenderContext(bufferSource, poseStack, itemStack, gun, FIXED, 15728880, 655360));
+            poseStack.popPose();
+            if (context != null) {
+                context.updateIconPos(poseStack, model);
+            }
         }
     }
 
