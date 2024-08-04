@@ -12,10 +12,10 @@ public class Commons {
 
     public static void onCommonSetUp(final FMLCommonSetupEvent event) {
         AttachmentRegister.registerAttachmentSlot(ModItems.AKM.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot("muzzle", Set.of("")))
+                .addChild(new AttachmentSlot("muzzle", Set.of(""), "default_muzzle"))
                 .addChild(new AttachmentSlot("mag", Set.of("")))
                 .addChild(new AttachmentSlot("grip", Set.of("")))
-                .addChild(new AttachmentSlot("rail_set", Set.of("")))
+                .addChild(new AttachmentSlot("rail_set", Set.of(""), "default_rail_set"))
                 .addChild(new AttachmentSlot("handguard", Set.of("")))
                 .addChild(new AttachmentSlot("stock", Set.of("")))
         );

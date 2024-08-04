@@ -16,6 +16,7 @@ public class AttachmentSlot {
     public static final String NONE = "__NONE__";
     public final String slotName;
     public final String modelSlotName;
+    public String attachmentId;
 
     private final Set<String> acceptedAttachments;
     private final Map<String, AttachmentSlot> children = new HashMap<>();
@@ -30,6 +31,7 @@ public class AttachmentSlot {
         root = true;
         slotName = ROOT;
         modelSlotName = NONE;
+        attachmentId = NONE;
         acceptedAttachments = Collections.emptySet();
     }
 
@@ -37,14 +39,19 @@ public class AttachmentSlot {
         return new AttachmentSlot();
     }
 
-    public AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments) {
+    public AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments, String attachmentId) {
         this.slotName = slotName;
         this.acceptedAttachments = acceptedAttachments;
         this.modelSlotName = modelSlotName;
+        this.attachmentId = attachmentId;
     }
 
     public AttachmentSlot(String slotName, Set<String> acceptedAttachments) {
-        this(slotName, "s_" + slotName, acceptedAttachments);
+        this(slotName, "s_" + slotName, acceptedAttachments, NONE);
+    }
+
+    public AttachmentSlot(String slotName, Set<String> acceptedAttachments, String defaultAttachmentId) {
+        this(slotName, "s_" + slotName, acceptedAttachments, defaultAttachmentId);
     }
 
     /**
@@ -149,13 +156,17 @@ public class AttachmentSlot {
      * Deep copy this slot and its children.
      * */
     public AttachmentSlot copy() {
-        AttachmentSlot slot = new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments);
+        AttachmentSlot slot = new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId);
         if (hasChildren()) {
             for (AttachmentSlot child : children.values()) {
                 slot.addChild(child.copy());
             }
         }
         return slot;
+    }
+
+    public boolean isEmpty() {
+        return NONE.equals(attachmentId);
     }
 
     public Map<String, AttachmentSlot> getChildren() {

@@ -1,6 +1,7 @@
 {
   "item.gcaa.g19": "格洛克 19",
   "item.gcaa.akm": "Akm",
+  "item.gcaa.unknown_attachment": "未知的配件",
 
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",
@@ -8,6 +9,12 @@
 
   "tooltip.btn.reset": "重置模型姿态",
   "tooltip.btn.drag": "拖动模型",
+
+  "tooltip.item.useless": "没什么用，扔了吧",
+  "tooltip.item.unknown_attachment_1": "无法识别此$id对应的配件",
+  "tooltip.item.unknown_attachment_2": "这个配件也许存在于某个addon中，或者曾经存在过",
+  "tooltip.item.unknown_attachment_3": "不要扔掉！每当你拿起这个物品时，系统会尝试查询$id对应的配件并自动为你兑换",
+
 
   "keys.categories.gcaa": "GCAA：按键绑定",
   "key.gcaa.open_debug_gun_screen": "打开调试枪械界面（仅debug模式）",

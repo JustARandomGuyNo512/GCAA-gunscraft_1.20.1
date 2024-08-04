@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.client.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
+import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.screens.containers.AttachmentMenu;
 import sheridan.gcaa.items.gun.IGun;
@@ -74,8 +75,8 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
         if (this.minecraft != null && this.minecraft.player != null) {
             Player player = this.minecraft.player;
             ItemStack stack = player.getMainHandItem();
-            if (stack.getItem() instanceof IGun gun) {
-                AttachmentSlot slot = AttachmentRegister.getAttachmentSlot(gun);
+            if (stack.getItem() instanceof IGun) {
+                AttachmentSlot slot = AttachmentsHandler.INSTANCE.getAttachmentSlots(stack);
                 this.context = new AttachmentsGuiContext(slot);
             }
         }
@@ -89,7 +90,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
             ItemStack stack = player.getMainHandItem();
             if (stack.getItem() instanceof IGun gun) {
                 if (gun != this.gun) {
-                    AttachmentSlot slot = AttachmentRegister.getAttachmentSlot(gun);
+                    AttachmentSlot slot = AttachmentsHandler.INSTANCE.getAttachmentSlots(stack);
                     this.context = new AttachmentsGuiContext(slot);
                     this.gun = gun;
                 }

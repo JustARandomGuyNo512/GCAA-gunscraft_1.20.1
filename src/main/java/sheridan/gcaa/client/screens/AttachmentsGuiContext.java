@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -17,7 +16,6 @@ import sheridan.gcaa.client.model.guns.IGunModel;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class AttachmentsGuiContext {
@@ -26,7 +24,7 @@ public class AttachmentsGuiContext {
     private static final ResourceLocation EMPTY_SELECTED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/empty_selected.png");
     private static final ResourceLocation OCCUPIED_SELECTED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/occupied_selected.png");
     private static final Vector3f OUT_SCREEN = new Vector3f(-1, -1, -1);
-    private AttachmentSlot attachmentSlot;
+    private final AttachmentSlot attachmentSlot;
     private AttachmentSlot selected;
     private final Map<AttachmentSlot, Vector3f> guiPosMap = new HashMap<>();
 
@@ -51,7 +49,7 @@ public class AttachmentsGuiContext {
             if (OUT_SCREEN == pos) {
                 continue;
             }
-            int scale = entry.getKey() == selected ? 4 : 6;
+            int scale = entry.getKey() == selected ? 6 : 4;
             guiGraphics.blit(texture, (int) pos.x - scale / 2, (int) pos.y - scale / 2,  0,0, scale, scale, scale, scale);
         }
     }
@@ -95,7 +93,9 @@ public class AttachmentsGuiContext {
     }
 
     private ResourceLocation chooseTexture(AttachmentSlot slot) {
-        return slot == selected ? EMPTY_SELECTED : EMPTY;
+        return slot == selected ?
+                (slot.isEmpty() ? EMPTY_SELECTED : OCCUPIED_SELECTED) :
+                (slot.isEmpty() ? EMPTY : OCCUPIED);
     }
 
     public boolean onClick(int mx, int my) {

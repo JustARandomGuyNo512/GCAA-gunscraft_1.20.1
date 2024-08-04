@@ -13,4 +13,6 @@ public class ModItems {
 
     public static final RegistryObject<G19> G19 = ITEMS.register("g19", G19::new);
     public static final RegistryObject<Akm> AKM = ITEMS.register("akm", Akm::new);
+
+    public static final RegistryObject<UnknownAttachment> UNKNOWN_ATTACHMENT = ITEMS.register("unknown_attachment", UnknownAttachment::new);
 }

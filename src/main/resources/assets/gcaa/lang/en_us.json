@@ -1,6 +1,7 @@
 {
   "item.gcaa.g19": "Glock 19",
   "item.gcaa.akm": "Akm",
+  "item.gcaa.unknown_attachment": "Unknown attachment",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",
@@ -8,6 +9,11 @@
 
   "tooltip.btn.reset": "reset model attitude",
   "tooltip.btn.drag": "drag model",
+
+  "tooltip.item.useless": "It's no use. Why don't you throw it away",
+  "tooltip.item.unknown_attachment_1": "The attachment for this $id could not be recognized",
+  "tooltip.item.unknown_attachment_2": "This attachment may exist in an addon, or may have existed in the past",
+  "tooltip.item.unknown_attachment_3": "Don't throw this away! Whenever you pick up this item, the system will try to check the attachment corresponding to the $id and redeem it for you automatically",
 
   "keys.categories.gcaa": "GCAA: key bindings",
   "key.gcaa.open_debug_gun_screen": "show gun debug screen (only debug mode)",
