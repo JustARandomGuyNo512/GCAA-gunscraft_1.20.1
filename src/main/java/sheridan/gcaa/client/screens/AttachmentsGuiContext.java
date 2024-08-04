@@ -17,6 +17,7 @@ import sheridan.gcaa.client.model.guns.IGunModel;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class AttachmentsGuiContext {
@@ -79,7 +80,7 @@ public class AttachmentsGuiContext {
             Matrix4f m2 = new Matrix4f(matrix4f);
             Vector4f vector4f = m2.transform(new Vector4f(0, 0, 0, 1.0F));
             Vector4f v = vector4f.mul(m0).mul(m1);
-            if (Math.abs((v.x / v.w)) > 1 || Math.abs((v.y / v.w)) > 1) {
+            if (Math.abs((v.x / v.w)) > 1 || Math.abs((v.y / v.w)) > 1 || v.z < 0.05) {
                 guiPosMap.put(slot, OUT_SCREEN);
                 return;
             }

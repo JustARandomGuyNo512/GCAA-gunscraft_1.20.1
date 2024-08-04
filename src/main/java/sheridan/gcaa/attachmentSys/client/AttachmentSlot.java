@@ -21,7 +21,7 @@ public class AttachmentSlot {
     private final Map<String, AttachmentSlot> children = new HashMap<>();
     private boolean root = false;
     private boolean locked = false;
-    private int depth = 0;
+    public int depth = 0;
 
     /**
      * Create a root slot of an attachment tree.
@@ -74,6 +74,7 @@ public class AttachmentSlot {
      * */
     public AttachmentSlot addChild(AttachmentSlot child) {
         if (child != null) {
+            child.depth = this.depth + 1;
             this.children.put(child.getSlotName(), child);
         }
         return this;
@@ -87,6 +88,7 @@ public class AttachmentSlot {
      * */
     public AttachmentSlot addChildren(Set<AttachmentSlot> children) {
         for (AttachmentSlot child : children) {
+            child.depth = this.depth + 1;
             this.children.put(child.getSlotName(), child);
         }
         return this;
