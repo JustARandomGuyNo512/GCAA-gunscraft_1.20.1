@@ -40,6 +40,9 @@ import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
+import sheridan.gcaa.utils.RenderAndMathUtils;
+
+import static org.lwjgl.opengl.GL30C.*;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class RenderEvents {
@@ -143,7 +146,7 @@ public class RenderEvents {
     }
 
 
-    private static final BufferBuilder GUN_MODEL_BUFFER = new BufferBuilder(1024 * 1024);
+    private static final BufferBuilder GUN_MODEL_BUFFER = new BufferBuilder(1024);
     private static float x, y, rx, ry, scale = 1;
     public static void setAttachmentScreenModelPos(float x, float y) {
         RenderEvents.x = x;
@@ -197,14 +200,18 @@ public class RenderEvents {
                     DisplayData displayData = GunModelRegistry.getDisplayData(gun);
                     MultiBufferSource.BufferSource bufferSource = MultiBufferSource.immediate(GUN_MODEL_BUFFER);
                     PoseStack poseStack = new PoseStack();
-                    //RenderSystem.backupProjectionMatrix();
-                    //RenderSystem.setProjectionMatrix(getProjectionMatrix(70), VertexSorting.DISTANCE_TO_ORIGIN);
                     AttachmentsGuiContext context = screen instanceof AttachmentsScreen ? ((AttachmentsScreen) screen).getContext() : null;
+                    GL11.glDepthMask(true);
+                    int currentFrameBuffer = RenderAndMathUtils.getCurrentFramebuffer();
+                    RenderAndMathUtils.copyDepthBuffer(currentFrameBuffer,minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
+                    glBindFramebuffer(GL_FRAMEBUFFER, currentFrameBuffer);
                     RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
+                    RenderSystem.enableDepthTest();
                     GunRenderer.renderInAttachmentScreen(poseStack, itemStack, gun, model, bufferSource, displayData, x, y, rx, ry, scale, context);
                     bufferSource.endBatch();
                     GUN_MODEL_BUFFER.clear();
-                    //RenderSystem.restoreProjectionMatrix();
+                    RenderAndMathUtils.restoreDepthBuffer(currentFrameBuffer,minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
+                    glBindFramebuffer(GL_FRAMEBUFFER, currentFrameBuffer);
                     return;
                 }
             }
@@ -213,15 +220,4 @@ public class RenderEvents {
         }
     }
 
-//    private static Matrix4f getProjectionMatrix(double pFov) {
-//        PoseStack posestack = new PoseStack();
-//        posestack.last().pose().identity();
-//        Minecraft minecraft = Minecraft.getInstance();
-//        posestack.last().pose().mul((new Matrix4f()).setPerspective(
-//                (float)(pFov * (double)((float)Math.PI / 180F)),
-//                (float)minecraft.getWindow().getWidth() / (float)minecraft.getWindow().getHeight(),
-//                0.005F,
-//                minecraft.options.getEffectiveRenderDistance() * 16 * 4));
-//        return posestack.last().pose();
-//    }
 }

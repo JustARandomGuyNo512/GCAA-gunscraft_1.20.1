@@ -2,9 +2,14 @@ package sheridan.gcaa.utils;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.util.Mth;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+
+import static org.lwjgl.opengl.GL11C.glGetIntegerv;
+import static org.lwjgl.opengl.GL30C.*;
 
 public class RenderAndMathUtils {
     public static float sLerp(float progress) {
@@ -20,6 +25,61 @@ public class RenderAndMathUtils {
         return res;
     }
 
+    private static int framebuffer = -1;
+    private static int lastWidth, lastHeight;
+
+    private static void initFramebuffer(int width, int height) {
+        framebuffer = glGenFramebuffers();
+        glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+        int depthBuffer = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, depthBuffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, (java.nio.ByteBuffer) null);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthBuffer, 0);
+        lastWidth = width;
+        lastHeight = height;
+    }
+
+    /**
+     * this method is NOT thread safe.
+     * this method save the source frame-buffer's depth buffer into a unique static internal frame-buffer.
+     * */
+    @OnlyIn(Dist.CLIENT)
+    public static void copyDepthBuffer(int sourceFramebuffer, int width, int height) {
+        if (framebuffer == -1 || width != lastWidth || height != lastHeight) {
+            initFramebuffer(width, height);
+        }
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, sourceFramebuffer);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+    }
+
+    /**
+     * this method is NOT thread safe.
+     * this method copy the internal frame-buffer's depth buffer to the target framebuffer, while the internal frame-buffer was initialized.
+     * */
+    @OnlyIn(Dist.CLIENT)
+    public static void restoreDepthBuffer(int targetFramebuffer, int width, int height) {
+        if (framebuffer == -1) {
+            return;
+        }
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFramebuffer);
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+    }
+
+    /**
+     * get current frame-buffer's id.
+     * */
+    @OnlyIn(Dist.CLIENT)
+    public static int getCurrentFramebuffer() {
+        int[] framebuffer = new int[1];
+        glGetIntegerv(GL_FRAMEBUFFER_BINDING, framebuffer);
+        return framebuffer[0];
+    }
+
+    @OnlyIn(Dist.CLIENT)
     public static void lerpPoseStack(PoseStack from, PoseStack to, PoseStack res, float progress, boolean translation, boolean rotation, boolean scale) {
         if (translation || rotation || scale) {
             Matrix4f fromPose = from.last().pose();
