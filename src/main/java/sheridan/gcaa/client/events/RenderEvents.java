@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexSorting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,11 +17,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.lwjgl.opengl.GL11;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
@@ -171,7 +175,8 @@ public class RenderEvents {
         x = y = rx = ry = 0;
         scale = 1;
     }
-    @SubscribeEvent
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void renderAttachmentScreenModel(RenderLevelStageEvent event) {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL) {
             Minecraft minecraft = Minecraft.getInstance();
@@ -192,11 +197,14 @@ public class RenderEvents {
                     DisplayData displayData = GunModelRegistry.getDisplayData(gun);
                     MultiBufferSource.BufferSource bufferSource = MultiBufferSource.immediate(GUN_MODEL_BUFFER);
                     PoseStack poseStack = new PoseStack();
-                    //handleAttachmentModelTrans(poseStack);
+                    //RenderSystem.backupProjectionMatrix();
+                    //RenderSystem.setProjectionMatrix(getProjectionMatrix(70), VertexSorting.DISTANCE_TO_ORIGIN);
                     AttachmentsGuiContext context = screen instanceof AttachmentsScreen ? ((AttachmentsScreen) screen).getContext() : null;
+                    RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
                     GunRenderer.renderInAttachmentScreen(poseStack, itemStack, gun, model, bufferSource, displayData, x, y, rx, ry, scale, context);
                     bufferSource.endBatch();
                     GUN_MODEL_BUFFER.clear();
+                    //RenderSystem.restoreProjectionMatrix();
                     return;
                 }
             }
@@ -205,9 +213,15 @@ public class RenderEvents {
         }
     }
 
-//    private static void handleAttachmentModelTrans(PoseStack poseStack) {
-//        poseStack.translate(x, y, 0);
-//        poseStack.mulPose(new Quaternionf().rotateXYZ((float) Math.toRadians(rx), (float) Math.toRadians(ry), 0));
-//        poseStack.scale(scale, scale, scale);
+//    private static Matrix4f getProjectionMatrix(double pFov) {
+//        PoseStack posestack = new PoseStack();
+//        posestack.last().pose().identity();
+//        Minecraft minecraft = Minecraft.getInstance();
+//        posestack.last().pose().mul((new Matrix4f()).setPerspective(
+//                (float)(pFov * (double)((float)Math.PI / 180F)),
+//                (float)minecraft.getWindow().getWidth() / (float)minecraft.getWindow().getHeight(),
+//                0.005F,
+//                minecraft.options.getEffectiveRenderDistance() * 16 * 4));
+//        return posestack.last().pose();
 //    }
 }

@@ -24,7 +24,7 @@ public class AttachmentsGuiContext {
     private static final ResourceLocation OCCUPIED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/occupied.png");
     private static final ResourceLocation EMPTY_SELECTED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/empty_selected.png");
     private static final ResourceLocation OCCUPIED_SELECTED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/occupied_selected.png");
-    // public static final float Z_FACTOR = 5f;
+    private static final Vector3f OUT_SCREEN = new Vector3f(-1, -1, -1);
     private AttachmentSlot attachmentSlot;
     private AttachmentSlot selected;
     private final Map<AttachmentSlot, Vector3f> guiPosMap = new HashMap<>();
@@ -47,7 +47,10 @@ public class AttachmentsGuiContext {
         for (Map.Entry<AttachmentSlot, Vector3f> entry : guiPosMap.entrySet()) {
             ResourceLocation texture = chooseTexture(entry.getKey());
             Vector3f pos = entry.getValue();
-            guiGraphics.blit(texture, (int) pos.x, (int) pos.y,  0,0, 4, 4, 4, 4);
+            if (OUT_SCREEN == pos) {
+                continue;
+            }
+            guiGraphics.blit(texture, (int) pos.x - 2, (int) pos.y - 2,  0,0, 4, 4, 4, 4);
         }
     }
 
@@ -59,8 +62,10 @@ public class AttachmentsGuiContext {
         Map<String, AttachmentSlot> children = slot.getChildren();
         for (Map.Entry<String, AttachmentSlot> entry : children.entrySet()) {
             poseStack.pushPose();
-            gunModel.handleSlotTranslate(poseStack, entry.getValue().getModelSlotName());
-            updateScreenPosWhenRender(poseStack.last().pose(), entry.getValue());
+            try {
+                gunModel.handleSlotTranslate(poseStack, entry.getValue().getModelSlotName());
+                updateScreenPosWhenRender(poseStack.last().pose(), entry.getValue());
+            } catch (Exception ignored) {}
             poseStack.popPose();
         }
     }
@@ -73,6 +78,10 @@ public class AttachmentsGuiContext {
             Matrix4f m2 = new Matrix4f(matrix4f);
             Vector4f vector4f = m2.transform(new Vector4f(0, 0, 0, 1.0F));
             Vector4f v = vector4f.mul(m0).mul(m1);
+            if (Math.abs((v.x / v.w)) > 1 || Math.abs((v.y / v.w)) > 1) {
+                guiPosMap.put(slot, OUT_SCREEN);
+                return;
+            }
             float w = Minecraft.getInstance().getWindow().getGuiScaledWidth();
             float h = Minecraft.getInstance().getWindow().getGuiScaledHeight();
             float screenX = ((v.x / v.w) * w + w) * 0.5f;
@@ -87,8 +96,26 @@ public class AttachmentsGuiContext {
         return slot == selected ? EMPTY_SELECTED : EMPTY;
     }
 
-    public void onClick(float mx, float my) {
-
+    public boolean onClick(int mx, int my) {
+        float minDis = 99999f;
+        boolean hasSelected = false;
+        for (Map.Entry<AttachmentSlot, Vector3f> entry : guiPosMap.entrySet()) {
+            Vector3f pos = entry.getValue();
+            if (OUT_SCREEN == pos) {
+                continue;
+            }
+            float dx = (int)(pos.x) - mx;
+            float dy = (int)(pos.y) - my;
+            float dis = (dx * dx + dy * dy);
+            if (dis < 5) {
+                if (dis < minDis) {
+                    minDis = dis;
+                    selected = entry.getKey();
+                    hasSelected = true;
+                }
+            }
+        }
+        return hasSelected;
     }
 
 }

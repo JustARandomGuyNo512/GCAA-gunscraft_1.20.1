@@ -32,6 +32,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
     private static final ResourceLocation SUITABLE_SLOT_MARK = new ResourceLocation(GCAA.MODID, "textures/gui/component/suitable_slot_mark.png");
 
     private AttachmentsGuiContext context;
+    private IGun gun;
     private boolean isDraggingModel = false;
     private boolean isRollingModel = false;
     private float modelRX;
@@ -81,6 +82,26 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
     }
 
     @Override
+    protected void containerTick() {
+        super.containerTick();
+        if (this.minecraft != null && this.minecraft.player != null) {
+            Player player = minecraft.player;
+            ItemStack stack = player.getMainHandItem();
+            if (stack.getItem() instanceof IGun gun) {
+                if (gun != this.gun) {
+                    AttachmentSlot slot = AttachmentRegister.getAttachmentSlot(gun);
+                    this.context = new AttachmentsGuiContext(slot);
+                    this.gun = gun;
+                }
+            } else {
+                onClose();
+            }
+        } else {
+            onClose();
+        }
+    }
+
+    @Override
     protected void renderLabels(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {}
 
     @Override
@@ -102,11 +123,15 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
 
     @Override
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-        if (!isDraggingModel && isMouseInModelArea(pMouseX, pMouseY)) {
-            isRollingModel = true;
+        if (context != null) {
+            if (!context.onClick((int) pMouseX, (int) pMouseY)) {
+                if (!isDraggingModel && isMouseInModelArea(pMouseX, pMouseY)) {
+                    isRollingModel = true;
+                }
+                dragStartX = (float) pMouseX;
+                dragStartY = (float) pMouseY;
+            }
         }
-        dragStartX = (float) pMouseX;
-        dragStartY = (float) pMouseY;
         return super.mouseClicked(pMouseX, pMouseY, pButton);
     }
 
