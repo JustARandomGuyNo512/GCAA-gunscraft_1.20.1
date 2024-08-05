@@ -31,6 +31,7 @@ import sheridan.gcaa.client.screens.AttachmentsScreen;
 import sheridan.gcaa.client.screens.containers.ModContainers;
 import sheridan.gcaa.entities.ModEntities;
 import sheridan.gcaa.events.CommonEvents;
+import sheridan.gcaa.events.TestEvents;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.sounds.ModSounds;
@@ -75,6 +76,7 @@ public class GCAA {
     private void commonSetup(final FMLCommonSetupEvent event) {
         MinecraftForge.EVENT_BUS.register(PlayerStatusEvents.class);
         MinecraftForge.EVENT_BUS.register(CommonEvents.class);
+        MinecraftForge.EVENT_BUS.register(TestEvents.class);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, this::attachCapabilityEvent);
         PacketHandler.register();
         Commons.onCommonSetUp(event);

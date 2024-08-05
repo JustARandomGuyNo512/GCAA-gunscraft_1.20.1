@@ -8,7 +8,6 @@ import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.items.gun.IGun;
 
 public interface IAttachment {
-    public static final String REJECTED = "rejected", PASSED = "passed";
     String canAttach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot);
 
     void onAttach(ItemStack stack, IGun gun, CompoundTag data);

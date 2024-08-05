@@ -6,12 +6,9 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import sheridan.gcaa.Commons;
-import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.ISubSlotActivator;
 import sheridan.gcaa.items.attachments.ISubSlotProvider;
@@ -23,7 +20,7 @@ import java.util.List;
 
 public class AttachmentsHandler {
     public static final AttachmentsHandler INSTANCE = new AttachmentsHandler();
-    static final String REJECTED = IAttachment.REJECTED, PASSED = IAttachment.PASSED;
+    static final String PASSED = Attachment.PASSED;
 
     public void checkAndUpdate(ItemStack itemStack, IGun gun, Player player) {
         CompoundTag properties = gun.getGunProperties().getInitialData();

@@ -11,13 +11,15 @@
   "tooltip.btn.drag": "拖动模型",
 
   "tooltip.item.useless": "没什么用，扔了吧",
-  "tooltip.item.unknown_attachment_1": "无法识别此$id对应的配件",
+  "tooltip.item.unknown_attachment_1": "无法识别此id: $id对应的配件",
   "tooltip.item.unknown_attachment_2": "这个配件也许存在于某个addon中，或者曾经存在过",
-  "tooltip.item.unknown_attachment_3": "不要扔掉！每当你拿起这个物品时，系统会尝试查询$id对应的配件并自动为你兑换",
+  "tooltip.item.unknown_attachment_3": "不要扔掉！每当你拿起这个物品时，系统会尝试查询id: $id对应的配件并自动为你兑换",
 
   "keys.categories.gcaa": "GCAA：按键绑定",
   "key.gcaa.open_debug_gun_screen": "打开调试枪械界面（仅debug模式）",
   "key.gcaa.open_attachments_screen": "打开枪械配件界面",
   "key.gcaa.switch_fire_mode": "切换开火模式",
-  "key.gcaa.reload": "重新装填"
+  "key.gcaa.reload": "重新装填",
+
+  "itemGroup.guns": "枪械"
 }
