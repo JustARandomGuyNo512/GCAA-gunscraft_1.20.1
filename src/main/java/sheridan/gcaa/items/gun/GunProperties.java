@@ -9,29 +9,29 @@ import sheridan.gcaa.Commons;
 import java.util.List;
 
 public class GunProperties{
-    public static final float MIN_WEIGHT = 5f;
-    public static final float MAX_WEIGHT = 40f;
-    public float adsSpeed;
-    public float minSpread;
-    public float maxSpread;
-    public float shootSpread;
-    public float spreadRecover;
-    public float fireSoundVol;
-    public int fireDelay;
-    public int reloadLength;
-    public int fullReloadLength;
-    public int magSize;
-    public float recoilPitch;
-    public float recoilYaw;
-    public float recoilPitchControl;
-    public float recoilYawControl;
-    public float weight;
-    public float walkingSpreadFactor = 1.3f;
-    public float sprintingSpreadFactor = 1.6f;
-    public List<IGunFireMode> fireModes;
-    public RegistryObject<SoundEvent> fireSound;
-    public RegistryObject<SoundEvent> suppressedSound;
-    public Caliber caliber;
+    public final static float MIN_WEIGHT = 5f;
+    public final static float MAX_WEIGHT = 40f;
+    public final float adsSpeed;
+    public final float minSpread;
+    public final float maxSpread;
+    public final float shootSpread;
+    public final float spreadRecover;
+    public final float fireSoundVol;
+    public final int fireDelay;
+    public final int reloadLength;
+    public final int fullReloadLength;
+    public final int magSize;
+    public final float recoilPitch;
+    public final float recoilYaw;
+    public final float recoilPitchControl;
+    public final float recoilYawControl;
+    public final float weight;
+    public final float walkingSpreadFactor = 1.3f;
+    public final float sprintingSpreadFactor = 1.6f;
+    public final List<IGunFireMode> fireModes;
+    public final RegistryObject<SoundEvent> fireSound;
+    public final RegistryObject<SoundEvent> suppressedSound;
+    public final Caliber caliber;
 
     public GunProperties(float adsSpeed, float minSpread, float maxSpread, float shootSpread, float spreadRecover, float fireSoundVol, int fireDelay, int reloadLength, int fullReloadLength,
                          int magSize, float recoilPitch, float recoilYaw, float recoilPitchControl, float recoilYawControl, float weight, List<IGunFireMode> fireModes,
@@ -80,7 +80,6 @@ public class GunProperties{
      * */
     public CompoundTag getInitialData() {
         CompoundTag tag = new CompoundTag();
-        //tag.putLong("date", Commons.SERVER_START_TIME);
         tag.putFloat("ads_speed", adsSpeed);
         tag.putFloat("min_spread", minSpread);
         tag.putFloat("max_spread", maxSpread);

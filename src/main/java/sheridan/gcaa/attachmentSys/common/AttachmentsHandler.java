@@ -150,7 +150,6 @@ public class AttachmentsHandler {
         return AttachmentSlot.EMPTY;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public AttachmentSlot getAttachmentBaseSlots(IGun gun) {
         return AttachmentRegister.getAttachmentSlot(gun).copy();
     }
