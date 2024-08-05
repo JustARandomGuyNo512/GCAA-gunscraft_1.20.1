@@ -12,6 +12,14 @@ import java.util.List;
 public class UnknownAttachment extends NoRepairNoEnchantmentItem{
     public UnknownAttachment() {}
 
+    public static ItemStack get(String id) {
+        CompoundTag tag = new CompoundTag();
+        tag.putString("id", id);
+        ItemStack stack = new ItemStack(ModItems.UNKNOWN_ATTACHMENT.get(), 1);
+        stack.setTag(tag);
+        return stack;
+    }
+
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);

@@ -4,12 +4,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import sheridan.gcaa.Commons;
 import sheridan.gcaa.client.IReloadingTask;
 
 public interface IGun {
     GunProperties getGunProperties();
-    @Deprecated
-    default boolean canHoldInOneHand() {return false;}
     Gun getGun();
     int getAmmoLeft(ItemStack stack);
     void setAmmoLeft(ItemStack stack, int ammoLeft);
@@ -21,7 +20,7 @@ public interface IGun {
     Caliber getCaliber();
     CompoundTag getPropertiesTag(ItemStack stack);
     ListTag getAttachmentsListTag(ItemStack stack);
-    boolean shouldUpdate(int version);
+    void setAttachmentsListTag(ItemStack stack, ListTag list);
     void setPropertiesTag(ItemStack stack, CompoundTag tag);
     void switchFireMode(ItemStack stack);
     int getFireDelay(ItemStack stack);
@@ -43,7 +42,8 @@ public interface IGun {
     void reload(ItemStack stack, Player player);
     int getReloadLength(ItemStack stack, boolean fullReload);
     IReloadingTask getReloadingTask(ItemStack stack);
-    int getInnerVersion(ItemStack stack);
+    long getDate(ItemStack stack);
+    void updateDate(ItemStack stack);
     default int applySprintingPoseDelay() {
         return 1000;
     }
@@ -52,4 +52,7 @@ public interface IGun {
     default boolean isFreeBlot() {
         return false;
     }
+    default void beforeGunDataUpdate(ItemStack stack) {}
+    default void afterGunDataUpdate(ItemStack stack) {}
+    default boolean shouldUpdate(ItemStack stack) { return getDate(stack) != Commons.SERVER_START_TIME;}
 }

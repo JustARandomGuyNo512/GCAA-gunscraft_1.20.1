@@ -1,9 +1,4 @@
-package sheridan.gcaa.attachmentSys.client;
-
-import net.minecraft.nbt.FloatTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+package sheridan.gcaa.attachmentSys;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,13 +11,12 @@ public class AttachmentSlot {
     public static final String NONE = "__NONE__";
     public final String slotName;
     public final String modelSlotName;
-    public String attachmentId;
+    private String attachmentId;
 
     private final Set<String> acceptedAttachments;
     private final Map<String, AttachmentSlot> children = new HashMap<>();
     private boolean root = false;
     private boolean locked = false;
-    public int depth = 0;
 
     /**
      * Create a root slot of an attachment tree.
@@ -39,7 +33,7 @@ public class AttachmentSlot {
         return new AttachmentSlot();
     }
 
-    public AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments, String attachmentId) {
+    protected AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments, String attachmentId) {
         this.slotName = slotName;
         this.acceptedAttachments = acceptedAttachments;
         this.modelSlotName = modelSlotName;
@@ -48,10 +42,6 @@ public class AttachmentSlot {
 
     public AttachmentSlot(String slotName, Set<String> acceptedAttachments) {
         this(slotName, "s_" + slotName, acceptedAttachments, NONE);
-    }
-
-    public AttachmentSlot(String slotName, Set<String> acceptedAttachments, String defaultAttachmentId) {
-        this(slotName, "s_" + slotName, acceptedAttachments, defaultAttachmentId);
     }
 
     /**
@@ -81,7 +71,6 @@ public class AttachmentSlot {
      * */
     public AttachmentSlot addChild(AttachmentSlot child) {
         if (child != null) {
-            child.depth = this.depth + 1;
             this.children.put(child.getSlotName(), child);
         }
         return this;
@@ -95,7 +84,6 @@ public class AttachmentSlot {
      * */
     public AttachmentSlot addChildren(Set<AttachmentSlot> children) {
         for (AttachmentSlot child : children) {
-            child.depth = this.depth + 1;
             this.children.put(child.getSlotName(), child);
         }
         return this;
@@ -139,6 +127,19 @@ public class AttachmentSlot {
         return null;
     }
 
+    public void clean() {
+        this.attachmentId = NONE;
+        if (hasChildren()) {
+            for (AttachmentSlot child : children.values())  {
+                child.clean();
+            }
+        }
+    }
+
+    public void clear() {
+        this.attachmentId = NONE;
+    }
+
     public boolean isLocked() {
         return locked;
     }
@@ -172,4 +173,19 @@ public class AttachmentSlot {
     public Map<String, AttachmentSlot> getChildren() {
         return children;
     }
+
+    public String getAttachmentId() {
+        return attachmentId;
+    }
+
+    public void setAttachmentId(String attachmentId) {
+        if (acceptsAttachment(attachmentId)) {
+            this.attachmentId = attachmentId;
+        }
+    }
+
+    public void setRoot(boolean root) {
+        this.root = root;
+    }
+
 }

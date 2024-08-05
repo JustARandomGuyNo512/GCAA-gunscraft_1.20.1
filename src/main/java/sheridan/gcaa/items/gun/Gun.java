@@ -21,6 +21,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.Commons;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.ReloadingTask;
 import sheridan.gcaa.client.IReloadingTask;
@@ -165,9 +166,14 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     @Override
-    public boolean shouldUpdate(int version) {
-        return version != GCAA.INNER_VERSION;
+    public void setAttachmentsListTag(ItemStack stack, ListTag list) {
+        checkAndGet(stack).put("attachments", list);
     }
+
+//    @Override
+//    public boolean shouldUpdate(int version) {
+//        return version != GCAA.INNER_VERSION;
+//    }
 
     @Override
     public void setPropertiesTag(ItemStack stack, CompoundTag tag) {
@@ -280,6 +286,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         return allow;
     }
 
+
     @Override
     public void reload(ItemStack stack, Player player) {
         //TODO handle reloading features
@@ -297,9 +304,21 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         return new ReloadingTask(stack, this);
     }
 
+//    @Override
+//    public int getInnerVersion(ItemStack stack) {
+//        return checkAndGet(stack).getInt("inner_version");
+//    }
+
     @Override
-    public int getInnerVersion(ItemStack stack) {
-        return checkAndGet(stack).getInt("inner_version");
+    public long getDate(ItemStack stack) {
+        CompoundTag tag = checkAndGet(stack);
+        return tag.getLong("date");
+    }
+
+    @Override
+    public void updateDate(ItemStack stack) {
+        CompoundTag tag = checkAndGet(stack);
+        tag.putLong("date", Commons.SERVER_START_TIME);
     }
 
     protected CompoundTag checkAndGet(ItemStack stack) {
@@ -318,8 +337,8 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         if (nbt == null) {
             nbt = new CompoundTag();
         }
-        if (!nbt.contains("inner_version")) {
-            nbt.putInt("inner_version", genVersion());
+        if (!nbt.contains("date")) {
+            nbt.putLong("date", Commons.SERVER_START_TIME);
         }
         if (!nbt.contains("fire_mode_index")) {
             nbt.putInt("fire_mode_index", 0);

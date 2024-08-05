@@ -11,7 +11,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.attachmentSys.client.AttachmentSlot;
+import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.client.model.guns.IGunModel;
 
 import java.util.HashMap;

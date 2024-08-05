@@ -80,7 +80,7 @@ public class GunProperties{
      * */
     public CompoundTag getInitialData() {
         CompoundTag tag = new CompoundTag();
-        tag.putLong("date", Commons.SERVER_START_TIME);
+        //tag.putLong("date", Commons.SERVER_START_TIME);
         tag.putFloat("ads_speed", adsSpeed);
         tag.putFloat("min_spread", minSpread);
         tag.putFloat("max_spread", maxSpread);

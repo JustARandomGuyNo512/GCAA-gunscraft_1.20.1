@@ -12,11 +12,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import sheridan.gcaa.Commons;
 import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
+import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.items.AutoRegister;
 import sheridan.gcaa.items.NoRepair;
 import sheridan.gcaa.items.UnknownAttachment;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
+
+import java.util.Date;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {
@@ -35,10 +38,11 @@ public class CommonEvents {
         if (event.getEntity() instanceof Player player) {
             ItemStack stack = event.getTo();
             if (stack.getItem() instanceof IGun gun) {
-                gun.getInnerVersion(stack);
-                //gun.getGun().onCraftedBy(stack, null, null);
-                //AttachmentsHandler.INSTANCE.checkAndUpdate(stack);
-
+                if (gun.shouldUpdate(stack)) {
+                    gun.beforeGunDataUpdate(stack);
+                    AttachmentsHandler.INSTANCE.checkAndUpdate(stack, gun, player);
+                    gun.afterGunDataUpdate(stack);
+                }
             }
             if (stack.getItem() instanceof UnknownAttachment) {
                 CompoundTag tag = stack.getTag();
