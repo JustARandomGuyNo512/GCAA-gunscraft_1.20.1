@@ -15,7 +15,7 @@ import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 @OnlyIn(Dist.CLIENT)
-public class G19Model extends GCAAStyleGunModel {
+public class G19Model extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.png");
     private ModelPart body, slide, mag, barrel, bullet;
     private ModelPart slot_grip, slot_scope, slot_mag, slot_muzzle;

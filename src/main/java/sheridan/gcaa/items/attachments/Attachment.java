@@ -2,22 +2,39 @@ package sheridan.gcaa.items.attachments;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import sheridan.gcaa.GCAA;
+import net.minecraft.world.item.ItemStack;
+import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
 import sheridan.gcaa.items.AutoRegister;
-import sheridan.gcaa.items.BaseItem;
+import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
+import sheridan.gcaa.items.gun.IGun;
 
 import java.util.Map;
 
-public abstract class Attachment extends BaseItem implements IAttachment, AutoRegister {
+public abstract class Attachment extends NoRepairNoEnchantmentItem implements IAttachment, AutoRegister {
     public static final String REJECTED = "rejected", PASSED = "passed";
     public Attachment() {
+        super(new Properties().stacksTo(1));
+    }
 
+    @Override
+    public String canAttach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
+        return prevSlot.isEmpty() && prevSlot.acceptsAttachment(AttachmentRegister.getStrKey(this)) ? PASSED : REJECTED;
+    }
+
+    @Override
+    public String canDetach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
+        return PASSED;
     }
 
     @Override
     public void clientRegister(Map.Entry<ResourceKey<Item>, Item> entry) {
         AttachmentRegister.register(entry);
+    }
+
+    @Override
+    public Attachment get() {
+        return this;
     }
 
     @Override

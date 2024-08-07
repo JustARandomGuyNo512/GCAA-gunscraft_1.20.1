@@ -10,12 +10,14 @@ import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.ClientWeaponStatus;
+import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.animation.io.AnimationLoader;
 import sheridan.gcaa.client.model.io.ModelLoader;
 import sheridan.gcaa.client.model.modelPart.LayerDefinition;
 import sheridan.gcaa.client.model.registry.GunModelRegistry;
 import sheridan.gcaa.client.render.DisplayData;
+import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.util.Map;
@@ -60,6 +62,11 @@ public class ArsenalLib {
     public static void registerGunModel(IGun gun, IGunModel model, DisplayData displayData) {
         GunModelRegistry.registerModel(gun, model);
         GunModelRegistry.registerTransform(gun, displayData);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void registerAttachmentModel(IAttachment attachment, IAttachmentModel model) {
+        AttachmentRegister.registerModel(attachment, model);
     }
 
     /**

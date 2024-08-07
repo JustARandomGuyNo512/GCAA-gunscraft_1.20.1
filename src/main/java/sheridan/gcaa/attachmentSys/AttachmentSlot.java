@@ -52,7 +52,7 @@ public class AttachmentSlot {
     }
 
     public boolean acceptsAttachment(String attachmentName) {
-        return acceptedAttachments.contains(attachmentName);
+        return attachmentName != null && acceptedAttachments.contains(attachmentName);
     }
 
     public String getSlotName() {

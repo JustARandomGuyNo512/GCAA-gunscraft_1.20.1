@@ -4,13 +4,31 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraftforge.registries.RegistryObject;
-import sheridan.gcaa.Commons;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GunProperties{
+    public static final String ADS_SPEED = "ads_speed";
+    public static final String MIN_SPREAD = "min_spread";
+    public static final String MAX_SPREAD = "max_spread";
+    public static final String SHOOT_SPREAD = "shoot_spread";
+    public static final String SPREAD_RECOVER = "spread_recover";
+    public static final String RECOIL_PITCH = "recoil_pitch";
+    public static final String RECOIL_YAW = "recoil_yaw";
+    public static final String RECOIL_PITCH_CONTROL = "recoil_pitch_control";
+    public static final String RECOIL_YAW_CONTROL = "recoil_yaw_control";
+    public static final String MUZZLE_FLASH = "muzzle_flash";
+    public static final String WEIGHT = "weight";
+    public static final String WALKING_SPREAD_FACTOR = "walking_spread_factor";
+    public static final String SPRINTING_SPREAD_FACTOR = "sprinting_spread_factor";
+    public static final String FIRE_SOUND_VOL = "fire_sound_vol";
+    public static final Set<String> PROPERTIES;
     public final static float MIN_WEIGHT = 5f;
     public final static float MAX_WEIGHT = 40f;
+
     public final float adsSpeed;
     public final float minSpread;
     public final float maxSpread;
@@ -80,44 +98,69 @@ public class GunProperties{
      * */
     public CompoundTag getInitialData() {
         CompoundTag tag = new CompoundTag();
-        tag.putFloat("ads_speed", adsSpeed);
-        tag.putFloat("min_spread", minSpread);
-        tag.putFloat("max_spread", maxSpread);
-        tag.putFloat("shoot_spread", shootSpread);
-        tag.putFloat("spread_recover", spreadRecover);
+        tag.putFloat("ads_speed", 1.0f);
+        tag.putFloat("min_spread", 1.0f);
+        tag.putFloat("max_spread", 1.0f);
+        tag.putFloat("shoot_spread", 1.0f);
+        tag.putFloat("spread_recover", 1.0f);
         tag.putInt("fire_delay", fireDelay);
         tag.putInt("reload_length", reloadLength);
         tag.putInt("full_reload_length", fullReloadLength);
         tag.putInt("mag_size", magSize);
-        tag.putFloat("recoil_pitch", recoilPitch);
-        tag.putFloat("recoil_yaw", recoilYaw);
-        tag.putFloat("recoil_pitch_control", recoilPitchControl);
-        tag.putFloat("recoil_yaw_control", recoilYawControl);
+        tag.putFloat("recoil_pitch", 1.0f);
+        tag.putFloat("recoil_yaw", 1.0f);
+        tag.putFloat("recoil_pitch_control", 1.0f);
+        tag.putFloat("recoil_yaw_control", 1.0f);
         tag.putString("muzzle_flash", Gun.MUZZLE_STATE_NORMAL);
-        tag.putFloat("weight", weight);
-        tag.putFloat("walking_spread_factor", walkingSpreadFactor);
-        tag.putFloat("sprinting_spread_factor", sprintingSpreadFactor);
-        tag.putFloat("fire_sound_vol", fireSoundVol);
+        tag.putFloat("weight", 1.0f);
+        tag.putFloat("walking_spread_factor", 1.0f);
+        tag.putFloat("sprinting_spread_factor", 1.0f);
+        tag.putFloat("fire_sound_vol", 1.0f);
         return tag;
     }
 
-    public void setRecoilPitch(CompoundTag propertiesTag, float val) {
-        propertiesTag.putFloat("recoil_pitch", val);
+    public void setPropertyRateIfHas(String propertyName, CompoundTag propertiesTag, RateSetter rateSetter) {
+        float prevRate = getPropertyRate(propertyName, propertiesTag);
+        if (prevRate != -1) {
+            propertiesTag.putFloat(propertyName, rateSetter.getRate(prevRate));
+        }
     }
 
-    public void setRecoilYaw(CompoundTag propertiesTag, float val) {
-        propertiesTag.putFloat("recoil_yaw", val);
+    public interface RateSetter {
+        float getRate(float prevRate);
     }
 
-    public void setRecoilPitchControl(CompoundTag propertiesTag, float val) {
-        propertiesTag.putFloat("recoil_pitch_control", val);
+    public float getPropertyRate(String propertyName, CompoundTag propertiesTag) {
+        if (propertiesTag != null && isRateProperty(propertyName)) {
+             return propertiesTag.getFloat(propertyName);
+        }
+        return -1;
     }
 
-    public void setRecoilYawControl(CompoundTag propertiesTag, float val) {
-        propertiesTag.putFloat("recoil_yaw_control", val);
+    public boolean isRateProperty(String propertyName) {
+        return GunProperties.PROPERTIES.contains(propertyName);
     }
 
-    public void setWeight(CompoundTag propertiesTag, float val) {
-        propertiesTag.putFloat("weight", Mth.clamp(val, MIN_WEIGHT, MAX_WEIGHT));
+    public void setMuzzleFlash(CompoundTag propertiesTag, String stateName) {
+        propertiesTag.putString("muzzle_flash", stateName);
+    }
+
+    static {
+        PROPERTIES = Set.of(
+                ADS_SPEED,
+                MIN_SPREAD,
+                MAX_SPREAD,
+                SHOOT_SPREAD,
+                SPREAD_RECOVER,
+                RECOIL_PITCH,
+                RECOIL_YAW,
+                RECOIL_PITCH_CONTROL,
+                RECOIL_YAW_CONTROL,
+                MUZZLE_FLASH,
+                WEIGHT,
+                WALKING_SPREAD_FACTOR,
+                SPRINTING_SPREAD_FACTOR,
+                FIRE_SOUND_VOL
+        );
     }
 }

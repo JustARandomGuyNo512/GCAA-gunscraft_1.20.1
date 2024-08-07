@@ -21,5 +21,6 @@
   "key.gcaa.switch_fire_mode": "切换开火模式",
   "key.gcaa.reload": "重新装填",
 
-  "itemGroup.guns": "枪械"
+  "itemGroup.guns": "枪械",
+  "itemGroup.attachments": "配件"
 }

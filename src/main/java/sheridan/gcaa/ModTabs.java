@@ -11,6 +11,7 @@ import sheridan.gcaa.items.ModItems;
 public class ModTabs {
     public static final DeferredRegister<CreativeModeTab> MOD_TABS;
     public static final RegistryObject<CreativeModeTab> GUNS_TAB;
+    public static final RegistryObject<CreativeModeTab> ATTACHMENTS_TAB;
     static {
         MOD_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, GCAA.MODID);
 
@@ -19,6 +20,12 @@ public class ModTabs {
                 .displayItems((parameters, tab) -> {
                     tab.accept(ModItems.G19.get());
                     tab.accept(ModItems.AKM.get());
+                }).build());
+
+        ATTACHMENTS_TAB = MOD_TABS.register("attachments", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.attachments"))
+                .icon(() ->new ItemStack(ModItems.ASSAULT_RIFLE_SUPPRESSOR.get()))
+                .displayItems((parameters, tab) -> {
+                    tab.accept(ModItems.ASSAULT_RIFLE_SUPPRESSOR.get());
                 }).build());
     }
 

@@ -21,5 +21,6 @@
   "key.gcaa.switch_fire_mode": "switch fire mode",
   "key.gcaa.reload": "reload your gun",
 
-  "itemGroup.guns": "guns"
+  "itemGroup.guns": "guns",
+  "itemGroup.attachments": "attachments"
 }

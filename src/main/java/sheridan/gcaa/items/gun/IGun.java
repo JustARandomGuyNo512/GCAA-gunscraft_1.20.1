@@ -38,12 +38,14 @@ public interface IGun {
     float getWeight(ItemStack stack);
     float getAdsSpeed(ItemStack stack);
     float[] getSpread(ItemStack stack);
+    float getFireSoundVol(ItemStack stack);
     boolean clientReload(ItemStack stack, Player player);
     void reload(ItemStack stack, Player player);
     int getReloadLength(ItemStack stack, boolean fullReload);
     IReloadingTask getReloadingTask(ItemStack stack);
     long getDate(ItemStack stack);
     void updateDate(ItemStack stack);
+
     default int applySprintingPoseDelay() {
         return 1000;
     }

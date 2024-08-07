@@ -112,15 +112,15 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         String muzzleState = getMuzzleFlash(stack);
         if (MUZZLE_STATE_SUPPRESSED.equals(muzzleState)) {
             if (gunProperties.suppressedSound != null) {
-                ModSounds.sound(gunProperties.fireSoundVol, 1f + ((float) Math.random() * 0.1f), player, gunProperties.suppressedSound.get());
+                ModSounds.sound(getFireSoundVol(stack), 1f + ((float) Math.random() * 0.1f), player, gunProperties.suppressedSound.get());
             } else {
                 if (gunProperties.fireSound != null) {
-                    ModSounds.sound(gunProperties.fireSoundVol * 0.4f, 1.6f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
+                    ModSounds.sound(getFireSoundVol(stack), 1.6f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
                 }
             }
         } else {
             if (gunProperties.fireSound != null) {
-                ModSounds.sound(gunProperties.fireSoundVol, 1f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
+                ModSounds.sound(getFireSoundVol(stack), 1f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
             }
         }
     }
@@ -170,11 +170,6 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         checkAndGet(stack).put("attachments", list);
     }
 
-//    @Override
-//    public boolean shouldUpdate(int version) {
-//        return version != GCAA.INNER_VERSION;
-//    }
-
     @Override
     public void setPropertiesTag(ItemStack stack, CompoundTag tag) {
         checkAndGet(stack).put("properties", tag);
@@ -212,49 +207,57 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public float getRecoilPitch(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("recoil_pitch") ? properties.getFloat("recoil_pitch") : 0;
+        return properties.contains("recoil_pitch") ?
+                Math.max(0, properties.getFloat("recoil_pitch") * gunProperties.recoilPitch) : 0;
     }
 
     @Override
     public float getRecoilYaw(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("recoil_yaw") ? properties.getFloat("recoil_yaw") : 0;
+        return properties.contains("recoil_yaw") ?
+                Math.max(0, properties.getFloat("recoil_yaw") * gunProperties.recoilYaw) : 0;
     }
 
     @Override
     public float getRecoilPitchControl(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("recoil_pitch_control") ? properties.getFloat("recoil_pitch_control") : 0;
+        return properties.contains("recoil_pitch_control") ?
+                Math.max(0, properties.getFloat("recoil_pitch_control") * gunProperties.recoilPitchControl) : 0;
     }
 
     @Override
     public float getRecoilYawControl(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("recoil_yaw_control") ? properties.getFloat("recoil_yaw_control") : 0;
+        return properties.contains("recoil_yaw_control") ?
+                Math.max(0, properties.getFloat("recoil_yaw_control") * gunProperties.recoilYawControl) : 0;
     }
 
     @Override
     public float getWalkingSpreadFactor(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("walking_spread_factor") ? properties.getFloat("walking_spread_factor") : 1.3f;
+        return properties.contains("walking_spread_factor") ?
+                Math.max(1, properties.getFloat("walking_spread_factor") * gunProperties.walkingSpreadFactor) : 1.3f;
     }
 
     @Override
     public float getSprintingSpreadFactor(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("sprinting_spread_factor") ? properties.getFloat("sprinting_spread_factor") : 1.6f;
+        return properties.contains("sprinting_spread_factor") ?
+                Math.max(1, properties.getFloat("sprinting_spread_factor") * gunProperties.sprintingSpreadFactor) : 1.6f;
     }
 
     @Override
     public float getShootSpread(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("shoot_spread") ? properties.getFloat("shoot_spread") : 0;
+        return properties.contains("shoot_spread") ?
+                Math.max(0, properties.getFloat("shoot_spread") * gunProperties.shootSpread) : 0;
     }
 
     @Override
     public float getSpreadRecover(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("spread_recover") ? properties.getFloat("spread_recover") : 0.1f;
+        return properties.contains("spread_recover") ?
+                Math.max(0, properties.getFloat("spread_recover") * gunProperties.spreadRecover) : 0.1f;
     }
 
     @Override
@@ -266,15 +269,22 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public float getAdsSpeed(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("ads_speed") ? properties.getFloat("ads_speed") : 0;
+        return properties.contains("ads_speed") ?
+                Math.max(0, properties.getFloat("ads_speed") * gunProperties.adsSpeed) : 0;
     }
 
     @Override
     public float[] getSpread(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        float minSpread = properties.contains("min_spread") ? properties.getFloat("min_spread") : 0;
-        float maxSpread = properties.contains("max_spread") ? properties.getFloat("max_spread") : 0;
+        float minSpread = properties.contains("min_spread") ? Math.max(0, properties.getFloat("min_spread") * gunProperties.minSpread) : 0;
+        float maxSpread = properties.contains("max_spread") ? Math.max(0, properties.getFloat("max_spread") * gunProperties.maxSpread) : 0;
         return new float[] {minSpread, maxSpread};
+    }
+
+    @Override
+    public float getFireSoundVol(ItemStack stack) {
+        return getPropertiesTag(stack).contains("fire_sound_vol") ?
+                Math.max(0, getPropertiesTag(stack).getFloat("fire_sound_vol") * gunProperties.fireSoundVol) : gunProperties.fireSoundVol;
     }
 
     @Override
@@ -286,10 +296,8 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         return allow;
     }
 
-
     @Override
     public void reload(ItemStack stack, Player player) {
-        //TODO handle reloading features
         setAmmoLeft(stack, getMagSize(stack));
     }
 
@@ -304,10 +312,6 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         return new ReloadingTask(stack, this);
     }
 
-//    @Override
-//    public int getInnerVersion(ItemStack stack) {
-//        return checkAndGet(stack).getInt("inner_version");
-//    }
 
     @Override
     public long getDate(ItemStack stack) {
@@ -355,18 +359,11 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         pStack.setTag(nbt);
     }
 
-
     @OnlyIn(Dist.CLIENT)
     @Override
     public @NotNull Object getRenderPropertiesInternal() {
         return ArmPoseHandler.ARM_POSE_HANDLER;
     }
-
-
-    protected int genVersion() {
-        return GCAA.INNER_VERSION;
-    }
-
 
     @OnlyIn(Dist.CLIENT)
     @Override
@@ -397,7 +394,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
-        //tooltip.add(Component.literal("test"));
+
     }
 
     @OnlyIn(Dist.CLIENT)

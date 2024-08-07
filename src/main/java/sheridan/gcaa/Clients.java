@@ -71,6 +71,7 @@ public class Clients {
     }
     @OnlyIn(Dist.CLIENT)
     public static volatile long lastClientTick;
+    @OnlyIn(Dist.CLIENT)
     public static boolean handleWeaponBobbing = true;
     @OnlyIn(Dist.CLIENT)
     public static boolean debugKeyDown = false;
@@ -120,12 +121,12 @@ public class Clients {
                 .addMuzzleFlash("normal", CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 4.9f, -98.6f).setScale(1.8f))
         );
 
+
     }
 
     public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, boolean reloading) {
         ClientLevel clientLevel = Minecraft.getInstance().level;
         if (clientLevel != null) {
-            //LightTexture.pack()
             Entity entity = clientLevel.getEntity(id);
             if (entity instanceof Player player) {
                 player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
@@ -147,6 +148,7 @@ public class Clients {
         return allow;
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static boolean allowAdsStart(ItemStack stack, IGun gun, Player player) {
         return mainHandStatus.equipProgress == 0 && !player.isSwimming() && !ReloadingHandler.isReloading();
     }

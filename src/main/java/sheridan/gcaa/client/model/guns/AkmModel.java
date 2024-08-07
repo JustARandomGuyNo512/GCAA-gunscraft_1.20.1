@@ -16,7 +16,7 @@ import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class AkmModel extends GCAAStyleGunModel {
+public class AkmModel extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm.png");
     private ModelPart
             barrel, rail_set, slide,

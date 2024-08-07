@@ -5,20 +5,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sheridan.gcaa.Clients;
-import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class GCAAStyleGunModel extends HierarchicalModel<Entity> implements IGunModel {
+public abstract class GunModel extends HierarchicalModel<Entity> implements IGunModel {
     public final ModelPart root;
     public final ModelPart gun;
     public final ModelPart left_arm;
@@ -26,7 +23,7 @@ public abstract class GCAAStyleGunModel extends HierarchicalModel<Entity> implem
     public ModelPart camera;
     Map<String, AnimationDefinition> animations;
 
-    public GCAAStyleGunModel(ResourceLocation modelPath, ResourceLocation animationPath) {
+    public GunModel(ResourceLocation modelPath, ResourceLocation animationPath) {
         this.root = ArsenalLib.loadBedRockGunModel(modelPath).bakeRoot().getChild("root");
         camera = this.root.getChild("camera");
         gun = this.root.getChild("gun");
