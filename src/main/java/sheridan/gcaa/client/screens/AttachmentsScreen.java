@@ -102,6 +102,11 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
     }
 
     @Override
+    protected void renderTooltip(GuiGraphics pGuiGraphics, int pX, int pY) {
+        super.renderTooltip(pGuiGraphics, pX, pY);
+    }
+
+    @Override
     protected void renderLabels(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {}
 
     @Override
@@ -110,6 +115,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
         if (context != null) {
             context.renderIcons(pGuiGraphics);
         }
+        renderTooltip(pGuiGraphics, pMouseX, pMouseY);
     }
 
     @Override

@@ -20,7 +20,6 @@ public class GunProperties{
     public static final String RECOIL_YAW = "recoil_yaw";
     public static final String RECOIL_PITCH_CONTROL = "recoil_pitch_control";
     public static final String RECOIL_YAW_CONTROL = "recoil_yaw_control";
-    public static final String MUZZLE_FLASH = "muzzle_flash";
     public static final String WEIGHT = "weight";
     public static final String WALKING_SPREAD_FACTOR = "walking_spread_factor";
     public static final String SPRINTING_SPREAD_FACTOR = "sprinting_spread_factor";
@@ -156,7 +155,6 @@ public class GunProperties{
                 RECOIL_YAW,
                 RECOIL_PITCH_CONTROL,
                 RECOIL_YAW_CONTROL,
-                MUZZLE_FLASH,
                 WEIGHT,
                 WALKING_SPREAD_FACTOR,
                 SPRINTING_SPREAD_FACTOR,

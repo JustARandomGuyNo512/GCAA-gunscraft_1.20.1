@@ -8,7 +8,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -24,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.Commons;
-import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingTask;
 import sheridan.gcaa.client.IReloadingTask;
@@ -38,6 +36,7 @@ import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunFirePacket;
 import sheridan.gcaa.sounds.ModSounds;
+import sheridan.gcaa.utils.FontUtils;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.awt.*;
@@ -410,7 +409,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         String showDetail = Component.translatable("tooltip.gcaa.show_full_gun_info").getString();
         char key = (char) KeyBinds.SHOW_FULL_GUN_INFO.getKey().getValue();
         showDetail = showDetail.replace("$key", key + "");
-        tooltip.add(Component.literal(showDetail).setStyle(Style.EMPTY.withColor(Color.GRAY.getRGB())));
+        tooltip.add(FontUtils.helperTip(Component.literal(showDetail)));
     }
 
     protected void gunDetailInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
