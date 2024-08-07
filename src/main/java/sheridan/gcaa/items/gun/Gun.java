@@ -7,6 +7,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -23,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.Commons;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingTask;
 import sheridan.gcaa.client.IReloadingTask;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
@@ -37,6 +40,7 @@ import sheridan.gcaa.network.packets.c2s.GunFirePacket;
 import sheridan.gcaa.sounds.ModSounds;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
+import java.awt.*;
 import java.util.List;
 
 public class Gun extends NoRepairNoEnchantmentItem implements IGun {
@@ -394,7 +398,23 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
+        if (Clients.displayGunInfoDetails) {
+            gunDetailInfo(stack, levelIn, tooltip, flagIn);
+        } else {
+            gunBaseInfo(stack, levelIn, tooltip, flagIn);
+        }
+    }
 
+    protected void gunBaseInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
+
+        String showDetail = Component.translatable("tooltip.gcaa.show_full_gun_info").getString();
+        char key = (char) KeyBinds.SHOW_FULL_GUN_INFO.getKey().getValue();
+        showDetail = showDetail.replace("$key", key + "");
+        tooltip.add(Component.literal(showDetail).setStyle(Style.EMPTY.withColor(Color.GRAY.getRGB())));
+    }
+
+    protected void gunDetailInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
+        tooltip.add(Component.literal("details..."));
     }
 
     @OnlyIn(Dist.CLIENT)

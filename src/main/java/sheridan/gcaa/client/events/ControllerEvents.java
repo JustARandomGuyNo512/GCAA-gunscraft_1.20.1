@@ -81,6 +81,8 @@ public class ControllerEvents {
             } else if (KeyBinds.OPEN_ATTACHMENTS_SCREEN.isDown() && event.getAction() == 1) {
                 PacketHandler.simpleChannel.sendToServer(new OpenAttachmentScreenPacket());
             }
+            Clients.displayGunInfoDetails =
+                    event.getKey() == KeyBinds.SHOW_FULL_GUN_INFO.getKey().getValue() && event.getAction() == 2;
             Clients.debugKeyDown = KeyBinds.DEBUG_KEY.isDown();
         }
     }

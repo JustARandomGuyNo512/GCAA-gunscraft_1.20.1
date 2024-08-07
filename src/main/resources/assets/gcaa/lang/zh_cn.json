@@ -15,11 +15,32 @@
   "tooltip.item.unknown_attachment_2": "这个配件也许存在于某个addon中，或者曾经存在过",
   "tooltip.item.unknown_attachment_3": "不要扔掉！每当你拿起这个物品时，系统会尝试查询id: $id对应的配件并自动为你兑换",
 
+  "tooltip.gun_info.damage": "伤害：",
+  "tooltip.gun_info.effective_range": "有效射程：",
+  "tooltip.gun_info.info": "初速：",
+  "tooltip.gun_info.caliber": "口径：",
+  "tooltip.gun_info.mag_size": "载弹量：",
+  "tooltip.gun_info.rpm": "载弹量：",
+  "tooltip.gun_info.recoil": "垂直-水平 后座：",
+  "tooltip.gun_info.recoil_control": "垂直-水平 后座控制：",
+  "tooltip.gun_info.spread_factor": "行走-冲刺 散布惩罚：",
+  "tooltip.gun_info.spread": "子弹散布：",
+  "tooltip.gun_info.spread_recover": "子弹散布恢复：",
+  "tooltip.gun_info.weight": "重量：",
+  "tooltip.gun_info.ads_speed": "瞄准速度：",
+  "tooltip.gun_info.fire_sound_vol": "枪声范围：",
+  "tooltip.gun_info.reload_length": "换弹时间：",
+
+  "gcaa.unit.chunk_pre_second": "区块/秒",
+  "gcaa.unit.chunk": "区块",
+
   "keys.categories.gcaa": "GCAA：按键绑定",
   "key.gcaa.open_debug_gun_screen": "打开调试枪械界面（仅debug模式）",
   "key.gcaa.open_attachments_screen": "打开枪械配件界面",
   "key.gcaa.switch_fire_mode": "切换开火模式",
   "key.gcaa.reload": "重新装填",
+  "key.gcaa.key_show_full_gun_info": "显示详细枪械信息",
+  "tooltip.gcaa.show_full_gun_info": "按 $key 显示详细信息",
 
   "itemGroup.guns": "枪械",
   "itemGroup.attachments": "配件"

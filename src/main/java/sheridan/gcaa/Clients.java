@@ -93,6 +93,7 @@ public class Clients {
     }
     @OnlyIn(Dist.CLIENT)
     public static boolean shouldHideFPRender = false;
+    public static boolean displayGunInfoDetails = false;
 
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {

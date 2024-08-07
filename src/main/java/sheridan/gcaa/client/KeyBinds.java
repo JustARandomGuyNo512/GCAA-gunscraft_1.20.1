@@ -11,7 +11,7 @@ public class KeyBinds {
     public static final KeyMapping SWITCH_FIRE_MODE = new KeyMapping("key.gcaa.switch_fire_mode", 86, "keys.categories.gcaa");
     public static final KeyMapping RELOAD = new KeyMapping("key.gcaa.reload", 82, "keys.categories.gcaa");
     public static final KeyMapping OPEN_ATTACHMENTS_SCREEN = new KeyMapping("key.gcaa.open_attachments_screen", 71, "keys.categories.gcaa");
-
+    public static final KeyMapping SHOW_FULL_GUN_INFO = new KeyMapping("key.gcaa.key_show_full_gun_info", 78, "keys.categories.gcaa");
 
     public static final KeyMapping DEBUG_KEY = new KeyMapping("", 74, "");
 
@@ -21,5 +21,6 @@ public class KeyBinds {
         event.register(SWITCH_FIRE_MODE);
         event.register(RELOAD);
         event.register(OPEN_ATTACHMENTS_SCREEN);
+        event.register(SHOW_FULL_GUN_INFO);
     }
 }
