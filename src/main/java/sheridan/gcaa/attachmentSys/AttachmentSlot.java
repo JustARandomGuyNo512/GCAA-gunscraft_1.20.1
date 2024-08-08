@@ -5,10 +5,11 @@ import java.util.*;
 public class AttachmentSlot {
     public static final String ROOT = "__ROOT__";
     public static final String NONE = "__NONE__";
-    public static final AttachmentSlot EMPTY = new AttachmentSlot(NONE, NONE, Set.of(), NONE, null);
+    public static final AttachmentSlot EMPTY = new AttachmentSlot(NONE, NONE, Set.of(), NONE, null, NONE);
     public final String slotName;
     public final String modelSlotName;
     private String attachmentId;
+    private String id;
 
     private final Set<String> acceptedAttachments;
     private final Map<String, AttachmentSlot> children = new HashMap<>();
@@ -24,6 +25,7 @@ public class AttachmentSlot {
         slotName = ROOT;
         modelSlotName = NONE;
         attachmentId = NONE;
+        id = NONE;
         acceptedAttachments = Set.of();
     }
 
@@ -35,16 +37,17 @@ public class AttachmentSlot {
 //        this(slotName, modelSlotName, acceptedAttachments, attachmentId, EMPTY);
 //    }
 
-    protected AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments, String attachmentId, AttachmentSlot parent) {
+    protected AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments, String attachmentId, AttachmentSlot parent, String id) {
         this.slotName = slotName;
         this.acceptedAttachments = new HashSet<>(acceptedAttachments);
         this.modelSlotName = modelSlotName;
         this.attachmentId = attachmentId;
         this.parent = parent;
+        this.id = id;
     }
 
     public AttachmentSlot(String slotName, Set<String> acceptedAttachments) {
-        this(slotName, "s_" + slotName, acceptedAttachments, NONE, EMPTY);
+        this(slotName, "s_" + slotName, acceptedAttachments, NONE, EMPTY, NONE);
     }
 
     /**
@@ -104,6 +107,7 @@ public class AttachmentSlot {
         }
         return this;
     }
+
 
     /**
      * Returns true if this slot has any children.
@@ -182,8 +186,9 @@ public class AttachmentSlot {
 //        return slot;
 //    }
 
+
     protected AttachmentSlot copy() {
-        return new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY);
+        return new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY, this.id);
     }
 
     public static AttachmentSlot deepCopy(AttachmentSlot original) {
@@ -195,7 +200,7 @@ public class AttachmentSlot {
 
         for (Map.Entry<String, AttachmentSlot> entry : original.children.entrySet()) {
             AttachmentSlot childCopy = deepCopy(entry.getValue());
-            childCopy.parent = copiedSlot; // 设置父节点为当前复制的节点
+            childCopy.parent = copiedSlot;
             copiedSlot.children.put(entry.getKey(), childCopy);
         }
 
@@ -212,6 +217,14 @@ public class AttachmentSlot {
 
     public String getAttachmentId() {
         return attachmentId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setAttachmentId(String attachmentId) {

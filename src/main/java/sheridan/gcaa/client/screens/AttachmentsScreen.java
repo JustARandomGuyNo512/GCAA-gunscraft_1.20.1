@@ -32,7 +32,8 @@ import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
-import sheridan.gcaa.network.packets.c2s.SetAttachmentsPacket;
+import sheridan.gcaa.network.packets.c2s.InstallAttachmentsPacket;
+import sheridan.gcaa.network.packets.c2s.UninstallAttachmentPacket;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -96,8 +97,8 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
         ImageButton dragBtn = new ImageButton(this.leftPos + 244, 40, 16, 16, 0, 0, 0, DRAG_BTN, 16, 16,  (btn) -> isDraggingModel = true);
         dragBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.drag")));
         rowHelper.addChild(dragBtn);
-        installBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, INSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> installAttachment());
-        uninstallBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, UNINSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> uninstallAttachment());
+        installBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, INSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> installAttachment(true));
+        uninstallBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, UNINSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> uninstallAttachment(true));
         installBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.install_attachment")));
         uninstallBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.uninstall_attachment")));
         installBtn.enableIf(false);
@@ -115,7 +116,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
         }
     }
 
-    private void installAttachment() {
+    private void installAttachment(boolean sendPacket) {
         if (context != null && selectedSlot != null && hasPlayer()) {
             AttachmentSlot slot = context.getSelected();
             if (slot != null && selectedSlot.getItem().getItem() instanceof IAttachment attachment) {
@@ -123,15 +124,17 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                 if (stack.getItem() instanceof IGun gun) {
                     String attachRes = attachment.canAttach(stack, gun, context.getRoot(), slot);
                     if (Attachment.PASSED.equals(attachRes)) {
-                        String attachmentName = AttachmentsRegister.getStrKey(attachment);
-                        PacketHandler.simpleChannel.sendToServer(new SetAttachmentsPacket(
-                                attachmentName,
-                                slot.slotName,
-                                slot.modelSlotName,
-                                slot.getParent().slotName,
-                                selectedSlot.index
-                        ));
-                        needUpdate = true;
+                        if (sendPacket) {
+                            String attachmentName = AttachmentsRegister.getStrKey(attachment);
+                            PacketHandler.simpleChannel.sendToServer(new InstallAttachmentsPacket(
+                                    attachmentName,
+                                    slot.slotName,
+                                    slot.modelSlotName,
+                                    slot.getParent().slotName,
+                                    selectedSlot.index
+                            ));
+                            needUpdate = true;
+                        }
                     } else {
                         installBtn.setPrevented(true);
                         installBtn.setPreventedTooltip(attachRes);
@@ -141,8 +144,26 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
         }
     }
 
-    private void uninstallAttachment() {
-
+    private void uninstallAttachment(boolean sendPacket) {
+        if (context != null && hasPlayer()) {
+            AttachmentSlot slot = context.getSelected();
+            ItemStack stack = this.minecraft.player.getMainHandItem();
+            if (stack.getItem() instanceof IGun gun && slot != null) {
+                IAttachment attachment = AttachmentsRegister.get(slot.getAttachmentId());
+                if (attachment != null) {
+                    String uninstallRes = attachment.canDetach(stack, gun, context.getRoot(), slot);
+                    if (Attachment.PASSED.equals(uninstallRes)) {
+                        if (sendPacket) {
+                            PacketHandler.simpleChannel.sendToServer(new UninstallAttachmentPacket(slot.getId()));
+                            needUpdate = true;
+                        }
+                    } else {
+                        uninstallBtn.setPrevented(true);
+                        uninstallBtn.setPreventedTooltip(uninstallRes);
+                    }
+                }
+            }
+        }
     }
 
     private boolean hasPlayer() {
@@ -195,6 +216,11 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
         if (slot != null) {
             installBtn.enableIf(slot.isEmpty() && selectedSlot != null);
             uninstallBtn.enableIf(!installBtn.active && !slot.isEmpty());
+            if (installBtn.active) {
+                installAttachment(false);
+            } else if (uninstallBtn.active) {
+                uninstallAttachment(false);
+            }
             return;
         }
         installBtn.enableIf(false);

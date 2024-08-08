@@ -27,8 +27,9 @@ public class PacketHandler
         registerPacket(GunReloadPacket.class, new GunReloadPacket());
         registerPacket(ClientPlayParticlePacket.class, new ClientPlayParticlePacket());
         registerPacket(OpenAttachmentScreenPacket.class, new OpenAttachmentScreenPacket());
-        registerPacket(SetAttachmentsPacket.class, new SetAttachmentsPacket());
+        registerPacket(InstallAttachmentsPacket.class, new InstallAttachmentsPacket());
         registerPacket(UpdateAttachmentScreenGuiContext.class, new UpdateAttachmentScreenGuiContext());
+        registerPacket(UninstallAttachmentPacket.class, new UninstallAttachmentPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

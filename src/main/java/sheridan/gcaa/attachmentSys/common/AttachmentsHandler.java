@@ -16,6 +16,7 @@ import sheridan.gcaa.items.gun.IGun;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class AttachmentsHandler {
@@ -82,6 +83,7 @@ public class AttachmentsHandler {
         tag.putString("model_slot_name", modelSlotName);
         tag.putString("parent_slot", parentSlot);
         tag.putString("slot_name", slotName);
+        tag.putString("uuid", UUID.randomUUID().toString());
         return tag;
     }
 
@@ -92,6 +94,37 @@ public class AttachmentsHandler {
         CompoundTag mark = getMark(attachment, slotName, modelSlotName, parentSlot);
         attachments.add(mark);
         gun.setAttachmentsListTag(stack, attachments);
+    }
+
+    public ItemStack serverUninstallAttachment(ItemStack stack, IGun gun, String uuid) {
+        CompoundTag properties = gun.getPropertiesTag(stack);
+        ListTag attachments = gun.getAttachmentsListTag(stack);
+        ItemStack stackToReturn = null;
+        int index = -1;
+        for (int i = 0; i < attachments.size(); i++) {
+            CompoundTag tag = attachments.getCompound(i);
+            if (tag.contains("uuid") && tag.getString("uuid").equals(uuid))  {
+                String attachmentId = tag.getString("id");
+                IAttachment attachment = AttachmentsRegister.get(attachmentId);
+                if (attachment != null) {
+                    attachment.onDetach(stack, gun, properties);
+                    stackToReturn = new ItemStack(attachment.get());
+                    index = i;
+                } else {
+                    stackToReturn = new ItemStack(ModItems.UNKNOWN_ATTACHMENT.get());
+                    CompoundTag idTag = new CompoundTag();
+                    idTag.putString("id", attachmentId);
+                    stackToReturn.setTag(idTag);
+                }
+                break;
+            }
+        }
+        if (index != -1) {
+            attachments.remove(index);
+            gun.setAttachmentsListTag(stack, attachments);
+            gun.setPropertiesTag(stack, properties);
+        }
+        return stackToReturn;
     }
 
     public List<IAttachment> getAttachments(ItemStack itemStack, IGun gun) {
@@ -129,6 +162,7 @@ public class AttachmentsHandler {
                                 activator.unlockSlots(prevSlot);
                             }
                             prevSlot.setAttachmentId(id);
+                            prevSlot.setId(slotTag.getString("uuid"));
                         } else {
                             prevSlot.clean();
                         }

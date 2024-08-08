@@ -17,16 +17,16 @@ import sheridan.gcaa.network.packets.s2c.UpdateAttachmentScreenGuiContext;
 
 import java.util.function.Supplier;
 
-public class SetAttachmentsPacket implements IPacket<SetAttachmentsPacket> {
+public class InstallAttachmentsPacket implements IPacket<InstallAttachmentsPacket> {
     public String attachmentName;
     public String slotName;
     public String modelSlotName;
     public String parentSlot;
     public int itemSlotIndex;
 
-    public SetAttachmentsPacket() {}
+    public InstallAttachmentsPacket() {}
 
-    public SetAttachmentsPacket(String attachmentName, String slotName, String modelSlotName, String parentSlot, int itemSlotIndex) {
+    public InstallAttachmentsPacket(String attachmentName, String slotName, String modelSlotName, String parentSlot, int itemSlotIndex) {
         this.attachmentName = attachmentName;
         this.slotName = slotName;
         this.modelSlotName = modelSlotName;
@@ -35,7 +35,7 @@ public class SetAttachmentsPacket implements IPacket<SetAttachmentsPacket> {
     }
 
     @Override
-    public void encode(SetAttachmentsPacket message, FriendlyByteBuf buffer) {
+    public void encode(InstallAttachmentsPacket message, FriendlyByteBuf buffer) {
         buffer.writeUtf(message.attachmentName);
         buffer.writeUtf(message.slotName);
         buffer.writeUtf(message.modelSlotName);
@@ -44,8 +44,8 @@ public class SetAttachmentsPacket implements IPacket<SetAttachmentsPacket> {
     }
 
     @Override
-    public SetAttachmentsPacket decode(FriendlyByteBuf buffer) {
-        SetAttachmentsPacket packet = new SetAttachmentsPacket();
+    public InstallAttachmentsPacket decode(FriendlyByteBuf buffer) {
+        InstallAttachmentsPacket packet = new InstallAttachmentsPacket();
         packet.attachmentName = buffer.readUtf();
         packet.slotName = buffer.readUtf();
         packet.modelSlotName = buffer.readUtf();
@@ -55,7 +55,7 @@ public class SetAttachmentsPacket implements IPacket<SetAttachmentsPacket> {
     }
 
     @Override
-    public void handle(SetAttachmentsPacket message, Supplier<NetworkEvent.Context> supplier) {
+    public void handle(InstallAttachmentsPacket message, Supplier<NetworkEvent.Context> supplier) {
         supplier.get().enqueueWork(() -> {
             String attachmentName = message.attachmentName;
             IAttachment attachment = AttachmentsRegister.get(attachmentName);
@@ -64,8 +64,7 @@ public class SetAttachmentsPacket implements IPacket<SetAttachmentsPacket> {
                 if (player != null) {
                     ItemStack heldItem = player.getMainHandItem();
                     if (heldItem.getItem() instanceof IGun gun) {
-                        AttachmentsHandler.INSTANCE.serverSetAttachment(heldItem, gun, attachment,
-                                message.slotName, message.modelSlotName, message.parentSlot);
+                        AttachmentsHandler.INSTANCE.serverSetAttachment(heldItem, gun, attachment, message.slotName, message.modelSlotName, message.parentSlot);
                         ListTag attachments = gun.getAttachmentsListTag(heldItem);
                         if (player.containerMenu instanceof AttachmentsMenu menu) {
                             menu.slots.get(message.itemSlotIndex).set(ItemStack.EMPTY);
