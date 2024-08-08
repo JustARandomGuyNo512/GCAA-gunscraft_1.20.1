@@ -20,11 +20,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
-import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
+import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.screens.componets.OptionalImageButton;
-import sheridan.gcaa.client.screens.containers.AttachmentMenu;
+import sheridan.gcaa.client.screens.containers.AttachmentsMenu;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
-public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
+public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> {
     private static final ResourceLocation INVENTORY_CLEAR = new ResourceLocation(GCAA.MODID, "textures/gui/screen/inventory_clear.png");
     private static final ResourceLocation INVENTORY_SHOW_SUITABLE = new ResourceLocation(GCAA.MODID, "textures/gui/screen/inventory_show_suitable.png");
     private static final ResourceLocation DRAG_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/drag_btn.png");
@@ -45,7 +45,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
     private static final ResourceLocation SUITABLE_SLOT_MARK = new ResourceLocation(GCAA.MODID, "textures/gui/component/suitable_slot_mark.png");
 
     private AttachmentsGuiContext context;
-    private final AttachmentMenu menu;
+    private final AttachmentsMenu menu;
     private OptionalImageButton installBtn;
     private OptionalImageButton uninstallBtn;
     private IGun gun;
@@ -63,7 +63,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
     private float dragStartX;
     private float dragStartY;
 
-    public AttachmentsScreen(AttachmentMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
+    public AttachmentsScreen(AttachmentsMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         this.width = 376;
         this.height = 241;
@@ -170,7 +170,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
             display.clearContent();
             Set<IAttachment> attachments = new HashSet<>();
             for (String key : accepts) {
-                IAttachment attachment = AttachmentRegister.get(key);
+                IAttachment attachment = AttachmentsRegister.get(key);
                 if (attachment != null) {
                     display.addItem(new ItemStack(attachment.get()));
                     attachments.add(attachment);
@@ -179,7 +179,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
             suitableSlots.clear();
             for (int i = 0; i < menu.slots.size(); i++) {
                 Slot slot = menu.getSlot(i);
-                if (!(slot instanceof AttachmentMenu.DisplaySlot) &&
+                if (!(slot instanceof AttachmentsMenu.DisplaySlot) &&
                         slot.getItem().getItem() instanceof IAttachment attachment && attachments.contains(attachment)) {
                     suitableSlots.add(slot);
                 }
@@ -192,7 +192,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
     private void updateDisplay() {
         for (int i = 0; i < menu.slots.size(); i++) {
             Slot slot = menu.getSlot(i);
-            if (slot instanceof AttachmentMenu.DisplaySlot displaySlot) {
+            if (slot instanceof AttachmentsMenu.DisplaySlot displaySlot) {
                 displaySlot.active = displaySlot.hasItem();
             }
         }
@@ -205,7 +205,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
 
     @Override
     protected void slotClicked(@NotNull Slot pSlot, int pSlotId, int pMouseButton, @NotNull ClickType pType) {
-        if (pSlot instanceof AttachmentMenu.DisplaySlot) {
+        if (pSlot instanceof AttachmentsMenu.DisplaySlot) {
             return;
         }
         if (pSlot == selectedSlot) {

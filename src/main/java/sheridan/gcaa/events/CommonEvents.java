@@ -11,15 +11,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import sheridan.gcaa.Commons;
-import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
+import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.items.AutoRegister;
 import sheridan.gcaa.items.NoRepair;
 import sheridan.gcaa.items.UnknownAttachment;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
-
-import java.util.Date;
 
 @Mod.EventBusSubscriber
 public class CommonEvents {
@@ -48,7 +46,7 @@ public class CommonEvents {
                 CompoundTag tag = stack.getTag();
                 if (tag != null && tag.contains("id")) {
                     String id = tag.getString("id");
-                    IAttachment attachment = AttachmentRegister.get(id);
+                    IAttachment attachment = AttachmentsRegister.get(id);
                     if (attachment != null) {
                         ItemStack attachmentStack = new ItemStack(attachment.get(), 1);
                         player.setItemInHand(InteractionHand.MAIN_HAND, attachmentStack);

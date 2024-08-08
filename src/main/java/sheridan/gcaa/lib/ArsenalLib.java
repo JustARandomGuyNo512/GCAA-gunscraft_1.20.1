@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
-import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
+import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
@@ -66,7 +66,7 @@ public class ArsenalLib {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerAttachmentModel(IAttachment attachment, IAttachmentModel model) {
-        AttachmentRegister.registerModel(attachment, model);
+        AttachmentsRegister.registerModel(attachment, model);
     }
 
     /**
@@ -74,7 +74,7 @@ public class ArsenalLib {
      * */
     @OnlyIn(Dist.CLIENT)
     public static void registerGunAttachments(IGun gun, AttachmentSlot slot) {
-        AttachmentRegister.registerAttachmentSlot(gun, slot);
+        AttachmentsRegister.registerAttachmentSlot(gun, slot);
     }
 
     /**

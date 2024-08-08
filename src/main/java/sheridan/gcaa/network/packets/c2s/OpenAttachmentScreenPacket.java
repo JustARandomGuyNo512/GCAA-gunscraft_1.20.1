@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkHooks;
-import sheridan.gcaa.client.screens.containers.providers.AttachmentMenuProvider;
+import sheridan.gcaa.client.screens.containers.providers.AttachmentsMenuProvider;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.IPacket;
 
@@ -29,7 +29,7 @@ public class OpenAttachmentScreenPacket implements IPacket<OpenAttachmentScreenP
             if (player != null) {
                 ItemStack heldItem = player.getMainHandItem();
                 if (heldItem.getItem() instanceof IGun) {
-                    NetworkHooks.openScreen(player, new AttachmentMenuProvider());
+                    NetworkHooks.openScreen(player, new AttachmentsMenuProvider());
                 }
             }
         });

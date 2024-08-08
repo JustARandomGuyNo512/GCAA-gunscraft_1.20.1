@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.items.gun.IGun;
 
-public class AttachmentMenu extends AbstractContainerMenu {
+public class AttachmentsMenu extends AbstractContainerMenu {
     public Inventory playerInventory;
     public SimpleContainer displaySuitableAttachments;
 
@@ -29,7 +29,7 @@ public class AttachmentMenu extends AbstractContainerMenu {
         }
     }
 
-    protected AttachmentMenu(@Nullable MenuType<?> menuType, int pContainerId, Inventory playerInventory) {
+    protected AttachmentsMenu(@Nullable MenuType<?> menuType, int pContainerId, Inventory playerInventory) {
         super(menuType, pContainerId);
         this.playerInventory = playerInventory;
         for (int i = 0; i < 3; i++) {
@@ -50,7 +50,7 @@ public class AttachmentMenu extends AbstractContainerMenu {
         }
 
     }
-    public AttachmentMenu(int i, Inventory inventory) {
+    public AttachmentsMenu(int i, Inventory inventory) {
         this(ModContainers.ATTACHMENTS.get(), i, inventory);
     }
 

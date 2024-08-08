@@ -6,9 +6,9 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.jetbrains.annotations.Nullable;
-import sheridan.gcaa.client.screens.containers.AttachmentMenu;
+import sheridan.gcaa.client.screens.containers.AttachmentsMenu;
 
-public class AttachmentMenuProvider implements MenuProvider {
+public class AttachmentsMenuProvider implements MenuProvider {
     @Override
     public Component getDisplayName() {
         return Component.translatable("container.gcaa.attachments");
@@ -17,6 +17,6 @@ public class AttachmentMenuProvider implements MenuProvider {
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return new AttachmentMenu(pContainerId, pPlayerInventory);
+        return new AttachmentsMenu(pContainerId, pPlayerInventory);
     }
 }

@@ -34,7 +34,7 @@ public class AttachmentsHandler {
                 for (int i = 0; i < attachments.size(); i++) {
                     CompoundTag tag = attachments.getCompound(i);
                     String id = tag.getString("id");
-                    IAttachment attachment = AttachmentRegister.get(id);
+                    IAttachment attachment = AttachmentsRegister.get(id);
                     if (attachment != null) {
                         String slotName = tag.getString("slot_name");
                         AttachmentSlot prevSlot = root.searchChild(slotName);
@@ -79,7 +79,7 @@ public class AttachmentsHandler {
 
     private CompoundTag getMark(IAttachment attachment,String slotName, String modelSlotName, String parentSlot) {
         CompoundTag tag = new CompoundTag();
-        tag.putString("id", AttachmentRegister.getKey(attachment).toString());
+        tag.putString("id", AttachmentsRegister.getKey(attachment).toString());
         tag.putString("model_slot_name", modelSlotName);
         tag.putString("parent_slot", parentSlot);
         tag.putString("slot_name", slotName);
@@ -102,7 +102,7 @@ public class AttachmentsHandler {
             for (int i = 0; i < tag.size(); i ++) {
                 CompoundTag slot = tag.getCompound(i);
                 String id = slot.getString("id");
-                IAttachment attachment = AttachmentRegister.get(id);
+                IAttachment attachment = AttachmentsRegister.get(id);
                 if(attachment != null) {
                     attachments.add(attachment);
                 }
@@ -120,7 +120,7 @@ public class AttachmentsHandler {
                     CompoundTag slotTag = attachmentsTag.getCompound(i);
                     String id = slotTag.getString("id");
                     String slotName = slotTag.getString("slot_name");
-                    IAttachment attachment = AttachmentRegister.get(id);
+                    IAttachment attachment = AttachmentsRegister.get(id);
                     AttachmentSlot prevSlot = slot.searchChild(slotName);
                     if (prevSlot != null) {
                         if (attachment != null) {
@@ -148,6 +148,6 @@ public class AttachmentsHandler {
     }
 
     public AttachmentSlot getAttachmentBaseSlots(IGun gun) {
-        return AttachmentRegister.getAttachmentSlot(gun).copy();
+        return AttachmentsRegister.getAttachmentSlot(gun).copy();
     }
 }

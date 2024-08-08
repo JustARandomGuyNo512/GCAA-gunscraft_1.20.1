@@ -13,7 +13,7 @@ import sheridan.gcaa.items.gun.IGun;
 
 import java.util.Map;
 
-public class AttachmentRegister {
+public class AttachmentsRegister {
     private static final Map<String, IAttachment> attachments = new Object2ObjectArrayMap<>();
     private static final Map<IAttachment, ResourceLocation> registryKeys = new Object2ObjectArrayMap<>();
     private static final Map<IGun, AttachmentSlot> attachmentSlots = new Object2ObjectArrayMap<>();
