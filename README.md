@@ -16,7 +16,7 @@ Guns Craft-Adventurer's Arsenal [枪械工艺：冒险者的武器库] 是一个
    ```
 2. 使用 Gradle 构建项目：
    ```bash
-   cd gunscarft
+   cd GCAA-gunscraft_1.20.1
    ./gradlew build
    ```
 3. 在 `build/libs` 目录中找到生成的 mod jar 文件，并将其放置到 Minecraft 的 `mods` 文件夹中。
@@ -63,7 +63,7 @@ Guns Craft-Adventurer's Arsenal [GCAA] is a firearm mod developed for Minecraft 
    ```
 2. Build the project using Gradle:
    ```bash
-   cd gunscarft
+   cd GCAA-gunscraft_1.20.1
    ./gradlew build
    ```
 3. Find the generated mod jar file in the `build/libs` directory and place it in the `mods` folder of your Minecraft installation.
