@@ -50,7 +50,6 @@ public class AttachmentsHandler {
                             unSupportedAttachments.add(attachment.get());
                         }
                     } else {
-                        //unknown attachment give UNKNOWN_ATTACHMENT item to player.
                         CompoundTag idTag = new CompoundTag();
                         idTag.putString("id", id);
                         ItemStack stack = new ItemStack(ModItems.UNKNOWN_ATTACHMENT.get());
@@ -148,6 +147,6 @@ public class AttachmentsHandler {
     }
 
     public AttachmentSlot getAttachmentBaseSlots(IGun gun) {
-        return AttachmentsRegister.getAttachmentSlot(gun).copy();
+        return AttachmentSlot.deepCopy(AttachmentsRegister.getAttachmentSlot(gun));
     }
 }

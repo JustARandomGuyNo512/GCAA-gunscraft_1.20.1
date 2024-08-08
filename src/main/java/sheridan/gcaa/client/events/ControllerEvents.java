@@ -83,7 +83,8 @@ public class ControllerEvents {
             }
             Clients.displayGunInfoDetails =
                     event.getKey() == KeyBinds.SHOW_FULL_GUN_INFO.getKey().getValue() && event.getAction() == 2;
-            Clients.debugKeyDown = KeyBinds.DEBUG_KEY.isDown();
+            Clients.debugKeyDown =
+                    event.getKey() == KeyBinds.DEBUG_KEY.getKey().getValue() && event.getAction() == 2;
         }
     }
 

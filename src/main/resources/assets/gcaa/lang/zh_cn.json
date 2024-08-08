@@ -38,6 +38,7 @@
   "gcaa.unit.chunk": "区块",
 
   "label.attachments_screen.suitable": "适用的配件↓",
+  "label.attachments_screen.wait_response": "等待服务端的响应",
 
   "keys.categories.gcaa": "GCAA：按键绑定",
   "key.gcaa.open_debug_gun_screen": "打开调试枪械界面（仅debug模式）",

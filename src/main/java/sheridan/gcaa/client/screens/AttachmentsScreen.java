@@ -1,11 +1,14 @@
 package sheridan.gcaa.client.screens;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -25,8 +28,11 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.screens.componets.OptionalImageButton;
 import sheridan.gcaa.client.screens.containers.AttachmentsMenu;
+import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.network.packets.c2s.SetAttachmentsPacket;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -53,6 +59,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
     private Slot selectedSlot;
     private boolean isDraggingModel = false;
     private boolean isRollingModel = false;
+    private boolean needUpdate = false;
     private float modelRX;
     private float modelRY;
     private float modelX;
@@ -90,7 +97,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
         dragBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.drag")));
         rowHelper.addChild(dragBtn);
         installBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, INSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> installAttachment());
-        uninstallBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, INSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> uninstallAttachment());
+        uninstallBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, UNINSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> uninstallAttachment());
         installBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.install_attachment")));
         uninstallBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.uninstall_attachment")));
         installBtn.enableIf(false);
@@ -109,11 +116,42 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
     }
 
     private void installAttachment() {
-
+        if (context != null && selectedSlot != null && hasPlayer()) {
+            AttachmentSlot slot = context.getSelected();
+            if (slot != null && selectedSlot.getItem().getItem() instanceof IAttachment attachment) {
+                ItemStack stack = this.minecraft.player.getMainHandItem();
+                if (stack.getItem() instanceof IGun gun) {
+                    String attachRes = attachment.canAttach(stack, gun, context.getRoot(), slot);
+                    if (Attachment.PASSED.equals(attachRes)) {
+                        String attachmentName = AttachmentsRegister.getStrKey(attachment);
+                        PacketHandler.simpleChannel.sendToServer(new SetAttachmentsPacket(
+                                attachmentName,
+                                slot.slotName,
+                                slot.modelSlotName,
+                                slot.getParent().slotName,
+                                selectedSlot.index
+                        ));
+                        needUpdate = true;
+                    } else {
+                        installBtn.setPrevented(true);
+                        installBtn.setPreventedTooltip(attachRes);
+                    }
+                }
+            }
+        }
     }
 
     private void uninstallAttachment() {
 
+    }
+
+    private boolean hasPlayer() {
+        return this.minecraft != null && this.minecraft.player != null;
+    }
+
+    public void updateGuiContext(ListTag attachmentsTag, IGun gun) {
+        this.context = new AttachmentsGuiContext(AttachmentsHandler.INSTANCE.getAttachmentSlots(attachmentsTag, gun));
+        needUpdate = false;
     }
 
     @Override
@@ -123,24 +161,26 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
             Player player = minecraft.player;
             ItemStack stack = player.getMainHandItem();
             if (stack.getItem() instanceof IGun gun) {
-                if (gun != this.gun) {
-                    AttachmentSlot slot = AttachmentsHandler.INSTANCE.getAttachmentSlots(stack);
-                    this.context = new AttachmentsGuiContext(slot);
-                    this.gun = gun;
-                }
-                if (context != null) {
-                    AttachmentSlot selected = context.getSelected();
-                    if (selected != null) {
-                        updateSuitableSlots(selected);
-                    } else {
-                        menu.displaySuitableAttachments.clearContent();
-                        suitableSlots.clear();
+                if (!needUpdate) {
+                    if (gun != this.gun) {
+                        AttachmentSlot slot = AttachmentsHandler.INSTANCE.getAttachmentSlots(stack);
+                        this.context = new AttachmentsGuiContext(slot);
+                        this.gun = gun;
                     }
-                    updateDisplay();
-                    updateBtn();
-                } else {
-                    installBtn.enableIf(false);
-                    uninstallBtn.enableIf(false);
+                    if (context != null) {
+                        AttachmentSlot selected = context.getSelected();
+                        if (selected != null) {
+                            updateSuitableSlots(selected);
+                        } else {
+                            menu.displaySuitableAttachments.clearContent();
+                            suitableSlots.clear();
+                        }
+                        updateDisplay();
+                        updateBtn();
+                    } else {
+                        installBtn.enableIf(false);
+                        uninstallBtn.enableIf(false);
+                    }
                 }
             } else {
                 onClose();
@@ -165,8 +205,8 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
 
     private void updateSuitableSlots(AttachmentSlot selected) {
         Set<String> accepts = selected.getAcceptedAttachments();
+        SimpleContainer display = menu.displaySuitableAttachments;
         if (!accepts.isEmpty()) {
-            SimpleContainer display = menu.displaySuitableAttachments;
             display.clearContent();
             Set<IAttachment> attachments = new HashSet<>();
             for (String key : accepts) {
@@ -186,6 +226,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
             }
         } else {
             suitableSlots.clear();
+            display.clearContent();
         }
     }
 
@@ -238,6 +279,15 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
         float alphaTick = (System.currentTimeMillis() % 1000) * 0.001f;
         renderSuitableSlotMark(pGuiGraphics, alphaTick);
         renderSelectedSlotMark(pGuiGraphics);
+        if (needUpdate) {
+            this.renderBackground(pGuiGraphics);
+            RenderSystem.enableDepthTest();
+            String text = Component.translatable("label.attachments_screen.wait_response").getString();
+            Font font = Minecraft.getInstance().font;
+            pGuiGraphics.drawString(font, text,
+                    (Minecraft.getInstance().getWindow().getGuiScaledWidth() - font.width(text)) / 2,
+                    Minecraft.getInstance().getWindow().getGuiScaledHeight() / 2, -1);
+        }
     }
 
     private void renderSelectedSlotMark(GuiGraphics pGuiGraphics) {

@@ -7,6 +7,7 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.network.packets.c2s.*;
 import sheridan.gcaa.network.packets.s2c.BroadcastPlayerStatusPacket;
 import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
+import sheridan.gcaa.network.packets.s2c.UpdateAttachmentScreenGuiContext;
 
 public class PacketHandler
 {
@@ -26,6 +27,8 @@ public class PacketHandler
         registerPacket(GunReloadPacket.class, new GunReloadPacket());
         registerPacket(ClientPlayParticlePacket.class, new ClientPlayParticlePacket());
         registerPacket(OpenAttachmentScreenPacket.class, new OpenAttachmentScreenPacket());
+        registerPacket(SetAttachmentsPacket.class, new SetAttachmentsPacket());
+        registerPacket(UpdateAttachmentScreenGuiContext.class, new UpdateAttachmentScreenGuiContext());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

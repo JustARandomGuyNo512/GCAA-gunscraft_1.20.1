@@ -24,13 +24,17 @@ public class AttachmentsGuiContext {
     private static final ResourceLocation EMPTY_SELECTED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/empty_selected.png");
     private static final ResourceLocation OCCUPIED_SELECTED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/occupied_selected.png");
     private static final Vector3f OUT_SCREEN = new Vector3f(-1, -1, -1);
-    private final AttachmentSlot attachmentSlot;
+    private final AttachmentSlot root;
     private AttachmentSlot selected;
     private final Map<AttachmentSlot, Vector3f> guiPosMap = new HashMap<>();
 
-    public AttachmentsGuiContext(AttachmentSlot attachmentSlot) {
-        this.attachmentSlot = attachmentSlot;
-        initPosMap(this.attachmentSlot);
+    public AttachmentsGuiContext(AttachmentSlot root) {
+        this.root = root;
+        initPosMap(this.root);
+    }
+
+    public AttachmentSlot getRoot() {
+        return this.root;
     }
 
     public AttachmentSlot getSelected() {
@@ -59,7 +63,7 @@ public class AttachmentsGuiContext {
     }
 
     public void updateIconPos(PoseStack poseStack, IGunModel gunModel) {
-        updateIconPos(poseStack, gunModel, attachmentSlot);
+        updateIconPos(poseStack, gunModel, root);
     }
 
     private void updateIconPos(PoseStack poseStack, IGunModel gunModel, AttachmentSlot slot) {

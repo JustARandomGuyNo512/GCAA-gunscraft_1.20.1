@@ -6,6 +6,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -29,6 +31,7 @@ import sheridan.gcaa.client.model.guns.G19Model;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.muzzleFlash.CommonMuzzleFlashes;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
+import sheridan.gcaa.client.screens.AttachmentsScreen;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
@@ -136,6 +139,15 @@ public class Clients {
                     cap.setLastChamberAction(lastChamber);
                     cap.dataChanged = false;
                 });
+            }
+        }
+    }
+
+    public static void updateAttachmentScreenGuiContext(ListTag attachmentsTag) {
+        if (Minecraft.getInstance().screen instanceof AttachmentsScreen attachmentsScreen) {
+            Player player = Minecraft.getInstance().player;
+            if (player.getMainHandItem().getItem() instanceof IGun gun) {
+                attachmentsScreen.updateGuiContext(attachmentsTag, gun);
             }
         }
     }
