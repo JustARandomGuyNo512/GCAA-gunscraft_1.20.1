@@ -15,17 +15,17 @@ public class ModTabs {
     static {
         MOD_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, GCAA.MODID);
 
+        ATTACHMENTS_TAB = MOD_TABS.register("attachments", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.attachments"))
+                .icon(() ->new ItemStack(ModItems.AK_SUPPRESSOR.get()))
+                .displayItems((parameters, tab) -> {
+                    tab.accept(ModItems.AK_SUPPRESSOR.get());
+                }).build());
+
         GUNS_TAB = MOD_TABS.register("guns", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.guns"))
                 .icon(() ->new ItemStack(ModItems.G19.get()))
                 .displayItems((parameters, tab) -> {
                     tab.accept(ModItems.G19.get());
                     tab.accept(ModItems.AKM.get());
-                }).build());
-
-        ATTACHMENTS_TAB = MOD_TABS.register("attachments", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.attachments"))
-                .icon(() ->new ItemStack(ModItems.ASSAULT_RIFLE_SUPPRESSOR.get()))
-                .displayItems((parameters, tab) -> {
-                    tab.accept(ModItems.ASSAULT_RIFLE_SUPPRESSOR.get());
                 }).build());
     }
 

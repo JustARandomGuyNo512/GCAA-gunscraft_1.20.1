@@ -2,6 +2,7 @@
   "item.gcaa.g19": "格洛克 19",
   "item.gcaa.akm": "Akm",
   "item.gcaa.unknown_attachment": "未知的配件",
+  "item.gcaa.ak_suppressor": "AK消音器",
 
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",
@@ -9,6 +10,8 @@
 
   "tooltip.btn.reset": "重置模型姿态",
   "tooltip.btn.drag": "拖动模型",
+  "tooltip.btn.install_attachment": "安装配件",
+  "tooltip.btn.uninstall_attachment": "卸下配件",
 
   "tooltip.item.useless": "没什么用，扔了吧",
   "tooltip.item.unknown_attachment_1": "无法识别此id: $id对应的配件",
@@ -33,6 +36,8 @@
 
   "gcaa.unit.chunk_pre_second": "区块/秒",
   "gcaa.unit.chunk": "区块",
+
+  "label.attachments_screen.suitable": "适用的配件↓",
 
   "keys.categories.gcaa": "GCAA：按键绑定",
   "key.gcaa.open_debug_gun_screen": "打开调试枪械界面（仅debug模式）",

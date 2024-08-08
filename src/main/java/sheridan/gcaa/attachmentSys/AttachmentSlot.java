@@ -1,9 +1,6 @@
 package sheridan.gcaa.attachmentSys;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class AttachmentSlot {
     public static final AttachmentSlot EMPTY = new AttachmentSlot();
@@ -26,7 +23,7 @@ public class AttachmentSlot {
         slotName = ROOT;
         modelSlotName = NONE;
         attachmentId = NONE;
-        acceptedAttachments = Collections.emptySet();
+        acceptedAttachments = new HashSet<>();
     }
 
     public static AttachmentSlot root() {
@@ -35,7 +32,7 @@ public class AttachmentSlot {
 
     protected AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments, String attachmentId) {
         this.slotName = slotName;
-        this.acceptedAttachments = acceptedAttachments;
+        this.acceptedAttachments = new HashSet<>(acceptedAttachments);
         this.modelSlotName = modelSlotName;
         this.attachmentId = attachmentId;
     }

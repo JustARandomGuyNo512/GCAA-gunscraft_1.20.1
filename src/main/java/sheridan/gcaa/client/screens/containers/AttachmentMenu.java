@@ -8,17 +8,24 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.items.gun.IGun;
 
 public class AttachmentMenu extends AbstractContainerMenu {
     public Inventory playerInventory;
-    //public SimpleContainer suitableAttachmentsShow;
+    public SimpleContainer displaySuitableAttachments;
 
-    public static class JustLookSlot extends Slot {
+    public static class DisplaySlot extends Slot {
+        public boolean active = false;
 
-        public JustLookSlot(Container pContainer, int pSlot, int pX, int pY) {
+        public DisplaySlot(Container pContainer, int pSlot, int pX, int pY) {
             super(pContainer, pSlot, pX, pY);
+        }
+
+        @Override
+        public boolean isActive() {
+            return active;
         }
     }
 
@@ -27,20 +34,20 @@ public class AttachmentMenu extends AbstractContainerMenu {
         this.playerInventory = playerInventory;
         for (int i = 0; i < 3; i++) {
             for(int j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(playerInventory, (i + 1) * 9 + j, 8 + j * 18, 163 + i * 18));
+                this.addSlot(new Slot(playerInventory, (i + 1) * 9 + j, 108 + j * 18, 163 + i * 18));
             }
         }
         for (int i = 0; i < 9; i++) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 221));
+            this.addSlot(new Slot(playerInventory, i, 108 + i * 18, 221));
         }
-//
-//        suitableAttachmentsShow = new SimpleContainer(12);
-//
-//        for (int i = 0; i < 3; i ++) {
-//            for (int j = 0; j < 4; j++) {
-//                this.addSlot(new JustLookSlot(suitableAttachmentsShow, i * 4 + j, 253 + j * 18, 140 + i * 18));
-//            }
-//        }
+
+        displaySuitableAttachments = new SimpleContainer(20);
+
+        for (int i = 0; i < 4; i ++) {
+            for (int j = 0; j < 5; j++) {
+                this.addSlot(new DisplaySlot(displaySuitableAttachments, i * 5 + j, 282 + j * 18, 165 + i * 18));
+            }
+        }
 
     }
     public AttachmentMenu(int i, Inventory inventory) {
@@ -48,7 +55,7 @@ public class AttachmentMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int id) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int id) {
         return ItemStack.EMPTY;
     }
 

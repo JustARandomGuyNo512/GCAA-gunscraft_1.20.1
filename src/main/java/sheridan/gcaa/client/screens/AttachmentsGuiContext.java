@@ -12,7 +12,9 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
+import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
 import sheridan.gcaa.client.model.guns.IGunModel;
+import sheridan.gcaa.items.ModItems;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +33,10 @@ public class AttachmentsGuiContext {
     public AttachmentsGuiContext(AttachmentSlot attachmentSlot) {
         this.attachmentSlot = attachmentSlot;
         initPosMap(this.attachmentSlot);
+    }
+
+    public AttachmentSlot getSelected() {
+        return selected;
     }
 
     private void initPosMap(AttachmentSlot attachmentSlot) {

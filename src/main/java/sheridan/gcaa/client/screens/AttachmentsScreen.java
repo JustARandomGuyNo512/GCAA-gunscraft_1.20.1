@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.screens;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
@@ -8,22 +9,34 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
+import sheridan.gcaa.attachmentSys.common.AttachmentRegister;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.events.RenderEvents;
+import sheridan.gcaa.client.screens.componets.OptionalImageButton;
 import sheridan.gcaa.client.screens.containers.AttachmentMenu;
+import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
-    private static final ResourceLocation INVENTORY = new ResourceLocation(GCAA.MODID, "textures/gui/screen/inventory.png");
+    private static final ResourceLocation INVENTORY_CLEAR = new ResourceLocation(GCAA.MODID, "textures/gui/screen/inventory_clear.png");
+    private static final ResourceLocation INVENTORY_SHOW_SUITABLE = new ResourceLocation(GCAA.MODID, "textures/gui/screen/inventory_show_suitable.png");
     private static final ResourceLocation DRAG_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/drag_btn.png");
     private static final ResourceLocation RESET_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/reset_btn.png");
     private static final ResourceLocation INSTALL_ATTACHMENT_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/install_attachment_btn.png");
@@ -32,7 +45,12 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
     private static final ResourceLocation SUITABLE_SLOT_MARK = new ResourceLocation(GCAA.MODID, "textures/gui/component/suitable_slot_mark.png");
 
     private AttachmentsGuiContext context;
+    private final AttachmentMenu menu;
+    private OptionalImageButton installBtn;
+    private OptionalImageButton uninstallBtn;
     private IGun gun;
+    private final List<Slot> suitableSlots = new ArrayList<>();
+    private Slot selectedSlot;
     private boolean isDraggingModel = false;
     private boolean isRollingModel = false;
     private float modelRX;
@@ -47,10 +65,11 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
 
     public AttachmentsScreen(AttachmentMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
-        this.width = 176;
+        this.width = 376;
         this.height = 241;
-        this.imageWidth = 176;
+        this.imageWidth = 376;
         this.imageHeight = 241;
+        this.menu = pMenu;
     }
 
     public AttachmentsGuiContext getContext() {
@@ -64,12 +83,20 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
         gridlayout.defaultCellSetting();
         GridLayout.RowHelper rowHelper = gridlayout.createRowHelper(2);
         gridlayout.defaultCellSetting().padding(4, 4, 4, 4);
-        ImageButton resetBtn = new ImageButton(this.leftPos + 144, 20, 16, 16, 0, 0, 0, RESET_BTN, 16, 16,  (btn) -> resetModel());
+        ImageButton resetBtn = new ImageButton(this.leftPos + 244, 20, 16, 16, 0, 0, 0, RESET_BTN, 16, 16,  (btn) -> resetModel());
         resetBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.reset")));
         rowHelper.addChild(resetBtn);
-        ImageButton dragBtn = new ImageButton(this.leftPos + 144, 40, 16, 16, 0, 0, 0, DRAG_BTN, 16, 16,  (btn) -> isDraggingModel = true);
+        ImageButton dragBtn = new ImageButton(this.leftPos + 244, 40, 16, 16, 0, 0, 0, DRAG_BTN, 16, 16,  (btn) -> isDraggingModel = true);
         dragBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.drag")));
         rowHelper.addChild(dragBtn);
+        installBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, INSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> installAttachment());
+        uninstallBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, INSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> uninstallAttachment());
+        installBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.install_attachment")));
+        uninstallBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.uninstall_attachment")));
+        installBtn.enableIf(false);
+        uninstallBtn.enableIf(false);
+        rowHelper.addChild(installBtn);
+        rowHelper.addChild(uninstallBtn);
         gridlayout.visitWidgets(this::addRenderableWidget);
         if (this.minecraft != null && this.minecraft.player != null) {
             Player player = this.minecraft.player;
@@ -79,6 +106,14 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
                 this.context = new AttachmentsGuiContext(slot);
             }
         }
+    }
+
+    private void installAttachment() {
+
+    }
+
+    private void uninstallAttachment() {
+
     }
 
     @Override
@@ -93,6 +128,20 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
                     this.context = new AttachmentsGuiContext(slot);
                     this.gun = gun;
                 }
+                if (context != null) {
+                    AttachmentSlot selected = context.getSelected();
+                    if (selected != null) {
+                        updateSuitableSlots(selected);
+                    } else {
+                        menu.displaySuitableAttachments.clearContent();
+                        suitableSlots.clear();
+                    }
+                    updateDisplay();
+                    updateBtn();
+                } else {
+                    installBtn.enableIf(false);
+                    uninstallBtn.enableIf(false);
+                }
             } else {
                 onClose();
             }
@@ -101,8 +150,78 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
         }
     }
 
+    private void updateBtn() {
+        AttachmentSlot slot = context.getSelected();
+        if (slot != null) {
+            installBtn.enableIf(slot.isEmpty() && selectedSlot != null);
+            uninstallBtn.enableIf(!installBtn.active && !slot.isEmpty());
+            return;
+        }
+        installBtn.enableIf(false);
+        uninstallBtn.enableIf(false);
+    }
+
+
+
+    private void updateSuitableSlots(AttachmentSlot selected) {
+        Set<String> accepts = selected.getAcceptedAttachments();
+        if (!accepts.isEmpty()) {
+            SimpleContainer display = menu.displaySuitableAttachments;
+            display.clearContent();
+            Set<IAttachment> attachments = new HashSet<>();
+            for (String key : accepts) {
+                IAttachment attachment = AttachmentRegister.get(key);
+                if (attachment != null) {
+                    display.addItem(new ItemStack(attachment.get()));
+                    attachments.add(attachment);
+                }
+            }
+            suitableSlots.clear();
+            for (int i = 0; i < menu.slots.size(); i++) {
+                Slot slot = menu.getSlot(i);
+                if (!(slot instanceof AttachmentMenu.DisplaySlot) &&
+                        slot.getItem().getItem() instanceof IAttachment attachment && attachments.contains(attachment)) {
+                    suitableSlots.add(slot);
+                }
+            }
+        } else {
+            suitableSlots.clear();
+        }
+    }
+
+    private void updateDisplay() {
+        for (int i = 0; i < menu.slots.size(); i++) {
+            Slot slot = menu.getSlot(i);
+            if (slot instanceof AttachmentMenu.DisplaySlot displaySlot) {
+                displaySlot.active = displaySlot.hasItem();
+            }
+        }
+    }
+
     @Override
-    protected void renderTooltip(GuiGraphics pGuiGraphics, int pX, int pY) {
+    protected boolean isHovering(int pX, int pY, int pWidth, int pHeight, double pMouseX, double pMouseY) {
+        return super.isHovering(pX, pY, pWidth, pHeight, pMouseX, pMouseY);
+    }
+
+    @Override
+    protected void slotClicked(@NotNull Slot pSlot, int pSlotId, int pMouseButton, @NotNull ClickType pType) {
+        if (pSlot instanceof AttachmentMenu.DisplaySlot) {
+            return;
+        }
+        if (pSlot == selectedSlot) {
+            selectedSlot = null;
+            return;
+        } else {
+            if (suitableSlots.contains(pSlot)) {
+                selectedSlot = pSlot;
+                return;
+            }
+        }
+        super.slotClicked(pSlot, pSlotId, pMouseButton, pType);
+    }
+
+    @Override
+    protected void renderTooltip(@NotNull GuiGraphics pGuiGraphics, int pX, int pY) {
         super.renderTooltip(pGuiGraphics, pX, pY);
     }
 
@@ -116,6 +235,25 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
             context.renderIcons(pGuiGraphics);
         }
         renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+        float alphaTick = (System.currentTimeMillis() % 1000) * 0.001f;
+        renderSuitableSlotMark(pGuiGraphics, alphaTick);
+        renderSelectedSlotMark(pGuiGraphics);
+    }
+
+    private void renderSelectedSlotMark(GuiGraphics pGuiGraphics) {
+        if (selectedSlot != null) {
+            pGuiGraphics.blit(SELECTED_SLOT, this.leftPos + selectedSlot.x - 3, this.topPos + selectedSlot.y - 3, 0,0, 22,22, 22, 22);
+        }
+    }
+
+    private void renderSuitableSlotMark(GuiGraphics pGuiGraphics, float alphaTick) {
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(1, 1, 1, 0.25f + alphaTick);
+        for (Slot slot : suitableSlots) {
+            pGuiGraphics.blit(SUITABLE_SLOT_MARK, this.leftPos + slot.x, this.topPos + slot.y, 0,0, 16,16, 16, 16);
+        }
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+        RenderSystem.disableBlend();
     }
 
     @Override
@@ -123,7 +261,12 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
         if (this.minecraft != null) {
             int startX = (this.width - this.getXSize()) / 2;
             int startY = (this.height - this.getYSize()) / 2;
-            pGuiGraphics.blit(INVENTORY, startX, startY,  0,0, this.getXSize(), this.getYSize(), this.getXSize(), this.getYSize());
+            RenderSystem.enableBlend();
+            ResourceLocation background = chooseBackground();
+            pGuiGraphics.blit(background, startX, startY,  0,0, this.getXSize(), this.getYSize(), this.getXSize(), this.getYSize());
+            if (background == INVENTORY_SHOW_SUITABLE) {
+                pGuiGraphics.drawString(this.minecraft.font, Component.translatable("label.attachments_screen.suitable"), this.leftPos + 278, this.topPos + 150, 0xffffff);
+            }
         }
     }
 
@@ -182,7 +325,11 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentMenu> {
     }
 
     private boolean isMouseInModelArea(double mx, double my) {
-        return !(mx >= this.leftPos && mx <= this.leftPos + 176 && my >= this.topPos + 160 && my <= this.topPos + 241);
+        return !(mx >= this.leftPos + 100 && mx <= this.leftPos + 276 && my >= this.topPos + 160 && my <= this.topPos + 241);
+    }
+
+    private ResourceLocation chooseBackground() {
+        return menu.displaySuitableAttachments.isEmpty() ? INVENTORY_CLEAR : INVENTORY_SHOW_SUITABLE;
     }
 
     private void resetModel() {
