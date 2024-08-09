@@ -78,7 +78,7 @@ public class GunRenderer{
                     AnimationHandler.INSTANCE.applyInertialRecoil(poseStack, inertialRecoilData);
                 }
 
-                model.render(GunRenderContext.getFPMain(bufferIn, poseStack, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn));
+                model.render(GunRenderContext.getLocalMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn));
             } else {
                 if (entityIn instanceof Player player) {
                     stackIn.mulPose(Axis.ZP.rotationDegrees(180));

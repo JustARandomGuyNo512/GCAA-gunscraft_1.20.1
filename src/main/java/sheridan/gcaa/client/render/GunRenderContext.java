@@ -43,10 +43,10 @@ public class GunRenderContext {
     public PoseStack[] localPoseStorage;
     public int ammoLeft;
 
-    private static String lastAttachmentContextUUID = "---";
+    private static String lastAttachmentContextUUID = "不同意的请举手    没有！！！ 没有！！！ 没有！！！ 。。。";
     private static AttachmentsRenderContext tempAttachmentContext = null;
-    public static GunRenderContext getFPMain(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, int packedLight, int packedOverlay) {
-        GunRenderContext context = new GunRenderContext(bufferSource, poseStack, itemStack, gun, transformType, packedLight, packedOverlay);
+    public static GunRenderContext getLocalMainHand(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, DisplayData.MuzzleFlashEntry muzzleFlashEntry, int packedLight, int packedOverlay) {
+        GunRenderContext context = new GunRenderContext(bufferSource, poseStack, itemStack, gun, transformType, packedLight, packedOverlay, muzzleFlashEntry, Clients.lastShootMain() + 10L);
         String uuid = gun.getAttachmentsModifiedUUID(itemStack);
         if (!lastAttachmentContextUUID.equals(uuid)) {
             lastAttachmentContextUUID = uuid;
@@ -60,7 +60,7 @@ public class GunRenderContext {
         return context;
     }
 
-    public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType,int packedLight, int packedOverlay) {
+    public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, int packedLight, int packedOverlay) {
         this.bufferSource = bufferSource;
         this.poseStack = poseStack;
         this.itemStack = itemStack;
@@ -69,7 +69,7 @@ public class GunRenderContext {
         this.packedOverlay = packedOverlay;
         this.gun = gun;
         this.isFirstPerson = transformType.firstPerson();
-        lastShoot = Clients.lastShootMain() + 10L;
+        lastShoot = Clients.lastShootMain();
         ammoLeft = gun.getAmmoLeft(itemStack);
     }
 

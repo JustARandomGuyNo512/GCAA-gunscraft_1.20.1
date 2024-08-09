@@ -23,7 +23,7 @@
   "tooltip.gun_info.info": "初速：",
   "tooltip.gun_info.caliber": "口径：",
   "tooltip.gun_info.mag_size": "载弹量：",
-  "tooltip.gun_info.rpm": "载弹量：",
+  "tooltip.gun_info.rpm": "RPM：",
   "tooltip.gun_info.recoil": "垂直-水平 后座：",
   "tooltip.gun_info.recoil_control": "垂直-水平 后座控制：",
   "tooltip.gun_info.spread_factor": "行走-冲刺 散布惩罚：",
