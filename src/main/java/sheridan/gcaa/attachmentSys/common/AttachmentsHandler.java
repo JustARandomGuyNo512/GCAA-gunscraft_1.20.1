@@ -6,7 +6,13 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
+import sheridan.gcaa.client.model.attachments.IAttachmentModel;
+import sheridan.gcaa.client.render.AttachmentRenderEntry;
+import sheridan.gcaa.client.render.AttachmentsRenderContext;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.IAttachment;
@@ -14,14 +20,14 @@ import sheridan.gcaa.items.attachments.ISubSlotActivator;
 import sheridan.gcaa.items.attachments.ISubSlotProvider;
 import sheridan.gcaa.items.gun.IGun;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 public class AttachmentsHandler {
     public static final AttachmentsHandler INSTANCE = new AttachmentsHandler();
     static final String PASSED = Attachment.PASSED;
+    static final String ROOT = AttachmentSlot.ROOT;
+    static final String NONE = AttachmentSlot.NONE;
 
     public void checkAndUpdate(ItemStack itemStack, IGun gun, Player player) {
         CompoundTag properties = gun.getGunProperties().getInitialData();
@@ -60,7 +66,6 @@ public class AttachmentsHandler {
                             player.level().addFreshEntity(entity);
                         }
                     }
-
                 }
             }
         }
@@ -76,22 +81,56 @@ public class AttachmentsHandler {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
+    @Nullable
+    public AttachmentsRenderContext getRenderContext(ItemStack stack, IGun gun) {
+        ListTag attachmentsTag = gun.getAttachmentsListTag(stack);
+        if (attachmentsTag == null) {
+            return null;
+        }
+        AttachmentsRenderContext context = new AttachmentsRenderContext();
+        Map<String, AttachmentRenderEntry> entries = new HashMap<>();
+        for (int i = 0; i < attachmentsTag.size(); i++) {
+            CompoundTag attachmentTag = attachmentsTag.getCompound(i);
+            IAttachment attachment = AttachmentsRegister.get(attachmentTag.getString("id"));
+            if (attachment != null) {
+                IAttachmentModel model = AttachmentsRegister.getModel(attachment);
+                if (model != null) {
+                    String slotName = attachmentTag.getString("slot_name");
+                    String modelSlotName = attachmentTag.getString("model_slot_name");
+                    String parentUuid = attachmentTag.getString("parent_uuid");
+                    AttachmentRenderEntry entry = new AttachmentRenderEntry(model, attachment, slotName, modelSlotName);
+                    if (!ROOT.equals(parentUuid) && !NONE.equals(parentUuid)) {
+                        AttachmentRenderEntry parent = entries.get(parentUuid);
+                        if (parent != null) {
+                            parent.addChild(entry.modelSlotName, entry);
+                        }
+                        entries.put(parentUuid, entry);
+                    } else {
+                        entries.put(parentUuid, entry);
+                        context.add(entry);
+                    }
+                }
+            }
+        }
+        return context.isEmpty() ? null : context;
+    }
 
-    private CompoundTag getMark(IAttachment attachment,String slotName, String modelSlotName, String parentSlot) {
+    private CompoundTag getMark(IAttachment attachment,String slotName, String modelSlotName, String parentUuid) {
         CompoundTag tag = new CompoundTag();
         tag.putString("id", AttachmentsRegister.getKey(attachment).toString());
         tag.putString("model_slot_name", modelSlotName);
-        tag.putString("parent_slot", parentSlot);
+        tag.putString("parent_uuid", parentUuid);
         tag.putString("slot_name", slotName);
         tag.putString("uuid", UUID.randomUUID().toString());
         return tag;
     }
 
-    public void serverSetAttachment(ItemStack stack, IGun gun, IAttachment attachment, String slotName, String modelSlotName, String parentSlot)  {
+    public void serverSetAttachment(ItemStack stack, IGun gun, IAttachment attachment, String slotName, String modelSlotName, String parentUuid)  {
         CompoundTag properties = gun.getPropertiesTag(stack);
         ListTag attachments = gun.getAttachmentsListTag(stack);
         attachment.onAttach(stack, gun, properties);
-        CompoundTag mark = getMark(attachment, slotName, modelSlotName, parentSlot);
+        CompoundTag mark = getMark(attachment, slotName, modelSlotName, parentUuid);
         attachments.add(mark);
         gun.setAttachmentsListTag(stack, attachments);
     }

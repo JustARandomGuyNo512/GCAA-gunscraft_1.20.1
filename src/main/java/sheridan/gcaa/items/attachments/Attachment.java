@@ -13,6 +13,12 @@ import java.util.Map;
 
 public abstract class Attachment extends NoRepairNoEnchantmentItem implements IAttachment, AutoRegister {
     public static final String REJECTED = "rejected", PASSED = "passed";
+    public static final String MUZZLE = "muzzle";
+    public static final String MAG = "mag";
+    public static final String HANDGUARD = "handguard";
+    public static final String STOCK = "stock";
+    public static final String GRIP = "grip";
+    public static final String SCOPE = "scope";
     public Attachment() {
         super(new Properties().stacksTo(1));
     }

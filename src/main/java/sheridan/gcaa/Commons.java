@@ -7,24 +7,31 @@ import sheridan.gcaa.items.ModItems;
 
 import java.util.Set;
 
+import static sheridan.gcaa.items.attachments.Attachment.MUZZLE;
+import static sheridan.gcaa.items.attachments.Attachment.STOCK;
+import static sheridan.gcaa.items.attachments.Attachment.GRIP;
+import static sheridan.gcaa.items.attachments.Attachment.MAG;
+import static sheridan.gcaa.items.attachments.Attachment.HANDGUARD;
+import static sheridan.gcaa.items.attachments.Attachment.SCOPE;
+
 public class Commons {
     public static long SERVER_START_TIME = System.currentTimeMillis();
 
     public static void onCommonSetUp(final FMLCommonSetupEvent event) {
         AttachmentsRegister.registerAttachmentSlot(ModItems.AKM.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot("muzzle", Set.of("gcaa:ak_suppressor")))
-                .addChild(new AttachmentSlot("mag", Set.of("")))
-                .addChild(new AttachmentSlot("grip", Set.of()))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak_suppressor")))
+                .addChild(new AttachmentSlot(MAG, Set.of("")))
+                .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot("rail_set", Set.of()))
-                .addChild(new AttachmentSlot("handguard", Set.of()))
-                .addChild(new AttachmentSlot("stock", Set.of()))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of()))
+                .addChild(new AttachmentSlot(STOCK, Set.of()))
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.G19.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot("muzzle", Set.of()))
-                .addChild(new AttachmentSlot("scope", Set.of()))
-                .addChild(new AttachmentSlot("grip", Set.of()))
-                .addChild(new AttachmentSlot("mag", Set.of()))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of()))
+                .addChild(new AttachmentSlot(SCOPE, Set.of()))
+                .addChild(new AttachmentSlot(GRIP, Set.of()))
+                .addChild(new AttachmentSlot(MAG, Set.of()))
         );
     }
 }

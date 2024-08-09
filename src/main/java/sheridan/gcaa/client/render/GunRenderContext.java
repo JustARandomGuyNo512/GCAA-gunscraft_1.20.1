@@ -11,6 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
+import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
@@ -34,6 +35,7 @@ public class GunRenderContext {
     public int packedOverlay;
     public long lastShoot;
     public DisplayData.MuzzleFlashEntry muzzleFlashEntry;
+    public AttachmentsRenderContext attachmentsRenderContext;
     public AttachmentRenderEntry leftArmRelocate;
     public AttachmentRenderEntry rightArmRelocate;
     public AttachmentRenderEntry scope;
@@ -168,5 +170,33 @@ public class GunRenderContext {
             return localPoseStorage[index];
         }
         return null;
+    }
+
+    public boolean has(String slotName) {
+        return attachmentsRenderContext != null && attachmentsRenderContext.has(slotName);
+    }
+
+    public boolean hasMuzzle() {
+        return has(Attachment.MUZZLE);
+    }
+
+    public boolean hasStock() {
+        return has(Attachment.STOCK);
+    }
+
+    public boolean hasGrip() {
+        return has(Attachment.GRIP);
+    }
+
+    public boolean hasScope() {
+        return has(Attachment.SCOPE);
+    }
+
+    public boolean hasHandguard() {
+        return has(Attachment.HANDGUARD);
+    }
+
+    public boolean hasMag() {
+        return has(Attachment.MAG);
     }
 }

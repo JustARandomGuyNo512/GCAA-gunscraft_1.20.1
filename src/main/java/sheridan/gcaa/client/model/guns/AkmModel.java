@@ -66,6 +66,11 @@ public class AkmModel extends GunModel {
     public void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         bullet.visible = ReloadingHandler.isReloading() || ReloadingHandler.disFromLastReload(1000);
+//        context.renderIf(muzzle, vertexConsumer, context.hasMuzzle());
+//        context.renderIf(mag, vertexConsumer, context.hasMag());
+//        context.renderIf(grip, vertexConsumer, context.hasGrip());
+//        context.renderIf(stock, vertexConsumer, context.hasStock());
+//        context.renderIf(handguard, vertexConsumer, context.hasHandguard());
         context.render(vertexConsumer, barrel, rail_set, slide, muzzle, handguard, IS, mag, dust_cover, grip, safety, body, stock);
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);

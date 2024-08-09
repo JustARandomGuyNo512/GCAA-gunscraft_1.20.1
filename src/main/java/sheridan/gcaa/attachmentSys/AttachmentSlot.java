@@ -25,7 +25,7 @@ public class AttachmentSlot {
         slotName = ROOT;
         modelSlotName = NONE;
         attachmentId = NONE;
-        id = NONE;
+        id = ROOT;
         acceptedAttachments = Set.of();
     }
 
@@ -48,6 +48,10 @@ public class AttachmentSlot {
 
     public AttachmentSlot(String slotName, Set<String> acceptedAttachments) {
         this(slotName, "s_" + slotName, acceptedAttachments, NONE, EMPTY, NONE);
+    }
+
+    public AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments) {
+        this(slotName, modelSlotName, acceptedAttachments, NONE, EMPTY, NONE);
     }
 
     /**
