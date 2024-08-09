@@ -16,6 +16,7 @@ public class AttachmentRenderEntry {
     public String slotName;
     public String modelSlotName;
     public Map<String, AttachmentRenderEntry> children = null;
+    public boolean rendered = false;
 
     public AttachmentRenderEntry(IAttachmentModel model, IAttachment attachment, String slotName, String modelSlotName) {
         this.model = model;
@@ -38,15 +39,21 @@ public class AttachmentRenderEntry {
         return children != null;
     }
 
+    public void reset() {
+        rendered = false;
+    }
+
     public void render(GunRenderContext context) {
         context.poseStack.pushPose();
         model.render(context, this);
+        rendered = true;
         context.poseStack.popPose();
     }
 
     public void render(GunRenderContext context, ModelPart posePart) {
         context.poseStack.pushPose();
         model.render(context, this, posePart);
+        rendered = true;
         context.poseStack.popPose();
     }
 }

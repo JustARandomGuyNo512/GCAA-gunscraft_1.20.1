@@ -45,6 +45,8 @@ public interface IGun {
     IReloadingTask getReloadingTask(ItemStack stack);
     long getDate(ItemStack stack);
     void updateDate(ItemStack stack);
+    String getAttachmentsModifiedUUID(ItemStack stack);
+    void newAttachmentsModifiedUUID(ItemStack stack);
 
     default int applySprintingPoseDelay() {
         return 1000;

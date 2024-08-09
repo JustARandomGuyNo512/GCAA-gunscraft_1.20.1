@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.items.attachments.Attachment;
@@ -42,6 +43,23 @@ public class GunRenderContext {
     public PoseStack[] localPoseStorage;
     public int ammoLeft;
 
+    private static String lastAttachmentContextUUID = "---";
+    private static AttachmentsRenderContext tempAttachmentContext = null;
+    public static GunRenderContext getFPMain(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, int packedLight, int packedOverlay) {
+        GunRenderContext context = new GunRenderContext(bufferSource, poseStack, itemStack, gun, transformType, packedLight, packedOverlay);
+        String uuid = gun.getAttachmentsModifiedUUID(itemStack);
+        if (!lastAttachmentContextUUID.equals(uuid)) {
+            lastAttachmentContextUUID = uuid;
+            tempAttachmentContext = AttachmentsHandler.INSTANCE.getRenderContext(itemStack, gun);
+        } else {
+            if (tempAttachmentContext != null) {
+                tempAttachmentContext.reset();
+            }
+        }
+        context.attachmentsRenderContext = tempAttachmentContext;
+        return context;
+    }
+
     public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType,int packedLight, int packedOverlay) {
         this.bufferSource = bufferSource;
         this.poseStack = poseStack;
@@ -51,7 +69,7 @@ public class GunRenderContext {
         this.packedOverlay = packedOverlay;
         this.gun = gun;
         this.isFirstPerson = transformType.firstPerson();
-        lastShoot = Clients.lastShootMain();
+        lastShoot = Clients.lastShootMain() + 10L;
         ammoLeft = gun.getAmmoLeft(itemStack);
     }
 
@@ -199,4 +217,6 @@ public class GunRenderContext {
     public boolean hasMag() {
         return has(Attachment.MAG);
     }
+
+
 }

@@ -41,6 +41,7 @@ import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.awt.*;
 import java.util.List;
+import java.util.UUID;
 
 public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     public static final String MUZZLE_STATE_NORMAL = "normal";
@@ -171,6 +172,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public void setAttachmentsListTag(ItemStack stack, ListTag list) {
         checkAndGet(stack).put("attachments", list);
+        newAttachmentsModifiedUUID(stack);
     }
 
     @Override
@@ -328,6 +330,17 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         tag.putLong("date", Commons.SERVER_START_TIME);
     }
 
+    @Override
+    public String getAttachmentsModifiedUUID(ItemStack stack) {
+        return checkAndGet(stack).getString("attachments_modified_uuid");
+    }
+
+    @Override
+    public void newAttachmentsModifiedUUID(ItemStack stack) {
+        CompoundTag tag = checkAndGet(stack);
+        tag.putString("attachments_modified_uuid", UUID.randomUUID().toString());
+    }
+
     protected CompoundTag checkAndGet(ItemStack stack) {
         CompoundTag nbt = stack.getTag();
         if (nbt == null) {
@@ -358,6 +371,9 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         }
         if (!nbt.contains("attachments")) {
             nbt.put("attachments", new ListTag());
+        }
+        if (!nbt.contains("attachments_modified_uuid")) {
+            nbt.putString("attachments_modified_uuid", UUID.randomUUID().toString());
         }
         pStack.setTag(nbt);
     }

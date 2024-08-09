@@ -26,6 +26,7 @@ import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.ClientWeaponLooper;
 import sheridan.gcaa.client.ClientWeaponStatus;
+import sheridan.gcaa.client.model.attachments.muzzle.AKSuppressorModel;
 import sheridan.gcaa.client.model.guns.AkmModel;
 import sheridan.gcaa.client.model.guns.G19Model;
 import sheridan.gcaa.client.render.DisplayData;
@@ -96,11 +97,16 @@ public class Clients {
     }
     @OnlyIn(Dist.CLIENT)
     public static boolean shouldHideFPRender = false;
+    @OnlyIn(Dist.CLIENT)
     public static boolean displayGunInfoDetails = false;
+
+
 
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {
         clientWeaponLooperTimer.scheduleAtFixedRate(new ClientWeaponLooper(), 0, 5L);
+
+        //gun models register
         ArsenalLib.registerGunModel(ModItems.G19.get(), new G19Model(), new DisplayData()
                 .setFirstPersonMain(-4.6f,12f,-30.5f, POS)
                 .setThirdPersonRight(0f, 0f, 0.5f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
@@ -125,7 +131,8 @@ public class Clients {
                 .addMuzzleFlash("normal", CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 4.9f, -98.6f).setScale(1.8f))
         );
 
-
+        //attachment models register
+        ArsenalLib.registerAttachmentModel(ModItems.AK_SUPPRESSOR.get(), new AKSuppressorModel());
     }
 
     public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, boolean reloading) {
