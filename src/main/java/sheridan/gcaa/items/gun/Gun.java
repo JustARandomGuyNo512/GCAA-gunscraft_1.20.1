@@ -419,10 +419,10 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     protected void gunBaseInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
-
         String showDetail = Component.translatable("tooltip.gcaa.show_full_gun_info").getString();
-        char key = (char) KeyBinds.SHOW_FULL_GUN_INFO.getKey().getValue();
-        showDetail = showDetail.replace("$key", key + "");
+        //char key = (char) KeyBinds.SHOW_FULL_GUN_INFO.getKey().getValue();
+        //System.out.println(KeyBinds.SHOW_FULL_GUN_INFO.getTranslatedKeyMessage().getString());
+        showDetail = showDetail.replace("$key", KeyBinds.SHOW_FULL_GUN_INFO.getTranslatedKeyMessage().getString());
         tooltip.add(FontUtils.helperTip(Component.literal(showDetail)));
     }
 

@@ -130,7 +130,7 @@ public class Clients {
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(new InertialRecoilData(0.075f, 0.06f, 0.62f, 0.08f, 0.9f,  0.08f, 0.5f, 0.3f, new Vector3f(0.55f, 0.65f, 0.5f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 4.9f, -99f).setScale(1.8f))
-                .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 3.65f, -139f).setScale(2f).setLength(35))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 3.65f, -139f).setScale(2f))
         );
 
         //attachment models register
