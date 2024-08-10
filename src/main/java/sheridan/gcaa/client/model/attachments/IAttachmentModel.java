@@ -8,7 +8,6 @@ import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
 public interface IAttachmentModel {
-    void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry);
 
     void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose);
 

@@ -7,7 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -39,13 +38,12 @@ import sheridan.gcaa.sounds.ModSounds;
 import sheridan.gcaa.utils.FontUtils;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
-import java.awt.*;
 import java.util.List;
 import java.util.UUID;
 
 public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     public static final String MUZZLE_STATE_NORMAL = "normal";
-    public static final String MUZZLE_STATE_SUPPRESSED = "suppressed";
+    public static final String MUZZLE_STATE_SUPPRESSOR = "suppressor";
     public static final String MUZZLE_STATE_COMPENSATOR = "compensator";
     private final GunProperties gunProperties;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
@@ -114,7 +112,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
 
     protected void handleFireSound(ItemStack stack, Player player) {
         String muzzleState = getMuzzleFlash(stack);
-        if (MUZZLE_STATE_SUPPRESSED.equals(muzzleState)) {
+        if (MUZZLE_STATE_SUPPRESSOR.equals(muzzleState)) {
             if (gunProperties.suppressedSound != null) {
                 ModSounds.sound(getFireSoundVol(stack), 1f + ((float) Math.random() * 0.1f), player, gunProperties.suppressedSound.get());
             } else {

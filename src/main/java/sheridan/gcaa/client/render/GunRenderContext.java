@@ -170,7 +170,7 @@ public class GunRenderContext {
     }
 
     /**
-     * copy and save a poseStack instance in local render context in given index(0~9);
+     * copy and save a poseStack instance in local renderByModelSlotName context in given index(0~9);
      * */
     public void saveInLocal(int index, PoseStack poseStack) {
         if (localPoseStorage == null) {
@@ -218,5 +218,13 @@ public class GunRenderContext {
         return has(Attachment.MAG);
     }
 
+    public void renderAllAttachmentsLeft(ModelPart layer) {
+        if (attachmentsRenderContext != null) {
+            attachmentsRenderContext.renderAll(this, layer);
+        }
+    }
 
+    public void renderScope(ModelPart pose) {
+        attachmentsRenderContext.renderScope(this, pose);
+    }
 }

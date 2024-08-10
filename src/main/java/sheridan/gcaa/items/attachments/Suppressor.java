@@ -26,7 +26,7 @@ public class Suppressor extends Attachment{
     @Override
     public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
-        properties.setMuzzleFlash(data, Gun.MUZZLE_STATE_SUPPRESSED);
+        properties.setMuzzleFlash(data, Gun.MUZZLE_STATE_SUPPRESSOR);
         properties.setPropertyRateIfHas(GunProperties.FIRE_SOUND_VOL, data, (prevRate) -> prevRate - volumeLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH, data, (prevRate) -> prevRate - pitchRecoilLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW, data, (prevRate) -> prevRate - yawRecoilLowerRate);

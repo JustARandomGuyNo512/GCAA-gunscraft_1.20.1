@@ -43,12 +43,6 @@ public class AttachmentRenderEntry {
         rendered = false;
     }
 
-    public void render(GunRenderContext context) {
-        context.poseStack.pushPose();
-        model.render(context, this);
-        rendered = true;
-        context.poseStack.popPose();
-    }
 
     public void render(GunRenderContext context, ModelPart posePart) {
         context.poseStack.pushPose();

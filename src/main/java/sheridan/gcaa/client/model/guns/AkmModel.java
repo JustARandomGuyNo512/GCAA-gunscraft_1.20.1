@@ -66,19 +66,20 @@ public class AkmModel extends GunModel {
     public void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         bullet.visible = ReloadingHandler.isReloading() || ReloadingHandler.disFromLastReload(1000);
-//        context.renderIf(muzzle, vertexConsumer, context.hasMuzzle());
-//        context.renderIf(mag, vertexConsumer, context.hasMag());
-//        context.renderIf(grip, vertexConsumer, context.hasGrip());
-//        context.renderIf(stock, vertexConsumer, context.hasStock());
-//        context.renderIf(handguard, vertexConsumer, context.hasHandguard());
-        context.render(vertexConsumer, barrel, rail_set, slide, muzzle, handguard, IS, mag, dust_cover, grip, safety, body, stock);
+        context.renderIf(muzzle, vertexConsumer, !context.hasMuzzle());
+        context.renderIf(mag, vertexConsumer, !context.hasMag());
+        context.renderIf(handguard, vertexConsumer, !context.hasHandguard());
+        context.renderIf(grip, vertexConsumer, !context.hasGrip());
+        context.renderIf(stock, vertexConsumer, !context.hasStock());
+        context.render(vertexConsumer, barrel, rail_set, slide, IS, dust_cover, safety, body);
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);
-        context.renderMuzzleFlash(1.0f);
     }
 
     @Override
     public void renderAttachmentsModel(GunRenderContext context) {
+        context.renderAllAttachmentsLeft(gun);
+        context.renderMuzzleFlash(1.0f);
 
     }
 
@@ -87,8 +88,10 @@ public class AkmModel extends GunModel {
         if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
             KeyframeAnimations.animate(this, recoil, Clients.lastShootMain(),1);
             KeyframeAnimations.animate(this, shoot, Clients.lastShootMain(),1);
-            AnimationHandler.INSTANCE.applyReload(this);
-            CameraAnimationHandler.INSTANCE.mix(camera);
+            if (gunRenderContext.isFirstPerson) {
+                AnimationHandler.INSTANCE.applyReload(this);
+                CameraAnimationHandler.INSTANCE.mix(camera);
+            }
         }
     }
 

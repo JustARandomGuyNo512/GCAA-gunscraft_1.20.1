@@ -2,7 +2,7 @@ package sheridan.gcaa.client.render;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sheridan.gcaa.attachmentSys.AttachmentSlot;
+import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.Scope;
 
@@ -45,6 +45,26 @@ public class AttachmentsRenderContext {
 
     }
 
+    public void renderScope(GunRenderContext gunRenderContext, ModelPart pose) {
+        if (scopeEntry != null && !scopeEntry.rendered) {
+            scopeEntry.render(gunRenderContext, pose);
+        }
+    }
+
+    public void renderByModelSlot(GunRenderContext gunRenderContext, String modelSlotName, ModelPart pose) {
+        AttachmentRenderEntry entry = modelSlotLayer.get(modelSlotName);
+        if (entry != null && !entry.rendered) {
+            entry.render(gunRenderContext, pose);
+        }
+    }
+
+    public void renderBySlotName(GunRenderContext gunRenderContext, String slotName, ModelPart pose) {
+        AttachmentRenderEntry entry = slotLayer.get(slotName);
+        if (entry != null && !entry.rendered) {
+            entry.render(gunRenderContext, pose);
+        }
+    }
+
     public boolean isEmpty() {
         return modelSlotLayer.isEmpty() && slotLayer.isEmpty();
     }
@@ -80,10 +100,11 @@ public class AttachmentsRenderContext {
         return has(Attachment.MAG);
     }
 
-    public void renderAll(GunRenderContext context) {
+
+    public void renderAll(GunRenderContext context, ModelPart layer) {
         for (AttachmentRenderEntry entry : modelSlotLayer.values()) {
             if (!entry.rendered) {
-                entry.render(context);
+                entry.render(context, layer.getChild(entry.modelSlotName));
             }
         }
     }

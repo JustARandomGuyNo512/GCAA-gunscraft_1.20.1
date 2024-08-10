@@ -202,6 +202,13 @@ public class DisplayData {
         return this;
     }
 
+    public DisplayData setAttachmentScreen(float x, float y, float z, float rx, float ry, float rz, float sx, float sy, float sz) {
+        checkAndSet(ATTACHMENT_SCREEN, x, y, z, DataType.POS);
+        checkAndSet(ATTACHMENT_SCREEN, rx, ry, rz, DataType.ROT);
+        checkAndSet(ATTACHMENT_SCREEN, sx, sy, sz, DataType.SCALE);
+        return this;
+    }
+
     public Map<String, MuzzleFlashEntry> getMuzzleFlashMap() {
         return muzzleFlashMap;
     }

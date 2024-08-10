@@ -19,7 +19,7 @@ import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.items.gun.IGun;
 
-import static net.minecraft.world.item.ItemDisplayContext.FIXED;
+import static net.minecraft.world.item.ItemDisplayContext.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GunRenderer{
@@ -30,7 +30,7 @@ public class GunRenderer{
             poseStack.mulPose(Axis.ZP.rotationDegrees(180));
             displayData.applyAttachmentScreenTransform(poseStack, x, y, rx, ry, scale);
             poseStack.pushPose();
-            model.render(new GunRenderContext(bufferSource, poseStack, itemStack, gun, FIXED, 15728880, 655360));
+            model.render(GunRenderContext.getLocalMainHand(bufferSource, poseStack, itemStack, gun, FIXED, null, 15728880, 655360));
             poseStack.popPose();
             if (context != null) {
                 context.updateIconPos(poseStack, model);
@@ -51,7 +51,6 @@ public class GunRenderer{
             justRenderModel(itemStackIn, type, stackIn, bufferIn, combinedLightIn, combinedOverlayIn, gun, model, displayData);
             return;
         }
-
         if (model != null && displayData != null) {
             boolean isFirstPerson = type.firstPerson();
             String muzzleFlash = gun.getMuzzleFlash(itemStackIn);
@@ -77,15 +76,18 @@ public class GunRenderer{
                 if (inertialRecoilData != null) {
                     AnimationHandler.INSTANCE.applyInertialRecoil(poseStack, inertialRecoilData);
                 }
-
                 model.render(GunRenderContext.getLocalMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn));
             } else {
                 if (entityIn instanceof Player player) {
                     stackIn.mulPose(Axis.ZP.rotationDegrees(180));
                     displayData.applyTransform(type, stackIn);
                     boolean isLocalPlayer = player == Minecraft.getInstance().player;
-                    long lastShoot = PlayerStatusProvider.getStatus(player).getLastShoot() + (isLocalPlayer ? 5L : 80L);
-                    model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry, lastShoot));
+                    if (isLocalPlayer) {
+                        model.render(GunRenderContext.getLocalMainHand(bufferIn, stackIn, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn));
+                    } else {
+                        long lastShoot = PlayerStatusProvider.getStatus(player).getLastShoot() + 80L;
+                        model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry, lastShoot));
+                    }
                 }
             }
         }

@@ -15,11 +15,11 @@ import sheridan.gcaa.client.render.RenderTypes;
 public class MuzzleFlashTexture {
     private static final float BASE_ALPHA = 0.9f;
     private final int count;
-    private final float quadSize;
+    private final float quadSize = 0.25f;
     private final RenderType renderType;
 
     public MuzzleFlashTexture(ResourceLocation texture, int count) {
-        quadSize = 1f / count;
+        //quadSize = 1f / count;
         this.count = count;
         this.renderType = RenderTypes.getMuzzleFlash(texture);
     }

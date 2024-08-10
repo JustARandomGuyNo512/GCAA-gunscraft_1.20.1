@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.model.attachments.muzzle;
 
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,14 +19,12 @@ public class AKSuppressorModel implements IAttachmentModel {
         model = MuzzleCollection1.get("ak_suppressor");
     }
 
-    @Override
-    public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry) {
-
-    }
 
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-
+        model.copyFrom(pose);
+        context.render(model, context.getBuffer(RenderType.entityCutoutNoCull(texture)));
+        model.resetPose();
     }
 
     @Override
