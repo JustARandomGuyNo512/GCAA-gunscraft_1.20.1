@@ -13,9 +13,7 @@ import java.util.function.Supplier;
 
 public class OpenAttachmentScreenPacket implements IPacket<OpenAttachmentScreenPacket>  {
     @Override
-    public void encode(OpenAttachmentScreenPacket message, FriendlyByteBuf buffer) {
-
-    }
+    public void encode(OpenAttachmentScreenPacket message, FriendlyByteBuf buffer) {}
 
     @Override
     public OpenAttachmentScreenPacket decode(FriendlyByteBuf buffer) {
