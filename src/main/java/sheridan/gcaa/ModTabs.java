@@ -19,6 +19,7 @@ public class ModTabs {
                 .icon(() ->new ItemStack(ModItems.AK_SUPPRESSOR.get()))
                 .displayItems((parameters, tab) -> {
                     tab.accept(ModItems.AK_SUPPRESSOR.get());
+                    tab.accept(ModItems.AK_COMPENSATOR.get());
                 }).build());
 
         GUNS_TAB = MOD_TABS.register("guns", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.guns"))

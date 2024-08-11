@@ -134,7 +134,6 @@ public class AttachmentsHandler {
         CompoundTag mark = getMark(attachment, slotName, modelSlotName, parentUuid);
         attachments.add(mark);
         gun.setAttachmentsListTag(stack, attachments);
-        //gun.newAttachmentsModifiedUUID(stack);
     }
 
     public ItemStack serverUninstallAttachment(ItemStack stack, IGun gun, String uuid) {
@@ -162,7 +161,6 @@ public class AttachmentsHandler {
         }
         if (index != -1) {
             attachments.remove(index);
-            //gun.newAttachmentsModifiedUUID(stack);
             gun.setAttachmentsListTag(stack, attachments);
             gun.setPropertiesTag(stack, properties);
         }

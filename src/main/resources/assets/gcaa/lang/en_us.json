@@ -3,6 +3,7 @@
   "item.gcaa.akm": "Akm",
   "item.gcaa.unknown_attachment": "Unknown attachment",
   "item.gcaa.ak_suppressor": "AK suppressor",
+  "item.gcaa.ak_compensator": "AK compensator",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",
@@ -33,20 +34,22 @@
   "tooltip.gun_info.ads_speed": "ADS Speed:",
   "tooltip.gun_info.fire_sound_vol": "Fire Sound Range:",
   "tooltip.gun_info.reload_length": "Reload Time:",
+  "tooltip.gcaa.show_full_gun_info": "Press $key to display details",
 
   "gcaa.unit.chunk_pre_second": "Chunks/s",
   "gcaa.unit.chunk": "Chunk",
 
   "label.attachments_screen.suitable": "Suitable attachments↓",
   "label.attachments_screen.wait_response": "Waiting for response from the server",
+  "label.client_settings.title": "Client side settings",
 
   "keys.categories.gcaa": "GCAA: key bindings",
   "key.gcaa.open_debug_gun_screen": "Show gun debug screen (only debug mode)",
   "key.gcaa.open_attachments_screen": "Show gun attachments screen",
   "key.gcaa.switch_fire_mode": "Switch fire mode",
   "key.gcaa.reload": "Reload your gun",
-  "key.gcaa.key_show_full_gun_info": "show gun details",
-  "tooltip.gcaa.show_full_gun_info": "Press $key to display details",
+  "key.gcaa.key_show_full_gun_info": "Show gun details",
+  "key.gcaa.open_client_settings_screen": "Open client settings screen",
 
   "itemGroup.guns": "Guns",
   "itemGroup.attachments": "Attachments"

@@ -15,4 +15,7 @@ public class CommonMuzzleFlashes {
     public static final MuzzleFlash SUPPRESSOR_COMMON = new MuzzleFlash(
             List.of(new MuzzleFlashTexture(new ResourceLocation(GCAA.MODID, "textures/fx/muzzle_flash/suppressor.png"), 3)), true, 4);
 
+    public static final MuzzleFlash AK_COMPENSATOR = new MuzzleFlash(
+            List.of(new MuzzleFlashTexture(new ResourceLocation(GCAA.MODID, "textures/fx/muzzle_flash/ak_compensator.png"), 4)), true, 2);
+
 }

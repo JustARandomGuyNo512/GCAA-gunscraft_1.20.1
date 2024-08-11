@@ -11,12 +11,12 @@ import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class AKSuppressorModel implements IAttachmentModel {
+public class AKCompensatorModel implements IAttachmentModel {
     private final ModelPart model;
     private final ResourceLocation texture = MuzzleCollection1.TEXTURE;
 
-    public AKSuppressorModel() {
-        model = MuzzleCollection1.get("ak_suppressor");
+    public AKCompensatorModel() {
+        model = MuzzleCollection1.get("ak_compensator");
     }
 
     @Override

@@ -7,6 +7,8 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.lib.ArsenalLib;
 
+import java.util.Map;
+
 @OnlyIn(Dist.CLIENT)
 public class MuzzleCollection1 {
     public static ModelPart root;
@@ -14,6 +16,9 @@ public class MuzzleCollection1 {
 
     private static void init() {
         root = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/muzzles/muzzle_collection1.json")).bakeRoot().getChild("root");
+        for (Map.Entry<String, ModelPart> entry : root.getChildren().entrySet()) {
+            entry.getValue().meshing();
+        }
     }
 
     public static ModelPart get(String name) {

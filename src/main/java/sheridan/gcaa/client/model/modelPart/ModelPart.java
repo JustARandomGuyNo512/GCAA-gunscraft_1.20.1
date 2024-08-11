@@ -151,6 +151,10 @@ public final class ModelPart {
         return this.children.containsKey(childName);
     }
 
+    public Map<String, ModelPart> getChildren() {
+        return this.children;
+    }
+
     public ModelPart getChild(String childName) {
         ModelPart modelpart = this.children.get(childName);
         if (modelpart == null) {
