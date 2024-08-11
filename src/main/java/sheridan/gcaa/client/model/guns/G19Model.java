@@ -51,12 +51,13 @@ public class G19Model extends GunModel {
         context.render(vertexConsumer, barrel, slide, body, mag);
         context.renderArm(left_arm, false);
         context.renderArm(right_arm, true);
-        context.renderMuzzleFlash(1.0f);
     }
 
     @Override
     protected void renderAttachmentsModel(GunRenderContext context) {
-
+        context.renderAllAttachmentsLeft(gun);
+        context.renderMuzzleFlash(1.0f);
+        context.renderScope(slot_scope);
     }
 
     @Override

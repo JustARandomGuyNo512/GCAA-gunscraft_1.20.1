@@ -80,7 +80,6 @@ public class AkmModel extends GunModel {
     public void renderAttachmentsModel(GunRenderContext context) {
         context.renderAllAttachmentsLeft(gun);
         context.renderMuzzleFlash(1.0f);
-
     }
 
     @Override

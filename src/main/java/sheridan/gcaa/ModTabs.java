@@ -18,6 +18,7 @@ public class ModTabs {
         ATTACHMENTS_TAB = MOD_TABS.register("attachments", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.attachments"))
                 .icon(() ->new ItemStack(ModItems.AK_SUPPRESSOR.get()))
                 .displayItems((parameters, tab) -> {
+                    tab.accept(ModItems.PISTOL_SUPPRESSOR.get());
                     tab.accept(ModItems.AK_SUPPRESSOR.get());
                     tab.accept(ModItems.AK_COMPENSATOR.get());
                 }).build());

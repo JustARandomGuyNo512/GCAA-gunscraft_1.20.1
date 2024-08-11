@@ -4,6 +4,7 @@
   "item.gcaa.unknown_attachment": "Unknown attachment",
   "item.gcaa.ak_suppressor": "AK suppressor",
   "item.gcaa.ak_compensator": "AK compensator",
+  "item.gcaa.pistol_suppressor": "Pistol suppressor",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",

@@ -27,6 +27,7 @@ import sheridan.gcaa.client.ClientWeaponLooper;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.model.attachments.muzzle.AKCompensatorModel;
 import sheridan.gcaa.client.model.attachments.muzzle.AKSuppressorModel;
+import sheridan.gcaa.client.model.attachments.muzzle.PistolSuppressorModel;
 import sheridan.gcaa.client.model.guns.AkmModel;
 import sheridan.gcaa.client.model.guns.G19Model;
 import sheridan.gcaa.client.render.DisplayData;
@@ -102,7 +103,6 @@ public class Clients {
     public static boolean displayGunInfoDetails = false;
 
 
-
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {
         clientWeaponLooperTimer.scheduleAtFixedRate(new ClientWeaponLooper(), 0, 5L);
@@ -117,8 +117,8 @@ public class Clients {
                 .setAds(0,5.6f,-22.5f, POS)
                 .setAttachmentScreen(1.6f, -0.75f, -9.9f, 0f, 90f, 0, 0.205f, 0.205f, 0.205f)
                 .setInertialRecoilData(new InertialRecoilData(0.2f,0.05f,0.4f,0.07f,2.8f,0.1f,0.5f, 0.5f, new Vector3f(0.5f, 0.5f, 0.5f)))
-                .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 3.65f, -21f))
-                .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 3.65f, -41f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 3.65f, -21.2f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 3.65f, -41.2f).setScale(1.5f))
         );
 
         ArsenalLib.registerGunModel(ModItems.AKM.get(), new AkmModel(), new DisplayData()
@@ -132,10 +132,11 @@ public class Clients {
                 .setInertialRecoilData(new InertialRecoilData(0.075f, 0.06f, 0.62f, 0.08f, 0.9f,  0.08f, 0.5f, 0.3f, new Vector3f(0.55f, 0.65f, 0.5f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 4.9f, -99f).setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 3.65f, -139f).setScale(2f))
-                .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setTranslate(0f, 4.8f, -106f).setScale(2.8f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setTranslate(0f, 4.8f, -106f).setScale(3f))
         );
 
         //attachment models register
+        ArsenalLib.registerAttachmentModel(ModItems.PISTOL_SUPPRESSOR.get(), new PistolSuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_SUPPRESSOR.get(), new AKSuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_COMPENSATOR.get(), new AKCompensatorModel());
     }
