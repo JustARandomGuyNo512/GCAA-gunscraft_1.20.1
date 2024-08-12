@@ -23,7 +23,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(MAG, Set.of("")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot("rail_set", Set.of()))
-                .addChild(new AttachmentSlot(HANDGUARD, Set.of()))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")))
                 .addChild(new AttachmentSlot(STOCK, Set.of()))
         );
 

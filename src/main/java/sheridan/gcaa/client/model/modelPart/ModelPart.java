@@ -147,9 +147,23 @@ public final class ModelPart {
         z += (to.z - z) * progress;
     }
 
-    public boolean hasChild(String childName) {
-        return this.children.containsKey(childName);
+    public boolean hasChild(String childName)  {
+        return children.containsKey(childName);
     }
+
+    public boolean hasChildRecursive(String childName)  {
+        if (children.containsKey(childName)) {
+            return true;
+        } else {
+            if (!children.isEmpty()) {
+                for (ModelPart modelpart : this.children.values()) {
+                    return modelpart.hasChild(childName);
+                }
+            }
+            return false;
+        }
+    }
+
 
     public Map<String, ModelPart> getChildren() {
         return this.children;

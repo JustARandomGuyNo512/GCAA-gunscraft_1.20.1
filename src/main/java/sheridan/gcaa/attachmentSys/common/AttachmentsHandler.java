@@ -36,7 +36,7 @@ public class AttachmentsHandler {
         List<Item> unSupportedAttachments = new ArrayList<>();
         if (!attachments.isEmpty()) {
             AttachmentSlot root = getAttachmentBaseSlots(gun);
-            root.clean();
+            root.cleanAll();
             if (root != AttachmentSlot.EMPTY) {
                 for (int i = 0; i < attachments.size(); i++) {
                     CompoundTag tag = attachments.getCompound(i);
@@ -49,7 +49,8 @@ public class AttachmentsHandler {
                             attachment.onAttach(itemStack, gun, properties);
                             if (attachment instanceof ISubSlotProvider provider) {
                                 provider.appendSlots(prevSlot);
-                            } else if (attachment instanceof ISubSlotActivator activator) {
+                            }
+                            if (attachment instanceof ISubSlotActivator activator) {
                                 activator.unlockSlots(prevSlot);
                             }
                             newAttachments.add(tag);
@@ -186,7 +187,7 @@ public class AttachmentsHandler {
     public AttachmentSlot getAttachmentSlots(ListTag attachmentsTag, IGun gun) {
         AttachmentSlot slot = getAttachmentBaseSlots(gun);
         if (slot != AttachmentSlot.EMPTY) {
-            slot.clean();
+            slot.cleanAll();
             if (attachmentsTag != null && !attachmentsTag.isEmpty()) {
                 for (int i = 0; i < attachmentsTag.size(); i++) {
                     CompoundTag slotTag = attachmentsTag.getCompound(i);
@@ -198,13 +199,14 @@ public class AttachmentsHandler {
                         if (attachment != null) {
                             if (attachment instanceof ISubSlotProvider provider) {
                                 provider.appendSlots(prevSlot);
-                            } else if (attachment instanceof ISubSlotActivator activator) {
+                            }
+                            if (attachment instanceof ISubSlotActivator activator) {
                                 activator.unlockSlots(prevSlot);
                             }
                             prevSlot.setAttachmentId(id);
                             prevSlot.setId(slotTag.getString("uuid"));
                         } else {
-                            prevSlot.clean();
+                            prevSlot.cleanAll();
                         }
                     }
                 }

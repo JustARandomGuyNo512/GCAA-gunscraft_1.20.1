@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.screens;
 
+import com.ibm.icu.impl.Pair;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
@@ -12,7 +13,12 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
-import sheridan.gcaa.client.model.guns.IGunModel;
+import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
+import sheridan.gcaa.client.model.ISlotProviderModel;
+import sheridan.gcaa.client.model.attachments.IAttachmentModel;
+import sheridan.gcaa.items.attachments.IAttachment;
+import sheridan.gcaa.items.attachments.ISubSlotProvider;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,18 +68,39 @@ public class AttachmentsGuiContext {
         }
     }
 
-    public void updateIconPos(PoseStack poseStack, IGunModel gunModel) {
-        updateIconPos(poseStack, gunModel, root);
+    public void updateIconPos(PoseStack poseStack, ISlotProviderModel model) {
+        updateIconPos(poseStack, model, root);
     }
 
-    private void updateIconPos(PoseStack poseStack, IGunModel gunModel, AttachmentSlot slot) {
+    private void updateIconPos(PoseStack poseStack, ISlotProviderModel model, AttachmentSlot slot) {
+        Map<PoseStack, Pair<AttachmentSlot, ISlotProviderModel>> subSlotMap = new HashMap<>();
+        updateModelLayerSlots(poseStack, model, slot, subSlotMap);
+        if (!subSlotMap.isEmpty()) {
+            for (Map.Entry<PoseStack, Pair<AttachmentSlot, ISlotProviderModel>> entry : subSlotMap.entrySet()) {
+                updateIconPos(entry.getKey(), entry.getValue().second, entry.getValue().first);
+            }
+        }
+    }
+
+    private void updateModelLayerSlots(PoseStack poseStack, ISlotProviderModel model, AttachmentSlot slot, Map<PoseStack, Pair<AttachmentSlot, ISlotProviderModel>> subSlotMap) {
         Map<String, AttachmentSlot> children = slot.getChildren();
         for (Map.Entry<String, AttachmentSlot> entry : children.entrySet()) {
+            AttachmentSlot child = entry.getValue();
             poseStack.pushPose();
-            try {
-                gunModel.handleSlotTranslate(poseStack, entry.getValue().getModelSlotName());
-                updateScreenPosWhenRender(poseStack.last().pose(), entry.getValue());
-            } catch (Exception ignored) {}
+            if (model.hasSlot(child.modelSlotName)) {
+                model.handleSlotTranslate(poseStack, child.getModelSlotName());
+                updateScreenPosWhenRender(poseStack.last().pose(), child);
+                IAttachment attachment = AttachmentsRegister.get(child.getAttachmentId());
+                if (attachment instanceof ISubSlotProvider) {
+                    IAttachmentModel attachmentModel = AttachmentsRegister.getModel(attachment);
+                    if (attachmentModel instanceof ISlotProviderModel slotProviderModel) {
+                        subSlotMap.put(RenderAndMathUtils.copyPoseStack(poseStack), Pair.of(child, slotProviderModel));
+                    }
+                }
+                if (!child.getChildren().isEmpty()) {
+                    updateModelLayerSlots(poseStack, model, child, subSlotMap);
+                }
+            }
             poseStack.popPose();
         }
     }

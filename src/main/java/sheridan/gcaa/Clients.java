@@ -25,6 +25,7 @@ import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.ClientWeaponLooper;
 import sheridan.gcaa.client.ClientWeaponStatus;
+import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel;
 import sheridan.gcaa.client.model.attachments.muzzle.AKCompensatorModel;
 import sheridan.gcaa.client.model.attachments.muzzle.AKSuppressorModel;
 import sheridan.gcaa.client.model.attachments.muzzle.PistolSuppressorModel;
@@ -139,6 +140,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.PISTOL_SUPPRESSOR.get(), new PistolSuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_SUPPRESSOR.get(), new AKSuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_COMPENSATOR.get(), new AKCompensatorModel());
+        ArsenalLib.registerAttachmentModel(ModItems.AK_IMPROVED_HANDGUARD.get(), new AKImprovedHandguardModel());
     }
 
     public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, boolean reloading) {

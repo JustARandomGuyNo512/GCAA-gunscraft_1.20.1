@@ -42,6 +42,10 @@ public class AttachmentsRegister {
         return attachments.get(s);
     }
 
+    public static IAttachmentModel getModel(String s) {
+        return getModel(get(s));
+    }
+
     public static ResourceLocation getKey(IAttachment attachment) {
         return registryKeys.get(attachment);
     }

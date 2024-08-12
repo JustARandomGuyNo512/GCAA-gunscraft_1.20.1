@@ -5,6 +5,7 @@
   "item.gcaa.ak_suppressor": "AK消音器",
   "item.gcaa.ak_compensator": "AK制退器",
   "item.gcaa.pistol_suppressor": "手枪消音器",
+  "item.gcaa.ak_improved_handguard": "AK改进型护木",
 
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",
@@ -14,6 +15,7 @@
   "tooltip.btn.drag": "拖动模型",
   "tooltip.btn.install_attachment": "安装配件",
   "tooltip.btn.uninstall_attachment": "卸下配件",
+  "tooltip.action_res.prevented_by_child": "无法拆卸，有子配件依赖于此",
 
   "tooltip.item.useless": "没什么用，扔了吧",
   "tooltip.item.unknown_attachment_1": "无法识别此id: $id对应的配件",

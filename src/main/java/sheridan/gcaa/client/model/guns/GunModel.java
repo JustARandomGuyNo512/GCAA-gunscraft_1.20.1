@@ -81,6 +81,11 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     }
 
     @Override
+    public boolean hasSlot(String modelSlotName) {
+        return gun.hasChildRecursive(modelSlotName);
+    }
+
+    @Override
     public AnimationDefinition getReload() {
         return animations.get("reload");
     }

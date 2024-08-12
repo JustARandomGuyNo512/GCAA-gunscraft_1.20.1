@@ -21,6 +21,7 @@ public class ModTabs {
                     tab.accept(ModItems.PISTOL_SUPPRESSOR.get());
                     tab.accept(ModItems.AK_SUPPRESSOR.get());
                     tab.accept(ModItems.AK_COMPENSATOR.get());
+                    tab.accept(ModItems.AK_IMPROVED_HANDGUARD.get());
                 }).build());
 
         GUNS_TAB = MOD_TABS.register("guns", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.guns"))

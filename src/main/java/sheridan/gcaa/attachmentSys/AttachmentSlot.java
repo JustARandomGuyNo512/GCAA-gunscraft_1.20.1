@@ -151,16 +151,16 @@ public class AttachmentSlot {
         return null;
     }
 
-    public void clean() {
+    public void cleanAll() {
         this.attachmentId = NONE;
         if (hasChildren()) {
             for (AttachmentSlot child : children.values())  {
-                child.clean();
+                child.cleanAll();
             }
         }
     }
 
-    public void clear() {
+    public void clean() {
         this.attachmentId = NONE;
     }
 
@@ -177,21 +177,7 @@ public class AttachmentSlot {
         return root;
     }
 
-    /**
-     * Deep copy this slot and its children.
-     * */
-//    public AttachmentSlot copy() {
-//        AttachmentSlot slot = new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY);
-//        if (hasChildren()) {
-//            for (AttachmentSlot child : children.values()) {
-//                slot.addChild(child.copy(this));
-//            }
-//        }
-//        return slot;
-//    }
-
-
-    protected AttachmentSlot copy() {
+    public AttachmentSlot copy() {
         return new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY, this.id);
     }
 

@@ -5,6 +5,7 @@
   "item.gcaa.ak_suppressor": "AK suppressor",
   "item.gcaa.ak_compensator": "AK compensator",
   "item.gcaa.pistol_suppressor": "Pistol suppressor",
+  "item.gcaa.ak_improved_handguard": "AK improved handguard",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",
@@ -14,6 +15,7 @@
   "tooltip.btn.drag": "Drag model",
   "tooltip.btn.install_attachment": "install attachment",
   "tooltip.btn.uninstall_attachment": "uninstall attachment",
+  "tooltip.action_res.prevented_by_child": "Cannot be removed, there are sub-attachments dependent on this",
 
   "tooltip.item.useless": "It's no use. Why don't you throw it away",
   "tooltip.item.unknown_attachment_1": "The attachment for this id: $id could not be recognized",
