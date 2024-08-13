@@ -20,9 +20,9 @@ public class Commons {
     public static void onCommonSetUp(final FMLCommonSetupEvent event) {
         AttachmentsRegister.registerAttachmentSlot(ModItems.AKM.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak_suppressor", "gcaa:ak_compensator")))
-                .addChild(new AttachmentSlot(MAG, Set.of("")))
+                .addChild(new AttachmentSlot(MAG, Set.of()))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
-                .addChild(new AttachmentSlot("rail_set", Set.of()))
+                .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")))
                 .addChild(new AttachmentSlot(STOCK, Set.of()))
         );
