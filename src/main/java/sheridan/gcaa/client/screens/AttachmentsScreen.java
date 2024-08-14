@@ -135,6 +135,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                             ));
                             needUpdate = true;
                         }
+                        uninstallBtn.reset();
                         installBtn.reset();
                     } else {
                         installBtn.setPrevented(true);
@@ -158,6 +159,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                             PacketHandler.simpleChannel.sendToServer(new UninstallAttachmentPacket(slot.getId()));
                             needUpdate = true;
                         }
+                        installBtn.reset();
                         uninstallBtn.reset();
                     } else {
                         uninstallBtn.setPrevented(true);

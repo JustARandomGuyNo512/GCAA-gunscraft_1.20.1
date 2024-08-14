@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Vector4f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
@@ -57,8 +58,9 @@ public class AnimationHandler {
     /**
      * push inertial recoil
      * */
-    public void pushRecoil(InertialRecoilData inertialRecoilData, float randomDirectionX, float randomDirectionY) {
-        INERTIAL_RECOIL_HANDLER.onShoot(inertialRecoilData, randomDirectionX, randomDirectionY);
+    public void pushRecoil(InertialRecoilData inertialRecoilData, float randomDirectionX, float randomDirectionY, float pRate,  float yRate)  {
+        INERTIAL_RECOIL_HANDLER.onShoot(inertialRecoilData, randomDirectionX, randomDirectionY,
+                      pRate, yRate);
     }
 
     /**

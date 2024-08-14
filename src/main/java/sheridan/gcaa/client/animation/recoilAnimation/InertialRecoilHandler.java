@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
+import org.joml.Vector4f;
 import sheridan.gcaa.Clients;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -67,20 +68,20 @@ public class InertialRecoilHandler {
         }
     }
 
-    public void onShoot(InertialRecoilData data, float randomDirectionX, float randomDirectionY) {
+    public void onShoot(InertialRecoilData data, float randomDirectionX, float randomDirectionY, float pRate,  float yRate)  {
         if (data == null) {
             clear();
         } else {
             try {
                 lock.lock();
-                randomYSpeed += data.randomY * randomDirectionY;
+                randomYSpeed += data.randomY * randomDirectionY ;
                 if (randomYSpeed < 0) {
                     randomYSpeed *= 0.5f;
                 }
-                randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f);
+                randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f) * yRate;
                 startTime = System.currentTimeMillis();
-                backSpeed += data.back;
-                rotateSpeed += data.rotate;
+                backSpeed += data.back * pRate;
+                rotateSpeed += data.rotate * pRate;
                 upSpeed += data.up;
                 this.data.set(data);
                 enabled.set(true);

@@ -21,7 +21,7 @@ public class AKImprovedDustCoverModel implements IAttachmentModel, ISlotProvider
 
     public AKImprovedDustCoverModel() {
         this.dust_cover = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/ak_stuff/improved_dust_cover.geo.json"))
-                .bakeRoot().getChild("root").getChild("dust_cover");
+                .bakeRoot().getChild("root").getChild("dust_cover").meshing();
         this.slot_scope = this.dust_cover.getChild("s_dust_cover_scope");
     }
 

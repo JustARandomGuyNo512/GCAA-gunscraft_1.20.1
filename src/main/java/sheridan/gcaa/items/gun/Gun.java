@@ -20,6 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector4f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.Commons;
 import sheridan.gcaa.client.KeyBinds;
@@ -95,7 +96,14 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             if (inertialRecoilData != null) {
                 float directionX = RenderAndMathUtils.randomIndex();
                 Clients.mainHandStatus.lastRecoilDirection = directionX;
-                AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY);
+                CompoundTag tag = getPropertiesTag(stack);
+                float pRate = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH, tag);
+                float yRate = gunProperties.getPropertyRate(GunProperties.RECOIL_YAW, tag);
+                float pControl = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH_CONTROL, tag);
+                float yControl = gunProperties.getPropertyRate(GunProperties.RECOIL_YAW_CONTROL, tag);
+                AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY,
+                        Mth.clamp((pRate - Math.max(0, pControl - 1) * 0.3f), 0.5f, 1f),
+                        Mth.clamp((yRate - Math.max(0, yControl - 1) * 0.3f), 0.5f, 1f));
             }
         }
         RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionY);

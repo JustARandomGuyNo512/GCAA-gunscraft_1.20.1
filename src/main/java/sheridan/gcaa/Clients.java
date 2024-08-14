@@ -132,7 +132,7 @@ public class Clients {
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
                 .setAds(0,14,-11, POS)
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
-                .setInertialRecoilData(new InertialRecoilData(0.075f, 0.06f, 0.6f, 0.08f, 0.9f,  0.07f, 0.5f, 0.3f, new Vector3f(0.55f, 0.45f, 0.5f)))
+                .setInertialRecoilData(new InertialRecoilData(0.01f, 0.005f, 0.6f, 0.08f, 0.9f,  0.07f, 0.5f, 0.3f, new Vector3f(0.55f, 0.45f, 0.5f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 4.9f, -99f).setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 3.65f, -139f).setScale(2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setTranslate(0f, 4.8f, -106f).setScale(3f))
