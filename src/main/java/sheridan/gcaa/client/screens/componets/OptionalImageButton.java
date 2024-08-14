@@ -46,6 +46,16 @@ public class OptionalImageButton extends ImageButton {
         preventedTooltip = Tooltip.create(Component.translatable(key));
     }
 
+    public void setPreventedTooltipStr(String message) {
+        preventedTooltip = Tooltip.create(Component.literal(message));
+    }
+
+    public void reset() {
+        preventedTooltip = null;
+        prevented = false;
+        mouseDown = false;
+    }
+
     public void setNormalTooltip(String key) {
         normalTooltip = Tooltip.create(Component.translatable(key));
     }

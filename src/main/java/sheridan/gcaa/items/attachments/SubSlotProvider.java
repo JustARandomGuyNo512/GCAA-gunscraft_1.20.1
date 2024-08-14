@@ -1,5 +1,6 @@
 package sheridan.gcaa.items.attachments;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.items.gun.IGun;
@@ -20,7 +21,7 @@ public abstract class SubSlotProvider extends Attachment implements ISubSlotProv
             if (detach) {
                 return PASSED;
             } else {
-                return "tooltip.action_res.prevented_by_child";
+                return Component.translatable("tooltip.action_res.prevented_by_child").getString();
             }
         }
         return res;

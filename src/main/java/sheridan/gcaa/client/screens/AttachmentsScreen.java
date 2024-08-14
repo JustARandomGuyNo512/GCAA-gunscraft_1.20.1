@@ -135,9 +135,10 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                             ));
                             needUpdate = true;
                         }
+                        installBtn.reset();
                     } else {
                         installBtn.setPrevented(true);
-                        installBtn.setPreventedTooltip(attachRes);
+                        installBtn.setPreventedTooltipStr(attachRes);
                     }
                 }
             }
@@ -157,9 +158,10 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                             PacketHandler.simpleChannel.sendToServer(new UninstallAttachmentPacket(slot.getId()));
                             needUpdate = true;
                         }
+                        uninstallBtn.reset();
                     } else {
                         uninstallBtn.setPrevented(true);
-                        uninstallBtn.setPreventedTooltip(uninstallRes);
+                        uninstallBtn.setPreventedTooltipStr(uninstallRes);
                     }
                 }
             }
@@ -355,6 +357,9 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                 }
                 dragStartX = (float) pMouseX;
                 dragStartY = (float) pMouseY;
+            } else {
+                installBtn.reset();
+                uninstallBtn.reset();
             }
         }
         return super.mouseClicked(pMouseX, pMouseY, pButton);

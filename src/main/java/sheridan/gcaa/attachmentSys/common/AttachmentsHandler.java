@@ -223,6 +223,6 @@ public class AttachmentsHandler {
     }
 
     public AttachmentSlot getAttachmentBaseSlots(IGun gun) {
-        return AttachmentSlot.deepCopy(AttachmentsRegister.getAttachmentSlot(gun));
+        return AttachmentSlot.copyAll(AttachmentsRegister.getAttachmentSlot(gun));
     }
 }

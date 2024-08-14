@@ -181,7 +181,7 @@ public class AttachmentSlot {
         return new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY, this.id);
     }
 
-    public static AttachmentSlot deepCopy(AttachmentSlot original) {
+    public static AttachmentSlot copyAll(AttachmentSlot original) {
         if (original == null) {
             return null;
         }
@@ -189,7 +189,7 @@ public class AttachmentSlot {
         AttachmentSlot copiedSlot = original.copy();
 
         for (Map.Entry<String, AttachmentSlot> entry : original.children.entrySet()) {
-            AttachmentSlot childCopy = deepCopy(entry.getValue());
+            AttachmentSlot childCopy = copyAll(entry.getValue());
             childCopy.parent = copiedSlot;
             copiedSlot.children.put(entry.getKey(), childCopy);
         }

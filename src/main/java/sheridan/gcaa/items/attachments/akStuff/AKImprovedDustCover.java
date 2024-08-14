@@ -11,17 +11,24 @@ import sheridan.gcaa.items.gun.IGun;
 
 import java.util.Set;
 
-public class AKRailBracket extends SubSlotProvider {
+public class AKImprovedDustCover extends SubSlotProvider {
+
     private final AttachmentSlot root = AttachmentSlot.root()
-            .addChild(new AttachmentSlot("rail_bracket_scope", Set.of("")));
+            .addChild(new AttachmentSlot("dust_cover_scope", Set.of("")));
 
-    public AKRailBracket() {}
+    public AKImprovedDustCover() {
+
+    }
 
     @Override
-    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {}
+    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
+
+    }
 
     @Override
-    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {}
+    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
+
+    }
 
     @Override
     public String canAttach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
@@ -31,6 +38,6 @@ public class AKRailBracket extends SubSlotProvider {
 
     @Override
     public void appendSlots(AttachmentSlot parent) {
-        parent.addChild(root.getChild("rail_bracket_scope").copy());
+        parent.addChild(root.getChild("dust_cover_scope").copy());
     }
 }

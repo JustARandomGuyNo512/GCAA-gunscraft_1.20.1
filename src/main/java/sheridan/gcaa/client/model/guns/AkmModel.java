@@ -26,7 +26,7 @@ public class AkmModel extends GunModel {
 
     private ModelPart
             slot_grip, slot_mag, slot_rail_set,
-            slot_handguard, slot_muzzle, slot_stock;
+            slot_handguard, slot_muzzle, slot_stock, slot_dust_cover;
 
     private final AnimationDefinition recoil;
     private final AnimationDefinition shoot;
@@ -60,6 +60,7 @@ public class AkmModel extends GunModel {
         slot_handguard = gun.getChild("s_handguard");
         slot_muzzle = gun.getChild("s_muzzle");
         slot_stock = gun.getChild("s_stock");
+        slot_dust_cover = gun.getChild("s_dust_cover");
     }
 
     @Override
@@ -71,7 +72,8 @@ public class AkmModel extends GunModel {
         context.renderIf(handguard, vertexConsumer, !context.hasHandguard());
         context.renderIf(grip, vertexConsumer, !context.hasGrip());
         context.renderIf(stock, vertexConsumer, !context.hasStock());
-        context.render(vertexConsumer, barrel, rail_set, slide, IS, dust_cover, safety, body);
+        context.renderIf(dust_cover, vertexConsumer, !context.has("dust_cover"));
+        context.render(vertexConsumer, barrel, rail_set, slide, IS, safety, body);
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);
     }

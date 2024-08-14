@@ -3,12 +3,10 @@ package sheridan.gcaa.items.attachments;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
-import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.util.Map;
-import java.util.Set;
 
 public class Handguard extends SubSlotProvider{
     private final AttachmentSlot root;
@@ -38,7 +36,7 @@ public class Handguard extends SubSlotProvider{
     @Override
     public void appendSlots(AttachmentSlot parent) {
         for (Map.Entry<String, AttachmentSlot> entry : root.getChildren().entrySet()) {
-            parent.addChild(entry.getValue().copy());
+            parent.addChild(AttachmentSlot.copyAll(entry.getValue()));
         }
     }
 }

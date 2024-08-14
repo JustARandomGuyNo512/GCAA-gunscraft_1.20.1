@@ -23,6 +23,7 @@ public class ModTabs {
                     tab.accept(ModItems.AK_COMPENSATOR.get());
                     tab.accept(ModItems.AK_IMPROVED_HANDGUARD.get());
                     tab.accept(ModItems.AK_RAIL_BRACKET.get());
+                    tab.accept(ModItems.AK_IMPROVED_DUST_COVER.get());
                 }).build());
 
         GUNS_TAB = MOD_TABS.register("guns", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.guns"))
