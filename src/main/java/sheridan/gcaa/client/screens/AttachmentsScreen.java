@@ -137,6 +137,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                         }
                         uninstallBtn.reset();
                         installBtn.reset();
+                        selectedSlot = null;
                     } else {
                         installBtn.setPrevented(true);
                         installBtn.setPreventedTooltipStr(attachRes);
@@ -199,6 +200,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                         } else {
                             menu.displaySuitableAttachments.clearContent();
                             suitableSlots.clear();
+                            selectedSlot = null;
                         }
                         updateDisplay();
                         updateBtn();
