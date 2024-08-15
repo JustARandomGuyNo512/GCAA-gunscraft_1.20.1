@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -248,6 +249,12 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                     attachments.add(attachment);
                 }
             }
+            Item item = selectedSlot == null ? null : selectedSlot.getItem().getItem();
+            if (item instanceof IAttachment attachment) {
+                selectedSlot = attachments.contains(attachment) ? selectedSlot : null;
+            } else {
+                selectedSlot = null;
+            }
             suitableSlots.clear();
             for (int i = 0; i < menu.slots.size(); i++) {
                 Slot slot = menu.getSlot(i);
@@ -258,6 +265,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
             }
         } else {
             suitableSlots.clear();
+            selectedSlot = null;
             display.clearContent();
         }
     }
@@ -288,6 +296,8 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
             if (suitableSlots.contains(pSlot)) {
                 selectedSlot = pSlot;
                 return;
+            } else {
+                selectedSlot = null;
             }
         }
         super.slotClicked(pSlot, pSlotId, pMouseButton, pType);
