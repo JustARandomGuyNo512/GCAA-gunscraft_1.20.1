@@ -134,10 +134,10 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                                     selectedSlot.index
                             ));
                             needUpdate = true;
+                            selectedSlot = null;
                         }
                         uninstallBtn.reset();
                         installBtn.reset();
-                        selectedSlot = null;
                     } else {
                         installBtn.setPrevented(true);
                         installBtn.setPreventedTooltipStr(attachRes);
