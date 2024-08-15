@@ -16,21 +16,9 @@ public class AttachmentsRenderContext {
     public Map<String, AttachmentRenderEntry> modelSlotLayer = new HashMap<>();
     public Map<String, AttachmentRenderEntry> slotLayer = new HashMap<>();
     public Set<AttachmentRenderEntry> allEntries = new HashSet<>();
-    public AttachmentRenderEntry scopeEntry = null;
 
     public void add(AttachmentRenderEntry attachmentRenderEntry) {
         allEntries.add(attachmentRenderEntry);
-        if (attachmentRenderEntry.attachment instanceof Scope scope) {
-            if (scopeEntry == null) {
-                scopeEntry = attachmentRenderEntry;
-                return;
-            } else {
-                if (scope.getOrder() > ((Scope) scopeEntry.attachment).getOrder()) {
-                    scopeEntry = attachmentRenderEntry;
-                    return;
-                }
-            }
-        }
         modelSlotLayer.put(attachmentRenderEntry.modelSlotName, attachmentRenderEntry);
         slotLayer.put(attachmentRenderEntry.slotName, attachmentRenderEntry);
     }
@@ -43,12 +31,6 @@ public class AttachmentsRenderContext {
 
     public void onFinish() {
 
-    }
-
-    public void renderScope(GunRenderContext gunRenderContext, ModelPart pose) {
-        if (scopeEntry != null && !scopeEntry.rendered) {
-            scopeEntry.render(gunRenderContext, pose);
-        }
     }
 
     public void renderByModelSlot(GunRenderContext gunRenderContext, String modelSlotName, ModelPart pose) {
@@ -70,9 +52,6 @@ public class AttachmentsRenderContext {
     }
 
     public boolean has(String slotName) {
-        if (Attachment.SCOPE.equals(slotName)) {
-            return hasScope();
-        }
         return slotLayer.containsKey(slotName);
     }
 
@@ -84,9 +63,6 @@ public class AttachmentsRenderContext {
         return has(Attachment.STOCK);
     }
 
-    public boolean hasScope() {
-        return scopeEntry != null;
-    }
 
     public boolean hasGrip() {
         return has(Attachment.GRIP);

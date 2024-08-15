@@ -224,9 +224,4 @@ public class GunRenderContext {
         }
     }
 
-    public void renderScope(ModelPart pose) {
-        if (attachmentsRenderContext != null) {
-            attachmentsRenderContext.renderScope(this, pose);
-        }
-    }
 }

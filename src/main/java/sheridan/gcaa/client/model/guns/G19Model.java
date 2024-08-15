@@ -57,7 +57,6 @@ public class G19Model extends GunModel {
     protected void renderAttachmentsModel(GunRenderContext context) {
         context.renderAllAttachmentsLeft(gun);
         context.renderMuzzleFlash(1.0f);
-        context.renderScope(slot_scope);
     }
 
     @Override
