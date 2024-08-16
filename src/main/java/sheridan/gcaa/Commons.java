@@ -30,7 +30,7 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.G19.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:pistol_suppressor")))
-                .addChild(new AttachmentSlot(SCOPE, Set.of()))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:micro_red_dot")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot(MAG, Set.of()))
         );

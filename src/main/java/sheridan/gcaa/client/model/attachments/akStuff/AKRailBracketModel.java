@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.client.model.ISlotProviderModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
-import sheridan.gcaa.client.model.attachments.muzzle.statistic.AKStuff1;
+import sheridan.gcaa.client.model.attachments.statistic.AKStuff1;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -19,7 +19,7 @@ public class AKRailBracketModel implements IAttachmentModel, ISlotProviderModel 
     private final ResourceLocation texture = AKStuff1.TEXTURE;
 
     public AKRailBracketModel() {
-        rail = AKStuff1.get("rail").meshing();
+        rail = AKStuff1.get("rail");
         slot_scope = rail.getChild("s_rail_bracket_scope");
     }
 
@@ -38,7 +38,12 @@ public class AKRailBracketModel implements IAttachmentModel, ISlotProviderModel 
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         rail.copyFrom(pose);
-        context.render(rail, context.getBuffer(RenderType.entityCutoutNoCull(texture)));
+        context.render(rail, context.getBuffer(RenderType.entityCutout(texture)));
+        context.translateTo(rail);
+        AttachmentRenderEntry scope = attachmentRenderEntry.getChild("rail_bracket_scope");
+        if (scope != null) {
+            scope.render(context, slot_scope);
+        }
         rail.resetPose();
     }
 

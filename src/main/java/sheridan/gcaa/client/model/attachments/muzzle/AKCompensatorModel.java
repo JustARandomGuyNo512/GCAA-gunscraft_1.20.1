@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
-import sheridan.gcaa.client.model.attachments.muzzle.statistic.MuzzleCollection1;
+import sheridan.gcaa.client.model.attachments.statistic.MuzzleCollection1;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -22,7 +22,7 @@ public class AKCompensatorModel implements IAttachmentModel {
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         model.copyFrom(pose);
-        context.render(model, context.getBuffer(RenderType.entityCutoutNoCull(texture)));
+        context.render(model, context.getBuffer(RenderType.entityCutout(texture)));
         model.resetPose();
     }
 

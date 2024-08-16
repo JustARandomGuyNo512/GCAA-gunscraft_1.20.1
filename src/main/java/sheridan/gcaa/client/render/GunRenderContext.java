@@ -147,7 +147,7 @@ public class GunRenderContext {
     /**
      * apply translation and rotation to a layer
      * */
-    public GunRenderContext translateAndRotateTo(ModelPart posePart) {
+    public GunRenderContext translateTo(ModelPart posePart) {
         posePart.translateAndRotate(poseStack);
         return this;
     }

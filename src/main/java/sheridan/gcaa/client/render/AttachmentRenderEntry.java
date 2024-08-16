@@ -36,11 +36,15 @@ public class AttachmentRenderEntry {
     }
 
     public boolean hasChildren() {
-        return children != null;
+        return children != null && !children.isEmpty();
     }
 
     public void reset() {
         rendered = false;
+    }
+
+    public AttachmentRenderEntry getChild(String slotName) {
+        return hasChildren() ? children.get(slotName) : null;
     }
 
 

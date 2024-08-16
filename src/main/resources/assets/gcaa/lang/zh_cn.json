@@ -8,6 +8,9 @@
   "item.gcaa.ak_improved_handguard": "AK改进型护木",
   "item.gcaa.ak_rail_bracket": "AK导轨支架",
   "item.gcaa.ak_improved_dust_cover": "AK改进型防尘盖",
+  "item.gcaa.micro_red_dot": "微型红点瞄准器",
+  "item.gcaa.red_dot": "红点瞄准器",
+  "item.gcaa.holographic": "全息瞄准器",
 
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",

@@ -8,6 +8,9 @@
   "item.gcaa.ak_improved_handguard": "AK improved handguard",
   "item.gcaa.ak_rail_bracket": "AK rail bracket",
   "item.gcaa.ak_improved_dust_cover": "AK improved dust cover",
+  "item.gcaa.micro_red_dot": "Micro red dot",
+  "item.gcaa.red_dot": "Red dot",
+  "item.gcaa.holographic": "Holographic sight",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",

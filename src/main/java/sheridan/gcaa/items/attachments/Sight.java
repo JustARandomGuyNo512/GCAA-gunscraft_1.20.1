@@ -4,10 +4,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.items.gun.IGun;
 
-public class Scope extends Attachment{
+public abstract class Sight extends Attachment{
     protected int order;
 
-    public Scope(int order) {
+    public Sight(int order) {
         this.order = order;
     }
     

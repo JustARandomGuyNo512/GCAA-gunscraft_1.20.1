@@ -4,7 +4,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.items.attachments.Attachment;
-import sheridan.gcaa.items.attachments.Scope;
 
 import java.util.HashMap;
 import java.util.HashSet;
