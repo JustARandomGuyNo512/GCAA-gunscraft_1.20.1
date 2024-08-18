@@ -9,7 +9,7 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.model.guns.IGunModel;
-import sheridan.gcaa.client.model.registry.GunModelRegistry;
+import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunReloadPacket;
@@ -27,7 +27,7 @@ public class ReloadingTask implements IReloadingTask{
     public ReloadingTask(ItemStack itemStack, IGun gun) {
         this.itemStack = itemStack;
         this.gun = gun;
-        model = GunModelRegistry.getModel(gun);
+        model = GunModelRegister.getModel(gun);
         tick = 0;
         ammoLeft = gun.getAmmoLeft(itemStack);
         length = gun.getReloadLength(itemStack, ammoLeft == 0);

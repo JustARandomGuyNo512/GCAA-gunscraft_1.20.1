@@ -15,14 +15,16 @@ public class AttachmentRenderEntry {
     public IAttachment attachment;
     public String slotName;
     public String modelSlotName;
+    public String slotUUID;
     public Map<String, AttachmentRenderEntry> children = null;
     public boolean rendered = false;
 
-    public AttachmentRenderEntry(IAttachmentModel model, IAttachment attachment, String slotName, String modelSlotName) {
+    public AttachmentRenderEntry(IAttachmentModel model, IAttachment attachment, String slotName, String modelSlotName, String slotUUID)  {
         this.model = model;
         this.attachment = attachment;
         this.slotName = slotName;
         this.modelSlotName = modelSlotName;
+        this.slotUUID = slotUUID;
     }
 
     public void addChild(String modelSlotName, AttachmentRenderEntry child) {
@@ -43,8 +45,8 @@ public class AttachmentRenderEntry {
         rendered = false;
     }
 
-    public AttachmentRenderEntry getChild(String slotName) {
-        return hasChildren() ? children.get(slotName) : null;
+    public AttachmentRenderEntry getChild(String modelSlotName) {
+        return hasChildren() ? children.get(modelSlotName) : null;
     }
 
 

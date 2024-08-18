@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.Clients;
-import sheridan.gcaa.client.model.registry.GunModelRegistry;
+import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.gun.IGun;
 
@@ -125,7 +125,7 @@ public class GunDebugAdjustScreen extends Screen {
             ItemStack stackOff = player.getOffhandItem();
             if (stack.getItem() instanceof IGun || stackOff.getItem() instanceof IGun) {
                 IGun gun = (IGun) (stack.getItem() instanceof IGun ? stack.getItem() : stackOff.getItem());
-                displayData = GunModelRegistry.getDisplayData(gun);
+                displayData = GunModelRegister.getDisplayData(gun);
                 if (displayData == null) {
                     Minecraft.getInstance().setScreen(null);
                 } else {

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.attachments.ISightModel;
 import sheridan.gcaa.client.model.attachments.SightViewRenderer;
@@ -11,6 +12,8 @@ import sheridan.gcaa.client.model.attachments.statistic.Sights1;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+
+import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class HolographicModel implements IAttachmentModel, ISightModel {
@@ -27,6 +30,7 @@ public class HolographicModel implements IAttachmentModel, ISightModel {
 
     @Override
     public void handleCrosshairTranslation(PoseStack poseStack) {
+        model.translateAndRotate(poseStack);
         crosshair.translateAndRotate(poseStack);
     }
 
@@ -39,7 +43,7 @@ public class HolographicModel implements IAttachmentModel, ISightModel {
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         model.copyFrom(pose);
         context.translateTo(model);
-        SightViewRenderer.renderRedDot(context, texture, null, crosshair, body);
+        SightViewRenderer.renderRedDot(context.isFirstPerson, context, texture, null, crosshair, body);
         model.resetPose();
     }
 

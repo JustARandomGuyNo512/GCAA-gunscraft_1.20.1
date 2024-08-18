@@ -107,6 +107,10 @@ public class Clients {
     public static boolean shouldHideFPRender = false;
     @OnlyIn(Dist.CLIENT)
     public static boolean displayGunInfoDetails = false;
+    @OnlyIn(Dist.CLIENT)
+    public static String getEffectiveSightUUID() {
+        return mainHandStatus.attachmentsStatus.getEffectiveSightUUID();
+    }
 
 
     @OnlyIn(Dist.CLIENT)
@@ -222,6 +226,9 @@ public class Clients {
             if (gun.isSniper()) {
                 spread *= 0.3f;
             }
+        }
+        if (player.isCrouching()) {
+            spread *= 0.9f;
         }
         return spread;
     }

@@ -46,6 +46,8 @@ public interface IGun {
     long getDate(ItemStack stack);
     void updateDate(ItemStack stack);
     String getAttachmentsModifiedUUID(ItemStack stack);
+    String getEffectiveSightUUID(ItemStack stack);
+    void setEffectiveSightUUID(ItemStack stack, String uuid);
     void newAttachmentsModifiedUUID(ItemStack stack);
 
     default int applySprintingPoseDelay() {

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sheridan.gcaa.client.model.guns.IGunModel;
-import sheridan.gcaa.client.model.registry.GunModelRegistry;
+import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.GunRenderer;
 import sheridan.gcaa.items.gun.IGun;
@@ -28,8 +28,8 @@ public class RenderItemMixin {
     public void Other(ItemStack itemStackIn, ItemDisplayContext transformTypeIn, boolean leftHand, PoseStack poseStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, BakedModel p_115151_, CallbackInfo ci) {
         if (itemStackIn != null && itemStackIn.getItem() instanceof IGun gun) {
             if (!leftHand) {
-                IGunModel model = GunModelRegistry.getModel(gun);
-                DisplayData displayData = GunModelRegistry.getDisplayData(gun);
+                IGunModel model = GunModelRegister.getModel(gun);
+                DisplayData displayData = GunModelRegister.getDisplayData(gun);
                 GunRenderer.justRenderModel(itemStackIn, transformTypeIn, poseStackIn, bufferIn, combinedLightIn, combinedOverlayIn, gun, model, displayData);
             }
             ci.cancel();
@@ -44,8 +44,8 @@ public class RenderItemMixin {
                     ci.cancel();
                     return;
                 }
-                IGunModel model = GunModelRegistry.getModel(gun);
-                DisplayData displayData = GunModelRegistry.getDisplayData(gun);
+                IGunModel model = GunModelRegister.getModel(gun);
+                DisplayData displayData = GunModelRegister.getDisplayData(gun);
                 GunRenderer.renderWithEntity(livingEntityIn, poseStackIn, itemStackIn, transformTypeIn, bufferIn, gun, combinedLightIn, combinedOverlayIn, false, model, displayData);
                 ci.cancel();
             }

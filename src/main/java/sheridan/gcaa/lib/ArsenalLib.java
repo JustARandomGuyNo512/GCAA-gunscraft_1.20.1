@@ -15,7 +15,7 @@ import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.animation.io.AnimationLoader;
 import sheridan.gcaa.client.model.io.ModelLoader;
 import sheridan.gcaa.client.model.modelPart.LayerDefinition;
-import sheridan.gcaa.client.model.registry.GunModelRegistry;
+import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
@@ -60,8 +60,8 @@ public class ArsenalLib {
      * */
     @OnlyIn(Dist.CLIENT)
     public static void registerGunModel(IGun gun, IGunModel model, DisplayData displayData) {
-        GunModelRegistry.registerModel(gun, model);
-        GunModelRegistry.registerTransform(gun, displayData);
+        GunModelRegister.registerModel(gun, model);
+        GunModelRegister.registerTransform(gun, displayData);
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -30,6 +30,7 @@ public class PacketHandler
         registerPacket(InstallAttachmentsPacket.class, new InstallAttachmentsPacket());
         registerPacket(UpdateAttachmentScreenGuiContext.class, new UpdateAttachmentScreenGuiContext());
         registerPacket(UninstallAttachmentPacket.class, new UninstallAttachmentPacket());
+        registerPacket(SetEffectiveSightPacket.class, new SetEffectiveSightPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

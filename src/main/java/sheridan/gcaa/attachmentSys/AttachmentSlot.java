@@ -84,6 +84,10 @@ public class AttachmentSlot {
         return this;
     }
 
+    public boolean hasParent() {
+        return parent != EMPTY;
+    }
+
     /**
      * Add a child slot to this slot.
      *
@@ -227,4 +231,16 @@ public class AttachmentSlot {
         this.root = root;
     }
 
+    public interface Visitor {
+        void visit(AttachmentSlot slot);
+    }
+
+    public void onTravel(Visitor visitor) {
+        visitor.visit(this);
+        if (hasChildren()) {
+            for (AttachmentSlot child : children.values()) {
+                child.onTravel(visitor);
+            }
+        }
+    }
 }

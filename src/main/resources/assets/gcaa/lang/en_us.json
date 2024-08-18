@@ -45,6 +45,8 @@
   "tooltip.gun_info.reload_length": "Reload Time:",
   "tooltip.gcaa.show_full_gun_info": "Press $key to display details",
 
+  "tooltip.screen_info.switch_sight": "Press $key to switch effective sight",
+
   "gcaa.unit.chunk_pre_second": "Chunks/s",
   "gcaa.unit.chunk": "Chunk",
 
@@ -59,6 +61,7 @@
   "key.gcaa.reload": "Reload your gun",
   "key.gcaa.key_show_full_gun_info": "Show gun details",
   "key.gcaa.open_client_settings_screen": "Open client settings screen",
+  "key.gcaa.switch_effective_sight": "Switching sight",
 
   "itemGroup.guns": "Guns",
   "itemGroup.attachments": "Attachments"

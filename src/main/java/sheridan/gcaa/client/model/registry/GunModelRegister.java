@@ -10,23 +10,27 @@ import sheridan.gcaa.items.gun.IGun;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class GunModelRegistry {
-    static Map<IGun, IGunModel> gunModelMap = new Object2ObjectArrayMap<>();
-    static Map<IGun, DisplayData> gunTransformMap = new Object2ObjectArrayMap<>();
+public class GunModelRegister {
+    private static final Map<IGun, IGunModel> GUN_MODEL_MAP = new Object2ObjectArrayMap<>();
+    private static final Map<IGun, DisplayData> GUN_TRANSFORM_MAP = new Object2ObjectArrayMap<>();
 
     public static void registerModel(IGun gun, IGunModel model) {
-        gunModelMap.put(gun, model);
+        if (!GUN_MODEL_MAP.containsKey(gun)) {
+            GUN_MODEL_MAP.put(gun, model);
+        }
     }
 
     public static void registerTransform(IGun gun, DisplayData transform) {
-        gunTransformMap.put(gun, transform);
+        if (!GUN_TRANSFORM_MAP.containsKey(gun)) {
+            GUN_TRANSFORM_MAP.put(gun, transform);
+        }
     }
 
     public static IGunModel getModel(IGun gun) {
-        return gunModelMap.get(gun);
+        return GUN_MODEL_MAP.get(gun);
     }
 
     public static DisplayData getDisplayData(IGun gun) {
-        return gunTransformMap.get(gun);
+        return GUN_TRANSFORM_MAP.get(gun);
     }
 }

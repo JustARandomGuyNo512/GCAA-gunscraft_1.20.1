@@ -23,6 +23,7 @@ public class DisplayData {
     public enum DataType {
         POS, ROT, SCALE
     }
+
     public static final int
             FIRST_PERSON_MAIN = 0,
             THIRD_PERSON_RIGHT = 1,
@@ -31,11 +32,13 @@ public class DisplayData {
             GUI = 4,
             AIMING = 5,
             ATTACHMENT_SCREEN = 6;
-    private final float[][] transforms = new float[][] {{0, 0, 0, 0, 0, 0, 1, 1, 1}, {}, {}, {}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1}};
-    private final boolean[][] emptyMarks = new boolean[][] {{}, {}, {}, {}, {}, {}, {}};
+    private final float[][] transforms = new float[][]{{0, 0, 0, 0, 0, 0, 1, 1, 1}, {}, {}, {}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1}};
+    private final boolean[][] emptyMarks = new boolean[][]{{}, {}, {}, {}, {}, {}, {}};
     private final Map<String, MuzzleFlashEntry> muzzleFlashMap = new HashMap<>();
     private InertialRecoilData inertialRecoilData;
-    public DisplayData() {}
+
+    public DisplayData() {
+    }
 
     public void applyTransform(ItemDisplayContext displayContext, PoseStack poseStack) {
         switch (displayContext) {
@@ -53,50 +56,55 @@ public class DisplayData {
         poseStack.scale(transforms[6][6] * scale, transforms[6][7] * scale, transforms[6][8] * scale);
     }
 
-    void applyTransformFirstPerson(PoseStack poseStack)  {
+    void applyTransformFirstPerson(PoseStack poseStack) {
         ClientWeaponStatus status = Clients.mainHandStatus;
-        float progress = status.getLerpAdsProgress(Minecraft.getInstance().getFrameTime());
+        float particleTick = Minecraft.getInstance().getFrameTime();
+        float progress = status.getLerpAdsProgress(particleTick);
+        float[] sightAimPos = Clients.mainHandStatus.getSightAimPos(particleTick);
         if (progress != 0) {
             float lerpProgress = RenderAndMathUtils.sLerp(progress);
             float yLerp = Clients.isInAds() ? lerpProgress * lerpProgress : lerpProgress;
-            if (status.adsPos != null) {
-                float x = Mth.lerp(lerpProgress, transforms[0][0], status.adsPos.x);
-                float y = Mth.lerp(yLerp, transforms[0][1], status.adsPos.y);
-                float z = Mth.lerp(lerpProgress, transforms[0][2], status.adsPos.z);
+
+            if (emptyMarks[0][0] || emptyMarks[5][0]) {
+                float x = Mth.lerp(lerpProgress, transforms[0][0], (sightAimPos == null ? transforms[5][0] : -sightAimPos[0]));
+                float y = Mth.lerp(yLerp, transforms[0][1], (sightAimPos == null ? transforms[5][1] : -sightAimPos[1]));
+                float z = Mth.lerp(lerpProgress, transforms[0][2], transforms[5][2]);
                 poseStack.translate(x, y, z);
-            } else {
-                if (emptyMarks[0][0] || emptyMarks[5][0]) {
-                    float x = Mth.lerp(lerpProgress, transforms[0][0], transforms[5][0]);
-                    float y = Mth.lerp(yLerp, transforms[0][1], transforms[5][1]);
-                    float z = Mth.lerp(lerpProgress, transforms[0][2], transforms[5][2]);
-                    poseStack.translate(x, y, z);
-                }
             }
-            if (status.adsRot != null) {
-                float rx = Mth.lerp(lerpProgress, transforms[0][3], status.adsRot.x);
-                float ry = Mth.lerp(lerpProgress, transforms[0][4], status.adsRot.y);
-                float rz = Mth.lerp(lerpProgress, transforms[0][5], status.adsRot.z);
+
+            if (emptyMarks[0][1] || emptyMarks[5][1]) {
+                float rx = Mth.lerp(lerpProgress, transforms[0][3], transforms[5][3]);
+                float ry = Mth.lerp(lerpProgress, transforms[0][4], transforms[5][4]);
+                float rz = Mth.lerp(lerpProgress, transforms[0][5], (sightAimPos == null ? transforms[5][5] : -sightAimPos[2]));
                 poseStack.mulPose(new Quaternionf().rotateXYZ(rx, ry, rz));
-            } else {
-                if (emptyMarks[0][1] || emptyMarks[5][1]){
-                    float rx = Mth.lerp(lerpProgress, transforms[0][3], transforms[5][3]);
-                    float ry = Mth.lerp(lerpProgress, transforms[0][4], transforms[5][4]);
-                    float rz = Mth.lerp(lerpProgress, transforms[0][5], transforms[5][5]);
-                    poseStack.mulPose(new Quaternionf().rotateXYZ(rx, ry, rz));
-                }
             }
+
         } else {
-            if (emptyMarks[0][0]) {poseStack.translate(transforms[0][0], transforms[0][1], transforms[0][2]);}
-            if (emptyMarks[0][1]) {poseStack.mulPose(new Quaternionf().rotateXYZ(transforms[0][3], transforms[0][4], transforms[0][5]));}
+            if (emptyMarks[0][0]) {
+                poseStack.translate(transforms[0][0], transforms[0][1], transforms[0][2]);
+            }
+            if (emptyMarks[0][1]) {
+                poseStack.mulPose(new Quaternionf().rotateXYZ(transforms[0][3], transforms[0][4], transforms[0][5]));
+            }
         }
-        if (emptyMarks[0][2]) {poseStack.scale(transforms[0][6], transforms[0][7], transforms[0][8]);}
+        if (emptyMarks[0][2]) {
+            poseStack.scale(transforms[0][6], transforms[0][7], transforms[0][8]);
+        }
     }
 
     void applyTransform(float[] transform, boolean[] mark, PoseStack poseStack) {
-        if (mark.length == 0 || transform.length == 0) {return;}
-        if (mark[0]) {poseStack.translate(transform[0], transform[1], transform[2]);}
-        if (mark[1]) {poseStack.mulPose(new Quaternionf().rotateXYZ(transform[3], transform[4], transform[5]));}
-        if (mark[2]) {poseStack.scale(transform[6], transform[7], transform[8]);}
+        if (mark.length == 0 || transform.length == 0) {
+            return;
+        }
+        if (mark[0]) {
+            poseStack.translate(transform[0], transform[1], transform[2]);
+        }
+        if (mark[1]) {
+            poseStack.mulPose(new Quaternionf().rotateXYZ(transform[3], transform[4], transform[5]));
+        }
+        if (mark[2]) {
+            poseStack.scale(transform[6], transform[7], transform[8]);
+        }
     }
 
     public float[] getFirstPersonMain() {
@@ -123,7 +131,7 @@ public class DisplayData {
     }
 
     public float[][] copy() {
-        return new float[][] {
+        return new float[][]{
                 Arrays.copyOf(transforms[0], transforms[0].length),
                 Arrays.copyOf(transforms[1], transforms[1].length),
                 Arrays.copyOf(transforms[2], transforms[2].length),
@@ -227,16 +235,25 @@ public class DisplayData {
     }
 
     protected void checkAndSet(int index, float x, float y, float z, DataType type) {
-        emptyMarks[index] = emptyMarks[index].length == 0 ? new boolean[] {false, false, false} : emptyMarks[index];
-        transforms[index] = transforms[index].length == 0 ? new float[] {0, 0, 0, 0, 0, 0, 1, 1, 1} : transforms[index];
+        emptyMarks[index] = emptyMarks[index].length == 0 ? new boolean[]{false, false, false} : emptyMarks[index];
+        transforms[index] = transforms[index].length == 0 ? new float[]{0, 0, 0, 0, 0, 0, 1, 1, 1} : transforms[index];
         setData(transforms[index], x, y, z, type, emptyMarks[index]);
     }
 
     void setData(float[] transform, float x, float y, float z, DataType type, boolean[] mark) {
         switch (type) {
-            case POS -> {setPos(transform, x, y, z); mark[0] = true;}
-            case ROT -> {setRot(transform, x, y, z); mark[1] = true;}
-            case SCALE -> {setScale(transform, x, y, z); mark[2] = true;}
+            case POS -> {
+                setPos(transform, x, y, z);
+                mark[0] = true;
+            }
+            case ROT -> {
+                setRot(transform, x, y, z);
+                mark[1] = true;
+            }
+            case SCALE -> {
+                setScale(transform, x, y, z);
+                mark[2] = true;
+            }
         }
     }
 

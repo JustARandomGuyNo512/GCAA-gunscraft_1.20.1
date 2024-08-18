@@ -47,6 +47,9 @@ public class ControllerEvents {
                     }
                 }
             }
+        } else {
+            Clients.mainHandStatus.buttonDown.set(false);
+            Clients.mainHandStatus.ads = false;
         }
     }
 
@@ -83,11 +86,14 @@ public class ControllerEvents {
                 PacketHandler.simpleChannel.sendToServer(new OpenAttachmentScreenPacket());
             } else if (KeyBinds.OPEN_CLIENT_SETTINGS_SCREEN.isDown() && event.getAction() == 1) {
                 Minecraft.getInstance().setScreen(new ClientSettingsScreen());
+            } else if (KeyBinds.SWITCH_EFFECTIVE_SIGHT.isDown() && event.getAction() == 1) {
+                Clients.mainHandStatus.attachmentsStatus.onSwitchEffectiveSight();
             }
             Clients.displayGunInfoDetails =
                     event.getKey() == KeyBinds.SHOW_FULL_GUN_INFO.getKey().getValue() && event.getAction() == 2;
             Clients.debugKeyDown =
                     event.getKey() == KeyBinds.DEBUG_KEY.getKey().getValue() && event.getAction() == 2;
+
         }
     }
 

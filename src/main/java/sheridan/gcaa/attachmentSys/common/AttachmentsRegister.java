@@ -14,32 +14,32 @@ import sheridan.gcaa.items.gun.IGun;
 import java.util.Map;
 
 public class AttachmentsRegister {
-    private static final Map<String, IAttachment> attachments = new Object2ObjectArrayMap<>();
-    private static final Map<IAttachment, ResourceLocation> registryKeys = new Object2ObjectArrayMap<>();
-    private static final Map<IGun, AttachmentSlot> attachmentSlots = new Object2ObjectArrayMap<>();
-    private static final Map<IAttachment, IAttachmentModel> attachmentModels = new Object2ObjectArrayMap<>();
+    private static final Map<String, IAttachment> ATTACHMENTS = new Object2ObjectArrayMap<>();
+    private static final Map<IAttachment, ResourceLocation> REGISTRY_KEYS = new Object2ObjectArrayMap<>();
+    private static final Map<IGun, AttachmentSlot> ATTACHMENT_SLOTS = new Object2ObjectArrayMap<>();
+    private static final Map<IAttachment, IAttachmentModel> ATTACHMENT_MODELS = new Object2ObjectArrayMap<>();
 
     public static void register(Map.Entry<ResourceKey<Item>, Item> entry) {
         if (entry.getValue() instanceof IAttachment attachment) {
-            attachments.put(entry.getKey().location().toString(), attachment);
-            registryKeys.put(attachment, entry.getKey().location());
+            ATTACHMENTS.put(entry.getKey().location().toString(), attachment);
+            REGISTRY_KEYS.put(attachment, entry.getKey().location());
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     public static void registerModel(IAttachment attachment, IAttachmentModel model) {
         if (model != null) {
-            attachmentModels.put(attachment, model);
+            ATTACHMENT_MODELS.put(attachment, model);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     public static IAttachmentModel getModel(IAttachment attachment) {
-        return attachmentModels.get(attachment);
+        return ATTACHMENT_MODELS.get(attachment);
     }
 
     public static IAttachment get(String s) {
-        return attachments.get(s);
+        return ATTACHMENTS.get(s);
     }
 
     public static IAttachmentModel getModel(String s) {
@@ -47,7 +47,7 @@ public class AttachmentsRegister {
     }
 
     public static ResourceLocation getKey(IAttachment attachment) {
-        return registryKeys.get(attachment);
+        return REGISTRY_KEYS.get(attachment);
     }
 
     public static String getStrKey(IAttachment attachment) {
@@ -56,10 +56,10 @@ public class AttachmentsRegister {
     }
 
     public static void registerAttachmentSlot(IGun gun, AttachmentSlot slot) {
-        attachmentSlots.put(gun, slot);
+        ATTACHMENT_SLOTS.put(gun, slot);
     }
 
     public static AttachmentSlot getAttachmentSlot(IGun gun) {
-        return attachmentSlots.getOrDefault(gun, AttachmentSlot.EMPTY);
+        return ATTACHMENT_SLOTS.getOrDefault(gun, AttachmentSlot.EMPTY);
     }
 }

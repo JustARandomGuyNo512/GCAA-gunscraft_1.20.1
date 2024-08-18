@@ -11,7 +11,7 @@ import sheridan.gcaa.client.render.GunRenderContext;
 @OnlyIn(Dist.CLIENT)
 public class SightViewRenderer {
 
-    public static void renderRedDot(GunRenderContext context, ResourceLocation bodyTexture, ResourceLocation crosshairTexture, ModelPart crosshair, ModelPart... bodyParts) {
+    public static void renderRedDot(boolean effective, GunRenderContext context, ResourceLocation bodyTexture, ResourceLocation crosshairTexture, ModelPart crosshair, ModelPart... bodyParts) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(bodyTexture));
         for (ModelPart part : bodyParts) {
             context.render(part, vertexConsumer);

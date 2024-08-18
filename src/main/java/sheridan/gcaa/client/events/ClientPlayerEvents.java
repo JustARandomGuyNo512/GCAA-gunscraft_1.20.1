@@ -2,7 +2,6 @@ package sheridan.gcaa.client.events;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -14,7 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
-import sheridan.gcaa.client.model.registry.GunModelRegistry;
+import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.JumpBobbingHandler;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.IGun;
@@ -34,6 +33,7 @@ public class ClientPlayerEvents {
                 if (gunMain != null) {
                     Clients.mainHandStatus.fireDelay.set(gunMain.getFireDelay(stackMain));
                     Clients.mainHandStatus.adsSpeed = Math.min(gunMain.getAdsSpeed(stackMain) * 0.05f, 0.25f);
+                    Clients.mainHandStatus.attachmentsStatus.checkAndUpdate(stackMain, gunMain, player);
                 }
                 Clients.mainHandStatus.updatePlayerSpread(stackMain, gunMain, player);
                 Clients.mainHandStatus.handleAds(stackMain, gunMain, player);
@@ -46,7 +46,7 @@ public class ClientPlayerEvents {
             }
             ReloadingHandler.INSTANCE.tick();
             if (Clients.debugKeyDown) {
-                AnimationDefinition definition = GunModelRegistry.getModel(ModItems.AKM.get()).get("reload");
+                AnimationDefinition definition = GunModelRegister.getModel(ModItems.AKM.get()).get("reload");
                 definition.print();
             }
         }

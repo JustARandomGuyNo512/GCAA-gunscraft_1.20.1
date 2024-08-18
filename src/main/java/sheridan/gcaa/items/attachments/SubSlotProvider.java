@@ -14,14 +14,8 @@ public abstract class SubSlotProvider extends Attachment implements ISubSlotProv
         if (detach) {
             for (AttachmentSlot child : prevSlot.getChildren().values()) {
                 if (!child.isEmpty()) {
-                    detach = false;
-                    break;
+                    return Component.translatable("tooltip.action_res.prevented_by_child").getString();
                 }
-            }
-            if (detach) {
-                return PASSED;
-            } else {
-                return Component.translatable("tooltip.action_res.prevented_by_child").getString();
             }
         }
         return res;

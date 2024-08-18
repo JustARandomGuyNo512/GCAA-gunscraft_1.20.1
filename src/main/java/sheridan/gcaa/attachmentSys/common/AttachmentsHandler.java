@@ -101,11 +101,11 @@ public class AttachmentsHandler {
                     String modelSlotName = attachmentTag.getString("model_slot_name");
                     String parentUuid = attachmentTag.getString("parent_uuid");
                     String uuid = attachmentTag.getString("uuid");
-                    AttachmentRenderEntry entry = new AttachmentRenderEntry(model, attachment, slotName, modelSlotName);
+                    AttachmentRenderEntry entry = new AttachmentRenderEntry(model, attachment, slotName, modelSlotName, uuid);
                     if (!ROOT.equals(parentUuid) && !NONE.equals(parentUuid)) {
                         AttachmentRenderEntry parent = entries.get(parentUuid);
                         if (parent != null) {
-                            parent.addChild(entry.slotName, entry);
+                            parent.addChild(entry.modelSlotName, entry);
                         }
                         entries.put(uuid, entry);
                     } else {

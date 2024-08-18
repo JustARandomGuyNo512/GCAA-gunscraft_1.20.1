@@ -39,7 +39,7 @@ public class MicroRedDotModel implements IAttachmentModel, ISightModel {
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         model.copyFrom(pose);
         context.translateTo(model);
-        SightViewRenderer.renderRedDot(context, texture, null, crosshair, body);
+        SightViewRenderer.renderRedDot(context.isFirstPerson, context, texture, null, crosshair, body);
         model.resetPose();
     }
 

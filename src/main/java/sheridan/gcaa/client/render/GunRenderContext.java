@@ -224,4 +224,10 @@ public class GunRenderContext {
         }
     }
 
+    public void renderEntry(AttachmentRenderEntry entry, ModelPart pose) {
+        if (entry != null) {
+            entry.render(this, pose);
+        }
+    }
+
 }

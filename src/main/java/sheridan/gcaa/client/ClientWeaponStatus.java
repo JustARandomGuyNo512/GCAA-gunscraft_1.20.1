@@ -1,5 +1,6 @@
 package sheridan.gcaa.client;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -31,9 +32,8 @@ public class ClientWeaponStatus {
     public long lastShoot = 0;
     public int equipDelay = 0;
     public float spread = 0;
-    public Vector3f adsPos;
-    public Vector3f adsRot;
     public float lastRecoilDirection = 1;
+    private static boolean switchSightTooltipShowed = false;
 
     public ClientWeaponStatus(boolean mainHand) {
         this.mainHand = mainHand;
@@ -42,7 +42,7 @@ public class ClientWeaponStatus {
         ads = false;
         fireDelay = new AtomicInteger(0);
         weapon = new AtomicReference<>(ItemStack.EMPTY);
-        attachmentsStatus = new ClientAttachmentsStatus();
+        attachmentsStatus = new ClientAttachmentsStatus(this);
     }
 
     public void handleAds(ItemStack stack, IGun gun, Player player) {
@@ -51,6 +51,14 @@ public class ClientWeaponStatus {
                 if (gun.shouldHandleAds(stack)) {
                     lastAdsProgress = adsProgress;
                     adsProgress = Math.min(adsSpeed + adsProgress, 1);
+                    if (adsProgress == 1 && !switchSightTooltipShowed) {
+                        if (attachmentsStatus.sights.size() > 1) {
+                            String info = Component.translatable("tooltip.screen_info.switch_sight").getString();
+                            info = info.replace("$key", KeyBinds.SWITCH_EFFECTIVE_SIGHT.getTranslatedKeyMessage().getString());
+                            player.displayClientMessage(Component.literal(info), false);
+                            switchSightTooltipShowed = true;
+                        }
+                    }
                 } else {
                     exitAds();
                 }
@@ -94,6 +102,10 @@ public class ClientWeaponStatus {
                 this.spread = Math.max(this.spread - 0.1f, 0);
             }
         }
+    }
+
+    public float[] getSightAimPos(float particleTick) {
+        return attachmentsStatus.getLerpedSightAimPos(particleTick);
     }
 
     public float getLerpAdsProgress(float particleTick) {

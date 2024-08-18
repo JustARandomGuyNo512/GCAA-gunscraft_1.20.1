@@ -20,7 +20,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector4f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.Commons;
 import sheridan.gcaa.client.KeyBinds;
@@ -30,7 +29,7 @@ import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
-import sheridan.gcaa.client.model.registry.GunModelRegistry;
+import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.network.PacketHandler;
@@ -89,7 +88,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         Clients.mainHandStatus.lastShoot = System.currentTimeMillis();
         PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
         PacketHandler.simpleChannel.sendToServer(new GunFirePacket(Clients.getSpread(this, player, stack)));
-        DisplayData data = GunModelRegistry.getDisplayData(this);
+        DisplayData data = GunModelRegister.getDisplayData(this);
         float directionY = RenderAndMathUtils.randomIndex();
         if (data != null) {
             InertialRecoilData inertialRecoilData = data.getInertialRecoilData();
@@ -342,6 +341,16 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     @Override
+    public String getEffectiveSightUUID(ItemStack stack) {
+        return checkAndGet(stack).getString("effective_sight_uuid");
+    }
+
+    @Override
+    public void setEffectiveSightUUID(ItemStack stack, String uuid) {
+        checkAndGet(stack).putString("effective_sight_uuid", uuid);
+    }
+
+    @Override
     public void newAttachmentsModifiedUUID(ItemStack stack) {
         CompoundTag tag = checkAndGet(stack);
         tag.putString("attachments_modified_uuid", UUID.randomUUID().toString());
@@ -380,6 +389,9 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         }
         if (!nbt.contains("attachments_modified_uuid")) {
             nbt.putString("attachments_modified_uuid", UUID.randomUUID().toString());
+        }
+        if (!nbt.contains("effective_sight_uuid")) {
+            nbt.putString("effective_sight_uuid", "none");
         }
         pStack.setTag(nbt);
     }

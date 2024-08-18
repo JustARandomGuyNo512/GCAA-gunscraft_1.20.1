@@ -19,6 +19,10 @@ import java.util.Set;
 public class AKImprovedHandguardModel implements IAttachmentModel, ISlotProviderModel {
     private final ModelPart handguard;
     private final ResourceLocation texture = AKStuff1.TEXTURE;
+    private final ModelPart slot_handguard_grip;
+    private final ModelPart slot_handguard_sight;
+    private final ModelPart slot_handguard_left;
+    private final ModelPart slot_handguard_right;
     private final Set<String> slotNames = new HashSet<>();
 
     public AKImprovedHandguardModel() {
@@ -27,6 +31,10 @@ public class AKImprovedHandguardModel implements IAttachmentModel, ISlotProvider
         slotNames.add("s_handguard_sight");
         slotNames.add("s_handguard_left");
         slotNames.add("s_handguard_right");
+        slot_handguard_grip = handguard.getChild("s_handguard_grip");
+        slot_handguard_sight = handguard.getChild("s_handguard_sight");
+        slot_handguard_left = handguard.getChild("s_handguard_left");
+        slot_handguard_right = handguard.getChild("s_handguard_right");
     }
 
 
@@ -34,6 +42,11 @@ public class AKImprovedHandguardModel implements IAttachmentModel, ISlotProvider
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         handguard.copyFrom(pose);
         context.render(handguard, context.getBuffer(RenderType.entityCutout(texture)));
+        context.translateTo(handguard);
+        context.renderEntry(attachmentRenderEntry.getChild("s_handguard_grip"), slot_handguard_grip);
+        context.renderEntry(attachmentRenderEntry.getChild("s_handguard_sight"), slot_handguard_sight);
+        context.renderEntry(attachmentRenderEntry.getChild("s_handguard_left"), slot_handguard_left);
+        context.renderEntry(attachmentRenderEntry.getChild("s_handguard_right"), slot_handguard_right);
         handguard.resetPose();
     }
 
