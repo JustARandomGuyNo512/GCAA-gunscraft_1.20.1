@@ -12,30 +12,30 @@ import sheridan.gcaa.network.IPacket;
 
 import java.util.function.Supplier;
 
-public class UpdateAttachmentScreenGuiContext implements IPacket<UpdateAttachmentScreenGuiContext> {
+public class UpdateAttachmentScreenGuiContextPacket implements IPacket<UpdateAttachmentScreenGuiContextPacket> {
     public ListTag attachments;
 
-    public UpdateAttachmentScreenGuiContext() {}
+    public UpdateAttachmentScreenGuiContextPacket() {}
 
-    public UpdateAttachmentScreenGuiContext(ListTag attachments) {
+    public UpdateAttachmentScreenGuiContextPacket(ListTag attachments) {
         this.attachments = attachments;
     }
 
     @Override
-    public void encode(UpdateAttachmentScreenGuiContext message, FriendlyByteBuf buffer) {
+    public void encode(UpdateAttachmentScreenGuiContextPacket message, FriendlyByteBuf buffer) {
         CompoundTag tag = new CompoundTag();
         tag.put("data", message.attachments);
         buffer.writeNbt(tag);
     }
 
     @Override
-    public UpdateAttachmentScreenGuiContext decode(FriendlyByteBuf buffer) {
+    public UpdateAttachmentScreenGuiContextPacket decode(FriendlyByteBuf buffer) {
         CompoundTag tag = buffer.readNbt();
-        return new UpdateAttachmentScreenGuiContext(tag.getList("data", Tag.TAG_COMPOUND));
+        return new UpdateAttachmentScreenGuiContextPacket(tag.getList("data", Tag.TAG_COMPOUND));
     }
 
     @Override
-    public void handle(UpdateAttachmentScreenGuiContext message, Supplier<NetworkEvent.Context> supplier) {
+    public void handle(UpdateAttachmentScreenGuiContextPacket message, Supplier<NetworkEvent.Context> supplier) {
         supplier.get().enqueueWork(() -> {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
                     {

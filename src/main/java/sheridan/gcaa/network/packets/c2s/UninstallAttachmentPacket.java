@@ -11,7 +11,7 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.IPacket;
 import sheridan.gcaa.network.PacketHandler;
-import sheridan.gcaa.network.packets.s2c.UpdateAttachmentScreenGuiContext;
+import sheridan.gcaa.network.packets.s2c.UpdateAttachmentScreenGuiContextPacket;
 
 import java.util.function.Supplier;
 
@@ -49,7 +49,7 @@ public class UninstallAttachmentPacket implements IPacket<UninstallAttachmentPac
                         }
                     }
                     ListTag attachments = gun.getAttachmentsListTag(heldItem);
-                    PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player), new UpdateAttachmentScreenGuiContext(attachments));
+                    PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player), new UpdateAttachmentScreenGuiContextPacket(attachments));
                 }
             }
         });

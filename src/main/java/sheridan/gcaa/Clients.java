@@ -172,9 +172,8 @@ public class Clients {
                 float dis = (float) ((player.position().x - x) * (player.position().x - x) +
                         (player.position().y - y) * (player.position().y - y) +
                         (player.position().z - z) * (player.position().z - z));
-
                 float range = soundEvent.getRange(originalVol);
-                float prevVol = calculateVolume(dis, range * range, originalVol);
+                float prevVol = calculateVolume(dis, range * range);
                 if (prevVol != 0) {
                     ModSounds.sound(prevVol * volModify, pitch, player, soundEvent);
                 }
@@ -182,13 +181,8 @@ public class Clients {
         }
     }
 
-    public static float calculateVolume(float disSq, float rangeSq, float vol) {
-        if (disSq >= rangeSq) {
-            return 0;
-        }
-
-        float factor = (1 - disSq / rangeSq);
-        return vol * factor;
+    public static float calculateVolume(float disSq, float rangeSq) {
+        return disSq >= rangeSq ? 0 : (1 - disSq / rangeSq);
     }
 
     public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, boolean reloading) {

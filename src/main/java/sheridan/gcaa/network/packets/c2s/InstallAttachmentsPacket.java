@@ -13,7 +13,7 @@ import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.IPacket;
 import sheridan.gcaa.network.PacketHandler;
-import sheridan.gcaa.network.packets.s2c.UpdateAttachmentScreenGuiContext;
+import sheridan.gcaa.network.packets.s2c.UpdateAttachmentScreenGuiContextPacket;
 
 import java.util.function.Supplier;
 
@@ -69,7 +69,7 @@ public class InstallAttachmentsPacket implements IPacket<InstallAttachmentsPacke
                         if (player.containerMenu instanceof AttachmentsMenu menu) {
                             menu.slots.get(message.itemSlotIndex).set(ItemStack.EMPTY);
                         }
-                        PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player), new UpdateAttachmentScreenGuiContext(attachments));
+                        PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player), new UpdateAttachmentScreenGuiContextPacket(attachments));
                     }
                 }
             }

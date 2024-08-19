@@ -8,7 +8,7 @@ import sheridan.gcaa.network.packets.c2s.*;
 import sheridan.gcaa.network.packets.s2c.BroadcastPlayerStatusPacket;
 import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
 import sheridan.gcaa.network.packets.s2c.ClientSoundPacket;
-import sheridan.gcaa.network.packets.s2c.UpdateAttachmentScreenGuiContext;
+import sheridan.gcaa.network.packets.s2c.UpdateAttachmentScreenGuiContextPacket;
 
 public class PacketHandler
 {
@@ -29,10 +29,11 @@ public class PacketHandler
         registerPacket(ClientPlayParticlePacket.class, new ClientPlayParticlePacket());
         registerPacket(OpenAttachmentScreenPacket.class, new OpenAttachmentScreenPacket());
         registerPacket(InstallAttachmentsPacket.class, new InstallAttachmentsPacket());
-        registerPacket(UpdateAttachmentScreenGuiContext.class, new UpdateAttachmentScreenGuiContext());
+        registerPacket(UpdateAttachmentScreenGuiContextPacket.class, new UpdateAttachmentScreenGuiContextPacket());
         registerPacket(UninstallAttachmentPacket.class, new UninstallAttachmentPacket());
         registerPacket(SetEffectiveSightPacket.class, new SetEffectiveSightPacket());
         registerPacket(ClientSoundPacket.class, new ClientSoundPacket());
+        registerPacket(PlayerSoundPacket.class, new PlayerSoundPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

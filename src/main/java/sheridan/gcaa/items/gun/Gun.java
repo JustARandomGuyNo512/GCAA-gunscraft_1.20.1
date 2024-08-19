@@ -128,15 +128,15 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         String muzzleState = getMuzzleFlash(stack);
         if (MUZZLE_STATE_SUPPRESSOR.equals(muzzleState)) {
             if (gunProperties.suppressedSound != null) {
-                ModSounds.sound(getFireSoundVol(stack), 1f + ((float) Math.random() * 0.1f), player, gunProperties.suppressedSound.get());
+                ModSounds.sound(1, 1f + ((float) Math.random() * 0.1f), player, gunProperties.suppressedSound.get());
             } else {
                 if (gunProperties.fireSound != null) {
-                    ModSounds.sound(getFireSoundVol(stack) * 0.4f, 1.6f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
+                    ModSounds.sound(0.5f, 1.6f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
                 }
             }
         } else {
             if (gunProperties.fireSound != null) {
-                ModSounds.sound(getFireSoundVol(stack), 1f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
+                ModSounds.sound(1, 1f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
             }
         }
     }
@@ -149,7 +149,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             if (gunProperties.suppressedSound != null) {
                 ModSounds.boardCastSound(gunProperties.suppressedSound.get(), vol, 1, pitch, (ServerPlayer) player);
             } else {
-                ModSounds.boardCastSound(gunProperties.fireSound.get(), vol, 0.4f, 1.6f + ((float) Math.random() * 0.1f), (ServerPlayer) player);
+                ModSounds.boardCastSound(gunProperties.fireSound.get(), vol, 0.5f, 1.6f + ((float) Math.random() * 0.1f), (ServerPlayer) player);
             }
         } else {
             ModSounds.boardCastSound(gunProperties.fireSound.get(), vol, 1f, pitch, (ServerPlayer) player);
@@ -463,7 +463,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     protected void gunBaseInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(FontUtils.dataTip("tooltip.gun_info.mag_size", getMagSize(stack), 0, 100));
         tooltip.add(FontUtils.dataTip("tooltip.gun_info.rpm", gunProperties.getRPM(), 200, 1200));
-        tooltip.add(FontUtils.dataTip("tooltip.gun_info.weight", 40 - getWeight(stack), 5, 40));
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.weight", getWeight(stack), 5, 40));
         gunProperties.caliber.handleTooltip(stack, this, levelIn, tooltip, flagIn, false);
         String showDetail = Component.translatable("tooltip.gcaa.show_full_gun_info").getString();
         showDetail = showDetail.replace("$key", KeyBinds.SHOW_FULL_GUN_INFO.getTranslatedKeyMessage().getString());

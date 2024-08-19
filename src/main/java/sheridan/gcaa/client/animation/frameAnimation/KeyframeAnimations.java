@@ -10,6 +10,8 @@ import org.joml.Vector3f;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
+import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.network.packets.c2s.PlayerSoundPacket;
 import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.List;
@@ -141,13 +143,16 @@ public class KeyframeAnimations {
             this.soundName = soundName;
         }
 
-        public void playSound() {
+        public void playSound(boolean soundOnServer) {
             if (EMPTY_SOUND.equals(this.soundName)) {
                 return;
             }
             Player player = Minecraft.getInstance().player;
             if (player != null) {
                 ModSounds.sound(1,1, player, soundName);
+                if (soundOnServer) {
+                    PacketHandler.simpleChannel.sendToServer(new PlayerSoundPacket(soundName.toString()));
+                }
             }
         }
 
@@ -169,6 +174,7 @@ public class KeyframeAnimations {
         private int tick;
         private int prevSoundIndex = -1;
         private boolean enableSound = false;
+        public boolean soundOnServer = false;
 
         public Mark(AnimationDefinition animationDefinition, long timeStamp, Vector3f scales) {
             this.animationDefinition = animationDefinition;
@@ -186,6 +192,11 @@ public class KeyframeAnimations {
             return this;
         }
 
+        public Mark soundOnServer(boolean soundOnServer) {
+            this.soundOnServer = soundOnServer;
+            return this;
+        }
+
         public void onClientTick() {
             if (enableSound) {
                 List<SoundPoint> soundPoints = animationDefinition.soundPoints();
@@ -195,7 +206,7 @@ public class KeyframeAnimations {
                 int soundIndex = Math.max(0, Mth.binarySearch(0, soundPoints.size(),
                         (index) -> tick < soundPoints.get(index).tick) - 1);
                 if (soundIndex != prevSoundIndex) {
-                    soundPoints.get(soundIndex).playSound();
+                    soundPoints.get(soundIndex).playSound(soundOnServer);
                     prevSoundIndex = soundIndex;
                 }
             }

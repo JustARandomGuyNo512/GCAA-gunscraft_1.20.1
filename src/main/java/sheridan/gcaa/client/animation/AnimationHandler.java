@@ -121,18 +121,18 @@ public class AnimationHandler {
     }
 
     public void startReload(AnimationDefinition animationDefinition) {
-        startAnimation(RELOAD, animationDefinition, true);
+        startAnimation(RELOAD, animationDefinition, true, true);
     }
 
     public void startInspect(AnimationDefinition animationDefinition) {
-        startAnimation(INSPECT, animationDefinition, true);
+        startAnimation(INSPECT, animationDefinition, true, false);
     }
 
-    public void startAnimation(String channel, AnimationDefinition animationDefinition, boolean enableSound) {
+    public void startAnimation(String channel, AnimationDefinition animationDefinition, boolean enableSound, boolean soundOnServer) {
         if (animationDefinition == null) {
             return;
         }
-        animations.put(channel, new KeyframeAnimations.Mark(animationDefinition, System.currentTimeMillis()).enableSound(enableSound));
+        animations.put(channel, new KeyframeAnimations.Mark(animationDefinition, System.currentTimeMillis()).enableSound(enableSound).soundOnServer(soundOnServer));
     }
 
     public void onClientTick() {

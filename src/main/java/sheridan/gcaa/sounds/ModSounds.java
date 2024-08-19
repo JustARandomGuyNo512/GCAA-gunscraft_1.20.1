@@ -47,6 +47,7 @@ public class ModSounds {
      * play a sound immediately.
      * @param name the registry path of the sound event. such as: new ResourceLocation(your_mod.MODID, name).
      *             the "name" is the name when a sound event registered, not the key of this sound event in sounds.json.
+     *             like: ForgeRegistries.SOUND_EVENTS.getKey(soundEvent)
      * */
     public static void sound(float vol, float pit, Player player, ResourceLocation name) {
         SoundEvent soundEvent = ForgeRegistries.SOUND_EVENTS.getValue(name);
