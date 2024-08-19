@@ -7,6 +7,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -18,6 +20,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
@@ -34,6 +38,8 @@ import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunFirePacket;
+import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
+import sheridan.gcaa.network.packets.s2c.ClientSoundPacket;
 import sheridan.gcaa.sounds.ModSounds;
 import sheridan.gcaa.utils.FontUtils;
 import sheridan.gcaa.utils.RenderAndMathUtils;
@@ -106,7 +112,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             }
         }
         RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionY);
-        handleFireSound(stack, player, true);
+        handleFireSoundClient(stack, player);
         float spread = getShootSpread(stack);
         if (player.isCrouching()) {
             spread *= 0.8f;
@@ -117,21 +123,36 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         Clients.mainHandStatus.spread += spread;
     }
 
-
-    protected void handleFireSound(ItemStack stack, Player player, boolean client) {
+    @OnlyIn(Dist.CLIENT)
+    protected void handleFireSoundClient(ItemStack stack, Player player) {
         String muzzleState = getMuzzleFlash(stack);
         if (MUZZLE_STATE_SUPPRESSOR.equals(muzzleState)) {
             if (gunProperties.suppressedSound != null) {
                 ModSounds.sound(getFireSoundVol(stack), 1f + ((float) Math.random() * 0.1f), player, gunProperties.suppressedSound.get());
             } else {
                 if (gunProperties.fireSound != null) {
-                    ModSounds.sound(getFireSoundVol(stack) * (client ? 0.4f : 1f), 1.6f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
+                    ModSounds.sound(getFireSoundVol(stack) * 0.4f, 1.6f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
                 }
             }
         } else {
             if (gunProperties.fireSound != null) {
                 ModSounds.sound(getFireSoundVol(stack), 1f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
             }
+        }
+    }
+
+    protected void handleFireSoundServer(ItemStack stack, Player player) {
+        String muzzleState = getMuzzleFlash(stack);
+        float vol = getFireSoundVol(stack);
+        float pitch = 1f + ((float) Math.random() * 0.1f);
+        if (MUZZLE_STATE_SUPPRESSOR.equals(muzzleState)) {
+            if (gunProperties.suppressedSound != null) {
+                ModSounds.boardCastSound(gunProperties.suppressedSound.get(), vol, 1, pitch, (ServerPlayer) player);
+            } else {
+                ModSounds.boardCastSound(gunProperties.fireSound.get(), vol, 0.4f, 1.6f + ((float) Math.random() * 0.1f), (ServerPlayer) player);
+            }
+        } else {
+            ModSounds.boardCastSound(gunProperties.fireSound.get(), vol, 1f, pitch, (ServerPlayer) player);
         }
     }
 
@@ -142,7 +163,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             Caliber caliber = gunProperties.caliber;
             if (!player.level().isClientSide) {
                 caliber.fireBullet(null, null, this, player, stack, spread);
-                handleFireSound(stack, player, true);
+                handleFireSoundServer(stack, player);
             }
             setAmmoLeft(stack, ammoLeft - 1);
         }

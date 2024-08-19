@@ -2,13 +2,18 @@ package sheridan.gcaa.sounds;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.network.packets.s2c.ClientSoundPacket;
 
 public class ModSounds {
     public static final DeferredRegister<SoundEvent> MOD_SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, GCAA.MODID);
@@ -48,6 +53,22 @@ public class ModSounds {
         if (soundEvent != null) {
             sound(vol, pit, player, soundEvent);
         }
+    }
+
+    public static void boardCastSound(SoundEvent soundEvent, float vol, float volModify, float pitch, ServerPlayer player) {
+        if (soundEvent == null) {
+            return;
+        }
+        ResourceLocation key = ForgeRegistries.SOUND_EVENTS.getKey(soundEvent);
+        if (key != null) {
+            boardCastSound(key.toString(), soundEvent.getRange(vol), vol, volModify, pitch, player);
+        }
+    }
+
+    public static void boardCastSound(String name, float range, float vol, float volModify, float pitch, ServerPlayer player) {
+        PacketHandler.simpleChannel.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
+                player, player.position().x, player.position().y, player.position().z, range, player.level().dimension()
+        )), new ClientSoundPacket(vol, volModify, pitch, player.position(), name));
     }
 
     public static void soundAtPoint(float vol, float pit, float x, float y, float z, Player player, ResourceLocation name) {

@@ -8,8 +8,10 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -20,6 +22,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.joml.Vector3f;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
@@ -48,6 +51,7 @@ import sheridan.gcaa.items.gun.IGunFireMode;
 import sheridan.gcaa.lib.ArsenalLib;
 import sheridan.gcaa.sounds.ModSounds;
 
+import javax.annotation.Nullable;
 import java.util.Timer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
@@ -157,6 +161,34 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.MICRO_RED_DOT.get(), new MicroRedDotModel());
         ArsenalLib.registerAttachmentModel(ModItems.RED_DOT.get(), new RedDotModel());
         ArsenalLib.registerAttachmentModel(ModItems.HOLOGRAPHIC.get(), new HolographicModel());
+    }
+
+
+    public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {
+        SoundEvent soundEvent = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(soundName));
+        if (soundEvent != null) {
+            Player player = Minecraft.getInstance().player;
+            if (player != null) {
+                float dis = (float) ((player.position().x - x) * (player.position().x - x) +
+                        (player.position().y - y) * (player.position().y - y) +
+                        (player.position().z - z) * (player.position().z - z));
+
+                float range = soundEvent.getRange(originalVol);
+                float prevVol = calculateVolume(dis, range * range, originalVol);
+                if (prevVol != 0) {
+                    ModSounds.sound(prevVol * volModify, pitch, player, soundEvent);
+                }
+            }
+        }
+    }
+
+    public static float calculateVolume(float disSq, float rangeSq, float vol) {
+        if (disSq >= rangeSq) {
+            return 0;
+        }
+
+        float factor = (1 - disSq / rangeSq);
+        return vol * factor;
     }
 
     public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, boolean reloading) {
