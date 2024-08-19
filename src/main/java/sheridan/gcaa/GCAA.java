@@ -52,7 +52,6 @@ public class GCAA {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::onClientSetup));
         modEventBus.addListener(this::commonSetup);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModTabs.MOD_TABS.register(modEventBus);
@@ -68,6 +67,7 @@ public class GCAA {
 
     @OnlyIn(Dist.CLIENT)
     private void onClientSetup(final FMLClientSetupEvent event) {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         MinecraftForge.EVENT_BUS.register(Test.class);
         MinecraftForge.EVENT_BUS.register(RenderEvents.class);
         MinecraftForge.EVENT_BUS.register(ControllerEvents.class);

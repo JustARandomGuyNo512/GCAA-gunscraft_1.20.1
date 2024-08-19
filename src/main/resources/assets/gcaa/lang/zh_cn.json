@@ -30,7 +30,7 @@
 
   "tooltip.gun_info.damage": "伤害：",
   "tooltip.gun_info.effective_range": "有效射程：",
-  "tooltip.gun_info.info": "初速：",
+  "tooltip.gun_info.bullet_speed": "初速：",
   "tooltip.gun_info.caliber": "口径：",
   "tooltip.gun_info.mag_size": "载弹量：",
   "tooltip.gun_info.rpm": "RPM：",

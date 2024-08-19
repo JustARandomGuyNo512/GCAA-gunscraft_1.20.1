@@ -5,8 +5,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +18,6 @@ public class GunProperties{
     public static final String RECOIL_YAW = "recoil_yaw";
     public static final String RECOIL_PITCH_CONTROL = "recoil_pitch_control";
     public static final String RECOIL_YAW_CONTROL = "recoil_yaw_control";
-    public static final String WEIGHT = "weight";
     public static final String WALKING_SPREAD_FACTOR = "walking_spread_factor";
     public static final String SPRINTING_SPREAD_FACTOR = "sprinting_spread_factor";
     public static final String FIRE_SOUND_VOL = "fire_sound_vol";
@@ -81,9 +78,13 @@ public class GunProperties{
      * so if you put the rpm to 600, the fire delay will be 20 and real rpm ≈ 600, but if you put 650, the fire
      * delay is 18, and real rpm ≈ 666.
      * */
-    public static int getRPM(int rpm) {
+    public static int toRPM(int rpm) {
         float ms = 60000f / rpm;
         return (int) (ms / 5);
+    }
+
+    public int getRPM() {
+        return 60000 / (fireDelay * 5);
     }
 
     /**
@@ -111,7 +112,7 @@ public class GunProperties{
         tag.putFloat("recoil_pitch_control", 1.0f);
         tag.putFloat("recoil_yaw_control", 1.0f);
         tag.putString("muzzle_flash", Gun.MUZZLE_STATE_NORMAL);
-        tag.putFloat("weight", 1.0f);
+        tag.putFloat("weight", weight);
         tag.putFloat("walking_spread_factor", 1.0f);
         tag.putFloat("sprinting_spread_factor", 1.0f);
         tag.putFloat("fire_sound_vol", 1.0f);
@@ -144,6 +145,10 @@ public class GunProperties{
         propertiesTag.putString("muzzle_flash", stateName);
     }
 
+    public void setWeight(CompoundTag propertiesTag, int weight) {
+        propertiesTag.putFloat("weight", weight);
+    }
+
     static {
         PROPERTIES = Set.of(
                 ADS_SPEED,
@@ -155,7 +160,6 @@ public class GunProperties{
                 RECOIL_YAW,
                 RECOIL_PITCH_CONTROL,
                 RECOIL_YAW_CONTROL,
-                WEIGHT,
                 WALKING_SPREAD_FACTOR,
                 SPRINTING_SPREAD_FACTOR,
                 FIRE_SOUND_VOL

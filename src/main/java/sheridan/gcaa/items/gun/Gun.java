@@ -106,7 +106,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             }
         }
         RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionY);
-        handleFireSound(stack, player);
+        handleFireSound(stack, player, true);
         float spread = getShootSpread(stack);
         if (player.isCrouching()) {
             spread *= 0.8f;
@@ -117,14 +117,15 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         Clients.mainHandStatus.spread += spread;
     }
 
-    protected void handleFireSound(ItemStack stack, Player player) {
+
+    protected void handleFireSound(ItemStack stack, Player player, boolean client) {
         String muzzleState = getMuzzleFlash(stack);
         if (MUZZLE_STATE_SUPPRESSOR.equals(muzzleState)) {
             if (gunProperties.suppressedSound != null) {
                 ModSounds.sound(getFireSoundVol(stack), 1f + ((float) Math.random() * 0.1f), player, gunProperties.suppressedSound.get());
             } else {
                 if (gunProperties.fireSound != null) {
-                    ModSounds.sound(getFireSoundVol(stack), 1.6f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
+                    ModSounds.sound(getFireSoundVol(stack) * (client ? 0.4f : 1f), 1.6f + ((float) Math.random() * 0.1f), player, gunProperties.fireSound.get());
                 }
             }
         } else {
@@ -141,7 +142,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             Caliber caliber = gunProperties.caliber;
             if (!player.level().isClientSide) {
                 caliber.fireBullet(null, null, this, player, stack, spread);
-                handleFireSound(stack, player);
+                handleFireSound(stack, player, true);
             }
             setAmmoLeft(stack, ammoLeft - 1);
         }
@@ -273,7 +274,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public float getWeight(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("weight") ? properties.getFloat("weight") : 0;
+        return properties.contains("weight") ? Mth.clamp(properties.getFloat("weight"), GunProperties.MIN_WEIGHT, GunProperties.MAX_WEIGHT) : 0;
     }
 
     @Override
@@ -439,13 +440,20 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     protected void gunBaseInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.mag_size", getMagSize(stack), 0, 100));
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.rpm", gunProperties.getRPM(), 200, 1200));
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.weight", 40 - getWeight(stack), 5, 40));
+        gunProperties.caliber.handleTooltip(stack, this, levelIn, tooltip, flagIn, false);
         String showDetail = Component.translatable("tooltip.gcaa.show_full_gun_info").getString();
         showDetail = showDetail.replace("$key", KeyBinds.SHOW_FULL_GUN_INFO.getTranslatedKeyMessage().getString());
         tooltip.add(FontUtils.helperTip(Component.literal(showDetail)));
     }
 
     protected void gunDetailInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(Component.literal("details..."));
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.mag_size", getMagSize(stack), 0, 100));
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.rpm", gunProperties.getRPM(), 200, 1200));
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.weight", getWeight(stack), 5, 40));
+        gunProperties.caliber.handleTooltip(stack, this, levelIn, tooltip, flagIn, true);
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -1,5 +1,6 @@
 package sheridan.gcaa.sounds;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
@@ -46,6 +47,13 @@ public class ModSounds {
         SoundEvent soundEvent = ForgeRegistries.SOUND_EVENTS.getValue(name);
         if (soundEvent != null) {
             sound(vol, pit, player, soundEvent);
+        }
+    }
+
+    public static void soundAtPoint(float vol, float pit, float x, float y, float z, Player player, ResourceLocation name) {
+        SoundEvent soundEvent = ForgeRegistries.SOUND_EVENTS.getValue(name);
+        if (soundEvent != null) {
+            player.level().playSound(player, x, y, z, soundEvent, player.getSoundSource(), vol, pit);
         }
     }
 }

@@ -1,6 +1,7 @@
 package sheridan.gcaa.items.gun;
 
 public class ProjectileData {
+
     public float baseDamage;
     public float minDamage;
     public float effectiveRange;

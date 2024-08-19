@@ -41,6 +41,7 @@ import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class Projectile extends Entity implements IProjectile {
     private static final Random RANDOM = new Random();
@@ -263,7 +264,9 @@ public class Projectile extends Entity implements IProjectile {
         boolean notThrough = !(state.getBlock() instanceof LeavesBlock) && !(state.getBlock() instanceof AirBlock);
         boolean flag = checkForHitSpecialBlock(pos, state, result);
         if (notThrough && flag) {
+
             PacketHandler.simpleChannel.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
+                    (ServerPlayer) this.shooter,
                     result.getLocation().x,
                     result.getLocation().y,
                     result.getLocation().z,

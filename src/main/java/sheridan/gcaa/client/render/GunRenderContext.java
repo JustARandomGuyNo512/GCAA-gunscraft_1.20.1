@@ -44,7 +44,7 @@ public class GunRenderContext {
     public PoseStack[] localPoseStorage;
     public int ammoLeft;
 
-    private static String lastAttachmentContextUUID = "不同意的请举手    没有！！！ 没有！！！ 没有！！！ 。。。";
+    private static String lastAttachmentContextUUID = "none";
     private static AttachmentsRenderContext tempAttachmentContext = null;
     public static GunRenderContext getLocalMainHand(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, DisplayData.MuzzleFlashEntry muzzleFlashEntry, int packedLight, int packedOverlay) {
         GunRenderContext context = new GunRenderContext(bufferSource, poseStack, itemStack, gun, transformType, packedLight, packedOverlay, muzzleFlashEntry, Clients.lastShootMain() + 10L);
@@ -86,6 +86,7 @@ public class GunRenderContext {
         this.muzzleFlashEntry = muzzleFlashEntry;
         this.lastShoot = lastShoot;
         ammoLeft = gun.getAmmoLeft(itemStack);
+        attachmentsRenderContext = AttachmentsHandler.INSTANCE.getRenderContext(itemStack, gun);
     }
 
     public boolean reloading() {

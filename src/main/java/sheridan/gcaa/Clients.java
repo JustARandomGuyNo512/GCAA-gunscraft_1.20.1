@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -45,6 +46,7 @@ import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 import sheridan.gcaa.lib.ArsenalLib;
+import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.Timer;
 import java.util.concurrent.atomic.AtomicBoolean;
