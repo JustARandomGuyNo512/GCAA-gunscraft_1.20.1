@@ -19,7 +19,7 @@ import sheridan.gcaa.client.render.GunRenderContext;
 public class G19Model extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.png");
     private ModelPart body, slide, mag, barrel, bullet;
-    private ModelPart slot_scope, slot_mag;
+    private ModelPart slot_scope;
 
     private final AnimationDefinition recoil;
     private final AnimationDefinition shoot;
@@ -39,7 +39,6 @@ public class G19Model extends GunModel {
         mag = gun.getChild("mag").meshing();
         bullet = mag.getChild("bullet").meshing();
 
-        slot_mag = mag.getChild("s_mag");
         slot_scope = slide.getChild("s_scope");
     }
 
@@ -83,7 +82,6 @@ public class G19Model extends GunModel {
         if (name.equals("s_mag")) {
             handleGunTranslate(poseStack);
             mag.translateAndRotate(poseStack);
-            slot_mag.translateAndRotate(poseStack);
             return;
         }
         if (name.equals("s_scope")) {

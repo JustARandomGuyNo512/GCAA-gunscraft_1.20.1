@@ -29,4 +29,19 @@ public class RenderTypes extends RenderType {
                         .setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL).setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(false));
 
     }
+
+    public static RenderType getAttachmentOverlayDepth(ResourceLocation texture) {
+        String baseKey = texture.toString() + ":" + "attachment_overlay_depth";
+        if (TEMP.containsKey(baseKey)) {
+            return TEMP.get(baseKey);
+        } else {
+            RenderType baseType = RenderType.create(GCAA.MODID + ":" + "attachment_overlay_depth", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
+                    VertexFormat.Mode.QUADS, 256, true, false,
+                    CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
+                            .setTextureState(new TextureStateShard(texture, false, false))
+                            .setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL).createCompositeState(false));
+            TEMP.put(baseKey, baseType);
+            return baseType;
+        }
+    }
 }

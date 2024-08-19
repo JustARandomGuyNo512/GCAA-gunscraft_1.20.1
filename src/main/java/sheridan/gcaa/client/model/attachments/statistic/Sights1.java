@@ -13,6 +13,8 @@ import java.util.Map;
 public class Sights1 {
     public static ModelPart root;
     public static final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/sights/sights1.png");
+    public static final ResourceLocation HOLOGRAPHIC_CROSSHAIR = new ResourceLocation(GCAA.MODID, "model_assets/attachments/sights/holographic.png");
+    public static final ResourceLocation RED_DOT_CROSSHAIR = new ResourceLocation(GCAA.MODID, "model_assets/attachments/sights/red_dot.png");
 
     private static void init() {
         root = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/sights/sights1.geo.json")).bakeRoot().getChild("root");

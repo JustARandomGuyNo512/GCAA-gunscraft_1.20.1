@@ -43,7 +43,7 @@ public class HolographicModel implements IAttachmentModel, ISightModel {
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         model.copyFrom(pose);
         context.translateTo(model);
-        SightViewRenderer.renderRedDot(context.isFirstPerson, context, texture, null, crosshair, body);
+        SightViewRenderer.renderRedDot(context.isEffectiveSight(attachmentRenderEntry), context, texture, Sights1.HOLOGRAPHIC_CROSSHAIR, crosshair, body);
         model.resetPose();
     }
 

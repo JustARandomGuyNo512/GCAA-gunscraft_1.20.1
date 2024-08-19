@@ -18,6 +18,7 @@ import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class GunRenderContext {
@@ -237,4 +238,7 @@ public class GunRenderContext {
         }
     }
 
+    public boolean isEffectiveSight(AttachmentRenderEntry entry) {
+        return isFirstPerson && Clients.mainHandStatus.adsProgress > 0.7f && Objects.equals(entry.slotUUID, Clients.getEffectiveSightUUID());
+    }
 }

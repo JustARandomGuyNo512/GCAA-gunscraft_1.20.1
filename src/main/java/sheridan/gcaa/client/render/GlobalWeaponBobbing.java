@@ -7,6 +7,7 @@ import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
+import org.joml.Vector2f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.items.gun.IGun;
 
@@ -33,6 +34,10 @@ public class GlobalWeaponBobbing {
         if (weaponBobbing != null && player != null && gun != null) {
             weaponBobbing.handleTranslation(poseStack, INSTANCE);
         }
+    }
+
+    public Vector2f getSwing() {
+        return weaponBobbing == null ? null : weaponBobbing.getSwing();
     }
 
     public void update(float particleTicks, float equipProgress) {
@@ -75,6 +80,7 @@ public class GlobalWeaponBobbing {
         void use();
         void clear();
         void handleTranslation(PoseStack poseStack, GlobalWeaponBobbing instance);
+        Vector2f getSwing();
     }
 
     private static class DefaultBobbing implements IWeaponBobbing {
@@ -144,6 +150,11 @@ public class GlobalWeaponBobbing {
 
 
 
+        }
+
+        @Override
+        public Vector2f getSwing() {
+            return new Vector2f(swingRx, swingRy);
         }
 
     }
