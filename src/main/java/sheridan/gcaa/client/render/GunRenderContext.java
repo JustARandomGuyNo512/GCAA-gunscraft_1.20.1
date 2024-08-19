@@ -218,6 +218,13 @@ public class GunRenderContext {
         return has(Attachment.MAG);
     }
 
+    public GunRenderContext renderScope(ModelPart pose) {
+        if (attachmentsRenderContext != null) {
+            renderEntry(attachmentsRenderContext.slotLayer.get(Attachment.SCOPE), pose);
+        }
+        return this;
+    }
+
     public void renderAllAttachmentsLeft(ModelPart layer) {
         if (attachmentsRenderContext != null) {
             attachmentsRenderContext.renderAll(this, layer);

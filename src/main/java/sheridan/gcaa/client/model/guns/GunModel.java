@@ -67,17 +67,10 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     }
 
     @Override
-    public ModelPart getSlotPart(String name) {
-        return gun.getChild(name);
-    }
-
-    @Override
     public void handleSlotTranslate(PoseStack poseStack, String name) {
-        ModelPart slot = getSlotPart(name);
-        if (slot != null) {
-            handleGunTranslate(poseStack);
-            slot.translateAndRotate(poseStack);
-        }
+        ModelPart slot = gun.getChild(name);
+        handleGunTranslate(poseStack);
+        slot.translateAndRotate(poseStack);
     }
 
     @Override

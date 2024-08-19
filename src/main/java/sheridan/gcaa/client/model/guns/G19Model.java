@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.model.guns;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -18,7 +19,7 @@ import sheridan.gcaa.client.render.GunRenderContext;
 public class G19Model extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.png");
     private ModelPart body, slide, mag, barrel, bullet;
-    private ModelPart slot_grip, slot_scope, slot_mag, slot_muzzle;
+    private ModelPart slot_scope, slot_mag;
 
     private final AnimationDefinition recoil;
     private final AnimationDefinition shoot;
@@ -38,10 +39,8 @@ public class G19Model extends GunModel {
         mag = gun.getChild("mag").meshing();
         bullet = mag.getChild("bullet").meshing();
 
-        slot_grip = gun.getChild("s_grip");
-        slot_mag = gun.getChild("s_mag");
-        slot_muzzle = gun.getChild("s_muzzle");
-        slot_scope = gun.getChild("s_scope");
+        slot_mag = mag.getChild("s_mag");
+        slot_scope = slide.getChild("s_scope");
     }
 
     @Override
@@ -55,6 +54,9 @@ public class G19Model extends GunModel {
 
     @Override
     protected void renderAttachmentsModel(GunRenderContext context) {
+        if (context.hasScope()) {
+            context.pushPose().translateTo(slide).renderScope(slot_scope).popPose();
+        }
         context.renderAllAttachmentsLeft(gun);
         context.renderMuzzleFlash(1.0f);
     }
@@ -69,6 +71,28 @@ public class G19Model extends GunModel {
             }
             KeyframeAnimations.animate(this, shoot, Clients.lastShootMain(), 1);
         }
+    }
+
+    @Override
+    public boolean hasSlot(String modelSlotName) {
+        return ("s_mag".equals(modelSlotName) || "s_scope".equals(modelSlotName)) || super.hasSlot(modelSlotName);
+    }
+
+    @Override
+    public void handleSlotTranslate(PoseStack poseStack, String name) {
+        if (name.equals("s_mag")) {
+            handleGunTranslate(poseStack);
+            mag.translateAndRotate(poseStack);
+            slot_mag.translateAndRotate(poseStack);
+            return;
+        }
+        if (name.equals("s_scope")) {
+            handleGunTranslate(poseStack);
+            slide.translateAndRotate(poseStack);
+            slot_scope.translateAndRotate(poseStack);
+            return;
+        }
+        super.handleSlotTranslate(poseStack, name);
     }
 
     @Override

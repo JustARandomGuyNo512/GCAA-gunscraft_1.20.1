@@ -13,7 +13,6 @@ public interface IGunModel extends ISlotProviderModel {
     void render(GunRenderContext gunRenderContext);
     void handleGunTranslate(PoseStack poseStack);
     AnimationDefinition getRecoilAnimation();
-    ModelPart getSlotPart(String name);
     AnimationDefinition getReload();
     AnimationDefinition getFullReload();
     AnimationDefinition get(String name);
