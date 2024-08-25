@@ -15,6 +15,7 @@ import sheridan.gcaa.items.attachments.sight.Holographic;
 import sheridan.gcaa.items.attachments.sight.MicroRedDot;
 import sheridan.gcaa.items.attachments.sight.RedDot;
 import sheridan.gcaa.items.gun.guns.Akm;
+import sheridan.gcaa.items.gun.guns.Awp;
 import sheridan.gcaa.items.gun.guns.G19;
 
 public class ModItems {
@@ -22,6 +23,7 @@ public class ModItems {
 
     public static final RegistryObject<G19> G19 = ITEMS.register("g19", G19::new);
     public static final RegistryObject<Akm> AKM = ITEMS.register("akm", Akm::new);
+    public static final RegistryObject<Awp> AWP = ITEMS.register("awp", Awp::new);
 
     public static final RegistryObject<UnknownAttachment> UNKNOWN_ATTACHMENT = ITEMS.register("unknown_attachment", UnknownAttachment::new);
     public static final RegistryObject<AKSuppressor> AK_SUPPRESSOR = ITEMS.register("ak_suppressor", AKSuppressor::new);

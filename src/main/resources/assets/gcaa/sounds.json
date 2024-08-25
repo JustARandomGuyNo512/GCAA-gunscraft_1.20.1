@@ -6,7 +6,13 @@
   "item.generic.pistol_slide_forward": { "subtitle": "item.generic.pistol_slide_forward", "sounds": [{ "name": "gcaa:generic/pistol_slide_forward" }]},
   "item.generic.smg_mag_attach": { "subtitle": "item.generic.smg_mag_attach", "sounds": [{ "name": "gcaa:generic/smg_mag_attach" }]},
   "item.generic.smg_mag_off": { "subtitle": "item.generic.smg_mag_off", "sounds": [{ "name": "gcaa:generic/smg_mag_off" }]},
+  "item.generic.awp_bolt_back": { "subtitle": "item.generic.awp_bolt_back", "sounds": [{ "name": "gcaa:generic/awp_bolt_back" }]},
+  "item.generic.awp_bolt_forward": { "subtitle": "item.generic.awp_bolt_forward", "sounds": [{ "name": "gcaa:generic/awp_bolt_forward" }]},
+  "item.generic.awp_mag_attach": { "subtitle": "item.generic.awp_mag_attach", "sounds": [{ "name": "gcaa:generic/awp_mag_attach" }]},
+  "item.generic.awp_mag_off": { "subtitle": "item.generic.awp_mag_off", "sounds": [{ "name": "gcaa:generic/awp_mag_off" }]},
 
   "item.akm.fire": { "subtitle": "item.akm.fire", "sounds": [{ "name": "gcaa:akm/akm_fire" }]},
-  "item.g19.fire": { "subtitle": "item.g19.fire", "sounds": [{ "name": "gcaa:g19/g19_fire" }]}
+  "item.g19.fire": { "subtitle": "item.g19.fire", "sounds": [{ "name": "gcaa:g19/g19_fire" }]},
+  "item.awp.fire": { "subtitle": "item.awp.fire", "sounds": [{ "name": "gcaa:awp/awp_fire" }]},
+  "item.awp.fire_suppressed": { "subtitle": "item.awp.fire_suppressed", "sounds": [{ "name": "gcaa:awp/awp_fire_suppressed" }]}
 }

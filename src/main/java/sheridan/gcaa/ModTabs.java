@@ -34,6 +34,7 @@ public class ModTabs {
                 .displayItems((parameters, tab) -> {
                     tab.accept(ModItems.G19.get());
                     tab.accept(ModItems.AKM.get());
+                    tab.accept(ModItems.AWP.get());
                 }).build());
     }
 

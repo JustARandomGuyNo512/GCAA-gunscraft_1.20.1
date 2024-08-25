@@ -15,6 +15,7 @@ import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.AnimationHandler;
+import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.items.gun.IGun;
@@ -42,7 +43,11 @@ public class GunRenderer{
         if (model != null && displayData != null) {
             poseStackIn.mulPose(Axis.ZP.rotationDegrees(180));
             displayData.applyTransform(transformTypeIn, poseStackIn);
-            model.render(new GunRenderContext(bufferIn, poseStackIn, itemStackIn, gun, transformTypeIn, combinedLightIn, combinedOverlayIn));
+            if (transformTypeIn == GUI) {
+                model.render(GunRenderContext.getGUI(bufferIn, poseStackIn, itemStackIn, gun, combinedLightIn, combinedOverlayIn, ClientConfig.renderAttachmentsInGuiView.get()));
+            } else if (transformTypeIn == GROUND) {
+                model.render(new GunRenderContext(bufferIn, poseStackIn, itemStackIn, gun, transformTypeIn, combinedLightIn, combinedOverlayIn, ClientConfig.renderAttachmentsInGroundView.get()));
+            }
         }
     }
 
@@ -86,7 +91,7 @@ public class GunRenderer{
                         model.render(GunRenderContext.getLocalMainHand(bufferIn, stackIn, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn));
                     } else {
                         long lastShoot = PlayerStatusProvider.getStatus(player).getLastShoot() + 80L;
-                        model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry, lastShoot));
+                        model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry, lastShoot, true));
                     }
                 }
             }

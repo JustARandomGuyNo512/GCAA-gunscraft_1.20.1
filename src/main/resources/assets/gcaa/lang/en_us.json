@@ -1,6 +1,7 @@
 {
   "item.gcaa.g19": "Glock 19",
   "item.gcaa.akm": "Akm",
+  "item.gcaa.awp": "Awp",
   "item.gcaa.unknown_attachment": "Unknown attachment",
   "item.gcaa.ak_suppressor": "AK suppressor",
   "item.gcaa.ak_compensator": "AK compensator",
@@ -15,6 +16,7 @@
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",
   "tooltip.fire_mode.burst": "BURST",
+  "tooltip.fire_mode.hand_action": "HAND ACTION",
 
   "tooltip.btn.reset": "Reset model attitude",
   "tooltip.btn.drag": "Drag model",

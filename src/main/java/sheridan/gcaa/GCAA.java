@@ -60,6 +60,7 @@ public class GCAA {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
         ModSounds.register(FMLJavaModLoadingContext.get().getModEventBus());
         MinecraftForge.EVENT_BUS.register(this);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
     }
 
     private void gatherDataEvent(GatherDataEvent event) {
@@ -67,7 +68,6 @@ public class GCAA {
 
     @OnlyIn(Dist.CLIENT)
     private void onClientSetup(final FMLClientSetupEvent event) {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         MinecraftForge.EVENT_BUS.register(Test.class);
         MinecraftForge.EVENT_BUS.register(RenderEvents.class);
         MinecraftForge.EVENT_BUS.register(ControllerEvents.class);
