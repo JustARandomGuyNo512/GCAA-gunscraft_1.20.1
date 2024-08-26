@@ -82,6 +82,9 @@ public class ReloadingHandler {
     public void setTask(IReloadingTask task) {
         if (task.getStack().getItem() instanceof IGun) {
             if (reloadingTask == null || !ItemStack.isSameItemSameTags(reloadingTask.getStack(), task.getStack())) {
+                if (reloadingTask != null) {
+                    reloadingTask.onCancel();
+                }
                 reloadingTask = task;
                 reloadingTask.start();
                 lastStartReload = System.currentTimeMillis();
@@ -89,14 +92,13 @@ public class ReloadingHandler {
         }
     }
 
-    public void tick() {
+    public void tick(Player player) {
         if (!Minecraft.getInstance().isPaused()) {
             if (reloadingTask == null) {
                 usingGenericReload = false;
                 return;
             }
-            Player player = Minecraft.getInstance().player;
-            if (player != null && !player.isSpectator()) {
+            if (!player.isSpectator()) {
                 if (reloadingTask != null) {
                     boolean shouldCancel = reloadingTask.restrictNBT() ?
                             !ItemStack.isSameItemSameTags(player.getMainHandItem(), reloadingTask.getStack()) :

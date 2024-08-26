@@ -57,7 +57,7 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     }
 
     @Override
-    public AnimationDefinition getRecoilAnimation() {
+    public AnimationDefinition getRecoil() {
         return null;
     }
 

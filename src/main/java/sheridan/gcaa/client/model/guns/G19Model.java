@@ -106,7 +106,7 @@ public class G19Model extends GunModel {
     }
 
     @Override
-    public AnimationDefinition getRecoilAnimation() {
+    public AnimationDefinition getRecoil() {
         return recoil;
     }
 

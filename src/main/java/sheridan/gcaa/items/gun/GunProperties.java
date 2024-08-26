@@ -5,7 +5,9 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class GunProperties{
@@ -46,6 +48,7 @@ public class GunProperties{
     public final RegistryObject<SoundEvent> fireSound;
     public final RegistryObject<SoundEvent> suppressedSound;
     public final Caliber caliber;
+    public final Map<String, PropertyExtension> extensions = new HashMap<>();
 
     public GunProperties(float adsSpeed, float minSpread, float maxSpread, float shootSpread, float spreadRecover, float fireSoundVol, int fireDelay, int reloadLength, int fullReloadLength,
                          int magSize, float recoilPitch, float recoilYaw, float recoilPitchControl, float recoilYawControl, float weight, List<IGunFireMode> fireModes,
@@ -69,6 +72,13 @@ public class GunProperties{
         this.suppressedSound = suppressedSound;
         this.caliber = caliber;
         this.weight = Mth.clamp(weight, MIN_WEIGHT, MAX_WEIGHT);
+    }
+
+    public GunProperties addExtension(PropertyExtension extension) {
+        if (!extensions.containsKey(extension.name)) {
+            extensions.put(extension.name, extension);
+        }
+        return this;
     }
     /**
      * get the rate of fire in rounds per minute, this is not accurate.
@@ -138,7 +148,16 @@ public class GunProperties{
     }
 
     public boolean isRateProperty(String propertyName) {
-        return GunProperties.PROPERTIES.contains(propertyName);
+        boolean isRate = GunProperties.PROPERTIES.contains(propertyName);
+        if (!isRate) {
+            for (PropertyExtension extension : extensions.values()) {
+                if(extension.hasRateProperty()) {
+                    isRate = true;
+                    break;
+                }
+            }
+        }
+        return isRate;
     }
 
     public void setMuzzleFlash(CompoundTag propertiesTag, String stateName) {

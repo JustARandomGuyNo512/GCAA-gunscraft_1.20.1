@@ -11,6 +11,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
@@ -24,27 +25,29 @@ public class ClientPlayerEvents {
     @SubscribeEvent
     public static void onClientPlayerTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
-        if (event.phase == TickEvent.Phase.START) {
-            if (player != null && player.level().isClientSide() && player == Minecraft.getInstance().player) {
-                Clients.clientPlayerId = player.getId();
-                ItemStack stackMain = player.getMainHandItem();
-                IGun gunMain = stackMain.getItem() instanceof IGun ? (IGun) stackMain.getItem() : null;
-                Clients.mainHandStatus.holdingGun.set(gunMain != null);
-                if (gunMain != null) {
-                    Clients.mainHandStatus.fireDelay.set(gunMain.getFireDelay(stackMain));
-                    Clients.mainHandStatus.adsSpeed = Math.min(gunMain.getAdsSpeed(stackMain) * 0.05f, 0.25f);
-                    Clients.mainHandStatus.attachmentsStatus.checkAndUpdate(stackMain, gunMain, player);
-                }
-                Clients.mainHandStatus.updatePlayerSpread(stackMain, gunMain, player);
-                Clients.mainHandStatus.handleAds(stackMain, gunMain, player);
-            }
+        if (player == null || !player.level().isClientSide || player != Minecraft.getInstance().player) {
+            return;
         }
-        if (event.phase == TickEvent.Phase.END && player != null && player.level().isClientSide() && player == Minecraft.getInstance().player)  {
+        if (event.phase == TickEvent.Phase.START) {
+            Clients.clientPlayerId = player.getId();
+            ItemStack stackMain = player.getMainHandItem();
+            IGun gunMain = stackMain.getItem() instanceof IGun ? (IGun) stackMain.getItem() : null;
+            Clients.mainHandStatus.holdingGun.set(gunMain != null);
+            if (gunMain != null) {
+                Clients.mainHandStatus.fireDelay.set(gunMain.getFireDelay(stackMain));
+                Clients.mainHandStatus.adsSpeed = Math.min(gunMain.getAdsSpeed(stackMain) * 0.05f, 0.25f);
+                Clients.mainHandStatus.attachmentsStatus.checkAndUpdate(stackMain, gunMain, player);
+            }
+            Clients.mainHandStatus.updatePlayerSpread(stackMain, gunMain, player);
+            Clients.mainHandStatus.handleAds(stackMain, gunMain, player);
+        }
+        if (event.phase == TickEvent.Phase.END )  {
             JumpBobbingHandler jumpBobbingHandler = JumpBobbingHandler.getInstance();
             if (jumpBobbingHandler != null) {
                 jumpBobbingHandler.handle((LocalPlayer) player);
             }
-            ReloadingHandler.INSTANCE.tick();
+            ReloadingHandler.INSTANCE.tick(player);
+            HandActionHandler.INSTANCE.tick(player);
             if (Clients.debugKeyDown) {
                 AnimationDefinition definition = GunModelRegister.getModel(ModItems.AKM.get()).get("reload");
                 definition.print();

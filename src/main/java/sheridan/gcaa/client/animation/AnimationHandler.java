@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @OnlyIn(Dist.CLIENT)
 public class AnimationHandler {
     public static final String RELOAD = "reload";
+    public static final String HAND_ACTION = "hand_action";
     public static final String INSPECT = "inspect";
     private final Deque<KeyframeAnimations.Mark> recoils = new ArrayDeque<>();
     private static final Timer timer = new Timer();
@@ -97,6 +98,10 @@ public class AnimationHandler {
         apply(root, RELOAD);
     }
 
+    public void applyHandAction(HierarchicalModel<?> root) {
+        apply(root, HAND_ACTION);
+    }
+
     public void applyInspect(HierarchicalModel<?> root) {
         apply(root, INSPECT);
     }
@@ -112,6 +117,10 @@ public class AnimationHandler {
         clearAnimation(RELOAD);
     }
 
+    public void clearHandAction() {
+        clearAnimation(HAND_ACTION);
+    }
+
     public void clearInspect() {
         clearAnimation(INSPECT);
     }
@@ -122,6 +131,10 @@ public class AnimationHandler {
 
     public void startReload(AnimationDefinition animationDefinition) {
         startAnimation(RELOAD, animationDefinition, true, true);
+    }
+
+    public void startHandAction(AnimationDefinition animationDefinition) {
+        startAnimation(HAND_ACTION, animationDefinition, true, true);
     }
 
     public void startInspect(AnimationDefinition animationDefinition) {

@@ -69,7 +69,6 @@ public class ReloadingTask implements IReloadingTask{
     public void onCancel() {
         PlayerStatusProvider.setReloading(Minecraft.getInstance().player, false);
         AnimationHandler.INSTANCE.clearReload();
-        System.out.println("canceling");
     }
 
     @Override
@@ -78,6 +77,7 @@ public class ReloadingTask implements IReloadingTask{
             AnimationHandler.INSTANCE.startReload(ammoLeft == 0 ? model.getFullReload() : model.getReload());
         }
         Clients.mainHandStatus.ads = false;
+        HandActionHandler.INSTANCE.breakTask();
     }
 
 }

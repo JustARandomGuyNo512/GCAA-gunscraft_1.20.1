@@ -26,9 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.Commons;
-import sheridan.gcaa.client.KeyBinds;
-import sheridan.gcaa.client.ReloadingTask;
-import sheridan.gcaa.client.IReloadingTask;
+import sheridan.gcaa.client.*;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.capability.PlayerStatusProvider;
@@ -428,6 +426,8 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         if (slotChanged) {
+            ReloadingHandler.INSTANCE.cancelTask();
+            HandActionHandler.INSTANCE.breakTask();
             Clients.mainHandStatus.buttonDown.set(false);
             Clients.setEquipDelay(3);
             Player player = Minecraft.getInstance().player;

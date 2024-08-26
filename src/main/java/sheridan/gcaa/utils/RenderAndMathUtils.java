@@ -121,4 +121,8 @@ public class RenderAndMathUtils {
     public static int secondsToTicks(float seconds) {
         return (int) (seconds / 0.05f);
     }
+
+    public static float secondsFromNow(long timeStamp) {
+        return  (System.currentTimeMillis() - timeStamp) / 1000f;
+    }
 }

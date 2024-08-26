@@ -10,6 +10,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,6 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.model.guns.IGunModel;
@@ -33,6 +35,7 @@ import sheridan.gcaa.client.render.gui.crosshair.CrossHairRenderer;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.client.screens.AttachmentsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
+import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 import sheridan.gcaa.utils.RenderAndMathUtils;
@@ -41,6 +44,8 @@ import static org.lwjgl.opengl.GL30C.*;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class RenderEvents {
+    private static final ResourceLocation CHAMBER_EMPTY = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/chamber_empty.png");
+    private static final ResourceLocation CHAMBER_FILLED = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/chamber_filled.png");
 
     @SubscribeEvent
     public static void onRenderHandFP(RenderHandEvent event) {
@@ -118,6 +123,13 @@ public class RenderEvents {
                     if (tooltipName != null) {
                         guiGraphics.drawString(font, tooltipName.getString(), 0.8f * width, 0.85f * height, -1,  true);
                     }
+                }
+                if (stack.getItem() instanceof HandActionGun handActionGun) {
+                    event.getGuiGraphics().flush();
+                    ResourceLocation texture = (handActionGun.needHandAction(stack)) ? CHAMBER_EMPTY : CHAMBER_FILLED;
+                    RenderSystem.enableBlend();
+                    event.getGuiGraphics().blit(texture, (int) (0.8f * window.getGuiScaledWidth()), (int) (0.9f * window.getGuiScaledHeight()),  0,0, 8,8, 8, 8);
+                    RenderSystem.disableBlend();
                 }
             }
         }

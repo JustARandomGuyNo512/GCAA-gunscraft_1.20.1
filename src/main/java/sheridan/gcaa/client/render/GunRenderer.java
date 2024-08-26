@@ -70,7 +70,7 @@ public class GunRenderer{
                 InertialRecoilData inertialRecoilData = displayData.getInertialRecoilData();
                 if (tempLastFire != Clients.lastShootMain()) {
                     tempLastFire = Clients.lastShootMain();
-                    AnimationDefinition recoil = model.getRecoilAnimation();
+                    AnimationDefinition recoil = model.getRecoil();
                     if (recoil != null) {
                         AnimationHandler.INSTANCE.pushRecoil(recoil, tempLastFire);
                     }

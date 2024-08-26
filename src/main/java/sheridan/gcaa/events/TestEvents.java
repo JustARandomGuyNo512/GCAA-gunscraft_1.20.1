@@ -6,28 +6,25 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.items.gun.fireModes.HandAction;
 
 @Mod.EventBusSubscriber
 public class TestEvents {
 
-    /*static boolean b = true;
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        Player player = event.player;
-        if (b && event.phase == TickEvent.Phase.END && !player.level().isClientSide) {
-            if (player.getMainHandItem().getItem() instanceof IGun gun) {
-                b = false;
-                ListTag listTag = gun.getAttachmentsListTag(player.getMainHandItem());
-                CompoundTag tag = new CompoundTag();
-                tag.putString("id", "unknown");
-                tag.putString("model_slot_name", "s_muzzle");
-                tag.putString("parent_slot", "__ROOT__");
-                tag.putString("slot_name", "muzzle");
-                listTag.add(tag);
-                System.out.println(tag);
-                gun.setAttachmentsListTag(player.getMainHandItem(), listTag);
-            }
-        }
-    }*/
+//   static  int delay = 0;
+//    @SubscribeEvent
+//    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+//        Player player = event.player;
+//        if (event.phase == TickEvent.Phase.END) {
+//            delay ++;
+//            if (delay >= 5) {
+//                if (player.getMainHandItem().getItem() instanceof HandActionGun gun) {
+//                    System.out.println(gun.needHandAction(player.getMainHandItem()) + " " + (player.level().isClientSide ? "client" : "server"));
+//                }
+//                delay = 0;
+//            }
+//        }
+//    }
 }

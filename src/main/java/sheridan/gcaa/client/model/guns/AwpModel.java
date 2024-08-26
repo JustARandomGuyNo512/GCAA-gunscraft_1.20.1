@@ -63,12 +63,13 @@ public class AwpModel extends GunModel {
         if (gunRenderContext.isFirstPerson) {
             AnimationHandler.INSTANCE.applyRecoil(this);
             AnimationHandler.INSTANCE.applyReload(this);
+            AnimationHandler.INSTANCE.applyHandAction(this);
             CameraAnimationHandler.INSTANCE.mix(camera);
         }
     }
 
     @Override
-    public AnimationDefinition getRecoilAnimation() {
+    public AnimationDefinition getRecoil() {
         return (Clients.isInAds() && Clients.getAdsProgress() > 0.5f) ? recoil_ads : recoil;
     }
 

@@ -34,6 +34,7 @@ public class PacketHandler
         registerPacket(SetEffectiveSightPacket.class, new SetEffectiveSightPacket());
         registerPacket(ClientSoundPacket.class, new ClientSoundPacket());
         registerPacket(PlayerSoundPacket.class, new PlayerSoundPacket());
+        registerPacket(DoneHandActionPacket.class, new DoneHandActionPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {
