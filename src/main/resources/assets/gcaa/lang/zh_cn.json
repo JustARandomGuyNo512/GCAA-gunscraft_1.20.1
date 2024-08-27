@@ -46,7 +46,7 @@
   "tooltip.gun_info.fire_sound_vol": "枪声范围：",
   "tooltip.gun_info.reload_length": "换弹时间：",
   "tooltip.gcaa.show_full_gun_info": "按 $key 显示详细信息",
-  "tooltip.gcaa.excellent_worse": "很棒： 差：",
+  "tooltip.gcaa.excellent_worse": "很棒： 差劲：",
 
   "tooltip.screen_info.switch_sight": "按 $key 切换瞄具",
 

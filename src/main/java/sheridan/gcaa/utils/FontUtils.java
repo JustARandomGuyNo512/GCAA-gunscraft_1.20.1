@@ -10,6 +10,7 @@ import java.awt.*;
 
 public class FontUtils {
     private static MutableComponent EXCELLENT_WORSE = null;
+    private static String EXCELLENT_WORSE_STR = "";
 
     public static MutableComponent helperTip(MutableComponent component) {
         component.setStyle(Style.EMPTY.withColor(Color.GRAY.getRGB()).withItalic(true));
@@ -34,8 +35,10 @@ public class FontUtils {
     }
 
     public static MutableComponent getExcellentWorse() {
-        if (EXCELLENT_WORSE == null) {
-            String[] words = Component.translatable("tooltip.gcaa.excellent_worse").getString().split(" ");
+        String str = Component.translatable("tooltip.gcaa.excellent_worse").getString();
+        if (EXCELLENT_WORSE == null || !EXCELLENT_WORSE_STR.equals(str)) {
+            EXCELLENT_WORSE_STR = str;
+            String[] words = str.split(" ");
             EXCELLENT_WORSE = (Component.literal(words[0]).withStyle(Style.EMPTY.withColor(Color.GRAY.getRGB()).withItalic(true)))
                     .append(Component.literal("⚫   ").withStyle(Style.EMPTY.withColor(0x00FF00)))
                     .append(Component.literal(words[1]).withStyle(Style.EMPTY.withColor(Color.GRAY.getRGB()).withItalic(true)))

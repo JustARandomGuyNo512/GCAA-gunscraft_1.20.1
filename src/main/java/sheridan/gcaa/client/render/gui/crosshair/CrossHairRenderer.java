@@ -34,49 +34,28 @@ public class CrossHairRenderer{
         int textureSize = singleQuadSize * 5;
         int partSize = singleQuadSize - 1;
         float vOffset = singleQuadSize * index;
-        float centerX = (guiGraphics.guiWidth() - partSize) / 2f;
-        float centerY = (guiGraphics.guiHeight() - partSize) / 2f;
-        float spread = (int) (Clients.mainHandStatus.spread * SPREAD_SIZE_FACTOR) + BASE_SCALE + partSize / 2f;
-        float currentSpread = Mth.lerp(particleTick, tempSpread, spread);
+        int centerX = (int) ((guiGraphics.guiWidth() - partSize) / 2f);
+        int centerY = (int) ((guiGraphics.guiHeight() - partSize) / 2f);
+        int spread = (int) (Clients.mainHandStatus.spread * SPREAD_SIZE_FACTOR + BASE_SCALE + partSize / 2f);
+        int currentSpread = (int) Mth.lerp(particleTick, tempSpread, spread);
         tempSpread = spread;
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        blit(CROSSHAIR, centerX, centerY, 0, vOffset, partSize, partSize, textureSize, textureSize, guiGraphics.pose());
-        blit(CROSSHAIR, centerX, centerY - currentSpread, singleQuadSize, vOffset, partSize, partSize, textureSize, textureSize, guiGraphics.pose());
-        blit(CROSSHAIR, centerX - currentSpread, centerY, singleQuadSize * 2, vOffset, partSize, partSize, textureSize, textureSize, guiGraphics.pose());
-        blit(CROSSHAIR, centerX, centerY + currentSpread, singleQuadSize * 3, vOffset, partSize, partSize, textureSize, textureSize, guiGraphics.pose());
-        blit(CROSSHAIR, centerX + currentSpread, centerY, singleQuadSize * 4, vOffset, partSize, partSize, textureSize, textureSize, guiGraphics.pose());
+        guiGraphics.blit(CROSSHAIR, centerX, centerY, 0, vOffset, partSize, partSize, textureSize, textureSize);
+        guiGraphics.blit(CROSSHAIR, centerX, centerY - currentSpread, singleQuadSize, vOffset, partSize, partSize, textureSize, textureSize);
+        guiGraphics.blit(CROSSHAIR, centerX - currentSpread, centerY, singleQuadSize * 2, vOffset, partSize, partSize, textureSize, textureSize);
+        guiGraphics.blit(CROSSHAIR, centerX, centerY + currentSpread, singleQuadSize * 3, vOffset, partSize, partSize, textureSize, textureSize);
+        guiGraphics.blit(CROSSHAIR, centerX + currentSpread, centerY, singleQuadSize * 4, vOffset, partSize, partSize, textureSize, textureSize);
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableBlend();
     }
 
     public void defaultCrosshair(GuiGraphics guiGraphics) {
+        RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         guiGraphics.blit(GUI_ICONS_LOCATION_MINECRAFT, (guiGraphics.guiWidth() - 15) / 2, (guiGraphics.guiHeight() - 15) / 2, 0, 0, 15, 15);
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableBlend();
     }
 
-    void blit(ResourceLocation pAtlasLocation, float pX, float pY, float pUOffset, float pVOffset, float pWidth, float pHeight, float pTextureWidth, float pTextureHeight, PoseStack stack) {
-        this.blit(pAtlasLocation, pX, pY, pWidth, pHeight, pUOffset, pVOffset, pWidth, pHeight, pTextureWidth, pTextureHeight, stack);
-    }
-
-    void blit(ResourceLocation pAtlasLocation, float pX, float pY, float pWidth, float pHeight, float pUOffset, float pVOffset, float pUWidth, float pVHeight, float pTextureWidth, float pTextureHeight, PoseStack stack) {
-        this._blit(pAtlasLocation, pX, pX + pWidth, pY, pY + pHeight, pUWidth, pVHeight, pUOffset, pVOffset, pTextureWidth, pTextureHeight, stack);
-    }
-
-    void _blit(ResourceLocation pAtlasLocation, float pX1, float pX2, float pY1, float pY2, float pUWidth, float pVHeight, float pUOffset, float pVOffset, float pTextureWidth, float pTextureHeight, PoseStack stack) {
-        this.innerBlit(pAtlasLocation, pX1, pX2, pY1, pY2,  pUOffset / pTextureWidth, (pUOffset + pUWidth) / pTextureWidth, (pVOffset + 0.0F) / pTextureHeight, (pVOffset + pVHeight) / pTextureHeight, stack);
-    }
-
-    void innerBlit(ResourceLocation pAtlasLocation, float pX1, float pX2, float pY1, float pY2, float pMinU, float pMaxU, float pMinV, float pMaxV, PoseStack stack) {
-        RenderSystem.setShaderTexture(0, pAtlasLocation);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        Matrix4f matrix4f = stack.last().pose();
-        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.vertex(matrix4f, pX1, pY1, 0).uv(pMinU, pMinV).endVertex();
-        bufferbuilder.vertex(matrix4f, pX1, pY2, 0).uv(pMinU, pMaxV).endVertex();
-        bufferbuilder.vertex(matrix4f, pX2, pY2, 0).uv(pMaxU, pMaxV).endVertex();
-        bufferbuilder.vertex(matrix4f, pX2, pY1, 0).uv(pMaxU, pMinV).endVertex();
-        BufferUploader.drawWithShader(bufferbuilder.end());
-    }
 }
