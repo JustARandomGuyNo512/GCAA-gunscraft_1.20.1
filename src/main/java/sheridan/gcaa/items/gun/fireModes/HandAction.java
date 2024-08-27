@@ -8,6 +8,7 @@ import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 public class HandAction implements IGunFireMode {
     @Override
@@ -21,7 +22,7 @@ public class HandAction implements IGunFireMode {
             boolean hasAmmo = gun.getAmmoLeft(itemStack) > 0;
             boolean needHandAction = handActionGun.needHandAction(itemStack);
             boolean can = hasAmmo && !needHandAction;
-            if (needHandAction && hasAmmo && System.currentTimeMillis() - Clients.lastShootMain() > 100L) {
+            if (needHandAction && hasAmmo && RenderAndMathUtils.secondsFromNow(Clients.lastShootMain()) > 0.5f) {
                 HandActionHandler.INSTANCE.setHandActionTask(handActionGun.getHandActionTask(itemStack, true));
             }
             return can;
@@ -32,6 +33,7 @@ public class HandAction implements IGunFireMode {
     @Override
     public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
         gun.clientShoot(itemStack, player, this);
+        Clients.mainHandStatus.buttonDown.set(false);
     }
 
     @Override
