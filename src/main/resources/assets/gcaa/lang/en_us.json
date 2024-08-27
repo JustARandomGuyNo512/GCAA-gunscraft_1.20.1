@@ -46,6 +46,7 @@
   "tooltip.gun_info.fire_sound_vol": "Fire Sound Range: ",
   "tooltip.gun_info.reload_length": "Reload Time: ",
   "tooltip.gcaa.show_full_gun_info": "Press $key to display details",
+  "tooltip.gcaa.excellent_worse": "Excellent: Worse:",
 
   "tooltip.screen_info.switch_sight": "Press $key to switch effective sight",
 

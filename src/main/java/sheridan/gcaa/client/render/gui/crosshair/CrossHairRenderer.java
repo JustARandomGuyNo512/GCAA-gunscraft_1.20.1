@@ -1,7 +1,6 @@
 package sheridan.gcaa.client.render.gui.crosshair;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.gui.GuiGraphics;
@@ -18,19 +17,25 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
-public class CrossHairRenderer {
+public class CrossHairRenderer{
     private static final float BASE_SCALE = 3;
     private static final float SPREAD_SIZE_FACTOR = 5f;
     public static final CrossHairRenderer INSTANCE = new CrossHairRenderer();
     public static final ResourceLocation CROSSHAIR = new ResourceLocation(GCAA.MODID, "textures/gui/crosshair/crosshair.png");
+    public static final ResourceLocation GUI_ICONS_LOCATION_MINECRAFT = new ResourceLocation("textures/gui/icons.png");
     private static float tempSpread;
-    public void render(int index, int singleQuadSize, IGun gun, GuiGraphics guiGraphics, Player player, ItemStack itemStack, Window window, float particleTick) {
+
+    public void render(int index, int singleQuadSize, IGun gun, GuiGraphics guiGraphics, Player player, ItemStack itemStack, float particleTick) {
+        if (gun.isSniper()) {
+            defaultCrosshair(guiGraphics);
+            return;
+        }
         index = Mth.clamp(index, 0, 5);
         int textureSize = singleQuadSize * 5;
         int partSize = singleQuadSize - 1;
         float vOffset = singleQuadSize * index;
-        float centerX = (window.getGuiScaledWidth() - partSize) / 2f;
-        float centerY = (window.getGuiScaledHeight() - partSize) / 2f;
+        float centerX = (guiGraphics.guiWidth() - partSize) / 2f;
+        float centerY = (guiGraphics.guiHeight() - partSize) / 2f;
         float spread = (int) (Clients.mainHandStatus.spread * SPREAD_SIZE_FACTOR) + BASE_SCALE + partSize / 2f;
         float currentSpread = Mth.lerp(particleTick, tempSpread, spread);
         tempSpread = spread;
@@ -43,6 +48,11 @@ public class CrossHairRenderer {
         blit(CROSSHAIR, centerX + currentSpread, centerY, singleQuadSize * 4, vOffset, partSize, partSize, textureSize, textureSize, guiGraphics.pose());
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableBlend();
+    }
+
+    public void defaultCrosshair(GuiGraphics guiGraphics) {
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        guiGraphics.blit(GUI_ICONS_LOCATION_MINECRAFT, (guiGraphics.guiWidth() - 15) / 2, (guiGraphics.guiHeight() - 15) / 2, 0, 0, 15, 15);
     }
 
     void blit(ResourceLocation pAtlasLocation, float pX, float pY, float pUOffset, float pVOffset, float pWidth, float pHeight, float pTextureWidth, float pTextureHeight, PoseStack stack) {

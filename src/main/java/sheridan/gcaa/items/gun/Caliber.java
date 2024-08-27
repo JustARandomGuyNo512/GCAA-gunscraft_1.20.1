@@ -26,10 +26,10 @@ public abstract class Caliber {
     public abstract int getCost();
 
     public void handleTooltip(ItemStack stack, IGun gun, Level levelIn, List<Component> tooltip, TooltipFlag flagIn, boolean detail) {
-        tooltip.add(FontUtils.dataTip("tooltip.gun_info.damage", projectileData.baseDamage, 1, 20));
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.damage", projectileData.baseDamage, 35, 1));
         if (detail) {
-            tooltip.add(FontUtils.dataTip("tooltip.gun_info.effective_range", projectileData.effectiveRange, 16, 160));
-            tooltip.add(FontUtils.dataTip("tooltip.gun_info.bullet_speed", projectileData.speed, 1, 12, "gcaa.unit.chunk_pre_second"));
+            tooltip.add(FontUtils.dataTip("tooltip.gun_info.effective_range", projectileData.effectiveRange, 160, 16));
+            tooltip.add(FontUtils.dataTip("tooltip.gun_info.bullet_speed", projectileData.speed, 12, 1, "gcaa.unit.chunk_pre_second"));
         }
     }
 

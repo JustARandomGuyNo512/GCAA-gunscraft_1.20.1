@@ -66,8 +66,9 @@ public class HandActionGun extends Gun{
         if (needHandAction && !HandActionHandler.INSTANCE.hasTask()
                 && getAmmoLeft(stack) > 0 && HandActionHandler.INSTANCE.secondsSinceLastTask() > 0.5f) {
             HandActionHandler.INSTANCE.setHandActionTask(getHandActionTask(stack, true));
+            return false;
         }
-        if (needHandAction && RenderAndMathUtils.secondsFromNow(Clients.lastShootMain()) > 0.5f) {
+        if (HandActionHandler.INSTANCE.hasTask() && RenderAndMathUtils.secondsFromNow(Clients.lastShootMain()) > 0.5f) {
             return false;
         }
         return super.shouldHandleAds(stack);

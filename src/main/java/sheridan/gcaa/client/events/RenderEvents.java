@@ -68,9 +68,9 @@ public class RenderEvents {
                 Player player = minecraft.player;
                 if (player != null) {
                     ItemStack stack = player.getMainHandItem();
-                    if (stack.getItem() instanceof IGun gun && !gun.isSniper()) {
+                    if (stack.getItem() instanceof IGun gun) {
                         if (!Clients.mainHandStatus.ads && !Clients.shouldHideFPRender) {
-                            CrossHairRenderer.INSTANCE.render(0, 16, gun, event.getGuiGraphics(), player, stack, event.getWindow(), event.getPartialTick());
+                            CrossHairRenderer.INSTANCE.render(0, 16, gun, event.getGuiGraphics(), player, stack, event.getPartialTick());
                         }
                         event.setCanceled(true);
                     }

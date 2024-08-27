@@ -461,20 +461,23 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     protected void gunBaseInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(FontUtils.dataTip("tooltip.gun_info.mag_size", getMagSize(stack), 0, 100));
-        tooltip.add(FontUtils.dataTip("tooltip.gun_info.rpm", gunProperties.getRPM(), 200, 1200));
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.mag_size", getMagSize(stack), 100, 0));
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.rpm", gunProperties.getRPM(), 1200, 200));
         tooltip.add(FontUtils.dataTip("tooltip.gun_info.weight", getWeight(stack), 5, 40));
         gunProperties.caliber.handleTooltip(stack, this, levelIn, tooltip, flagIn, false);
+        tooltip.add(FontUtils.getExcellentWorse());
+
         String showDetail = Component.translatable("tooltip.gcaa.show_full_gun_info").getString();
         showDetail = showDetail.replace("$key", KeyBinds.SHOW_FULL_GUN_INFO.getTranslatedKeyMessage().getString());
         tooltip.add(FontUtils.helperTip(Component.literal(showDetail)));
     }
 
     protected void gunDetailInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(FontUtils.dataTip("tooltip.gun_info.mag_size", getMagSize(stack), 0, 100));
-        tooltip.add(FontUtils.dataTip("tooltip.gun_info.rpm", gunProperties.getRPM(), 200, 1200));
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.mag_size", getMagSize(stack), 100, 0));
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.rpm", gunProperties.getRPM(), 1200, 0));
         tooltip.add(FontUtils.dataTip("tooltip.gun_info.weight", getWeight(stack), 5, 40));
         gunProperties.caliber.handleTooltip(stack, this, levelIn, tooltip, flagIn, true);
+        tooltip.add(FontUtils.getExcellentWorse());
     }
 
     @OnlyIn(Dist.CLIENT)
