@@ -64,7 +64,7 @@ public class HandActionGun extends Gun{
     public boolean shouldHandleAds(ItemStack stack) {
         boolean needHandAction = needHandAction(stack);
         if (needHandAction && !HandActionHandler.INSTANCE.hasTask()
-                && getAmmoLeft(stack) > 0 && RenderAndMathUtils.secondsFromNow(Clients.lastShootMain()) > 0.5f) {
+                && getAmmoLeft(stack) > 0 && HandActionHandler.INSTANCE.secondsSinceLastTask() > 0.5f) {
             HandActionHandler.INSTANCE.setHandActionTask(getHandActionTask(stack, true));
         }
         if (needHandAction && RenderAndMathUtils.secondsFromNow(Clients.lastShootMain()) > 0.5f) {

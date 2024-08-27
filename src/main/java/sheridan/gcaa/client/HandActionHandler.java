@@ -20,10 +20,12 @@ public class HandActionHandler {
                 boolean shouldCancel = !ItemStack.isSameItem(clientPlayer.getMainHandItem(), handActionTask.getItemStack());
                 if (shouldCancel) {
                     breakTask();
+                    lastEndTask = System.currentTimeMillis();
                     return;
                 }
                 handActionTask.tick(clientPlayer);
                 if (handActionTask.isCompleted()) {
+                    lastEndTask = System.currentTimeMillis();
                     handActionTask = null;
                 }
             }
@@ -47,10 +49,15 @@ public class HandActionHandler {
         return handActionTask != null;
     }
 
+    public float secondsSinceLastTask() {
+        return (System.currentTimeMillis() - lastEndTask) * 0.001f;
+    }
+
     public void setHandActionTask(IHandActionTask handActionTask) {
         if (handActionTask.getItemStack().getItem() instanceof HandActionGun) {
             if (this.handActionTask == null) {
                 this.handActionTask = handActionTask;
+                lastStartTask = System.currentTimeMillis();
             }
         }
     }
