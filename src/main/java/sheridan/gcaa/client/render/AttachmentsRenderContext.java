@@ -75,6 +75,12 @@ public class AttachmentsRenderContext {
         return has(Attachment.MAG);
     }
 
+    public void cancelRender(String slotName) {
+        AttachmentRenderEntry entry = slotLayer.get(slotName);
+        if (entry != null) {
+            entry.rendered = true;
+        }
+    }
 
     public void renderAll(GunRenderContext context, ModelPart layer) {
         for (AttachmentRenderEntry entry : modelSlotLayer.values()) {

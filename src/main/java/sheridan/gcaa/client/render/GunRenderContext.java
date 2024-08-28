@@ -125,6 +125,22 @@ public class GunRenderContext {
         }
     }
 
+    public void renderIfOrElse(ModelPart ifTrue, ModelPart orElse,  boolean condition, VertexConsumer vertexConsumer)  {
+        if (condition) {
+            ifTrue.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a, true);
+        } else {
+            orElse.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a, true);
+        }
+    }
+
+    public void renderIf(VertexConsumer vertexConsumer, boolean condition, ModelPart ...parts)  {
+        if (condition) {
+            for (ModelPart part : parts) {
+                part.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a, true);
+            }
+        }
+    }
+
     public void renderArmLong(ModelPart pose, boolean mainHand) {
         if (isFirstPerson) {
             PlayerArmRenderer.INSTANCE.renderLong(pose, packedLight, packedOverlay, mainHand, bufferSource, poseStack);

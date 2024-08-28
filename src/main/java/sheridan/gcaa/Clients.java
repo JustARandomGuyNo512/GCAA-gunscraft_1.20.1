@@ -35,6 +35,7 @@ import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel
 import sheridan.gcaa.client.model.attachments.muzzle.AKCompensatorModel;
 import sheridan.gcaa.client.model.attachments.muzzle.AKSuppressorModel;
 import sheridan.gcaa.client.model.attachments.muzzle.PistolSuppressorModel;
+import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
 import sheridan.gcaa.client.model.attachments.sight.HolographicModel;
 import sheridan.gcaa.client.model.attachments.sight.MicroRedDotModel;
 import sheridan.gcaa.client.model.attachments.sight.RedDotModel;
@@ -179,6 +180,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.MICRO_RED_DOT.get(), new MicroRedDotModel());
         ArsenalLib.registerAttachmentModel(ModItems.RED_DOT.get(), new RedDotModel());
         ArsenalLib.registerAttachmentModel(ModItems.HOLOGRAPHIC.get(), new HolographicModel());
+        ArsenalLib.registerAttachmentModel(ModItems.SCOPE_X10.get(), new ScopeX10Model());
     }
 
 

@@ -90,7 +90,7 @@ public class AttachmentsHandler {
             return null;
         }
         AttachmentsRenderContext context = new AttachmentsRenderContext();
-        Map<String, AttachmentRenderEntry> entries = new HashMap<>();
+        Map<String, AttachmentRenderEntry> entries = new HashMap<>(attachmentsTag.size());
         for (int i = 0; i < attachmentsTag.size(); i++) {
             CompoundTag attachmentTag = attachmentsTag.getCompound(i);
             IAttachment attachment = AttachmentsRegister.get(attachmentTag.getString("id"));

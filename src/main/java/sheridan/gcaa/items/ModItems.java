@@ -11,6 +11,7 @@ import sheridan.gcaa.items.attachments.handguard.AKImprovedHandguard;
 import sheridan.gcaa.items.attachments.muzzle.AKCompensator;
 import sheridan.gcaa.items.attachments.muzzle.AKSuppressor;
 import sheridan.gcaa.items.attachments.muzzle.PistolSuppressor;
+import sheridan.gcaa.items.attachments.scope.ScopeX10;
 import sheridan.gcaa.items.attachments.sight.Holographic;
 import sheridan.gcaa.items.attachments.sight.MicroRedDot;
 import sheridan.gcaa.items.attachments.sight.RedDot;
@@ -35,4 +36,5 @@ public class ModItems {
     public static final RegistryObject<MicroRedDot> MICRO_RED_DOT = ITEMS.register("micro_red_dot", MicroRedDot::new);
     public static final RegistryObject<RedDot> RED_DOT = ITEMS.register("red_dot", RedDot::new);
     public static final RegistryObject<Holographic> HOLOGRAPHIC = ITEMS.register("holographic", Holographic::new);
+    public static final RegistryObject<ScopeX10> SCOPE_X10 = ITEMS.register("scope_x10", ScopeX10::new);
 }

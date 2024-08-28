@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.model.guns;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -48,13 +49,16 @@ public class AwpModel extends GunModel {
     @Override
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
-        context.render(vertexConsumer, barrel, front_IS, IS, bolt, bolt_back_part, body, pin, mag, bullet, muzzle);
+        context.renderIf(vertexConsumer, !context.hasScope(), front_IS, IS);
+        context.renderIfOrElse(exp_mag, mag, context.hasMag(), vertexConsumer);
+        context.render(vertexConsumer, barrel, bolt, bolt_back_part, body, pin, bullet, muzzle);
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);
     }
 
     @Override
     protected void renderAttachmentsModel(GunRenderContext context) {
+        context.renderAllAttachmentsLeft(gun);
         context.renderMuzzleFlash(1.0f);
     }
 
@@ -71,6 +75,12 @@ public class AwpModel extends GunModel {
     @Override
     public AnimationDefinition getRecoil() {
         return (Clients.isInAds() && Clients.getAdsProgress() > 0.5f) ? recoil_ads : recoil;
+    }
+
+
+    @Override
+    public void handleSlotTranslate(PoseStack poseStack, String name) {
+        super.handleSlotTranslate(poseStack, name);
     }
 
     @Override

@@ -51,6 +51,9 @@ public class AttachmentRenderEntry {
 
 
     public void render(GunRenderContext context, ModelPart posePart) {
+        if (model == IAttachmentModel.EMPTY) {
+            return;
+        }
         context.poseStack.pushPose();
         model.render(context, this, posePart);
         rendered = true;
