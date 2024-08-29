@@ -102,8 +102,7 @@ public class ClientAttachmentsStatus {
                 return new float[] {
                         Mth.lerp(progress, sightAimPos[0], tempSightAimPos[0]),
                         Mth.lerp(progress, sightAimPos[1], tempSightAimPos[1]),
-                        Mth.lerp(progress, sightAimPos[2], tempSightAimPos[2]),
-                        Mth.lerp(progress, sightAimPos[3], tempSightAimPos[3])
+                        Mth.lerp(progress, sightAimPos[2], tempSightAimPos[2])
                 };
             } else {
                 return sightAimPos;
