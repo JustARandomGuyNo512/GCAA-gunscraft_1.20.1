@@ -59,9 +59,9 @@ public class GlobalWeaponBobbing {
                 lastUpdate = now;
             }
         } else {
-            player = Minecraft.getInstance().player;
             lastUpdate = System.currentTimeMillis();
         }
+        player = Minecraft.getInstance().player;
     }
 
     public void setWeaponBobbing(IWeaponBobbing weaponBobbing) {
