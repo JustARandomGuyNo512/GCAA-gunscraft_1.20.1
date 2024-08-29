@@ -240,7 +240,9 @@ public class RenderEvents {
             float adsProgress = Clients.mainHandStatus.getLerpAdsProgress(event.getPartialTick());
             double prevFov = event.getFOV();
             if (event.usedConfiguredFov()) {
-                event.setFOV(Mth.lerp(Math.pow(adsProgress, 3), prevFov, scope.maxMagnification));
+                float newFov = (float) Mth.lerp(Math.pow(adsProgress, 3), prevFov, scope.maxMagnification);
+                event.setFOV(newFov);
+                Clients.fovModify = newFov;
                 return;
             } else {
                 if (AttachmentsRegister.getModel(scope) instanceof IScopeModel scopeModel) {
@@ -257,6 +259,7 @@ public class RenderEvents {
             }
         }
         Clients.weaponAdsZMinDistance = Float.NaN;
+        Clients.fovModify = Float.NaN;
     }
 
 }

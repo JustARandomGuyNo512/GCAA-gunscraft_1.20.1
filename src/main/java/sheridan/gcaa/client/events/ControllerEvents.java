@@ -45,6 +45,7 @@ public class ControllerEvents {
                             event.setCanceled(true);
                         }
                     }
+
                 }
             }
         } else {

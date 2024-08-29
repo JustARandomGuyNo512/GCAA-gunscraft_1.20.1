@@ -128,6 +128,8 @@ public class Clients {
     public static RenderTarget prevRenderTarget;
     @OnlyIn(Dist.CLIENT)
     public static float weaponAdsZMinDistance = Float.NaN;
+    @OnlyIn(Dist.CLIENT)
+    public static float fovModify = Float.NaN;
 
 
     @OnlyIn(Dist.CLIENT)

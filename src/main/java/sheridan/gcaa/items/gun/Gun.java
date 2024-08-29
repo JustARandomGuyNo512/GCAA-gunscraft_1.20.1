@@ -429,6 +429,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             ReloadingHandler.INSTANCE.cancelTask();
             HandActionHandler.INSTANCE.breakTask();
             Clients.mainHandStatus.buttonDown.set(false);
+            Clients.mainHandStatus.ads = false;
             Clients.setEquipDelay(3);
             Player player = Minecraft.getInstance().player;
             if (player != null) {

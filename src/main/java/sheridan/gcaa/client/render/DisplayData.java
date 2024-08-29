@@ -58,7 +58,7 @@ public class DisplayData {
 
     void applyTransformFirstPerson(PoseStack poseStack) {
         ClientWeaponStatus status = Clients.mainHandStatus;
-        float particleTick = Minecraft.getInstance().getFrameTime();
+        float particleTick = Minecraft.getInstance().getPartialTick();
         float progress = status.getLerpAdsProgress(particleTick);
         float[] sightAimPos = Clients.mainHandStatus.getSightAimPos(particleTick);
         if (progress != 0) {
