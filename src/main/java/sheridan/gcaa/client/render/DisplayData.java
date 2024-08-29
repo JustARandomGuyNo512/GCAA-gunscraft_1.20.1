@@ -68,7 +68,7 @@ public class DisplayData {
             if (emptyMarks[0][0] || emptyMarks[5][0]) {
                 float x = Mth.lerp(lerpProgress, transforms[0][0], (sightAimPos == null ? transforms[5][0] : -sightAimPos[0]));
                 float y = Mth.lerp(yLerp, transforms[0][1], (sightAimPos == null ? transforms[5][1] : -sightAimPos[1]));
-                float z = Mth.lerp(lerpProgress, transforms[0][2], transforms[5][2]);
+                float z = Mth.lerp(lerpProgress, transforms[0][2], (Float.isNaN(Clients.weaponAdsZMinDistance) ? transforms[5][2] : -Clients.weaponAdsZMinDistance));
                 poseStack.translate(x, y, z);
             }
 

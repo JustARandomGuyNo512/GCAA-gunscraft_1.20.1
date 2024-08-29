@@ -11,8 +11,4 @@ public abstract class Scope extends Sight {
         this.minMagnification = minMagnification;
         this.adsSpeedRate = adsSpeedRate;
     }
-
-    public float aimingModelFovModify() {
-        return 7.5f;
-    }
 }

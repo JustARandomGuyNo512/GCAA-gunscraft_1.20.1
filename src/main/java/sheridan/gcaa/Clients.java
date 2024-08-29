@@ -1,5 +1,6 @@
 package sheridan.gcaa;
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -123,6 +124,10 @@ public class Clients {
     public static String getEffectiveSightUUID() {
         return mainHandStatus.attachmentsStatus.getEffectiveSightUUID();
     }
+    @OnlyIn(Dist.CLIENT)
+    public static RenderTarget prevRenderTarget;
+    @OnlyIn(Dist.CLIENT)
+    public static float weaponAdsZMinDistance = Float.NaN;
 
 
     @OnlyIn(Dist.CLIENT)

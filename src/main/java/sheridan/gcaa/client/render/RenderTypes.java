@@ -44,4 +44,38 @@ public class RenderTypes extends RenderType {
             return baseType;
         }
     }
+
+    public static RenderType getStencilCull(ResourceLocation texture) {
+        String baseKey = texture.toString()+ ":" + "stencil_cull";
+        if (TEMP.containsKey(baseKey)) {
+            return TEMP.get(baseKey);
+        } else {
+            RenderType baseType = RenderType.create(GCAA.MODID + ":" + "stencil_cull", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
+                    VertexFormat.Mode.QUADS, 256, true, false,
+                    CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
+                            .setTextureState(new TextureStateShard(texture, false, false))
+                            .setWriteMaskState(new WriteMaskStateShard(false, false))
+                            .setTransparencyState(NO_TRANSPARENCY).setCullState(NO_CULL).createCompositeState(false));
+            TEMP.put(baseKey, baseType);
+
+            return baseType;
+        }
+    }
+
+    public static RenderType getBackground(ResourceLocation texture) {
+        String baseKey = texture.toString() + ":" + "get_background";
+        if (TEMP.containsKey(baseKey)) {
+            return TEMP.get(baseKey);
+        } else {
+            RenderType baseType = RenderType.create(GCAA.MODID + ":" + "test", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
+                    VertexFormat.Mode.QUADS, 256, true, false,
+                    CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
+                            .setTextureState(new TextureStateShard(texture, false, false))
+                            //.setWriteMaskState(new WriteMaskStateShard(true, false))
+                            .setTransparencyState(NO_TRANSPARENCY).setCullState(NO_CULL).createCompositeState(false));
+            TEMP.put(baseKey, baseType);
+
+            return baseType;
+        }
+    }
 }

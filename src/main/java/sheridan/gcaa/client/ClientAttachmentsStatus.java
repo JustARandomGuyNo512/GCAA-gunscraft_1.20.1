@@ -13,6 +13,7 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.model.ISlotProviderModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
+import sheridan.gcaa.client.model.attachments.IScopeModel;
 import sheridan.gcaa.client.model.attachments.ISightModel;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
@@ -101,7 +102,8 @@ public class ClientAttachmentsStatus {
                 return new float[] {
                         Mth.lerp(progress, sightAimPos[0], tempSightAimPos[0]),
                         Mth.lerp(progress, sightAimPos[1], tempSightAimPos[1]),
-                        Mth.lerp(progress, sightAimPos[2], tempSightAimPos[2])
+                        Mth.lerp(progress, sightAimPos[2], tempSightAimPos[2]),
+                        Mth.lerp(progress, sightAimPos[3], tempSightAimPos[3])
                 };
             } else {
                 return sightAimPos;
@@ -193,4 +195,7 @@ public class ClientAttachmentsStatus {
         }
     }
 
+    public IAttachment getEffectiveSight() {
+        return  effectiveSight == null ? null : AttachmentsRegister.get(effectiveSight.getAttachmentId());
+    }
 }

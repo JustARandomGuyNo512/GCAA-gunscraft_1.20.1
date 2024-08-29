@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,8 +25,10 @@ import org.joml.Vector2f;
 import org.lwjgl.opengl.GL11;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
+import sheridan.gcaa.client.model.attachments.IScopeModel;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
@@ -35,6 +38,7 @@ import sheridan.gcaa.client.render.gui.crosshair.CrossHairRenderer;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.client.screens.AttachmentsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
+import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
@@ -228,6 +232,31 @@ public class RenderEvents {
             Clients.shouldHideFPRender = false;
             resetAttachmentScreenModelState();
         }
+    }
+
+    @SubscribeEvent
+    public static void onFovCompute(ViewportEvent.ComputeFov event) {
+        if (Clients.isInAds() && Clients.mainHandStatus.getEffectiveSight() instanceof Scope scope) {
+            float adsProgress = Clients.mainHandStatus.getLerpAdsProgress(event.getPartialTick());
+            double prevFov = event.getFOV();
+            if (event.usedConfiguredFov()) {
+                event.setFOV(Mth.lerp(Math.pow(adsProgress, 3), prevFov, scope.maxMagnification));
+                return;
+            } else {
+                if (AttachmentsRegister.getModel(scope) instanceof IScopeModel scopeModel) {
+                    if (scopeModel.useAimingModelFovModify()) {
+                        double newFov = Mth.lerp(Math.pow(adsProgress, 4), prevFov, scopeModel.aimingModelFovModify());
+                        event.setFOV(newFov);
+                        Clients.weaponAdsZMinDistance = scopeModel.getMinDisZDistance(
+                                (float) Mth.lerp(adsProgress, prevFov, scopeModel.aimingModelFovModify()));
+                    } else {
+                        Clients.weaponAdsZMinDistance = scopeModel.getMinDisZDistance(-1);
+                    }
+                    return;
+                }
+            }
+        }
+        Clients.weaponAdsZMinDistance = Float.NaN;
     }
 
 }

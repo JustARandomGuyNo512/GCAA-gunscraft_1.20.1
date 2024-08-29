@@ -1,5 +1,7 @@
 package sheridan.gcaa.utils;
 
+
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
@@ -7,7 +9,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL43;
+import sheridan.gcaa.Clients;
 
+import static org.lwjgl.opengl.GL11C.glGenTextures;
 import static org.lwjgl.opengl.GL11C.glGetIntegerv;
 import static org.lwjgl.opengl.GL30C.*;
 
@@ -31,20 +38,16 @@ public class RenderAndMathUtils {
     private static void initFramebuffer(int width, int height) {
         framebuffer = glGenFramebuffers();
         glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-        int depthBuffer = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, depthBuffer);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, (java.nio.ByteBuffer) null);
+        int depthStencilBuffer = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, depthStencilBuffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, (java.nio.ByteBuffer) null);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthBuffer, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthStencilBuffer, 0);
         lastWidth = width;
         lastHeight = height;
     }
 
-    /**
-     * this method is NOT thread safe.
-     * this method save the source frame-buffer's depth buffer into a unique static internal frame-buffer.
-     * */
     @OnlyIn(Dist.CLIENT)
     public static void copyDepthBuffer(int sourceFramebuffer, int width, int height) {
         if (framebuffer == -1 || width != lastWidth || height != lastHeight) {
@@ -52,13 +55,12 @@ public class RenderAndMathUtils {
         }
         glBindFramebuffer(GL_READ_FRAMEBUFFER, sourceFramebuffer);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+        GL11.glDisable(GL43.GL_DEBUG_OUTPUT);
         glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+        GL11.glEnable(GL43.GL_DEBUG_OUTPUT);
     }
 
-    /**
-     * this method is NOT thread safe.
-     * this method copy the internal frame-buffer's depth buffer to the target framebuffer, while the internal frame-buffer was initialized.
-     * */
+
     @OnlyIn(Dist.CLIENT)
     public static void restoreDepthBuffer(int targetFramebuffer, int width, int height) {
         if (framebuffer == -1) {
@@ -66,12 +68,11 @@ public class RenderAndMathUtils {
         }
         glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFramebuffer);
+        GL11.glDisable(GL43.GL_DEBUG_OUTPUT);
         glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+        GL11.glEnable(GL43.GL_DEBUG_OUTPUT);
     }
 
-    /**
-     * get current frame-buffer's id.
-     * */
     @OnlyIn(Dist.CLIENT)
     public static int getCurrentFramebuffer() {
         int[] framebuffer = new int[1];
@@ -119,10 +120,39 @@ public class RenderAndMathUtils {
     }
 
     public static int secondsToTicks(float seconds) {
-        return (int) (seconds / 0.05f);
+        return (int) (seconds * 20);
     }
 
     public static float secondsFromNow(long timeStamp) {
-        return  (System.currentTimeMillis() - timeStamp) / 1000f;
+        return  (System.currentTimeMillis() - timeStamp) * 0.001f;
+    }
+
+    public static boolean isStencilEnabled() {
+        int result = GL30.glGetFramebufferAttachmentParameteri(
+                GL30.GL_FRAMEBUFFER,
+                GL30.GL_STENCIL_ATTACHMENT,
+                GL30.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE);
+        return result != GL11.GL_NONE;
+    }
+
+    public static boolean setUpStencilAndTest() {
+        int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+        if (status != GL_FRAMEBUFFER_COMPLETE) {
+            return false;
+        }
+        if (Clients.prevRenderTarget != null && !Clients.prevRenderTarget.isStencilEnabled()) {
+            Clients.prevRenderTarget.enableStencil();
+        }
+        if (isStencilEnabled()) {
+            return true;
+        }
+        int depthTextureId = glGetFramebufferAttachmentParameteri(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME);
+        GL30.glBindTexture(GL_TEXTURE_2D, depthTextureId);
+        GlStateManager._texImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8,
+                glGetTexLevelParameteri(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH),
+                glGetTexLevelParameteri(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT),
+                0, 34041, 34042, null);
+        GlStateManager._glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
+        return isStencilEnabled();
     }
 }

@@ -8,6 +8,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -110,5 +111,13 @@ public class ClientWeaponStatus {
 
     public float getLerpAdsProgress(float particleTick) {
         return Mth.lerp(particleTick, lastAdsProgress, adsProgress);
+    }
+
+    public float getLerpAdsProgress(double particleTick) {
+        return (float) Mth.lerp(particleTick, lastAdsProgress, adsProgress);
+    }
+
+    public IAttachment getEffectiveSight() {
+        return  attachmentsStatus == null ? null : attachmentsStatus.getEffectiveSight();
     }
 }
