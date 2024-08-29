@@ -22,12 +22,12 @@ public class ScopeX10Model implements IAttachmentModel, IScopeModel {
     private final ModelPart body;
     private final ModelPart glass_shape;
     private final ModelPart back_ground;
-    private static final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/scopes/scope_x10.png");
-    private static final ResourceLocation CROSSHAIR_TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/scopes/scope_x10_crosshair.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/scopes/scope_x10/scope_x10.png");
+    private static final ResourceLocation CROSSHAIR_TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/scopes/scope_x10/scope_x10_crosshair.png");
 
 
     public ScopeX10Model() {
-        root = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/scopes/scope_x10.geo.json")).bakeRoot().getChild("root");
+        root = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/scopes/scope_x10/scope_x10.geo.json")).bakeRoot().getChild("root");
         crosshair = root.getChild("crosshair");
         back_glass = root.getChild("back_glass").meshing();
         body = root.getChild("body").meshing();

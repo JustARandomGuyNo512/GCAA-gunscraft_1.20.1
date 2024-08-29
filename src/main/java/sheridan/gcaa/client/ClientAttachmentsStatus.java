@@ -19,6 +19,7 @@ import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.items.attachments.IArmRelocate;
 import sheridan.gcaa.items.attachments.IAttachment;
+import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.attachments.Sight;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
@@ -61,6 +62,9 @@ public class ClientAttachmentsStatus {
             slot = AttachmentsHandler.INSTANCE.getAttachmentSlots(itemStack);
             sights.clear();
             slotFlatDir.clear();
+            if (effectiveSight != null && AttachmentsRegister.get(effectiveSight.getAttachmentId()) instanceof Scope scope) {
+                scope.onLoseEffective();
+            }
             effectiveSight = null;
             tempSightAimPos = null;
             sightSwitchingProgress = 0.9f;
@@ -195,6 +199,6 @@ public class ClientAttachmentsStatus {
     }
 
     public IAttachment getEffectiveSight() {
-        return  effectiveSight == null ? null : AttachmentsRegister.get(effectiveSight.getAttachmentId());
+        return effectiveSight == null ? null : AttachmentsRegister.get(effectiveSight.getAttachmentId());
     }
 }

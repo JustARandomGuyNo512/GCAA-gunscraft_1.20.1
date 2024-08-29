@@ -17,6 +17,7 @@ import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.JumpBobbingHandler;
 import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.IGun;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
@@ -40,6 +41,9 @@ public class ClientPlayerEvents {
             }
             Clients.mainHandStatus.updatePlayerSpread(stackMain, gunMain, player);
             Clients.mainHandStatus.handleAds(stackMain, gunMain, player);
+            if (Clients.mainHandStatus.attachmentsStatus.getEffectiveSight() instanceof Scope scope) {
+                scope.handleMouseSensitivity();
+            }
         }
         if (event.phase == TickEvent.Phase.END )  {
             JumpBobbingHandler jumpBobbingHandler = JumpBobbingHandler.getInstance();
@@ -48,10 +52,6 @@ public class ClientPlayerEvents {
             }
             ReloadingHandler.INSTANCE.tick(player);
             HandActionHandler.INSTANCE.tick(player);
-            if (Clients.debugKeyDown) {
-                AnimationDefinition definition = GunModelRegister.getModel(ModItems.AKM.get()).get("reload");
-                definition.print();
-            }
         }
     }
 
