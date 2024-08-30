@@ -12,7 +12,6 @@ import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL43;
-import sheridan.gcaa.Clients;
 
 import static org.lwjgl.opengl.GL11C.glGenTextures;
 import static org.lwjgl.opengl.GL11C.glGetIntegerv;
@@ -55,9 +54,7 @@ public class RenderAndMathUtils {
         }
         glBindFramebuffer(GL_READ_FRAMEBUFFER, sourceFramebuffer);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
-        GL11.glDisable(GL43.GL_DEBUG_OUTPUT);
         glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-        GL11.glEnable(GL43.GL_DEBUG_OUTPUT);
     }
 
 
@@ -68,9 +65,7 @@ public class RenderAndMathUtils {
         }
         glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFramebuffer);
-        GL11.glDisable(GL43.GL_DEBUG_OUTPUT);
         glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-        GL11.glEnable(GL43.GL_DEBUG_OUTPUT);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -139,9 +134,6 @@ public class RenderAndMathUtils {
         int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
         if (status != GL_FRAMEBUFFER_COMPLETE) {
             return false;
-        }
-        if (Clients.prevRenderTarget != null && !Clients.prevRenderTarget.isStencilEnabled()) {
-            Clients.prevRenderTarget.enableStencil();
         }
         if (isStencilEnabled()) {
             return true;
