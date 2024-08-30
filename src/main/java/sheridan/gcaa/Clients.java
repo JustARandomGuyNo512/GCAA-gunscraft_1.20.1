@@ -125,8 +125,6 @@ public class Clients {
         return mainHandStatus.attachmentsStatus.getEffectiveSightUUID();
     }
     @OnlyIn(Dist.CLIENT)
-    public static RenderTarget prevRenderTarget;
-    @OnlyIn(Dist.CLIENT)
     public static float weaponAdsZMinDistance = Float.NaN;
     @OnlyIn(Dist.CLIENT)
     public static float fovModify = Float.NaN;

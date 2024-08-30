@@ -16,32 +16,32 @@ public class NoRepairNoEnchantmentItem extends BaseItem{
     }
 
     @Override
-    public final boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return false;
     }
 
     @Override
-    public final Map<Enchantment, Integer> getAllEnchantments(ItemStack stack) {
+    public Map<Enchantment, Integer> getAllEnchantments(ItemStack stack) {
         return EMPTY_ENCHANTMENT_MAP;
     }
 
     @Override
-    public final int getEnchantmentValue() {
+    public int getEnchantmentValue() {
         return 0;
     }
 
     @Override
-    public final boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
         return false;
     }
 
     @Override
-    public final boolean isEnchantable(@NotNull ItemStack itemStack) {
+    public boolean isEnchantable(@NotNull ItemStack itemStack) {
         return false;
     }
 
     @Override
-    public final boolean isRepairable(@NotNull ItemStack stack) {
+    public boolean isRepairable(@NotNull ItemStack stack) {
         return false;
     }
 }

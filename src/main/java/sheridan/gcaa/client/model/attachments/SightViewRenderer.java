@@ -67,7 +67,7 @@ public class SightViewRenderer {
 
     public static void renderScope(boolean active, boolean glowingCrosshair, float crosshairScale, float backgroundScale, GunRenderContext context, ResourceLocation crosshairTexture,
                                    ResourceLocation bodyTexture, ResourceLocation backgroundTexture, ModelPart crosshair, ModelPart glassShape, ModelPart backGlass, ModelPart back_ground, ModelPart ...body) {
-        RenderAndMathUtils.setUpStencilAndTest();
+        RenderAndMathUtils.setUpStencil();
         if (!active) {
             VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(bodyTexture));
             context.render(backGlass, vertexConsumer);

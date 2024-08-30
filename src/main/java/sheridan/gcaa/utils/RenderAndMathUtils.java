@@ -3,6 +3,7 @@ package sheridan.gcaa.utils;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -54,7 +55,9 @@ public class RenderAndMathUtils {
         }
         glBindFramebuffer(GL_READ_FRAMEBUFFER, sourceFramebuffer);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+        GL11.glDisable(GL43.GL_DEBUG_OUTPUT);
         glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+        GL11.glEnable(GL43.GL_DEBUG_OUTPUT);
     }
 
 
@@ -65,7 +68,9 @@ public class RenderAndMathUtils {
         }
         glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFramebuffer);
+        GL11.glDisable(GL43.GL_DEBUG_OUTPUT);
         glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+        GL11.glEnable(GL43.GL_DEBUG_OUTPUT);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -130,13 +135,15 @@ public class RenderAndMathUtils {
         return result != GL11.GL_NONE;
     }
 
-    public static boolean setUpStencilAndTest() {
+    public static void setUpStencil() {
+        GL11.glDisable(GL43.GL_DEBUG_OUTPUT);
+        Minecraft.getInstance().getMainRenderTarget().enableStencil();
         int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
         if (status != GL_FRAMEBUFFER_COMPLETE) {
-            return false;
+            return;
         }
         if (isStencilEnabled()) {
-            return true;
+            return;
         }
         int depthTextureId = glGetFramebufferAttachmentParameteri(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME);
         GL30.glBindTexture(GL_TEXTURE_2D, depthTextureId);
@@ -145,6 +152,6 @@ public class RenderAndMathUtils {
                 glGetTexLevelParameteri(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT),
                 0, 34041, 34042, null);
         GlStateManager._glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
-        return isStencilEnabled();
+        GL11.glEnable(GL43.GL_DEBUG_OUTPUT);
     }
 }

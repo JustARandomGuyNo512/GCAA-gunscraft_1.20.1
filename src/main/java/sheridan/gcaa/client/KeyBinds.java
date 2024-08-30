@@ -26,5 +26,6 @@ public class KeyBinds {
         event.register(SHOW_FULL_GUN_INFO);
         event.register(OPEN_CLIENT_SETTINGS_SCREEN);
         event.register(SWITCH_EFFECTIVE_SIGHT);
+        event.register(DEBUG_KEY);
     }
 }
