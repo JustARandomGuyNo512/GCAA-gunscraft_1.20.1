@@ -25,7 +25,10 @@ public abstract class Scope extends Sight {
             if (tempMouseSensitivity == -1) {
                 tempMouseSensitivity = Minecraft.getInstance().options.sensitivity().get();
             } else {
-                double prevMouseSensitivity = Mth.lerp(aimingProgress, tempMouseSensitivity, tempMouseSensitivity * (1 / maxMagnification));
+                float rate = Clients.mainHandStatus.getScopeMagnification();
+                float prevMagnification = Mth.lerp(rate, maxMagnification, minMagnification);
+                double prevMouseSensitivity = Mth.lerp(aimingProgress, tempMouseSensitivity,
+                        tempMouseSensitivity * (1 / (prevMagnification)));
                 Minecraft.getInstance().options.sensitivity().set(prevMouseSensitivity);
             }
         } else {
