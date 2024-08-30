@@ -1,6 +1,7 @@
 package sheridan.gcaa.items.attachments;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 import sheridan.gcaa.Clients;
 
@@ -40,5 +41,14 @@ public abstract class Scope extends Sight {
             Minecraft.getInstance().options.sensitivity().set(tempMouseSensitivity);
         }
         tempMouseSensitivity = -1;
+    }
+
+    protected static float getNormalField() {
+        GameRenderer renderer = Minecraft.getInstance().gameRenderer;
+        return (float) (renderer.isPanoramicMode() ? Math.tan(Math.toRadians(45)) : Math.tan(Math.toRadians(35)));
+    }
+
+    public static float getFov(float rate) {
+        return (float) (Math.atan(getNormalField() / rate) * 180 / Math.PI * 2);
     }
 }

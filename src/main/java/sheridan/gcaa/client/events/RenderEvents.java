@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,12 +45,23 @@ import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.lwjgl.opengl.GL30C.*;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class RenderEvents {
     private static final ResourceLocation CHAMBER_EMPTY = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/chamber_empty.png");
     private static final ResourceLocation CHAMBER_FILLED = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/chamber_filled.png");
+    private static final Map<String, Long> TEMP_TIMERS = new HashMap<>();
+    private static final String MAGNIFICATION = "magnification_tip";
+    private static float magnificationTip = 0;
+    private static int magnificationTipColor = 0;
+
+    static {
+        TEMP_TIMERS.put(MAGNIFICATION, 0L);
+    }
 
     @SubscribeEvent
     public static void onRenderHandFP(RenderHandEvent event) {
@@ -105,6 +117,15 @@ public class RenderEvents {
         CameraAnimationHandler.INSTANCE.clear();
     }
 
+    public static void renderScopeMagnificationTip(Scope scope, float rate, int color) {
+        if (Float.isNaN(rate)) {
+            return;
+        }
+        magnificationTip = Mth.lerp(rate, scope.maxMagnification, scope.minMagnification);
+        magnificationTipColor = color;
+        TEMP_TIMERS.put(MAGNIFICATION, System.currentTimeMillis());
+    }
+
     @SubscribeEvent
     public static void renderGunInfo(RenderGuiEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
@@ -114,6 +135,7 @@ public class RenderEvents {
         Player player = minecraft.player;
         if (player != null) {
             ItemStack stack = player.getMainHandItem();
+            long now = System.currentTimeMillis();
             if (stack.getItem() instanceof IGun gun) {
                 Font font = minecraft.font;
                 GuiGraphics guiGraphics = event.getGuiGraphics();
@@ -134,6 +156,10 @@ public class RenderEvents {
                     RenderSystem.enableBlend();
                     event.getGuiGraphics().blit(texture, (int) (0.8f * window.getGuiScaledWidth()), (int) (0.9f * window.getGuiScaledHeight()),  0,0, 8,8, 8, 8);
                     RenderSystem.disableBlend();
+                }
+                if (now - TEMP_TIMERS.get(MAGNIFICATION) < 500) {
+                    String str = "x" + Math.floor(magnificationTip);
+                    guiGraphics.drawString(font, str, (width - font.width(str)) * 0.5f, 0.75f * height, magnificationTipColor,  true);
                 }
             }
         }
@@ -240,7 +266,12 @@ public class RenderEvents {
             float adsProgress = Clients.mainHandStatus.getLerpAdsProgress(event.getPartialTick());
             double prevFov = event.getFOV();
             if (event.usedConfiguredFov()) {
-                float newFov = (float) Mth.lerp(Math.pow(adsProgress, 3), prevFov, scope.maxMagnification);
+                float magnificationRate = Clients.mainHandStatus.attachmentsStatus.getScopeMagnification();
+                if (Float.isNaN(magnificationRate)) {
+                    magnificationRate = 0;
+                }
+                float magnification = Mth.lerp(magnificationRate, scope.maxMagnification, scope.minMagnification);
+                float newFov = (float) Mth.lerp(Math.pow(adsProgress, 3), prevFov, Scope.getFov(magnification));
                 event.setFOV(newFov);
                 Clients.fovModify = newFov;
                 return;

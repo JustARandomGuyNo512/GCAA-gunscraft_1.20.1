@@ -8,7 +8,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.items.attachments.IAttachment;
+import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -52,12 +54,15 @@ public class ClientWeaponStatus {
                 if (gun.shouldHandleAds(stack)) {
                     lastAdsProgress = adsProgress;
                     adsProgress = Math.min(adsSpeed + adsProgress, 1);
-                    if (adsProgress == 1 && !switchSightTooltipShowed) {
-                        if (attachmentsStatus.sights.size() > 1) {
+                    if (adsProgress == 1) {
+                        if (!switchSightTooltipShowed && attachmentsStatus.sights.size() > 1) {
                             String info = Component.translatable("tooltip.screen_info.switch_sight").getString();
                             info = info.replace("$key", KeyBinds.SWITCH_EFFECTIVE_SIGHT.getTranslatedKeyMessage().getString());
                             player.displayClientMessage(Component.literal(info), false);
                             switchSightTooltipShowed = true;
+                        }
+                        if (getEffectiveSight() instanceof Scope scope && lastAdsProgress != 1) {
+                            RenderEvents.renderScopeMagnificationTip(scope, getScopeMagnification(), 0xffffff);
                         }
                     }
                 } else {
@@ -119,5 +124,13 @@ public class ClientWeaponStatus {
 
     public IAttachment getEffectiveSight() {
         return  attachmentsStatus == null ? null : attachmentsStatus.getEffectiveSight();
+    }
+
+    public float getScopeMagnification() {
+        return attachmentsStatus == null ? Float.NaN : attachmentsStatus.getScopeMagnification();
+    }
+
+    public boolean setScopeMagnification(float val) {
+        return attachmentsStatus != null && attachmentsStatus.setScopeMagnification(val);
     }
 }

@@ -7,7 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -20,12 +19,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.Commons;
+import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.*;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.AnimationHandler;
@@ -34,15 +32,16 @@ import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
+import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunFirePacket;
-import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
-import sheridan.gcaa.network.packets.s2c.ClientSoundPacket;
 import sheridan.gcaa.sounds.ModSounds;
 import sheridan.gcaa.utils.FontUtils;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class Gun extends NoRepairNoEnchantmentItem implements IGun {
@@ -385,6 +384,33 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         return nbt;
     }
 
+    public void setMagnificationsRateFor(String scopeId, ItemStack stack, float rate) {
+        CompoundTag magnifications = checkAndGetMagnificationsTag(stack);
+        magnifications.putFloat(scopeId, Mth.clamp(rate, 0, 1));
+    }
+
+    public float getMagnificationsRateFor(String scopeId, ItemStack stack) {
+        CompoundTag magnifications = checkAndGetMagnificationsTag(stack);
+        return magnifications.getFloat(scopeId);
+    }
+
+    public float getMagnificationsRateFor(Scope scope, ItemStack stack) {
+        String id = AttachmentsRegister.getStrKey(scope);
+        if (id == null) {
+            return 0;
+        }
+        return getMagnificationsRateFor(id, stack);
+    }
+
+    public CompoundTag checkAndGetMagnificationsTag(ItemStack stack) {
+        CompoundTag tag = checkAndGet(stack);
+        if (!tag.contains("scope_magnifications")) {
+            CompoundTag magnificationMap = new CompoundTag();
+            tag.put("scope_magnifications", magnificationMap);
+        }
+        return tag.getCompound("scope_magnifications");
+    }
+
     @Override
     public void onCraftedBy(ItemStack pStack, Level pLevel, Player pPlayer) {
         super.onCraftedBy(pStack, pLevel, pPlayer);
@@ -413,7 +439,25 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         if (!nbt.contains("effective_sight_uuid")) {
             nbt.putString("effective_sight_uuid", "none");
         }
+        if (!nbt.contains("scope_magnifications")) {
+            CompoundTag magnificationMap = new CompoundTag();
+            nbt.put("scope_magnifications", magnificationMap);
+        }
         pStack.setTag(nbt);
+    }
+
+    @Override
+    public void afterGunDataUpdate(ItemStack stack) {
+        CompoundTag scopeMagnifications = checkAndGetMagnificationsTag(stack);
+        Set<String> keyToRemove = new HashSet<>();
+        for (String key : scopeMagnifications.getAllKeys()) {
+            if (!(AttachmentsRegister.get(key) instanceof Scope)) {
+                keyToRemove.add(key);
+            }
+        }
+        for (String key : keyToRemove) {
+            scopeMagnifications.remove(key);
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
