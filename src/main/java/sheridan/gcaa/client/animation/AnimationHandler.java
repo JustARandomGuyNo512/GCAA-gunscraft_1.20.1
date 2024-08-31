@@ -98,6 +98,24 @@ public class AnimationHandler {
         apply(root, RELOAD);
     }
 
+    public long getReloadStartTime() {
+        return getStartTime(RELOAD);
+    }
+
+    public float getReloadLengthIfHas() {
+        return getLengthIfHas(RELOAD);
+    }
+
+    public long getStartTime(String channel) {
+        KeyframeAnimations.Mark mark = animations.get(channel);
+        return mark == null ? 0 : mark.timeStamp;
+    }
+
+    public float getLengthIfHas(String channel) {
+        KeyframeAnimations.Mark mark = animations.get(channel);
+        return mark == null ? Float.NaN : mark.animationDefinition.lengthInSeconds();
+    }
+
     public void applyHandAction(HierarchicalModel<?> root) {
         apply(root, HAND_ACTION);
     }

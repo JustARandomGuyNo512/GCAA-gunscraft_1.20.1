@@ -8,6 +8,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.Scope;
@@ -132,5 +133,13 @@ public class ClientWeaponStatus {
 
     public boolean setScopeMagnification(float val) {
         return attachmentsStatus != null && attachmentsStatus.setScopeMagnification(val);
+    }
+
+    public AttachmentSlot getLeftArmReplace() {
+        return  attachmentsStatus == null ? null : attachmentsStatus.leftArmReplace;
+    }
+
+    public AttachmentSlot getRightArmReplace() {
+        return  attachmentsStatus == null ? null : attachmentsStatus.rightArmReplace;
     }
 }

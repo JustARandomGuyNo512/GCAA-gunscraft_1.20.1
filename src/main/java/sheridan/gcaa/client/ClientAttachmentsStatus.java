@@ -13,11 +13,10 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.model.ISlotProviderModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
-import sheridan.gcaa.client.model.attachments.IScopeModel;
 import sheridan.gcaa.client.model.attachments.ISightModel;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
-import sheridan.gcaa.items.attachments.IArmRelocate;
+import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.attachments.Sight;
@@ -38,6 +37,8 @@ public class ClientAttachmentsStatus {
     public Map<String, AttachmentSlot> slotFlatDir;
     public List<AttachmentSlot> sights;
     public AttachmentSlot effectiveSight;
+    public AttachmentSlot leftArmReplace;
+    public AttachmentSlot rightArmReplace;
     public int effectiveSightIndex;
     public float sightSwitchingProgress;
     private float tempSightSwitchingProgress;
@@ -68,6 +69,8 @@ public class ClientAttachmentsStatus {
             if (effectiveSight != null && AttachmentsRegister.get(effectiveSight.getAttachmentId()) instanceof Scope scope) {
                 scope.onLoseEffective();
             }
+            leftArmReplace = null;
+            rightArmReplace = null;
             effectiveSight = null;
             tempSightAimPos = null;
             scopeMagnification = Float.NaN;
@@ -92,8 +95,25 @@ public class ClientAttachmentsStatus {
                                 }
                             }
                         }
-                        if (attachment instanceof IArmRelocate) {
-                            //TODO: handle arm relocate
+                        if (attachment instanceof IArmReplace armReplace) {
+                            if (armReplace.replaceArmRender(false)) {
+                                if (leftArmReplace == null) {
+                                    leftArmReplace = slot;
+                                } else {
+                                    IArmReplace leftLast = (IArmReplace) AttachmentsRegister.get(leftArmReplace.getAttachmentId());
+                                    leftArmReplace = leftLast.orderForArmRender(false) > armReplace.orderForArmRender(false) ?
+                                            slot : leftArmReplace;
+                                }
+                            }
+                            if (armReplace.replaceArmRender(true)) {
+                                if (rightArmReplace == null) {
+                                    rightArmReplace = slot;
+                                } else {
+                                    IArmReplace rightLast = (IArmReplace) AttachmentsRegister.get(rightArmReplace.getAttachmentId());
+                                    rightArmReplace = rightLast.orderForArmRender(true) > armReplace.orderForArmRender(true) ?
+                                            slot : rightArmReplace;
+                                }
+                            }
                         }
                     }
                 });

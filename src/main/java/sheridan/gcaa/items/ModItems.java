@@ -7,6 +7,7 @@ import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.items.attachments.akStuff.AKImprovedDustCover;
 import sheridan.gcaa.items.attachments.akStuff.AKRailBracket;
+import sheridan.gcaa.items.attachments.grips.VerticalGrip;
 import sheridan.gcaa.items.attachments.handguard.AKImprovedHandguard;
 import sheridan.gcaa.items.attachments.muzzle.AKCompensator;
 import sheridan.gcaa.items.attachments.muzzle.AKSuppressor;
@@ -37,4 +38,5 @@ public class ModItems {
     public static final RegistryObject<RedDot> RED_DOT = ITEMS.register("red_dot", RedDot::new);
     public static final RegistryObject<Holographic> HOLOGRAPHIC = ITEMS.register("holographic", Holographic::new);
     public static final RegistryObject<ScopeX10> SCOPE_X10 = ITEMS.register("scope_x10", ScopeX10::new);
+    public static final RegistryObject<VerticalGrip> VERTICAL_GRIP = ITEMS.register("vertical_grip", VerticalGrip::new);
 }

@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
@@ -23,6 +24,8 @@ import java.util.Objects;
 @OnlyIn(Dist.CLIENT)
 public class GunRenderContext {
     public static final Map<String, PoseStack> GLOBAL_POSE_STORAGE = new HashMap<>();
+    public static final String LEFT_ARM_RENDER_REPLACE = "left_arm_render_replace";
+    public static final String RIGHT_ARM_RENDER_REPLACE = "right_arm_render_replace";
     public MultiBufferSource bufferSource;
     public PoseStack poseStack;
     public ItemStack itemStack;
@@ -38,7 +41,7 @@ public class GunRenderContext {
     public long lastShoot;
     public DisplayData.MuzzleFlashEntry muzzleFlashEntry;
     public AttachmentsRenderContext attachmentsRenderContext;
-    public PoseStack[] localPoseStorage;
+    public Map<String, PoseStack> localPoseStorage;
     public int ammoLeft;
 
     private static String lastAttachmentContextUUID = "none";
@@ -142,15 +145,27 @@ public class GunRenderContext {
     }
 
     public void renderArmLong(ModelPart pose, boolean mainHand) {
-        if (isFirstPerson) {
+        if (isFirstPerson && shouldRenderArmImmediately(mainHand, pose)) {
             PlayerArmRenderer.INSTANCE.renderLong(pose, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
         }
     }
 
     public void renderArm(ModelPart pose, boolean mainHand) {
-        if (isFirstPerson) {
+        if (isFirstPerson && shouldRenderArmImmediately(mainHand, pose)) {
             PlayerArmRenderer.INSTANCE.render(pose, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
         }
+    }
+
+    private boolean shouldRenderArmImmediately(boolean mainHand, ModelPart pose) {
+        AttachmentSlot armReplace = mainHand ? Clients.mainHandStatus.getRightArmReplace() : Clients.mainHandStatus.getLeftArmReplace();
+        if (armReplace != null) {
+            String key = mainHand ? RIGHT_ARM_RENDER_REPLACE : LEFT_ARM_RENDER_REPLACE;
+            PoseStack poseStack = RenderAndMathUtils.copyPoseStack(this.poseStack);
+            pose.translateAndRotate(poseStack);
+            saveInLocal(key, poseStack);
+            return false;
+        }
+        return true;
     }
 
     public void renderArmLong(PoseStack poseStack, boolean mainHand) {
@@ -199,23 +214,30 @@ public class GunRenderContext {
         return transformType == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || transformType == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND;
     }
 
+    public void saveInLocal(String key, PoseStack poseStack) {
+        if (localPoseStorage == null) {
+            localPoseStorage = new HashMap<>();
+        }
+        localPoseStorage.put(key, poseStack);
+    }
+
     /**
      * copy and save a poseStack instance in local renderByModelSlotName context in given index(0~9);
      * */
-    public void saveInLocal(int index, PoseStack poseStack) {
+    public void copyAndSaveInLocal(String key, PoseStack poseStack) {
         if (localPoseStorage == null) {
-            localPoseStorage = new PoseStack[10];
+            localPoseStorage = new HashMap<>();
         }
-        localPoseStorage[index] = RenderAndMathUtils.copyPoseStack(poseStack);
+        localPoseStorage.put(key, RenderAndMathUtils.copyPoseStack(poseStack));
     }
 
-    public void savePrevStack(int index) {
-        saveInLocal(index, poseStack);
+    public void savePrevStack() {
+        copyAndSaveInLocal("prev_pose", poseStack);
     }
 
-    public PoseStack getLocalSavedPose(int index) {
-        if (localPoseStorage != null && index >=0 && index <=9) {
-            return localPoseStorage[index];
+    public PoseStack getLocalSavedPose(String key) {
+        if (localPoseStorage != null) {
+            return localPoseStorage.get(key);
         }
         return null;
     }

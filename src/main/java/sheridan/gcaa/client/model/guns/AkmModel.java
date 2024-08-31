@@ -24,9 +24,6 @@ public class AkmModel extends GunModel {
             dust_cover, mag, grip,
             safety, body, stock, bullet;
 
-    private ModelPart
-            slot_grip, slot_mag, slot_rail_set,
-            slot_handguard, slot_muzzle, slot_stock, slot_dust_cover;
 
     private final AnimationDefinition recoil;
     private final AnimationDefinition shoot;
@@ -53,14 +50,6 @@ public class AkmModel extends GunModel {
         stock = gun.getChild("stock").meshing();
         mag = gun.getChild("mag").meshing();
         bullet = mag.getChild("bullet").meshing();
-
-        slot_grip = gun.getChild("s_grip");
-        slot_mag = gun.getChild("s_mag");
-        slot_rail_set = gun.getChild("s_rail_set");
-        slot_handguard = gun.getChild("s_handguard");
-        slot_muzzle = gun.getChild("s_muzzle");
-        slot_stock = gun.getChild("s_stock");
-        slot_dust_cover = gun.getChild("s_dust_cover");
     }
 
     @Override
