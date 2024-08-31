@@ -35,45 +35,33 @@ public class VerticalGripModel extends ArmRendererModel implements IAttachmentMo
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
-        PoseStack poseStack = context.poseStack;
         root.copyFrom(pose);
-        poseStack.pushPose();
-        root.translateAndRotate(poseStack);
+        context.pushPose().translateTo(root);
         context.render(body, vertexConsumer);
-        renderLeftArm(RenderAndMathUtils.copyPoseStack(poseStack), context);
-        poseStack.popPose();
+        renderArm(false, RenderAndMathUtils.copyPoseStack(context.poseStack), context);
+        context.popPose();
         root.resetPose();
     }
+
 
     @Override
     public ModelPart getRoot() {
         return root;
     }
 
-    protected void renderLeftArm(PoseStack poseStack, GunRenderContext context) {
-        if (!context.isFirstPerson) {
-            return;
-        }
-        left_arm.translateAndRotate(poseStack);
-        PoseStack renderPose = poseStack;
-        long reloadStartTime = AnimationHandler.INSTANCE.getReloadStartTime();
-        if (reloadStartTime != 0) {
-            float length = AnimationHandler.INSTANCE.getReloadLengthIfHas();
-            PoseStack savedPose = context.getLocalSavedPose(LEFT_ARM_RENDER_REPLACE);
-            if (!Float.isNaN(length) && savedPose != null) {
-                float disFromStart = RenderAndMathUtils.secondsFromNow(reloadStartTime);
-                float progress = Mth.clamp(disFromStart / length, 0, 1);
-                if (progress < 0.25f) {
-                    renderPose = RenderAndMathUtils.lerpPoseStack(poseStack, savedPose, progress * 4);
-                } else if (progress > 0.75f) {
-                    renderPose = RenderAndMathUtils.lerpPoseStack(savedPose, poseStack, (progress - 0.75f) * 4);
-                } else {
-                    renderPose = savedPose;
-                }
-            }
-        }
-        PlayerArmRenderer.INSTANCE.renderLong(context.packedLight, context.packedOverlay, false, context.bufferSource, renderPose);
+    @Override
+    protected ModelPart getLeftArm() {
+        return left_arm;
     }
 
+    @Override
+    protected ModelPart getRightArm() {
+        return null;
+    }
+
+    @Override
+    protected PoseStack lerpArmPose(boolean mainHand, PoseStack prevPose, GunRenderContext context) {
+        return LerpReloadAnimationPose(false, context, prevPose);
+    }
 
 }
