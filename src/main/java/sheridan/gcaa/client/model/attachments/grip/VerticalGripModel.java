@@ -4,18 +4,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.client.ReloadingHandler;
-import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.model.attachments.ArmRendererModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
-import sheridan.gcaa.client.render.PlayerArmRenderer;
 import sheridan.gcaa.lib.ArsenalLib;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
@@ -38,11 +34,10 @@ public class VerticalGripModel extends ArmRendererModel implements IAttachmentMo
         root.copyFrom(pose);
         context.pushPose().translateTo(root);
         context.render(body, vertexConsumer);
-        renderArm(false, RenderAndMathUtils.copyPoseStack(context.poseStack), context);
+        renderArm(false, RenderAndMathUtils.copyPoseStack(context.poseStack), context, attachmentRenderEntry);
         context.popPose();
         root.resetPose();
     }
-
 
     @Override
     public ModelPart getRoot() {
@@ -62,6 +57,11 @@ public class VerticalGripModel extends ArmRendererModel implements IAttachmentMo
     @Override
     protected PoseStack lerpArmPose(boolean mainHand, PoseStack prevPose, GunRenderContext context) {
         return LerpReloadAnimationPose(false, context, prevPose);
+    }
+
+    @Override
+    protected boolean shouldRenderArm(boolean mainHand, GunRenderContext context, AttachmentRenderEntry entry) {
+        return defaultShouldRenderArm(mainHand, context, entry);
     }
 
 }
