@@ -266,7 +266,6 @@ public class Projectile extends Entity implements IProjectile {
         if (notThrough && flag) {
 
             PacketHandler.simpleChannel.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
-                    (ServerPlayer) this.shooter,
                     result.getLocation().x,
                     result.getLocation().y,
                     result.getLocation().z,
