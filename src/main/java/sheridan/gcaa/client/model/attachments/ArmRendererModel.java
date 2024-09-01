@@ -18,8 +18,8 @@ public abstract class ArmRendererModel {
     protected static final String LEFT_ARM_RENDER_REPLACE = GunRenderContext.LEFT_ARM_RENDER_REPLACE;
     protected static final String RIGHT_ARM_RENDER_REPLACE = GunRenderContext.RIGHT_ARM_RENDER_REPLACE;
 
-    protected abstract ModelPart getLeftArm();
-    protected abstract ModelPart getRightArm();
+    protected abstract ModelPart getLeftArm(GunRenderContext context);
+    protected abstract ModelPart getRightArm(GunRenderContext context);
     protected abstract PoseStack lerpArmPose(boolean mainHand, PoseStack prevPose, GunRenderContext context);
     protected abstract boolean shouldRenderArm(boolean mainHand, GunRenderContext context, AttachmentRenderEntry entry);
 
@@ -27,13 +27,17 @@ public abstract class ArmRendererModel {
         if (!shouldRenderArm(mainHand, context, entry)) {
             return;
         }
-        ModelPart arm = mainHand ? getRightArm() : getLeftArm();
+        ModelPart arm = mainHand ? getRightArm(context) : getLeftArm(context);
         if (arm == null) {
             return;
         }
         arm.translateAndRotate(poseStack);
         PoseStack renderPose = lerpArmPose(mainHand, poseStack, context);
-        PlayerArmRenderer.INSTANCE.renderLong(context.packedLight, context.packedOverlay, false, context.bufferSource, renderPose);
+        if (context.renderLongArm) {
+            PlayerArmRenderer.INSTANCE.renderLong(context.packedLight, context.packedOverlay, false, context.bufferSource, renderPose);
+            return;
+        }
+        PlayerArmRenderer.INSTANCE.render(context.packedLight, context.packedOverlay, false, context.bufferSource, renderPose);
     }
 
     protected boolean defaultShouldRenderArm(boolean mainHand, GunRenderContext context, AttachmentRenderEntry entry) {

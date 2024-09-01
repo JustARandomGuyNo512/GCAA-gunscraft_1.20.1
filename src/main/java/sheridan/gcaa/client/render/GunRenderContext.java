@@ -44,6 +44,8 @@ public class GunRenderContext {
     public Map<String, PoseStack> localPoseStorage;
     public int ammoLeft;
 
+    public boolean renderLongArm = false;
+
     private static String lastAttachmentContextUUID = "none";
     private static AttachmentsRenderContext tempAttachmentContext = null;
     public static GunRenderContext getLocalMainHand(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, DisplayData.MuzzleFlashEntry muzzleFlashEntry, int packedLight, int packedOverlay) {
@@ -145,7 +147,11 @@ public class GunRenderContext {
     }
 
     public void renderArmLong(ModelPart pose, boolean mainHand) {
-        if (isFirstPerson && shouldRenderArmImmediately(mainHand, pose)) {
+        if (isFirstPerson) {
+            if (!shouldRenderArmImmediately(mainHand, pose)) {
+                renderLongArm = true;
+                return;
+            }
             PlayerArmRenderer.INSTANCE.renderLong(pose, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
         }
     }

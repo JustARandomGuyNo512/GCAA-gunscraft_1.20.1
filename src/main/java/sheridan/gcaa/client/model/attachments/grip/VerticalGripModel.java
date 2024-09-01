@@ -20,12 +20,14 @@ public class VerticalGripModel extends ArmRendererModel implements IAttachmentMo
     private final ModelPart root;
     private final ModelPart body;
     private final ModelPart left_arm;
+    private final ModelPart left_arm_long;
     private static final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/grips/vertical_grip.png");
 
     public VerticalGripModel() {
         root = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/grips/vertical_grip.geo.json")).bakeRoot().getChild("root");
         body = root.getChild("body").meshing();
         left_arm = root.getChild("left_arm");
+        left_arm_long = root.getChild("left_arm_long");
     }
 
     @Override
@@ -45,12 +47,12 @@ public class VerticalGripModel extends ArmRendererModel implements IAttachmentMo
     }
 
     @Override
-    protected ModelPart getLeftArm() {
-        return left_arm;
+    protected ModelPart getLeftArm(GunRenderContext context) {
+        return context.renderLongArm ? left_arm_long : left_arm;
     }
 
     @Override
-    protected ModelPart getRightArm() {
+    protected ModelPart getRightArm(GunRenderContext context) {
         return null;
     }
 
