@@ -28,6 +28,7 @@ public class KeyframeAnimations {
             return;
         }
         float f = definition.looping() ? timeDis % definition.lengthInSeconds() : timeDis;
+
         for(Map.Entry<String, List<AnimationChannel>> entry : definition.boneAnimations().entrySet()) {
             Optional<ModelPart> optional = root.getAnyDescendantWithName(entry.getKey());
             List<AnimationChannel> list = entry.getValue();
@@ -83,6 +84,10 @@ public class KeyframeAnimations {
         _animate(root, definition, startTime, 0, 1, 1, 1, true);
     }
 
+    public static void animateKeepLastPose(HierarchicalModel<?> root, AnimationDefinition definition, long startTime) {
+        _animate(root, definition, startTime, 0, 1, 1, 1, false);
+    }
+
     public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, float scale) {
         _animate(root, definition, startTime, 0, scale, scale, scale, true);
     }
@@ -92,6 +97,13 @@ public class KeyframeAnimations {
     }
     public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, Vector3f scales) {
         _animate(root, definition, startTime, 0, scales.x, scales.y, scales.z, true);
+    }
+
+    public static void animateKeepLastPose(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, Vector3f scales) {
+        _animate(root, definition, startTime, 0, scales.x, scales.y, scales.z, false);
+    }
+    public static void animateLooping(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, Vector3f scales) {
+        _animate(root, definition, startTime, 0, scales.x, scales.y, scales.z, false);
     }
 
     public static void animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, long shift, float scale) {
@@ -171,10 +183,13 @@ public class KeyframeAnimations {
         public AnimationDefinition animationDefinition;
         public long timeStamp;
         public Vector3f scales = DEFAULT_SCALE;
-        private int tick;
+        private int tick = 0;
         private int prevSoundIndex = -1;
         private boolean enableSound = false;
         public boolean soundOnServer = false;
+        public boolean stopAtLastFrame = false;
+        public int loopTimes = 0;
+        public int looped = 0;
 
         public Mark(AnimationDefinition animationDefinition, long timeStamp, Vector3f scales) {
             this.animationDefinition = animationDefinition;
@@ -187,14 +202,39 @@ public class KeyframeAnimations {
             this.timeStamp = timeStamp;
         }
 
+        public Mark(AnimationDefinition animationDefinition) {
+            this.animationDefinition = animationDefinition;
+            this.timeStamp = 0L;
+        }
+
         public Mark enableSound(boolean enableSound) {
             this.enableSound = enableSound;
+            return this;
+        }
+
+        public Mark setLoopTimes(int loopTimes) {
+            this.loopTimes = loopTimes;
             return this;
         }
 
         public Mark soundOnServer(boolean soundOnServer) {
             this.soundOnServer = soundOnServer;
             return this;
+        }
+
+        public Mark stopAtLastFrame() {
+            this.stopAtLastFrame = true;
+            return this;
+        }
+
+        public boolean loop() {
+            return animationDefinition.looping() && loopTimes != 0 && !stopAtLastFrame;
+        }
+
+        public void reset() {
+            prevSoundIndex = -1;
+            tick = 0;
+            timeStamp = System.currentTimeMillis();
         }
 
         public void onClientTick() {

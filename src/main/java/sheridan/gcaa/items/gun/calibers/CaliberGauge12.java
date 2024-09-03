@@ -21,7 +21,9 @@ public class CaliberGauge12 extends Caliber {
 
     @Override
     public void fireBullet(IAmmunition ammunition, ItemStack ammunitionStack, IGun gun, Player player, ItemStack gunStack, float spread) {
-
+        for (int i = 0; i < projectileNum; i ++) {
+            player.level().addFreshEntity(defaultProjectile(player, player.level(), spread * 1.5f, gun));
+        }
     }
 
     @Override

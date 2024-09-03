@@ -318,6 +318,7 @@
 			}
 		},
 		"reload_single": {
+			"loop": true,
 			"animation_length": 0.63,
 			"bones": {
 				"gun": {
@@ -452,7 +453,7 @@
 				}
 			},
 			"sound_effects": {
-				"0.11": {
+				"0.15": {
 					"effect": "m870_insert_shell"
 				}
 			}

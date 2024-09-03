@@ -10,16 +10,19 @@ public class SingleReloadExtension extends PropertyExtension {
     public static final String ENTER_DELAY = "enter_delay";
     public static final String SINGLE_RELOAD_LENGTH = "single_reload_length";
     public static final String EXIT_DELAY = "exit_delay";
+    public static final String SINGLE_RELOAD_NUM = "single_reload_num";
 
     public int enterDelay;
     public int singleReloadLength;
     public int exitDelay;
+    public int singleReloadNum;
 
-    public SingleReloadExtension(int enterDelay, int singleReloadLength, int exitDelay)  {
+    public SingleReloadExtension(int enterDelay, int singleReloadLength, int exitDelay, int singleReloadNum)    {
         super(NAME);
         this.enterDelay = enterDelay;
         this.singleReloadLength = singleReloadLength;
         this.exitDelay = exitDelay;
+        this.singleReloadNum = singleReloadNum;
     }
 
     @Override
@@ -28,6 +31,7 @@ public class SingleReloadExtension extends PropertyExtension {
         extensionData.putInt(ENTER_DELAY, enterDelay);
         extensionData.putInt(SINGLE_RELOAD_LENGTH, singleReloadLength);
         extensionData.putInt(EXIT_DELAY, exitDelay);
+        extensionData.putInt(SINGLE_RELOAD_NUM, singleReloadNum);
         return extensionData;
     }
 

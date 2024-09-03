@@ -28,7 +28,7 @@ public class AnimationHandler {
     public static final AnimationHandler INSTANCE = new AnimationHandler();
     private static final int MAX_KEYFRAME_ANIMATION_LEN = 12;
     private static final AtomicBoolean enableInertialRecoil = new AtomicBoolean(true);
-    private static final Map<String, KeyframeAnimations.Mark> animations = new ConcurrentHashMap<>();
+    private static final Map<String, AnimationSequence> animations = new ConcurrentHashMap<>();
 
     protected AnimationHandler() {
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -107,13 +107,15 @@ public class AnimationHandler {
     }
 
     public long getStartTime(String channel) {
-        KeyframeAnimations.Mark mark = animations.get(channel);
-        return mark == null ? 0 : mark.timeStamp;
+        //KeyframeAnimations.Mark mark = animations.get(channel);
+        AnimationSequence sequence = animations.get(channel);
+        return sequence == null ? 0 : sequence.getStartTime();
     }
 
     public float getLengthIfHas(String channel) {
-        KeyframeAnimations.Mark mark = animations.get(channel);
-        return mark == null ? Float.NaN : mark.animationDefinition.lengthInSeconds();
+        //KeyframeAnimations.Mark mark = animations.get(channel);
+        AnimationSequence sequence = animations.get(channel);
+        return sequence == null ? Float.NaN : sequence.getLength();
     }
 
     public void applyHandAction(HierarchicalModel<?> root) {
@@ -125,9 +127,11 @@ public class AnimationHandler {
     }
 
     public void apply(HierarchicalModel<?> root, String name) {
-        KeyframeAnimations.Mark mark = animations.get(name);
-        if (mark != null) {
-            KeyframeAnimations.animate(root, mark.animationDefinition, mark.timeStamp, mark.scales);
+        //KeyframeAnimations.Mark mark = animations.get(name);
+        AnimationSequence sequence = animations.get(name);
+        if (sequence != null) {
+            //KeyframeAnimations.animate(root, mark.animationDefinition, mark.timeStamp, mark.scales);
+            sequence.apply(root);
         }
     }
 
@@ -151,6 +155,10 @@ public class AnimationHandler {
         startAnimation(RELOAD, animationDefinition, true, true);
     }
 
+    public void startReload(AnimationSequence sequence) {
+        startAnimation(RELOAD, sequence);
+    }
+
     public void startHandAction(AnimationDefinition animationDefinition) {
         startAnimation(HAND_ACTION, animationDefinition, true, true);
     }
@@ -163,7 +171,15 @@ public class AnimationHandler {
         if (animationDefinition == null) {
             return;
         }
-        animations.put(channel, new KeyframeAnimations.Mark(animationDefinition, System.currentTimeMillis()).enableSound(enableSound).soundOnServer(soundOnServer));
+        KeyframeAnimations.Mark mark = new KeyframeAnimations.Mark(animationDefinition, System.currentTimeMillis()).enableSound(enableSound).soundOnServer(soundOnServer);
+        animations.put(channel, new AnimationSequence(mark));
+    }
+
+    public void startAnimation(String channel, AnimationSequence sequence) {
+        if (sequence == null) {
+            return;
+        }
+        animations.put(channel, sequence);
     }
 
     public void onClientTick() {
@@ -171,12 +187,9 @@ public class AnimationHandler {
             return;
         }
         Set<String> finished = new HashSet<>();
-        for (Map.Entry<String, KeyframeAnimations.Mark> entry : animations.entrySet()) {
-            KeyframeAnimations.Mark mark = entry.getValue();
-            if ((System.currentTimeMillis() - mark.timeStamp) * 0.001f > mark.animationDefinition.lengthInSeconds()) {
+        for (Map.Entry<String, AnimationSequence> entry : animations.entrySet()) {
+            if (entry.getValue().tick()) {
                 finished.add(entry.getKey());
-            } else {
-                entry.getValue().onClientTick();
             }
         }
         if (!finished.isEmpty()) {

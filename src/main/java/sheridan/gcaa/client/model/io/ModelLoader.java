@@ -160,11 +160,12 @@ public class ModelLoader {
                 if (bone.has("rotation")) {
                     Vector3f rotation = getRotation(bone);
                     boneDefinition = parentBone.addOrReplaceChild(name, PartPose.offsetAndRotation(
-                            pivot.x, -pivot.y - parentPivot.y, pivot.z - parentPivot.z,
+                            pivot.x - parentPivot.x, -pivot.y + parentPivot.y, pivot.z - parentPivot.z,
                             rotation.x, rotation.y, rotation.z
                     ));
                 } else {
-                    boneDefinition = parentBone.addOrReplaceChild(name, PartPose.offset(pivot.x, -pivot.y + parentPivot.y, pivot.z - parentPivot.z));
+                    boneDefinition = parentBone.addOrReplaceChild(name, PartPose.offset(
+                            pivot.x - parentPivot.x, -pivot.y + parentPivot.y, pivot.z - parentPivot.z));
                 }
                 bonesMap.put(name, boneDefinition);
                 jsonObjectMap.put(boneDefinition, bone);

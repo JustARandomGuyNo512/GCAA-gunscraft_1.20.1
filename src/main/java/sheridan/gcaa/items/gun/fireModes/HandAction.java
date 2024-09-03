@@ -5,9 +5,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.HandActionHandler;
+import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
+import sheridan.gcaa.items.gun.PumpActionShotgun;
 
 public class HandAction implements IGunFireMode {
     public static final HandAction HAND_ACTION = new HandAction();
@@ -25,6 +27,9 @@ public class HandAction implements IGunFireMode {
             boolean can = hasAmmo && !needHandAction;
             if (needHandAction && hasAmmo && HandActionHandler.INSTANCE.secondsSinceLastTask() > 0.5f) {
                 HandActionHandler.INSTANCE.setHandActionTask(handActionGun.getHandActionTask(itemStack, true));
+                if (gun instanceof PumpActionShotgun) {
+                    ReloadingHandler.INSTANCE.breakTask();
+                }
             }
             return can;
         }

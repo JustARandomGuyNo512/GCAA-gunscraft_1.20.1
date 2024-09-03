@@ -26,12 +26,6 @@ public record AnimationDefinition(float lengthInSeconds, boolean looping, Map<St
         return this.soundPoints;
     }
 
-    public void print() {
-        for (KeyframeAnimations.SoundPoint soundPoint : soundPoints)  {
-            System.out.println(soundPoint);
-        }
-    }
-
     @OnlyIn(Dist.CLIENT)
     public static class Builder {
         private final float length;

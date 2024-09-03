@@ -7,10 +7,13 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.Clients;
+import sheridan.gcaa.Commons;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
@@ -28,21 +31,26 @@ public class M870Model extends GunModel{
 
     @Override
     protected void postInit(ModelPart gun, ModelPart root) {
-        slide = gun.getChild("slide");
-        handguard = gun.getChild("handguard");
-        stock = gun.getChild("stock");
-        mag = gun.getChild("mag");
-        barrel = gun.getChild("barrel");
-        body = gun.getChild("body");
+        slide = gun.getChild("slide").meshing();
+        handguard = gun.getChild("handguard").meshing();
+        stock = gun.getChild("stock").meshing();
+        mag = gun.getChild("mag").meshing();
+        barrel = gun.getChild("barrel").meshing();
+        body = gun.getChild("body").meshing();
         reloading_arm = gun.getChild("reloading_arm");
-        shell = reloading_arm.getChild("shell");
+        shell = reloading_arm.getChild("shell").meshing();
     }
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
-        context.render(vertexConsumer, slide, handguard, stock, mag, barrel, body);
-        context.renderArmLong(left_arm, false);
+        context.render(vertexConsumer, slide, handguard, stock, mag, barrel, reloading_arm, body);
+        ModelPart leftArm = left_arm.xScale > 0 ? left_arm : reloading_arm;
+        if (leftArm == reloading_arm) {
+            reloading_arm.skipDraw = true;
+            context.render(reloading_arm, vertexConsumer);
+        }
+        context.renderArmLong(leftArm, false);
         context.renderArmLong(right_arm, true);
     }
 
