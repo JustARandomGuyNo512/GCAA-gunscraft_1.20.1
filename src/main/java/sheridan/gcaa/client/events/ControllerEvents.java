@@ -157,9 +157,7 @@ public class ControllerEvents {
                     event.getKey() == KeyBinds.SHOW_FULL_GUN_INFO.getKey().getValue() && event.getAction() == 2;
             Clients.debugKeyDown =
                     event.getKey() == KeyBinds.DEBUG_KEY.getKey().getValue() && event.getAction() == 2;
-            if (Clients.debugKeyDown) {
-                System.out.println("shader: " + Test.getTestShader() + "entity_cut_out: " + GameRenderer.getRendertypeEntityCutoutShader());
-            }
+
         }
     }
 

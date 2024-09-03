@@ -4,9 +4,9 @@ import net.minecraft.nbt.CompoundTag;
 
 public abstract class PropertyExtension {
     public final String name;
-    PropertyExtension(String name) {
+    public PropertyExtension(String name) {
         this.name = name;
     }
-    abstract void extendInitialData(CompoundTag dataTag);
-    abstract boolean hasRateProperty();
+    public abstract CompoundTag getExtendInitialData(final CompoundTag prevDataTag);
+    public abstract boolean hasRateProperty(String name);
 }

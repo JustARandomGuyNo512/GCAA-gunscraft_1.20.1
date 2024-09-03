@@ -5,13 +5,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.HandActionHandler;
-import sheridan.gcaa.client.HandActionTask;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
-import sheridan.gcaa.utils.RenderAndMathUtils;
 
 public class HandAction implements IGunFireMode {
+    public static final HandAction HAND_ACTION = new HandAction();
+    
     @Override
     public String getName() {
         return "hand_action";

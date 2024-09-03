@@ -33,6 +33,7 @@ import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.items.attachments.Scope;
+import sheridan.gcaa.items.gun.calibers.Caliber;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunFirePacket;
 import sheridan.gcaa.sounds.ModSounds;
@@ -529,6 +530,10 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public int getDefaultTooltipHideFlags(@NotNull ItemStack stack) {
         return ItemStack.TooltipPart.MODIFIERS.getMask();
+    }
+
+    protected static int getTicks(float seconds) {
+        return RenderAndMathUtils.secondsToTicks(seconds);
     }
 }
 

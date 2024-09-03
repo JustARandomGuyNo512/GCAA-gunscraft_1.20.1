@@ -6,12 +6,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.*;
+import sheridan.gcaa.items.gun.propertyExtensions.HandActionExtension;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 public class HandActionGun extends Gun{
+    protected final HandActionExtension handActionExtension;
 
-    public HandActionGun(GunProperties gunProperties) {
-        super(gunProperties);
+    public HandActionGun(GunProperties gunProperties, HandActionExtension extension) {
+        super(gunProperties.addExtension(extension));
+        this.handActionExtension = extension;
     }
 
     @Override
@@ -51,7 +54,8 @@ public class HandActionGun extends Gun{
     }
 
     public IHandActionTask getHandActionTask(ItemStack stack, boolean immediate) {
-        return new HandActionTask(stack, this, immediate ? 0 : RenderAndMathUtils.secondsToTicks(0.5f), RenderAndMathUtils.secondsToTicks(1.25f), "bolt_action");
+        return new HandActionTask(stack, this, immediate ? 0 : handActionExtension.startDelay,
+                handActionExtension.length, handActionExtension.handActionAnimationName);
     }
 
     @Override

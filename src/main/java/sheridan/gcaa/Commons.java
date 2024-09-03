@@ -40,5 +40,12 @@ public class Commons {
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10")))
                 .addChild(new AttachmentSlot(MAG, "mag", Set.of()))
         );
+
+        AttachmentsRegister.registerAttachmentSlot(ModItems.M870.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(MUZZLE, Set.of()))
+                .addChild(new AttachmentSlot(STOCK, Set.of()))
+                .addChild(new AttachmentSlot(MAG, "mag", Set.of()))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of()))
+        );
     }
 }

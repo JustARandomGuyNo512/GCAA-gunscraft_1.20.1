@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraftforge.registries.RegistryObject;
+import sheridan.gcaa.items.gun.calibers.Caliber;
 
 import java.util.HashMap;
 import java.util.List;
@@ -126,6 +127,12 @@ public class GunProperties{
         tag.putFloat("walking_spread_factor", 1.0f);
         tag.putFloat("sprinting_spread_factor", 1.0f);
         tag.putFloat("fire_sound_vol", 1.0f);
+        for (PropertyExtension extension : extensions.values()) {
+            CompoundTag extensionTag = extension.getExtendInitialData(tag);
+            if (extensionTag != null) {
+                tag.put(extension.name, extensionTag);
+            }
+        }
         return tag;
     }
 
@@ -141,27 +148,54 @@ public class GunProperties{
     }
 
     public float getPropertyRate(String propertyName, CompoundTag propertiesTag) {
-        if (propertiesTag != null && isRateProperty(propertyName)) {
-             return propertiesTag.getFloat(propertyName);
+        if (propertiesTag != null) {
+             if (isOriginalRateProperty(propertyName)) {
+                 return propertiesTag.getFloat(propertyName);
+             }
+             PropertyExtension extension = ownsRateProperty(propertyName);
+             if (extension != null) {
+                 CompoundTag tag = propertiesTag.getCompound(extension.name);
+                 return tag.getFloat(propertyName);
+             }
         }
         return -1;
     }
 
     public boolean isRateProperty(String propertyName) {
-        boolean isRate = GunProperties.PROPERTIES.contains(propertyName);
-        if (!isRate) {
-            for (PropertyExtension extension : extensions.values()) {
-                if(extension.hasRateProperty()) {
-                    isRate = true;
-                    break;
-                }
+        return isOriginalRateProperty(propertyName) || isExtendRateProperty(propertyName);
+    }
+
+    public PropertyExtension ownsRateProperty(String propertyName) {
+        for (PropertyExtension extension : extensions.values()) {
+            if(extension.hasRateProperty(propertyName)) {
+                return extension;
             }
         }
-        return isRate;
+        return null;
+    }
+
+    public boolean isExtendRateProperty(String propertyName) {
+        return ownsRateProperty(propertyName) != null;
+    }
+
+    public boolean isOriginalRateProperty(String propertyName) {
+        return GunProperties.PROPERTIES.contains(propertyName);
     }
 
     public void setMuzzleFlash(CompoundTag propertiesTag, String stateName) {
         propertiesTag.putString("muzzle_flash", stateName);
+    }
+
+    public boolean hasExtension(String extensionName) {
+        return extensions.containsKey(extensionName);
+    }
+
+    public PropertyExtension getExtension(String extensionName) {
+        return extensions.get(extensionName);
+    }
+
+    public PropertyExtension getExtension(PropertyExtension extension) {
+        return extensions.get(extension.name);
     }
 
     public void setWeight(CompoundTag propertiesTag, int weight) {

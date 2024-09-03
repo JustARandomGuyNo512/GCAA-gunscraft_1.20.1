@@ -37,6 +37,7 @@ public class ModTabs {
                     tab.accept(ModItems.G19.get());
                     tab.accept(ModItems.AKM.get());
                     tab.accept(ModItems.AWP.get());
+                    tab.accept(ModItems.M870.get());
                 }).build());
     }
 

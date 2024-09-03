@@ -1,11 +1,9 @@
 package sheridan.gcaa.sounds;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.DeferredRegister;
@@ -28,11 +26,15 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> AWP_MAG_ATTACH = registerSound("awp_mag_attach", "item.generic.awp_mag_attach");
     public static RegistryObject<SoundEvent> AWP_BOLT_BACK = registerSound("awp_bolt_back", "item.generic.awp_bolt_back");
     public static RegistryObject<SoundEvent> AWP_BOLT_FORWARD = registerSound("awp_bolt_forward", "item.generic.awp_bolt_forward");
+    public static RegistryObject<SoundEvent> M870_INSERT_SHELL = registerSound("m870_insert_shell", "item.generic.m870_insert_shell");
+    public static RegistryObject<SoundEvent> M870_PUMP_ACTION = registerSound("m870_pump_action", "item.generic.m870_pump_action");
 
     public static RegistryObject<SoundEvent> AKM_FIRE = registerSound("akm_fire", "item.akm.fire");
     public static RegistryObject<SoundEvent> G19_FIRE = registerSound("g19_fire", "item.g19.fire");
     public static RegistryObject<SoundEvent> AWP_FIRE = registerSound("awp_fire", "item.awp.fire");
     public static RegistryObject<SoundEvent> AWP_FIRE_SUPPRESSED = registerSound("awp_fire_suppressed", "item.awp.fire_suppressed");
+    public static RegistryObject<SoundEvent> M870_FIRE = registerSound("m870_fire", "item.m870.fire");
+    public static RegistryObject<SoundEvent> M870_FIRE_SUPPRESSED = registerSound("m870_fire_suppressed", "item.m870.fire_suppressed");
 
     private static RegistryObject<SoundEvent> registerSound(String name, String path) {
         return MOD_SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(GCAA.MODID, path)));

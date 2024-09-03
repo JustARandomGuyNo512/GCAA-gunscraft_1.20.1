@@ -6,8 +6,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
-public class SingleLoadTask extends ReloadingTask{
-    public SingleLoadTask(ItemStack itemStack, IGun gun) {
+public class SingleReloadTask extends ReloadingTask{
+    public SingleReloadTask(ItemStack itemStack, IGun gun) {
         super(itemStack, gun);
     }
 }
