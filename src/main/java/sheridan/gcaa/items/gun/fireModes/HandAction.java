@@ -27,9 +27,9 @@ public class HandAction implements IGunFireMode {
             boolean can = hasAmmo && !needHandAction;
             if (needHandAction && hasAmmo && HandActionHandler.INSTANCE.secondsSinceLastTask() > 0.5f) {
                 HandActionHandler.INSTANCE.setHandActionTask(handActionGun.getHandActionTask(itemStack, true));
-                if (gun instanceof PumpActionShotgun) {
-                    ReloadingHandler.INSTANCE.breakTask();
-                }
+            }
+            if (gun instanceof PumpActionShotgun && hasAmmo) {
+                ReloadingHandler.INSTANCE.breakTask();
             }
             return can;
         }

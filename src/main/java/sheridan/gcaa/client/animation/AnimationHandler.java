@@ -148,6 +148,7 @@ public class AnimationHandler {
     }
 
     public void clearAnimation(String channel) {
+        System.out.println("clearAnimation: " + channel);
         animations.remove(channel);
     }
 

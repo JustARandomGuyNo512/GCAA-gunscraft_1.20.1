@@ -167,14 +167,6 @@ public class KeyframeAnimations {
                 }
             }
         }
-
-        @Override
-        public String toString() {
-            return "SoundPoint{" +
-                    "tick=" + tick +
-                    ", soundName=" + soundName +
-                    '}';
-        }
     }
 
     @OnlyIn(Dist.CLIENT)
