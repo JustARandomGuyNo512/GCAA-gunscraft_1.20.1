@@ -25,6 +25,7 @@ public class SingleReloadExtension extends PropertyExtension {
         this.singleReloadNum = singleReloadNum;
     }
 
+
     @Override
     public CompoundTag getExtendInitialData(CompoundTag prevDataTag) {
         CompoundTag extensionData = new CompoundTag();

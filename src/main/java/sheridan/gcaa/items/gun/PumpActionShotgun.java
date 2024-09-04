@@ -2,6 +2,7 @@ package sheridan.gcaa.items.gun;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.IReloadingTask;
 import sheridan.gcaa.client.SingleReloadTask;
 import sheridan.gcaa.items.gun.propertyExtensions.HandActionExtension;
@@ -25,6 +26,10 @@ public class PumpActionShotgun extends HandActionGun{
 
     @Override
     public boolean shouldHandleAds(ItemStack stack) {
+        boolean needHandAction = needHandAction(stack);
+        if (needHandAction) {
+            HandActionHandler.INSTANCE.setHandActionTask(getHandActionTask(stack, true));
+        }
         return true;
     }
 

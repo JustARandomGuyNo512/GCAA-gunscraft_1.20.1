@@ -1,12 +1,11 @@
 package sheridan.gcaa.client.animation;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Vector4f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.animation.frameAnimation.Mark;
 import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilHandler;
@@ -22,7 +21,7 @@ public class AnimationHandler {
     public static final String RELOAD = "reload";
     public static final String HAND_ACTION = "hand_action";
     public static final String INSPECT = "inspect";
-    private final Deque<KeyframeAnimations.Mark> recoils = new ArrayDeque<>();
+    private final Deque<Mark> recoils = new ArrayDeque<>();
     private static final Timer timer = new Timer();
     public static final InertialRecoilHandler INERTIAL_RECOIL_HANDLER = new InertialRecoilHandler();
     public static final AnimationHandler INSTANCE = new AnimationHandler();
@@ -49,10 +48,10 @@ public class AnimationHandler {
      * */
     public void pushRecoil(AnimationDefinition recoilAnimation, long shootTime) {
         if (recoils.size() < MAX_KEYFRAME_ANIMATION_LEN) {
-            recoils.add(new KeyframeAnimations.Mark(recoilAnimation, shootTime));
+            recoils.add(new Mark(recoilAnimation, shootTime));
         } else {
             recoils.poll();
-            recoils.add(new KeyframeAnimations.Mark(recoilAnimation, shootTime));
+            recoils.add(new Mark(recoilAnimation, shootTime));
         }
     }
 
@@ -68,13 +67,17 @@ public class AnimationHandler {
      * apply keyframe recoil animations to a model
      * */
     public void applyRecoil(HierarchicalModel<?> root) {
-        for (KeyframeAnimations.Mark mark : recoils) {
+        for (Mark mark : recoils) {
             if (!KeyframeAnimations.checkIfOutOfTime(mark.timeStamp, 0, mark.animationDefinition)) {
                 KeyframeAnimations.animate(root, mark.animationDefinition, mark.timeStamp, mark.scales);
             } else {
                 recoils.remove(mark);
             }
         }
+    }
+
+    public AnimationSequence get(String name) {
+        return animations.get(name);
     }
 
     /**
@@ -107,13 +110,11 @@ public class AnimationHandler {
     }
 
     public long getStartTime(String channel) {
-        //KeyframeAnimations.Mark mark = animations.get(channel);
         AnimationSequence sequence = animations.get(channel);
         return sequence == null ? 0 : sequence.getStartTime();
     }
 
     public float getLengthIfHas(String channel) {
-        //KeyframeAnimations.Mark mark = animations.get(channel);
         AnimationSequence sequence = animations.get(channel);
         return sequence == null ? Float.NaN : sequence.getLength();
     }
@@ -127,10 +128,8 @@ public class AnimationHandler {
     }
 
     public void apply(HierarchicalModel<?> root, String name) {
-        //KeyframeAnimations.Mark mark = animations.get(name);
         AnimationSequence sequence = animations.get(name);
         if (sequence != null) {
-            //KeyframeAnimations.animate(root, mark.animationDefinition, mark.timeStamp, mark.scales);
             sequence.apply(root);
         }
     }
@@ -148,7 +147,6 @@ public class AnimationHandler {
     }
 
     public void clearAnimation(String channel) {
-        System.out.println("clearAnimation: " + channel);
         animations.remove(channel);
     }
 
@@ -172,7 +170,7 @@ public class AnimationHandler {
         if (animationDefinition == null) {
             return;
         }
-        KeyframeAnimations.Mark mark = new KeyframeAnimations.Mark(animationDefinition, System.currentTimeMillis()).enableSound(enableSound).soundOnServer(soundOnServer);
+        Mark mark = new Mark(animationDefinition, System.currentTimeMillis()).enableSound(enableSound).soundOnServer(soundOnServer);
         animations.put(channel, new AnimationSequence(mark));
     }
 

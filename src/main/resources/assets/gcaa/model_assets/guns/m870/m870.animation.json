@@ -265,21 +265,21 @@
 		},
 		"enter_reload": {
 			"loop": "hold_on_last_frame",
-			"animation_length": 0.36,
+			"animation_length": 0.4,
 			"bones": {
 				"gun": {
 					"rotation": {
 						"0.0": [0, 0, 0],
-						"0.15": {
+						"0.18": {
 							"pre": [-2.5, -2, -10],
 							"post": [-2.5, -2, -10],
 							"lerp_mode": "catmullrom"
 						},
-						"0.26": {
-							"post": [-5.61776, -3.64835, -19.90347],
+						"0.29": {
+							"post": [-4.61776, -3.64835, -19.90347],
 							"lerp_mode": "catmullrom"
 						},
-						"0.36": [-4.73281, -3.22542, -16.46235]
+						"0.4": [-4.73281, -3.22542, -16.46235]
 					},
 					"position": {
 						"0.0": [0, 0, 0],
@@ -288,7 +288,7 @@
 							"post": [-1, 1, -1],
 							"lerp_mode": "catmullrom"
 						},
-						"0.35": [-1.1, 1, -0.8]
+						"0.39": [-1.1, 1, -0.8]
 					}
 				},
 				"left_arm": {
@@ -319,7 +319,7 @@
 		},
 		"reload_single": {
 			"loop": true,
-			"animation_length": 0.63,
+			"animation_length": 0.65,
 			"bones": {
 				"gun": {
 					"rotation": {
@@ -370,7 +370,7 @@
 							"post": [0.1, 0.2, -0.3],
 							"lerp_mode": "catmullrom"
 						},
-						"0.63": [0, 0, 0]
+						"0.64": [0, 0, 0]
 					}
 				},
 				"reloading_arm": {
@@ -453,32 +453,32 @@
 				}
 			},
 			"sound_effects": {
-				"0.15": {
+				"0.1": {
 					"effect": "m870_insert_shell"
 				}
 			}
 		},
 		"exit_reload": {
 			"loop": "hold_on_last_frame",
-			"animation_length": 0.36,
+			"animation_length": 0.4,
 			"bones": {
 				"gun": {
 					"rotation": {
 						"0.0": [-4.73281, -3.22542, -16.46235],
-						"0.17": {
+						"0.18": {
 							"pre": [2.73219, -2.4434, -1.82707],
 							"post": [2.73219, -2.4434, -1.82707],
 							"lerp_mode": "catmullrom"
 						},
-						"0.27": {
+						"0.29": {
 							"post": [-0.26922, 0.5, 1],
 							"lerp_mode": "catmullrom"
 						},
-						"0.36": [0, 0, 0]
+						"0.4": [0, 0, 0]
 					},
 					"position": {
 						"0.0": [-1.1, 1, -0.8],
-						"0.22": [0, 0, 0]
+						"0.29": [0, 0, 0]
 					}
 				},
 				"left_arm": {

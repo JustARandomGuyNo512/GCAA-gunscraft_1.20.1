@@ -9,7 +9,7 @@ import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.AnimationSequence;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
-import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
+import sheridan.gcaa.client.animation.frameAnimation.Mark;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
@@ -70,9 +70,9 @@ public class SingleReloadTask extends ReloadingTask{
             AnimationDefinition single = model.get("reload_single");
             AnimationDefinition exit = model.get("exit_reload");
             AnimationSequence sequence = new AnimationSequence()
-                    .append(new KeyframeAnimations.Mark(enter).stopAtLastFrame())
-                    .append(new KeyframeAnimations.Mark(single).setLoopTimes(reloadNum).enableSound(true).soundOnServer(true))
-                    .append(new KeyframeAnimations.Mark(exit).stopAtLastFrame()).finishBuild();
+                    .append(new Mark(enter).stopAtLastFrame())
+                    .append(new Mark(single).setLoopTimes(reloadNum).enableSound(true).soundOnServer(true))
+                    .append(new Mark(exit).stopAtLastFrame()).finishBuild();
             AnimationHandler.INSTANCE.startReload(sequence);
         }
         Clients.mainHandStatus.ads = false;
