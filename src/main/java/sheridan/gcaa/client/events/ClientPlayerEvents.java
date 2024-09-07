@@ -13,10 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.ReloadingHandler;
-import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
-import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.JumpBobbingHandler;
-import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.IGun;
 
@@ -40,6 +37,7 @@ public class ClientPlayerEvents {
                 Clients.mainHandStatus.attachmentsStatus.checkAndUpdate(stackMain, gunMain, player);
             }
             Clients.mainHandStatus.updatePlayerSpread(stackMain, gunMain, player);
+            Clients.mainHandStatus.updateChargeTick(stackMain, gunMain);
             Clients.mainHandStatus.handleAds(stackMain, gunMain, player);
             if (Clients.mainHandStatus.attachmentsStatus.getEffectiveSight() instanceof Scope scope) {
                 scope.handleMouseSensitivity();

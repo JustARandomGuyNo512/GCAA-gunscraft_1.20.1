@@ -8,11 +8,12 @@ import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 
 public class Charge implements IGunFireMode {
-
     private final int chargeLength;
+    private final String name;
 
-    public Charge(int chargeLength) {
-        this.chargeLength = chargeLength;
+    public Charge(int chargeLength, String name)  {
+        this.chargeLength = Math.max(2, chargeLength);
+        this.name = "tooltip.fire_mode." + name;
     }
 
     public int getChargeLength() {
@@ -21,7 +22,7 @@ public class Charge implements IGunFireMode {
 
     @Override
     public String getName() {
-        return "charge";
+        return name;
     }
 
     @Override
@@ -31,16 +32,19 @@ public class Charge implements IGunFireMode {
 
     @Override
     public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
-
+        gun.clientShoot(itemStack, player, this);
+        Clients.mainHandStatus.buttonDown.set(false);
+        Clients.mainHandStatus.fireCount = 0;
+        Clients.mainHandStatus.clearCharge();
     }
 
     @Override
     public void shoot(Player player, ItemStack itemStack, IGun gun, float spread) {
-
+        gun.shoot(itemStack, player, this, spread);
     }
 
     @Override
     public Component getTooltipName() {
-        return Component.translatable("tooltip.fire_mode.charge");
+        return Component.translatable(name);
     }
 }

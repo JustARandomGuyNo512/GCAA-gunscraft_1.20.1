@@ -21,6 +21,7 @@
   "tooltip.fire_mode.semi": "SEMI",
   "tooltip.fire_mode.burst": "BURST",
   "tooltip.fire_mode.hand_action": "HAND ACTION",
+  "tooltip.fire_mode.double_action": "DOUBLE ACTION",
 
   "tooltip.btn.reset": "Reset model attitude",
   "tooltip.btn.drag": "Drag model",

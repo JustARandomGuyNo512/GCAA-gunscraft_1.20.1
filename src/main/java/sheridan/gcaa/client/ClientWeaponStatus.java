@@ -6,13 +6,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Vector3f;
-import sheridan.gcaa.Clients;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.items.gun.fireModes.Charge;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -30,6 +29,8 @@ public class ClientWeaponStatus {
     public float equipProgress;
     public int fireCount = 0;
     public int chargeTick = 0;
+    private int lastChargeTick = 0;
+    private int chargeLength = 0;
     public float adsProgress = 0;
     private float lastAdsProgress = 0;
     public float adsSpeed = 0;
@@ -84,6 +85,30 @@ public class ClientWeaponStatus {
         speed = Math.min(speed * 1.5f, 0.25f);
         lastAdsProgress = adsProgress;
         adsProgress = Math.max(adsProgress - speed * 1.5f, 0);
+    }
+
+    public float getLerpedChargeTick(float particleTick) {
+        return chargeLength == 0 ? 0 :
+                Mth.lerp(particleTick, lastChargeTick, chargeTick) / chargeLength * (chargeLength / (chargeLength - 1f));
+    }
+
+    public void clearCharge() {
+        chargeTick = 0;
+        lastChargeTick = 0;
+    }
+
+    public void updateChargeTick(ItemStack stack, IGun gun) {
+        if (gun != null && gun.getFireMode(stack) instanceof Charge charge) {
+            lastChargeTick = chargeTick;
+            chargeLength = charge.getChargeLength();
+            chargeTick = (buttonDown.get() && gun.getAmmoLeft(stack) > 0) ?
+                    Math.min(chargeLength, chargeTick + 1) :
+                    Math.max(0, chargeTick - 2);
+        } else {
+            chargeTick = 0;
+            lastChargeTick = 0;
+            chargeLength = 0;
+        }
     }
 
     public void updatePlayerSpread(ItemStack stack, IGun gun, Player player) {

@@ -21,6 +21,7 @@
   "tooltip.fire_mode.semi": "单发",
   "tooltip.fire_mode.burst": "连发",
   "tooltip.fire_mode.hand_action": "手动",
+  "tooltip.fire_mode.double_action": "双动",
 
   "tooltip.btn.reset": "重置模型姿态",
   "tooltip.btn.drag": "拖动模型",

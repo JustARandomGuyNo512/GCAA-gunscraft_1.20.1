@@ -50,6 +50,8 @@ public class GunRenderer{
                 model.render(GunRenderContext.getGUI(bufferIn, poseStackIn, itemStackIn, gun, combinedLightIn, combinedOverlayIn, ClientConfig.renderAttachmentsInGuiView.get()));
             } else if (transformTypeIn == GROUND) {
                 model.render(new GunRenderContext(bufferIn, poseStackIn, itemStackIn, gun, transformTypeIn, combinedLightIn, combinedOverlayIn, ClientConfig.renderAttachmentsInGroundView.get()));
+            } else {
+                model.render(new GunRenderContext(bufferIn, poseStackIn, itemStackIn, gun, transformTypeIn, combinedLightIn, combinedOverlayIn, true));
             }
         }
     }
