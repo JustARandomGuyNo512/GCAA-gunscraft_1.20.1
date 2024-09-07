@@ -24,7 +24,9 @@ public class ClientEvents {
                 Clients.cancelLooperWorkWithCoolDown.set(player == null || player.isSpectator() || player.isSwimming() || player.isInLava());
                 AnimationHandler.INSTANCE.onClientTick();
                 Clients.lock.lock();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+                ignored.printStackTrace();
+            }
             if (!Clients.clientRegistriesHandled) {
                 ForgeRegistries.ITEMS.getEntries().forEach(entry -> {
                     if (entry.getValue() instanceof AutoRegister autoRegister) {

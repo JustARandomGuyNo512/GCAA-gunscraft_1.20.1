@@ -19,30 +19,33 @@ import sheridan.gcaa.network.packets.c2s.GunReloadPacket;
 public class SingleReloadTask extends ReloadingTask{
     public int enterDelay;
     public int singleReloadLength;
+    public int triggerReloadDelay;
     public int exitLength;
     public int reloadNum;
     public int reloaded;
     public boolean trySetHandActionTask;
 
-    public SingleReloadTask(ItemStack itemStack, IGun gun, int enterDelay, int singleReloadLength, int exitLength, int reloadNum) {
-        this(itemStack, gun, enterDelay, singleReloadLength, exitLength, reloadNum, true);
+    public SingleReloadTask(ItemStack itemStack, IGun gun, int enterDelay, int singleReloadLength, int exitLength, int reloadNum, int triggerReloadDelay)  {
+        this(itemStack, gun, enterDelay, singleReloadLength, exitLength, reloadNum, triggerReloadDelay, true);
     }
 
     public SingleReloadTask(ItemStack itemStack, IGun gun, int enterDelay, int singleReloadLength, int exitLength,
-                            int reloadNum, boolean trySetHandActionTask) {
+                            int reloadNum, int triggerReloadDelay, boolean trySetHandActionTask) {
         super(itemStack, gun);
         this.enterDelay = enterDelay;
         this.singleReloadLength = singleReloadLength;
         this.exitLength = exitLength;
         this.reloadNum = reloadNum;
         this.trySetHandActionTask = trySetHandActionTask;
+        this.triggerReloadDelay = triggerReloadDelay;
         length = enterDelay + singleReloadLength * reloadNum + exitLength;
         tick = 0;
     }
 
     @Override
     public void tick(Player clientPlayer) {
-        if ((tick - enterDelay) % singleReloadLength == 0 && reloaded < reloadNum) {
+        int reloadingTick = tick - enterDelay - reloaded * singleReloadLength;
+        if (reloadingTick == triggerReloadDelay && reloaded < reloadNum) {
             PacketHandler.simpleChannel.sendToServer(new GunReloadPacket());
             reloaded ++;
         }
@@ -70,9 +73,9 @@ public class SingleReloadTask extends ReloadingTask{
             AnimationDefinition single = model.get("reload_single");
             AnimationDefinition exit = model.get("exit_reload");
             AnimationSequence sequence = new AnimationSequence()
-                    .append(new Mark(enter).stopAtLastFrame())
+                    .append(new Mark(enter))
                     .append(new Mark(single).setLoopTimes(reloadNum).enableSound(true).soundOnServer(true))
-                    .append(new Mark(exit).stopAtLastFrame()).finishBuild();
+                    .append(new Mark(exit));
             AnimationHandler.INSTANCE.startReload(sequence);
         }
         Clients.mainHandStatus.ads = false;

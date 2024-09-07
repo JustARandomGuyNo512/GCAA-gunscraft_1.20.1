@@ -11,18 +11,21 @@ public class SingleReloadExtension extends PropertyExtension {
     public static final String SINGLE_RELOAD_LENGTH = "single_reload_length";
     public static final String EXIT_DELAY = "exit_delay";
     public static final String SINGLE_RELOAD_NUM = "single_reload_num";
+    public static final String TRIGGER_RELOAD_DELAY = "trigger_reload_delay";
 
     public int enterDelay;
     public int singleReloadLength;
     public int exitDelay;
     public int singleReloadNum;
+    public int triggerReloadDelay;
 
-    public SingleReloadExtension(int enterDelay, int singleReloadLength, int exitDelay, int singleReloadNum)    {
+    public SingleReloadExtension(int enterDelay, int singleReloadLength, int exitDelay, int singleReloadNum, int triggerReloadDelay)     {
         super(NAME);
         this.enterDelay = enterDelay;
         this.singleReloadLength = singleReloadLength;
         this.exitDelay = exitDelay;
         this.singleReloadNum = singleReloadNum;
+        this.triggerReloadDelay = triggerReloadDelay;
     }
 
 
@@ -33,6 +36,7 @@ public class SingleReloadExtension extends PropertyExtension {
         extensionData.putInt(SINGLE_RELOAD_LENGTH, singleReloadLength);
         extensionData.putInt(EXIT_DELAY, exitDelay);
         extensionData.putInt(SINGLE_RELOAD_NUM, singleReloadNum);
+        extensionData.putInt(TRIGGER_RELOAD_DELAY, triggerReloadDelay);
         return extensionData;
     }
 

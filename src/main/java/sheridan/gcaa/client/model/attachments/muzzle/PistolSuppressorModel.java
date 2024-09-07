@@ -3,12 +3,13 @@ package sheridan.gcaa.client.model.attachments.muzzle;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
+import sheridan.gcaa.client.model.attachments.IMuzzleFlashRendererModel;
 import sheridan.gcaa.client.model.attachments.statistic.MuzzleCollection1;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
 
-public class PistolSuppressorModel implements IAttachmentModel {
+public class PistolSuppressorModel implements IAttachmentModel, IMuzzleFlashRendererModel {
     private final ModelPart model;
     private final ResourceLocation texture = MuzzleCollection1.TEXTURE;
 
@@ -26,5 +27,10 @@ public class PistolSuppressorModel implements IAttachmentModel {
     @Override
     public ModelPart getRoot() {
         return model;
+    }
+
+    @Override
+    public void renderMuzzleFlash(GunRenderContext context) {
+
     }
 }

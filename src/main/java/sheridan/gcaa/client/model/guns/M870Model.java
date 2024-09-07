@@ -44,11 +44,11 @@ public class M870Model extends GunModel{
     @Override
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
-        context.render(vertexConsumer, slide, handguard, stock, mag, barrel, reloading_arm, body);
+        context.render(vertexConsumer, slide, handguard, stock, mag, barrel, body);
         ModelPart leftArm = left_arm.xScale > 0 ? left_arm : reloading_arm;
-        if (leftArm == reloading_arm) {
-            reloading_arm.skipDraw = true;
-            context.render(reloading_arm, vertexConsumer);
+        if (leftArm == reloading_arm && context.isFirstPerson) {
+            context.pushPose().translateTo(reloading_arm).render(shell, vertexConsumer);
+            context.popPose();
         }
         context.renderArmLong(leftArm, false);
         context.renderArmLong(right_arm, true);

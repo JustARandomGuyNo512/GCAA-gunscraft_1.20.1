@@ -449,6 +449,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
 
     @Override
     public void afterGunDataUpdate(ItemStack stack) {
+        //检测是否有无用的倍镜放大数据并删除无用数据
         CompoundTag scopeMagnifications = checkAndGetMagnificationsTag(stack);
         Set<String> keyToRemove = new HashSet<>();
         for (String key : scopeMagnifications.getAllKeys()) {
@@ -471,6 +472,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         if (slotChanged) {
+            //切勿改动！！！
             ReloadingHandler.INSTANCE.cancelTask();
             HandActionHandler.INSTANCE.breakTask();
             Clients.mainHandStatus.buttonDown.set(false);

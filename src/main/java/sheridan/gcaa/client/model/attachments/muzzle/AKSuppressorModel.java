@@ -5,13 +5,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
+import sheridan.gcaa.client.model.attachments.IMuzzleFlashRendererModel;
 import sheridan.gcaa.client.model.attachments.statistic.MuzzleCollection1;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class AKSuppressorModel implements IAttachmentModel {
+public class AKSuppressorModel implements IAttachmentModel, IMuzzleFlashRendererModel {
     private final ModelPart model;
     private final ResourceLocation texture = MuzzleCollection1.TEXTURE;
 
@@ -29,5 +30,10 @@ public class AKSuppressorModel implements IAttachmentModel {
     @Override
     public ModelPart getRoot() {
         return model;
+    }
+
+    @Override
+    public void renderMuzzleFlash(GunRenderContext context) {
+
     }
 }

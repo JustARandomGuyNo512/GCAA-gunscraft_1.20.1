@@ -17,7 +17,6 @@ public class Mark {
     private int prevSoundIndex = -1;
     private boolean enableSound = false;
     public boolean soundOnServer = false;
-    public boolean stopAtLastFrame = false;
     public int loopTimes = 0;
     public int looped = 0;
 
@@ -52,19 +51,25 @@ public class Mark {
         return this;
     }
 
-    public Mark stopAtLastFrame() {
-        this.stopAtLastFrame = true;
-        return this;
+    public long length() {
+        return (long) (animationDefinition.lengthInSeconds() * 1000);
+    }
+
+    public float lengthInSec() {
+        return animationDefinition.lengthInSeconds();
     }
 
     public boolean loop() {
-        return animationDefinition.looping() && loopTimes != 0 && !stopAtLastFrame;
+        return animationDefinition.looping() && loopTimes != 0;
+    }
+
+    public boolean shouldLoop() {
+        return loop() && looped < loopTimes;
     }
 
     public void reset() {
         prevSoundIndex = -1;
         tick = 0;
-        timeStamp = System.currentTimeMillis();
     }
 
     public void onClientTick() {
@@ -73,8 +78,8 @@ public class Mark {
             if (soundPoints == null || !(soundPoints.size() > 0)) {
                 return;
             }
-            int soundIndex = Math.max(0, Mth.binarySearch(0, soundPoints.size(),
-                    (index) -> tick < soundPoints.get(index).tick) - 1);
+            int soundIndex = Math.max(0, Mth.binarySearch(
+                    0, soundPoints.size(), (index) -> tick < soundPoints.get(index).tick) - 1);
             if (soundIndex != prevSoundIndex) {
                 soundPoints.get(soundIndex).playSound(soundOnServer);
                 prevSoundIndex = soundIndex;

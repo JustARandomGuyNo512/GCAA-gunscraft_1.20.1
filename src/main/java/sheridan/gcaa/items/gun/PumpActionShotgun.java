@@ -26,8 +26,7 @@ public class PumpActionShotgun extends HandActionGun{
 
     @Override
     public boolean shouldHandleAds(ItemStack stack) {
-        boolean needHandAction = needHandAction(stack);
-        if (needHandAction) {
+        if (needHandAction(stack) && getAmmoLeft(stack) > 0) {
             HandActionHandler.INSTANCE.setHandActionTask(getHandActionTask(stack, true));
         }
         return true;
@@ -39,7 +38,8 @@ public class PumpActionShotgun extends HandActionGun{
                 singleReloadExtension.enterDelay,
                 singleReloadExtension.singleReloadLength,
                 singleReloadExtension.exitDelay,
-                (getMagSize(stack) - getAmmoLeft(stack)));
+                (getMagSize(stack) - getAmmoLeft(stack)),
+                singleReloadExtension.triggerReloadDelay);
     }
 
     @Override

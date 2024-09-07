@@ -31,26 +31,35 @@ public class AttachmentsHandler {
 
     public void checkAndUpdate(ItemStack itemStack, IGun gun, Player player) {
         CompoundTag properties = gun.getGunProperties().getInitialData();
+        //当前枪械的配件列表
         ListTag attachments = gun.getAttachmentsListTag(itemStack);
+        //更新后的配件列表
         ListTag newAttachments = new ListTag();
+        //不支持的配件列表，准备还给玩家
         List<Item> unSupportedAttachments = new ArrayList<>();
         if (!attachments.isEmpty()) {
+            //获取注册时的配件槽树，并清空
             AttachmentSlot root = getAttachmentBaseSlots(gun);
             root.cleanAll();
             if (root != AttachmentSlot.EMPTY) {
+                //遍历当前枪械的配件列表
                 for (int i = 0; i < attachments.size(); i++) {
                     CompoundTag tag = attachments.getCompound(i);
                     String id = tag.getString("id");
                     IAttachment attachment = AttachmentsRegister.get(id);
+                    //如果当前配件存在
                     if (attachment != null) {
                         String slotName = tag.getString("slot_name");
                         AttachmentSlot prevSlot = root.searchChild(slotName);
                         if (!prevSlot.isLocked() && PASSED.equals(attachment.canAttach(itemStack, gun, root, prevSlot))) {
+                            //如果当前配件可以安装
                             attachment.onAttach(itemStack, gun, properties);
                             if (attachment instanceof ISubSlotProvider provider) {
+                                //执行子配件槽扩展
                                 provider.appendSlots(prevSlot);
                             }
                             if (attachment instanceof ISubSlotActivator activator) {
+                                //执行子配件槽解锁
                                 activator.unlockSlots(prevSlot);
                             }
                             newAttachments.add(tag);
@@ -58,6 +67,7 @@ public class AttachmentsHandler {
                             unSupportedAttachments.add(attachment.get());
                         }
                     } else {
+                        //生成“未知配件”的物品，并还给玩家
                         CompoundTag idTag = new CompoundTag();
                         idTag.putString("id", id);
                         ItemStack stack = new ItemStack(ModItems.UNKNOWN_ATTACHMENT.get());
@@ -76,6 +86,7 @@ public class AttachmentsHandler {
         for (Item item : unSupportedAttachments) {
             ItemStack stack = new ItemStack(item);
             if (!player.addItem(stack)) {
+                //如果玩家背包满了，则将物品掉落
                 ItemEntity entity = new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), stack);
                 player.level().addFreshEntity(entity);
             }
@@ -103,12 +114,14 @@ public class AttachmentsHandler {
                     String uuid = attachmentTag.getString("uuid");
                     AttachmentRenderEntry entry = new AttachmentRenderEntry(model, attachment, slotName, modelSlotName, uuid);
                     if (!ROOT.equals(parentUuid) && !NONE.equals(parentUuid)) {
+                        //如果不是根配件，则找到父配件，设置其子配件，然后将子配件添加到上下文中
                         AttachmentRenderEntry parent = entries.get(parentUuid);
                         if (parent != null) {
                             parent.addChild(entry.modelSlotName, entry);
                         }
                         entries.put(uuid, entry);
                     } else {
+                        //如果是根配件，则直接添加到上下文中
                         entries.put(uuid, entry);
                         context.add(entry);
                     }

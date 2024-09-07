@@ -171,14 +171,14 @@ public class AnimationHandler {
             return;
         }
         Mark mark = new Mark(animationDefinition, System.currentTimeMillis()).enableSound(enableSound).soundOnServer(soundOnServer);
-        animations.put(channel, new AnimationSequence(mark));
+        animations.put(channel, new AnimationSequence(mark).finishBuild());
     }
 
     public void startAnimation(String channel, AnimationSequence sequence) {
         if (sequence == null) {
             return;
         }
-        animations.put(channel, sequence);
+        animations.put(channel, sequence.finishBuild());
     }
 
     public void onClientTick() {

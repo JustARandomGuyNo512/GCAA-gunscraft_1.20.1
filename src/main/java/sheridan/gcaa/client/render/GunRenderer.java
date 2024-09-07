@@ -3,11 +3,14 @@ package sheridan.gcaa.client.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LightLayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
@@ -80,6 +83,17 @@ public class GunRenderer{
                 }
                 if (inertialRecoilData != null) {
                     AnimationHandler.INSTANCE.applyInertialRecoil(poseStack, inertialRecoilData);
+                }
+
+                if (ClientConfig.useDynamicWeaponLighting.get()) {
+                    long dis = (System.currentTimeMillis() - Clients.lastShootMain());
+                    if (dis < 25) {
+                        float particleTick = Minecraft.getInstance().getPartialTick();
+                        int blockLight = entityIn.isOnFire() ? 15 :
+                                entityIn.level().getBrightness(LightLayer.BLOCK, BlockPos.containing(entityIn.getEyePosition(particleTick)));
+                        combinedLightIn = LightTexture.pack((int) Math.min(15, blockLight + Math.min(3, dis)), entityIn.level().getBrightness(LightLayer.SKY,
+                                BlockPos.containing(entityIn.getEyePosition(particleTick))));
+                    }
                 }
                 model.render(GunRenderContext.getLocalMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn));
             } else {

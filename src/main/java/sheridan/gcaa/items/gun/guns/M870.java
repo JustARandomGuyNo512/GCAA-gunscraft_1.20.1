@@ -22,7 +22,7 @@ public class M870 extends PumpActionShotgun {
                 3.5f, 1f, 0.15f, 0.1f, 12,
                 List.of(HandAction.HAND_ACTION), ModSounds.M870_FIRE, ModSounds.M870_FIRE_SUPPRESSED, caliber),
                 new HandActionExtension("pump_action", getTicks(0.2f), getTicks(0.65f)),
-                new SingleReloadExtension(getTicks(0.4f), getTicks(0.65f), getTicks(0.4f), 1));
+                new SingleReloadExtension(getTicks(0.4f), getTicks(0.65f), getTicks(0.4f), 1, getTicks(0.35f)));
     }
 
 

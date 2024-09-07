@@ -10,6 +10,7 @@ public class ClientConfig {
 
     public static ForgeConfigSpec.BooleanValue renderAttachmentsInGuiView;
     public static ForgeConfigSpec.BooleanValue renderAttachmentsInGroundView;
+    public static ForgeConfigSpec.BooleanValue useDynamicWeaponLighting;
 
     static {
         BUILDER.comment("在渲染GUI中的枪械模型时是否要渲染配件，此项设置为false可降低性能消耗\nWhether to renderByModelSlotName attachments when rendering a gun model in the GUI. Setting this to false reduces performance costs");
@@ -17,6 +18,9 @@ public class ClientConfig {
         BUILDER.comment("\n");
         BUILDER.comment("在渲染地面掉落物枪械模型时是否要渲染配件，此项设置为false可降低性能消耗\nWhether to renderByModelSlotName accessories when rendering ground drop gun models. Set this to false to reduce performance costs");
         renderAttachmentsInGroundView = BUILDER.define("render_attachments_in_ground_view", true);
+        BUILDER.comment("\n");
+        BUILDER.comment("渲染枪械模型时使用随枪口火焰变化地动态亮度\nUse dynamic brightness that varies with the muzzle flame when rendering a gun model");
+        useDynamicWeaponLighting = BUILDER.define("use_dynamic_weapon_lighting", true);
         SPEC = BUILDER.build();
     }
 
