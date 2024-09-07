@@ -48,7 +48,6 @@ public class KeyframeAnimations {
                 channel.target().apply(modelPart, INTERPOLATION_RESULT_CACHE);
             }));
         }
-
     }
 
     public static void _animateToModelPart(ModelPart pose, AnimationDefinition definition, long startTime, long shift, float scaleX, float scaleY, float scaleZ, boolean stopIfOutOfTime) {

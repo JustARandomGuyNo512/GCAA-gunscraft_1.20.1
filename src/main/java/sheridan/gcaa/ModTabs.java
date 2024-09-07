@@ -35,6 +35,7 @@ public class ModTabs {
                 .icon(() ->new ItemStack(ModItems.G19.get()))
                 .displayItems((parameters, tab) -> {
                     tab.accept(ModItems.G19.get());
+                    tab.accept(ModItems.PYTHON_357.get());
                     tab.accept(ModItems.AKM.get());
                     tab.accept(ModItems.AWP.get());
                     tab.accept(ModItems.M870.get());

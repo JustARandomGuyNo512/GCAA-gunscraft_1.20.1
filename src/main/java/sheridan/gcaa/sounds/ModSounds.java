@@ -35,6 +35,11 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> AWP_FIRE_SUPPRESSED = registerSound("awp_fire_suppressed", "item.awp.fire_suppressed");
     public static RegistryObject<SoundEvent> M870_FIRE = registerSound("m870_fire", "item.m870.fire");
     public static RegistryObject<SoundEvent> M870_FIRE_SUPPRESSED = registerSound("m870_fire_suppressed", "item.m870.fire_suppressed");
+    public static RegistryObject<SoundEvent> PYTHON_357_FIRE = registerSound("python_357_fire", "item.python_357.fire");
+    public static RegistryObject<SoundEvent> PYTHON_357_BULLETS_IN = registerSound("bullets_in", "item.python_357.bullets_in");
+    public static RegistryObject<SoundEvent> PYTHON_357_BULLETS_OUT = registerSound("bullets_out", "item.python_357.bullets_out");
+    public static RegistryObject<SoundEvent> PYTHON_357_MAG_OPEN = registerSound("mag_open", "item.python_357.mag_open");
+    public static RegistryObject<SoundEvent> PYTHON_357_MAG_CLOSE = registerSound("mag_close", "item.python_357.mag_close");
 
     private static RegistryObject<SoundEvent> registerSound(String name, String path) {
         return MOD_SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(GCAA.MODID, path)));

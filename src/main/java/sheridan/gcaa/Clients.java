@@ -41,10 +41,7 @@ import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
 import sheridan.gcaa.client.model.attachments.sight.HolographicModel;
 import sheridan.gcaa.client.model.attachments.sight.MicroRedDotModel;
 import sheridan.gcaa.client.model.attachments.sight.RedDotModel;
-import sheridan.gcaa.client.model.guns.AkmModel;
-import sheridan.gcaa.client.model.guns.AwpModel;
-import sheridan.gcaa.client.model.guns.G19Model;
-import sheridan.gcaa.client.model.guns.M870Model;
+import sheridan.gcaa.client.model.guns.*;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.muzzleFlash.CommonMuzzleFlashes;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
@@ -150,6 +147,18 @@ public class Clients {
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 3.65f, -41.2f).setScale(1.5f))
         );
 
+        ArsenalLib.registerGunModel(ModItems.PYTHON_357.get(), new Python357Model(), new DisplayData()
+                .setFirstPersonMain(-5f,8.5f,-26.5f, POS)
+                .setThirdPersonRight(0f, 0f, 0.5f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
+                .setGround(0f, 0f, 1.2f, POS).set(DisplayData.GROUND, 0.15f, SCALE)
+                .setFrame(-2, 0f, 0f, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
+                .setGUI(-2.1f, 0f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.5f, SCALE)
+                .setAds(0,5.6f,-22.5f, POS)
+                .setAttachmentScreen(1.6f, -0.75f, -9.9f, 0f, 90f, 0, 0.205f, 0.205f, 0.205f)
+                .setInertialRecoilData(new InertialRecoilData(0.3f,0.05f,0.8f,0.075f,3f,0.1f,0.6f, 0.6f, new Vector3f(0.4f, 0.4f, 0.4f)))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setTranslate(0f, 2.55f, -26.475f).setScale(1.5f))
+        );
+
         ArsenalLib.registerGunModel(ModItems.AKM.get(), new AkmModel(), new DisplayData()
                 .setFirstPersonMain(-5.5f,18.1f,-17.3f, POS)
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
@@ -203,7 +212,6 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.SCOPE_X10.get(), new ScopeX10Model());
         ArsenalLib.registerAttachmentModel(ModItems.VERTICAL_GRIP.get(), new VerticalGripModel());
     }
-
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {
         SoundEvent soundEvent = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(soundName));

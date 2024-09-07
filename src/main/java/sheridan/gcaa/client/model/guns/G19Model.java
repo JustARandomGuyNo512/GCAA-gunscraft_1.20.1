@@ -102,7 +102,6 @@ public class G19Model extends GunModel {
         left_arm.resetPose();
         mag.resetPose();
         camera.resetPose();
-
     }
 
     @Override

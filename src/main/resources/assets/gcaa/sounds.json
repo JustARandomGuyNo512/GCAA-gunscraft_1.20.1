@@ -18,5 +18,10 @@
   "item.awp.fire": { "subtitle": "item.awp.fire", "sounds": [{ "name": "gcaa:awp/awp_fire" }]},
   "item.awp.fire_suppressed": { "subtitle": "item.awp.fire_suppressed", "sounds": [{ "name": "gcaa:awp/awp_fire_suppressed" }]},
   "item.m870.fire": { "subtitle": "item.m870.fire", "sounds": [{ "name": "gcaa:m870/m870_fire" }]},
-  "item.m870.fire_suppressed": { "subtitle": "item.m870.fire_suppressed", "sounds": [{ "name": "gcaa:m870/m870_fire_suppressed" }]}
+  "item.m870.fire_suppressed": { "subtitle": "item.m870.fire_suppressed", "sounds": [{ "name": "gcaa:m870/m870_fire_suppressed" }]},
+  "item.python_357.fire": { "subtitle": "item.python_357.fire", "sounds": [{ "name": "gcaa:python_357/python_357_fire" }]},
+  "item.python_357.bullets_in": { "subtitle": "item.python_357.bullets_in", "sounds": [{ "name": "gcaa:python_357/bullets_in" }]},
+  "item.python_357.bullets_out": { "subtitle": "item.python_357.bullets_out", "sounds": [{ "name": "gcaa:python_357/bullets_out" }]},
+  "item.python_357.mag_close": { "subtitle": "item.python_357.mag_close", "sounds": [{ "name": "gcaa:python_357/mag_close" }]},
+  "item.python_357.mag_open": { "subtitle": "item.python_357.mag_open", "sounds": [{ "name": "gcaa:python_357/mag_open" }]}
 }

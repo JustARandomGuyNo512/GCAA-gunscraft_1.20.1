@@ -16,15 +16,13 @@ import sheridan.gcaa.items.attachments.scope.ScopeX10;
 import sheridan.gcaa.items.attachments.sight.Holographic;
 import sheridan.gcaa.items.attachments.sight.MicroRedDot;
 import sheridan.gcaa.items.attachments.sight.RedDot;
-import sheridan.gcaa.items.gun.guns.Akm;
-import sheridan.gcaa.items.gun.guns.Awp;
-import sheridan.gcaa.items.gun.guns.G19;
-import sheridan.gcaa.items.gun.guns.M870;
+import sheridan.gcaa.items.gun.guns.*;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, GCAA.MODID);
 
     public static final RegistryObject<G19> G19 = ITEMS.register("g19", G19::new);
+    public static final RegistryObject<Python357> PYTHON_357 = ITEMS.register("python_357", Python357::new);
     public static final RegistryObject<Akm> AKM = ITEMS.register("akm", Akm::new);
     public static final RegistryObject<Awp> AWP = ITEMS.register("awp", Awp::new);
     public static final RegistryObject<M870> M870 = ITEMS.register("m870", M870::new);
