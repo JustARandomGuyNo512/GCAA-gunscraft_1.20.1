@@ -25,6 +25,10 @@ public class ReloadingHandler {
         return INSTANCE.reloading();
     }
 
+    public static float getReloadingProgress() {
+        return INSTANCE.reloadingTask != null && !INSTANCE.reloadingTask.isCompleted() ? INSTANCE.reloadingTask.getProgress() : 0;
+    }
+
     public int getLastPayload() {
         return lastPayload;
     }
@@ -55,6 +59,10 @@ public class ReloadingHandler {
 
     public static boolean disFromLastReload(long ms) {
         return System.currentTimeMillis() - INSTANCE.getLastStartReload() > ms;
+    }
+
+    public static boolean disFromLastReloadEnd(long ms) {
+        return System.currentTimeMillis() - INSTANCE.getLastEndReload() < ms;
     }
 
     private void clearTask() {

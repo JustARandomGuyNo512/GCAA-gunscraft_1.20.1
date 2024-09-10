@@ -47,6 +47,7 @@ public class SingleReloadTask extends ReloadingTask{
         int reloadingTick = tick - enterDelay - reloaded * singleReloadLength;
         if (reloadingTick == triggerReloadDelay && reloaded < reloadNum) {
             PacketHandler.simpleChannel.sendToServer(new GunReloadPacket());
+            gun.reload(itemStack, clientPlayer);
             reloaded ++;
         }
         if (tick >= length) {

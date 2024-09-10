@@ -43,7 +43,7 @@ public class ClientPlayerEvents {
                 scope.handleMouseSensitivity();
             }
         }
-        if (event.phase == TickEvent.Phase.END )  {
+        if (event.phase == TickEvent.Phase.END)  {
             JumpBobbingHandler jumpBobbingHandler = JumpBobbingHandler.getInstance();
             if (jumpBobbingHandler != null) {
                 jumpBobbingHandler.handle((LocalPlayer) player);

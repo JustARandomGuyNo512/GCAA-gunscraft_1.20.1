@@ -26,6 +26,7 @@ public class ModItems {
     public static final RegistryObject<Akm> AKM = ITEMS.register("akm", Akm::new);
     public static final RegistryObject<Awp> AWP = ITEMS.register("awp", Awp::new);
     public static final RegistryObject<M870> M870 = ITEMS.register("m870", M870::new);
+    public static final RegistryObject<M249> M249 = ITEMS.register("m249", M249::new);
 
     public static final RegistryObject<UnknownAttachment> UNKNOWN_ATTACHMENT = ITEMS.register("unknown_attachment", UnknownAttachment::new);
     public static final RegistryObject<AKSuppressor> AK_SUPPRESSOR = ITEMS.register("ak_suppressor", AKSuppressor::new);

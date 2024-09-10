@@ -44,6 +44,7 @@ public class ReloadingTask implements IReloadingTask{
         if (tick >= length) {
             PlayerStatusProvider.setReloading(clientPlayer, false);
             PacketHandler.simpleChannel.sendToServer(new GunReloadPacket());
+            gun.reload(itemStack, clientPlayer);
             completed = true;
             return;
         }
@@ -78,6 +79,11 @@ public class ReloadingTask implements IReloadingTask{
         }
         Clients.mainHandStatus.ads = false;
         HandActionHandler.INSTANCE.breakTask();
+    }
+
+    @Override
+    public float getProgress() {
+        return length == 0 ? 0 : tick / (float) length;
     }
 
 }

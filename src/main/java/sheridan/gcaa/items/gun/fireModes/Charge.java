@@ -10,10 +10,12 @@ import sheridan.gcaa.items.gun.IGunFireMode;
 public class Charge implements IGunFireMode {
     private final int chargeLength;
     private final String name;
+    private final boolean breakShoot;
 
-    public Charge(int chargeLength, String name)  {
+    public Charge(int chargeLength, String name, boolean breakShoot)  {
         this.chargeLength = Math.max(2, chargeLength);
         this.name = "tooltip.fire_mode." + name;
+        this.breakShoot = breakShoot;
     }
 
     public int getChargeLength() {
@@ -33,7 +35,9 @@ public class Charge implements IGunFireMode {
     @Override
     public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
         gun.clientShoot(itemStack, player, this);
-        Clients.mainHandStatus.buttonDown.set(false);
+        if (breakShoot) {
+            Clients.mainHandStatus.buttonDown.set(false);
+        }
         Clients.mainHandStatus.fireCount = 0;
         Clients.mainHandStatus.clearCharge();
     }

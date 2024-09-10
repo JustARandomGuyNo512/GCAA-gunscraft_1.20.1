@@ -47,5 +47,14 @@ public class Commons {
                 .addChild(new AttachmentSlot(MAG, "mag", Set.of()))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of()))
         );
+
+        AttachmentsRegister.registerAttachmentSlot(ModItems.M249.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic")))
+                .addChild(new AttachmentSlot(GRIP, Set.of()))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of()))
+                .addChild(new AttachmentSlot(STOCK, Set.of()))
+                .addChild(new AttachmentSlot(MAG, Set.of()))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of()))
+        );
     }
 }

@@ -76,8 +76,8 @@ public class AkmModel extends GunModel {
     @Override
     protected void animationGlobal(GunRenderContext gunRenderContext) {
         if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
-            KeyframeAnimations.animate(this, recoil, Clients.lastShootMain(),1);
-            KeyframeAnimations.animate(this, shoot, Clients.lastShootMain(),1);
+            KeyframeAnimations.animate(this, recoil, gunRenderContext.lastShoot,1);
+            KeyframeAnimations.animate(this, shoot, gunRenderContext.lastShoot,1);
             if (gunRenderContext.isFirstPerson) {
                 AnimationHandler.INSTANCE.applyReload(this);
                 CameraAnimationHandler.INSTANCE.mix(camera);

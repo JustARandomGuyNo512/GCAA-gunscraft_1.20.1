@@ -28,6 +28,13 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> AWP_BOLT_FORWARD = registerSound("awp_bolt_forward", "item.generic.awp_bolt_forward");
     public static RegistryObject<SoundEvent> M870_INSERT_SHELL = registerSound("m870_insert_shell", "item.generic.m870_insert_shell");
     public static RegistryObject<SoundEvent> M870_PUMP_ACTION = registerSound("m870_pump_action", "item.generic.m870_pump_action");
+    public static RegistryObject<SoundEvent> MG_BOX_ATTACH = registerSound("mg_box_attach", "item.generic.mg_box_attach");
+    public static RegistryObject<SoundEvent> MG_BOX_OFF = registerSound("mg_box_off", "item.generic.mg_box_off");
+    public static RegistryObject<SoundEvent> MG_CHAIN = registerSound("mg_chain", "item.generic.mg_chain");
+    public static RegistryObject<SoundEvent> MG_CHARGE_BACK = registerSound("mg_charge_back", "item.generic.mg_charge_back");
+    public static RegistryObject<SoundEvent> MG_CHARGE_FROWARD = registerSound("mg_charge_forward", "item.generic.mg_charge_forward");
+    public static RegistryObject<SoundEvent> MG_COVER_OFF = registerSound("mg_cover_off", "item.generic.mg_cover_off");
+    public static RegistryObject<SoundEvent> MG_COVER_OPEN = registerSound("mg_cover_open", "item.generic.mg_cover_open");
 
     public static RegistryObject<SoundEvent> AKM_FIRE = registerSound("akm_fire", "item.akm.fire");
     public static RegistryObject<SoundEvent> G19_FIRE = registerSound("g19_fire", "item.g19.fire");
@@ -36,6 +43,7 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> M870_FIRE = registerSound("m870_fire", "item.m870.fire");
     public static RegistryObject<SoundEvent> M870_FIRE_SUPPRESSED = registerSound("m870_fire_suppressed", "item.m870.fire_suppressed");
     public static RegistryObject<SoundEvent> PYTHON_357_FIRE = registerSound("python_357_fire", "item.python_357.fire");
+    public static RegistryObject<SoundEvent> M249_FIRE = registerSound("m249_fire", "item.m249.fire");
     public static RegistryObject<SoundEvent> PYTHON_357_BULLETS_IN = registerSound("bullets_in", "item.python_357.bullets_in");
     public static RegistryObject<SoundEvent> PYTHON_357_BULLETS_OUT = registerSound("bullets_out", "item.python_357.bullets_out");
     public static RegistryObject<SoundEvent> PYTHON_357_MAG_OPEN = registerSound("mag_open", "item.python_357.mag_open");

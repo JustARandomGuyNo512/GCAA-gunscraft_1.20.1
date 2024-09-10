@@ -39,6 +39,7 @@ public class GunRenderContext {
     public int packedLight;
     public int packedOverlay;
     public long lastShoot;
+    public long lastReload;
     public DisplayData.MuzzleFlashEntry muzzleFlashEntry;
     public AttachmentsRenderContext attachmentsRenderContext;
     public Map<String, PoseStack> localPoseStorage;
@@ -89,6 +90,7 @@ public class GunRenderContext {
         if (useAttachmentContext) {
             this.attachmentsRenderContext = AttachmentsHandler.INSTANCE.getRenderContext(itemStack, gun);
         }
+        lastReload = ReloadingHandler.INSTANCE.getLastStartReload();
     }
 
     public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, int packedLight, int packedOverlay, DisplayData.MuzzleFlashEntry muzzleFlashEntry, long lastShoot, boolean useAttachmentContext) {
@@ -104,10 +106,20 @@ public class GunRenderContext {
         this.lastShoot = lastShoot;
         ammoLeft = gun.getAmmoLeft(itemStack);
         attachmentsRenderContext = useAttachmentContext ? AttachmentsHandler.INSTANCE.getRenderContext(itemStack, gun) : null;
+        lastReload = ReloadingHandler.INSTANCE.getLastStartReload();
     }
 
     public boolean reloading() {
         return ReloadingHandler.INSTANCE.reloading();
+    }
+
+    public float getFireProgress() {
+        if (lastShoot == 0) {
+            return 0;
+        }
+        long timeDis = (System.currentTimeMillis()) - lastShoot;
+        float shootDelay = (float) gun.getFireDelay(itemStack) * 5;
+        return timeDis >= shootDelay ? 0 : timeDis / shootDelay;
     }
 
     public void render(ModelPart part, VertexConsumer vertexConsumer) {

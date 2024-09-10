@@ -35,4 +35,6 @@ public interface IReloadingTask {
     default boolean restrictNBT() {
         return true;
     }
+
+    float getProgress();
 }
