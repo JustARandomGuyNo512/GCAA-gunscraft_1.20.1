@@ -9,6 +9,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.attachments.ArmRendererModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
+import sheridan.gcaa.client.model.attachments.IDirectionalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -16,7 +17,7 @@ import sheridan.gcaa.lib.ArsenalLib;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class VerticalGripModel extends ArmRendererModel implements IAttachmentModel {
+public class VerticalGripModel extends ArmRendererModel implements IAttachmentModel, IDirectionalModel {
     private final ModelPart root;
     private final ModelPart body;
     private final ModelPart left_arm;
@@ -34,10 +35,13 @@ public class VerticalGripModel extends ArmRendererModel implements IAttachmentMo
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         context.pushPose();
-        initTranslation(pose, context.poseStack);
+        //root.copyFrom(pose);
+        //context.pushPose().translateTo(root);
+        initTranslation(attachmentRenderEntry, context, pose);
         context.render(body, vertexConsumer);
         renderArm(false, RenderAndMathUtils.copyPoseStack(context.poseStack), context, attachmentRenderEntry);
         context.popPose();
+        //root.resetPose();
     }
 
     @Override
@@ -66,7 +70,12 @@ public class VerticalGripModel extends ArmRendererModel implements IAttachmentMo
     }
 
     @Override
-    public Direction getDirection() {
-        return Direction.LOWER;
+    public byte getDirection() {
+        return LOWER;
+    }
+
+    @Override
+    public ModelPart root() {
+        return getRoot();
     }
 }

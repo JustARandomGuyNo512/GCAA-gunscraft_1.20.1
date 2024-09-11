@@ -132,7 +132,8 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                                     slot.slotName,
                                     slot.modelSlotName,
                                     slot.getParent().getId(),
-                                    selectedSlot.index
+                                    selectedSlot.index,
+                                    slot.getDirection()
                             ));
                             needUpdate = true;
                             selectedSlot = null;

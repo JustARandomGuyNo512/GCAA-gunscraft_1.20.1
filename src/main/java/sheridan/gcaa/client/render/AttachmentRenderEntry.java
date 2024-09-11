@@ -16,15 +16,17 @@ public class AttachmentRenderEntry {
     public String slotName;
     public String modelSlotName;
     public String slotUUID;
+    public byte direction;
     public Map<String, AttachmentRenderEntry> children = null;
     public boolean rendered = false;
 
-    public AttachmentRenderEntry(IAttachmentModel model, IAttachment attachment, String slotName, String modelSlotName, String slotUUID)  {
+    public AttachmentRenderEntry(IAttachmentModel model, IAttachment attachment, String slotName, String modelSlotName, String slotUUID, byte direction)  {
         this.model = model;
         this.attachment = attachment;
         this.slotName = slotName;
         this.modelSlotName = modelSlotName;
         this.slotUUID = slotUUID;
+        this.direction = direction;
     }
 
     public void addChild(String modelSlotName, AttachmentRenderEntry child) {

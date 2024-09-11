@@ -4,15 +4,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import sheridan.gcaa.Clients;
 
-public interface IScopeModel extends ISightModel{
-    default float getNormalField() {
+public abstract class ScopeModel extends SightModel {
+    protected float getNormalField() {
         GameRenderer renderer = Minecraft.getInstance().gameRenderer;
         return (float) (renderer.isPanoramicMode() ? Math.tan(Math.toRadians(45)) : Math.tan(Math.toRadians(35)));
     }
 
-    float getMinDisZDistance(float prevFov);
+    public abstract float getMinDisZDistance(float prevFov);
 
-    default float calcMinDisZDistance(float defaultVal, float prevFov)  {
+    public float calcMinDisZDistance(float defaultVal, float prevFov)  {
         if (useAimingModelFovModify() && Clients.isInAds()) {
             double tanNew = Math.tan(Math.toRadians(prevFov / 2.0));
             return (float) (defaultVal * (getNormalField() / tanNew));
@@ -20,11 +20,11 @@ public interface IScopeModel extends ISightModel{
         return defaultVal;
     }
 
-    default float aimingModelFovModify() {
+    public float aimingModelFovModify() {
         return 8.5f;
     }
 
-    default boolean useAimingModelFovModify() {
+    public boolean useAimingModelFovModify() {
         return true;
     }
 }

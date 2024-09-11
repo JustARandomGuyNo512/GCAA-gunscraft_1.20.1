@@ -33,9 +33,4 @@ public abstract class MuzzleFlashRendererModel implements IAttachmentModel{
         context.renderMuzzleFlash(scaleModify);
         context.clearMuzzleFlashEntry();
     }
-
-    @Override
-    public Direction getDirection() {
-        return Direction.NO_DIRECTION;
-    }
 }

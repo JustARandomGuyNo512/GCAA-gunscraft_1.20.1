@@ -17,7 +17,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,7 +28,7 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
-import sheridan.gcaa.client.model.attachments.IScopeModel;
+import sheridan.gcaa.client.model.attachments.ScopeModel;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
@@ -276,7 +275,7 @@ public class RenderEvents {
                 Clients.fovModify = newFov;
                 return;
             } else {
-                if (AttachmentsRegister.getModel(scope) instanceof IScopeModel scopeModel) {
+                if (AttachmentsRegister.getModel(scope) instanceof ScopeModel scopeModel) {
                     if (scopeModel.useAimingModelFovModify()) {
                         double newFov = Mth.lerp(Math.pow(adsProgress, 4), prevFov, scopeModel.aimingModelFovModify());
                         event.setFOV(newFov);

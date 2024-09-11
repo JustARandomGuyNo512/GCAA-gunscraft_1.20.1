@@ -112,7 +112,8 @@ public class AttachmentsHandler {
                     String modelSlotName = attachmentTag.getString("model_slot_name");
                     String parentUuid = attachmentTag.getString("parent_uuid");
                     String uuid = attachmentTag.getString("uuid");
-                    AttachmentRenderEntry entry = new AttachmentRenderEntry(model, attachment, slotName, modelSlotName, uuid);
+                    byte direction = attachmentTag.getByte("direction");
+                    AttachmentRenderEntry entry = new AttachmentRenderEntry(model, attachment, slotName, modelSlotName, uuid, direction);
                     if (!ROOT.equals(parentUuid) && !NONE.equals(parentUuid)) {
                         //如果不是根配件，则找到父配件，设置其子配件，然后将子配件添加到上下文中
                         AttachmentRenderEntry parent = entries.get(parentUuid);
@@ -132,21 +133,22 @@ public class AttachmentsHandler {
         return context.isEmpty() ? null : context;
     }
 
-    private CompoundTag getMark(IAttachment attachment,String slotName, String modelSlotName, String parentUuid) {
+    private CompoundTag getMark(IAttachment attachment,String slotName, String modelSlotName, String parentUuid, byte direction) {
         CompoundTag tag = new CompoundTag();
         tag.putString("id", AttachmentsRegister.getKey(attachment).toString());
         tag.putString("model_slot_name", modelSlotName);
         tag.putString("parent_uuid", parentUuid);
         tag.putString("slot_name", slotName);
         tag.putString("uuid", UUID.randomUUID().toString());
+        tag.putByte("direction", direction);
         return tag;
     }
 
-    public void serverSetAttachment(ItemStack stack, IGun gun, IAttachment attachment, String slotName, String modelSlotName, String parentUuid)  {
+    public void serverSetAttachment(ItemStack stack, IGun gun, IAttachment attachment, String slotName, String modelSlotName, String parentUuid, byte direction)  {
         CompoundTag properties = gun.getPropertiesTag(stack);
         ListTag attachments = gun.getAttachmentsListTag(stack);
         attachment.onAttach(stack, gun, properties);
-        CompoundTag mark = getMark(attachment, slotName, modelSlotName, parentUuid);
+        CompoundTag mark = getMark(attachment, slotName, modelSlotName, parentUuid, direction);
         attachments.add(mark);
         gun.setAttachmentsListTag(stack, attachments);
     }

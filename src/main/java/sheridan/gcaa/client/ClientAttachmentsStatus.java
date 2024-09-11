@@ -13,7 +13,7 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.model.ISlotProviderModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
-import sheridan.gcaa.client.model.attachments.ISightModel;
+import sheridan.gcaa.client.model.attachments.SightModel;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.items.attachments.IArmReplace;
@@ -204,7 +204,7 @@ public class ClientAttachmentsStatus {
                 }
             }
         }
-        if (AttachmentsRegister.getModel(effectiveSight.getAttachmentId()) instanceof ISightModel sightModel) {
+        if (AttachmentsRegister.getModel(effectiveSight.getAttachmentId()) instanceof SightModel sightModel) {
             sightModel.handleCrosshairTranslation(poseStack);
         }
         Vector3f translation = poseStack.last().pose().getTranslation(new Vector3f(0, 0, 0));

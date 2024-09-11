@@ -5,11 +5,15 @@ import java.util.*;
 public class AttachmentSlot {
     public static final String ROOT = "__ROOT__";
     public static final String NONE = "__NONE__";
-    public static final AttachmentSlot EMPTY = new AttachmentSlot(NONE, NONE, Set.of(), NONE, null, NONE);
+    public static final byte UPPER = 1;
+    public static final byte LOWER = 2;
+    public static final byte NO_DIRECTION = 0;
+    public static final AttachmentSlot EMPTY = new AttachmentSlot(NONE, NONE, Set.of(), NONE, null, NONE, NO_DIRECTION);
     public final String slotName;
     public final String modelSlotName;
     private String attachmentId;
     private String id;
+    private byte direction;
 
     private final Set<String> acceptedAttachments;
     private final Map<String, AttachmentSlot> children = new HashMap<>();
@@ -26,6 +30,7 @@ public class AttachmentSlot {
         modelSlotName = NONE;
         attachmentId = NONE;
         id = ROOT;
+        direction = NO_DIRECTION;
         acceptedAttachments = Set.of();
     }
 
@@ -37,21 +42,30 @@ public class AttachmentSlot {
 //        this(slotName, modelSlotName, acceptedAttachments, attachmentId, EMPTY);
 //    }
 
-    protected AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments, String attachmentId, AttachmentSlot parent, String id) {
+    protected AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments, String attachmentId, AttachmentSlot parent, String id, byte direction) {
         this.slotName = slotName;
         this.acceptedAttachments = new HashSet<>(acceptedAttachments);
         this.modelSlotName = modelSlotName;
         this.attachmentId = attachmentId;
         this.parent = parent;
         this.id = id;
+        this.direction = direction;
+    }
+
+    public AttachmentSlot(String slotName, Set<String> acceptedAttachments, byte direction) {
+        this(slotName, "s_" + slotName, acceptedAttachments, NONE, EMPTY, NONE, direction);
     }
 
     public AttachmentSlot(String slotName, Set<String> acceptedAttachments) {
-        this(slotName, "s_" + slotName, acceptedAttachments, NONE, EMPTY, NONE);
+        this(slotName, "s_" + slotName, acceptedAttachments, NONE, EMPTY, NONE, NO_DIRECTION);
+    }
+
+    public AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments, byte direction) {
+        this(slotName, modelSlotName, acceptedAttachments, NONE, EMPTY, NONE, direction);
     }
 
     public AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments) {
-        this(slotName, modelSlotName, acceptedAttachments, NONE, EMPTY, NONE);
+        this(slotName, modelSlotName, acceptedAttachments, NONE, EMPTY, NONE, NO_DIRECTION);
     }
 
     /**
@@ -63,6 +77,10 @@ public class AttachmentSlot {
 
     public boolean acceptsAttachment(String attachmentName) {
         return attachmentName != null && acceptedAttachments.contains(attachmentName);
+    }
+
+    public byte getDirection() {
+        return direction;
     }
 
     public String getSlotName() {
@@ -81,6 +99,16 @@ public class AttachmentSlot {
         if (!isRoot() && this != EMPTY) {
             this.parent = parent;
         }
+        return this;
+    }
+
+    public AttachmentSlot upper() {
+        this.direction = UPPER;
+        return this;
+    }
+
+    public AttachmentSlot lower() {
+        this.direction = LOWER;
         return this;
     }
 
@@ -182,7 +210,7 @@ public class AttachmentSlot {
     }
 
     public AttachmentSlot copy() {
-        return new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY, this.id);
+        return new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY, this.id, this.direction);
     }
 
     public static AttachmentSlot copyAll(AttachmentSlot original) {

@@ -6,8 +6,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.client.model.attachments.IAttachmentModel;
-import sheridan.gcaa.client.model.attachments.IScopeModel;
+import sheridan.gcaa.client.model.attachments.ScopeModel;
 import sheridan.gcaa.client.model.attachments.SightViewRenderer;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
@@ -15,7 +14,7 @@ import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
 
 @OnlyIn(Dist.CLIENT)
-public class ScopeX10Model implements IAttachmentModel, IScopeModel {
+public class ScopeX10Model extends ScopeModel {
     private final ModelPart root;
     private final ModelPart crosshair;
     private final ModelPart back_glass;
@@ -36,16 +35,10 @@ public class ScopeX10Model implements IAttachmentModel, IScopeModel {
     }
 
     @Override
-    public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        //root.copyFrom(pose);
-        //root.translateAndRotate(context.poseStack);
-        context.pushPose();
-        initTranslation(pose, context.poseStack);
+    protected void renderModel(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         boolean active = context.isEffectiveSight(attachmentRenderEntry) && Clients.isInAds() && Clients.getAdsProgress() == 1f;
         SightViewRenderer.renderScope(active, false, 0.75f, 0.95f, context,
                 CROSSHAIR_TEXTURE, TEXTURE, crosshair, glass_shape, back_glass, back_ground, body);
-        context.popPose();
-        //root.resetPose();
     }
 
     @Override
@@ -69,8 +62,5 @@ public class ScopeX10Model implements IAttachmentModel, IScopeModel {
         return prevFov == -1 ? 0.95f : calcMinDisZDistance(0.36f, prevFov);
     }
 
-    @Override
-    public Direction getDirection() {
-        return Direction.UPPER;
-    }
+
 }

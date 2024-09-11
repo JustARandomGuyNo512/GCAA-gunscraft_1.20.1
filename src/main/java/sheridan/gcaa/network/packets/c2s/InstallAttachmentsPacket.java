@@ -23,15 +23,17 @@ public class InstallAttachmentsPacket implements IPacket<InstallAttachmentsPacke
     public String modelSlotName;
     public String parentUuid;
     public int itemSlotIndex;
+    public byte direction;
 
     public InstallAttachmentsPacket() {}
 
-    public InstallAttachmentsPacket(String attachmentName, String slotName, String modelSlotName, String parentUuid, int itemSlotIndex) {
+    public InstallAttachmentsPacket(String attachmentName, String slotName, String modelSlotName, String parentUuid, int itemSlotIndex, byte direction) {
         this.attachmentName = attachmentName;
         this.slotName = slotName;
         this.modelSlotName = modelSlotName;
         this.parentUuid = parentUuid;
         this.itemSlotIndex = itemSlotIndex;
+        this.direction = direction;
     }
 
     @Override
@@ -41,6 +43,7 @@ public class InstallAttachmentsPacket implements IPacket<InstallAttachmentsPacke
         buffer.writeUtf(message.modelSlotName);
         buffer.writeUtf(message.parentUuid);
         buffer.writeInt(message.itemSlotIndex);
+        buffer.writeByte(message.direction);
     }
 
     @Override
@@ -51,6 +54,7 @@ public class InstallAttachmentsPacket implements IPacket<InstallAttachmentsPacke
         packet.modelSlotName = buffer.readUtf();
         packet.parentUuid = buffer.readUtf();
         packet.itemSlotIndex = buffer.readInt();
+        packet.direction = buffer.readByte();
         return packet;
     }
 
@@ -64,7 +68,7 @@ public class InstallAttachmentsPacket implements IPacket<InstallAttachmentsPacke
                 if (player != null) {
                     ItemStack heldItem = player.getMainHandItem();
                     if (heldItem.getItem() instanceof IGun gun) {
-                        AttachmentsHandler.INSTANCE.serverSetAttachment(heldItem, gun, attachment, message.slotName, message.modelSlotName, message.parentUuid);
+                        AttachmentsHandler.INSTANCE.serverSetAttachment(heldItem, gun, attachment, message.slotName, message.modelSlotName, message.parentUuid, message.direction);
                         ListTag attachments = gun.getAttachmentsListTag(heldItem);
                         if (player.containerMenu instanceof AttachmentsMenu menu) {
                             menu.slots.get(message.itemSlotIndex).set(ItemStack.EMPTY);
