@@ -41,14 +41,16 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         gun.translateAndRotate(poseStack);
         renderGunModel(gunRenderContext);
         renderAttachmentsModel(gunRenderContext);
+        renderPostEffect(gunRenderContext);
         afterRender(gunRenderContext);
     }
 
     protected abstract void postInit(ModelPart gun, ModelPart root);
     protected abstract void renderGunModel(GunRenderContext context);
     protected abstract void renderAttachmentsModel(GunRenderContext context);
-    protected abstract void animationGlobal(GunRenderContext gunRenderContext);
-    protected abstract void afterRender(GunRenderContext gunRenderContext);
+    protected abstract void renderPostEffect(GunRenderContext context);
+    protected abstract void animationGlobal(GunRenderContext context);
+    protected abstract void afterRender(GunRenderContext context);
 
     @Override
     public void handleGunTranslate(PoseStack poseStack) {

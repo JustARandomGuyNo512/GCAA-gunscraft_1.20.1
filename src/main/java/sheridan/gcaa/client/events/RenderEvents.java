@@ -86,7 +86,7 @@ public class RenderEvents {
                     ItemStack stack = player.getMainHandItem();
                     if (stack.getItem() instanceof IGun gun) {
                         if (!Clients.mainHandStatus.ads && !Clients.shouldHideFPRender) {
-                            CrossHairRenderer.INSTANCE.render(0, 16, gun, event.getGuiGraphics(), player, stack, event.getPartialTick());
+                            CrossHairRenderer.INSTANCE.render(16, gun, event.getGuiGraphics(), player, stack, event.getPartialTick());
                         }
                         event.setCanceled(true);
                     }

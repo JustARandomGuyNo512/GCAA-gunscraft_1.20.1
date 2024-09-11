@@ -537,5 +537,9 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     protected static int getTicks(float seconds) {
         return RenderAndMathUtils.secondsToTicks(seconds);
     }
+
+    public int getCrosshairType() {
+        return 0;
+    }
 }
 

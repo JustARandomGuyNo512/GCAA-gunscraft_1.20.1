@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
@@ -21,18 +22,28 @@ import sheridan.gcaa.items.gun.IGun;
 
 @Mixin(ItemRenderer.class)
 public class RenderItemMixin {
-    //private static final IGunRenderer renderer = new GunRenderer();
 
     // all model, ground, gui, other
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
     public void Other(ItemStack itemStackIn, ItemDisplayContext transformTypeIn, boolean leftHand, PoseStack poseStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, BakedModel p_115151_, CallbackInfo ci) {
         if (itemStackIn != null && itemStackIn.getItem() instanceof IGun gun) {
+            boolean overrideRender = true;
+            if (transformTypeIn == ItemDisplayContext.GUI && ClientConfig.renderVanillaModelInGuiView.get()) {
+                overrideRender = false;
+            }
+            if (transformTypeIn == ItemDisplayContext.GROUND && ClientConfig.renderVanillaModelInGroundView.get()) {
+                overrideRender = false;
+            }
+            if (overrideRender) {
+                ci.cancel();
+            } else {
+                return;
+            }
             if (!leftHand) {
                 IGunModel model = GunModelRegister.getModel(gun);
                 DisplayData displayData = GunModelRegister.getDisplayData(gun);
                 GunRenderer.justRenderModel(itemStackIn, transformTypeIn, poseStackIn, bufferIn, combinedLightIn, combinedOverlayIn, gun, model, displayData);
             }
-            ci.cancel();
         }
     }
 

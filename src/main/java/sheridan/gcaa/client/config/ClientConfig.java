@@ -10,6 +10,8 @@ public class ClientConfig {
 
     public static ForgeConfigSpec.BooleanValue renderAttachmentsInGuiView;
     public static ForgeConfigSpec.BooleanValue renderAttachmentsInGroundView;
+    public static ForgeConfigSpec.BooleanValue renderVanillaModelInGuiView;
+    public static ForgeConfigSpec.BooleanValue renderVanillaModelInGroundView;
     public static ForgeConfigSpec.BooleanValue useDynamicWeaponLighting;
 
     static {
@@ -18,6 +20,12 @@ public class ClientConfig {
         BUILDER.comment("\n");
         BUILDER.comment("在渲染地面掉落物枪械模型时是否要渲染配件，此项设置为false可降低性能消耗\nWhether to renderByModelSlotName accessories when rendering ground drop gun models. Set this to false to reduce performance costs");
         renderAttachmentsInGroundView = BUILDER.define("render_attachments_in_ground_view", true);
+        BUILDER.comment("\n");
+        BUILDER.comment("在物品栏中渲染原版枪械模型，设置为true可能大幅提升性能\nRender the vanilla gun model in the inventory, setting it to true can greatly improve performance");
+        renderVanillaModelInGuiView = BUILDER.define("render_vanilla_model_in_gui_view", false);
+        BUILDER.comment("\n");
+        BUILDER.comment("在渲染枪械掉落物时原版枪械模型，设置为true可能大幅提升性能\nWhen rendering gun item drops on ground use the vanilla gun model, setting to true may significantly improve performance");
+        renderVanillaModelInGroundView = BUILDER.define("render_vanilla_model_in_ground_view", false);
         BUILDER.comment("\n");
         BUILDER.comment("渲染枪械模型时使用随枪口火焰变化地动态亮度\nUse dynamic brightness that varies with the muzzle flame when rendering a gun model");
         useDynamicWeaponLighting = BUILDER.define("use_dynamic_weapon_lighting", true);

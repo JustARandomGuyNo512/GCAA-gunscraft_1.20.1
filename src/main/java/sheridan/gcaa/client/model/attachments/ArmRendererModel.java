@@ -55,12 +55,12 @@ public abstract class ArmRendererModel {
         return LerpAnimationPose(
                 AnimationHandler.RELOAD,
                 poseStack,
-                context.getLocalSavedPose(mainHand ? RIGHT_ARM_RENDER_REPLACE : LEFT_ARM_RENDER_REPLACE),
+                (PoseStack) context.getLocalSaved(mainHand ? RIGHT_ARM_RENDER_REPLACE : LEFT_ARM_RENDER_REPLACE),
                 0.1f, 0.9f, 0.2f, 0.2f);
     }
 
-    protected PoseStack LerpAnimationPose(String channel, PoseStack origin, PoseStack to,
-                                          float enterLerp, float exitLerp, float enterLerpSeconds, float exitLerpSeconds)  {
+    protected PoseStack LerpAnimationPose(String channel, PoseStack origin, PoseStack to, float enterLerp,
+                                          float exitLerp, float enterLerpSeconds, float exitLerpSeconds)  {
         long reloadStartTime = AnimationHandler.INSTANCE.getStartTime(channel);
         if (reloadStartTime != 0) {
             enterLerp = Mth.clamp(enterLerp, 0, exitLerp);

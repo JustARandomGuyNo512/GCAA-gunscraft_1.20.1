@@ -70,6 +70,10 @@ public class AkmModel extends GunModel {
     @Override
     public void renderAttachmentsModel(GunRenderContext context) {
         context.renderAllAttachmentsLeft(gun);
+    }
+
+    @Override
+    protected void renderPostEffect(GunRenderContext context) {
         context.renderMuzzleFlash(1.0f);
     }
 

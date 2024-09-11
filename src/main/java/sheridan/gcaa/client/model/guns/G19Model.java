@@ -57,6 +57,10 @@ public class G19Model extends GunModel {
             context.pushPose().translateTo(slide).renderScope(slot_scope).popPose();
         }
         context.renderAllAttachmentsLeft(gun);
+    }
+
+    @Override
+    protected void renderPostEffect(GunRenderContext context) {
         context.renderMuzzleFlash(1.0f);
     }
 

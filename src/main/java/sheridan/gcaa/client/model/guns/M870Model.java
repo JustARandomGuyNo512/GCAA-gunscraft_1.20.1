@@ -72,6 +72,10 @@ public class M870Model extends GunModel{
     @Override
     protected void renderAttachmentsModel(GunRenderContext context) {
         context.renderAllAttachmentsLeft(gun);
+    }
+
+    @Override
+    protected void renderPostEffect(GunRenderContext context) {
         context.renderMuzzleFlash(1.0f);
     }
 

@@ -37,12 +37,15 @@ public class ScopeX10Model implements IAttachmentModel, IScopeModel {
 
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        root.copyFrom(pose);
-        root.translateAndRotate(context.poseStack);
+        //root.copyFrom(pose);
+        //root.translateAndRotate(context.poseStack);
+        context.pushPose();
+        initTranslation(pose, context.poseStack);
         boolean active = context.isEffectiveSight(attachmentRenderEntry) && Clients.isInAds() && Clients.getAdsProgress() == 1f;
         SightViewRenderer.renderScope(active, false, 0.75f, 0.95f, context,
                 CROSSHAIR_TEXTURE, TEXTURE, crosshair, glass_shape, back_glass, back_ground, body);
-        root.resetPose();
+        context.popPose();
+        //root.resetPose();
     }
 
     @Override
@@ -64,5 +67,10 @@ public class ScopeX10Model implements IAttachmentModel, IScopeModel {
     @Override
     public float getMinDisZDistance(float prevFov) {
         return prevFov == -1 ? 0.95f : calcMinDisZDistance(0.36f, prevFov);
+    }
+
+    @Override
+    public Direction getDirection() {
+        return Direction.UPPER;
     }
 }

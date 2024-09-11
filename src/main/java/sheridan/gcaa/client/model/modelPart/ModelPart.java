@@ -178,6 +178,10 @@ public final class ModelPart {
         }
     }
 
+    public ModelPart getChildNoThrow(String childName) {
+        return this.children.get(childName);
+    }
+
     public void setPos(float x, float y, float z) {
         this.x = x;
         this.y = y;

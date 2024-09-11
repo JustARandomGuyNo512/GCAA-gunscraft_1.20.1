@@ -25,8 +25,9 @@ public class CrossHairRenderer{
     public static final ResourceLocation GUI_ICONS_LOCATION_MINECRAFT = new ResourceLocation("textures/gui/icons.png");
     private static float tempSpread;
 
-    public void render(int index, int singleQuadSize, IGun gun, GuiGraphics guiGraphics, Player player, ItemStack itemStack, float particleTick) {
-        if (gun.isSniper()) {
+    public void render(int singleQuadSize, IGun gun, GuiGraphics guiGraphics, Player player, ItemStack itemStack, float particleTick) {
+        int index = gun.getGun().getCrosshairType();
+        if (index == -1) {
             defaultCrosshair(guiGraphics);
             return;
         }

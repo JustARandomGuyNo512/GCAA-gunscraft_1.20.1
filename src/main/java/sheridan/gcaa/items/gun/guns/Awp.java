@@ -29,4 +29,9 @@ public class Awp extends HandActionGun {
     public boolean isSniper() {
         return true;
     }
+
+    @Override
+    public int getCrosshairType() {
+        return -1;
+    }
 }

@@ -37,14 +37,22 @@ public class MicroRedDotModel implements IAttachmentModel, ISightModel {
 
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        model.copyFrom(pose);
-        context.translateTo(model);
+        //model.copyFrom(pose);
+        //context.translateTo(model);
+        context.pushPose();
+        initTranslation(pose, context.poseStack);
         SightViewRenderer.renderRedDot(context.isEffectiveSight(attachmentRenderEntry), 0.025f, context, texture, Sights1.RED_DOT_CROSSHAIR, crosshair, body);
-        model.resetPose();
+        context.popPose();
+        //model.resetPose();
     }
 
     @Override
     public ModelPart getRoot() {
         return model;
+    }
+
+    @Override
+    public Direction getDirection() {
+        return Direction.UPPER;
     }
 }

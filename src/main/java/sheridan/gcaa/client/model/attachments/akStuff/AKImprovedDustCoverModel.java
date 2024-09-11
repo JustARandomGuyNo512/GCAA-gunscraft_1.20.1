@@ -40,6 +40,7 @@ public class AKImprovedDustCoverModel implements IAttachmentModel, ISlotProvider
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         dust_cover.copyFrom(pose);
+        context.pushPose();
         context.render(dust_cover, context.getBuffer(RenderType.entityCutout(texture)));
         context.translateTo(dust_cover);
         context.renderEntry(attachmentRenderEntry.getChild("s_dust_cover_scope"), slot_scope);

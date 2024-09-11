@@ -23,7 +23,6 @@ import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class GunRenderContext {
-    public static final Map<String, PoseStack> GLOBAL_POSE_STORAGE = new HashMap<>();
     public static final String LEFT_ARM_RENDER_REPLACE = "left_arm_render_replace";
     public static final String RIGHT_ARM_RENDER_REPLACE = "right_arm_render_replace";
     public MultiBufferSource bufferSource;
@@ -42,7 +41,7 @@ public class GunRenderContext {
     public long lastReload;
     public DisplayData.MuzzleFlashEntry muzzleFlashEntry;
     public AttachmentsRenderContext attachmentsRenderContext;
-    public Map<String, PoseStack> localPoseStorage;
+    public Map<String, Object> localRenderStorage;
     public int ammoLeft;
 
     public boolean renderLongArm = false;
@@ -221,41 +220,24 @@ public class GunRenderContext {
         }
     }
 
-    /**
-     * copy prev poseStack
-     * */
-    public PoseStack copyPrevPose() {
-        return RenderAndMathUtils.copyPoseStack(poseStack);
+    public void clearMuzzleFlashEntry() {
+        this.muzzleFlashEntry = null;
     }
 
     public boolean isThirdPerson() {
         return transformType == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || transformType == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND;
     }
 
-    public void saveInLocal(String key, PoseStack poseStack) {
-        if (localPoseStorage == null) {
-            localPoseStorage = new HashMap<>();
+    public void saveInLocal(String key, Object obj) {
+        if (localRenderStorage == null) {
+            localRenderStorage = new HashMap<>();
         }
-        localPoseStorage.put(key, poseStack);
+        localRenderStorage.put(key, obj);
     }
 
-    /**
-     * copy and save a poseStack instance in local renderByModelSlotName context in given index(0~9);
-     * */
-    public void copyAndSaveInLocal(String key, PoseStack poseStack) {
-        if (localPoseStorage == null) {
-            localPoseStorage = new HashMap<>();
-        }
-        localPoseStorage.put(key, RenderAndMathUtils.copyPoseStack(poseStack));
-    }
-
-    public void savePrevStack() {
-        copyAndSaveInLocal("prev_pose", poseStack);
-    }
-
-    public PoseStack getLocalSavedPose(String key) {
-        if (localPoseStorage != null) {
-            return localPoseStorage.get(key);
+    public Object getLocalSaved(String key) {
+        if (localRenderStorage != null) {
+            return localRenderStorage.get(key);
         }
         return null;
     }

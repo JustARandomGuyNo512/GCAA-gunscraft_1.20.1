@@ -67,6 +67,10 @@ public class M249Model extends GunModel{
             context.pushPose().translateTo(cover).renderScope(s_scope).popPose();
         }
         context.renderAllAttachmentsLeft(gun);
+    }
+
+    @Override
+    protected void renderPostEffect(GunRenderContext context) {
         context.renderMuzzleFlash(1.0f);
     }
 

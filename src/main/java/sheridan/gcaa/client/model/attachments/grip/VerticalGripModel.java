@@ -33,12 +33,11 @@ public class VerticalGripModel extends ArmRendererModel implements IAttachmentMo
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
-        root.copyFrom(pose);
-        context.pushPose().translateTo(root);
+        context.pushPose();
+        initTranslation(pose, context.poseStack);
         context.render(body, vertexConsumer);
         renderArm(false, RenderAndMathUtils.copyPoseStack(context.poseStack), context, attachmentRenderEntry);
         context.popPose();
-        root.resetPose();
     }
 
     @Override
@@ -66,4 +65,8 @@ public class VerticalGripModel extends ArmRendererModel implements IAttachmentMo
         return defaultShouldRenderArm(mainHand, context, entry);
     }
 
+    @Override
+    public Direction getDirection() {
+        return Direction.LOWER;
+    }
 }

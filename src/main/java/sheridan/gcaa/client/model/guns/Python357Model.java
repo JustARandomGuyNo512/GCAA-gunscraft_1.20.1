@@ -79,7 +79,10 @@ public class Python357Model extends GunModel{
     }
 
     @Override
-    protected void renderAttachmentsModel(GunRenderContext context) {
+    protected void renderAttachmentsModel(GunRenderContext context) {}
+
+    @Override
+    protected void renderPostEffect(GunRenderContext context) {
         context.renderMuzzleFlash(1.0f);
     }
 
