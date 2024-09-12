@@ -36,14 +36,15 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
 
     @Override
     public void render(GunRenderContext gunRenderContext) {
-        PoseStack poseStack = gunRenderContext.poseStack;
         if (gunRenderContext.isFirstPerson) {
-            PoseStack original = RenderAndMathUtils.copyPoseStack(poseStack);
-            handleGunTranslate(original);
-            gunRenderContext.saveInLocal(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP, poseStack);
+            Object original = gunRenderContext.getLocalSaved(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP);
+            if (original instanceof PoseStack stack) {
+                handleGunTranslate(stack);
+                gunRenderContext.saveInLocal(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP, stack);
+            }
         }
         animationGlobal(gunRenderContext);
-        handleGunTranslate(poseStack);
+        handleGunTranslate(gunRenderContext.poseStack);
         renderGunModel(gunRenderContext);
         renderAttachmentsModel(gunRenderContext);
         renderPostEffect(gunRenderContext);

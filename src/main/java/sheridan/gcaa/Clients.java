@@ -144,7 +144,7 @@ public class Clients {
                 .setInertialRecoilData(new InertialRecoilData(0.2f,0.05f,0.4f,0.07f,2.8f,0.1f,0.5f, 0.5f, new Vector3f(0.5f, 0.5f, 0.5f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 3.65f, -21.2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(1.5f))
-                .setBulletShellDisplayData(new BulletShellDisplayData(1.1f, 4.6f, -6.5f, new Vector3f(3.2f, 1.8f, 0.5f), BulletShellModel.PISTOL).setDropRate(7.5f))
+                .setBulletShellDisplayData(new BulletShellDisplayData(1.1f, 4.6f, -6.5f, new Vector3f(3.8f, 2f, 0.5f), BulletShellModel.PISTOL))
         );
 
         ArsenalLib.registerGunModel(ModItems.PYTHON_357.get(), new Python357Model(), new DisplayData()
@@ -186,7 +186,7 @@ public class Clients {
                 .setInertialRecoilData(new InertialRecoilData(0f, 0f, 0.1f, 0.05f, 0.1f,  0.05f, 0.2f, 0.2f, new Vector3f(0.6f, 0.1f, 0.5f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.9f, -127.8f).setScale(4f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
-                .setBulletShellDisplayData(new BulletShellDisplayData(2f, 5f, -10f, new Vector3f(1.5f, 0.2f, 0.3f), BulletShellModel.RIFLE).setScale(1.25f))
+                .setBulletShellDisplayData(new BulletShellDisplayData(2f, 5f, -10f, new Vector3f(1.5f, 0.2f, 0.3f), BulletShellModel.RIFLE).setScale(1.3f))
         );
 
         ArsenalLib.registerGunModel(ModItems.M870.get(), new M870Model(), new DisplayData()
@@ -214,7 +214,7 @@ public class Clients {
                 .setInertialRecoilData(new InertialRecoilData(0.01f, 0.005f, 0.42f, 0.068f, 0.6f,  0.05f, 0.4f, 0.3f, new Vector3f(0.6f, 0.45f, 0.3f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 5.7f, -113.1f).setScale(2.1f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
-                .setBulletShellDisplayData(new BulletShellDisplayData(3.2f, 0.4f, -18.6f, new Vector3f(1.35f, 0.2f, 0.1f), BulletShellModel.RIFLE))
+                .setBulletShellDisplayData(new BulletShellDisplayData(3.2f, 0.4f, -18.6f, new Vector3f(1.35f, 0.2f, 0.1f), BulletShellModel.RIFLE).setScale(1.1f))
         );
 
         //attachment models register

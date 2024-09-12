@@ -24,6 +24,7 @@ import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import static net.minecraft.world.item.ItemDisplayContext.*;
 
@@ -91,9 +92,6 @@ public class GunRenderer{
                 if (Clients.shouldHideFPRender) {
                     return;
                 }
-                if (inertialRecoilData != null) {
-                    AnimationHandler.INSTANCE.applyInertialRecoil(poseStack, inertialRecoilData);
-                }
 
                 if (ClientConfig.useDynamicWeaponLighting.get()) {
                     long dis = (System.currentTimeMillis() - Clients.lastShootMain());
@@ -105,7 +103,15 @@ public class GunRenderer{
                                 BlockPos.containing(entityIn.getEyePosition(particleTick))));
                     }
                 }
-                model.render(GunRenderContext.getLocalMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn));
+                GunRenderContext context = GunRenderContext.getLocalMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn);
+                if (context.isFirstPerson) {
+                    PoseStack original = RenderAndMathUtils.copyPoseStack(poseStack);
+                    context.saveInLocal(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP, original);
+                }
+                if (inertialRecoilData != null) {
+                    AnimationHandler.INSTANCE.applyInertialRecoil(context.poseStack, inertialRecoilData);
+                }
+                model.render(context);
             } else {
                 if (entityIn instanceof Player player) {
                     stackIn.mulPose(Axis.ZP.rotationDegrees(180));
