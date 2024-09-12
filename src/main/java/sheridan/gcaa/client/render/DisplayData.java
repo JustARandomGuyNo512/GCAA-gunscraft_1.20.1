@@ -10,6 +10,7 @@ import org.joml.Quaternionf;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
+import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlash;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
 import sheridan.gcaa.utils.RenderAndMathUtils;
@@ -36,6 +37,7 @@ public class DisplayData {
     private final boolean[][] emptyMarks = new boolean[][]{{}, {}, {}, {}, {}, {}, {}};
     private final Map<String, MuzzleFlashEntry> muzzleFlashMap = new HashMap<>();
     private InertialRecoilData inertialRecoilData;
+    private BulletShellDisplayData bulletShellDisplayData;
 
     public DisplayData() {
     }
@@ -159,6 +161,10 @@ public class DisplayData {
         return this.inertialRecoilData;
     }
 
+    public BulletShellDisplayData getBulletShellDisplayData() {
+        return bulletShellDisplayData;
+    }
+
     public DisplayData set(int index, float val, DataType type) {
         checkAndSet(index, val, val, val, type);
         return this;
@@ -182,6 +188,11 @@ public class DisplayData {
 
     public DisplayData setThirdPersonRight(float x, float y, float z, DataType type) {
         checkAndSet(THIRD_PERSON_RIGHT, x, y, z, type);
+        return this;
+    }
+
+    public DisplayData setBulletShellDisplayData(BulletShellDisplayData bulletShellDisplayData) {
+        this.bulletShellDisplayData = bulletShellDisplayData;
         return this;
     }
 

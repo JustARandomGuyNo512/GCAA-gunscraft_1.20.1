@@ -62,4 +62,5 @@ public interface IGun {
     default void beforeGunDataUpdate(ItemStack stack) {}
     default void afterGunDataUpdate(ItemStack stack) {}
     default boolean shouldUpdate(ItemStack stack) { return getDate(stack) != Commons.SERVER_START_TIME;}
+    default boolean shootCreateBulletShell() {return true;}
 }

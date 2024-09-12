@@ -20,4 +20,9 @@ public class Python357 extends Gun {
                 6, 1.5f, 1.2f, 0.12f, 0.1f, 6,
                 List.of(new Charge(3, "double_action", false)), ModSounds.PYTHON_357_FIRE, null, caliber));
     }
+
+    @Override
+    public boolean shootCreateBulletShell() {
+        return false;
+    }
 }

@@ -8,6 +8,9 @@ import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
+import sheridan.gcaa.client.render.DisplayData;
+import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
+import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
@@ -21,13 +24,15 @@ public class HandActionTask implements IHandActionTask{
     private final int startDelay;
     private final int length;
     private final String handActionAnimationName;
+    private int throwBulletShellDelay;
 
-    public HandActionTask(ItemStack itemStack, HandActionGun gun, int startDelay, int length, String handActionAnimationName){
+    public HandActionTask(ItemStack itemStack, HandActionGun gun, int startDelay, int length, String handActionAnimationName, int throwBulletShellDelay){
         this.itemStack = itemStack;
         this.length = length + startDelay;
         this.startDelay = startDelay;
         this.handActionAnimationName = handActionAnimationName;
         this.gun = gun;
+        this.throwBulletShellDelay = throwBulletShellDelay;
     }
 
     @Override
@@ -44,6 +49,13 @@ public class HandActionTask implements IHandActionTask{
                 if (definition != null){
                     AnimationHandler.INSTANCE.startHandAction(definition);
                 }
+            }
+        }
+        if (tick == throwBulletShellDelay + startDelay) {
+            DisplayData displayData = GunModelRegister.getDisplayData(gun);
+            BulletShellDisplayData bulletShellDisplayData = displayData.getBulletShellDisplayData();
+            if (bulletShellDisplayData != null) {
+                BulletShellRenderer.push(bulletShellDisplayData, System.currentTimeMillis());
             }
         }
         if (tick == length) {

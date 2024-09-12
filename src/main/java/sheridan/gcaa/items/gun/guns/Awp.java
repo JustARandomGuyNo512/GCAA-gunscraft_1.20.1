@@ -22,7 +22,7 @@ public class Awp extends HandActionGun {
                         10, 3.5f, 1f, 0.1f, 0.1f, 22,
                         List.of(HandAction.HAND_ACTION),
                         ModSounds.AWP_FIRE, ModSounds.AWP_FIRE_SUPPRESSED, caliber),
-                new HandActionExtension("bolt_action", getTicks(0.5f), getTicks(1.25f)));
+                new HandActionExtension("bolt_action", getTicks(0.5f), getTicks(1.25f), 8));
     }
 
     @Override
@@ -33,5 +33,10 @@ public class Awp extends HandActionGun {
     @Override
     public int getCrosshairType() {
         return -1;
+    }
+
+    @Override
+    public boolean shootCreateBulletShell() {
+        return false;
     }
 }

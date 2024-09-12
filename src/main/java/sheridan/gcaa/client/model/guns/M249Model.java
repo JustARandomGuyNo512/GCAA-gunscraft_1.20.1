@@ -52,7 +52,6 @@ public class M249Model extends GunModel{
     @Override
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer bodyVertex = context.getBuffer(RenderType.entityCutout(TEXTURE));
-        //handleBulletChain(context, bullets);
         BulletChainHandler.handleBulletChain(context, bullets, 2400L);
         context.render(bodyVertex, muzzle, barrel, handguard, body, stock, charge, mag, grip, handle);
         VertexConsumer coverVertex = context.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
@@ -71,6 +70,7 @@ public class M249Model extends GunModel{
 
     @Override
     protected void renderPostEffect(GunRenderContext context) {
+        context.renderBulletShell();
         context.renderMuzzleFlash(1.0f);
     }
 

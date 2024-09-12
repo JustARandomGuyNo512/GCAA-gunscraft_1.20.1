@@ -167,4 +167,8 @@ public class ClientWeaponStatus {
     public AttachmentSlot getRightArmReplace() {
         return  attachmentsStatus == null ? null : attachmentsStatus.rightArmReplace;
     }
+
+    public boolean isHoldingGun() {
+        return holdingGun.get();
+    }
 }

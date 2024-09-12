@@ -10,6 +10,7 @@ import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.Map;
 import java.util.Optional;
@@ -36,9 +37,13 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     @Override
     public void render(GunRenderContext gunRenderContext) {
         PoseStack poseStack = gunRenderContext.poseStack;
+        if (gunRenderContext.isFirstPerson) {
+            PoseStack original = RenderAndMathUtils.copyPoseStack(poseStack);
+            handleGunTranslate(original);
+            gunRenderContext.saveInLocal(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP, poseStack);
+        }
         animationGlobal(gunRenderContext);
-        root.translateAndRotate(poseStack);
-        gun.translateAndRotate(poseStack);
+        handleGunTranslate(poseStack);
         renderGunModel(gunRenderContext);
         renderAttachmentsModel(gunRenderContext);
         renderPostEffect(gunRenderContext);

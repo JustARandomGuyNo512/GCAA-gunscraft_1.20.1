@@ -31,6 +31,7 @@ import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
+import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.calibers.Caliber;
@@ -475,6 +476,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             //切勿改动！！！
             ReloadingHandler.INSTANCE.cancelTask();
             HandActionHandler.INSTANCE.breakTask();
+            BulletShellRenderer.clear();
             Clients.mainHandStatus.buttonDown.set(false);
             Clients.mainHandStatus.ads = false;
             Clients.setEquipDelay(3);

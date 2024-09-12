@@ -20,6 +20,8 @@ import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.model.guns.IGunModel;
+import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
+import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.items.gun.IGun;
 
@@ -78,6 +80,12 @@ public class GunRenderer{
                     AnimationDefinition recoil = model.getRecoil();
                     if (recoil != null) {
                         AnimationHandler.INSTANCE.pushRecoil(recoil, tempLastFire);
+                    }
+                    if (gun.shootCreateBulletShell()) {
+                        BulletShellDisplayData bulletShellDisplayData = displayData.getBulletShellDisplayData();
+                        if (bulletShellDisplayData != null) {
+                            BulletShellRenderer.push(bulletShellDisplayData, tempLastFire);
+                        }
                     }
                 }
                 if (Clients.shouldHideFPRender) {

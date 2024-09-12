@@ -74,6 +74,7 @@ public class AkmModel extends GunModel {
 
     @Override
     protected void renderPostEffect(GunRenderContext context) {
+        context.renderBulletShell();
         context.renderMuzzleFlash(1.0f);
     }
 

@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -34,6 +35,7 @@ import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.GlobalWeaponBobbing;
 import sheridan.gcaa.client.render.GunRenderer;
+import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.client.render.gui.crosshair.CrossHairRenderer;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.client.screens.AttachmentsScreen;
@@ -71,6 +73,17 @@ public class RenderEvents {
                 if (Minecraft.getInstance().options.bobView().get()) {
                     GlobalWeaponBobbing.INSTANCE.update(event.getPartialTick(), status.equipProgress);
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRenderTick(TickEvent.RenderTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            if (Clients.mainHandStatus.isHoldingGun()) {
+                BulletShellRenderer.update();
+            } else {
+                BulletShellRenderer.clear();
             }
         }
     }

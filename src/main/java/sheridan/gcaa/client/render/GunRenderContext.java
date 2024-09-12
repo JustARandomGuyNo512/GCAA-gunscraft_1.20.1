@@ -13,6 +13,7 @@ import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
+import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
@@ -25,6 +26,7 @@ import java.util.Objects;
 public class GunRenderContext {
     public static final String LEFT_ARM_RENDER_REPLACE = "left_arm_render_replace";
     public static final String RIGHT_ARM_RENDER_REPLACE = "right_arm_render_replace";
+    public static final String ORIGINAL_GUN_VIEW_POSE_FP = "original_gun_view_pose_fp";
     public MultiBufferSource bufferSource;
     public PoseStack poseStack;
     public ItemStack itemStack;
@@ -212,6 +214,12 @@ public class GunRenderContext {
     public GunRenderContext translateTo(ModelPart posePart) {
         posePart.translateAndRotate(poseStack);
         return this;
+    }
+
+    public void renderBulletShell() {
+        if (isFirstPerson) {
+            BulletShellRenderer.render(this);
+        }
     }
 
     public void renderMuzzleFlash(float scale) {

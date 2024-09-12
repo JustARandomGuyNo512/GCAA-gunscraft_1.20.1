@@ -71,6 +71,7 @@ public class M870Model extends GunModel{
 
     @Override
     protected void renderAttachmentsModel(GunRenderContext context) {
+        context.renderBulletShell();
         context.renderAllAttachmentsLeft(gun);
     }
 
