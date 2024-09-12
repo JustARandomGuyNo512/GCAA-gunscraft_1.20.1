@@ -13,18 +13,18 @@ public abstract class ScopeModel extends SightModel {
     public abstract float getMinDisZDistance(float prevFov);
 
     public float calcMinDisZDistance(float defaultVal, float prevFov)  {
-        if (useAimingModelFovModify() && Clients.isInAds()) {
+        if (useModelFovModifyWhenAds() && Clients.isInAds()) {
             double tanNew = Math.tan(Math.toRadians(prevFov / 2.0));
             return (float) (defaultVal * (getNormalField() / tanNew));
         }
         return defaultVal;
     }
 
-    public float aimingModelFovModify() {
+    public float modelFovModifyWhenAds() {
         return 8.5f;
     }
 
-    public boolean useAimingModelFovModify() {
+    public boolean useModelFovModifyWhenAds() {
         return true;
     }
 }

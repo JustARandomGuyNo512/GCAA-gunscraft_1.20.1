@@ -24,8 +24,8 @@ public class ClientWeaponStatus {
     public final AtomicBoolean buttonDown;
     public final AtomicBoolean holdingGun;
     public final AtomicInteger fireDelay;
-    public boolean ads;
     public final AtomicReference<ItemStack> weapon;
+    public boolean ads;
     public float equipProgress;
     public int fireCount = 0;
     public int chargeTick = 0;

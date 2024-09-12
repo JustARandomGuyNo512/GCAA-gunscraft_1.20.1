@@ -8,6 +8,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
@@ -89,21 +90,22 @@ public class ControllerEvents {
     public static void onMouseButton(InputEvent.MouseButton.Pre event) {
         if (shouldHandleInputEvent()) {
             Player player = Minecraft.getInstance().player;
-            if (player != null && !player.isSpectator()) {
-                ItemStack stack = player.getMainHandItem();
-                if (stack.getItem() instanceof IGun gun) {
-                    if (event.getButton() == 0) {
-                        if (event.getAction() == 1) {
-                            Clients.mainHandStatus.buttonDown.set(Clients.allowFireBtnDown(stack, gun, player));
-                        } else if (event.getAction() == 0) {
-                            Clients.mainHandStatus.buttonDown.set(false);
-                        }
+            if (player == null || player.isSpectator()) {
+                return;
+            }
+            ItemStack stack = player.getMainHandItem();
+            if (stack.getItem() instanceof IGun gun) {
+                if (event.getButton() == 0) {
+                    if (event.getAction() == 1) {
+                        Clients.mainHandStatus.buttonDown.set(Clients.allowFireBtnDown(stack, gun, player));
+                    } else if (event.getAction() == 0) {
+                        Clients.mainHandStatus.buttonDown.set(false);
+                    }
+                    event.setCanceled(true);
+                } else if (event.getButton() == 1) {
+                    if (shouldHandleRightClick()) {
+                        Clients.mainHandStatus.ads = (event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
                         event.setCanceled(true);
-                    } else if (event.getButton() == 1) {
-                        if (shouldHandleRightClick()) {
-                            Clients.mainHandStatus.ads = (event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
-                            event.setCanceled(true);
-                        }
                     }
                 }
             }

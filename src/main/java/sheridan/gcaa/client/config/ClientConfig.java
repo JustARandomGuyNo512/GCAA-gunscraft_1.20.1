@@ -13,6 +13,7 @@ public class ClientConfig {
     public static ForgeConfigSpec.BooleanValue renderVanillaModelInGuiView;
     public static ForgeConfigSpec.BooleanValue renderVanillaModelInGroundView;
     public static ForgeConfigSpec.BooleanValue useDynamicWeaponLighting;
+    public static ForgeConfigSpec.BooleanValue alwaysSlimArm;
 
     static {
         BUILDER.comment("在渲染GUI中的枪械模型时是否要渲染配件，此项设置为false可降低性能消耗\nWhether to renderByModelSlotName attachments when rendering a gun model in the GUI. Setting this to false reduces performance costs");
@@ -29,6 +30,9 @@ public class ClientConfig {
         BUILDER.comment("\n");
         BUILDER.comment("渲染枪械模型时使用随枪口火焰变化地动态亮度\nUse dynamic brightness that varies with the muzzle flame when rendering a gun model");
         useDynamicWeaponLighting = BUILDER.define("use_dynamic_weapon_lighting", true);
+        BUILDER.comment("\n");
+        BUILDER.comment("渲染手臂时使用女性玩家模型的手臂尺寸，这是GCAA在开发时的配置，更改为true可获得更好视觉体验\nThe arm is rendered using the arm size of the female player model, which was configured by GCAA at the time of development. Change to true for a better visual experience");
+        alwaysSlimArm = BUILDER.define("always_slim_arm", false);
         SPEC = BUILDER.build();
     }
 

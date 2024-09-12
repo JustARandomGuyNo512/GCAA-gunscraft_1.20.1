@@ -7,26 +7,33 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.items.gun.HandActionGun;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @OnlyIn(Dist.CLIENT)
 public class HandActionHandler {
+    private static final Map<String, Object> TEMP = new HashMap<>();
     public static final HandActionHandler INSTANCE = new HandActionHandler();
     private IHandActionTask handActionTask;
     public static long lastEndTask = 0;
     public static long lastStartTask = 0;
+    public static boolean lastTaskFinished = false;
 
     public void tick(Player clientPlayer) {
         if (handActionTask != null && !Minecraft.getInstance().isPaused() && !clientPlayer.isSpectator()) {
             if (handActionTask != null) {
                 boolean shouldCancel = !ItemStack.isSameItem(clientPlayer.getMainHandItem(), handActionTask.getItemStack());
                 if (shouldCancel) {
-                    breakTask();
                     lastEndTask = System.currentTimeMillis();
+                    lastTaskFinished = false;
+                    breakTask();
                     return;
                 }
                 handActionTask.tick(clientPlayer);
                 if (handActionTask.isCompleted()) {
                     lastEndTask = System.currentTimeMillis();
                     handActionTask = null;
+                    lastTaskFinished = true;
                 }
             }
         }
@@ -60,5 +67,13 @@ public class HandActionHandler {
                 lastStartTask = System.currentTimeMillis();
             }
         }
+    }
+
+    public static void setTempValue(String key, Object value) {
+        TEMP.put(key, value);
+    }
+
+    public static Object getTempValue(String key) {
+        return TEMP.get(key);
     }
 }

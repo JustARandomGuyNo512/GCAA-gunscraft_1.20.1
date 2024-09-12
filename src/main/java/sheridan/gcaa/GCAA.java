@@ -44,7 +44,6 @@ public class GCAA {
 
     public static final String MODID = "gcaa";
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static final int INNER_VERSION = 1;
 
     public GCAA() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

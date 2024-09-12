@@ -42,11 +42,12 @@ public class AKImprovedHandguardModel implements IAttachmentModel, ISlotProvider
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         handguard.copyFrom(pose);
         context.render(handguard, context.getBuffer(RenderType.entityCutout(texture)));
-        context.translateTo(handguard);
+        context.pushPose().translateTo(handguard);
         context.renderEntry(attachmentRenderEntry.getChild("s_handguard_grip"), slot_handguard_grip);
         context.renderEntry(attachmentRenderEntry.getChild("s_handguard_sight"), slot_handguard_sight);
         context.renderEntry(attachmentRenderEntry.getChild("s_handguard_left"), slot_handguard_left);
         context.renderEntry(attachmentRenderEntry.getChild("s_handguard_right"), slot_handguard_right);
+        context.popPose();
         handguard.resetPose();
     }
 

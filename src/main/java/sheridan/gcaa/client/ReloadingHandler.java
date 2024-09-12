@@ -7,8 +7,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.items.gun.IGun;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @OnlyIn(Dist.CLIENT)
 public class ReloadingHandler {
+    private static final Map<String, Object> TEMP = new HashMap<>();
     public static final ReloadingHandler INSTANCE = new ReloadingHandler();
     public static final int EMPTY_PAYLOAD = -1;
     private int lastPayload = EMPTY_PAYLOAD;
@@ -122,5 +126,13 @@ public class ReloadingHandler {
                 }
             }
         }
+    }
+
+    public static void setTempValue(String key, Object value) {
+        TEMP.put(key, value);
+    }
+
+    public static Object getTempValue(String key) {
+        return TEMP.get(key);
     }
 }

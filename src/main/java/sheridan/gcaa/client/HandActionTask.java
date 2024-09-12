@@ -24,7 +24,7 @@ public class HandActionTask implements IHandActionTask{
     private final int startDelay;
     private final int length;
     private final String handActionAnimationName;
-    private int throwBulletShellDelay;
+    public int throwBulletShellDelay;
 
     public HandActionTask(ItemStack itemStack, HandActionGun gun, int startDelay, int length, String handActionAnimationName, int throwBulletShellDelay){
         this.itemStack = itemStack;
@@ -51,7 +51,7 @@ public class HandActionTask implements IHandActionTask{
                 }
             }
         }
-        if (tick == throwBulletShellDelay + startDelay) {
+        if (startDelay != 0 && tick == throwBulletShellDelay + startDelay) {
             DisplayData displayData = GunModelRegister.getDisplayData(gun);
             BulletShellDisplayData bulletShellDisplayData = displayData.getBulletShellDisplayData();
             if (bulletShellDisplayData != null) {
@@ -59,8 +59,10 @@ public class HandActionTask implements IHandActionTask{
             }
         }
         if (tick == length) {
-            gun.setNeedHandAction(itemStack, gun.getAmmoLeft(itemStack) == 0);
-            PacketHandler.simpleChannel.sendToServer(new DoneHandActionPacket());
+            if (gun.getAmmoLeft(itemStack) > 0) {
+                PacketHandler.simpleChannel.sendToServer(new DoneHandActionPacket());
+                gun.setNeedHandAction(itemStack, false);
+            }
         }
         tick++;
     }
@@ -76,7 +78,5 @@ public class HandActionTask implements IHandActionTask{
     }
 
     @Override
-    public void start() {
-
-    }
+    public void start() {}
 }

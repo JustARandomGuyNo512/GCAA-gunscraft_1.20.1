@@ -164,7 +164,7 @@ public class RenderEvents {
                 }
                 if (stack.getItem() instanceof HandActionGun handActionGun) {
                     event.getGuiGraphics().flush();
-                    ResourceLocation texture = (handActionGun.needHandAction(stack)) ? CHAMBER_EMPTY : CHAMBER_FILLED;
+                    ResourceLocation texture = (handActionGun.needHandAction(stack) || gun.getAmmoLeft(stack) == 0) ? CHAMBER_EMPTY : CHAMBER_FILLED;
                     RenderSystem.enableBlend();
                     event.getGuiGraphics().blit(texture, (int) (0.8f * window.getGuiScaledWidth()), (int) (0.9f * window.getGuiScaledHeight()),  0,0, 8,8, 8, 8);
                     RenderSystem.disableBlend();
@@ -289,11 +289,11 @@ public class RenderEvents {
                 return;
             } else {
                 if (AttachmentsRegister.getModel(scope) instanceof ScopeModel scopeModel) {
-                    if (scopeModel.useAimingModelFovModify()) {
-                        double newFov = Mth.lerp(Math.pow(adsProgress, 4), prevFov, scopeModel.aimingModelFovModify());
+                    if (scopeModel.useModelFovModifyWhenAds()) {
+                        double newFov = Mth.lerp(Math.pow(adsProgress, 4), prevFov, scopeModel.modelFovModifyWhenAds());
                         event.setFOV(newFov);
                         Clients.weaponAdsZMinDistance = scopeModel.getMinDisZDistance(
-                                (float) Mth.lerp(adsProgress, prevFov, scopeModel.aimingModelFovModify()));
+                                (float) Mth.lerp(adsProgress, prevFov, scopeModel.modelFovModifyWhenAds()));
                     } else {
                         Clients.weaponAdsZMinDistance = scopeModel.getMinDisZDistance(-1);
                     }

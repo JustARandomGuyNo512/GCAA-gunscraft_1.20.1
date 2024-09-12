@@ -37,7 +37,7 @@ public class GunRenderer{
             poseStack.mulPose(Axis.ZP.rotationDegrees(180));
             displayData.applyAttachmentScreenTransform(poseStack, x, y, rx, ry, scale);
             poseStack.pushPose();
-            model.render(GunRenderContext.getLocalMainHand(bufferSource, poseStack, itemStack, gun, FIXED, null, 15728880, 655360));
+            model.render(GunRenderContext.getClientMainHand(bufferSource, poseStack, itemStack, gun, FIXED, null, 15728880, 655360));
             poseStack.popPose();
             if (context != null) {
                 context.updateIconPos(poseStack, model);
@@ -92,9 +92,8 @@ public class GunRenderer{
                 if (Clients.shouldHideFPRender) {
                     return;
                 }
-
                 if (ClientConfig.useDynamicWeaponLighting.get()) {
-                    long dis = (System.currentTimeMillis() - Clients.lastShootMain());
+                    long dis = (System.currentTimeMillis() - tempLastFire);
                     if (dis < 25) {
                         float particleTick = Minecraft.getInstance().getPartialTick();
                         int blockLight = entityIn.isOnFire() ? 15 :
@@ -103,7 +102,7 @@ public class GunRenderer{
                                 BlockPos.containing(entityIn.getEyePosition(particleTick))));
                     }
                 }
-                GunRenderContext context = GunRenderContext.getLocalMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn);
+                GunRenderContext context = GunRenderContext.getClientMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn);
                 if (context.isFirstPerson) {
                     PoseStack original = RenderAndMathUtils.copyPoseStack(poseStack);
                     context.saveInLocal(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP, original);
@@ -118,7 +117,7 @@ public class GunRenderer{
                     displayData.applyTransform(type, stackIn);
                     boolean isLocalPlayer = player == Minecraft.getInstance().player;
                     if (isLocalPlayer) {
-                        model.render(GunRenderContext.getLocalMainHand(bufferIn, stackIn, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn));
+                        model.render(GunRenderContext.getClientMainHand(bufferIn, stackIn, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn));
                     } else {
                         long lastShoot = PlayerStatusProvider.getStatus(player).getLastShoot() + 80L;
                         model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry, lastShoot, true));

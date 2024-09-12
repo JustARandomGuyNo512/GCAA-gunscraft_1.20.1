@@ -50,7 +50,7 @@ public class GunRenderContext {
 
     private static String lastAttachmentContextUUID = "none";
     private static AttachmentsRenderContext tempAttachmentContext = null;
-    public static GunRenderContext getLocalMainHand(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, DisplayData.MuzzleFlashEntry muzzleFlashEntry, int packedLight, int packedOverlay) {
+    public static GunRenderContext getClientMainHand(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, DisplayData.MuzzleFlashEntry muzzleFlashEntry, int packedLight, int packedOverlay) {
         GunRenderContext context = new GunRenderContext(bufferSource, poseStack, itemStack, gun, transformType, packedLight, packedOverlay, muzzleFlashEntry, Clients.lastShootMain() + 10L, false);
         String uuid = gun.getAttachmentsModifiedUUID(itemStack);
         if (!lastAttachmentContextUUID.equals(uuid)) {

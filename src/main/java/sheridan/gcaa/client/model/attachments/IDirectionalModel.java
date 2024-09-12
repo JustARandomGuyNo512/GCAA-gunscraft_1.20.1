@@ -25,7 +25,7 @@ public interface IDirectionalModel {
         if (slotDirection != NO_DIRECTION) {
             byte thisDirection = getDirection();
             if (thisDirection == NO_DIRECTION) {
-                throw new IllegalStateException("Directional Attachment model must have a direction: UPPER or LOWER");
+                throw new IllegalStateException("Directional Attachment model must have a direction: UPPER(" + UPPER + ") or LOWER(" + LOWER + ")");
             }
             if (thisDirection != slotDirection) {
                 root.zRot += R_180;
