@@ -44,6 +44,7 @@ public class AKImprovedDustCoverModel implements IAttachmentModel, ISlotProvider
         context.render(dust_cover, context.getBuffer(RenderType.entityCutout(texture)));
         context.translateTo(dust_cover);
         context.renderEntry(attachmentRenderEntry.getChild("s_dust_cover_scope"), slot_scope);
+        context.popPose();
         dust_cover.resetPose();
     }
 

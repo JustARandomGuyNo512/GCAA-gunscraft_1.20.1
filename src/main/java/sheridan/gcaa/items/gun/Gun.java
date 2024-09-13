@@ -120,6 +120,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             spread *= 0.7f;
         }
         Clients.mainHandStatus.spread += spread;
+        setAmmoLeft(stack, getAmmoLeft(stack) > 0 ? getAmmoLeft(stack) - 1 : 0);
     }
 
     @OnlyIn(Dist.CLIENT)

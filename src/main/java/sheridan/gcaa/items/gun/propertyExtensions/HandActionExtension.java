@@ -37,4 +37,5 @@ public class HandActionExtension extends PropertyExtension {
     public boolean hasRateProperty(String name) {
         return false;
     }
+
 }

@@ -54,8 +54,12 @@ public class HandActionGun extends Gun{
     }
 
     public IHandActionTask getHandActionTask(ItemStack stack, boolean immediate) {
-        return new HandActionTask(stack, this, immediate ? 0 : handActionExtension.startDelay,
-                handActionExtension.length, handActionExtension.handActionAnimationName, handActionExtension.throwBulletShellDelay);
+        return new HandActionTask(
+                stack, this,
+                immediate ? 0 : handActionExtension.startDelay,
+                handActionExtension.length,
+                handActionExtension.handActionAnimationName,
+                handActionExtension.throwBulletShellDelay);
     }
 
     @Override
