@@ -25,7 +25,7 @@ public class Commons {
                 .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")))
                 .addChild(new AttachmentSlot(STOCK, Set.of()))
-                .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover")))
+                .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover", "gcaa:ak_improved_dust_cover_b")))
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.G19.get(), AttachmentSlot.root()

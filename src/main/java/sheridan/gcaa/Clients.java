@@ -29,6 +29,7 @@ import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.ClientWeaponLooper;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.model.BulletShellModel;
+import sheridan.gcaa.client.model.attachments.akStuff.AKImprovedDustCoverBModel;
 import sheridan.gcaa.client.model.attachments.akStuff.AKImprovedDustCoverModel;
 import sheridan.gcaa.client.model.attachments.akStuff.AKRailBracketModel;
 import sheridan.gcaa.client.model.attachments.grip.VerticalGripModel;
@@ -167,7 +168,7 @@ public class Clients {
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
                 .setAds(0,14,-11, POS)
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
-                .setInertialRecoilData(new InertialRecoilData(0.01f, 0.005f, 0.6f, 0.08f, 0.9f,  0.07f, 0.5f, 0.3f, new Vector3f(0.55f, 0.45f, 0.5f)))
+                .setInertialRecoilData(new InertialRecoilData(0f, 0f, 0.5f, 0.08f, 0.8f,  0.06f, 0.5f, 0.3f, new Vector3f(0.55f, 0.45f, 0.5f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.9f, -99f).setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setScale(3f))
@@ -224,6 +225,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.AK_IMPROVED_HANDGUARD.get(), new AKImprovedHandguardModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_RAIL_BRACKET.get(), new AKRailBracketModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_IMPROVED_DUST_COVER.get(), new AKImprovedDustCoverModel());
+        ArsenalLib.registerAttachmentModel(ModItems.AK_IMPROVED_DUST_COVER_B.get(), new AKImprovedDustCoverBModel());
         ArsenalLib.registerAttachmentModel(ModItems.MICRO_RED_DOT.get(), new MicroRedDotModel());
         ArsenalLib.registerAttachmentModel(ModItems.RED_DOT.get(), new RedDotModel());
         ArsenalLib.registerAttachmentModel(ModItems.HOLOGRAPHIC.get(), new HolographicModel());
