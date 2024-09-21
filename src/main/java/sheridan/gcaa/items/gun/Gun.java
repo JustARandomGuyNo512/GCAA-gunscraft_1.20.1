@@ -474,7 +474,6 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         if (slotChanged) {
-            //切勿改动！！！
             ReloadingHandler.INSTANCE.cancelTask();
             HandActionHandler.INSTANCE.breakTask();
             BulletShellRenderer.clear();

@@ -10,6 +10,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector4f;
 import sheridan.gcaa.Clients;
 
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -36,6 +37,7 @@ public class InertialRecoilHandler {
     private float randomXSpeed;
     private float randomYSpeed;
     private long startTime;
+    private final int[] finished = new int[] {0, 0, 0, 0, 0};
 
     public void applyTransform(PoseStack poseStack, int id, boolean aiming) {
         if (data.get() == null) {
@@ -83,6 +85,7 @@ public class InertialRecoilHandler {
                 backSpeed += data.back * pRate;
                 rotateSpeed += data.rotate * pRate;
                 upSpeed += data.up;
+                Arrays.fill(finished, 0);
                 this.data.set(data);
                 enabled.set(true);
             } finally {
@@ -101,6 +104,7 @@ public class InertialRecoilHandler {
         rotate = rotateSpeed = 0;
         randomX = randomXSpeed = 0;
         randomY = randomYSpeed = 0;
+        Arrays.fill(finished, 0);
         this.data.set(null);
         this.enabled.set(!disable);
     }
@@ -132,6 +136,7 @@ public class InertialRecoilHandler {
                 }
                 if (shouldClear(backSpeed, back)) {
                     back = backSpeed = 0;
+                    finished[0] = 1;
                 }
 
                 if (up != 0 || upSpeed != 0) {
@@ -141,6 +146,7 @@ public class InertialRecoilHandler {
                 }
                 if (shouldClear(upSpeed, up)) {
                     upSpeed = up = 0;
+                    finished[1] = 1;
                 }
 
                 if (rotate != 0 || rotateSpeed != 0) {
@@ -150,6 +156,7 @@ public class InertialRecoilHandler {
                 }
                 if (shouldClear(rotateSpeed, rotate)) {
                     rotateSpeed = rotate = 0;
+                    finished[2] = 1;
                 }
 
                 if (randomX != 0 || randomXSpeed != 0) {
@@ -159,6 +166,7 @@ public class InertialRecoilHandler {
                 }
                 if (shouldClear(randomXSpeed, randomX)) {
                     randomXSpeed = randomX = 0;
+                    finished[3] = 1;
                 }
 
                 if (randomY != 0 || randomYSpeed != 0) {
@@ -168,9 +176,17 @@ public class InertialRecoilHandler {
                 }
                 if (shouldClear(randomYSpeed, randomY)) {
                     randomYSpeed = randomY = 0;
+                    finished[4] = 1;
                 }
 
-                if (System.currentTimeMillis() - startTime > 1500) {
+                boolean clear = true;
+                for (int v : finished) {
+                    if (v == 0) {
+                        clear = false;
+                        break;
+                    }
+                }
+                if (clear) {
                     clear(true);
                 }
             } finally {

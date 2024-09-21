@@ -69,12 +69,14 @@ public class Python357Model extends GunModel{
             handleChargeAnimation(context);
         }
         context.render(vertexConsumer, body, hammer, mag);
-        if (ReloadingHandler.isReloading()) {
+        if (ReloadingHandler.isReloading() && context.isFirstPerson) {
             context.pushPose().translateTo(reloading_arm).render(loader, vertexConsumer);
             context.popPose();
         }
         ModelPart leftArm = left_arm.xScale == 0 ? reloading_arm : left_arm;
-        context.renderArm(leftArm, false);
+        if (context.shouldShowLeftArm()) {
+            context.renderArm(leftArm, false);
+        }
         context.renderArm(right_arm, true);
     }
 
@@ -90,8 +92,10 @@ public class Python357Model extends GunModel{
     protected void animationGlobal(GunRenderContext context) {
         if (context.isFirstPerson) {
             AnimationHandler.INSTANCE.applyRecoil(this);
-            AnimationHandler.INSTANCE.applyReload(this);
-            CameraAnimationHandler.INSTANCE.mix(camera);
+            if (!ReloadingHandler.isReloadingGeneric()) {
+                AnimationHandler.INSTANCE.applyReload(this);
+                CameraAnimationHandler.INSTANCE.mix(camera);
+            }
         }
     }
 

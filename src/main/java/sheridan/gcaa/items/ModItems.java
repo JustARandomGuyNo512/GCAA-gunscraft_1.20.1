@@ -36,7 +36,7 @@ public class ModItems {
     public static final RegistryObject<AKImprovedHandguard> AK_IMPROVED_HANDGUARD = ITEMS.register("ak_improved_handguard", AKImprovedHandguard::new);
     public static final RegistryObject<AKRailBracket> AK_RAIL_BRACKET = ITEMS.register("ak_rail_bracket", AKRailBracket::new);
     public static final RegistryObject<AKImprovedDustCover> AK_IMPROVED_DUST_COVER = ITEMS.register("ak_improved_dust_cover", AKImprovedDustCover::new);
-    public static final RegistryObject<AKImprovedDustCoverB> AK_IMPROVED_DUST_COVER_B = ITEMS.register("ak_improved_dust_cover_b", AKImprovedDustCoverB::new);
+    //public static final RegistryObject<AKImprovedDustCoverB> AK_IMPROVED_DUST_COVER_B = ITEMS.register("ak_improved_dust_cover_b", AKImprovedDustCoverB::new);
     public static final RegistryObject<MicroRedDot> MICRO_RED_DOT = ITEMS.register("micro_red_dot", MicroRedDot::new);
     public static final RegistryObject<RedDot> RED_DOT = ITEMS.register("red_dot", RedDot::new);
     public static final RegistryObject<Holographic> HOLOGRAPHIC = ITEMS.register("holographic", Holographic::new);

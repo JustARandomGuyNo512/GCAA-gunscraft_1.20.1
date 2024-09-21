@@ -105,7 +105,8 @@ public class ControllerEvents {
                 } else if (event.getButton() == 1) {
                     if (shouldHandleRightClick()) {
                         Clients.mainHandStatus.ads = (event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
-                        event.setCanceled(true);
+                        boolean cancel = ReloadingHandler.isReloading() || !gun.canUseWithShield() || !(player.getOffhandItem().getItem() instanceof ShieldItem);
+                        event.setCanceled(cancel);
                     }
                 }
             }

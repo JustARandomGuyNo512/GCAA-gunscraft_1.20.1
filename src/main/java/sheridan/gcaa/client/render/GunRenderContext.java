@@ -2,10 +2,13 @@ package sheridan.gcaa.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
@@ -299,5 +302,17 @@ public class GunRenderContext {
 
     public boolean isEffectiveSight(AttachmentRenderEntry entry) {
         return isFirstPerson && Clients.mainHandStatus.adsProgress > 0.7f && Objects.equals(entry.slotUUID, Clients.getEffectiveSightUUID());
+    }
+
+    public boolean shouldShowLeftArm() {
+        Player player = Minecraft.getInstance().player;
+        if (gun == null || player == null) {
+            return false;
+        }
+        if (!gun.canUseWithShield()) {
+            return true;
+        } else {
+            return !(player.getOffhandItem().getItem() instanceof ShieldItem);
+        }
     }
 }

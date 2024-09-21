@@ -19,7 +19,6 @@ public class ReloadingHandler {
     private IReloadingTask reloadingTask;
     private long lastStartReload = 0;
     private long lastEndReload = 0;
-    private boolean usingGenericReload = false;
 
     public boolean reloading() {
         return reloadingTask != null;
@@ -33,6 +32,14 @@ public class ReloadingHandler {
         return INSTANCE.reloadingTask != null && !INSTANCE.reloadingTask.isCompleted() ? INSTANCE.reloadingTask.getProgress() : 0;
     }
 
+    public static boolean isReloadingGeneric() {
+        return INSTANCE.isUsingGenericReloading();
+    }
+
+    public boolean isUsingGenericReloading() {
+        return reloadingTask != null && reloadingTask.isGenericReloading();
+    }
+
     public int getLastPayload() {
         return lastPayload;
     }
@@ -43,10 +50,6 @@ public class ReloadingHandler {
 
     public long getLastEndReload() {
         return lastEndReload;
-    }
-
-    public boolean isUsingGenericReload() {
-        return usingGenericReload;
     }
 
     public IReloadingTask getReloadingTask() {
@@ -107,7 +110,6 @@ public class ReloadingHandler {
     public void tick(Player player) {
         if (!Minecraft.getInstance().isPaused()) {
             if (reloadingTask == null) {
-                usingGenericReload = false;
                 return;
             }
             if (!player.isSpectator()) {

@@ -26,4 +26,9 @@ public class G19 extends Gun {
     public boolean isPistol() {
         return true;
     }
+
+    @Override
+    public boolean canUseWithShield() {
+        return true;
+    }
 }

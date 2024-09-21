@@ -2,6 +2,7 @@ package sheridan.gcaa.items.gun;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class EditableAttributeModifier extends AttributeModifier {
     }
 
     @Override
-    public CompoundTag save() {
+    public @NotNull CompoundTag save() {
         CompoundTag tag = super.save();
         tag.putDouble("Amount", this.amount);
         return tag;

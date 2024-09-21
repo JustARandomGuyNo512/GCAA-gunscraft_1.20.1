@@ -25,4 +25,9 @@ public class Python357 extends Gun {
     public boolean shootCreateBulletShell() {
         return false;
     }
+
+    @Override
+    public boolean canUseWithShield() {
+        return true;
+    }
 }

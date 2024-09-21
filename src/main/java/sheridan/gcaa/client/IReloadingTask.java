@@ -36,5 +36,9 @@ public interface IReloadingTask {
         return true;
     }
 
+    default boolean isGenericReloading() {
+        return false;
+    }
+
     float getProgress();
 }

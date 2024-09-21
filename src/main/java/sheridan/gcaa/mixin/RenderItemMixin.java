@@ -8,11 +8,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import sheridan.gcaa.Clients;
+import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.model.guns.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
@@ -49,12 +52,22 @@ public class RenderItemMixin {
 
     @Inject(at = @At("HEAD"), method = "renderStatic(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;ZLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/level/Level;III)V", cancellable = true)
     public void FirstAndThirdPersonAndEntity(LivingEntity livingEntityIn, ItemStack itemStackIn, ItemDisplayContext transformTypeIn, boolean leftHand, PoseStack poseStackIn, MultiBufferSource bufferIn, Level level, int combinedLightIn, int combinedOverlayIn, int p_174252_, CallbackInfo ci) {
-        if (livingEntityIn instanceof Player) {
-            if (itemStackIn != null && itemStackIn.getItem() instanceof IGun gun) {
-                if (leftHand) {
+        if (itemStackIn == null) {
+            return;
+        }
+        if (livingEntityIn instanceof Player player) {
+            if (leftHand) {
+                if (itemStackIn.getItem() instanceof IGun) {
                     ci.cancel();
-                    return;
                 }
+                if (player.getMainHandItem().getItem() instanceof IGun gun) {
+                    if (!(itemStackIn.getItem() instanceof ShieldItem) || !gun.canUseWithShield()) {
+                        ci.cancel();
+                    }
+                }
+                return;
+            }
+            if (itemStackIn.getItem() instanceof IGun gun) {
                 IGunModel model = GunModelRegister.getModel(gun);
                 DisplayData displayData = GunModelRegister.getDisplayData(gun);
                 GunRenderer.renderWithEntity(livingEntityIn, poseStackIn, itemStackIn, transformTypeIn, bufferIn, gun, combinedLightIn, combinedOverlayIn, false, model, displayData);

@@ -1,10 +1,12 @@
 package sheridan.gcaa.items.gun;
 
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
@@ -25,7 +27,11 @@ public class ArmPoseHandler implements IClientItemExtensions {
                 if (status.isReloading()) {
                     pose.set(HumanoidModel.ArmPose.CROSSBOW_CHARGE);
                 } else {
-                    pose.set(HumanoidModel.ArmPose.BOW_AND_ARROW);
+                    boolean modify = !(player.getMainHandItem().getItem() instanceof IGun gun) ||
+                            !gun.canUseWithShield() || !(player.getOffhandItem().getItem() instanceof ShieldItem);
+                    if (modify) {
+                        pose.set(HumanoidModel.ArmPose.BOW_AND_ARROW);
+                    }
                 }
             });
         }

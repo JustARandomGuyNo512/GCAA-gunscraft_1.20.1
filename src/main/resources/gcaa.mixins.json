@@ -6,7 +6,8 @@
   "refmap": "gcaa.refmap.json",
   "client": [
     "GameRendererMixin",
-    "RenderItemMixin"
+    "RenderItemMixin",
+    "HumanoidModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

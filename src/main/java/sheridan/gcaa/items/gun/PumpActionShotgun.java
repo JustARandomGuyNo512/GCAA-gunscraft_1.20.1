@@ -26,7 +26,7 @@ public class PumpActionShotgun extends HandActionGun{
 
     @Override
     public boolean shouldHandleAds(ItemStack stack) {
-        if (needHandAction(stack) && getAmmoLeft(stack) > 0) {
+        if (needHandAction(stack) && getAmmoLeft(stack) > 0 && HandActionHandler.INSTANCE.secondsSinceLastTask() > 0.5f) {
             HandActionHandler.INSTANCE.setHandActionTask(getHandActionTask(stack, true));
         }
         return true;

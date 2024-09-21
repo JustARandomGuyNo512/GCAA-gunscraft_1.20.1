@@ -137,7 +137,7 @@ public class GlobalWeaponBobbing {
             idleYaw = Mth.sin(idle) * 0.015f;
             idleRoll = Mth.sin(idle) * 0.00025f;
             poseStack.translate(
-                    Mth.sin(swing - PI * 0.125f) * scaledBob * 0.115f + swingRy * scaleFactor,
+                    -Mth.sin(swing - PI * 0.125f) * scaledBob * 0.115f + swingRy * scaleFactor,
                     (1.08f - Math.abs(Mth.cos(swing - PI * 0.1f))) * scaledBob * 0.25f +
                             EQUIP_HEIGHT * pistolFactor * instance.equipProgress - (swingRx * 0.5f - JumpBobbingHandler.getOffset() * pistolFactor) * scaleFactor
                             + idleYaw * idleScale * pistolFactor,

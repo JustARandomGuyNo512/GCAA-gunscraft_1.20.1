@@ -47,7 +47,9 @@ public class G19Model extends GunModel {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         bullet.visible = ReloadingHandler.isReloading() || ReloadingHandler.disFromLastReload(1000);
         context.render(vertexConsumer, barrel, slide, body, mag);
-        context.renderArm(left_arm, false);
+        if (context.shouldShowLeftArm()) {
+            context.renderArm(left_arm, false);
+        }
         context.renderArm(right_arm, true);
     }
 
@@ -70,8 +72,10 @@ public class G19Model extends GunModel {
         if (context.isFirstPerson || context.isThirdPerson()) {
             if (context.isFirstPerson) {
                 AnimationHandler.INSTANCE.applyRecoil(this);
-                AnimationHandler.INSTANCE.applyReload(this);
-                CameraAnimationHandler.INSTANCE.mix(camera);
+                if (!ReloadingHandler.isReloadingGeneric()) {
+                    AnimationHandler.INSTANCE.applyReload(this);
+                    CameraAnimationHandler.INSTANCE.mix(camera);
+                }
             }
             KeyframeAnimations.animate(this, shoot, Clients.lastShootMain(), 1);
         }

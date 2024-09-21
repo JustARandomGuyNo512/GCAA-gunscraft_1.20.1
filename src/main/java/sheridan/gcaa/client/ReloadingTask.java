@@ -1,8 +1,11 @@
 package sheridan.gcaa.client;
 
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
@@ -23,6 +26,7 @@ public class ReloadingTask implements IReloadingTask{
     public IGun gun;
     public IGunModel model;
     public boolean completed;
+    private boolean isGenericReloading = false;
 
     public ReloadingTask(ItemStack itemStack, IGun gun) {
         this.itemStack = itemStack;
@@ -32,6 +36,10 @@ public class ReloadingTask implements IReloadingTask{
         ammoLeft = gun.getAmmoLeft(itemStack);
         length = gun.getReloadLength(itemStack, ammoLeft == 0);
         completed = false;
+        Player player = Minecraft.getInstance().player;
+        if (gun.canUseWithShield() && player != null && player.getOffhandItem().getItem() instanceof ShieldItem) {
+            isGenericReloading = true;
+        }
     }
 
     @Override
@@ -73,12 +81,21 @@ public class ReloadingTask implements IReloadingTask{
     }
 
     @Override
+    public boolean isGenericReloading() {
+        return isGenericReloading;
+    }
+
+    @Override
     public void start() {
         if (model != null) {
             AnimationHandler.INSTANCE.startReload(ammoLeft == 0 ? model.getFullReload() : model.getReload());
         }
         Clients.mainHandStatus.ads = false;
         HandActionHandler.INSTANCE.breakTask();
+        if (isGenericReloading) {
+            Clients.setEquipDelay(length);
+            KeyMapping.set(InputConstants.Type.MOUSE.getOrCreate(1), false);
+        }
     }
 
     @Override
