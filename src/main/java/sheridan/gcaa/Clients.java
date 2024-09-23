@@ -160,14 +160,14 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AKM.get(), new AkmModel(), new DisplayData()
-                .setFirstPersonMain(-5.4f,17.8f,-17.3f, POS)
+                .setFirstPersonMain(-5.4f,16.3f,-21f, POS)
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,13.9f,-16.5f, POS)
+                .setAds(0,12.4f,-18.5f, POS)
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
-                .setInertialRecoilData(new InertialRecoilData(0.05f, 0.01f, 0.5f, 0.05f, 0.7f,  0.05f, 0.5f, 0.5f, new Vector3f(0.55f, 0.45f, 0.5f)))
+                .setInertialRecoilData(new InertialRecoilData(0.05f, 0.01f, 0.48f, 0.05f, 0.7f,  0.05f, 0.5f, 0.5f, new Vector3f(0.55f, 0.45f, 0.5f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.9f, -99f).setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setScale(3f))
@@ -223,7 +223,6 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.AK_IMPROVED_HANDGUARD.get(), new AKImprovedHandguardModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_RAIL_BRACKET.get(), new AKRailBracketModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_IMPROVED_DUST_COVER.get(), new AKImprovedDustCoverModel());
-        //ArsenalLib.registerAttachmentModel(ModItems.AK_IMPROVED_DUST_COVER_B.get(), new AKImprovedDustCoverBModel());
         ArsenalLib.registerAttachmentModel(ModItems.MICRO_RED_DOT.get(), new MicroRedDotModel());
         ArsenalLib.registerAttachmentModel(ModItems.RED_DOT.get(), new RedDotModel());
         ArsenalLib.registerAttachmentModel(ModItems.HOLOGRAPHIC.get(), new HolographicModel());
@@ -319,7 +318,7 @@ public class Clients {
         if (isInAds() && mainHandStatus.adsProgress >= 0.75f) {
             spread *= 0.135f;
             if (gun.isSniper()) {
-                spread *= 0.3f;
+                spread *= 0.25f;
             }
         }
         if (player.isCrouching()) {

@@ -34,6 +34,7 @@ public class AKImprovedDustCoverModel implements IAttachmentModel, ISlotProvider
     public void handleSlotTranslate(PoseStack poseStack, String modelSlotName) {
         if ("s_dust_cover_scope".equals(modelSlotName)) {
             root.translateAndRotate(poseStack);
+            rail.translateAndRotate(poseStack);
             slot_scope.translateAndRotate(poseStack);
         }
     }
@@ -46,10 +47,9 @@ public class AKImprovedDustCoverModel implements IAttachmentModel, ISlotProvider
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         root.copyFrom(pose);
-        context.pushPose().translateTo(root);
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(texture));
-        context.render(vertexConsumer, rail, dust_cover);
-        context.translateTo(rail).renderEntry(attachmentRenderEntry.getChild("s_dust_cover_scope"), slot_scope);
+        context.render(root, vertexConsumer);
+        context.pushPose().translateTo(root, rail).renderEntry(attachmentRenderEntry.getChild("s_dust_cover_scope"), slot_scope);
         context.popPose();
         root.resetPose();
     }

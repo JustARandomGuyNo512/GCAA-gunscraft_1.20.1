@@ -219,6 +219,13 @@ public class GunRenderContext {
         return this;
     }
 
+    public GunRenderContext translateTo(ModelPart ...poseParts) {
+        for (ModelPart posePart : poseParts) {
+            posePart.translateAndRotate(poseStack);
+        }
+        return this;
+    }
+
     public void renderBulletShell() {
         if (isFirstPerson) {
             BulletShellRenderer.render(this);
