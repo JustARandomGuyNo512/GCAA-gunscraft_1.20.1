@@ -188,6 +188,7 @@ public class ClientAttachmentsStatus {
         PoseStack poseStack = new PoseStack();
         if (displayData != null) {
             float[] floats = displayData.get(DisplayData.FIRST_PERSON_MAIN);
+            poseStack.mulPose(new Quaternionf().rotateXYZ(floats[3], floats[4], floats[5]));
             poseStack.scale(floats[6], floats[7], floats[8]);
         }
         Stack<AttachmentSlot> stack = new Stack<>();

@@ -1,6 +1,7 @@
 package sheridan.gcaa.client.model.attachments.akStuff;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,19 +16,24 @@ import sheridan.gcaa.lib.ArsenalLib;
 
 @OnlyIn(Dist.CLIENT)
 public class AKImprovedDustCoverModel implements IAttachmentModel, ISlotProviderModel {
+    private final ModelPart root;
     private final ModelPart dust_cover;
+    private final ModelPart rail;
     private final ModelPart slot_scope;
     private final ResourceLocation texture = new ResourceLocation(GCAA.MODID, "model_assets/attachments/ak_stuff/improved_dust_cover.png");
 
     public AKImprovedDustCoverModel() {
-        this.dust_cover = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/ak_stuff/improved_dust_cover.geo.json"))
-                .bakeRoot().getChild("root").getChild("dust_cover").meshing();
-        this.slot_scope = this.dust_cover.getChild("s_dust_cover_scope");
+        this.root = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/ak_stuff/improved_dust_cover.geo.json"))
+                .bakeRoot().getChild("root");
+        this.dust_cover = root.getChild("dust_cover").meshing();
+        this.rail = root.getChild("rail").meshing();
+        this.slot_scope = rail.getChild("s_dust_cover_scope");
     }
 
     @Override
     public void handleSlotTranslate(PoseStack poseStack, String modelSlotName) {
         if ("s_dust_cover_scope".equals(modelSlotName)) {
+            root.translateAndRotate(poseStack);
             slot_scope.translateAndRotate(poseStack);
         }
     }
@@ -39,17 +45,17 @@ public class AKImprovedDustCoverModel implements IAttachmentModel, ISlotProvider
 
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        dust_cover.copyFrom(pose);
-        context.pushPose();
-        context.render(dust_cover, context.getBuffer(RenderType.entityCutout(texture)));
-        context.translateTo(dust_cover);
-        context.renderEntry(attachmentRenderEntry.getChild("s_dust_cover_scope"), slot_scope);
+        root.copyFrom(pose);
+        context.pushPose().translateTo(root);
+        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(texture));
+        context.render(vertexConsumer, rail, dust_cover);
+        context.translateTo(rail).renderEntry(attachmentRenderEntry.getChild("s_dust_cover_scope"), slot_scope);
         context.popPose();
-        dust_cover.resetPose();
+        root.resetPose();
     }
 
     @Override
     public ModelPart getRoot() {
-        return dust_cover;
+        return root;
     }
 }
