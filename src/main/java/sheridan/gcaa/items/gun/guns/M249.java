@@ -12,7 +12,7 @@ import java.util.List;
 
 public class M249 extends Gun {
     private static final Caliber caliber =
-            new Caliber(new ResourceLocation(GCAA.MODID, "5.56x45mm"),7f, 4.5f, 6f, 9.5f);
+            new Caliber(new ResourceLocation(GCAA.MODID, "5.56x45mm"),7f, 4.5f, 6f, 14.25f);
 
     public M249() {
         super(new GunProperties(2.2f, 1.1f, 2.9f, 0.85f, 0.14f,

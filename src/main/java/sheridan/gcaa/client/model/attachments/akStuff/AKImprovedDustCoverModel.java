@@ -17,7 +17,6 @@ import sheridan.gcaa.lib.ArsenalLib;
 @OnlyIn(Dist.CLIENT)
 public class AKImprovedDustCoverModel implements IAttachmentModel, ISlotProviderModel {
     private final ModelPart root;
-    private final ModelPart dust_cover;
     private final ModelPart rail;
     private final ModelPart slot_scope;
     private final ResourceLocation texture = new ResourceLocation(GCAA.MODID, "model_assets/attachments/ak_stuff/improved_dust_cover.png");
@@ -25,7 +24,7 @@ public class AKImprovedDustCoverModel implements IAttachmentModel, ISlotProvider
     public AKImprovedDustCoverModel() {
         this.root = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/ak_stuff/improved_dust_cover.geo.json"))
                 .bakeRoot().getChild("root");
-        this.dust_cover = root.getChild("dust_cover").meshing();
+        root.getChild("dust_cover").meshing();
         this.rail = root.getChild("rail").meshing();
         this.slot_scope = rail.getChild("s_dust_cover_scope");
     }

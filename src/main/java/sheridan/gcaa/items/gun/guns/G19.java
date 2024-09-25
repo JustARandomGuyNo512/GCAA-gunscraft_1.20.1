@@ -13,7 +13,7 @@ import java.util.List;
 
 public class G19 extends Gun {
     private static final Caliber caliber =
-            new Caliber(new ResourceLocation(GCAA.MODID, "9x19mm"), 6f, 4, 3.5f, 3.7f);
+            new Caliber(new ResourceLocation(GCAA.MODID, "9x19mm"), 6f, 4, 3.5f, 5.5f);
 
     public G19() {
         super(new GunProperties(4.2f, 0.5f, 1.8f, 0.5f, 0.2f,

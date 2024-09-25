@@ -1,0 +1,77 @@
+package sheridan.gcaa.client.model.attachments.functional;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.model.attachments.ArmRendererModel;
+import sheridan.gcaa.client.model.attachments.IAttachmentModel;
+import sheridan.gcaa.client.model.attachments.IDirectionalModel;
+import sheridan.gcaa.client.model.modelPart.ModelPart;
+import sheridan.gcaa.client.render.AttachmentRenderEntry;
+import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.lib.ArsenalLib;
+import sheridan.gcaa.utils.RenderAndMathUtils;
+
+@OnlyIn(Dist.CLIENT)
+public class GP_25Model extends ArmRendererModel implements IAttachmentModel, IDirectionalModel {
+    private static final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/functional/gp_25.png");
+    private final ModelPart root;
+    private final ModelPart left_arm, left_arm_long, body, grenade, grenade_reloading, muzzle;
+    public GP_25Model() {
+        this.root = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/functional/gp_25.geo.json"))
+                .bakeRoot().getChild("root");
+        left_arm = root.getChild("left_arm");
+        left_arm_long = root.getChild("left_arm_long");
+        body = root.getChild("body");
+        grenade = root.getChild("grenade").meshing();
+        grenade_reloading = root.getChild("grenade_reloading").meshing();
+        muzzle = root.getChild("muzzle");
+    }
+
+    @Override
+    protected ModelPart getLeftArm(GunRenderContext context) {
+        return context.renderLongArm ? left_arm_long : left_arm;
+    }
+
+    @Override
+    protected ModelPart getRightArm(GunRenderContext context) {
+        return null;
+    }
+
+    @Override
+    protected PoseStack lerpArmPose(boolean mainHand, PoseStack prevPose, GunRenderContext context) {
+        return LerpReloadAnimationPose(false, context, prevPose);
+    }
+
+    @Override
+    protected boolean shouldRenderArm(boolean mainHand, GunRenderContext context, AttachmentRenderEntry entry) {
+        return defaultShouldRenderArm(mainHand, context, entry);
+    }
+
+    @Override
+    public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
+        context.pushPose();
+        initTranslation(attachmentRenderEntry, context, pose);
+        context.render(context.getBuffer(RenderType.entityCutout(TEXTURE)), body, grenade);
+        renderArm(false, RenderAndMathUtils.copyPoseStack(context.poseStack), context, attachmentRenderEntry);
+        context.popPose();
+    }
+
+    @Override
+    public ModelPart getRoot() {
+        return root;
+    }
+
+    @Override
+    public byte getDirection() {
+        return LOWER;
+    }
+
+    @Override
+    public ModelPart root() {
+        return getRoot();
+    }
+}

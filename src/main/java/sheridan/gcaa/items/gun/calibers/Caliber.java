@@ -43,7 +43,7 @@ public class Caliber {
     public void handleTooltip(ItemStack stack, IGun gun, Level levelIn, List<Component> tooltip, TooltipFlag flagIn, boolean detail) {
         tooltip.add(FontUtils.dataTip("tooltip.gun_info.damage", baseDamage, 35, 1));
         if (detail) {
-            tooltip.add(FontUtils.dataTip("tooltip.gun_info.effective_range", effectiveRange, 160, 16));
+            tooltip.add(FontUtils.dataTip("tooltip.gun_info.effective_range", effectiveRange, 10, 1));
             tooltip.add(FontUtils.dataTip("tooltip.gun_info.bullet_speed", speed, 12, 1, "gcaa.unit.chunk_pre_second"));
         }
     }

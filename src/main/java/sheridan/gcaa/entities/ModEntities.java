@@ -8,6 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.entities.projectiles.Grenade;
 import sheridan.gcaa.entities.projectiles.Projectile;
 
 import java.util.Objects;
@@ -16,12 +17,13 @@ import java.util.function.BiFunction;
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES;
     public static final RegistryObject<EntityType<Projectile>> PROJECTILE;
+    public static final RegistryObject<EntityType<Grenade>> GRENADE;
 
 
     static {
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, GCAA.MODID);
         PROJECTILE = registerProjectile("bullet", Projectile::new);
-
+        GRENADE = registerProjectile("grenade", Grenade::new);
     }
 
     private static <T extends Entity> RegistryObject<EntityType<T>> registerProjectile(String id, BiFunction<EntityType<T>, Level, T> function) {

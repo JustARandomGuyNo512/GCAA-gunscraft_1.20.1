@@ -378,7 +378,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         tag.putString("attachments_modified_uuid", UUID.randomUUID().toString());
     }
 
-    protected CompoundTag checkAndGet(ItemStack stack) {
+    public CompoundTag checkAndGet(ItemStack stack) {
         CompoundTag nbt = stack.getTag();
         if (nbt == null) {
             this.onCraftedBy(stack, null, null);

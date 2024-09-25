@@ -24,12 +24,12 @@ public class ModTabs {
                     tab.accept(ModItems.AK_IMPROVED_HANDGUARD.get());
                     tab.accept(ModItems.AK_RAIL_BRACKET.get());
                     tab.accept(ModItems.AK_IMPROVED_DUST_COVER.get());
-                    //tab.accept(ModItems.AK_IMPROVED_DUST_COVER_B.get());
                     tab.accept(ModItems.MICRO_RED_DOT.get());
                     tab.accept(ModItems.RED_DOT.get());
                     tab.accept(ModItems.HOLOGRAPHIC.get());
                     tab.accept(ModItems.SCOPE_X10.get());
                     tab.accept(ModItems.VERTICAL_GRIP.get());
+                    tab.accept(ModItems.GP_25.get());
                 }).build());
 
         GUNS_TAB = MOD_TABS.register("guns", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.guns"))

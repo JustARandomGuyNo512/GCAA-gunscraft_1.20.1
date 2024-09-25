@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Awp extends HandActionGun {
     private static final Caliber caliber =
-            new Caliber(new ResourceLocation(GCAA.MODID, "7.62x51mm"), 22, 16, 10f, 10f);
+            new Caliber(new ResourceLocation(GCAA.MODID, "7.62x51mm"), 22, 16, 10f, 15f);
 
     public Awp() {
         super(new GunProperties(2.5f, 0.25f, 3f, 1.8f, 0.1f,

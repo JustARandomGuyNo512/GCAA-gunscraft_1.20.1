@@ -31,6 +31,7 @@ import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.model.BulletShellModel;
 import sheridan.gcaa.client.model.attachments.akStuff.AKImprovedDustCoverModel;
 import sheridan.gcaa.client.model.attachments.akStuff.AKRailBracketModel;
+import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
 import sheridan.gcaa.client.model.attachments.grip.VerticalGripModel;
 import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel;
 import sheridan.gcaa.client.model.attachments.muzzle.AKCompensatorModel;
@@ -160,12 +161,12 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AKM.get(), new AkmModel(), new DisplayData()
-                .setFirstPersonMain(-5.4f,16.3f,-21f, POS)
+                .setFirstPersonMain(-5.5f,16.4f,-20.2f, POS)
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,12.4f,-18.5f, POS)
+                .setAds(0,12.4f,-18.2f, POS)
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(new InertialRecoilData(0.05f, 0.01f, 0.48f, 0.05f, 0.7f,  0.05f, 0.5f, 0.5f, new Vector3f(0.55f, 0.45f, 0.5f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.9f, -99f).setScale(1.8f))
@@ -228,6 +229,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.HOLOGRAPHIC.get(), new HolographicModel());
         ArsenalLib.registerAttachmentModel(ModItems.SCOPE_X10.get(), new ScopeX10Model());
         ArsenalLib.registerAttachmentModel(ModItems.VERTICAL_GRIP.get(), new VerticalGripModel());
+        ArsenalLib.registerAttachmentModel(ModItems.GP_25.get(), new GP_25Model());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

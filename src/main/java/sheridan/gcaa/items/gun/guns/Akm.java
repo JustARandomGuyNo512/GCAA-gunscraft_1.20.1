@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 public class Akm extends Gun {
     private static final Caliber caliber =
-            new Caliber(new ResourceLocation(GCAA.MODID, "7.62x39mm"),8f, 5f, 6f, 7.2f);
+            new Caliber(new ResourceLocation(GCAA.MODID, "7.62x39mm"),8f, 5f, 6f, 10.8f);
 
     public Akm() {
         super(new GunProperties(3f, 1f, 2.8f, 1f, 0.15f,

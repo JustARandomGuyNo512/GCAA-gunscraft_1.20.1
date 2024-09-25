@@ -134,7 +134,7 @@ public class GlobalWeaponBobbing {
             float headRX = Mth.rotLerp(particleTick, player.xRotO, player.getXRot());
             swingRx = Mth.clamp((headRX - bobRX) * 0.003f, -0.1f, 0.1f) * pistolFactor;
             idlePitch = Mth.sin(idle + PI * 0.75f) * 0.0035f;
-            idleYaw = Mth.sin(idle) * 0.015f;
+            idleYaw = Mth.sin(idle) * 0.01f;
             idleRoll = Mth.sin(idle) * 0.00025f;
             poseStack.translate(
                     -Mth.sin(swing - PI * 0.125f) * scaledBob * 0.115f + swingRy * scaleFactor,
