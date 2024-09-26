@@ -97,7 +97,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
         AnimationHandler.INSTANCE.pushRecoil(
                 (InertialRecoilData) recoilData, RenderAndMathUtils.randomIndex(), RenderAndMathUtils.randomIndex(), 1, 1);
         RecoilCameraHandler.INSTANCE.onShoot(
-                3f, (float) ((Math.random() - 0.5) * 2),
+                4f, (float) ((Math.random() - 0.5) * 2.5f),
                 gun.getRecoilPitchControl(stack) * 0.2f, gun.getRecoilYawControl(stack) * 0.2f);
         ModSounds.sound(1, 1f, player, ModSounds.GP_25_FIRE.get());
         long now = System.currentTimeMillis();
