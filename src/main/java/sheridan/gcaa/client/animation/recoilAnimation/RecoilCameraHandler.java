@@ -35,19 +35,23 @@ public class RecoilCameraHandler {
         cameraShakeHandler = DEFAULT_CAMERA_SHAKE_HANDLER;
     }
 
-    public void onShoot(IGun gun, ItemStack itemStack, float dx) {
-        float pitchVec = gun.getRecoilPitch(itemStack);
-        float yawVec = gun.getRecoilYaw(itemStack) * dx;
+    public void onShoot(float pitchVec, float yawVec, float pitchControl, float yawControl) {
         if (pitchVec > 0) {
             pitchSpeed = pitchVec;
-            pitchControl = gun.getRecoilPitchControl(itemStack) * 0.2f;
+            this.pitchControl = pitchControl;
             enabled.set(true);
         }
         if (Math.abs(yawVec) != 0) {
             yawSpeed += yawVec;
-            yawControl = gun.getRecoilYawControl(itemStack) * 0.2f;
+            this.yawControl = yawControl;
             enabled.set(true);
         }
+    }
+
+    public void onShoot(IGun gun, ItemStack itemStack, float dx) {
+        float pitchVec = gun.getRecoilPitch(itemStack);
+        float yawVec = gun.getRecoilYaw(itemStack) * dx;
+        onShoot(pitchVec, yawVec, gun.getRecoilPitchControl(itemStack) * 0.2f, gun.getRecoilYawControl(itemStack) * 0.2f);
     }
 
     public void handle() {

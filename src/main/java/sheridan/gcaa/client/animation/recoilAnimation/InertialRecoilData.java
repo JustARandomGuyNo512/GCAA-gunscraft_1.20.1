@@ -21,6 +21,7 @@ public class InertialRecoilData {
     public float randomX;
     public float randomY;
     public final int id;
+    private boolean noReplacement = false;
 
     public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX, float randomY, Vector3f aimingScaleModifier) {
         this.up = up;
@@ -37,5 +38,24 @@ public class InertialRecoilData {
         this.id = TEMP_ID.getAndIncrement();
     }
 
+    public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX, float randomY) {
+        this.up = up;
+        this.upDec = upDec;
+        this.back = back;
+        this.backDec = backDec;
+        this.rotate = rotate;
+        this.rotateDec = rotateDec;
+        this.aimingScaleUp = 1;
+        this.aimingBackScale = 1;
+        this.aimingRotateScale = 1;
+        this.randomX = randomX;
+        this.randomY = randomY;
+        this.id = TEMP_ID.getAndIncrement();
+        this.noReplacement = true;
+    }
+
+    public boolean isNoReplacement() {
+        return noReplacement;
+    }
 
 }

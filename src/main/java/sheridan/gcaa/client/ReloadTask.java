@@ -18,7 +18,7 @@ import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunReloadPacket;
 
 @OnlyIn(Dist.CLIENT)
-public class ReloadingTask implements IReloadingTask{
+public class ReloadTask implements IReloadingTask{
     public int length;
     public int tick;
     public int ammoLeft;
@@ -28,7 +28,7 @@ public class ReloadingTask implements IReloadingTask{
     public boolean completed;
     private boolean isGenericReloading = false;
 
-    public ReloadingTask(ItemStack itemStack, IGun gun) {
+    public ReloadTask(ItemStack itemStack, IGun gun) {
         this.itemStack = itemStack;
         this.gun = gun;
         model = GunModelRegister.getModel(gun);

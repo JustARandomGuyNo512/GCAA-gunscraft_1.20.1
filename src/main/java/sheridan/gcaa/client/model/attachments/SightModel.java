@@ -14,14 +14,10 @@ public abstract class SightModel implements IAttachmentModel, IDirectionalModel 
 
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        //ModelPart root = root();
         context.pushPose();
-        //root.copyFrom(pose);
-        //context.pushPose().translateTo(root);
         initTranslation(attachmentRenderEntry, context, pose);
         renderModel(context, attachmentRenderEntry, pose);
         context.popPose();
-        //root.resetPose();
     }
 
     protected abstract void renderModel(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose);
@@ -29,10 +25,5 @@ public abstract class SightModel implements IAttachmentModel, IDirectionalModel 
     @Override
     public byte getDirection() {
         return UPPER;
-    }
-
-    @Override
-    public ModelPart root() {
-        return getRoot();
     }
 }

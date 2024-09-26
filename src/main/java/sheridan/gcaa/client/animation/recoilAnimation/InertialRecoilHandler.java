@@ -7,7 +7,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
-import org.joml.Vector4f;
 import sheridan.gcaa.Clients;
 
 import java.util.Arrays;
@@ -36,20 +35,22 @@ public class InertialRecoilHandler {
     private float rotateSpeed;
     private float randomXSpeed;
     private float randomYSpeed;
-    private long startTime;
-    private final int[] finished = new int[] {0, 0, 0, 0, 0};
+    private final boolean[] finished = new boolean[] {false, false, false, false, false};
 
-    public void applyTransform(PoseStack poseStack, int id, boolean aiming) {
-        if (data.get() == null) {
+    public void applyTransform(PoseStack poseStack, InertialRecoilData data, boolean aiming) {
+        if (data == null) {
+            return;
+        }
+        if (this.data.get() == null) {
+            this.data.set(data);
             return;
         } else {
-            if (id != this.data.get().id) {
+            if (data.id != this.data.get().id) {
                 clear(true);
                 return;
             }
         }
         if (enabled.get()) {
-            InertialRecoilData data = this.data.get();
             float scaleY = 1;
             float scaleZ = 1;
             float scaleRot = 1;
@@ -81,12 +82,13 @@ public class InertialRecoilHandler {
                     randomYSpeed *= 0.5f;
                 }
                 randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f) * yRate;
-                startTime = System.currentTimeMillis();
                 backSpeed += data.back * pRate;
                 rotateSpeed += data.rotate * pRate;
                 upSpeed += data.up;
-                Arrays.fill(finished, 0);
-                this.data.set(data);
+                Arrays.fill(finished, false);
+                if (!data.isNoReplacement()) {
+                    this.data.set(data);
+                }
                 enabled.set(true);
             } finally {
                 lock.unlock();
@@ -104,7 +106,7 @@ public class InertialRecoilHandler {
         rotate = rotateSpeed = 0;
         randomX = randomXSpeed = 0;
         randomY = randomYSpeed = 0;
-        Arrays.fill(finished, 0);
+        Arrays.fill(finished, false);
         this.data.set(null);
         this.enabled.set(!disable);
     }
@@ -119,7 +121,7 @@ public class InertialRecoilHandler {
             try {
                 lock.lock();
                 InertialRecoilData recoilData = data.get();
-                if (back != 0 || backSpeed != 0) {
+                if (!finished[0] && (back != 0 || backSpeed != 0)) {
                     back += backSpeed;
                     if (back > 0) {
                         backSpeed -= back * recoilData.backDec;
@@ -136,52 +138,52 @@ public class InertialRecoilHandler {
                 }
                 if (shouldClear(backSpeed, back)) {
                     back = backSpeed = 0;
-                    finished[0] = 1;
+                    finished[0] = true;
                 }
 
-                if (up != 0 || upSpeed != 0) {
+                if (!finished[1] && (up != 0 || upSpeed != 0)) {
                     upSpeed -= up * recoilData.upDec;
                     upSpeed *= 0.5f;
                     up += upSpeed * 0.7f;
                 }
                 if (shouldClear(upSpeed, up)) {
                     upSpeed = up = 0;
-                    finished[1] = 1;
+                    finished[1] = true;
                 }
 
-                if (rotate != 0 || rotateSpeed != 0) {
+                if (!finished[2] && (rotate != 0 || rotateSpeed != 0)) {
                     rotateSpeed -= rotate * recoilData.rotateDec;
                     rotateSpeed *= 0.7f;
                     rotate += rotateSpeed;
                 }
                 if (shouldClear(rotateSpeed, rotate)) {
                     rotateSpeed = rotate = 0;
-                    finished[2] = 1;
+                    finished[2] = true;
                 }
 
-                if (randomX != 0 || randomXSpeed != 0) {
+                if (!finished[3] && (randomX != 0 || randomXSpeed != 0)) {
                     randomX += randomXSpeed * 0.3f;
                     randomXSpeed *= 0.925f;
                     randomX *= 0.92f;
                 }
                 if (shouldClear(randomXSpeed, randomX)) {
                     randomXSpeed = randomX = 0;
-                    finished[3] = 1;
+                    finished[3] = true;
                 }
 
-                if (randomY != 0 || randomYSpeed != 0) {
+                if (!finished[4] && (randomY != 0 || randomYSpeed != 0)) {
                     randomY += randomYSpeed * 0.3f;
                     randomYSpeed *= 0.925f;
                     randomY *= 0.92f;
                 }
                 if (shouldClear(randomYSpeed, randomY)) {
                     randomYSpeed = randomY = 0;
-                    finished[4] = 1;
+                    finished[4] = true;
                 }
 
                 boolean clear = true;
-                for (int v : finished) {
-                    if (v == 0) {
+                for (boolean v : finished) {
+                    if (!v) {
                         clear = false;
                         break;
                     }

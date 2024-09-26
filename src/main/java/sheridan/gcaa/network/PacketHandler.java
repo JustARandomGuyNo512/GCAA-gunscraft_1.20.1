@@ -36,6 +36,8 @@ public class PacketHandler
         registerPacket(PlayerSoundPacket.class, new PlayerSoundPacket());
         registerPacket(DoneHandActionPacket.class, new DoneHandActionPacket());
         registerPacket(SetScopeMagnificationPacket.class, new SetScopeMagnificationPacket());
+        registerPacket(FireGrenadeLauncherPacket.class, new FireGrenadeLauncherPacket());
+        registerPacket(GrenadeLauncherReloadPacket.class, new GrenadeLauncherReloadPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

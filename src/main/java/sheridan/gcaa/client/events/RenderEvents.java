@@ -41,11 +41,13 @@ import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.client.screens.AttachmentsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.attachments.Scope;
+import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,6 +57,7 @@ import static org.lwjgl.opengl.GL30C.*;
 public class RenderEvents {
     private static final ResourceLocation CHAMBER_EMPTY = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/chamber_empty.png");
     private static final ResourceLocation CHAMBER_FILLED = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/chamber_filled.png");
+    private static final ResourceLocation HAS_GRENADE = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/has_grenade.png");
     private static final Map<String, Long> TEMP_TIMERS = new HashMap<>();
     private static final String MAGNIFICATION = "magnification_tip";
     private static float magnificationTip = 0;
@@ -162,13 +165,22 @@ public class RenderEvents {
                         guiGraphics.drawString(font, tooltipName.getString(), 0.8f * width, 0.85f * height, -1,  true);
                     }
                 }
+                ArrayList<ResourceLocation> rightBottomIcons = new ArrayList<>();
                 if (stack.getItem() instanceof HandActionGun handActionGun) {
-                    event.getGuiGraphics().flush();
                     ResourceLocation texture = (handActionGun.needHandAction(stack) || gun.getAmmoLeft(stack) == 0) ? CHAMBER_EMPTY : CHAMBER_FILLED;
-                    RenderSystem.enableBlend();
-                    event.getGuiGraphics().blit(texture, (int) (0.8f * window.getGuiScaledWidth()), (int) (0.9f * window.getGuiScaledHeight()),  0,0, 8,8, 8, 8);
-                    RenderSystem.disableBlend();
+                    rightBottomIcons.add(texture);
                 }
+                if (GrenadeLauncher.hasGrenade(stack, gun)) {
+                    rightBottomIcons.add(HAS_GRENADE);
+                }
+                event.getGuiGraphics().flush();
+                RenderSystem.enableBlend();
+                for (int i = 0; i < rightBottomIcons.size(); i++) {
+                    event.getGuiGraphics().blit(rightBottomIcons.get(i),
+                            (int) ((0.8f + 0.1f * i) * window.getGuiScaledWidth()), (int) (0.9f * window.getGuiScaledHeight()),
+                            0,0, 8,8, 8, 8);
+                }
+                RenderSystem.disableBlend();
                 if (now - TEMP_TIMERS.get(MAGNIFICATION) < 500) {
                     String str = "x" + Math.floor(magnificationTip);
                     guiGraphics.drawString(font, str, (width - font.width(str)) * 0.5f, 0.75f * height, magnificationTipColor,  true);

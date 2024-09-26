@@ -84,7 +84,7 @@ public class AnimationHandler {
      * apply inertial recoil transform to a pose stack
      * */
     public void applyInertialRecoil(PoseStack poseStack, InertialRecoilData data) {
-        INERTIAL_RECOIL_HANDLER.applyTransform(poseStack, data.id, Clients.isInAds());
+        INERTIAL_RECOIL_HANDLER.applyTransform(poseStack, data, Clients.isInAds());
     }
 
     /**

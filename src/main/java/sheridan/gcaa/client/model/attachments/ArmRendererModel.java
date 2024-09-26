@@ -2,11 +2,13 @@ package sheridan.gcaa.client.model.attachments;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.client.animation.AnimationHandler;
+import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -14,7 +16,7 @@ import sheridan.gcaa.client.render.PlayerArmRenderer;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class ArmRendererModel {
+public abstract class ArmRendererModel extends HierarchicalModel<Entity> {
     protected static final String LEFT_ARM_RENDER_REPLACE = GunRenderContext.LEFT_ARM_RENDER_REPLACE;
     protected static final String RIGHT_ARM_RENDER_REPLACE = GunRenderContext.RIGHT_ARM_RENDER_REPLACE;
 
@@ -86,4 +88,5 @@ public abstract class ArmRendererModel {
         }
         return origin;
     }
+
 }

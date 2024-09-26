@@ -19,6 +19,8 @@
   "item.generic.mg_charge_forward": { "subtitle": "item.generic.mg_charge_forward", "sounds": [{ "name": "gcaa:generic/mg_charge_forward" }]},
   "item.generic.mg_cover_off": { "subtitle": "item.generic.mg_cover_off", "sounds": [{ "name": "gcaa:generic/mg_cover_off" }]},
   "item.generic.mg_cover_open": { "subtitle": "item.generic.mg_cover_open", "sounds": [{ "name": "gcaa:generic/mg_cover_open" }]},
+  "item.generic.gp_25_fire": { "subtitle": "item.generic.gp_25_fire", "sounds": [{ "name": "gcaa:generic/gp_25_fire" }]},
+  "item.generic.gp_25_insert_grenade": { "subtitle": "item.generic.gp_25_insert_grenade", "sounds": [{ "name": "gcaa:generic/gp_25_insert_grenade" }]},
 
   "item.akm.fire": { "subtitle": "item.akm.fire", "sounds": [{ "name": "gcaa:akm/akm_fire" }]},
   "item.g19.fire": { "subtitle": "item.g19.fire", "sounds": [{ "name": "gcaa:g19/g19_fire" }]},

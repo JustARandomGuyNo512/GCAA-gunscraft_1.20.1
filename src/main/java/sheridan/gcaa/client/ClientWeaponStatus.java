@@ -171,4 +171,5 @@ public class ClientWeaponStatus {
     public boolean isHoldingGun() {
         return holdingGun.get();
     }
+
 }

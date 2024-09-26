@@ -21,6 +21,7 @@ import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.attachments.Sight;
+import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.SetEffectiveSightPacket;

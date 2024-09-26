@@ -23,7 +23,7 @@ public class KeyframeAnimations {
     private static final Vector3f INTERPOLATION_RESULT_CACHE = new Vector3f(0,0,0);
 
     public static void _animate(HierarchicalModel<?> root, AnimationDefinition definition, long startTime, long shift, float scaleX, float scaleY, float scaleZ, boolean stopIfOutOfTime) {
-        float timeDis = (float)(System.currentTimeMillis() - (startTime + shift)) * 0.001F;
+        float timeDis = getTimeDis(startTime, shift);
         if (stopIfOutOfTime && (!definition.looping() && timeDis > definition.lengthInSeconds())) {
             return;
         }
@@ -50,15 +50,23 @@ public class KeyframeAnimations {
         }
     }
 
-    public static void _animateToModelPart(ModelPart pose, AnimationDefinition definition, long startTime, long shift, float scaleX, float scaleY, float scaleZ, boolean stopIfOutOfTime) {
-        float timeDis = (float)(System.currentTimeMillis() - (startTime + shift)) * 0.001F;
+    private static float getTimeDis(long startTime, long shift) {
+        return (System.currentTimeMillis() - startTime - shift) * 0.001F;
+    }
+
+    public static void _animateToModelPart(ModelPart root, AnimationDefinition definition, long startTime, long shift, float scaleX, float scaleY, float scaleZ, boolean stopIfOutOfTime) {
+        float timeDis = getTimeDis(startTime, shift);
         if (stopIfOutOfTime && (!definition.looping() && timeDis > definition.lengthInSeconds())) {
             return;
         }
         float f = definition.looping() ? timeDis % definition.lengthInSeconds() : timeDis;
         for(Map.Entry<String, List<AnimationChannel>> entry : definition.boneAnimations().entrySet()) {
+            String name = entry.getKey();
+            Optional<ModelPart> optional = name.equals("root") ?
+                    Optional.of(root) :
+                    root.getAllParts().filter((part) -> part.hasChild(name)).findFirst().map((part) -> part.getChild(name));
             List<AnimationChannel> list = entry.getValue();
-            list.forEach((channel) -> {
+            optional.ifPresent((modelPart) -> list.forEach((channel) -> {
                 Keyframe[] keyframes = channel.keyframes();
                 int currentIndex = Math.max(0, Mth.binarySearch(0, keyframes.length, (index) -> f <= keyframes[index].timestamp()) - 1);
                 int nextIndex = Math.min(keyframes.length - 1, currentIndex + 1);
@@ -72,8 +80,8 @@ public class KeyframeAnimations {
                     f2 = 0.0F;
                 }
                 nextFrame.interpolation().apply(INTERPOLATION_RESULT_CACHE, f2, keyframes, currentIndex, nextIndex, scaleX, scaleY, scaleZ);
-                channel.target().apply(pose, INTERPOLATION_RESULT_CACHE);
-            });
+                channel.target().apply(modelPart, INTERPOLATION_RESULT_CACHE);
+            }));
         }
 
     }

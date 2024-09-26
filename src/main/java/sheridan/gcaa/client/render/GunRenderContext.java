@@ -238,6 +238,10 @@ public class GunRenderContext {
         }
     }
 
+    public void renderMuzzleFlashEntry(DisplayData.MuzzleFlashEntry muzzleFlashEntry, long lastShoot, float scale) {
+        muzzleFlashEntry.muzzleFlash.render(poseStack, bufferSource, muzzleFlashEntry.displayData, scale, lastShoot, isFirstPerson);
+    }
+
     public void clearMuzzleFlashEntry() {
         this.muzzleFlashEntry = null;
     }

@@ -11,7 +11,7 @@ import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.DoneHandActionPacket;
 
 @OnlyIn(Dist.CLIENT)
-public class HandActionReloadingTask extends ReloadingTask{
+public class HandActionReloadingTask extends ReloadTask {
     private final boolean needHandAction;
     public HandActionReloadingTask(ItemStack itemStack, HandActionGun gun) {
         super(itemStack, gun);

@@ -16,7 +16,7 @@ import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunReloadPacket;
 
 @OnlyIn(Dist.CLIENT)
-public class SingleReloadTask extends ReloadingTask{
+public class SingleReloadTask extends ReloadTask {
     public int enterDelay;
     public int singleReloadLength;
     public int triggerReloadDelay;

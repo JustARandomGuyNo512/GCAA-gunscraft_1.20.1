@@ -8,7 +8,7 @@ import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public interface IDirectionalModel {
+public interface IDirectionalModel extends IAttachmentModel{
     byte UPPER = AttachmentSlot.UPPER;
     byte LOWER = AttachmentSlot.LOWER;
     byte NO_DIRECTION = AttachmentSlot.NO_DIRECTION;
@@ -16,10 +16,8 @@ public interface IDirectionalModel {
 
     byte getDirection();
 
-    ModelPart root();
-
     default void initTranslation(AttachmentRenderEntry attachmentRenderEntry, GunRenderContext context, ModelPart pose) {
-        ModelPart root = root();
+        ModelPart root = getRoot();
         root.copyFrom(pose);
         byte slotDirection = attachmentRenderEntry.direction;
         if (slotDirection != NO_DIRECTION) {

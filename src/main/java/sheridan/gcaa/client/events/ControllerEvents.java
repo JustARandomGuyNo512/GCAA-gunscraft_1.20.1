@@ -1,10 +1,7 @@
 package sheridan.gcaa.client.events;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -17,17 +14,19 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
-import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
+import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.screens.ClientSettingsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
+import sheridan.gcaa.items.attachments.IInteractive;
 import sheridan.gcaa.items.attachments.Scope;
-import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.OpenAttachmentScreenPacket;
 import sheridan.gcaa.network.packets.c2s.SwitchFireModePacket;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
@@ -109,6 +108,11 @@ public class ControllerEvents {
                         event.setCanceled(cancel);
                     }
                 }
+                AttachmentsHandler.INSTANCE.getAttachments(stack, gun).forEach((attachment) -> {
+                    if (attachment instanceof IInteractive iInteractive) {
+                        iInteractive.onMouseButton(event.getButton(), event.getAction(), stack, gun, player);
+                    }
+                });
             }
         } else {
             Clients.mainHandStatus.buttonDown.set(false);
@@ -155,6 +159,13 @@ public class ControllerEvents {
                 Minecraft.getInstance().setScreen(new ClientSettingsScreen());
             } else if (KeyBinds.SWITCH_EFFECTIVE_SIGHT.isDown() && event.getAction() == 1) {
                 Clients.mainHandStatus.attachmentsStatus.onSwitchEffectiveSight();
+            }
+            if (stackMain.getItem() instanceof IGun gun) {
+                AttachmentsHandler.INSTANCE.getAttachments(stackMain, gun).forEach((attachment) -> {
+                    if (attachment instanceof IInteractive iInteractive) {
+                        iInteractive.onKeyPress(event.getKey(), event.getAction(), stackMain, gun, player);
+                    }
+                });
             }
             Clients.displayGunInfoDetails =
                     event.getKey() == KeyBinds.SHOW_FULL_GUN_INFO.getKey().getValue() && event.getAction() == 2;
