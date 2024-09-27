@@ -72,7 +72,7 @@
   "key.gcaa.key_show_full_gun_info": "显示详细枪械信息",
   "key.gcaa.open_client_settings_screen": "打开客户端设置界面",
   "key.gcaa.switch_effective_sight": "切换瞄具",
-  "key.gcaa.key.gcaa.use_grenade_launcher": "发射 / 装填榴弹",
+  "key.gcaa.use_grenade_launcher": "发射 / 装填榴弹",
 
   "itemGroup.guns": "枪械",
   "itemGroup.attachments": "配件"

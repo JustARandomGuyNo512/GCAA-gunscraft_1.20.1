@@ -30,6 +30,7 @@ import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.events.*;
 import sheridan.gcaa.client.render.entity.BulletRenderer;
+import sheridan.gcaa.client.render.entity.GrenadeRenderer;
 import sheridan.gcaa.client.screens.AttachmentsScreen;
 import sheridan.gcaa.client.screens.containers.ModContainers;
 import sheridan.gcaa.entities.ModEntities;
@@ -101,6 +102,7 @@ public class GCAA {
         @SubscribeEvent
         public static void onRegisterRenderer(EntityRenderersEvent.RegisterRenderers event) {
             event.registerEntityRenderer(ModEntities.PROJECTILE.get(), BulletRenderer::new);
+            event.registerEntityRenderer(ModEntities.GRENADE.get(), GrenadeRenderer::new);
         }
 
         @OnlyIn(Dist.CLIENT)

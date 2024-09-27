@@ -72,7 +72,7 @@
   "key.gcaa.key_show_full_gun_info": "Show gun details",
   "key.gcaa.open_client_settings_screen": "Open client settings screen",
   "key.gcaa.switch_effective_sight": "Switching sight",
-  "key.gcaa.key.gcaa.use_grenade_launcher": "launch / reload grenade",
+  "key.gcaa.use_grenade_launcher": "launch / reload grenade",
 
   "itemGroup.guns": "Guns",
   "itemGroup.attachments": "Attachments"

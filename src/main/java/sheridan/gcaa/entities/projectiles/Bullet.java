@@ -31,7 +31,6 @@ import net.minecraft.world.phys.*;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
-import sheridan.gcaa.entities.ModEntities;
 import sheridan.gcaa.entities.projectiles.damageTypes.DamageTypes;
 import sheridan.gcaa.entities.projectiles.damageTypes.ProjectileDamage;
 import sheridan.gcaa.items.gun.IGun;
@@ -41,9 +40,8 @@ import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
-public class Projectile extends Entity implements IProjectile {
+public class Bullet extends Entity implements IProjectile {
     private static final Random RANDOM = new Random();
     public static final float CHUNK_TO_METER = 0.8f;
     public static final float BASE_SPREAD_INDEX = 0.0087F;
@@ -51,13 +49,13 @@ public class Projectile extends Entity implements IProjectile {
     public float minDamage;
     public float effectiveRange;
     public LivingEntity shooter;
-    public float speed;
-    public float spread;
+//    public float speed;
+//    public float spread;
     private float progress;
-    private static final Predicate<Entity> PROJECTILE_TARGETS = (input) -> input != null && !input.isSpectator() && !(input instanceof ItemEntity) && !(input instanceof ExperienceOrb);
-    public static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(Projectile.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Float> EFFECTIVE_RANGE = SynchedEntityData.defineId(Projectile.class, EntityDataSerializers.FLOAT);
-    public static final EntityDataAccessor<Vector3f> INITIAL_POS = SynchedEntityData.defineId(Projectile.class, EntityDataSerializers.VECTOR3);
+    //private static final Predicate<Entity> PROJECTILE_TARGETS = (input) -> input != null && !input.isSpectator() && !(input instanceof ItemEntity) && !(input instanceof ExperienceOrb);
+    public static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(Bullet.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Float> EFFECTIVE_RANGE = SynchedEntityData.defineId(Bullet.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Vector3f> INITIAL_POS = SynchedEntityData.defineId(Bullet.class, EntityDataSerializers.VECTOR3);
 
     @Override
     protected void defineSynchedData() {
@@ -66,16 +64,13 @@ public class Projectile extends Entity implements IProjectile {
         this.entityData.define(INITIAL_POS, new Vector3f(0,0,0));
     }
 
-    public Projectile(EntityType<? extends Projectile> entityTypeIn, Level levelIn) {
+    public Bullet(EntityType<? extends Bullet> entityTypeIn, Level levelIn) {
         super(entityTypeIn, levelIn);
     }
 
-    public static void spawn(Player player, IGun gun) {
-
-    }
-
-    public Projectile(EntityType<? extends Projectile> entityTypeIn, Level levelIn, LivingEntity shooter, Vec3 lookAngle, float speed, float spread, float damage, float minDamage, int type, float effectiveRange, int force, IGun gun) {
+    public Bullet(EntityType<? extends Bullet> entityTypeIn, Level levelIn, LivingEntity shooter, Vec3 lookAngle, float speed, float spread, float damage, float minDamage, int type, float effectiveRange, int force, IGun gun) {
         this(entityTypeIn, levelIn);
+        effectiveRange *= 16;
         this.shooter = shooter;
         Vec3 shooterPos = new Vec3(shooter.getX(), shooter.getY() + shooter.getEyeHeight(shooter.getPose()), shooter.getZ());
         this.setPos(shooterPos.x, shooterPos.y, shooterPos.z);
@@ -87,26 +82,23 @@ public class Projectile extends Entity implements IProjectile {
                 (float) this.getZ()
         ));
         this.entityData.set(EFFECTIVE_RANGE, effectiveRange);
-        shoot(shooter, speed, spread, damage, minDamage, effectiveRange, lookAngle);
+        shoot(speed, spread, damage, minDamage, effectiveRange, lookAngle);
     }
 
-    @Override
-    public void shoot(LivingEntity shooter, float speed, float spread, float baseDamage, float miniDamage, float effectiveRange, Vec3 angle) {
+    public void shoot(float speed, float spread, float baseDamage, float miniDamage, float effectiveRange, Vec3 angle) {
         this.baseDamage = baseDamage;
         this.minDamage = miniDamage;
-        this.effectiveRange = effectiveRange;
-        this.speed = speed * CHUNK_TO_METER;
-        this.spread = spread * BASE_SPREAD_INDEX;
+        this.effectiveRange = effectiveRange * effectiveRange;
+        speed *= CHUNK_TO_METER;
+        spread *= BASE_SPREAD_INDEX;
         Vec3 velocity = (angle).normalize().add(
-                RANDOM.nextGaussian() * this.spread,
-                RANDOM.nextGaussian() * this.spread,
-                RANDOM.nextGaussian() * this.spread).scale(speed);
+                RANDOM.nextGaussian() * spread,
+                RANDOM.nextGaussian() * spread,
+                RANDOM.nextGaussian() * spread).scale(speed);
         this.setDeltaMovement(velocity);
-//        double horizontalDistance = velocity.horizontalDistance();
-//        this.setYRot( - (float)(Mth.atan2(velocity.x, velocity.z) * (double)(180F / (float)Math.PI)));
-//        this.setXRot( - (float)(Mth.atan2(velocity.y, horizontalDistance) * (double)(180F / (float)Math.PI)));
-//        this.yRotO = this.getYRot();
-//        this.xRotO = this.getXRot();
+        double horizontalDistance = velocity.horizontalDistance();
+        this.setYRot( - (float)(Mth.atan2(velocity.x, velocity.z) * (double)(180F / (float)Math.PI)));
+        this.setXRot( - (float)(Mth.atan2(velocity.y, horizontalDistance) * (double)(180F / (float)Math.PI)));
     }
 
     @Override
@@ -118,11 +110,8 @@ public class Projectile extends Entity implements IProjectile {
         super.tick();
         if (!this.level().isClientSide) {
             Vec3 prevPos = this.position();
-//            if (this.shooter != null) {
-//                System.out.println(this.shooter.position() + "   " + prevPos);
-//            }
             Vec3 nextPos = prevPos.add(this.getDeltaMovement());
-            HitResult result = getHitResultOnMoveVector(this, PROJECTILE_TARGETS);
+            HitResult result = getHitResultOnMoveVector(this, GENERIC_TARGETS);
             if (result.getType() != HitResult.Type.MISS) {
                 if (result.getType() == HitResult.Type.ENTITY) {
                     if (hitEntity((EntityHitResult) result, prevPos, nextPos)) {
@@ -146,7 +135,7 @@ public class Projectile extends Entity implements IProjectile {
 
     public boolean hitEntity(EntityHitResult result, Vec3 prevPos, Vec3 nextPos) {
         Entity entity = result.getEntity();
-        if (entity == this.shooter || entity instanceof Projectile) {
+        if (entity == this.shooter || entity instanceof Bullet) {
             return false;
         }
         entity.invulnerableTime = 0;
@@ -192,7 +181,7 @@ public class Projectile extends Entity implements IProjectile {
         double d0 = Double.MAX_VALUE;
         Entity result = null;
         for(Entity e : level.getEntities(entity, entityAABB, predicate)) {
-            if (e != this.shooter && e.getId() != this.shooter.getId() && !(e instanceof Projectile)) {
+            if (e != this.shooter && e.getId() != this.shooter.getId() && !(e instanceof Bullet)) {
                 AABB aabb = e.getBoundingBox().inflate(0.3f);
                 Optional<Vec3> optional = aabb.clip(vec3, endVec);
                 if (optional.isPresent()) {
@@ -357,19 +346,16 @@ public class Projectile extends Entity implements IProjectile {
         if (this.tickCount >= 100) {
             return false;
         }
-        return this.level().isClientSide || this.shooter != null;
-//        Vec3 pos = this.position();
-//        Vector3f initialPos = this.entityData.get(INITIAL_POS);
-//        float effectiveRange = this.entityData.get(EFFECTIVE_RANGE);
-//        float disX = (float) (pos.x - initialPos.x);
-//        float disY = (float) (pos.y - initialPos.y);
-//        float disZ = (float) (pos.z - initialPos.z);
-//        progress = (disX * disX + disY * disY + disZ * disZ) / (effectiveRange * effectiveRange);
-//        return progress < 1.0f;
+        if (this.shooter == null) {
+            return false;
+        }
+        Vec3 pos = this.position();
+        Vector3f initialPos = this.entityData.get(INITIAL_POS);
+        float disX = (float) (pos.x - initialPos.x);
+        float disY = (float) (pos.y - initialPos.y);
+        float disZ = (float) (pos.z - initialPos.z);
+        progress = (disX * disX + disY * disY + disZ * disZ) / effectiveRange;
+        return progress < 1.0f;
     }
 
-    @Override
-    public Projectile get() {
-        return this;
-    }
 }

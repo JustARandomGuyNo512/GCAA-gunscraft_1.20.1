@@ -14,6 +14,8 @@ import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
+import sheridan.gcaa.entities.ModEntities;
+import sheridan.gcaa.entities.projectiles.Grenade;
 import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.attachments.IInteractive;
@@ -23,6 +25,8 @@ import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.FireGrenadeLauncherPacket;
 import sheridan.gcaa.sounds.ModSounds;
 import sheridan.gcaa.utils.RenderAndMathUtils;
+
+import java.util.Objects;
 
 public class GrenadeLauncher extends Attachment implements IArmReplace, IInteractive {
     public static final String KEY_AMMO = "grenade_ammo";
@@ -61,7 +65,9 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
             setLastFire(stack, gun, lastFire);
             setHasGrenade(stack, gun, false);
             if (!player.level().isClientSide) {
-
+                Grenade grenade = new Grenade(ModEntities.GRENADE.get(), player.level());
+                grenade.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F);
+                player.level().addFreshEntity(grenade);
             }
         }
     }
@@ -78,7 +84,9 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
 
     @Override
     public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
-        setHasGrenade(stack, gun, false);
+        if (!hasGrenade(stack, gun)) {
+            setHasGrenade(stack, gun, false);
+        }
         setLastFire(data, 0L);
     }
 
@@ -114,6 +122,11 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
                 handleClientShoot(stack, gun, player);
             } else {
                 if (!ReloadingHandler.INSTANCE.reloading()) {
+                    if (Objects.equals(gun.getFireMode(stack).getName(), Auto.AUTO.getName())
+                            && Clients.mainHandStatus.buttonDown.get()
+                            && gun.getAmmoLeft(stack) > 0) {
+                        return;
+                    }
                     ReloadingHandler.INSTANCE.setTask(new GrenadeLauncherReloadTask(
                             RenderAndMathUtils.secondsToTicks(2.1f),
                             GP_25Model.INSTANCE.getGunReload(),

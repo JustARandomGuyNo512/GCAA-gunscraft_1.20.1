@@ -9,27 +9,27 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.entities.projectiles.Grenade;
-import sheridan.gcaa.entities.projectiles.Projectile;
+import sheridan.gcaa.entities.projectiles.Bullet;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
 
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES;
-    public static final RegistryObject<EntityType<Projectile>> PROJECTILE;
+    public static final RegistryObject<EntityType<Bullet>> PROJECTILE;
     public static final RegistryObject<EntityType<Grenade>> GRENADE;
 
 
     static {
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, GCAA.MODID);
-        PROJECTILE = registerProjectile("bullet", Projectile::new);
-        GRENADE = registerProjectile("grenade", Grenade::new);
+        PROJECTILE = registerProjectile("bullet", Bullet::new, 1, 4, 0.25f, 0.25f);
+        GRENADE = registerProjectile("grenade", Grenade::new, 3, 8, 0.5f, 0.5f);
     }
 
-    private static <T extends Entity> RegistryObject<EntityType<T>> registerProjectile(String id, BiFunction<EntityType<T>, Level, T> function) {
+    private static <T extends Entity> RegistryObject<EntityType<T>> registerProjectile(String id, BiFunction<EntityType<T>, Level, T> function, int updateInterval, int clientTrackingRange, float sizeX, float sizeY) {
         return ENTITIES.register(id, () -> {
             Objects.requireNonNull(function);
-            return EntityType.Builder.of(function::apply, MobCategory.MISC).sized(0.25F, 0.25F).updateInterval(1).clientTrackingRange(4).fireImmune().build(id);
+            return EntityType.Builder.of(function::apply, MobCategory.MISC).sized(sizeX, sizeY).updateInterval(updateInterval).clientTrackingRange(clientTrackingRange).fireImmune().build(id);
         });
     }
 
