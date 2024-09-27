@@ -49,10 +49,7 @@ public class Bullet extends Entity implements IProjectile {
     public float minDamage;
     public float effectiveRange;
     public LivingEntity shooter;
-//    public float speed;
-//    public float spread;
     private float progress;
-    //private static final Predicate<Entity> PROJECTILE_TARGETS = (input) -> input != null && !input.isSpectator() && !(input instanceof ItemEntity) && !(input instanceof ExperienceOrb);
     public static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(Bullet.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Float> EFFECTIVE_RANGE = SynchedEntityData.defineId(Bullet.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Vector3f> INITIAL_POS = SynchedEntityData.defineId(Bullet.class, EntityDataSerializers.VECTOR3);
@@ -253,7 +250,6 @@ public class Bullet extends Entity implements IProjectile {
         boolean notThrough = !(state.getBlock() instanceof LeavesBlock) && !(state.getBlock() instanceof AirBlock);
         boolean flag = checkForHitSpecialBlock(pos, state, result);
         if (notThrough && flag) {
-
             PacketHandler.simpleChannel.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
                     result.getLocation().x,
                     result.getLocation().y,

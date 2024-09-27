@@ -15,16 +15,20 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.entity.projectile.ThrownEnderpearl;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BellBlock;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.entity.EntityTeleportEvent;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.entities.projectiles.damageTypes.DamageTypes;
 import sheridan.gcaa.entities.projectiles.damageTypes.ProjectileDamage;
@@ -33,7 +37,6 @@ import java.util.Random;
 import java.util.function.Predicate;
 
 public class Grenade extends Entity implements IProjectile{
-    //private static final Predicate<Entity> PROJECTILE_TARGETS = (input) -> input != null && !input.isSpectator() && !(input instanceof ItemEntity) && !(input instanceof ExperienceOrb);
     private LivingEntity shooter;
     int bounced = 0;
 
@@ -67,7 +70,7 @@ public class Grenade extends Entity implements IProjectile{
     @Override
     public void tick() {
         super.tick();
-        if (this.tickCount >= 200) {
+        if (this.tickCount >= 220) {
             explode();
         }
         Vec3 deltaMovement = this.getDeltaMovement();
@@ -84,7 +87,6 @@ public class Grenade extends Entity implements IProjectile{
 
         Vec3 prevPos = this.position();
         Vec3 nextPos = prevPos.add(deltaMovement);
-
         BlockHitResult hitResult = this.level().clip(new ClipContext(prevPos, nextPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
         if (hitResult.getType() != HitResult.Type.MISS) {
             if (!this.level().isClientSide) {
@@ -108,6 +110,9 @@ public class Grenade extends Entity implements IProjectile{
                 this.level().playSound(this, hitResult.getBlockPos(), SoundEvents.IRON_GOLEM_HURT, SoundSource.BLOCKS, 1, 1);
                 bounced ++;
                 nextPos = hitResult.getLocation();
+                if (this.level().getBlockState(hitResult.getBlockPos()).getBlock() instanceof BellBlock bell && this.shooter instanceof Player) {
+                    bell.attemptToRing(this, this.level(), hitResult.getBlockPos(), hitResult.getDirection());
+                }
             } else {
                 explode();
             }
@@ -124,12 +129,17 @@ public class Grenade extends Entity implements IProjectile{
         this.setPos(nextPos.x, nextPos.y, nextPos.z);
         float f = this.isInWater() ? 0.8964f : 0.99f;
         this.setDeltaMovement(deltaMovement.add(0, -0.04f, 0).scale(f));
-        if (this.getDeltaMovement().length() <= 0.1f) {
+        if (bounced >= 3 && this.getDeltaMovement().length() <= 0.1f) {
             explode();
             return;
         }
         setXRot((float)(Mth.atan2(deltaMovement.y, deltaMovement.horizontalDistance()) * (double)(180F / (float)Math.PI)));
         this.setXRot(lerpRotation(this.xRotO, this.getXRot()));
+    }
+
+    @Override
+    public boolean shouldRenderAtSqrDistance(double dis) {
+        return dis <= 32768;
     }
 
     @Override
@@ -146,7 +156,7 @@ public class Grenade extends Entity implements IProjectile{
         entity.invulnerableTime = 0;
         ProjectileDamage damageSource = (ProjectileDamage) DamageTypes.getDamageSource(this.level(), DamageTypes.GENERIC_PROJECTILE, this, this.shooter);
         damageSource.shooter = this.shooter;
-        entity.hurt(damageSource, 5);
+        entity.hurt(damageSource, Math.max(2, 5 - bounced));
         explode();
     }
 
@@ -207,6 +217,6 @@ public class Grenade extends Entity implements IProjectile{
         double d1 = packet.getY();
         double d2 = packet.getZ();
         this.setPos(d0, d1, d2);
-        //this.noCulling = true;
+        this.noCulling = true;
     }
 }
