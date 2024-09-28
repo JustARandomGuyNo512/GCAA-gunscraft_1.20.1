@@ -85,7 +85,7 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         boolean showAnimation = context.isFirstPerson;
-        long lastFire = showAnimation ? GrenadeLauncher.getLastFire(context.itemStack, context.gun) : 0;
+        long lastFire = (showAnimation || context.isThirdPerson()) ? GrenadeLauncher.getLastFire(context.itemStack, context.gun) : 0;
         showAnimation = showAnimation && ReloadingHandler.INSTANCE.getCustomPayload(false) == GrenadeLauncherReloadTask.CUSTOM_PAYLOAD;
         if (showAnimation) {
             AnimationHandler.INSTANCE.apply(this, RELOAD_ANIMATION_KEY);
@@ -97,7 +97,7 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
         context.render(body, vertexConsumer);
         context.renderIf(vertexConsumer, hasGrenade, grenade);
         context.renderIf(vertexConsumer, showAnimation, grenade_reloading);
-        if (context.isThirdPerson() || context.isFirstPerson) {
+        if (lastFire != 0) {
             context.pushPose().translateTo(muzzle);
             context.renderMuzzleFlashEntry(muzzleFlashEntry, lastFire, 1f);
             context.popPose();
