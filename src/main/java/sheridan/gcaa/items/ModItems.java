@@ -10,9 +10,7 @@ import sheridan.gcaa.items.attachments.akStuff.AKRailBracket;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.attachments.grips.VerticalGrip;
 import sheridan.gcaa.items.attachments.handguard.AKImprovedHandguard;
-import sheridan.gcaa.items.attachments.muzzle.AKCompensator;
-import sheridan.gcaa.items.attachments.muzzle.AKSuppressor;
-import sheridan.gcaa.items.attachments.muzzle.PistolSuppressor;
+import sheridan.gcaa.items.attachments.muzzle.*;
 import sheridan.gcaa.items.attachments.scope.Acog;
 import sheridan.gcaa.items.attachments.scope.ScopeX10;
 import sheridan.gcaa.items.attachments.sight.Holographic;
@@ -32,6 +30,10 @@ public class ModItems {
 
     public static final RegistryObject<UnknownAttachment> UNKNOWN_ATTACHMENT = ITEMS.register("unknown_attachment", UnknownAttachment::new);
     public static final RegistryObject<AKSuppressor> AK_SUPPRESSOR = ITEMS.register("ak_suppressor", AKSuppressor::new);
+    public static final RegistryObject<ARSuppressor> AR_SUPPRESSOR = ITEMS.register("ar_suppressor", ARSuppressor::new);
+    public static final RegistryObject<ShotGunSuppressor> SHOTGUN_SUPPRESSOR = ITEMS.register("shotgun_suppressor", ShotGunSuppressor::new);
+    public static final RegistryObject<SniperSuppressor> SNIPER_SUPPRESSOR = ITEMS.register("sniper_suppressor", SniperSuppressor::new);
+    public static final RegistryObject<OspreySuppressor> OSPREY_SUPPRESSOR = ITEMS.register("osprey_suppressor", OspreySuppressor::new);
     public static final RegistryObject<AKCompensator> AK_COMPENSATOR = ITEMS.register("ak_compensator", AKCompensator::new);
     public static final RegistryObject<PistolSuppressor> PISTOL_SUPPRESSOR = ITEMS.register("pistol_suppressor", PistolSuppressor::new);
     public static final RegistryObject<AKImprovedHandguard> AK_IMPROVED_HANDGUARD = ITEMS.register("ak_improved_handguard", AKImprovedHandguard::new);

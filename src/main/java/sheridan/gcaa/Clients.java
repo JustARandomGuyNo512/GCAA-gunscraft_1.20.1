@@ -34,9 +34,7 @@ import sheridan.gcaa.client.model.attachments.akStuff.AKRailBracketModel;
 import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
 import sheridan.gcaa.client.model.attachments.grip.VerticalGripModel;
 import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel;
-import sheridan.gcaa.client.model.attachments.muzzle.AKCompensatorModel;
-import sheridan.gcaa.client.model.attachments.muzzle.AKSuppressorModel;
-import sheridan.gcaa.client.model.attachments.muzzle.PistolSuppressorModel;
+import sheridan.gcaa.client.model.attachments.muzzle.*;
 import sheridan.gcaa.client.model.attachments.scope.AcogModel;
 import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
 import sheridan.gcaa.client.model.attachments.sight.HolographicModel;
@@ -221,6 +219,10 @@ public class Clients {
         //attachment models register
         ArsenalLib.registerAttachmentModel(ModItems.PISTOL_SUPPRESSOR.get(), new PistolSuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_SUPPRESSOR.get(), new AKSuppressorModel());
+        ArsenalLib.registerAttachmentModel(ModItems.AR_SUPPRESSOR.get(), new ARSuppressorModel());
+        ArsenalLib.registerAttachmentModel(ModItems.SNIPER_SUPPRESSOR.get(), new SniperSuppressorModel());
+        ArsenalLib.registerAttachmentModel(ModItems.SHOTGUN_SUPPRESSOR.get(), new ShotGunSuppressorModel());
+        ArsenalLib.registerAttachmentModel(ModItems.OSPREY_SUPPRESSOR.get(), new OspreySuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_COMPENSATOR.get(), new AKCompensatorModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_IMPROVED_HANDGUARD.get(), new AKImprovedHandguardModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_RAIL_BRACKET.get(), new AKRailBracketModel());

@@ -20,6 +20,10 @@ public class ModTabs {
                 .displayItems((parameters, tab) -> {
                     tab.accept(ModItems.PISTOL_SUPPRESSOR.get());
                     tab.accept(ModItems.AK_SUPPRESSOR.get());
+                    tab.accept(ModItems.AR_SUPPRESSOR.get());
+                    tab.accept(ModItems.SHOTGUN_SUPPRESSOR.get());
+                    tab.accept(ModItems.SNIPER_SUPPRESSOR.get());
+                    tab.accept(ModItems.OSPREY_SUPPRESSOR.get());
                     tab.accept(ModItems.AK_COMPENSATOR.get());
                     tab.accept(ModItems.AK_IMPROVED_HANDGUARD.get());
                     tab.accept(ModItems.AK_RAIL_BRACKET.get());

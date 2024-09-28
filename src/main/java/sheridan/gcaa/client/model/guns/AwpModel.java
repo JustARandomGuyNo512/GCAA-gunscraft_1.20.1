@@ -51,7 +51,8 @@ public class AwpModel extends GunModel {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         context.renderIf(vertexConsumer, !context.hasScope(), front_IS, IS);
         context.renderIfOrElse(exp_mag, mag, context.hasMag(), vertexConsumer);
-        context.render(vertexConsumer, barrel, bolt, bolt_back_part, body, pin, bullet, muzzle);
+        context.renderIf(muzzle, vertexConsumer, !context.hasMuzzle());
+        context.render(vertexConsumer, barrel, bolt, bolt_back_part, body, pin, bullet);
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);
     }

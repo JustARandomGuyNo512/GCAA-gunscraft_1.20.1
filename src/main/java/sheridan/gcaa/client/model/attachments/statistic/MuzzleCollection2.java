@@ -10,12 +10,12 @@ import sheridan.gcaa.lib.ArsenalLib;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class MuzzleCollection1 {
+public class MuzzleCollection2 {
     public static ModelPart root;
-    public static final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/muzzles/muzzles1.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/muzzles/muzzles2.png");
 
     private static void init() {
-        root = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/muzzles/muzzle_collection1.geo.json")).bakeRoot().getChild("root");
+        root = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/muzzles/muzzle_collection2.geo.json")).bakeRoot().getChild("root");
         for (Map.Entry<String, ModelPart> entry : root.getChildren().entrySet()) {
             entry.getValue().meshing();
         }
