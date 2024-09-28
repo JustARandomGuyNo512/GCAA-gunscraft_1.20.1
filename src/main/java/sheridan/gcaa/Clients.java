@@ -37,6 +37,7 @@ import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel
 import sheridan.gcaa.client.model.attachments.muzzle.AKCompensatorModel;
 import sheridan.gcaa.client.model.attachments.muzzle.AKSuppressorModel;
 import sheridan.gcaa.client.model.attachments.muzzle.PistolSuppressorModel;
+import sheridan.gcaa.client.model.attachments.scope.AcogModel;
 import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
 import sheridan.gcaa.client.model.attachments.sight.HolographicModel;
 import sheridan.gcaa.client.model.attachments.sight.MicroRedDotModel;
@@ -230,6 +231,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.SCOPE_X10.get(), new ScopeX10Model());
         ArsenalLib.registerAttachmentModel(ModItems.VERTICAL_GRIP.get(), new VerticalGripModel());
         ArsenalLib.registerAttachmentModel(ModItems.GP_25.get(), new GP_25Model());
+        ArsenalLib.registerAttachmentModel(ModItems.ACOG.get(), new AcogModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

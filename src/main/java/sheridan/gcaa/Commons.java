@@ -39,7 +39,7 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.AWP.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of()))
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10", "gcaa:acog")))
                 .addChild(new AttachmentSlot(MAG, "mag", Set.of()))
         );
 
@@ -51,7 +51,7 @@ public class Commons {
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.M249.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of()))
                 .addChild(new AttachmentSlot(STOCK, Set.of()))

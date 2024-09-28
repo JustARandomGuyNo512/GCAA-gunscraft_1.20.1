@@ -13,6 +13,7 @@ import sheridan.gcaa.items.attachments.handguard.AKImprovedHandguard;
 import sheridan.gcaa.items.attachments.muzzle.AKCompensator;
 import sheridan.gcaa.items.attachments.muzzle.AKSuppressor;
 import sheridan.gcaa.items.attachments.muzzle.PistolSuppressor;
+import sheridan.gcaa.items.attachments.scope.Acog;
 import sheridan.gcaa.items.attachments.scope.ScopeX10;
 import sheridan.gcaa.items.attachments.sight.Holographic;
 import sheridan.gcaa.items.attachments.sight.MicroRedDot;
@@ -42,4 +43,5 @@ public class ModItems {
     public static final RegistryObject<ScopeX10> SCOPE_X10 = ITEMS.register("scope_x10", ScopeX10::new);
     public static final RegistryObject<VerticalGrip> VERTICAL_GRIP = ITEMS.register("vertical_grip", VerticalGrip::new);
     public static final RegistryObject<GrenadeLauncher> GP_25 = ITEMS.register("gp_25", GrenadeLauncher::new);
+    public static final RegistryObject<Acog> ACOG = ITEMS.register("acog", Acog::new);
 }

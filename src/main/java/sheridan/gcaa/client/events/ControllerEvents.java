@@ -26,8 +26,6 @@ import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.OpenAttachmentScreenPacket;
 import sheridan.gcaa.network.packets.c2s.SwitchFireModePacket;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class ControllerEvents {
@@ -36,13 +34,14 @@ public class ControllerEvents {
     @SubscribeEvent
     public static void onMouseScroll(InputEvent.MouseScrollingEvent event) {
         if (shouldHandleInputEvent() && Clients.isInAds() && Clients.mainHandStatus.getEffectiveSight() instanceof Scope scope) {
-            float scopeMagnification = Clients.mainHandStatus.getScopeMagnification();
+            float scopeMagnification = Clients.mainHandStatus.getScopeMagnificationRate();
             if (!Float.isNaN(scopeMagnification)) {
                 boolean zoomIn = event.getScrollDelta() == -1;
-                if (Clients.mainHandStatus.setScopeMagnification(scopeMagnification + (
+                if (Clients.mainHandStatus.setScopeMagnificationRate(scopeMagnification + (
                         zoomIn ? -0.1f : 0.1f
                 ))) {
-                    float magnification = Clients.mainHandStatus.getScopeMagnification();
+                    float magnification = Clients.mainHandStatus.getScopeMagnificationRate();
+                    System.out.println(magnification);
                     scopeMagnificationTask = new ScopeMagnificationTask(
                             magnification,
                             System.currentTimeMillis(),

@@ -64,7 +64,7 @@ public class ClientWeaponStatus {
                             switchSightTooltipShowed = true;
                         }
                         if (getEffectiveSight() instanceof Scope scope && lastAdsProgress != 1) {
-                            RenderEvents.renderScopeMagnificationTip(scope, getScopeMagnification(), 0xffffff);
+                            RenderEvents.renderScopeMagnificationTip(scope, getScopeMagnificationRate(), 0xffffff);
                         }
                     }
                 } else {
@@ -152,12 +152,12 @@ public class ClientWeaponStatus {
         return  attachmentsStatus == null ? null : attachmentsStatus.getEffectiveSight();
     }
 
-    public float getScopeMagnification() {
-        return attachmentsStatus == null ? Float.NaN : attachmentsStatus.getScopeMagnification();
+    public float getScopeMagnificationRate() {
+        return attachmentsStatus == null ? Float.NaN : attachmentsStatus.getScopeMagnificationRate();
     }
 
-    public boolean setScopeMagnification(float val) {
-        return attachmentsStatus != null && attachmentsStatus.setScopeMagnification(val);
+    public boolean setScopeMagnificationRate(float val) {
+        return attachmentsStatus != null && attachmentsStatus.setScopeMagnificationRate(val);
     }
 
     public AttachmentSlot getLeftArmReplace() {

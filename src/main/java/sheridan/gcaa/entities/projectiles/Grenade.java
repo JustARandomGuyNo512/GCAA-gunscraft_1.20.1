@@ -74,7 +74,7 @@ public class Grenade extends Entity implements IProjectile{
             explode();
         }
         Vec3 deltaMovement = this.getDeltaMovement();
-        if (this.level().isClientSide && this.tickCount > 8) {
+        if (this.level().isClientSide && this.tickCount >= 8) {
             SimpleParticleType type = this.isInWater() ? ParticleTypes.BUBBLE : ParticleTypes.CRIT;
             for(int i = 0; i < 4; ++i) {
                 this.level().addParticle(type,
@@ -127,7 +127,7 @@ public class Grenade extends Entity implements IProjectile{
         }
 
         this.setPos(nextPos.x, nextPos.y, nextPos.z);
-        float f = this.isInWater() ? 0.8964f : 0.99f;
+        float f = this.isInWater() ? 0.88f : 0.99f;
         this.setDeltaMovement(deltaMovement.add(0, -0.04f, 0).scale(f));
         if (bounced >= 3 && this.getDeltaMovement().length() <= 0.1f) {
             explode();

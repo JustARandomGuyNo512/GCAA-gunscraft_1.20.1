@@ -182,7 +182,7 @@ public class RenderEvents {
                 }
                 RenderSystem.disableBlend();
                 if (now - TEMP_TIMERS.get(MAGNIFICATION) < 500) {
-                    String str = "x" + Math.floor(magnificationTip);
+                    String str = "x" + Math.round(magnificationTip * 10.0) / 10.0;
                     guiGraphics.drawString(font, str, (width - font.width(str)) * 0.5f, 0.75f * height, magnificationTipColor,  true);
                 }
             }
@@ -290,7 +290,7 @@ public class RenderEvents {
             float adsProgress = Clients.mainHandStatus.getLerpAdsProgress(event.getPartialTick());
             double prevFov = event.getFOV();
             if (event.usedConfiguredFov()) {
-                float magnificationRate = Clients.mainHandStatus.attachmentsStatus.getScopeMagnification();
+                float magnificationRate = Clients.mainHandStatus.attachmentsStatus.getScopeMagnificationRate();
                 if (Float.isNaN(magnificationRate)) {
                     magnificationRate = 0;
                 }

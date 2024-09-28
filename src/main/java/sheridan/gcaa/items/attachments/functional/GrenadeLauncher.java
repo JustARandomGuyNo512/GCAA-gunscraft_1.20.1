@@ -92,6 +92,9 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
 
     @Override
     public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
+        if (hasGrenade(stack, gun)) {
+            //TODO: 出了弹药系统记得把榴弹还给玩家
+        }
         CompoundTag tag = gun.getGun().checkAndGet(stack);
         tag.remove(KEY_AMMO);
     }

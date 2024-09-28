@@ -21,7 +21,6 @@ import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.attachments.Sight;
-import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.SetEffectiveSightPacket;
@@ -47,7 +46,7 @@ public class ClientAttachmentsStatus {
     private String lastModifiedUUID = AttachmentSlot.NONE;
     private float[] tempSightAimPos;
     private float[] sightAimPos;
-    private float scopeMagnification;
+    private float scopeMagnificationRate;
     private float originalScopeMagnification;
 
     public ClientAttachmentsStatus(ClientWeaponStatus status) {
@@ -75,7 +74,7 @@ public class ClientAttachmentsStatus {
             rightArmReplace = null;
             effectiveSight = null;
             tempSightAimPos = null;
-            scopeMagnification = Float.NaN;
+            scopeMagnificationRate = Float.NaN;
             originalScopeMagnification = Float.NaN;
             sightSwitchingProgress = 0.9f;
             tempSightSwitchingProgress = 0.9f;
@@ -129,8 +128,8 @@ public class ClientAttachmentsStatus {
     private void updateScopeMagnification() {
         if (getEffectiveSight() instanceof Scope && gun != null) {
             String id = effectiveSight.getAttachmentId();
-            scopeMagnification = gun.getGun().getMagnificationsRateFor(id, itemStack);
-            originalScopeMagnification = scopeMagnification;
+            scopeMagnificationRate = gun.getGun().getMagnificationsRateFor(id, itemStack);
+            originalScopeMagnification = scopeMagnificationRate;
         }
     }
 
@@ -244,26 +243,26 @@ public class ClientAttachmentsStatus {
         return effectiveSight == null ? null : AttachmentsRegister.get(effectiveSight.getAttachmentId());
     }
 
-    public float getScopeMagnification() {
-        return scopeMagnification;
+    public float getScopeMagnificationRate() {
+        return scopeMagnificationRate;
     }
 
-    public boolean setScopeMagnification(float magnification) {
-        if (!Float.isNaN(scopeMagnification)) {
+    public boolean setScopeMagnificationRate(float magnification) {
+        if (!Float.isNaN(scopeMagnificationRate)) {
             magnification = Mth.clamp(magnification, 0, 1);
-            if (magnification == scopeMagnification) {
+            if (magnification == scopeMagnificationRate) {
                 return false;
             }
-            scopeMagnification = magnification;
+            scopeMagnificationRate = magnification;
             return true;
         }
         return false;
     }
 
     public void sendSetScopeMagnificationPacket() {
-        if (!Float.isNaN(scopeMagnification) && originalScopeMagnification != scopeMagnification && effectiveSight != null) {
-            PacketHandler.simpleChannel.sendToServer(new SetScopeMagnificationPacket(effectiveSight.getAttachmentId(), scopeMagnification));
-            gun.getGun().setMagnificationsRateFor(effectiveSight.getAttachmentId(), itemStack, scopeMagnification);
+        if (!Float.isNaN(scopeMagnificationRate) && originalScopeMagnification != scopeMagnificationRate && effectiveSight != null) {
+            PacketHandler.simpleChannel.sendToServer(new SetScopeMagnificationPacket(effectiveSight.getAttachmentId(), scopeMagnificationRate));
+            gun.getGun().setMagnificationsRateFor(effectiveSight.getAttachmentId(), itemStack, scopeMagnificationRate);
         }
     }
 }
