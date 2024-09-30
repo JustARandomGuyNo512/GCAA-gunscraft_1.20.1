@@ -28,6 +28,16 @@ public class Commons {
                 .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover", "gcaa:ak_improved_dust_cover_b")))
         );
 
+        AttachmentsRegister.registerAttachmentSlot(ModItems.M4A1.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor")))
+                .addChild(new AttachmentSlot(MAG, Set.of()))
+                .addChild(new AttachmentSlot(GRIP, Set.of()))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of()))
+                .addChild(new AttachmentSlot(STOCK, Set.of()))
+                .addChild(new AttachmentSlot("gas_block", Set.of()))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
+        );
+
         AttachmentsRegister.registerAttachmentSlot(ModItems.G19.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:pistol_suppressor", "gcaa:osprey_suppressor")))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:micro_red_dot")))

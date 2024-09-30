@@ -5,7 +5,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.client.animation.AnimationHandler;
+import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -104,5 +107,16 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     @Override
     public Optional<ModelPart> getAnyDescendantWithName(String pName) {
         return super.getAnyDescendantWithName(pName);
+    }
+
+    protected void defaultAssaultRifleAnimation(GunRenderContext gunRenderContext, AnimationDefinition recoil, AnimationDefinition shoot)  {
+        if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
+            KeyframeAnimations.animate(this, recoil, gunRenderContext.lastShoot,1);
+            KeyframeAnimations.animate(this, shoot, gunRenderContext.lastShoot,1);
+            if (gunRenderContext.isFirstPerson) {
+                AnimationHandler.INSTANCE.applyReload(this);
+                CameraAnimationHandler.INSTANCE.mix(camera);
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@ public class ModItems {
     public static final RegistryObject<G19> G19 = ITEMS.register("g19", G19::new);
     public static final RegistryObject<Python357> PYTHON_357 = ITEMS.register("python_357", Python357::new);
     public static final RegistryObject<Akm> AKM = ITEMS.register("akm", Akm::new);
+    public static final RegistryObject<M4a1> M4A1 = ITEMS.register("m4a1", M4a1::new);
     public static final RegistryObject<Awp> AWP = ITEMS.register("awp", Awp::new);
     public static final RegistryObject<M870> M870 = ITEMS.register("m870", M870::new);
     public static final RegistryObject<M249> M249 = ITEMS.register("m249", M249::new);

@@ -37,8 +37,13 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> MG_COVER_OPEN = registerSound("mg_cover_open", "item.generic.mg_cover_open");
     public static RegistryObject<SoundEvent> GP_25_FIRE = registerSound("gp_25_fire", "item.generic.gp_25_fire");
     public static RegistryObject<SoundEvent> GP_25_INSERT_GRENADE = registerSound("gp_25_insert_grenade", "item.generic.gp_25_insert_grenade");
+    public static RegistryObject<SoundEvent> AR_BOLT_RELEASE = registerSound("ar_bolt_release", "item.generic.ar_bolt_release");
+    public static RegistryObject<SoundEvent> AR_MAG_OFF = registerSound("ar_mag_off", "item.generic.ar_mag_off");
+    public static RegistryObject<SoundEvent> AR_MAG_ATTACH = registerSound("ar_mag_attach", "item.generic.ar_mag_attach");
+
 
     public static RegistryObject<SoundEvent> AKM_FIRE = registerSound("akm_fire", "item.akm.fire");
+    public static RegistryObject<SoundEvent> M4A1_FIRE = registerSound("m4a1_fire", "item.m4a1.fire");
     public static RegistryObject<SoundEvent> G19_FIRE = registerSound("g19_fire", "item.g19.fire");
     public static RegistryObject<SoundEvent> AWP_FIRE = registerSound("awp_fire", "item.awp.fire");
     public static RegistryObject<SoundEvent> AWP_FIRE_SUPPRESSED = registerSound("awp_fire_suppressed", "item.awp.fire_suppressed");

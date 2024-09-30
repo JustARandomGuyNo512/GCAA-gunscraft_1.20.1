@@ -10,9 +10,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL43;
+
+import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL11C.glGenTextures;
 import static org.lwjgl.opengl.GL11C.glGetIntegerv;
@@ -107,6 +110,7 @@ public class RenderAndMathUtils {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static PoseStack copyPoseStack(PoseStack stack) {
         PoseStack result = new PoseStack();
         result.setIdentity();
@@ -127,6 +131,7 @@ public class RenderAndMathUtils {
         return  (System.currentTimeMillis() - timeStamp) * 0.001f;
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static boolean isStencilEnabled() {
         int result = GL30.glGetFramebufferAttachmentParameteri(
                 GL30.GL_FRAMEBUFFER,
@@ -135,6 +140,7 @@ public class RenderAndMathUtils {
         return result != GL11.GL_NONE;
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void setUpStencil() {
         GL11.glDisable(GL43.GL_DEBUG_OUTPUT);
         Minecraft.getInstance().getMainRenderTarget().enableStencil();
@@ -154,4 +160,17 @@ public class RenderAndMathUtils {
         GlStateManager._glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthTextureId, 0);
         GL11.glEnable(GL43.GL_DEBUG_OUTPUT);
     }
+
+    @OnlyIn(Dist.CLIENT)
+    public static int getDepthTextureFormat() {
+        IntBuffer depthTextureID = BufferUtils.createIntBuffer(1);
+        glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, depthTextureID);
+        int depthTex = depthTextureID.get(0);
+        if (depthTex == 0) {
+            return -1;
+        }
+        glBindTexture(GL_TEXTURE_2D, depthTex);
+        return glGetTexLevelParameteri(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT);
+    }
+
 }

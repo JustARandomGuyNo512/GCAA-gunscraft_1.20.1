@@ -18,8 +18,7 @@ import sheridan.gcaa.client.render.GunRenderContext;
 public class AwpModel extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/awp/awp.png");
     private final AnimationDefinition recoil, recoil_ads;
-    private ModelPart barrel, front_IS, IS, body, bolt, bolt_back_part, pin, mag, exp_mag, bullet, muzzle;
-    private ModelPart s_scope, s_muzzle;
+    private ModelPart barrel, front_IS, IS, body, bolt, bolt_back_part, pin, mag, exp_mag, bullet, exp_mag_bullet, muzzle;
 
     public AwpModel() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/awp/awp.geo.json"),
@@ -39,20 +38,25 @@ public class AwpModel extends GunModel {
         pin = gun.getChild("pin").meshing();
         mag = gun.getChild("mag").meshing();
         exp_mag = gun.getChild("exp_mag").meshing();
-        bullet = gun.getChild("bullet").meshing();
+        bullet = mag.getChild("bullet").meshing();
+        exp_mag_bullet = exp_mag.getChild("exp_mag_bullet").meshing();
         muzzle = gun.getChild("muzzle").meshing();
-
-        s_scope = gun.getChild("s_scope");
-        s_muzzle = gun.getChild("s_muzzle");
     }
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        if (context.hasMag()) {
+            bullet.visible = false;
+            exp_mag_bullet.visible = context.shouldBulletRender();
+        } else {
+            exp_mag_bullet.visible = false;
+            bullet.visible = context.shouldBulletRender();
+        }
         context.renderIf(vertexConsumer, !context.hasScope(), front_IS, IS);
         context.renderIfOrElse(exp_mag, mag, context.hasMag(), vertexConsumer);
         context.renderIf(muzzle, vertexConsumer, !context.hasMuzzle());
-        context.render(vertexConsumer, barrel, bolt, bolt_back_part, body, pin, bullet);
+        context.render(vertexConsumer, barrel, bolt, bolt_back_part, body, pin);
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);
     }

@@ -21,8 +21,12 @@
   "item.generic.mg_cover_open": { "subtitle": "item.generic.mg_cover_open", "sounds": [{ "name": "gcaa:generic/mg_cover_open" }]},
   "item.generic.gp_25_fire": { "subtitle": "item.generic.gp_25_fire", "sounds": [{ "name": "gcaa:generic/gp_25_fire" }]},
   "item.generic.gp_25_insert_grenade": { "subtitle": "item.generic.gp_25_insert_grenade", "sounds": [{ "name": "gcaa:generic/gp_25_insert_grenade" }]},
+  "item.generic.ar_bolt_release": { "subtitle": "item.generic.ar_bolt_release", "sounds": [{ "name": "gcaa:generic/ar_bolt_release" }]},
+  "item.generic.ar_mag_attach": { "subtitle": "item.generic.ar_mag_attach", "sounds": [{ "name": "gcaa:generic/ar_mag_attach" }]},
+  "item.generic.ar_mag_off": { "subtitle": "item.generic.ar_mag_off", "sounds": [{ "name": "gcaa:generic/ar_mag_off" }]},
 
   "item.akm.fire": { "subtitle": "item.akm.fire", "sounds": [{ "name": "gcaa:akm/akm_fire" }]},
+  "item.m4a1.fire": { "subtitle": "item.m4a1.fire", "sounds": [{ "name": "gcaa:m4a1/m4a1_fire" }]},
   "item.g19.fire": { "subtitle": "item.g19.fire", "sounds": [{ "name": "gcaa:g19/g19_fire" }]},
   "item.awp.fire": { "subtitle": "item.awp.fire", "sounds": [{ "name": "gcaa:awp/awp_fire" }]},
   "item.awp.fire_suppressed": { "subtitle": "item.awp.fire_suppressed", "sounds": [{ "name": "gcaa:awp/awp_fire_suppressed" }]},

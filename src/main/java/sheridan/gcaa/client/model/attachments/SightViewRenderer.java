@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -22,8 +23,14 @@ import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.client.render.RenderTypes;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
+import static com.mojang.blaze3d.platform.GlConst.GL_DEPTH_COMPONENT24;
+import static com.mojang.blaze3d.platform.GlConst.GL_DEPTH_COMPONENT32;
+import static org.lwjgl.opengl.ARBDepthBufferFloat.GL_DEPTH32F_STENCIL8;
+import static org.lwjgl.opengl.ARBDepthBufferFloat.GL_DEPTH_COMPONENT32F;
 import static org.lwjgl.opengl.GL11C.GL_EQUAL;
 import static org.lwjgl.opengl.GL11C.GL_NOTEQUAL;
+import static org.lwjgl.opengl.GL14.GL_DEPTH_COMPONENT16;
+import static org.lwjgl.opengl.GL30C.GL_DEPTH24_STENCIL8;
 
 @OnlyIn(Dist.CLIENT)
 public class SightViewRenderer {

@@ -45,7 +45,7 @@ public class G19Model extends GunModel {
     @Override
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
-        bullet.visible = ReloadingHandler.isReloading() || ReloadingHandler.disFromLastReload(1000);
+        bullet.visible = context.shouldBulletRender();
         context.render(vertexConsumer, barrel, slide, body, mag);
         if (context.shouldShowLeftArm()) {
             context.renderArm(left_arm, false);

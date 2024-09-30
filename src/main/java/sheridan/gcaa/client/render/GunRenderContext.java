@@ -326,4 +326,8 @@ public class GunRenderContext {
             return !(player.getOffhandItem().getItem() instanceof ShieldItem);
         }
     }
+
+    public boolean shouldBulletRender() {
+        return ReloadingHandler.isReloading() && (ammoLeft > 0 || ReloadingHandler.disFromLastReload(1000));
+    }
 }

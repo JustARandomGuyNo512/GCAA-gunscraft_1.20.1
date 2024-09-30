@@ -19,6 +19,7 @@ import sheridan.gcaa.entities.projectiles.Grenade;
 import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.attachments.IInteractive;
+import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.fireModes.Auto;
 import sheridan.gcaa.network.PacketHandler;
@@ -88,6 +89,9 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
             setHasGrenade(stack, gun, false);
         }
         setLastFire(data, 0L);
+        GunProperties properties = gun.getGunProperties();
+        properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate + 0.05f);
+        properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate + 0.12f);
     }
 
     @Override
@@ -97,6 +101,9 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
         }
         CompoundTag tag = gun.getGun().checkAndGet(stack);
         tag.remove(KEY_AMMO);
+        GunProperties properties = gun.getGunProperties();
+        properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate - 0.05f);
+        properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate - 0.12f);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -122,7 +129,9 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
     public void onKeyPress(int key, int action, ItemStack stack, IGun gun, Player player) {
         if (KeyBinds.USE_GRENADE_LAUNCHER.isDown() && action == 1) {
             if (hasGrenade(stack, gun)) {
-                handleClientShoot(stack, gun, player);
+                if (!ReloadingHandler.INSTANCE.reloading()) {
+                    handleClientShoot(stack, gun, player);
+                }
             } else {
                 if (!ReloadingHandler.INSTANCE.reloading()) {
                     if (Objects.equals(gun.getFireMode(stack).getName(), Auto.AUTO.getName())
