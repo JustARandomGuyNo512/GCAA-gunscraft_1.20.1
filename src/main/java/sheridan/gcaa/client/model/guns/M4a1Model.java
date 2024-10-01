@@ -50,7 +50,7 @@ public class M4a1Model extends GunModel  {
         bullet.visible = context.shouldBulletRender();
         context.renderIf(IS, vertexConsumer, !context.hasScope());
         context.renderIf(muzzle, vertexConsumer, !context.hasMuzzle());
-        context.render(vertexConsumer, barrel, front_IS, handguard, stock, charge, body, safety, bolt, grip, ring, mag, bullet);
+        context.render(vertexConsumer, barrel, front_IS, handguard, stock, charge, body, safety, bolt, grip, ring, mag);
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);
     }

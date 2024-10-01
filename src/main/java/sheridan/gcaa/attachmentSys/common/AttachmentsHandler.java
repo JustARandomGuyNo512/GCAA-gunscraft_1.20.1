@@ -10,6 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
+import sheridan.gcaa.attachmentSys.AttachmentSlotProxy;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.AttachmentsRenderContext;
@@ -25,7 +26,7 @@ import java.util.*;
 
 public class AttachmentsHandler {
     public static final AttachmentsHandler INSTANCE = new AttachmentsHandler();
-    static final String PASSED = Attachment.PASSED;
+    //static final String PASSED = Attachment.PASSED;
     static final String ROOT = AttachmentSlot.ROOT;
     static final String NONE = AttachmentSlot.NONE;
 
@@ -42,6 +43,7 @@ public class AttachmentsHandler {
             AttachmentSlot root = getAttachmentBaseSlots(gun);
             root.cleanAll();
             if (root != AttachmentSlot.EMPTY) {
+                AttachmentSlotProxy proxy = AttachmentsRegister.getProxiedAttachmentSlot(gun, root);
                 //遍历当前枪械的配件列表
                 for (int i = 0; i < attachments.size(); i++) {
                     CompoundTag tag = attachments.getCompound(i);
@@ -51,7 +53,7 @@ public class AttachmentsHandler {
                     if (attachment != null) {
                         String slotName = tag.getString("slot_name");
                         AttachmentSlot prevSlot = root.searchChild(slotName);
-                        if (!prevSlot.isLocked() && PASSED.equals(attachment.canAttach(itemStack, gun, root, prevSlot))) {
+                        if (!prevSlot.isLocked() && proxy.onAttach(attachment, itemStack, gun, root, prevSlot).isPassed()) {
                             //如果当前配件可以安装
                             attachment.onAttach(itemStack, gun, properties);
                             if (attachment instanceof ISubSlotProvider provider) {

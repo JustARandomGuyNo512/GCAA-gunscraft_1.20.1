@@ -13,11 +13,13 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
+import sheridan.gcaa.attachmentSys.AttachmentSlotProxy;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.model.ISlotProviderModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.ISubSlotProvider;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.HashMap;
@@ -30,17 +32,24 @@ public class AttachmentsGuiContext {
     private static final ResourceLocation EMPTY_SELECTED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/empty_selected.png");
     private static final ResourceLocation OCCUPIED_SELECTED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/occupied_selected.png");
     private static final Vector3f OUT_SCREEN = new Vector3f(-1, -1, -1);
+    private final AttachmentSlotProxy proxy;
     private final AttachmentSlot root;
     private AttachmentSlot selected;
     private final Map<AttachmentSlot, Vector3f> guiPosMap = new HashMap<>();
 
-    public AttachmentsGuiContext(AttachmentSlot root) {
+    public AttachmentsGuiContext(IGun gun, AttachmentSlot root) {
+        System.out.println("AttachmentsGuiContext(IGun gun, AttachmentSlot root");
         this.root = root;
+        this.proxy = AttachmentsRegister.getProxiedAttachmentSlot(gun, root);
         initPosMap(this.root);
     }
 
     public AttachmentSlot getRoot() {
         return this.root;
+    }
+
+    public AttachmentSlotProxy getProxy() {
+        return this.proxy;
     }
 
     public AttachmentSlot getSelected() {

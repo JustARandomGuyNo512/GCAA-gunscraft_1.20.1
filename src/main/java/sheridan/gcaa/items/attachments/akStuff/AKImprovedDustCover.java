@@ -21,20 +21,10 @@ public class AKImprovedDustCover extends SubSlotProvider {
     }
 
     @Override
-    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
-
-    }
+    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {}
 
     @Override
-    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
-
-    }
-
-    @Override
-    public String canAttach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
-        String res = super.canAttach(stack, gun, root, prevSlot);
-        return PASSED.equals(res) ? checkConflict(res, root, root.searchChild("rail_set"), Set.of()) : res;
-    }
+    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {}
 
     @Override
     public void appendSlots(AttachmentSlot parent) {

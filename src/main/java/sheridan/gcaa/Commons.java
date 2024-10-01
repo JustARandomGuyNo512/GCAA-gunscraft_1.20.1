@@ -2,7 +2,10 @@ package sheridan.gcaa;
 
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
+import sheridan.gcaa.attachmentSys.AttachmentSlotProxy;
+import sheridan.gcaa.attachmentSys.IAttachmentSlotProxyCreator;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
+import sheridan.gcaa.attachmentSys.proxies.AkmAttachmentSlotProxy;
 import sheridan.gcaa.items.ModItems;
 
 import java.util.Set;
@@ -25,7 +28,8 @@ public class Commons {
                 .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")))
                 .addChild(new AttachmentSlot(STOCK, Set.of()))
-                .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover", "gcaa:ak_improved_dust_cover_b")))
+                .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover", "gcaa:ak_improved_dust_cover_b"))),
+                AkmAttachmentSlotProxy::new
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.M4A1.get(), AttachmentSlot.root()

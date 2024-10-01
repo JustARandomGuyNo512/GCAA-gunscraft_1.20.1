@@ -184,6 +184,9 @@ public class AttachmentSlot {
     }
 
     public void cleanAll() {
+        if (this == EMPTY) {
+            return;
+        }
         this.attachmentId = NONE;
         if (hasChildren()) {
             for (AttachmentSlot child : children.values())  {
@@ -217,7 +220,9 @@ public class AttachmentSlot {
         if (original == null) {
             return null;
         }
-
+        if (original == EMPTY) {
+            return EMPTY;
+        }
         AttachmentSlot copiedSlot = original.copy();
 
         for (Map.Entry<String, AttachmentSlot> entry : original.children.entrySet()) {

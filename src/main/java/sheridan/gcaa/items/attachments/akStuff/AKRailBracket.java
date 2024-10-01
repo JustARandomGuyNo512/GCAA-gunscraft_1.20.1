@@ -24,12 +24,6 @@ public class AKRailBracket extends SubSlotProvider {
     public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {}
 
     @Override
-    public String canAttach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
-        String res = super.canAttach(stack, gun, root, prevSlot);
-        return PASSED.equals(res) ? checkConflict(res, root, root.searchChild("dust_cover"), Set.of()) : res;
-    }
-
-    @Override
     public void appendSlots(AttachmentSlot parent) {
         parent.addChild(root.getChild("rail_bracket_scope").copy());
     }

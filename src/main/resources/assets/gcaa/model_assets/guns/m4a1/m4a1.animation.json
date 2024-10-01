@@ -6,38 +6,42 @@
 			"bones": {
 				"gun": {
 					"rotation": {
-						"0.0": [0, 0, 0],
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
 						"0.04": {
-							"pre": [0.3142, 0, 0.725],
-							"post": [0.3142, 0, 0.725],
+							"post": [0.3142, 0, 0.2],
 							"lerp_mode": "catmullrom"
 						},
 						"0.09": {
-							"post": [-0.7, 0, -0.8],
+							"post": [-0.7, 0, -0.3],
 							"lerp_mode": "catmullrom"
 						},
 						"0.17": {
-							"post": [0.22, 0, 0.4],
+							"post": [0.22, 0, 0.2],
 							"lerp_mode": "catmullrom"
 						},
 						"0.27": {
-							"post": [0.45, 0, -0.25],
+							"post": [0.45, 0, -0.1],
 							"lerp_mode": "catmullrom"
 						},
 						"0.39": {
-							"post": [0.225, -0.2, 0.2],
+							"post": [0.225, -0.2, 0.08],
 							"lerp_mode": "catmullrom"
 						},
 						"0.51": {
-							"post": [0.055, -0.075, -0.075],
+							"post": [0.055, -0.075, -0.04],
 							"lerp_mode": "catmullrom"
 						},
 						"0.63": [0, 0, 0]
 					},
 					"position": {
-						"0.0": [0, 0, 0],
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
 						"0.03": {
-							"pre": [0, -0.025, 0.2],
 							"post": [0, -0.025, 0.2],
 							"lerp_mode": "catmullrom"
 						},

@@ -7,6 +7,8 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
+import sheridan.gcaa.attachmentSys.AttachmentSlotProxy;
+import sheridan.gcaa.attachmentSys.IAttachmentSlotProxyCreator;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
@@ -16,8 +18,9 @@ import java.util.Map;
 public class AttachmentsRegister {
     private static final Map<String, IAttachment> ATTACHMENTS = new Object2ObjectArrayMap<>();
     private static final Map<IAttachment, ResourceLocation> REGISTRY_KEYS = new Object2ObjectArrayMap<>();
-    private static final Map<IGun, AttachmentSlot> ATTACHMENT_SLOTS = new Object2ObjectArrayMap<>();
     private static final Map<IAttachment, IAttachmentModel> ATTACHMENT_MODELS = new Object2ObjectArrayMap<>();
+    private static final Map<IGun, IAttachmentSlotProxyCreator> ATTACHMENT_SLOT_PROXIES = new Object2ObjectArrayMap<>();
+    private static final Map<IGun, AttachmentSlot> ATTACHMENT_SLOTS = new Object2ObjectArrayMap<>();
 
     public static void register(Map.Entry<ResourceKey<Item>, Item> entry) {
         if (entry.getValue() instanceof IAttachment attachment) {
@@ -57,6 +60,19 @@ public class AttachmentsRegister {
 
     public static void registerAttachmentSlot(IGun gun, AttachmentSlot slot) {
         ATTACHMENT_SLOTS.put(gun, slot);
+    }
+
+    public static void registerAttachmentSlot(IGun gun, AttachmentSlot slot, IAttachmentSlotProxyCreator creator) {
+        ATTACHMENT_SLOTS.put(gun, slot);
+        ATTACHMENT_SLOT_PROXIES.put(gun, creator);
+    }
+
+    public static AttachmentSlotProxy getProxiedAttachmentSlot(IGun gun, AttachmentSlot root) {
+        IAttachmentSlotProxyCreator creator = ATTACHMENT_SLOT_PROXIES.get(gun);
+        if (creator != null) {
+            return creator.create(root);
+        }
+        return AttachmentSlotProxy.getEmptyProxy(root);
     }
 
     public static AttachmentSlot getAttachmentSlot(IGun gun) {

@@ -24,6 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
+import sheridan.gcaa.attachmentSys.AttachmentSlotProxy;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.events.RenderEvents;
@@ -112,7 +113,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
             ItemStack stack = player.getMainHandItem();
             if (stack.getItem() instanceof IGun) {
                 AttachmentSlot slot = AttachmentsHandler.INSTANCE.getAttachmentSlots(stack);
-                this.context = new AttachmentsGuiContext(slot);
+                this.context = new AttachmentsGuiContext(gun, slot);
             }
         }
     }
@@ -123,8 +124,9 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
             if (slot != null && selectedSlot.getItem().getItem() instanceof IAttachment attachment) {
                 ItemStack stack = this.minecraft.player.getMainHandItem();
                 if (stack.getItem() instanceof IGun gun) {
-                    String attachRes = attachment.canAttach(stack, gun, context.getRoot(), slot);
-                    if (Attachment.PASSED.equals(attachRes)) {
+                    AttachmentSlotProxy proxy = context.getProxy();
+                    IAttachment.AttachResult attachRes = proxy.onAttach(attachment, stack, gun, context.getRoot(), slot);
+                    if (attachRes.isPassed()) {
                         if (sendPacket) {
                             String attachmentName = AttachmentsRegister.getStrKey(attachment);
                             PacketHandler.simpleChannel.sendToServer(new InstallAttachmentsPacket(
@@ -142,7 +144,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                         installBtn.reset();
                     } else {
                         installBtn.setPrevented(true);
-                        installBtn.setPreventedTooltipStr(attachRes);
+                        installBtn.setPreventedTooltipStr(attachRes.getMessage());
                     }
                 }
             }
@@ -156,8 +158,9 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
             if (stack.getItem() instanceof IGun gun && slot != null) {
                 IAttachment attachment = AttachmentsRegister.get(slot.getAttachmentId());
                 if (attachment != null) {
-                    String uninstallRes = attachment.canDetach(stack, gun, context.getRoot(), slot);
-                    if (Attachment.PASSED.equals(uninstallRes)) {
+                    AttachmentSlotProxy proxy = context.getProxy();
+                    IAttachment.AttachResult detachRes = proxy.onDetach(attachment, stack, gun, context.getRoot(), slot);
+                    if (detachRes.isPassed()) {
                         if (sendPacket) {
                             PacketHandler.simpleChannel.sendToServer(new UninstallAttachmentPacket(slot.getId()));
                             needUpdate = true;
@@ -166,7 +169,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                         uninstallBtn.reset();
                     } else {
                         uninstallBtn.setPrevented(true);
-                        uninstallBtn.setPreventedTooltipStr(uninstallRes);
+                        uninstallBtn.setPreventedTooltipStr(detachRes.getMessage());
                     }
                 }
             }
@@ -178,7 +181,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
     }
 
     public void updateGuiContext(ListTag attachmentsTag, IGun gun) {
-        this.context = new AttachmentsGuiContext(AttachmentsHandler.INSTANCE.getAttachmentSlots(attachmentsTag, gun));
+        this.context = new AttachmentsGuiContext(gun, AttachmentsHandler.INSTANCE.getAttachmentSlots(attachmentsTag, gun));
         needUpdate = false;
     }
 
@@ -192,7 +195,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                 if (!needUpdate) {
                     if (gun != this.gun) {
                         AttachmentSlot slot = AttachmentsHandler.INSTANCE.getAttachmentSlots(stack);
-                        this.context = new AttachmentsGuiContext(slot);
+                        this.context = new AttachmentsGuiContext(gun, slot);
                         this.gun = gun;
                     }
                     if (context != null) {
