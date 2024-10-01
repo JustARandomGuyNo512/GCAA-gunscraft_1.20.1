@@ -7,9 +7,12 @@ import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.items.attachments.akStuff.AKImprovedDustCover;
 import sheridan.gcaa.items.attachments.akStuff.AKRailBracket;
+import sheridan.gcaa.items.attachments.arStuff.ARGasBlock;
+import sheridan.gcaa.items.attachments.arStuff.ARStockTube;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.attachments.grips.VerticalGrip;
 import sheridan.gcaa.items.attachments.handguard.AKImprovedHandguard;
+import sheridan.gcaa.items.attachments.handguard.ARRailedHandguard;
 import sheridan.gcaa.items.attachments.muzzle.*;
 import sheridan.gcaa.items.attachments.scope.Acog;
 import sheridan.gcaa.items.attachments.scope.ScopeX10;
@@ -47,4 +50,7 @@ public class ModItems {
     public static final RegistryObject<VerticalGrip> VERTICAL_GRIP = ITEMS.register("vertical_grip", VerticalGrip::new);
     public static final RegistryObject<GrenadeLauncher> GP_25 = ITEMS.register("gp_25", GrenadeLauncher::new);
     public static final RegistryObject<Acog> ACOG = ITEMS.register("acog", Acog::new);
+    public static final RegistryObject<ARGasBlock> AR_GAS_BLOCK = ITEMS.register("ar_gas_block", ARGasBlock::new);
+    public static final RegistryObject<ARStockTube> AR_STOCK_TUBE = ITEMS.register("ar_stock_tube", ARStockTube::new);
+    public static final RegistryObject<ARRailedHandguard> AR_RAILED_HANDGUARD = ITEMS.register("ar_railed_handguard", ARRailedHandguard::new);
 }

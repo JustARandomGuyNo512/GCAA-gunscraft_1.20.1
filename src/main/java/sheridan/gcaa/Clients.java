@@ -31,9 +31,12 @@ import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.model.BulletShellModel;
 import sheridan.gcaa.client.model.attachments.akStuff.AKImprovedDustCoverModel;
 import sheridan.gcaa.client.model.attachments.akStuff.AKRailBracketModel;
+import sheridan.gcaa.client.model.attachments.arStuff.ARGasBlockModel;
+import sheridan.gcaa.client.model.attachments.arStuff.ARStockTubeModel;
 import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
 import sheridan.gcaa.client.model.attachments.grip.VerticalGripModel;
 import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel;
+import sheridan.gcaa.client.model.attachments.handguard.ARRailedHandguardModel;
 import sheridan.gcaa.client.model.attachments.muzzle.*;
 import sheridan.gcaa.client.model.attachments.scope.AcogModel;
 import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
@@ -248,6 +251,9 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.VERTICAL_GRIP.get(), new VerticalGripModel());
         ArsenalLib.registerAttachmentModel(ModItems.GP_25.get(), new GP_25Model());
         ArsenalLib.registerAttachmentModel(ModItems.ACOG.get(), new AcogModel());
+        ArsenalLib.registerAttachmentModel(ModItems.AR_STOCK_TUBE.get(), new ARStockTubeModel());
+        ArsenalLib.registerAttachmentModel(ModItems.AR_GAS_BLOCK.get(), new ARGasBlockModel());
+        ArsenalLib.registerAttachmentModel(ModItems.AR_RAILED_HANDGUARD.get(), new ARRailedHandguardModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

@@ -41,7 +41,6 @@ public class ControllerEvents {
                         zoomIn ? -0.1f : 0.1f
                 ))) {
                     float magnification = Clients.mainHandStatus.getScopeMagnificationRate();
-                    System.out.println(magnification);
                     scopeMagnificationTask = new ScopeMagnificationTask(
                             magnification,
                             System.currentTimeMillis(),

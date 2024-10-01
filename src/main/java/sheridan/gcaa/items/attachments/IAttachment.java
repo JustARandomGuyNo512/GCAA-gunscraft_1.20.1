@@ -6,6 +6,8 @@ import org.antlr.v4.misc.Utils;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.items.gun.IGun;
 
+import java.util.function.Function;
+
 public interface IAttachment {
     AttachResult PASSED = new AttachResult(true, () -> "passed");
     AttachResult REJECTED = new AttachResult(false, () -> "rejected");
@@ -20,16 +22,20 @@ public interface IAttachment {
 
     Attachment get();
 
+    interface MessageGetter {
+        String getMessage();
+    }
+
     class AttachResult {
         private final boolean passed;
-        private final Utils.Func0<String> messageGetter;
+        private final MessageGetter messageGetter;
 
         public AttachResult(boolean success) {
             this.passed = success;
-            this.messageGetter = () -> "";
+            this.messageGetter = () -> "no details...";
         }
 
-        public AttachResult(boolean success, Utils.Func0<String> messageGetter) {
+        public AttachResult(boolean success, MessageGetter messageGetter) {
             this.passed = success;
             this.messageGetter = messageGetter;
         }
@@ -39,7 +45,7 @@ public interface IAttachment {
         }
 
         public String getMessage() {
-            return messageGetter.exec();
+            return messageGetter.getMessage();
         }
     }
 }

@@ -37,7 +37,7 @@ public class AkmAttachmentSlotProxy extends AttachmentSlotProxy {
         return attachment.canDetach(stack, gun, root, prevSlot);
     }
 
-    private Utils.Func0<String> getMessage(String id) {
+    private IAttachment.MessageGetter getMessage(String id) {
         return () -> {
             String message = Component.translatable("tooltip.action_res.conflict").getString();
             IAttachment attachment = AttachmentsRegister.get(id);

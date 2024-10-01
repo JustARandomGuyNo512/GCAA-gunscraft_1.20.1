@@ -37,11 +37,7 @@ public class AttachmentSlot {
     public static AttachmentSlot root() {
         return new AttachmentSlot();
     }
-
-//    protected AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments, String attachmentId) {
-//        this(slotName, modelSlotName, acceptedAttachments, attachmentId, EMPTY);
-//    }
-
+    
     protected AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments, String attachmentId, AttachmentSlot parent, String id, byte direction) {
         this.slotName = slotName;
         this.acceptedAttachments = new HashSet<>(acceptedAttachments);

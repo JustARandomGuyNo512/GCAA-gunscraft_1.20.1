@@ -24,6 +24,9 @@
   "item.gcaa.vertical_grip": "Vertical grip",
   "item.gcaa.gp_25": "GP-25 Grenade Launcher",
   "item.gcaa.acog": "ACOG Scope",
+  "item.gcaa.ar_gas_block": "AR Gas Block",
+  "item.gcaa.ar_stock_tube": "AR Stock Tube",
+  "item.gcaa.ar_railed_handguard": "AR Railed Handguard",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",

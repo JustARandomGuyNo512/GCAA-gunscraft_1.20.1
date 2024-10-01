@@ -39,4 +39,5 @@ public class Handguard extends SubSlotProvider{
             parent.addChild(AttachmentSlot.copyAll(entry.getValue()));
         }
     }
+
 }

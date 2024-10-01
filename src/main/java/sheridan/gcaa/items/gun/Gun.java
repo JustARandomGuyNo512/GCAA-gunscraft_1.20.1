@@ -110,7 +110,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
                         Mth.clamp((yRate - Math.max(0, yControl - 1) * 0.3f), 0.5f, 1f));
             }
         }
-        RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionY);
+        RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionY, player);
         handleFireSoundClient(stack, player);
         float spread = getShootSpread(stack);
         if (player.isCrouching()) {

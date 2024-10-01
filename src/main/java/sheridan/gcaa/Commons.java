@@ -27,7 +27,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")))
-                .addChild(new AttachmentSlot(STOCK, Set.of()))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")))
                 .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover", "gcaa:ak_improved_dust_cover_b"))),
                 AkmAttachmentSlotProxy::new
         );
@@ -36,9 +36,9 @@ public class Commons {
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor")))
                 .addChild(new AttachmentSlot(MAG, Set.of()))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
-                .addChild(new AttachmentSlot(HANDGUARD, Set.of()))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_railed_handguard")))
                 .addChild(new AttachmentSlot(STOCK, Set.of()))
-                .addChild(new AttachmentSlot("gas_block", Set.of()))
+                .addChild(new AttachmentSlot("gas_block", Set.of("gcaa:ar_gas_block")))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
         );
 
