@@ -23,7 +23,7 @@ public class Commons {
     public static void onCommonSetUp(final FMLCommonSetupEvent event) {
         AttachmentsRegister.registerAttachmentSlot(ModItems.AKM.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak_suppressor", "gcaa:ak_compensator")))
-                .addChild(new AttachmentSlot(MAG, Set.of()))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ak_exp_mag")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")))
@@ -34,7 +34,7 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.M4A1.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor")))
-                .addChild(new AttachmentSlot(MAG, Set.of()))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ar_exp_mag")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_railed_handguard")))
                 .addChild(new AttachmentSlot(STOCK, Set.of()))
@@ -46,7 +46,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:pistol_suppressor", "gcaa:osprey_suppressor")))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:micro_red_dot")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
-                .addChild(new AttachmentSlot(MAG, Set.of()))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:glock_exp_mag")))
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.PYTHON_357.get(), AttachmentSlot.EMPTY);
@@ -60,7 +60,7 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.M870.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:shotgun_suppressor")))
                 .addChild(new AttachmentSlot(STOCK, Set.of()))
-                .addChild(new AttachmentSlot(MAG, "mag", Set.of()))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:shotgun_exp_bay")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of()))
         );
 

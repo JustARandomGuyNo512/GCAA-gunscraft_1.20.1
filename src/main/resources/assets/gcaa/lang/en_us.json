@@ -27,6 +27,10 @@
   "item.gcaa.ar_gas_block": "AR Gas Block",
   "item.gcaa.ar_stock_tube": "AR Stock Tube",
   "item.gcaa.ar_railed_handguard": "AR Railed Handguard",
+  "item.gcaa.ar_exp_mag": "AR Extended Mag",
+  "item.gcaa.ak_exp_mag": "AK Extended Mag",
+  "item.gcaa.glock_exp_mag": "Glock Extended Mag",
+  "item.gcaa.shotgun_exp_bay": "Shotgun Extended Bay",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",

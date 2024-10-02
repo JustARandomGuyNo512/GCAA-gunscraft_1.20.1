@@ -38,7 +38,6 @@ public class AttachmentsGuiContext {
     private final Map<AttachmentSlot, Vector3f> guiPosMap = new HashMap<>();
 
     public AttachmentsGuiContext(IGun gun, AttachmentSlot root) {
-        System.out.println("AttachmentsGuiContext(IGun gun, AttachmentSlot root");
         this.root = root;
         this.proxy = AttachmentsRegister.getProxiedAttachmentSlot(gun, root);
         initPosMap(this.root);

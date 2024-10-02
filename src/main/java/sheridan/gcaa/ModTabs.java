@@ -38,6 +38,10 @@ public class ModTabs {
                     tab.accept(ModItems.AR_GAS_BLOCK.get());
                     tab.accept(ModItems.AR_STOCK_TUBE.get());
                     tab.accept(ModItems.AR_RAILED_HANDGUARD.get());
+                    tab.accept(ModItems.AR_EXP_MAG.get());
+                    tab.accept(ModItems.AK_EXP_MAG.get());
+                    tab.accept(ModItems.GLOCK_EXP_MAG.get());
+                    tab.accept(ModItems.SHOTGUN_EXP_BAY.get());
                 }).build());
 
         GUNS_TAB = MOD_TABS.register("guns", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.guns"))

@@ -292,9 +292,16 @@ public class GunRenderContext {
         return has(Attachment.MAG);
     }
 
-    public GunRenderContext renderScope(ModelPart pose) {
+    public GunRenderContext renderScopeAttachment(ModelPart pose) {
         if (attachmentsRenderContext != null) {
             renderEntry(attachmentsRenderContext.slotLayer.get(Attachment.SCOPE), pose);
+        }
+        return this;
+    }
+
+    public GunRenderContext renderMagAttachment(ModelPart pose) {
+        if (attachmentsRenderContext != null) {
+            renderEntry(attachmentsRenderContext.slotLayer.get(Attachment.MAG), pose);
         }
         return this;
     }
@@ -328,6 +335,6 @@ public class GunRenderContext {
     }
 
     public boolean shouldBulletRender() {
-        return ReloadingHandler.isReloading() && (ammoLeft > 0 || ReloadingHandler.disFromLastReload(1000));
+        return isFirstPerson && ReloadingHandler.isReloading() && (ammoLeft > 0 || ReloadingHandler.disFromLastReload(1000));
     }
 }

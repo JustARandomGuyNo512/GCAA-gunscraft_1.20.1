@@ -37,6 +37,10 @@ import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
 import sheridan.gcaa.client.model.attachments.grip.VerticalGripModel;
 import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel;
 import sheridan.gcaa.client.model.attachments.handguard.ARRailedHandguardModel;
+import sheridan.gcaa.client.model.attachments.mags.AKExpMagModel;
+import sheridan.gcaa.client.model.attachments.mags.ARExpMagModel;
+import sheridan.gcaa.client.model.attachments.mags.GlockExpMagModel;
+import sheridan.gcaa.client.model.attachments.mags.ShotgunExpBayModel;
 import sheridan.gcaa.client.model.attachments.muzzle.*;
 import sheridan.gcaa.client.model.attachments.scope.AcogModel;
 import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
@@ -254,6 +258,10 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.AR_STOCK_TUBE.get(), new ARStockTubeModel());
         ArsenalLib.registerAttachmentModel(ModItems.AR_GAS_BLOCK.get(), new ARGasBlockModel());
         ArsenalLib.registerAttachmentModel(ModItems.AR_RAILED_HANDGUARD.get(), new ARRailedHandguardModel());
+        ArsenalLib.registerAttachmentModel(ModItems.AR_EXP_MAG.get(), new ARExpMagModel());
+        ArsenalLib.registerAttachmentModel(ModItems.AK_EXP_MAG.get(), new AKExpMagModel());
+        ArsenalLib.registerAttachmentModel(ModItems.GLOCK_EXP_MAG.get(), new GlockExpMagModel());
+        ArsenalLib.registerAttachmentModel(ModItems.SHOTGUN_EXP_BAY.get(), new ShotgunExpBayModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

@@ -13,6 +13,10 @@ import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.attachments.grips.VerticalGrip;
 import sheridan.gcaa.items.attachments.handguard.AKImprovedHandguard;
 import sheridan.gcaa.items.attachments.handguard.ARRailedHandguard;
+import sheridan.gcaa.items.attachments.mags.AKExpMag;
+import sheridan.gcaa.items.attachments.mags.ARExpMag;
+import sheridan.gcaa.items.attachments.mags.GlockExpMag;
+import sheridan.gcaa.items.attachments.mags.ShotgunExpBay;
 import sheridan.gcaa.items.attachments.muzzle.*;
 import sheridan.gcaa.items.attachments.scope.Acog;
 import sheridan.gcaa.items.attachments.scope.ScopeX10;
@@ -53,4 +57,8 @@ public class ModItems {
     public static final RegistryObject<ARGasBlock> AR_GAS_BLOCK = ITEMS.register("ar_gas_block", ARGasBlock::new);
     public static final RegistryObject<ARStockTube> AR_STOCK_TUBE = ITEMS.register("ar_stock_tube", ARStockTube::new);
     public static final RegistryObject<ARRailedHandguard> AR_RAILED_HANDGUARD = ITEMS.register("ar_railed_handguard", ARRailedHandguard::new);
+    public static final RegistryObject<ARExpMag> AR_EXP_MAG = ITEMS.register("ar_exp_mag", ARExpMag::new);
+    public static final RegistryObject<AKExpMag> AK_EXP_MAG = ITEMS.register("ak_exp_mag", AKExpMag::new);
+    public static final RegistryObject<GlockExpMag> GLOCK_EXP_MAG = ITEMS.register("glock_exp_mag", GlockExpMag::new);
+    public static final RegistryObject<ShotgunExpBay> SHOTGUN_EXP_BAY = ITEMS.register("shotgun_exp_bay", ShotgunExpBay::new);
 }

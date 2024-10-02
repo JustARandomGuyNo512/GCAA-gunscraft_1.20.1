@@ -9,6 +9,7 @@ import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
 public class BulletChainHandler {
+
     public static void handleBulletChain(GunRenderContext context, ModelPart[] bullets, long showBulletsReloadingTimeDis) {
         boolean shouldHandleChainAnimation = context.isFirstPerson;
         boolean alwaysShowBullets = ReloadingHandler.isReloading() && ReloadingHandler.disFromLastReload(showBulletsReloadingTimeDis);

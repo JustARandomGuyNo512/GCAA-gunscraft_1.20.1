@@ -186,6 +186,18 @@ public class GunProperties{
         propertiesTag.putString("muzzle_flash", stateName);
     }
 
+    public int getMagSize(CompoundTag propertiesTag) {
+        return propertiesTag.getInt("mag_size");
+    }
+
+    public void setMagSize(CompoundTag propertiesTag, int size) {
+        propertiesTag.putInt("mag_size", size);
+    }
+
+    public void resetMagSize(CompoundTag propertiesTag) {
+        propertiesTag.putInt("mag_size", magSize);
+    }
+
     public boolean hasExtension(String extensionName) {
         return extensions.containsKey(extensionName);
     }

@@ -64,7 +64,7 @@ public class M249Model extends GunModel{
     @Override
     protected void renderAttachmentsModel(GunRenderContext context) {
         if (context.hasScope()) {
-            context.pushPose().translateTo(cover).renderScope(s_scope).popPose();
+            context.pushPose().translateTo(cover).renderScopeAttachment(s_scope).popPose();
         }
         context.renderAllAttachmentsLeft(gun);
     }

@@ -27,6 +27,10 @@
   "item.gcaa.ar_gas_block": "AR 导气座",
   "item.gcaa.ar_stock_tube": "AR 托芯",
   "item.gcaa.ar_railed_handguard": "AR 导轨护木",
+  "item.gcaa.ar_exp_mag": "AR 扩容弹匣",
+  "item.gcaa.ak_exp_mag": "AK 扩容弹匣",
+  "item.gcaa.glock_exp_mag": "格洛克扩容弹匣",
+  "item.gcaa.shotgun_exp_bay": "霰弹枪扩容弹舱",
 
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",

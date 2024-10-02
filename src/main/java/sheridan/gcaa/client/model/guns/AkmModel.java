@@ -65,6 +65,9 @@ public class AkmModel extends GunModel {
 
     @Override
     public void renderAttachmentsModel(GunRenderContext context) {
+        if (context.hasMag()) {
+            context.renderMagAttachment(mag);
+        }
         context.renderAllAttachmentsLeft(gun);
     }
 
