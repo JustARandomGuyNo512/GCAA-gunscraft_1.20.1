@@ -22,7 +22,7 @@ public class ModEntities {
 
     static {
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, GCAA.MODID);
-        PROJECTILE = registerProjectile("bullet", Bullet::new, 1, 4, 0.25f, 0.25f);
+        PROJECTILE = registerProjectile("bullet", Bullet::new, 2, 4, 0.25f, 0.25f);
         GRENADE = registerProjectile("grenade", Grenade::new, 3, 8, 0.5f, 0.5f);
     }
 

@@ -2,8 +2,8 @@ package sheridan.gcaa.items.attachments.mags;
 
 import sheridan.gcaa.items.attachments.Mag;
 
-public class AKExpMag extends Mag {
-    public AKExpMag() {
-        super(40);
+public class ShotgunExtendBay extends Mag {
+    public ShotgunExtendBay() {
+        super(8);
     }
 }

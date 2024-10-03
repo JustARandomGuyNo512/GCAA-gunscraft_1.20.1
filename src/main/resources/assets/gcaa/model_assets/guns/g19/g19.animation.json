@@ -399,10 +399,10 @@
 			},
 			"sound_effects": {
 				"0.3917": {
-					"effect": "smg_mag_off"
+					"effect": "pistol_mag_off"
 				},
 				"1.4": {
-					"effect": "smg_mag_attach"
+					"effect": "pistol_mag_attach"
 				}
 			}
 		},
@@ -889,10 +889,10 @@
 			},
 			"sound_effects": {
 				"0.3917": {
-					"effect": "smg_mag_off"
+					"effect": "pistol_mag_off"
 				},
 				"1.4": {
-					"effect": "smg_mag_attach"
+					"effect": "pistol_mag_attach"
 				},
 				"2.1083": {
 					"effect": "pistol_slide_back"

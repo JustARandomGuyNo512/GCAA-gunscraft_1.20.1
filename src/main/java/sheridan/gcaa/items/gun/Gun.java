@@ -177,11 +177,6 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     @Override
-    public int getBurstCount() {
-        return 0;
-    }
-
-    @Override
     public Caliber getCaliber() {
         return gunProperties.caliber;
     }

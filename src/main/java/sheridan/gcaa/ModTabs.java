@@ -28,20 +28,22 @@ public class ModTabs {
                     tab.accept(ModItems.AK_IMPROVED_HANDGUARD.get());
                     tab.accept(ModItems.AK_RAIL_BRACKET.get());
                     tab.accept(ModItems.AK_IMPROVED_DUST_COVER.get());
+                    tab.accept(ModItems.AK_TACTICAL_DUST_COVER.get());
                     tab.accept(ModItems.MICRO_RED_DOT.get());
                     tab.accept(ModItems.RED_DOT.get());
                     tab.accept(ModItems.HOLOGRAPHIC.get());
+                    tab.accept(ModItems.ACOG.get());
                     tab.accept(ModItems.SCOPE_X10.get());
                     tab.accept(ModItems.VERTICAL_GRIP.get());
                     tab.accept(ModItems.GP_25.get());
-                    tab.accept(ModItems.ACOG.get());
                     tab.accept(ModItems.AR_GAS_BLOCK.get());
                     tab.accept(ModItems.AR_STOCK_TUBE.get());
                     tab.accept(ModItems.AR_RAILED_HANDGUARD.get());
-                    tab.accept(ModItems.AR_EXP_MAG.get());
-                    tab.accept(ModItems.AK_EXP_MAG.get());
-                    tab.accept(ModItems.GLOCK_EXP_MAG.get());
-                    tab.accept(ModItems.SHOTGUN_EXP_BAY.get());
+                    tab.accept(ModItems.AR_EXTEND_MAG.get());
+                    tab.accept(ModItems.AK_EXTEND_MAG.get());
+                    tab.accept(ModItems.GLOCK_EXTEND_MAG.get());
+                    tab.accept(ModItems.SNIPER_EXTEND_MAG.get());
+                    tab.accept(ModItems.SHOTGUN_EXTEND_BAY.get());
                 }).build());
 
         GUNS_TAB = MOD_TABS.register("guns", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.guns"))
@@ -49,6 +51,7 @@ public class ModTabs {
                 .displayItems((parameters, tab) -> {
                     tab.accept(ModItems.G19.get());
                     tab.accept(ModItems.PYTHON_357.get());
+                    tab.accept(ModItems.VECTOR_45.get());
                     tab.accept(ModItems.AKM.get());
                     tab.accept(ModItems.M4A1.get());
                     tab.accept(ModItems.AWP.get());

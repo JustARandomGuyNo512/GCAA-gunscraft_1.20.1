@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "gcaa:item/glock_exp_mag"
+    "layer0": "gcaa:item/vector_45"
   }
 }

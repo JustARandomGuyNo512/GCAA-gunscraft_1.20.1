@@ -14,7 +14,7 @@ import java.util.List;
 
 public class M870 extends PumpActionShotgun {
     private static final CaliberGauge12 caliber =
-            new CaliberGauge12(new ResourceLocation(GCAA.MODID, "12_gauge"), 4, 2, 3.5f, 5f, 8);
+            new CaliberGauge12(new ResourceLocation(GCAA.MODID, "12_gauge"), 4, 2, 3.5f, 6f, 8);
 
     public M870() {
         super(new GunProperties(3.2f, 1.25f, 3f, 1.2f, 0.2f,

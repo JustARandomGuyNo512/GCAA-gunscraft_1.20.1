@@ -43,7 +43,7 @@ import java.util.function.Predicate;
 
 public class Bullet extends Entity implements IProjectile {
     private static final Random RANDOM = new Random();
-    public static final float CHUNK_TO_METER = 0.8f;
+    public static final float CHUNK_TO_METER = 1.6f;
     public static final float BASE_SPREAD_INDEX = 0.0087F;
     public float baseDamage;
     public float minDamage;
@@ -139,7 +139,8 @@ public class Bullet extends Entity implements IProjectile {
         ProjectileDamage damageSource = (ProjectileDamage) DamageTypes.getDamageSource(this.level(), DamageTypes.GENERIC_PROJECTILE, this, this.shooter);
         damageSource.shooter = this.shooter;
         //damageSource.gun = gun;
-        float prevDamage = baseDamage - (baseDamage - minDamage) * progress;
+        float prevDamage = Mth.lerp(progress * progress, baseDamage, minDamage);
+                //baseDamage - (baseDamage - minDamage) * progress;
 //        if (CommonConfig.getEnableHeadShot()) {
 //            HeadBox.HeadShotResult headShotResult = HeadBox.getHeadShot(entity, prevPos, nextPos);
 //            if (headShotResult.getIsHeadShot()) {

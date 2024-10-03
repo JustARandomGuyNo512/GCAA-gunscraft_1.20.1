@@ -7,16 +7,14 @@ import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.items.attachments.akStuff.AKImprovedDustCover;
 import sheridan.gcaa.items.attachments.akStuff.AKRailBracket;
+import sheridan.gcaa.items.attachments.akStuff.AKTacticalDustCover;
 import sheridan.gcaa.items.attachments.arStuff.ARGasBlock;
 import sheridan.gcaa.items.attachments.arStuff.ARStockTube;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.attachments.grips.VerticalGrip;
 import sheridan.gcaa.items.attachments.handguard.AKImprovedHandguard;
 import sheridan.gcaa.items.attachments.handguard.ARRailedHandguard;
-import sheridan.gcaa.items.attachments.mags.AKExpMag;
-import sheridan.gcaa.items.attachments.mags.ARExpMag;
-import sheridan.gcaa.items.attachments.mags.GlockExpMag;
-import sheridan.gcaa.items.attachments.mags.ShotgunExpBay;
+import sheridan.gcaa.items.attachments.mags.*;
 import sheridan.gcaa.items.attachments.muzzle.*;
 import sheridan.gcaa.items.attachments.scope.Acog;
 import sheridan.gcaa.items.attachments.scope.ScopeX10;
@@ -30,6 +28,7 @@ public class ModItems {
 
     public static final RegistryObject<G19> G19 = ITEMS.register("g19", G19::new);
     public static final RegistryObject<Python357> PYTHON_357 = ITEMS.register("python_357", Python357::new);
+    public static final RegistryObject<Vector45> VECTOR_45 = ITEMS.register("vector_45", Vector45::new);
     public static final RegistryObject<Akm> AKM = ITEMS.register("akm", Akm::new);
     public static final RegistryObject<M4a1> M4A1 = ITEMS.register("m4a1", M4a1::new);
     public static final RegistryObject<Awp> AWP = ITEMS.register("awp", Awp::new);
@@ -47,6 +46,7 @@ public class ModItems {
     public static final RegistryObject<AKImprovedHandguard> AK_IMPROVED_HANDGUARD = ITEMS.register("ak_improved_handguard", AKImprovedHandguard::new);
     public static final RegistryObject<AKRailBracket> AK_RAIL_BRACKET = ITEMS.register("ak_rail_bracket", AKRailBracket::new);
     public static final RegistryObject<AKImprovedDustCover> AK_IMPROVED_DUST_COVER = ITEMS.register("ak_improved_dust_cover", AKImprovedDustCover::new);
+    public static final RegistryObject<AKTacticalDustCover> AK_TACTICAL_DUST_COVER = ITEMS.register("ak_tactical_dust_cover", AKTacticalDustCover::new);
     public static final RegistryObject<MicroRedDot> MICRO_RED_DOT = ITEMS.register("micro_red_dot", MicroRedDot::new);
     public static final RegistryObject<RedDot> RED_DOT = ITEMS.register("red_dot", RedDot::new);
     public static final RegistryObject<Holographic> HOLOGRAPHIC = ITEMS.register("holographic", Holographic::new);
@@ -57,8 +57,9 @@ public class ModItems {
     public static final RegistryObject<ARGasBlock> AR_GAS_BLOCK = ITEMS.register("ar_gas_block", ARGasBlock::new);
     public static final RegistryObject<ARStockTube> AR_STOCK_TUBE = ITEMS.register("ar_stock_tube", ARStockTube::new);
     public static final RegistryObject<ARRailedHandguard> AR_RAILED_HANDGUARD = ITEMS.register("ar_railed_handguard", ARRailedHandguard::new);
-    public static final RegistryObject<ARExpMag> AR_EXP_MAG = ITEMS.register("ar_exp_mag", ARExpMag::new);
-    public static final RegistryObject<AKExpMag> AK_EXP_MAG = ITEMS.register("ak_exp_mag", AKExpMag::new);
-    public static final RegistryObject<GlockExpMag> GLOCK_EXP_MAG = ITEMS.register("glock_exp_mag", GlockExpMag::new);
-    public static final RegistryObject<ShotgunExpBay> SHOTGUN_EXP_BAY = ITEMS.register("shotgun_exp_bay", ShotgunExpBay::new);
+    public static final RegistryObject<ARExtendMag> AR_EXTEND_MAG = ITEMS.register("ar_extend_mag", ARExtendMag::new);
+    public static final RegistryObject<AKExtendMag> AK_EXTEND_MAG = ITEMS.register("ak_extend_mag", AKExtendMag::new);
+    public static final RegistryObject<GlockExtendMag> GLOCK_EXTEND_MAG = ITEMS.register("glock_extend_mag", GlockExtendMag::new);
+    public static final RegistryObject<ShotgunExtendBay> SHOTGUN_EXTEND_BAY = ITEMS.register("shotgun_extend_bay", ShotgunExtendBay::new);
+    public static final RegistryObject<SniperExtendMag> SNIPER_EXTEND_MAG = ITEMS.register("sniper_extend_mag", SniperExtendMag::new);
 }

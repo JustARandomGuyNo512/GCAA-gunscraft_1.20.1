@@ -10,22 +10,25 @@ import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class ShotgunExpBayModel implements IAttachmentModel {
-    private final ModelPart shotgun_exp_mag;
+public class ARExtendMagModel implements IAttachmentModel {
+    private final ModelPart ar_exp_mag;
+    private final ModelPart ar_bullet;
 
-    public ShotgunExpBayModel() {
-        shotgun_exp_mag = MagCollection1.get("shotgun_exp_mag");
+    public ARExtendMagModel() {
+        ar_exp_mag = MagCollection1.get("ar_exp_mag");
+        ar_bullet = ar_exp_mag.getChild("ar_bullet").meshing();
     }
 
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        shotgun_exp_mag.copyFrom(pose);
-        context.render(shotgun_exp_mag, context.getBuffer(RenderType.entityCutout(MagCollection1.TEXTURE)));
-        shotgun_exp_mag.resetPose();
+        ar_exp_mag.copyFrom(pose);
+        ar_bullet.visible = context.shouldBulletRender();
+        context.render(ar_exp_mag, context.getBuffer(RenderType.entityCutout(MagCollection1.TEXTURE)));
+        ar_exp_mag.resetPose();
     }
 
     @Override
     public ModelPart getRoot() {
-        return shotgun_exp_mag;
+        return ar_exp_mag;
     }
 }

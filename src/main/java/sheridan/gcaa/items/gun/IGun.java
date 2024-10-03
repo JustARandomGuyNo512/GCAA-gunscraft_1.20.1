@@ -17,7 +17,6 @@ public interface IGun {
     void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode);
     void shoot(ItemStack stack, Player player, IGunFireMode fireMode, float spread);
     IGunFireMode getFireMode(ItemStack stack);
-    int getBurstCount();
     Caliber getCaliber();
     CompoundTag getPropertiesTag(ItemStack stack);
     ListTag getAttachmentsListTag(ItemStack stack);

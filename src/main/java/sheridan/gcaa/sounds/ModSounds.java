@@ -40,6 +40,8 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> AR_BOLT_RELEASE = registerSound("ar_bolt_release", "item.generic.ar_bolt_release");
     public static RegistryObject<SoundEvent> AR_MAG_OFF = registerSound("ar_mag_off", "item.generic.ar_mag_off");
     public static RegistryObject<SoundEvent> AR_MAG_ATTACH = registerSound("ar_mag_attach", "item.generic.ar_mag_attach");
+    public static RegistryObject<SoundEvent> PISTOL_MAG_OFF = registerSound("pistol_mag_off", "item.generic.pistol_mag_off");
+    public static RegistryObject<SoundEvent> PISTOL_MAG_ATTACH = registerSound("pistol_mag_attach", "item.generic.pistol_mag_attach");
 
 
     public static RegistryObject<SoundEvent> AKM_FIRE = registerSound("akm_fire", "item.akm.fire");
@@ -55,6 +57,7 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> PYTHON_357_BULLETS_OUT = registerSound("bullets_out", "item.python_357.bullets_out");
     public static RegistryObject<SoundEvent> PYTHON_357_MAG_OPEN = registerSound("mag_open", "item.python_357.mag_open");
     public static RegistryObject<SoundEvent> PYTHON_357_MAG_CLOSE = registerSound("mag_close", "item.python_357.mag_close");
+    public static RegistryObject<SoundEvent> VECTOR_45_FIRE = registerSound("vector_45_fire", "item.vector_45.fire");
 
     private static RegistryObject<SoundEvent> registerSound(String name, String path) {
         return MOD_SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(GCAA.MODID, path)));

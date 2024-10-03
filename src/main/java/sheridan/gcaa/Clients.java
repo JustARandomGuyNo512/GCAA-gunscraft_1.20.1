@@ -29,18 +29,20 @@ import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.ClientWeaponLooper;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.model.BulletShellModel;
+import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.attachments.akStuff.AKImprovedDustCoverModel;
 import sheridan.gcaa.client.model.attachments.akStuff.AKRailBracketModel;
+import sheridan.gcaa.client.model.attachments.akStuff.AKTacticalDustCoverModel;
 import sheridan.gcaa.client.model.attachments.arStuff.ARGasBlockModel;
 import sheridan.gcaa.client.model.attachments.arStuff.ARStockTubeModel;
 import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
 import sheridan.gcaa.client.model.attachments.grip.VerticalGripModel;
 import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel;
 import sheridan.gcaa.client.model.attachments.handguard.ARRailedHandguardModel;
-import sheridan.gcaa.client.model.attachments.mags.AKExpMagModel;
-import sheridan.gcaa.client.model.attachments.mags.ARExpMagModel;
-import sheridan.gcaa.client.model.attachments.mags.GlockExpMagModel;
-import sheridan.gcaa.client.model.attachments.mags.ShotgunExpBayModel;
+import sheridan.gcaa.client.model.attachments.mags.AKExtendMagModel;
+import sheridan.gcaa.client.model.attachments.mags.ARExtendMagModel;
+import sheridan.gcaa.client.model.attachments.mags.GlockExtendMagModel;
+import sheridan.gcaa.client.model.attachments.mags.ShotgunExtendBayModel;
 import sheridan.gcaa.client.model.attachments.muzzle.*;
 import sheridan.gcaa.client.model.attachments.scope.AcogModel;
 import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
@@ -182,7 +184,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.M4A1.get(), new M4a1Model(), new DisplayData()
-                .setFirstPersonMain(-7.3f,15.8f,-27.5f, POS)
+                .setFirstPersonMain(-7.3f,15.8f,-27.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -196,7 +198,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AWP.get(), new AwpModel(), new DisplayData()
-                .setFirstPersonMain(-6.6728997f,12.205196f,-28.532299f, POS)
+                .setFirstPersonMain(-6.675f,12.205196f,-28.533f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,-1.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -237,6 +239,20 @@ public class Clients {
                 .setBulletShellDisplayData(new BulletShellDisplayData(3.2f, 0.4f, -18.6f, new Vector3f(1.35f, 0.2f, 0.1f), BulletShellModel.RIFLE).setScale(1.1f))
         );
 
+        ArsenalLib.registerGunModel(ModItems.VECTOR_45.get(), new Vector45Model(), new DisplayData()
+                .setFirstPersonMain(-6.5f,19.2f,-30.5f, POS)
+                .setThirdPersonRight(0.0f,-0.5f,-0.8f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
+                .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
+                .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
+                .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
+                .setAds(0,15.35f,-19.1f, POS)
+                .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
+                .setInertialRecoilData(new InertialRecoilData(0f, 0f, 0.35f, 0.03f, 0.3f,  0.03f, 0.45f, 0.3f, new Vector3f(0.55f, 0.4f, 0.25f)))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.8f, -57.6f).setScale(1.8f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(1.8f))
+                .setBulletShellDisplayData(new BulletShellDisplayData(2f, 7f, -23f, new Vector3f(3f, 1.7f, -0.6f), BulletShellModel.PISTOL).setScale(1.2f))
+        );
+
         //attachment models register
         ArsenalLib.registerAttachmentModel(ModItems.PISTOL_SUPPRESSOR.get(), new PistolSuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_SUPPRESSOR.get(), new AKSuppressorModel());
@@ -258,10 +274,12 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.AR_STOCK_TUBE.get(), new ARStockTubeModel());
         ArsenalLib.registerAttachmentModel(ModItems.AR_GAS_BLOCK.get(), new ARGasBlockModel());
         ArsenalLib.registerAttachmentModel(ModItems.AR_RAILED_HANDGUARD.get(), new ARRailedHandguardModel());
-        ArsenalLib.registerAttachmentModel(ModItems.AR_EXP_MAG.get(), new ARExpMagModel());
-        ArsenalLib.registerAttachmentModel(ModItems.AK_EXP_MAG.get(), new AKExpMagModel());
-        ArsenalLib.registerAttachmentModel(ModItems.GLOCK_EXP_MAG.get(), new GlockExpMagModel());
-        ArsenalLib.registerAttachmentModel(ModItems.SHOTGUN_EXP_BAY.get(), new ShotgunExpBayModel());
+        ArsenalLib.registerAttachmentModel(ModItems.AR_EXTEND_MAG.get(), new ARExtendMagModel());
+        ArsenalLib.registerAttachmentModel(ModItems.AK_EXTEND_MAG.get(), new AKExtendMagModel());
+        ArsenalLib.registerAttachmentModel(ModItems.GLOCK_EXTEND_MAG.get(), new GlockExtendMagModel());
+        ArsenalLib.registerAttachmentModel(ModItems.SHOTGUN_EXTEND_BAY.get(), new ShotgunExtendBayModel());
+        ArsenalLib.registerAttachmentModel(ModItems.SNIPER_EXTEND_MAG.get(), IAttachmentModel.EMPTY);
+        ArsenalLib.registerAttachmentModel(ModItems.AK_TACTICAL_DUST_COVER.get(), new AKTacticalDustCoverModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

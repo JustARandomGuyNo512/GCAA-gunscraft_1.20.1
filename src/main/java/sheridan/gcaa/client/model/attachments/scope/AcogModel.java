@@ -60,4 +60,5 @@ public class AcogModel extends ScopeModel {
         SightViewRenderer.renderScope(active, false, 0.35f, 0.5f, context,
                 CROSSHAIR_TEXTURE, TEXTURE, crosshair, glass_shape, back_glass, back_ground, body);
     }
+
 }

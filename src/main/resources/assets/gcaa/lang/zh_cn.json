@@ -1,6 +1,7 @@
 {
   "item.gcaa.g19": "格洛克 19",
   "item.gcaa.python_357": "柯尔特 蟒蛇 .357",
+  "item.gcaa.vector_45": "维克托 .45",
   "item.gcaa.akm": "Akm",
   "item.gcaa.m4a1": "M4a1",
   "item.gcaa.awp": "Awp",
@@ -17,6 +18,7 @@
   "item.gcaa.ak_improved_handguard": "AK改进型护木",
   "item.gcaa.ak_rail_bracket": "AK导轨支架",
   "item.gcaa.ak_improved_dust_cover": "AK改进型防尘盖",
+  "item.gcaa.ak_tactical_dust_cover": "AK战术防尘盖",
   "item.gcaa.micro_red_dot": "微型红点瞄准器",
   "item.gcaa.red_dot": "红点瞄准器",
   "item.gcaa.holographic": "全息瞄准器",
@@ -31,6 +33,7 @@
   "item.gcaa.ak_exp_mag": "AK 扩容弹匣",
   "item.gcaa.glock_exp_mag": "格洛克扩容弹匣",
   "item.gcaa.shotgun_exp_bay": "霰弹枪扩容弹舱",
+  "item.gcaa.sniper_exp_mag": "狙击枪扩容弹匣",
 
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",

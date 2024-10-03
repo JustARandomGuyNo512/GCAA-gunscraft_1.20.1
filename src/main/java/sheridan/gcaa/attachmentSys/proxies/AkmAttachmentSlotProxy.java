@@ -1,5 +1,6 @@
 package sheridan.gcaa.attachmentSys.proxies;
 
+import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import org.antlr.v4.misc.Utils;

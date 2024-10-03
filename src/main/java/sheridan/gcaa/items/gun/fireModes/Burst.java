@@ -8,6 +8,11 @@ import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 
 public class Burst implements IGunFireMode {
+    public final int burstCount;
+
+    public Burst(int burstCount) {
+        this.burstCount = burstCount;
+    }
 
     @Override
     public String getName() {
@@ -21,7 +26,6 @@ public class Burst implements IGunFireMode {
 
     @Override
     public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
-        int burstCount = gun.getBurstCount();
         if (Clients.mainHandStatus.fireCount < burstCount) {
             gun.clientShoot(itemStack, player, this);
             Clients.mainHandStatus.fireCount ++;
@@ -33,7 +37,7 @@ public class Burst implements IGunFireMode {
 
     @Override
     public void shoot(Player player, ItemStack itemStack, IGun gun, float spread) {
-
+        gun.shoot(itemStack, player, this, spread);
     }
 
     @Override
