@@ -15,10 +15,7 @@ import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.AttachmentsRenderContext;
 import sheridan.gcaa.items.ModItems;
-import sheridan.gcaa.items.attachments.Attachment;
-import sheridan.gcaa.items.attachments.IAttachment;
-import sheridan.gcaa.items.attachments.ISubSlotActivator;
-import sheridan.gcaa.items.attachments.ISubSlotProvider;
+import sheridan.gcaa.items.attachments.*;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.util.*;
@@ -116,17 +113,23 @@ public class AttachmentsHandler {
                     String uuid = attachmentTag.getString("uuid");
                     byte direction = attachmentTag.getByte("direction");
                     AttachmentRenderEntry entry = new AttachmentRenderEntry(model, attachment, slotName, modelSlotName, uuid, direction);
+                    boolean add = false;
                     if (!ROOT.equals(parentUuid) && !NONE.equals(parentUuid)) {
                         //如果不是根配件，则找到父配件，设置其子配件，然后将子配件添加到上下文中
                         AttachmentRenderEntry parent = entries.get(parentUuid);
                         if (parent != null) {
                             parent.addChild(entry.modelSlotName, entry);
+                            add = true;
                         }
                         entries.put(uuid, entry);
                     } else {
                         //如果是根配件，则直接添加到上下文中
                         entries.put(uuid, entry);
                         context.add(entry);
+                        add = true;
+                    }
+                    if (add && attachment instanceof Sight) {
+                        context.containsScope = true;
                     }
                 }
             }

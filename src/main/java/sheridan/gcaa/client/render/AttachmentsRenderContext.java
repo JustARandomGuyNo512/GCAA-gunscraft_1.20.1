@@ -2,8 +2,11 @@ package sheridan.gcaa.client.render;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.client.model.attachments.ScopeModel;
+import sheridan.gcaa.client.model.attachments.SightModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.items.attachments.Attachment;
+import sheridan.gcaa.items.attachments.Sight;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +18,7 @@ public class AttachmentsRenderContext {
     public Map<String, AttachmentRenderEntry> modelSlotLayer = new HashMap<>();
     public Map<String, AttachmentRenderEntry> slotLayer = new HashMap<>();
     public Set<AttachmentRenderEntry> allEntries = new HashSet<>();
+    public boolean containsScope = false;
 
     public void add(AttachmentRenderEntry attachmentRenderEntry) {
         allEntries.add(attachmentRenderEntry);

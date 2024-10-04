@@ -79,5 +79,6 @@ public class Vector45Model extends GunModel{
         mag.resetPoseAll();
         handle.resetPoseAll();
         camera.resetPoseAll();
+        slide.resetPose();
     }
 }

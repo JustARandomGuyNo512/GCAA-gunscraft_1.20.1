@@ -264,6 +264,10 @@ public class GunRenderContext {
         return null;
     }
 
+    public boolean containsScope() {
+        return attachmentsRenderContext != null && attachmentsRenderContext.containsScope;
+    }
+
     public boolean has(String slotName) {
         return attachmentsRenderContext != null && attachmentsRenderContext.has(slotName);
     }

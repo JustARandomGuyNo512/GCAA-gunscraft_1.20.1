@@ -48,7 +48,7 @@ public class M4a1Model extends GunModel  {
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         bullet.visible = context.shouldBulletRender();
-        context.renderIf(IS, vertexConsumer, !context.hasScope());
+        context.renderIf(IS, vertexConsumer, !context.containsScope());
         context.renderIf(muzzle, vertexConsumer, !context.hasMuzzle());
         context.renderIf(front_IS, vertexConsumer, !context.has("gas_block"));
         context.renderIf(handguard, vertexConsumer, !context.hasHandguard());
