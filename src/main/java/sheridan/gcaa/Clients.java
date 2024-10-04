@@ -144,7 +144,7 @@ public class Clients {
 
         //gun models register
         ArsenalLib.registerGunModel(ModItems.G19.get(), new G19Model(), new DisplayData()
-                .setFirstPersonMain(-1.15f,2.85f,-7.125f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.25f, SCALE)
+                .setFirstPersonMain(-1.15f,2.85f,-7.15f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.25f, SCALE)
                 .setThirdPersonRight(0f, 0f, 0.5f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 1.2f, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-2, 0f, 0f, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
