@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gcaa:item/vector_45_extend_mag"
+  }
+}

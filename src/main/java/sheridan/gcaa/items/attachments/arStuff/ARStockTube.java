@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class ARStockTube extends SubSlotProvider {
     private final AttachmentSlot root = AttachmentSlot.root()
-            .addChild(new AttachmentSlot("stock_tube", Set.of()));
+            .addChild(new AttachmentSlot("stock_tube", Set.of("gcaa:ctr_stock")));
 
     @Override
     public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {}

@@ -21,6 +21,7 @@ import sheridan.gcaa.items.attachments.scope.ScopeX10;
 import sheridan.gcaa.items.attachments.sight.Holographic;
 import sheridan.gcaa.items.attachments.sight.MicroRedDot;
 import sheridan.gcaa.items.attachments.sight.RedDot;
+import sheridan.gcaa.items.attachments.stocks.CTRStock;
 import sheridan.gcaa.items.gun.guns.*;
 
 public class ModItems {
@@ -60,6 +61,10 @@ public class ModItems {
     public static final RegistryObject<ARExtendMag> AR_EXTEND_MAG = ITEMS.register("ar_extend_mag", ARExtendMag::new);
     public static final RegistryObject<AKExtendMag> AK_EXTEND_MAG = ITEMS.register("ak_extend_mag", AKExtendMag::new);
     public static final RegistryObject<GlockExtendMag> GLOCK_EXTEND_MAG = ITEMS.register("glock_extend_mag", GlockExtendMag::new);
+    public static final RegistryObject<Vector45ExtendMag> VECTOR_45_EXTEND_MAG = ITEMS.register("vector_45_extend_mag", Vector45ExtendMag::new);
     public static final RegistryObject<ShotgunExtendBay> SHOTGUN_EXTEND_BAY = ITEMS.register("shotgun_extend_bay", ShotgunExtendBay::new);
     public static final RegistryObject<SniperExtendMag> SNIPER_EXTEND_MAG = ITEMS.register("sniper_extend_mag", SniperExtendMag::new);
+    public static final RegistryObject<CTRStock> CTR_STOCK = ITEMS.register("ctr_stock", CTRStock::new);
+    public static final RegistryObject<ARCompensator> AR_COMPENSATOR = ITEMS.register("ar_compensator", ARCompensator::new);
+    public static final RegistryObject<SMGCompensator> SMG_COMPENSATOR = ITEMS.register("smg_compensator", SMGCompensator::new);
 }

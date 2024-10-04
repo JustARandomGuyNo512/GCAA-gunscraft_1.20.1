@@ -25,6 +25,8 @@ public class ModTabs {
                     tab.accept(ModItems.SNIPER_SUPPRESSOR.get());
                     tab.accept(ModItems.OSPREY_SUPPRESSOR.get());
                     tab.accept(ModItems.AK_COMPENSATOR.get());
+                    tab.accept(ModItems.AR_COMPENSATOR.get());
+                    tab.accept(ModItems.SMG_COMPENSATOR.get());
                     tab.accept(ModItems.AK_IMPROVED_HANDGUARD.get());
                     tab.accept(ModItems.AK_RAIL_BRACKET.get());
                     tab.accept(ModItems.AK_IMPROVED_DUST_COVER.get());
@@ -42,8 +44,10 @@ public class ModTabs {
                     tab.accept(ModItems.AR_EXTEND_MAG.get());
                     tab.accept(ModItems.AK_EXTEND_MAG.get());
                     tab.accept(ModItems.GLOCK_EXTEND_MAG.get());
+                    tab.accept(ModItems.VECTOR_45_EXTEND_MAG.get());
                     tab.accept(ModItems.SNIPER_EXTEND_MAG.get());
                     tab.accept(ModItems.SHOTGUN_EXTEND_BAY.get());
+                    tab.accept(ModItems.CTR_STOCK.get());
                 }).build());
 
         GUNS_TAB = MOD_TABS.register("guns", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.guns"))

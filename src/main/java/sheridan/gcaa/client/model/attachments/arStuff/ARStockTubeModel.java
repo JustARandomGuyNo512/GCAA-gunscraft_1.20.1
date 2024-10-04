@@ -40,7 +40,7 @@ public class ARStockTubeModel implements IAttachmentModel, ISlotProviderModel {
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         stock_tube.copyFrom(pose);
         context.render(stock_tube, context.getBuffer(RenderType.entityCutout(texture)));
-        context.translateTo(s_stock_tube);
+        context.translateTo(stock_tube);
         context.renderEntry(attachmentRenderEntry.getChild("s_stock_tube"), s_stock_tube);
         stock_tube.resetPose();
     }

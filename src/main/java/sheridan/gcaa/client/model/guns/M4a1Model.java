@@ -53,7 +53,8 @@ public class M4a1Model extends GunModel  {
         context.renderIf(front_IS, vertexConsumer, !context.has("gas_block"));
         context.renderIf(handguard, vertexConsumer, !context.hasHandguard());
         context.renderIf(mag, vertexConsumer, !context.hasMag());
-        context.render(vertexConsumer, barrel, stock, charge, body, safety, bolt, grip, ring);
+        context.renderIf(stock, vertexConsumer, !context.hasStock());
+        context.render(vertexConsumer, barrel, charge, body, safety, bolt, grip, ring);
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);
     }

@@ -33,11 +33,11 @@ public class Commons {
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.M4A1.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor")))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor", "gcaa:ar_compensator")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ar_extend_mag")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_railed_handguard")))
-                .addChild(new AttachmentSlot(STOCK, Set.of()))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")))
                 .addChild(new AttachmentSlot("gas_block", Set.of("gcaa:ar_gas_block")))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
         );
@@ -67,17 +67,17 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.M249.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
-                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor")))
-                .addChild(new AttachmentSlot(STOCK, Set.of()))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor", "gcaa:ar_compensator")))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")))
                 .addChild(new AttachmentSlot(MAG, Set.of()))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of()))
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.VECTOR_45.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
-                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_suppressor")))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_suppressor"," gcaa:pistol_suppressor", "gcaa:smg_compensator")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")))
-                .addChild(new AttachmentSlot(MAG, Set.of()))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:vector_45_extend_mag")))
                 .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:vertical_grip")))
                 .addChild(new AttachmentSlot("left", "s_left", Set.of()))
                 .addChild(new AttachmentSlot("right", "s_right", Set.of()))
