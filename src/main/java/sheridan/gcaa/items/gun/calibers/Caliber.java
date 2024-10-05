@@ -6,10 +6,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import sheridan.gcaa.entities.ModEntities;
-import sheridan.gcaa.entities.projectiles.Bullet;
 import sheridan.gcaa.items.ammunitions.IAmmunition;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.common.server.projetile.ProjectileHandler;
 import sheridan.gcaa.utils.FontUtils;
 
 import java.util.List;
@@ -35,8 +34,7 @@ public class Caliber {
     }
 
     public void fireBullet(IAmmunition ammunition, ItemStack ammunitionStack, IGun gun, Player player, ItemStack gunStack, float spread) {
-        Level level = player.level();
-        level.addFreshEntity(defaultProjectile(player, level, spread, gun));
+        ProjectileHandler.fire(player, speed, baseDamage, spread, effectiveRange);
     }
 
     public void handleTooltip(ItemStack stack, IGun gun, Level levelIn, List<Component> tooltip, TooltipFlag flagIn, boolean detail) {
@@ -45,13 +43,5 @@ public class Caliber {
             tooltip.add(FontUtils.dataTip("tooltip.gun_info.effective_range", effectiveRange, 10, 1));
             tooltip.add(FontUtils.dataTip("tooltip.gun_info.bullet_speed", speed, 12, 1, "gcaa.unit.chunk_pre_second"));
         }
-    }
-
-    protected Bullet defaultProjectile(Player player, Level level, float spread, IGun gun) {
-        float damage = (float) (baseDamage * (Math.round((Math.random() - 0.5) * 20) * 0.01 + 1));
-        return new Bullet(
-                ModEntities.PROJECTILE.get(), level, player,
-                player.getLookAngle(), speed, spread, damage,
-                minDamage, 0, effectiveRange, 0, gun);
     }
 }

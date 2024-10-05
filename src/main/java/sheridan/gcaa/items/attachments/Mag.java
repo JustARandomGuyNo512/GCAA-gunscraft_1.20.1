@@ -33,5 +33,7 @@ public class Mag extends Attachment{
     @Override
     public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
         gun.getGunProperties().resetMagSize(data);
+        int ammoLeft = gun.getAmmoLeft(stack);
+        gun.setAmmoLeft(stack, Math.min(ammoLeft, gun.getMagSize(stack)));
     }
 }

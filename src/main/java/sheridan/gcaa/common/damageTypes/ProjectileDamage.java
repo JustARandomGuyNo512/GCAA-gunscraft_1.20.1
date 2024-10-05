@@ -1,4 +1,4 @@
-package sheridan.gcaa.entities.projectiles.damageTypes;
+package sheridan.gcaa.common.damageTypes;
 
 import net.minecraft.core.Holder;
 

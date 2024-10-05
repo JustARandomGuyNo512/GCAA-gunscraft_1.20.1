@@ -9,20 +9,16 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.entities.projectiles.Grenade;
-import sheridan.gcaa.entities.projectiles.Bullet;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
 
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES;
-    public static final RegistryObject<EntityType<Bullet>> PROJECTILE;
     public static final RegistryObject<EntityType<Grenade>> GRENADE;
-
 
     static {
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, GCAA.MODID);
-        PROJECTILE = registerProjectile("bullet", Bullet::new, 2, 4, 0.25f, 0.25f);
         GRENADE = registerProjectile("grenade", Grenade::new, 3, 8, 0.5f, 0.5f);
     }
 
@@ -34,5 +30,4 @@ public class ModEntities {
     }
 
     public ModEntities() {}
-
 }

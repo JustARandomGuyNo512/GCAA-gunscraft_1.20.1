@@ -12,15 +12,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.entity.projectile.ThrownEnderpearl;
-import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BellBlock;
@@ -28,15 +22,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
 import org.jetbrains.annotations.NotNull;
-import sheridan.gcaa.entities.projectiles.damageTypes.DamageTypes;
-import sheridan.gcaa.entities.projectiles.damageTypes.ProjectileDamage;
+import sheridan.gcaa.common.damageTypes.DamageTypes;
+import sheridan.gcaa.common.damageTypes.ProjectileDamage;
 
-import java.util.Random;
 import java.util.function.Predicate;
 
-public class Grenade extends Entity implements IProjectile{
+public class Grenade extends Entity{
+    Predicate<Entity> GENERIC_TARGETS = (input) -> input instanceof LivingEntity && !input.isSpectator() && input.isAlive();
     private LivingEntity shooter;
     int bounced = 0;
 
@@ -148,7 +141,7 @@ public class Grenade extends Entity implements IProjectile{
     }
 
     private void explode() {
-        this.level().explode(this, this.getX(), this.getY(), this.getZ(), 3.0f, false, Level.ExplosionInteraction.NONE);
+        this.level().explode(this, this.getX(), this.getY() + 0.0625f, this.getZ(), 3.0f, false, Level.ExplosionInteraction.NONE);
         this.discard();
     }
 
@@ -156,7 +149,7 @@ public class Grenade extends Entity implements IProjectile{
         entity.invulnerableTime = 0;
         ProjectileDamage damageSource = (ProjectileDamage) DamageTypes.getDamageSource(this.level(), DamageTypes.GENERIC_PROJECTILE, this, this.shooter);
         damageSource.shooter = this.shooter;
-        entity.hurt(damageSource, Math.max(2, 5 - bounced));
+        entity.hurt(damageSource, Math.max(3, 5 - bounced));
         explode();
     }
 
@@ -210,7 +203,7 @@ public class Grenade extends Entity implements IProjectile{
         );
     }
 
-    public void recreateFromPacket(ClientboundAddEntityPacket packet) {
+    public void recreateFromPacket(@NotNull ClientboundAddEntityPacket packet) {
         super.recreateFromPacket(packet);
         this.blocksBuilding = true;
         double d0 = packet.getX();

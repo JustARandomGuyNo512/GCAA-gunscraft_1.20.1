@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sheridan.gcaa.entities.projectiles.Bullet;
 
 @OnlyIn(Dist.CLIENT)
 public class BulletRenderer extends EntityRenderer<Bullet> {

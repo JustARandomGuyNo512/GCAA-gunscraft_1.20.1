@@ -38,6 +38,9 @@ import sheridan.gcaa.events.CommonEvents;
 import sheridan.gcaa.events.TestEvents;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.common.config.ServerConfig;
+import sheridan.gcaa.common.server.projetile.PlayerPosCacheHandler;
+import sheridan.gcaa.common.server.projetile.ProjectileHandler;
 import sheridan.gcaa.sounds.ModSounds;
 
 @Mod(GCAA.MODID)
@@ -61,6 +64,7 @@ public class GCAA {
         ModSounds.register(FMLJavaModLoadingContext.get().getModEventBus());
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ServerConfig.SPEC);
     }
 
     private void gatherDataEvent(GatherDataEvent event) {
@@ -81,6 +85,8 @@ public class GCAA {
         MinecraftForge.EVENT_BUS.register(PlayerStatusEvents.class);
         MinecraftForge.EVENT_BUS.register(CommonEvents.class);
         MinecraftForge.EVENT_BUS.register(TestEvents.class);
+        MinecraftForge.EVENT_BUS.register(ProjectileHandler.class);
+        MinecraftForge.EVENT_BUS.register(PlayerPosCacheHandler.class);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, this::attachCapabilityEvent);
         PacketHandler.register();
         Commons.onCommonSetUp(event);
