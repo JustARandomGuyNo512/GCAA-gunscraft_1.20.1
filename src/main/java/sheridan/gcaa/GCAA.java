@@ -29,7 +29,6 @@ import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.events.*;
-import sheridan.gcaa.client.render.entity.BulletRenderer;
 import sheridan.gcaa.client.render.entity.GrenadeRenderer;
 import sheridan.gcaa.client.screens.AttachmentsScreen;
 import sheridan.gcaa.client.screens.containers.ModContainers;
@@ -67,8 +66,7 @@ public class GCAA {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ServerConfig.SPEC);
     }
 
-    private void gatherDataEvent(GatherDataEvent event) {
-    }
+    private void gatherDataEvent(GatherDataEvent event) {}
 
     @OnlyIn(Dist.CLIENT)
     private void onClientSetup(final FMLClientSetupEvent event) {
@@ -118,9 +116,7 @@ public class GCAA {
 
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
-        public static void onRegisterParticleFactories(RegisterParticleProvidersEvent event) {
-
-        }
+        public static void onRegisterParticleFactories(RegisterParticleProvidersEvent event) {}
 
     }
 }

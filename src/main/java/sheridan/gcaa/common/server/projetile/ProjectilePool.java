@@ -1,6 +1,7 @@
 package sheridan.gcaa.common.server.projetile;
 
 import net.minecraft.world.entity.LivingEntity;
+import sheridan.gcaa.items.gun.IGun;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -15,14 +16,14 @@ public class ProjectilePool {
         }
     }
 
-    public Projectile getOrCreate(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange) {
+    public Projectile getOrCreate(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange, IGun gun) {
         Projectile projectile = pool.pollFirst();
         if (projectile == null) {
             Projectile newProjectile = new Projectile();
-            newProjectile.shoot(shooter, speed, damage, spread, effectiveRange);
+            newProjectile.shoot(shooter, speed, damage, spread, effectiveRange, gun);
             return newProjectile;
         }
-        projectile.shoot(shooter, speed, damage, spread, effectiveRange);
+        projectile.shoot(shooter, speed, damage, spread, effectiveRange, gun);
         return projectile;
     }
 

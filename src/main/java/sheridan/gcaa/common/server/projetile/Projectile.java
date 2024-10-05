@@ -12,6 +12,7 @@ import net.minecraft.world.phys.*;
 import net.minecraftforge.network.PacketDistributor;
 import sheridan.gcaa.common.damageTypes.DamageTypes;
 import sheridan.gcaa.common.damageTypes.ProjectileDamage;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
 import sheridan.gcaa.common.config.ServerConfig;
@@ -27,11 +28,11 @@ public class Projectile {
     private static final float CHUNK_TO_METER = 1.6f;
     private static final float BASE_SPREAD_INDEX = 0.01F;
     private static final Random RANDOM = new Random();
-    private static final long maxLivingTime = 5000L;
     public static final float dropRate = 0.1f;
     public Vec3 initialPos;
     public Vec3 position;
     public Vec3 velocity;
+    public IGun gun;
     public float damage;
     public float effectiveRange;
     public LivingEntity shooter;
@@ -45,7 +46,7 @@ public class Projectile {
     public void tick(float timeDis) {
         if (living) {
             if (this.shooter != null) {
-                if (System.currentTimeMillis() - birthTime > maxLivingTime) {
+                if (System.currentTimeMillis() - birthTime > ServerConfig.maxBulletLivingTime.get()) {
                     living = false;
                     return;
                 }
@@ -62,8 +63,7 @@ public class Projectile {
                                 hitResult.getLocation().x,
                                 hitResult.getLocation().y,
                                 hitResult.getLocation().z,
-                                48,
-                                level.dimension()
+                                48, level.dimension()
                         )), new ClientPlayParticlePacket(hitResult.getBlockPos(), hitResult.getLocation(), hitResult.getDirection(), 10));
                     }
                     living = false;
@@ -137,14 +137,16 @@ public class Projectile {
         entity.invulnerableTime = 0;
         ProjectileDamage damageSource = (ProjectileDamage) DamageTypes.getDamageSource(level, DamageTypes.GENERIC_PROJECTILE, null, this.shooter);
         damageSource.shooter = this.shooter;
+        damageSource.gun = gun;
         float dis = (float) initialPos.distanceToSqr(hitPos);
         float progress = 1 - Mth.clamp(dis / effectiveRange, 0, 1);
         entity.hurt(damageSource, damage * progress);
         living = false;
     }
 
-    public void shoot(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange) {
+    public void shoot(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange, IGun gun) {
         effectiveRange *= 16;
+        this.gun = gun;
         this.shooter = shooter;
         this.damage = damage;
         this.living = true;
@@ -154,7 +156,7 @@ public class Projectile {
         speed *= CHUNK_TO_METER;
         spread *= BASE_SPREAD_INDEX;
         Vec3 angle = this.shooter.getLookAngle();
-        velocity = (angle).normalize().add(
+        velocity = angle.normalize().add(
                 RANDOM.nextGaussian() * spread,
                 RANDOM.nextGaussian() * spread,
                 RANDOM.nextGaussian() * spread).scale(speed);

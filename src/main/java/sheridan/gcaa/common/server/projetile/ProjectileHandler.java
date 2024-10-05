@@ -6,6 +6,7 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.common.config.ServerConfig;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ public class ProjectileHandler {
     private static List<Projectile> ACTIVE_PROJECTILES = null;
     private static long lastUpdate = 0;
 
-    public static void fire(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange) {
-        Projectile bullet = POOL.getOrCreate(shooter, speed, damage, spread, effectiveRange);
+    public static void fire(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange, IGun gun) {
+        Projectile bullet = POOL.getOrCreate(shooter, speed, damage, spread, effectiveRange, gun);
         ACTIVE_PROJECTILES.add(bullet);
     }
 
