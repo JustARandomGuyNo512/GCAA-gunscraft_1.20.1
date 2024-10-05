@@ -107,7 +107,6 @@ public class GCAA {
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
         public static void onRegisterRenderer(EntityRenderersEvent.RegisterRenderers event) {
-            event.registerEntityRenderer(ModEntities.PROJECTILE.get(), BulletRenderer::new);
             event.registerEntityRenderer(ModEntities.GRENADE.get(), GrenadeRenderer::new);
         }
 
