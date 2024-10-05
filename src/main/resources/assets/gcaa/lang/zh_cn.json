@@ -97,5 +97,5 @@
   "itemGroup.guns": "枪械",
   "itemGroup.attachments": "配件",
 
-  "death.attack.gunscraft.generic_projectile": "$victim 被 $shooter 使用 $gun 击杀了"
+  "death.attack.gcaa.projectile": "$victim 被 $shooter 使用 $gun 击杀了"
 }

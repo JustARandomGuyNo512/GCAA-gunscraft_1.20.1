@@ -37,7 +37,7 @@ import sheridan.gcaa.events.CommonEvents;
 import sheridan.gcaa.events.TestEvents;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.network.PacketHandler;
-import sheridan.gcaa.common.config.ServerConfig;
+import sheridan.gcaa.common.config.CommonConfig;
 import sheridan.gcaa.common.server.projetile.PlayerPosCacheHandler;
 import sheridan.gcaa.common.server.projetile.ProjectileHandler;
 import sheridan.gcaa.sounds.ModSounds;
@@ -63,7 +63,7 @@ public class GCAA {
         ModSounds.register(FMLJavaModLoadingContext.get().getModEventBus());
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ServerConfig.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
     }
 
     private void gatherDataEvent(GatherDataEvent event) {}

@@ -3,7 +3,7 @@ package sheridan.gcaa.common.server.projetile;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
-import sheridan.gcaa.common.config.ServerConfig;
+import sheridan.gcaa.common.config.CommonConfig;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -25,7 +25,7 @@ public class PosCache {
     }
 
     public void update(Player player) {
-        int maxDelay = ServerConfig.maxLagCompensationMilliseconds.get();
+        int maxDelay = CommonConfig.maxLagCompensationMilliseconds.get();
         long now = System.currentTimeMillis();
         Vec3 currentPos = player.position();
         posQueue.addLast(new PositionEntry(currentPos, now));
@@ -40,7 +40,7 @@ public class PosCache {
     }
 
     public AABB getBoundingBox(int delay, Player player, float inflate) {
-        if (delay <= ServerConfig.MIN_LAG_COMPENSATION_MILLISECONDS || delay >= ServerConfig.maxLagCompensationMilliseconds.get()) {
+        if (delay <= CommonConfig.MIN_LAG_COMPENSATION_MILLISECONDS || delay >= CommonConfig.maxLagCompensationMilliseconds.get()) {
             return player.getBoundingBox().inflate(inflate);
         }
         long targetTime = System.currentTimeMillis() - delay;
@@ -53,7 +53,7 @@ public class PosCache {
             }
         }
         if (interpolatedPos != null) {
-            return makeBoundingBox(player.getBbWidth(), player.getBbHeight(), interpolatedPos.x, interpolatedPos.y, interpolatedPos.z);
+            return makeBoundingBox(player.getBbWidth(), player.getBbHeight(), interpolatedPos.x, interpolatedPos.y, interpolatedPos.z).inflate(inflate);
         }
         return null;
     }

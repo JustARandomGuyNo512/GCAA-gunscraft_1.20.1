@@ -15,7 +15,7 @@ import sheridan.gcaa.common.damageTypes.ProjectileDamage;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
-import sheridan.gcaa.common.config.ServerConfig;
+import sheridan.gcaa.common.config.CommonConfig;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +46,7 @@ public class Projectile {
     public void tick(float timeDis) {
         if (living) {
             if (this.shooter != null) {
-                if (System.currentTimeMillis() - birthTime > ServerConfig.maxBulletLivingTime.get()) {
+                if (System.currentTimeMillis() - birthTime > CommonConfig.maxBulletLivingTime.get()) {
                     living = false;
                     return;
                 }
@@ -92,27 +92,27 @@ public class Projectile {
     protected EntityHitResult findEntity(Level level, Vec3 pStartVec, Vec3 pEndVec) {
         AABB box = this.makeBoundingBox().expandTowards(velocity).inflate(1.0D);
         List<Entity> entities = level.getEntities((Entity) null, box, GENERIC_TARGETS);
-        double d0 = Double.MAX_VALUE;
-        Entity entity = null;
-        for(Entity e : entities) {
-            if (e == shooter) {
+        double minDis = Double.MAX_VALUE;
+        Entity target = null;
+        for(Entity entity : entities) {
+            if (entity == shooter) {
                 continue;
             }
-            AABB aabb = e instanceof Player player ? PlayerPosCacheHandler.getPlayerAABB(player, latency, 0.3f) :
-                    e.getBoundingBox().inflate(0.3f);
+            AABB aabb = entity instanceof Player player ? PlayerPosCacheHandler.getPlayerAABB(player, latency, 0.3f) :
+                    entity.getBoundingBox().inflate(0.3f);
             if (aabb == null) {
                 continue;
             }
             Optional<Vec3> optional = aabb.clip(pStartVec, pEndVec);
             if (optional.isPresent()) {
-                double d1 = pStartVec.distanceToSqr(optional.get());
-                if (d1 < d0) {
-                    entity = e;
-                    d0 = d1;
+                double dis = pStartVec.distanceToSqr(optional.get());
+                if (dis < minDis) {
+                    target = entity;
+                    minDis = dis;
                 }
             }
         }
-        return entity == null ? null : new EntityHitResult(entity);
+        return target == null ? null : new EntityHitResult(target);
     }
 
     private AABB makeBoundingBox() {
@@ -139,8 +139,8 @@ public class Projectile {
         damageSource.shooter = this.shooter;
         damageSource.gun = gun;
         float dis = (float) initialPos.distanceToSqr(hitPos);
-        float progress = 1 - Mth.clamp(dis / effectiveRange, 0, 1);
-        entity.hurt(damageSource, damage * progress);
+        float progress = Mth.clamp(dis / effectiveRange, 0, 1);
+        entity.hurt(damageSource, damage * (1 - progress * progress) * CommonConfig.globalBulletDamageModify.get().floatValue());
         living = false;
     }
 
@@ -154,7 +154,7 @@ public class Projectile {
         this.position = new Vec3(this.shooter.getX(), this.shooter.getY()  + shooter.getEyeHeight(shooter.getPose()), this.shooter.getZ());
         this.initialPos = new Vec3(position.x, position.y, position.z);
         speed *= CHUNK_TO_METER;
-        spread *= BASE_SPREAD_INDEX;
+        spread *= BASE_SPREAD_INDEX * CommonConfig.globalBulletSpeedModify.get();
         Vec3 angle = this.shooter.getLookAngle();
         velocity = angle.normalize().add(
                 RANDOM.nextGaussian() * spread,
@@ -162,9 +162,9 @@ public class Projectile {
                 RANDOM.nextGaussian() * spread).scale(speed);
         living = true;
         birthTime = System.currentTimeMillis();
-        if (shooter instanceof ServerPlayer player && ServerConfig.enableLagCompensation.get()) {
+        if (shooter instanceof ServerPlayer player && CommonConfig.enableLagCompensation.get()) {
             latency = player.latency;
-            int maxAccept = ServerConfig.maxLagCompensationMilliseconds.get();
+            int maxAccept = CommonConfig.maxLagCompensationMilliseconds.get();
             latency = latency > maxAccept ? DISABLE_LATENCY : latency;
         }
     }

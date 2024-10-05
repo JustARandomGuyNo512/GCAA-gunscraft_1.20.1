@@ -5,7 +5,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import sheridan.gcaa.common.config.ServerConfig;
+import sheridan.gcaa.common.config.CommonConfig;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
@@ -27,8 +27,8 @@ public class ProjectileHandler {
     @SubscribeEvent
     public static void onServerStarted(ServerStartedEvent event) {
         init = true;
-        POOL= new ProjectilePool(ServerConfig.initialBulletPoolSize.get());
-        ACTIVE_PROJECTILES = new ArrayList<>(ServerConfig.initialBulletPoolSize.get());
+        POOL= new ProjectilePool(CommonConfig.initialBulletPoolSize.get());
+        ACTIVE_PROJECTILES = new ArrayList<>(CommonConfig.initialBulletPoolSize.get());
     }
 
     @SubscribeEvent

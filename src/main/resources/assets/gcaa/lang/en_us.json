@@ -97,5 +97,5 @@
   "itemGroup.guns": "Guns",
   "itemGroup.attachments": "Attachments",
 
-  "death.attack.gunscraft.generic_projectile": "$victim is shot by $shooter using $gun"
+  "death.attack.gcaa.projectile": "$victim is shot by $shooter using $gun"
 }

@@ -3,12 +3,15 @@ package sheridan.gcaa.common.damageTypes;
 import net.minecraft.core.Holder;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import sheridan.gcaa.common.config.CommonConfig;
 import sheridan.gcaa.items.gun.IGun;
 
 public class ProjectileDamage extends DamageSource {
@@ -30,4 +33,11 @@ public class ProjectileDamage extends DamageSource {
         return Component.literal(msg);
     }
 
+    @Override
+    public boolean is(TagKey<DamageType> pDamageTypeKey) {
+        if (!CommonConfig.enableKnockBack.get() && pDamageTypeKey == DamageTypeTags.IS_EXPLOSION) {
+            return true;
+        }
+        return super.is(pDamageTypeKey);
+    }
 }
