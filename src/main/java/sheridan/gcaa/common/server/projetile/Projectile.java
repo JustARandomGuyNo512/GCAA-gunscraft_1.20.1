@@ -12,6 +12,7 @@ import net.minecraft.world.phys.*;
 import net.minecraftforge.network.PacketDistributor;
 import sheridan.gcaa.common.damageTypes.DamageTypes;
 import sheridan.gcaa.common.damageTypes.ProjectileDamage;
+import sheridan.gcaa.entities.projectiles.Grenade;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
@@ -24,7 +25,7 @@ import java.util.function.Predicate;
 
 public class Projectile {
     private static final int DISABLE_LATENCY = -1;
-    private static final Predicate<Entity> GENERIC_TARGETS = (input) -> input instanceof LivingEntity && !input.isSpectator() && input.isAlive();
+    private static final Predicate<Entity> GENERIC_TARGETS = (input) -> input instanceof Grenade || (input instanceof LivingEntity && !input.isSpectator() && input.isAlive());
     private static final float CHUNK_TO_METER = 1.6f;
     private static final float BASE_SPREAD_INDEX = 0.01F;
     private static final Random RANDOM = new Random();
@@ -134,6 +135,11 @@ public class Projectile {
     }
 
     private void onHitEntity(Entity entity, Level level, Vec3 hitPos) {
+        if (entity instanceof Grenade grenade && grenade.shooter != shooter) {
+            grenade.explode();
+            living = false;
+            return;
+        }
         entity.invulnerableTime = 0;
         ProjectileDamage damageSource = (ProjectileDamage) DamageTypes.getDamageSource(level, DamageTypes.GENERIC_PROJECTILE, null, this.shooter);
         damageSource.shooter = this.shooter;
@@ -148,7 +154,7 @@ public class Projectile {
         effectiveRange *= 16;
         this.gun = gun;
         this.shooter = shooter;
-        this.damage = damage;
+        this.damage = (float) (damage * (0.9f + Math.random() * 0.2f));
         this.living = true;
         this.effectiveRange = effectiveRange * effectiveRange;
         this.position = new Vec3(this.shooter.getX(), this.shooter.getY()  + shooter.getEyeHeight(shooter.getPose()), this.shooter.getZ());

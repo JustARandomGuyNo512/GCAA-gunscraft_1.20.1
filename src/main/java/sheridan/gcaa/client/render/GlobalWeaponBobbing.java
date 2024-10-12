@@ -21,8 +21,8 @@ public class GlobalWeaponBobbing {
     public float timer = 0;
     public long lastUpdate = System.currentTimeMillis();
     public static final float PI = 3.14159265358979323846f;
-    public float sprintingProgress;
-    public boolean shouldApplySprintingTranslation = false;
+    //public float sprintingProgress;
+    //public boolean shouldApplySprintingTranslation = false;
     public IGun gun;
     public LocalPlayer player;
 
@@ -47,14 +47,14 @@ public class GlobalWeaponBobbing {
                 long now = System.currentTimeMillis();
                 this.particleTicks = particleTicks;
                 this.equipProgress = equipProgress;
-                shouldApplySprintingTranslation = player.isSprinting() && now - Clients.lastShootMain() > gun.applySprintingPoseDelay();
-                if (shouldApplySprintingTranslation) {
-                    sprintingProgress = Math.min(sprintingProgress + timer, 1.0f);
-                } else {
-                    if (sprintingProgress != 0) {
-                        sprintingProgress = Math.max(sprintingProgress - timer, 0f);
-                    }
-                }
+                //shouldApplySprintingTranslation = player.isSprinting() && now - Clients.lastShootMain() > gun.applySprintingPoseDelay();
+                //if (shouldApplySprintingTranslation) {
+                    //sprintingProgress = Math.min(sprintingProgress + timer, 1.0f);
+                //} else {
+                    //if (sprintingProgress != 0) {
+                    //    sprintingProgress = Math.max(sprintingProgress - timer, 0f);
+                    //}
+                //}
                 timer = (float) (now - lastUpdate) * 0.001f;
                 lastUpdate = now;
             }
@@ -124,7 +124,7 @@ public class GlobalWeaponBobbing {
             float bob = Mth.lerp(particleTick, player.oBob, player.bob);
             sprintingFactor = player.isSprinting() ? Math.min(bob * 10f, 1f) : 1f;
             scaleFactor = aimingFactor * (player.isSprinting() ? 1f + sprintingFactor * 0.3f : 1f);
-            float idleScale = Math.min((System.currentTimeMillis() - Clients.lastShootMain()) * 0.001f, 1f) * scaleFactor * (player.isCrouching() ? 0.7f : 1f);
+            float idleScale = Math.min((System.currentTimeMillis() - Clients.lastShootMain()) * 0.001f, 0.8f) * scaleFactor * (player.isCrouching() ? 0.5f : 0.8f);
             float scaledBob = bob * scaleFactor;
             float pistolFactor = gun.isPistol() ? 0.5f : 1f;
             float bobRY = Mth.rotLerp(particleTick, player.yBobO, player.yBob);

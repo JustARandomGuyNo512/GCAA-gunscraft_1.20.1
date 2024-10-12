@@ -2,6 +2,7 @@ package sheridan.gcaa.client.model.attachments.scope;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
@@ -39,8 +40,8 @@ public class AcogModel extends ScopeModel {
     }
 
     @Override
-    public float getMinDisZDistance(float prevFov) {
-        return prevFov == -1 ? 1f : calcMinDisZDistance(0.4f, prevFov);
+    public float getMinDisZDistance(float prevAdsProgress) {
+        return !useModelFovModifyWhenAds() ? 1f : calcMinDisZDistance(0.4f, Mth.lerp(prevAdsProgress, 70, modelFovModifyWhenAds()));
     }
 
     @Override

@@ -10,7 +10,7 @@ public abstract class ScopeModel extends SightModel {
         return (float) (renderer.isPanoramicMode() ? Math.tan(Math.toRadians(45)) : Math.tan(Math.toRadians(35)));
     }
 
-    public abstract float getMinDisZDistance(float prevFov);
+    public abstract float getMinDisZDistance(float prevAdsProgress);
 
     public float calcMinDisZDistance(float defaultVal, float prevFov)  {
         if (useModelFovModifyWhenAds() && Clients.isInAds()) {

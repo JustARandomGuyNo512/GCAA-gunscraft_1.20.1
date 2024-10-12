@@ -136,6 +136,8 @@ public class Clients {
     public static float weaponAdsZMinDistance = Float.NaN;
     @OnlyIn(Dist.CLIENT)
     public static float fovModify = Float.NaN;
+    @OnlyIn(Dist.CLIENT)
+    public static float gunModelFovModify = Float.NaN;
 
 
     @OnlyIn(Dist.CLIENT)

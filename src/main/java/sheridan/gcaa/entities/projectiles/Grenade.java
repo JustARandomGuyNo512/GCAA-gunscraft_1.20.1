@@ -30,7 +30,7 @@ import java.util.function.Predicate;
 
 public class Grenade extends Entity{
     Predicate<Entity> GENERIC_TARGETS = (input) -> input instanceof LivingEntity && !input.isSpectator() && input.isAlive();
-    private LivingEntity shooter;
+    public LivingEntity shooter;
     int bounced = 0;
 
     public Grenade(EntityType<? extends Entity> pEntityType, Level pLevel) {
@@ -140,7 +140,7 @@ public class Grenade extends Entity{
         this.tickCount = pCompound.getInt("tick");
     }
 
-    private void explode() {
+    public void explode() {
         this.level().explode(this, this.getX(), this.getY() + 0.0625f, this.getZ(), 3.0f, false, Level.ExplosionInteraction.NONE);
         this.discard();
     }

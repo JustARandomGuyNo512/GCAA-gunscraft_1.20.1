@@ -304,17 +304,16 @@ public class RenderEvents {
                     if (scopeModel.useModelFovModifyWhenAds()) {
                         double newFov = Mth.lerp(Math.pow(adsProgress, 4), prevFov, scopeModel.modelFovModifyWhenAds());
                         event.setFOV(newFov);
-                        Clients.weaponAdsZMinDistance = scopeModel.getMinDisZDistance(
-                                (float) Mth.lerp(adsProgress, prevFov, scopeModel.modelFovModifyWhenAds()));
-                    } else {
-                        Clients.weaponAdsZMinDistance = scopeModel.getMinDisZDistance(-1);
+                        Clients.gunModelFovModify = (float) newFov;
                     }
+                    Clients.weaponAdsZMinDistance = scopeModel.getMinDisZDistance(adsProgress);
                     return;
                 }
             }
         }
         Clients.weaponAdsZMinDistance = Float.NaN;
         Clients.fovModify = Float.NaN;
+        Clients.gunModelFovModify = Float.NaN;
     }
 
 }

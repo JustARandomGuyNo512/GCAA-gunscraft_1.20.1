@@ -142,7 +142,7 @@ public class ControllerEvents {
                     Minecraft.getInstance().setScreen(new GunDebugAdjustScreen());
                 }
             } else if (KeyBinds.SWITCH_FIRE_MODE.isDown() && event.getAction() == 1) {
-                if (stackMain.getItem() instanceof IGun gun) {
+                if (stackMain.getItem() instanceof IGun gun && !ReloadingHandler.isReloading()) {
                     if (gun.getGunProperties().fireModes.size() > 1) {
                         Clients.mainHandStatus.buttonDown.set(false);
                         player.playSound(SoundEvents.LEVER_CLICK, 0.5f, 1.5f);

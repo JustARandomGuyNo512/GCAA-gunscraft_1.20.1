@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -15,6 +16,7 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.ReloadingHandler;
+import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.items.attachments.Attachment;
@@ -196,6 +198,7 @@ public class GunRenderContext {
         }
     }
 
+
     public void renderArm(PoseStack poseStack, boolean mainHand) {
         if (isFirstPerson) {
             PlayerArmRenderer.INSTANCE.render(packedLight, packedOverlay, mainHand, bufferSource, poseStack);
@@ -226,6 +229,10 @@ public class GunRenderContext {
         return this;
     }
 
+    public AttachmentRenderEntry getAttachmentRenderEntry(String slotName) {
+        return attachmentsRenderContext == null ? null : attachmentsRenderContext.modelSlotLayer.get(slotName);
+    }
+
     public void renderBulletShell() {
         if (isFirstPerson) {
             BulletShellRenderer.render(this);
@@ -234,11 +241,17 @@ public class GunRenderContext {
 
     public void renderMuzzleFlash(float scale) {
         if (muzzleFlashEntry != null) {
+            if (ClientConfig.enableMuzzleFlashScaleModifyOnUsingScope.get() && isFirstPerson) {
+                scale *= Float.isNaN(Clients.gunModelFovModify) ? 1 : Mth.clamp(Clients.gunModelFovModify / 70f, 0.5f, 1f);
+            }
             muzzleFlashEntry.muzzleFlash.render(poseStack, bufferSource, muzzleFlashEntry.displayData, scale, lastShoot, isFirstPerson);
         }
     }
 
     public void renderMuzzleFlashEntry(DisplayData.MuzzleFlashEntry muzzleFlashEntry, long lastShoot, float scale) {
+        if (ClientConfig.enableMuzzleFlashScaleModifyOnUsingScope.get() && isFirstPerson) {
+            scale *= Float.isNaN(Clients.gunModelFovModify) ? 1 : Mth.clamp(Clients.gunModelFovModify / 70f, 0.5f, 1f);
+        }
         muzzleFlashEntry.muzzleFlash.render(poseStack, bufferSource, muzzleFlashEntry.displayData, scale, lastShoot, isFirstPerson);
     }
 
