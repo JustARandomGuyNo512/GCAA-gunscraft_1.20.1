@@ -19,6 +19,9 @@ public class ProjectileHandler {
     private static List<Projectile> ACTIVE_PROJECTILES = null;
     private static long lastUpdate = 0;
 
+    /*
+    * This method can only be called by server thread!!!
+    * */
     public static void fire(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange, IGun gun) {
         Projectile bullet = POOL.getOrCreate(shooter, speed, damage, spread, effectiveRange, gun);
         ACTIVE_PROJECTILES.add(bullet);

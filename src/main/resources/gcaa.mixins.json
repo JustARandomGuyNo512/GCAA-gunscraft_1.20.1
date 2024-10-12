@@ -7,7 +7,8 @@
   "client": [
     "GameRendererMixin",
     "RenderItemMixin",
-    "HumanoidModelMixin"
+    "HumanoidModelMixin",
+    "EntityRenderDispatcherMixin"
   ],
   "injectors": {
     "defaultRequire": 1

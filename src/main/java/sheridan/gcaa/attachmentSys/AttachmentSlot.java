@@ -1,5 +1,8 @@
 package sheridan.gcaa.attachmentSys;
 
+import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
+import sheridan.gcaa.items.ModItems;
+
 import java.util.*;
 
 public class AttachmentSlot {

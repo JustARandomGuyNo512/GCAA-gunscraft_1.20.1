@@ -59,6 +59,10 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> PYTHON_357_MAG_CLOSE = registerSound("mag_close", "item.python_357.mag_close");
     public static RegistryObject<SoundEvent> VECTOR_45_FIRE = registerSound("vector_45_fire", "item.vector_45.fire");
 
+    public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");
+    public static RegistryObject<SoundEvent> HEADSHOT_2 = registerSound("headshot_2", "effect.headshot.2");
+    public static RegistryObject<SoundEvent> HEADSHOT_3 = registerSound("headshot_3", "effect.headshot.3");
+
     private static RegistryObject<SoundEvent> registerSound(String name, String path) {
         return MOD_SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(GCAA.MODID, path)));
     }

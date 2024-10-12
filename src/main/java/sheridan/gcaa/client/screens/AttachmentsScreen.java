@@ -30,7 +30,6 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.screens.componets.OptionalImageButton;
 import sheridan.gcaa.client.screens.containers.AttachmentsMenu;
-import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
@@ -125,7 +124,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                 ItemStack stack = this.minecraft.player.getMainHandItem();
                 if (stack.getItem() instanceof IGun gun) {
                     AttachmentSlotProxy proxy = context.getProxy();
-                    IAttachment.AttachResult attachRes = proxy.onAttach(attachment, stack, gun, context.getRoot(), slot);
+                    IAttachment.AttachResult attachRes = proxy.onCanAttach(attachment, stack, gun, context.getRoot(), slot);
                     if (attachRes.isPassed()) {
                         if (sendPacket) {
                             String attachmentName = AttachmentsRegister.getStrKey(attachment);
@@ -159,7 +158,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
                 IAttachment attachment = AttachmentsRegister.get(slot.getAttachmentId());
                 if (attachment != null) {
                     AttachmentSlotProxy proxy = context.getProxy();
-                    IAttachment.AttachResult detachRes = proxy.onDetach(attachment, stack, gun, context.getRoot(), slot);
+                    IAttachment.AttachResult detachRes = proxy.onCanDetach(attachment, stack, gun, context.getRoot(), slot);
                     if (detachRes.isPassed()) {
                         if (sendPacket) {
                             PacketHandler.simpleChannel.sendToServer(new UninstallAttachmentPacket(slot.getId()));

@@ -17,6 +17,8 @@ import sheridan.gcaa.client.render.AttachmentsRenderContext;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.attachments.*;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.items.gun.PropertyExtension;
+import sheridan.gcaa.items.gun.propertyExtensions.AttachmentReplaceFactorExtension;
 
 import java.util.*;
 
@@ -50,7 +52,7 @@ public class AttachmentsHandler {
                     if (attachment != null) {
                         String slotName = tag.getString("slot_name");
                         AttachmentSlot prevSlot = root.searchChild(slotName);
-                        if (!prevSlot.isLocked() && proxy.onAttach(attachment, itemStack, gun, root, prevSlot).isPassed()) {
+                        if (!prevSlot.isLocked() && proxy.onCanAttach(attachment, itemStack, gun, root, prevSlot).isPassed()) {
                             //如果当前配件可以安装
                             attachment.onAttach(itemStack, gun, properties);
                             if (attachment instanceof ISubSlotProvider provider) {
@@ -153,6 +155,10 @@ public class AttachmentsHandler {
         CompoundTag properties = gun.getPropertiesTag(stack);
         ListTag attachments = gun.getAttachmentsListTag(stack);
         attachment.onAttach(stack, gun, properties);
+        PropertyExtension extension = gun.getGunProperties().getExtension(AttachmentReplaceFactorExtension.NAME);
+        if (extension instanceof AttachmentReplaceFactorExtension attachmentReplaceFactorExtension) {
+            attachmentReplaceFactorExtension.onAttachmentAttached(gun, stack, properties, attachment, slotName);
+        }
         CompoundTag mark = getMark(attachment, slotName, modelSlotName, parentUuid, direction);
         attachments.add(mark);
         gun.setAttachmentsListTag(stack, attachments);
@@ -170,6 +176,10 @@ public class AttachmentsHandler {
                 IAttachment attachment = AttachmentsRegister.get(attachmentId);
                 if (attachment != null) {
                     attachment.onDetach(stack, gun, properties);
+                    PropertyExtension extension = gun.getGunProperties().getExtension(AttachmentReplaceFactorExtension.NAME);
+                    if (extension instanceof AttachmentReplaceFactorExtension attachmentReplaceFactorExtension) {
+                        attachmentReplaceFactorExtension.onAttachmentDetached(gun, stack, properties, attachment, tag.getString("slot_name"));
+                    }
                     stackToReturn = new ItemStack(attachment.get());
                     index = i;
                 } else {

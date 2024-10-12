@@ -5,10 +5,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.network.packets.c2s.*;
-import sheridan.gcaa.network.packets.s2c.BroadcastPlayerStatusPacket;
-import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
-import sheridan.gcaa.network.packets.s2c.ClientSoundPacket;
-import sheridan.gcaa.network.packets.s2c.UpdateAttachmentScreenGuiContextPacket;
+import sheridan.gcaa.network.packets.s2c.*;
 
 public class PacketHandler
 {
@@ -38,6 +35,7 @@ public class PacketHandler
         registerPacket(SetScopeMagnificationPacket.class, new SetScopeMagnificationPacket());
         registerPacket(FireGrenadeLauncherPacket.class, new FireGrenadeLauncherPacket());
         registerPacket(GrenadeLauncherReloadPacket.class, new GrenadeLauncherReloadPacket());
+        registerPacket(HeadShotFeedBackPacket.class, new HeadShotFeedBackPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

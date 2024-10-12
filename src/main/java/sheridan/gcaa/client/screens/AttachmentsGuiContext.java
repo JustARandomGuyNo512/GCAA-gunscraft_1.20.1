@@ -66,6 +66,9 @@ public class AttachmentsGuiContext {
 
     public void renderIcons(GuiGraphics guiGraphics) {
         for (Map.Entry<AttachmentSlot, Vector3f> entry : guiPosMap.entrySet()) {
+            if (entry.getKey().isLocked()) {
+                continue;
+            }
             ResourceLocation texture = chooseTexture(entry.getKey());
             Vector3f pos = entry.getValue();
             if (OUT_SCREEN == pos) {
@@ -145,6 +148,9 @@ public class AttachmentsGuiContext {
         float minDis = Float.MAX_VALUE;
         boolean hasSelected = false;
         for (Map.Entry<AttachmentSlot, Vector3f> entry : guiPosMap.entrySet()) {
+            if (entry.getKey().isLocked()) {
+                continue;
+            }
             Vector3f pos = entry.getValue();
             if (OUT_SCREEN == pos) {
                 continue;

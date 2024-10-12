@@ -24,6 +24,7 @@ public class GunProperties{
     public static final String WALKING_SPREAD_FACTOR = "walking_spread_factor";
     public static final String SPRINTING_SPREAD_FACTOR = "sprinting_spread_factor";
     public static final String FIRE_SOUND_VOL = "fire_sound_vol";
+    public static final String AGILITY = "agility";
     public static final Set<String> PROPERTIES;
     public final static float MIN_WEIGHT = 5f;
     public final static float MAX_WEIGHT = 40f;
@@ -43,6 +44,7 @@ public class GunProperties{
     public final float recoilPitchControl;
     public final float recoilYawControl;
     public final float weight;
+    public final float agility;
     public final float walkingSpreadFactor = 1.3f;
     public final float sprintingSpreadFactor = 1.6f;
     public final List<IGunFireMode> fireModes;
@@ -73,6 +75,7 @@ public class GunProperties{
         this.suppressedSound = suppressedSound;
         this.caliber = caliber;
         this.weight = Mth.clamp(weight, MIN_WEIGHT, MAX_WEIGHT);
+        this.agility = 1f;
     }
 
     public GunProperties addExtension(PropertyExtension extension) {
@@ -109,24 +112,25 @@ public class GunProperties{
      * */
     public CompoundTag getInitialData() {
         CompoundTag tag = new CompoundTag();
-        tag.putFloat("ads_speed", 1.0f);
-        tag.putFloat("min_spread", 1.0f);
-        tag.putFloat("max_spread", 1.0f);
-        tag.putFloat("shoot_spread", 1.0f);
-        tag.putFloat("spread_recover", 1.0f);
+        tag.putFloat(ADS_SPEED, 1.0f);
+        tag.putFloat(MIN_SPREAD, 1.0f);
+        tag.putFloat(MAX_SPREAD, 1.0f);
+        tag.putFloat(SHOOT_SPREAD, 1.0f);
+        tag.putFloat(SPREAD_RECOVER, 1.0f);
         tag.putInt("fire_delay", fireDelay);
         tag.putInt("reload_length", reloadLength);
         tag.putInt("full_reload_length", fullReloadLength);
         tag.putInt("mag_size", magSize);
-        tag.putFloat("recoil_pitch", 1.0f);
-        tag.putFloat("recoil_yaw", 1.0f);
-        tag.putFloat("recoil_pitch_control", 1.0f);
-        tag.putFloat("recoil_yaw_control", 1.0f);
+        tag.putFloat(RECOIL_PITCH, 1.0f);
+        tag.putFloat(RECOIL_YAW, 1.0f);
+        tag.putFloat(RECOIL_PITCH_CONTROL, 1.0f);
+        tag.putFloat(RECOIL_YAW_CONTROL, 1.0f);
         tag.putString("muzzle_flash", Gun.MUZZLE_STATE_NORMAL);
         tag.putFloat("weight", weight);
-        tag.putFloat("walking_spread_factor", 1.0f);
-        tag.putFloat("sprinting_spread_factor", 1.0f);
-        tag.putFloat("fire_sound_vol", 1.0f);
+        tag.putFloat(WALKING_SPREAD_FACTOR, 1.0f);
+        tag.putFloat(SPRINTING_SPREAD_FACTOR, 1.0f);
+        tag.putFloat(FIRE_SOUND_VOL, 1.0f);
+        tag.putFloat(AGILITY, 1.0f);
         for (PropertyExtension extension : extensions.values()) {
             CompoundTag extensionTag = extension.getExtendInitialData(tag);
             if (extensionTag != null) {
@@ -227,7 +231,8 @@ public class GunProperties{
                 RECOIL_YAW_CONTROL,
                 WALKING_SPREAD_FACTOR,
                 SPRINTING_SPREAD_FACTOR,
-                FIRE_SOUND_VOL
+                FIRE_SOUND_VOL,
+                AGILITY
         );
     }
 }

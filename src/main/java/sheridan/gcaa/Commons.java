@@ -6,6 +6,7 @@ import sheridan.gcaa.attachmentSys.AttachmentSlotProxy;
 import sheridan.gcaa.attachmentSys.IAttachmentSlotProxyCreator;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.proxies.AkmAttachmentSlotProxy;
+import sheridan.gcaa.attachmentSys.proxies.utils.BinaryMutuallyExclusiveProxy;
 import sheridan.gcaa.items.ModItems;
 
 import java.util.Set;
@@ -21,6 +22,7 @@ public class Commons {
     public static long SERVER_START_TIME = System.currentTimeMillis();
 
     public static void onCommonSetUp(final FMLCommonSetupEvent event) {
+
         AttachmentsRegister.registerAttachmentSlot(ModItems.AKM.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak_suppressor", "gcaa:ak_compensator")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ak_extend_mag")))
@@ -29,7 +31,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")))
                 .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover", "gcaa:ak_tactical_dust_cover"))),
-                AkmAttachmentSlotProxy::new
+                 AkmAttachmentSlotProxy::new
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.M4A1.get(), AttachmentSlot.root()

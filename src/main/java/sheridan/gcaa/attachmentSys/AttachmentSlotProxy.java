@@ -10,18 +10,18 @@ public abstract class AttachmentSlotProxy {
         this.root = root;
     }
 
-    public abstract IAttachment.AttachResult onAttach(IAttachment attachment, ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot);
-    public abstract IAttachment.AttachResult onDetach(IAttachment attachment, ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot);
+    public abstract IAttachment.AttachResult onCanAttach(IAttachment attachment, ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot);
+    public abstract IAttachment.AttachResult onCanDetach(IAttachment attachment, ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot);
 
     public static AttachmentSlotProxy getEmptyProxy(AttachmentSlot root) {
         return new AttachmentSlotProxy(root) {
             @Override
-            public IAttachment.AttachResult onAttach(IAttachment attachment, ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
+            public IAttachment.AttachResult onCanAttach(IAttachment attachment, ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
                 return attachment.canAttach(stack, gun, root, prevSlot);
             }
 
             @Override
-            public IAttachment.AttachResult onDetach(IAttachment attachment, ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
+            public IAttachment.AttachResult onCanDetach(IAttachment attachment, ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
                 return attachment.canDetach(stack, gun, root, prevSlot);
             }
         };

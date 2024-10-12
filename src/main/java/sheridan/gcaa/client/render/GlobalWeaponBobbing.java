@@ -21,8 +21,6 @@ public class GlobalWeaponBobbing {
     public float timer = 0;
     public long lastUpdate = System.currentTimeMillis();
     public static final float PI = 3.14159265358979323846f;
-    //public float sprintingProgress;
-    //public boolean shouldApplySprintingTranslation = false;
     public IGun gun;
     public LocalPlayer player;
 
@@ -47,14 +45,6 @@ public class GlobalWeaponBobbing {
                 long now = System.currentTimeMillis();
                 this.particleTicks = particleTicks;
                 this.equipProgress = equipProgress;
-                //shouldApplySprintingTranslation = player.isSprinting() && now - Clients.lastShootMain() > gun.applySprintingPoseDelay();
-                //if (shouldApplySprintingTranslation) {
-                    //sprintingProgress = Math.min(sprintingProgress + timer, 1.0f);
-                //} else {
-                    //if (sprintingProgress != 0) {
-                    //    sprintingProgress = Math.max(sprintingProgress - timer, 0f);
-                    //}
-                //}
                 timer = (float) (now - lastUpdate) * 0.001f;
                 lastUpdate = now;
             }

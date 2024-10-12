@@ -309,6 +309,10 @@ public class Clients {
         }
     }
 
+    public static void handleClientHeadShotFeedBack() {
+        System.out.println("headshot!!!");
+    }
+
     public static float calculateVolume(float disSq, float rangeSq) {
         return disSq >= rangeSq ? 0 : (1 - disSq / rangeSq);
     }

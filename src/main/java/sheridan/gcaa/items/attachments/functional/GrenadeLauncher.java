@@ -67,7 +67,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
             setHasGrenade(stack, gun, false);
             if (!player.level().isClientSide) {
                 Grenade grenade = new Grenade(ModEntities.GRENADE.get(), player.level());
-                grenade.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F);
+                grenade.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F, 3f);
                 player.level().addFreshEntity(grenade);
             }
         }

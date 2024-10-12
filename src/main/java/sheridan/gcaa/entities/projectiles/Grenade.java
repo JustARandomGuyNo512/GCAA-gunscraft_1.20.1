@@ -32,12 +32,13 @@ public class Grenade extends Entity{
     Predicate<Entity> GENERIC_TARGETS = (input) -> input instanceof LivingEntity && !input.isSpectator() && input.isAlive();
     public LivingEntity shooter;
     int bounced = 0;
+    float explodeRadius;
 
     public Grenade(EntityType<? extends Entity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
-    public void shoot(double pX, double pY, double pZ, float pVelocity, float pInaccuracy) {
+    public void shoot(double pX, double pY, double pZ, float pVelocity, float pInaccuracy, float explodeRadius) {
         Vec3 vec3 = (new Vec3(pX, pY, pZ)).normalize().add(
                 this.random.triangle(0.0D, 0.0172275D * (double)pInaccuracy),
                 this.random.triangle(0.0D, 0.0172275D * (double)pInaccuracy),
@@ -48,13 +49,14 @@ public class Grenade extends Entity{
         this.setXRot((float)(Mth.atan2(vec3.y, d0) * (double)(180F / (float)Math.PI)));
         this.yRotO = this.getYRot();
         this.xRotO = this.getXRot();
+        this.explodeRadius = explodeRadius;
     }
 
-    public void shootFromRotation(LivingEntity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy) {
+    public void shootFromRotation(LivingEntity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy, float explodeRadius) {
         float f = -Mth.sin(pY * ((float)Math.PI / 180F)) * Mth.cos(pX * ((float)Math.PI / 180F));
         float f1 = -Mth.sin((pX + pZ) * ((float)Math.PI / 180F));
         float f2 = Mth.cos(pY * ((float)Math.PI / 180F)) * Mth.cos(pX * ((float)Math.PI / 180F));
-        this.shoot(f, f1, f2, pVelocity, pInaccuracy);
+        this.shoot(f, f1, f2, pVelocity, pInaccuracy, explodeRadius);
         this.shooter = pShooter;
         Vec3 shooterPos = new Vec3(shooter.getX(), shooter.getY() + shooter.getEyeHeight(shooter.getPose()), shooter.getZ());
         this.setPos(shooterPos.x, shooterPos.y, shooterPos.z);
@@ -126,7 +128,9 @@ public class Grenade extends Entity{
             explode();
             return;
         }
-        setXRot((float)(Mth.atan2(deltaMovement.y, deltaMovement.horizontalDistance()) * (double)(180F / (float)Math.PI)));
+        double horizontalDistance = deltaMovement.horizontalDistance();
+        this.setYRot((float)(Mth.atan2(deltaMovement.x, deltaMovement.z) * (double)(180F / (float)Math.PI)));
+        this.setXRot((float)(Mth.atan2(deltaMovement.y, horizontalDistance) * (double)(180F / (float)Math.PI)));
         this.setXRot(lerpRotation(this.xRotO, this.getXRot()));
     }
 
@@ -138,6 +142,8 @@ public class Grenade extends Entity{
     @Override
     protected void readAdditionalSaveData(CompoundTag pCompound) {
         this.tickCount = pCompound.getInt("tick");
+        this.bounced = pCompound.getShort("bounced");
+        this.explodeRadius = pCompound.getFloat("radius");
     }
 
     public void explode() {
@@ -177,6 +183,8 @@ public class Grenade extends Entity{
     @Override
     protected void addAdditionalSaveData(CompoundTag pCompound) {
         pCompound.putInt("tick", tickCount);
+        pCompound.putShort("bounced", (short) bounced);
+        pCompound.putFloat("radius", explodeRadius);
     }
 
     protected EntityHitResult findHitEntity(Vec3 pStartVec, Vec3 pEndVec) {

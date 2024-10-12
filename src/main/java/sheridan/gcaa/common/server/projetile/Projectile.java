@@ -10,6 +10,7 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 import net.minecraftforge.network.PacketDistributor;
+import sheridan.gcaa.common.HeadBox;
 import sheridan.gcaa.common.damageTypes.DamageTypes;
 import sheridan.gcaa.common.damageTypes.ProjectileDamage;
 import sheridan.gcaa.entities.projectiles.Grenade;
@@ -17,6 +18,7 @@ import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
 import sheridan.gcaa.common.config.CommonConfig;
+import sheridan.gcaa.network.packets.s2c.HeadShotFeedBackPacket;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,25 +55,21 @@ public class Projectile {
                 }
                 Level level = this.shooter.level();
                 Vec3 nextPos = position.add(velocity.scale(timeDis / 0.05f));
+                boolean reachedBoundary = !level.isLoaded(new BlockPos((int) position.x, (int) position.y, (int) position.z));
                 BlockHitResult hitResult = level.clip(new ClipContext(position, nextPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, null));
                 if (hitResult.getType() != HitResult.Type.MISS) {
                     Vec3 hitPos = hitResult.getLocation();
-                    EntityHitResult entityHitResult = findEntity(level, position, hitPos);
+                    ProjectileEntityHitResult entityHitResult = findEntity(level, position, hitPos);
                     if (entityHitResult != null && entityHitResult.getEntity() != this.shooter) {
-                        onHitEntity(entityHitResult.getEntity(), level, entityHitResult.getLocation());
+                        onHitEntity(entityHitResult.getEntity(), level, entityHitResult.getLocation(), position, hitPos, entityHitResult.boxHit);
                     } else {
-                        PacketHandler.simpleChannel.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
-                                hitResult.getLocation().x,
-                                hitResult.getLocation().y,
-                                hitResult.getLocation().z,
-                                48, level.dimension()
-                        )), new ClientPlayParticlePacket(hitResult.getBlockPos(), hitResult.getLocation(), hitResult.getDirection(), 10));
+                        onHitBlock(hitResult);
                     }
                     living = false;
                 } else {
-                    EntityHitResult entityHitResult = findEntity(level, position, nextPos);
+                    ProjectileEntityHitResult entityHitResult = findEntity(level, position, nextPos);
                     if (entityHitResult != null && entityHitResult.getEntity() != this.shooter) {
-                        onHitEntity(entityHitResult.getEntity(), level, entityHitResult.getLocation());
+                        onHitEntity(entityHitResult.getEntity(), level, entityHitResult.getLocation(), position, nextPos, entityHitResult.boxHit);
                     }
                 }
                 dis += (float) position.distanceToSqr(nextPos);
@@ -81,7 +79,7 @@ public class Projectile {
                     return;
                 }
                 position = nextPos;
-                if (!level.isLoaded(new BlockPos((int) position.x, (int) position.y, (int) position.z))) {
+                if (reachedBoundary) {
                     living = false;
                 }
             } else {
@@ -90,11 +88,12 @@ public class Projectile {
         }
     }
 
-    protected EntityHitResult findEntity(Level level, Vec3 pStartVec, Vec3 pEndVec) {
+    protected ProjectileEntityHitResult findEntity(Level level, Vec3 pStartVec, Vec3 pEndVec) {
         AABB box = this.makeBoundingBox().expandTowards(velocity).inflate(1.0D);
         List<Entity> entities = level.getEntities((Entity) null, box, GENERIC_TARGETS);
         double minDis = Double.MAX_VALUE;
         Entity target = null;
+        AABB boxHit = null;
         for(Entity entity : entities) {
             if (entity == shooter) {
                 continue;
@@ -110,10 +109,13 @@ public class Projectile {
                 if (dis < minDis) {
                     target = entity;
                     minDis = dis;
+                    if (entity instanceof Player) {
+                        boxHit = aabb;
+                    }
                 }
             }
         }
-        return target == null ? null : new EntityHitResult(target);
+        return target == null ? null : new ProjectileEntityHitResult(target, boxHit);
     }
 
     private AABB makeBoundingBox() {
@@ -134,18 +136,37 @@ public class Projectile {
         latency = DISABLE_LATENCY;
     }
 
-    private void onHitEntity(Entity entity, Level level, Vec3 hitPos) {
+    private void onHitBlock(BlockHitResult blockHitResult) {
+        PacketHandler.simpleChannel.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
+                blockHitResult.getLocation().x,
+                blockHitResult.getLocation().y,
+                blockHitResult.getLocation().z,
+                48, shooter.level().dimension()
+        )), new ClientPlayParticlePacket(blockHitResult.getBlockPos(), blockHitResult.getLocation(), blockHitResult.getDirection(), 10));
+    }
+
+    private void onHitEntity(Entity entity, Level level, Vec3 hitPos, Vec3 from, Vec3 to, AABB boxHit) {
         if (entity instanceof Grenade grenade && grenade.shooter != shooter) {
             grenade.explode();
             living = false;
             return;
         }
         entity.invulnerableTime = 0;
-        ProjectileDamage damageSource = (ProjectileDamage) DamageTypes.getDamageSource(level, DamageTypes.GENERIC_PROJECTILE, null, this.shooter);
+        ProjectileDamage damageSource =
+                (ProjectileDamage) DamageTypes.getDamageSource(level, DamageTypes.GENERIC_PROJECTILE, null, this.shooter);
         damageSource.shooter = this.shooter;
         damageSource.gun = gun;
         float dis = (float) initialPos.distanceToSqr(hitPos);
         float progress = Mth.clamp(dis / effectiveRange, 0, 1);
+        if (CommonConfig.enableHeadShot.get()) {
+            HeadBox.HeadShotResult headShotResult = HeadBox.getHeadShotResult(entity, boxHit, from, to);
+            if (headShotResult.getIsHeadShot()) {
+                damage *= headShotResult.getDamageModify();
+                if (this.shooter instanceof Player && !shooter.level().isClientSide) {
+                    PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) this.shooter), new HeadShotFeedBackPacket());
+                }
+            }
+        }
         entity.hurt(damageSource, damage * (1 - progress * progress) * CommonConfig.globalBulletDamageModify.get().floatValue());
         living = false;
     }
