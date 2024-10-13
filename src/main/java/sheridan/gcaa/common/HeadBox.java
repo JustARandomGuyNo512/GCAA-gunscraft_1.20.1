@@ -13,15 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class HeadBox {
+public record HeadBox(float damageModify, float size, float yPos) {
 
     private static final Map<EntityType<?>, HeadBox> headBoxMap = new HashMap<>();
 
     public static final HeadShotResult MISS = new HeadShotResult(1.0f, false);
-
-    private final float size;
-    private final float yPos;
-    private final float damageModify;
 
     public static void register(EntityType<?> type, HeadBox headBox) {
         if (!headBoxMap.containsKey(type)) {
@@ -68,7 +64,7 @@ public class HeadBox {
         );
     }
 
-    public HeadBox( float damageModify, float size, float yPos) {
+    public HeadBox(float damageModify, float size, float yPos) {
         this.size = size;
         this.yPos = yPos;
         this.damageModify = Math.max(damageModify, 1.0f);
@@ -99,7 +95,8 @@ public class HeadBox {
                     }
                 }
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return null;
     }
 
@@ -112,14 +109,7 @@ public class HeadBox {
                 '}';
     }
 
-    public static class HeadShotResult {
-        private final float damageModify;
-        private final boolean isHeadShot;
-
-        public HeadShotResult(float damageModify, boolean isHeadShot) {
-            this.damageModify = damageModify;
-            this.isHeadShot = isHeadShot;
-        }
+    public record HeadShotResult(float damageModify, boolean isHeadShot) {
 
         public float getDamageModify() {
             return isHeadShot ? damageModify : 1.0f;

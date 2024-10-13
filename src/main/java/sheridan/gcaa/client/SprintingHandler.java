@@ -31,10 +31,11 @@ public class SprintingHandler {
             }
             ItemStack stack = player.getMainHandItem();
             if (stack.getItem() instanceof IGun gun) {
-                inSprinting = shouldEnterSprinting(player, stack, gun);
-                float weight = 1f - RenderAndMathUtils.sCurve(gun.getWeight(stack) / GunProperties.MAX_WEIGHT + 0.05f);
-                exitSpeed = 0.09f + weight * 0.1f * gun.getAgility(stack);
-                float enterSpeed = exitSpeed * 1.25f;
+                inSprinting = shouldEnterSprinting(player);
+                float weight = gun.getWeight(stack) / GunProperties.MAX_WEIGHT;
+                float weightFactor = 1f - weight;
+                exitSpeed = 0.07f + weightFactor * 0.28f * gun.getAgility(stack) * (gun.isPistol() ? 1.85f : 1f);
+                float enterSpeed = Math.min(0.3f, exitSpeed * 1.2f);
                 if (inSprinting) {
                     lastSprintingProgress = sprintingProgress;
                     sprintingProgress = Math.min(1, sprintingProgress + enterSpeed);
@@ -51,7 +52,7 @@ public class SprintingHandler {
         }
     }
 
-    public boolean shouldEnterSprinting(LocalPlayer player, ItemStack heldItem, IGun gun) {
+    public boolean shouldEnterSprinting(LocalPlayer player) {
         if (!player.isSprinting()) {
             return false;
         }

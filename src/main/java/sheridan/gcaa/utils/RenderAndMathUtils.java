@@ -31,11 +31,6 @@ public class RenderAndMathUtils {
         return Mth.lerp(progress, f1, f2);
     }
     public static float sCurve(float val) {
-//        // 确保输入值在 [0, 1] 范围内
-//        if (val < 0) val = 0;
-//        if (val > 1) val = 1;
-//
-//        // 使用 SmoothStep 函数进行转换
         return 3f * val * val - 2f * val * val * val;
     }
 

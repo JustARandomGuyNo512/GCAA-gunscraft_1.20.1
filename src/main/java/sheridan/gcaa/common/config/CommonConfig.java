@@ -97,12 +97,12 @@ public class CommonConfig {
                 Set the headshot parameters. The following are the parameters of the registered minecraft original creatures.
                 You just need to add a custom project that mimics the existing project format.
                 First parameter: headshot damage multiplier""" + str0 + """
-                Second parameter: the size of the head bounding box (which is a cube) relative to the original mob bounding box.
+                \nSecond parameter: the size of the head bounding box (which is a cube) relative to the original mob bounding box.
                 Third parameter: the height of the center of the head bounding box relative to the original mob bounding box (0 for the bottom of the foot, 1 for the top of the head).
                 配置headshot参数，以下是已经注册好的minecraft原版生物的参数
                 你只需要仿照已有的项目格式添加自定义项目就行了
                 第一个参数：headshot伤害倍数""" + str0 + """
-                第二个参数：头部碰撞箱（这是一个正方体）相对于原生物碰撞箱的大小
+                \n第二个参数：头部碰撞箱（这是一个正方体）相对于原生物碰撞箱的大小
                 第三个参数：头部碰撞箱中心相对于相对于原生物碰撞箱的高度（脚底为0，头顶为1）""");
         headshotModify = BUILDER.defineListAllowEmpty("headshot_modify", List.of(
                 "minecraft:zombie=2.0,0.75,0.8",
