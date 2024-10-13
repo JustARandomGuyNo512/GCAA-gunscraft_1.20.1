@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
@@ -34,8 +35,8 @@ public class SprintingHandler {
                 inSprinting = shouldEnterSprinting(player);
                 float weight = gun.getWeight(stack) / GunProperties.MAX_WEIGHT;
                 float weightFactor = 1f - weight;
-                exitSpeed = 0.07f + weightFactor * 0.28f * gun.getAgility(stack) * (gun.isPistol() ? 1.85f : 1f);
-                float enterSpeed = Math.min(0.3f, exitSpeed * 1.2f);
+                exitSpeed = 0.07f + weightFactor * 0.28f * getAgility(gun, stack) * (gun.isPistol() ? 1.85f : 1f);
+                float enterSpeed = Math.min(0.2f, exitSpeed);
                 if (inSprinting) {
                     lastSprintingProgress = sprintingProgress;
                     sprintingProgress = Math.min(1, sprintingProgress + enterSpeed);
@@ -50,6 +51,19 @@ public class SprintingHandler {
             sprintingProgress = 0;
             inSprinting = false;
         }
+    }
+
+    private float getAgility(IGun gun, ItemStack stack) {
+        float agility = gun.getAgility(stack);
+        IArmReplace left = Clients.mainHandStatus.getLeftArmReplaceAttachment();
+        if (left != null) {
+            agility += left.getAgilityIncRate();
+        }
+        IArmReplace right = Clients.mainHandStatus.getRightArmReplaceAttachment();
+        if (right != null) {
+            agility += right.getAgilityIncRate();
+        }
+        return agility;
     }
 
     public boolean shouldEnterSprinting(LocalPlayer player) {

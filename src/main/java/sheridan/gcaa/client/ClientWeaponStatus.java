@@ -8,7 +8,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector2f;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
+import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.events.RenderEvents;
+import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.IGun;
@@ -167,6 +169,22 @@ public class ClientWeaponStatus {
 
     public AttachmentSlot getLeftArmReplace() {
         return  attachmentsStatus == null ? null : attachmentsStatus.leftArmReplace;
+    }
+
+    public IArmReplace getLeftArmReplaceAttachment() {
+        AttachmentSlot slot = getLeftArmReplace();
+        if (slot != null && AttachmentsRegister.get(slot.getAttachmentId()) instanceof IArmReplace attachment) {
+            return attachment;
+        }
+        return null;
+    }
+
+    public IArmReplace getRightArmReplaceAttachment() {
+        AttachmentSlot slot = getRightArmReplace();
+        if (slot != null && AttachmentsRegister.get(slot.getAttachmentId()) instanceof IArmReplace attachment) {
+            return attachment;
+        }
+        return null;
     }
 
     public AttachmentSlot getRightArmReplace() {

@@ -190,7 +190,6 @@ public class DisplayData {
         return setSprintingTrans(2.5f, 8f, 1, 15, -6, 9);
     }
 
-
     public float[] getSprintingTrans() {
         return transforms[7];
     }

@@ -89,9 +89,9 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
             setHasGrenade(stack, gun, false);
         }
         setLastFire(data, 0L);
-        GunProperties properties = gun.getGunProperties();
-        properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate + 0.05f);
-        properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate + 0.12f);
+//        GunProperties properties = gun.getGunProperties();
+//        properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate + 0.05f);
+//        properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate + 0.12f);
     }
 
     @Override
@@ -101,9 +101,19 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
         }
         CompoundTag tag = gun.getGun().checkAndGet(stack);
         tag.remove(KEY_AMMO);
-        GunProperties properties = gun.getGunProperties();
-        properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate - 0.05f);
-        properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate - 0.12f);
+//        GunProperties properties = gun.getGunProperties();
+//        properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate - 0.05f);
+//        properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate - 0.12f);
+    }
+
+    @Override
+    public float getPitchRecoilControlIncRate() {
+        return 0.075f;
+    }
+
+    @Override
+    public float getYawRecoilControlIncRate() {
+        return 0.045f;
     }
 
     @OnlyIn(Dist.CLIENT)

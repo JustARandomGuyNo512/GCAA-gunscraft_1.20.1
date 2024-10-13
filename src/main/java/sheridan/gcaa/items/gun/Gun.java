@@ -33,6 +33,7 @@ import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
+import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.calibers.Caliber;
 import sheridan.gcaa.network.PacketHandler;
@@ -94,23 +95,40 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
         PacketHandler.simpleChannel.sendToServer(new GunFirePacket(Clients.getSpread(this, player, stack)));
         DisplayData data = GunModelRegister.getDisplayData(this);
+        IArmReplace leftArmReplace = Clients.mainHandStatus.getLeftArmReplaceAttachment();
+        IArmReplace rightArmReplace = Clients.mainHandStatus.getRightArmReplaceAttachment();
+        CompoundTag tag = getPropertiesTag(stack);
         float directionY = RenderAndMathUtils.randomIndex();
+        float pControl = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH_CONTROL, tag);
+        float yControl = gunProperties.getPropertyRate(GunProperties.RECOIL_YAW_CONTROL, tag);
+        float pControlIncRate = 0;
+        float yControlIncRate = 0;
+        if (leftArmReplace != null) {
+            pControlIncRate += leftArmReplace.getPitchRecoilControlIncRate();
+            yControlIncRate += leftArmReplace.getYawRecoilControlIncRate();
+        }
+        if (rightArmReplace != null) {
+            pControlIncRate += rightArmReplace.getPitchRecoilControlIncRate();
+            yControlIncRate += rightArmReplace.getYawRecoilControlIncRate();
+        }
+        pControl *= Mth.clamp(1 + pControlIncRate, 0, 99999);
+        yControl *= Mth.clamp(1 + yControlIncRate, 0, 99999);
+        System.out.println(pControlIncRate + " " + yControlIncRate);
         if (data != null) {
             InertialRecoilData inertialRecoilData = data.getInertialRecoilData();
             if (inertialRecoilData != null) {
                 float directionX = RenderAndMathUtils.randomIndex();
                 Clients.mainHandStatus.lastRecoilDirection = directionX;
-                CompoundTag tag = getPropertiesTag(stack);
                 float pRate = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH, tag);
                 float yRate = gunProperties.getPropertyRate(GunProperties.RECOIL_YAW, tag);
-                float pControl = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH_CONTROL, tag);
-                float yControl = gunProperties.getPropertyRate(GunProperties.RECOIL_YAW_CONTROL, tag);
                 AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY,
                         Mth.clamp((pRate - Math.max(0, pControl - 1) * 0.3f), 0.5f, 1f),
                         Mth.clamp((yRate - Math.max(0, yControl - 1) * 0.3f), 0.5f, 1f));
             }
         }
-        RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionY, player);
+        RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionY, player,
+                Math.max(1, 1 + pControlIncRate),
+                Math.max(1, 1 + yControlIncRate));
         handleFireSoundClient(stack, player);
         float spread = getShootSpread(stack);
         if (player.isCrouching()) {

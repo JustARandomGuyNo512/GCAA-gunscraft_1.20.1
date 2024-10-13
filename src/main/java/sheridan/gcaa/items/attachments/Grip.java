@@ -19,17 +19,11 @@ public class Grip extends Attachment implements IArmReplace{
     @Override
     public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
-        properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate + pitchRecoilControlIncRate);
-        properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate + yawRecoilControlIncRate);
-        properties.setPropertyRateIfHas(GunProperties.AGILITY, data, (prevRate) -> prevRate + agilityIncRate);
     }
 
     @Override
     public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
-        properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate - pitchRecoilControlIncRate);
-        properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate - yawRecoilControlIncRate);
-        properties.setPropertyRateIfHas(GunProperties.AGILITY, data, (prevRate) -> prevRate - agilityIncRate);
     }
 
     @Override
@@ -40,5 +34,20 @@ public class Grip extends Attachment implements IArmReplace{
     @Override
     public int orderForArmRender(boolean mainHand) {
         return mainHand ? 0 : 1;
+    }
+
+    @Override
+    public float getPitchRecoilControlIncRate() {
+        return pitchRecoilControlIncRate;
+    }
+
+    @Override
+    public float getYawRecoilControlIncRate() {
+        return yawRecoilControlIncRate;
+    }
+
+    @Override
+    public float getAgilityIncRate() {
+        return agilityIncRate;
     }
 }
