@@ -56,7 +56,7 @@ public class SprintingHandler {
             return false;
         }
         if (ReloadingHandler.isReloading() || HandActionHandler.INSTANCE.hasTask() || Clients.mainHandStatus.ads) {
-            exitSprinting(10);
+            exitSprinting(20);
         }
         return sprintingCoolDown == 0 && !player.getAbilities().flying && !player.isCrouching() &&
                 !ReloadingHandler.isReloading() && !HandActionHandler.INSTANCE.hasTask() && !Clients.mainHandStatus.ads;
