@@ -36,6 +36,7 @@ public interface IGun {
     float getShootSpread(ItemStack stack);
     float getSpreadRecover(ItemStack stack);
     float getWeight(ItemStack stack);
+    float getAgility(ItemStack stack);
     float getAdsSpeed(ItemStack stack);
     float[] getSpread(ItemStack stack);
     float getFireSoundVol(ItemStack stack);

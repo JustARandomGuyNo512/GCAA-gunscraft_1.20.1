@@ -8,10 +8,12 @@ import sheridan.gcaa.items.gun.IGun;
 public class Grip extends Attachment implements IArmReplace{
     private final float pitchRecoilControlIncRate;
     private final float yawRecoilControlIncRate;
+    private final float agilityIncRate;
 
-    public Grip(float pitchRecoilControlIncRate, float yawRecoilControlIncRate) {
+    public Grip(float pitchRecoilControlIncRate, float yawRecoilControlIncRate, float agilityIncRate)  {
         this.pitchRecoilControlIncRate = pitchRecoilControlIncRate;
         this.yawRecoilControlIncRate = yawRecoilControlIncRate;
+        this.agilityIncRate = agilityIncRate;
     }
 
     @Override
@@ -19,6 +21,7 @@ public class Grip extends Attachment implements IArmReplace{
         GunProperties properties = gun.getGunProperties();
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate + pitchRecoilControlIncRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate + yawRecoilControlIncRate);
+        properties.setPropertyRateIfHas(GunProperties.AGILITY, data, (prevRate) -> prevRate + agilityIncRate);
     }
 
     @Override
@@ -26,6 +29,7 @@ public class Grip extends Attachment implements IArmReplace{
         GunProperties properties = gun.getGunProperties();
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate - pitchRecoilControlIncRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate - yawRecoilControlIncRate);
+        properties.setPropertyRateIfHas(GunProperties.AGILITY, data, (prevRate) -> prevRate - agilityIncRate);
     }
 
     @Override

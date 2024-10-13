@@ -4,6 +4,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 
@@ -18,7 +19,7 @@ public class Auto implements IGunFireMode {
 
     @Override
     public boolean canFire(Player player, ItemStack itemStack, IGun gun) {
-        return gun.getAmmoLeft(itemStack) > 0;
+        return fireInSprinting(player, itemStack, gun, 40);
     }
 
     @Override

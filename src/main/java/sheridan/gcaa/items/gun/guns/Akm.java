@@ -18,7 +18,7 @@ public class Akm extends Gun {
             new Caliber(new ResourceLocation(GCAA.MODID, "7.62x39mm"),8f, 5f, 6f, 10.8f);
 
     public Akm() {
-        super(new GunProperties(3f, 1f, 2.8f, 1f, 0.15f,
+        super(new GunProperties(3.5f, 1f, 2.8f, 1f, 0.15f,
                 3.2f, GunProperties.toRPM(600), getTicks(2.55f), getTicks(3.65f), 30,
                 2.5f, 0.8f, 0.1f, 0.1f, 15, Arrays.asList(Semi.SEMI, Auto.AUTO),
                 ModSounds.AKM_FIRE, null, caliber));

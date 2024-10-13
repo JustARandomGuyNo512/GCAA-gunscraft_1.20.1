@@ -6,6 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.ReloadingHandler;
+import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
@@ -21,6 +22,10 @@ public class HandAction implements IGunFireMode {
 
     @Override
     public boolean canFire(Player player, ItemStack itemStack, IGun gun) {
+        SprintingHandler.INSTANCE.exitSprinting(40);
+        if (SprintingHandler.INSTANCE.getSprintingProgress() != 0) {
+            return false;
+        }
         if (gun.getGun() instanceof HandActionGun handActionGun) {
             boolean hasAmmo = gun.getAmmoLeft(itemStack) > 0;
             boolean needHandAction = handActionGun.needHandAction(itemStack);

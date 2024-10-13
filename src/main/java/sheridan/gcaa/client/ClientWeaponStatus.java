@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Vector2f;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.items.attachments.IAttachment;
@@ -56,6 +57,10 @@ public class ClientWeaponStatus {
                 if (gun.shouldHandleAds(stack)) {
                     lastAdsProgress = adsProgress;
                     adsProgress = Math.min(adsSpeed + adsProgress, 1);
+                    float sprinting = 1 - SprintingHandler.INSTANCE.getSprintingProgress();
+                    float r1 = 1.001f - adsProgress;
+                    float r2 = 1.001f - sprinting;
+                    adsProgress = (adsProgress * r1 + sprinting * r2) / (r1 + r2);
                     if (adsProgress == 1) {
                         if (!switchSightTooltipShowed && attachmentsStatus.sights.size() > 1) {
                             String info = Component.translatable("tooltip.screen_info.switch_sight").getString();

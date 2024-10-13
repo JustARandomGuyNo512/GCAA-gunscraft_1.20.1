@@ -16,7 +16,7 @@ public class G19 extends Gun {
             new Caliber(new ResourceLocation(GCAA.MODID, "9x19mm"), 6f, 4, 3.5f, 5.5f);
 
     public G19() {
-        super(new GunProperties(4.2f, 0.5f, 1.8f, 0.5f, 0.2f,
+        super(new GunProperties(4.4f, 0.5f, 1.8f, 0.5f, 0.2f,
                 2.5f, GunProperties.toRPM(500), getTicks(2.1f), getTicks(2.9f),
                 15, 1f, 1f, 0.1f, 0.1f, 5,
                 List.of(Semi.SEMI), ModSounds.G19_FIRE, null, caliber));

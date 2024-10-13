@@ -17,7 +17,7 @@ public class M870 extends PumpActionShotgun {
             new CaliberGauge12(new ResourceLocation(GCAA.MODID, "12_gauge"), 4, 2, 3.5f, 6f, 8);
 
     public M870() {
-        super(new GunProperties(3.2f, 1.25f, 3f, 1.2f, 0.2f,
+        super(new GunProperties(3.7f, 1.25f, 3f, 1.2f, 0.2f,
                 4f, GunProperties.toRPM(50), 0, 0, 6,
                 3.5f, 1f, 0.15f, 0.1f, 12,
                 List.of(HandAction.HAND_ACTION), ModSounds.M870_FIRE, ModSounds.M870_FIRE_SUPPRESSED, caliber),

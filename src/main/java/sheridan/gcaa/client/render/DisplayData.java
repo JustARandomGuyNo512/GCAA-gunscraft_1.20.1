@@ -33,14 +33,13 @@ public class DisplayData {
             GUI = 4,
             AIMING = 5,
             ATTACHMENT_SCREEN = 6;
-    private final float[][] transforms = new float[][]{{0, 0, 0, 0, 0, 0, 1, 1, 1}, {}, {}, {}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1}};
-    private final boolean[][] emptyMarks = new boolean[][]{{}, {}, {}, {}, {}, {}, {}};
+    private final float[][] transforms = new float[][]{{0, 0, 0, 0, 0, 0, 1, 1, 1}, {}, {}, {}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1}};
+    private final boolean[][] emptyMarks = new boolean[][]{{}, {}, {}, {}, {}, {}, {}, {}};
     private final Map<String, MuzzleFlashEntry> muzzleFlashMap = new HashMap<>();
     private InertialRecoilData inertialRecoilData;
     private BulletShellDisplayData bulletShellDisplayData;
 
-    public DisplayData() {
-    }
+    public DisplayData() {}
 
     public void applyTransform(ItemDisplayContext displayContext, PoseStack poseStack) {
         switch (displayContext) {
@@ -92,6 +91,10 @@ public class DisplayData {
         if (emptyMarks[0][2]) {
             poseStack.scale(transforms[0][6], transforms[0][7], transforms[0][8]);
         }
+        if (Clients.isInSprintingTransAdjust) {
+            poseStack.translate(transforms[7][0], transforms[7][1], transforms[7][2]);
+            poseStack.mulPose(new Quaternionf().rotateXYZ(transforms[7][3], transforms[7][4], transforms[7][5]));
+        }
     }
 
     void applyTransform(float[] transform, boolean[] mark, PoseStack poseStack) {
@@ -141,6 +144,7 @@ public class DisplayData {
                 Arrays.copyOf(transforms[4], transforms[4].length),
                 Arrays.copyOf(transforms[5], transforms[5].length),
                 Arrays.copyOf(transforms[6], transforms[6].length),
+                Arrays.copyOf(transforms[7], transforms[7].length),
         };
     }
 
@@ -173,6 +177,22 @@ public class DisplayData {
     public DisplayData set(int index, float x, float y, float z, DataType type) {
         checkAndSet(index, x, y, z, type);
         return this;
+    }
+
+    public DisplayData setSprintingTrans(float x, float y, float z, float rx, float ry, float rz) {
+        emptyMarks[7] = emptyMarks[7].length == 0 ? new boolean[] {false, false, false} : emptyMarks[7];
+        setData(transforms[7], x, y, z, DataType.POS, emptyMarks[7]);
+        setData(transforms[7], rx, ry, rz, DataType.ROT, emptyMarks[7]);
+        return this;
+    }
+
+    public DisplayData usePistolDefaultSprintingTrans() {
+        return setSprintingTrans(2.5f, 8f, 1, 15, -6, 9);
+    }
+
+
+    public float[] getSprintingTrans() {
+        return transforms[7];
     }
 
     public DisplayData set(int index, float[] transform) {

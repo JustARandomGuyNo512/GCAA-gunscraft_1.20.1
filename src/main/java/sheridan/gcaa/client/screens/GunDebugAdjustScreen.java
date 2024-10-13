@@ -27,7 +27,7 @@ public class GunDebugAdjustScreen extends Screen {
     private int viewIndex = 0;
     private EditBox editBox;
     private float p;
-    private static final String[] viewModeNames = {"FirstPersonMain", "ThirdPersonRight", "Ground","Frame", "GUI", "Aiming", "AttachmentScreen"};
+    private static final String[] viewModeNames = {"FirstPersonMain", "ThirdPersonRight", "Ground","Frame", "GUI", "Aiming", "AttachmentScreen", "Sprinting"};
     public GunDebugAdjustScreen() {
         super(Component.literal("Gun Debug Adjust Screen"));
     }
@@ -70,6 +70,7 @@ public class GunDebugAdjustScreen extends Screen {
             viewIndex ++;
             viewIndex %= viewModeNames.length;
             p_280814_.setMessage(Component.literal(viewModeNames[viewIndex]));
+            Clients.isInSprintingTransAdjust = "Sprinting".equals(viewModeNames[viewIndex]);
         }).width(100).pos(300, 20).build());
         rowHelper.addChild(Button.builder(Component.literal("Bobbing"), (p_280814_) -> Clients.handleWeaponBobbing = !Clients.handleWeaponBobbing).width(50).pos(300, 50).build());
         rowHelper.addChild(Button.builder(Component.literal("print"), (p_280814_) -> printToConsole()).width(100).pos(50, 180).build());
@@ -91,6 +92,12 @@ public class GunDebugAdjustScreen extends Screen {
 
     public String getViewModeName() {
         return viewModeNames[viewIndex];
+    }
+
+    @Override
+    public void onClose() {
+        super.onClose();
+        Clients.isInSprintingTransAdjust = false;
     }
 
     private void add(int argIndex) {

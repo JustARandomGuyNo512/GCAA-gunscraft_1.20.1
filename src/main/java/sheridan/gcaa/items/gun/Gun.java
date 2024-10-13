@@ -290,7 +290,13 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public float getWeight(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("weight") ? Mth.clamp(properties.getFloat("weight"), GunProperties.MIN_WEIGHT, GunProperties.MAX_WEIGHT) : 0;
+        return properties.contains("weight") ? Mth.clamp(properties.getFloat("weight"), GunProperties.MIN_WEIGHT, GunProperties.MAX_WEIGHT) : 16;
+    }
+
+    @Override
+    public float getAgility(ItemStack stack) {
+        CompoundTag properties = getPropertiesTag(stack);
+        return properties.contains("agility") ? Mth.clamp(properties.getFloat("a"), 0.5f, 2f) : 1f;
     }
 
     @Override
@@ -471,6 +477,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         if (slotChanged) {
             ReloadingHandler.INSTANCE.cancelTask();
             HandActionHandler.INSTANCE.breakTask();
+            SprintingHandler.INSTANCE.exitSprinting(40);
             BulletShellRenderer.clear();
             Clients.mainHandStatus.buttonDown.set(false);
             Clients.mainHandStatus.ads = false;
@@ -484,7 +491,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     public float getEquipSpeedModifier(ItemStack itemStack, IGun gun) {
-        float weight = Mth.clamp(gun.getWeight(itemStack), 5, 40);
+        float weight = gun.getWeight(itemStack);
         return ((weight - 5f) / (35f)) * (-3.5f);
     }
 

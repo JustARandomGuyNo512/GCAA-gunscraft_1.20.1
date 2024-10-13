@@ -9,7 +9,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.client.SprintingHandler;
+import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class GlobalWeaponBobbing {
@@ -108,6 +111,7 @@ public class GlobalWeaponBobbing {
             }
             float idle = idleProgress * 2;
             float particleTick = instance.particleTicks;
+            float sprintingProgress = SprintingHandler.INSTANCE.getLerpedSprintingProgress(particleTick);
             float aimingFactor = 1f - Clients.mainHandStatus.adsProgress * 0.75f;
             walkDis = player.walkDist - player.walkDistO;
             swing = -(player.walkDist + walkDis * particleTick) * PI;
@@ -115,7 +119,7 @@ public class GlobalWeaponBobbing {
             sprintingFactor = player.isSprinting() ? Math.min(bob * 10f, 1f) : 1f;
             scaleFactor = aimingFactor * (player.isSprinting() ? 1f + sprintingFactor * 0.3f : 1f);
             float idleScale = Math.min((System.currentTimeMillis() - Clients.lastShootMain()) * 0.001f, 0.8f) * scaleFactor * (player.isCrouching() ? 0.5f : 0.8f);
-            float scaledBob = bob * scaleFactor;
+            float scaledBob = bob * scaleFactor * (1 - sprintingProgress);
             float pistolFactor = gun.isPistol() ? 0.5f : 1f;
             float bobRY = Mth.rotLerp(particleTick, player.yBobO, player.yBob);
             float headRY = Mth.rotLerp(particleTick, player.yHeadRotO, player.yHeadRot);
@@ -126,19 +130,34 @@ public class GlobalWeaponBobbing {
             idlePitch = Mth.sin(idle + PI * 0.75f) * 0.0035f;
             idleYaw = Mth.sin(idle) * 0.01f;
             idleRoll = Mth.sin(idle) * 0.00025f;
-            poseStack.translate(
-                    -Mth.sin(swing - PI * 0.125f) * scaledBob * 0.115f + swingRy * scaleFactor,
-                    (1.08f - Math.abs(Mth.cos(swing - PI * 0.1f))) * scaledBob * 0.25f +
-                            EQUIP_HEIGHT * pistolFactor * instance.equipProgress - (swingRx * 0.5f - JumpBobbingHandler.getOffset() * pistolFactor) * scaleFactor
-                            + idleYaw * idleScale * pistolFactor,
-                    scaledBob * 0.5f + idleRoll * idleScale);
-            poseStack.mulPose(new Quaternionf().rotateXYZ(
-                    -Math.abs(Mth.cos(swing - PI * 0.023F) * bob) * scaleFactor * 0.12f
-                            + swingRx * 0.8f * aimingFactor - idlePitch * idleScale + instance.equipProgress * 0.2f,
-                    swingRy * 0.9f * aimingFactor,
-                    -swingRy * aimingFactor * pistolFactor + instance.equipProgress));
+            if (sprintingProgress != 1) {
+                poseStack.translate(
+                        -Mth.sin(swing - PI * 0.125f) * scaledBob * 0.115f + swingRy * scaleFactor,
+                        (1.08f - Math.abs(Mth.cos(swing - PI * 0.1f))) * scaledBob * 0.25f +
+                                EQUIP_HEIGHT * pistolFactor * instance.equipProgress - (swingRx * 0.5f - JumpBobbingHandler.getOffset() * pistolFactor) * scaleFactor
+                                + idleYaw * idleScale * pistolFactor,
+                        scaledBob * 0.5f + idleRoll * idleScale);
+                poseStack.mulPose(new Quaternionf().rotateXYZ(
+                        -Math.abs(Mth.cos(swing - PI * 0.023F) * bob) * scaleFactor * 0.12f
+                                + swingRx * 0.8f * aimingFactor - idlePitch * idleScale + instance.equipProgress * 0.2f,
+                        swingRy * 0.9f * aimingFactor,
+                        -swingRy * aimingFactor * pistolFactor + instance.equipProgress));
+            }
 
-
+            if (sprintingProgress != 0) {
+                float[] sprintingTrans = GunModelRegister.getDisplayData(gun).getSprintingTrans();
+                float shakeScale = (gun.isPistol() ? 1 : 1.6f) * bob;
+                poseStack.translate(
+                        (sprintingTrans[0] - Mth.sin(swing - PI * 0.15f) * shakeScale * 1.6f) * sprintingProgress,
+                        (sprintingTrans[1] + Math.abs(Mth.cos(swing - PI * 0.15f)) * 1.1f * shakeScale) * (sprintingProgress * sprintingProgress)
+                                + idleYaw * idleScale,
+                        sprintingTrans[2] * sprintingProgress + idleRoll * idleScale);
+                float xSway = - Math.abs(Mth.sin(swing - PI * 0.1f));
+                poseStack.mulPose(new Quaternionf().rotateXYZ(
+                        (sprintingTrans[3] + (xSway - Math.abs(0.2f * xSway)) * 0.8f * shakeScale) * sprintingProgress - idlePitch * idleScale,
+                        (sprintingTrans[4] + Mth.sin(swing) * 0.8f * shakeScale) * (RenderAndMathUtils.sLerp(sprintingProgress)),
+                        sprintingTrans[5] * sprintingProgress));
+            }
 
         }
 

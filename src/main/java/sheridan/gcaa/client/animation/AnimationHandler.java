@@ -88,7 +88,7 @@ public class AnimationHandler {
     }
 
     /**
-     * false to stop inertial recoil handler update work and clear data
+     * false to stop inertial recoil handler tick work and clear data
      * */
     public void setEnableInertialRecoil(boolean enable) {
         enableInertialRecoil.set(enable);

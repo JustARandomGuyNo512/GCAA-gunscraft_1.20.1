@@ -18,7 +18,7 @@ public class Semi implements IGunFireMode {
 
     @Override
     public boolean canFire(Player player, ItemStack itemStack, IGun gun) {
-        return gun.getAmmoLeft(itemStack) > 0;
+        return fireInSprinting(player, itemStack, gun, 40);
     }
 
     @Override

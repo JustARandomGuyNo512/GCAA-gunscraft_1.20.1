@@ -17,7 +17,7 @@ public class Awp extends HandActionGun {
             new Caliber(new ResourceLocation(GCAA.MODID, "7.62x51mm"), 22, 16, 10f, 15f);
 
     public Awp() {
-        super(new GunProperties(2.5f, 0.25f, 3f, 1.8f, 0.1f,
+        super(new GunProperties(3f, 0.25f, 3f, 1.8f, 0.1f,
                         5f, GunProperties.toRPM(45), getTicks(2.25f), getTicks(3.35f),
                         10, 3.5f, 1f, 0.1f, 0.1f, 22,
                         List.of(HandAction.HAND_ACTION),

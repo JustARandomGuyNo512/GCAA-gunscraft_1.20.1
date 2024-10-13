@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.ReloadingHandler;
+import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.client.render.JumpBobbingHandler;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.IGun;
@@ -42,6 +43,7 @@ public class ClientPlayerEvents {
             if (Clients.mainHandStatus.attachmentsStatus.getEffectiveSight() instanceof Scope scope) {
                 scope.handleMouseSensitivity();
             }
+            SprintingHandler.INSTANCE.tick((LocalPlayer) player);
         }
         if (event.phase == TickEvent.Phase.END)  {
             JumpBobbingHandler jumpBobbingHandler = JumpBobbingHandler.getInstance();

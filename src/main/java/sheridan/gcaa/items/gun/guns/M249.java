@@ -15,7 +15,7 @@ public class M249 extends Gun {
             new Caliber(new ResourceLocation(GCAA.MODID, "5.56x45mm"),7f, 4.5f, 6f, 14.25f);
 
     public M249() {
-        super(new GunProperties(2.2f, 1.1f, 2.9f, 0.85f, 0.14f,
+        super(new GunProperties(2.5f, 1.1f, 2.9f, 0.85f, 0.14f,
                 3.5f, GunProperties.toRPM(750), getTicks(5.25f), getTicks(6.6f), 150,
                 1.6f, 0.6f, 0.1f, 0.1f, 30, List.of(Auto.AUTO),
                 ModSounds.M249_FIRE, null, caliber));

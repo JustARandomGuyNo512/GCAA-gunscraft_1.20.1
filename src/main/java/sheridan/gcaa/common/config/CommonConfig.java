@@ -129,8 +129,8 @@ public class CommonConfig {
                 "minecraft:creeper=2.0,0.8,0.75"), CommonConfig::verifyHeadShotModify);
         BUILDER.comment("""
                 
-                Bullet breaks glass block.
-                子弹击碎玻璃块""");
+                Bullet breaks glass block or glass pane.
+                子弹击碎玻璃块或玻璃板""");
         bulletBreakGlass = BUILDER.define("bullet_break_glass", true);
         BUILDER.comment("""
                 
