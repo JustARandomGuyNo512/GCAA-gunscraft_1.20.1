@@ -76,6 +76,7 @@
   "tooltip.gcaa.excellent_worse": "Excellent: Worse:",
 
   "tooltip.screen_info.switch_sight": "Press $key to switch effective sight",
+  "tooltip.screen_info.headshot": "Head Shot!",
 
   "gcaa.unit.chunk_pre_second": "Chunks/s",
   "gcaa.unit.chunk": "Chunk",

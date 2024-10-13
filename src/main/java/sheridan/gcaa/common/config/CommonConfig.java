@@ -30,6 +30,8 @@ public class CommonConfig {
     public static ForgeConfigSpec.DoubleValue globalBulletDamageModify;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> headshotModify;
     public static ForgeConfigSpec.BooleanValue enableHeadShot;
+    public static ForgeConfigSpec.BooleanValue bulletBreakGlass;
+    public static ForgeConfigSpec.BooleanValue bulletCrossLeafBlock;
 
     private static boolean verifyHeadShotModify(Object obj) {
         if (obj instanceof String str) {
@@ -125,6 +127,16 @@ public class CommonConfig {
                 "minecraft:vex=2.0,0.9,0.65",
                 "minecraft:warden=2.0,1.0,0.8",
                 "minecraft:creeper=2.0,0.8,0.75"), CommonConfig::verifyHeadShotModify);
+        BUILDER.comment("""
+                
+                Bullet breaks glass block.
+                子弹击碎玻璃块""");
+        bulletBreakGlass = BUILDER.define("bullet_break_glass", true);
+        BUILDER.comment("""
+                
+                Bullets can go through leaves.
+                子弹穿透树叶方块""");
+        bulletCrossLeafBlock = BUILDER.define("bullet_cross_leaf_block", true);
         SPEC = BUILDER.build();
     }
 }

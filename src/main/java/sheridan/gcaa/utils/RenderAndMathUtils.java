@@ -9,6 +9,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import org.joml.Random;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -22,6 +23,8 @@ import static org.lwjgl.opengl.GL11C.glGetIntegerv;
 import static org.lwjgl.opengl.GL30C.*;
 
 public class RenderAndMathUtils {
+    public static final Random RANDOM = new Random();
+
     public static float sLerp(float progress) {
         float f1 = progress * progress;
         float f2 = 1.0f - (1.0f - progress) * (1.0f - progress);
@@ -171,6 +174,10 @@ public class RenderAndMathUtils {
         }
         glBindTexture(GL_TEXTURE_2D, depthTex);
         return glGetTexLevelParameteri(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT);
+    }
+
+    public static int getRandomIndex(int max) {
+        return RANDOM.nextInt(max);
     }
 
 }

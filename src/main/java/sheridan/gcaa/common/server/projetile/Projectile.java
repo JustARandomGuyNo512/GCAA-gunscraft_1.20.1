@@ -1,13 +1,23 @@
 package sheridan.gcaa.common.server.projetile;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.*;
 import net.minecraftforge.network.PacketDistributor;
 import sheridan.gcaa.common.HeadBox;
@@ -59,13 +69,19 @@ public class Projectile {
                 BlockHitResult hitResult = level.clip(new ClipContext(position, nextPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, null));
                 if (hitResult.getType() != HitResult.Type.MISS) {
                     Vec3 hitPos = hitResult.getLocation();
-                    ProjectileEntityHitResult entityHitResult = findEntity(level, position, hitPos);
+                    BlockState blockState = this.shooter.level().getBlockState(hitResult.getBlockPos());
+                    boolean through = CommonConfig.bulletCrossLeafBlock.get() && blockState.getBlock() instanceof LeavesBlock;
+                    Vec3 endPos = through ? nextPos : hitPos;
+                    ProjectileEntityHitResult entityHitResult = findEntity(level, position, endPos);
                     if (entityHitResult != null && entityHitResult.getEntity() != this.shooter) {
-                        onHitEntity(entityHitResult.getEntity(), level, entityHitResult.getLocation(), position, hitPos, entityHitResult.boxHit);
+                        onHitEntity(entityHitResult.getEntity(), level, entityHitResult.getLocation(), position, endPos, entityHitResult.boxHit);
+                        living = false;
                     } else {
                         onHitBlock(hitResult);
                     }
-                    living = false;
+                    if (!through) {
+                        living = false;
+                    }
                 } else {
                     ProjectileEntityHitResult entityHitResult = findEntity(level, position, nextPos);
                     if (entityHitResult != null && entityHitResult.getEntity() != this.shooter) {
@@ -137,6 +153,17 @@ public class Projectile {
     }
 
     private void onHitBlock(BlockHitResult blockHitResult) {
+        BlockState blockState = shooter.level().getBlockState(blockHitResult.getBlockPos());
+        Block block = blockState.getBlock();
+        if (block instanceof BellBlock bell && this.shooter instanceof Player) {
+            bell.attemptToRing(null, this.shooter.level(), blockHitResult.getBlockPos(), blockHitResult.getDirection());
+        }
+        if (CommonConfig.bulletBreakGlass.get() && (
+                block instanceof AbstractGlassBlock ||
+                block instanceof StainedGlassPaneBlock ||
+                "minecraft:glass_pane".equals(BuiltInRegistries.BLOCK.getKey(block).toString()))) {
+            this.shooter.level().destroyBlock(blockHitResult.getBlockPos(), false);
+        }
         PacketHandler.simpleChannel.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
                 blockHitResult.getLocation().x,
                 blockHitResult.getLocation().y,

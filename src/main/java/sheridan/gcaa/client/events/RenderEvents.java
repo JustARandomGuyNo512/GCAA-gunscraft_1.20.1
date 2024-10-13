@@ -60,11 +60,13 @@ public class RenderEvents {
     private static final ResourceLocation HAS_GRENADE = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/has_grenade.png");
     private static final Map<String, Long> TEMP_TIMERS = new HashMap<>();
     private static final String MAGNIFICATION = "magnification_tip";
+    private static final String HEADSHOT = "headshot";
     private static float magnificationTip = 0;
     private static int magnificationTipColor = 0;
 
     static {
         TEMP_TIMERS.put(MAGNIFICATION, 0L);
+        TEMP_TIMERS.put(HEADSHOT, 0L);
     }
 
     @SubscribeEvent
@@ -185,8 +187,19 @@ public class RenderEvents {
                     String str = "x" + Math.round(magnificationTip * 10.0) / 10.0;
                     guiGraphics.drawString(font, str, (width - font.width(str)) * 0.5f, 0.75f * height, magnificationTipColor,  true);
                 }
+                if (now - TEMP_TIMERS.get(HEADSHOT) < 300) {
+                    String str = Component.translatable("tooltip.screen_info.headshot").getString();
+                    float alpha = (now - TEMP_TIMERS.get(HEADSHOT)) / 300f;
+                    event.getGuiGraphics().setColor(1,0,0,alpha);
+                    guiGraphics.drawString(font, str, (width - font.width(str)) * 0.5f, 0.8f * height, -1,  true);
+                    event.getGuiGraphics().setColor(1,1,1,1);
+                }
             }
         }
+    }
+
+    public static void callHeadShotFeedBack() {
+        TEMP_TIMERS.put(HEADSHOT, System.currentTimeMillis());
     }
 
     private static void renderAmmoCounter(ItemStack stack, GuiGraphics guiGraphics, IGun gun, Font font, int width, int height)  {

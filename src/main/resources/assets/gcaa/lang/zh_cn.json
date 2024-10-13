@@ -76,6 +76,7 @@
   "tooltip.gcaa.excellent_worse": "很棒： 差劲：",
 
   "tooltip.screen_info.switch_sight": "按 $key 切换瞄具",
+  "tooltip.screen_info.headshot": "命中头部!",
 
   "gcaa.unit.chunk_pre_second": "区块/秒",
   "gcaa.unit.chunk": "区块",

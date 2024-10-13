@@ -28,6 +28,7 @@ import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.ClientWeaponLooper;
 import sheridan.gcaa.client.ClientWeaponStatus;
+import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.model.BulletShellModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.attachments.akStuff.AKImprovedDustCoverModel;
@@ -62,6 +63,7 @@ import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 import sheridan.gcaa.lib.ArsenalLib;
 import sheridan.gcaa.sounds.ModSounds;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.Timer;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -309,8 +311,19 @@ public class Clients {
         }
     }
 
+    private static long lastHeadShotSound = 0;
     public static void handleClientHeadShotFeedBack() {
-        System.out.println("headshot!!!");
+        if (System.currentTimeMillis() - lastHeadShotSound > 300) {
+            Player player = Minecraft.getInstance().player;
+            if (player != null) {
+                try {
+                    SoundEvent soundEvent = ModSounds.HEADSHOT_SOUNDS[RenderAndMathUtils.getRandomIndex(ModSounds.HEADSHOT_SOUNDS.length)].get();
+                    ModSounds.sound(1,1, player, soundEvent);
+                    lastHeadShotSound = System.currentTimeMillis();
+                } catch (Exception e) {e.printStackTrace();}
+            }
+        }
+        RenderEvents.callHeadShotFeedBack();
     }
 
     public static float calculateVolume(float disSq, float rangeSq) {
