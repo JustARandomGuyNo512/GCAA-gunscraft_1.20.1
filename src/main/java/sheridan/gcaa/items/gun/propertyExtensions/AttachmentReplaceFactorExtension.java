@@ -44,7 +44,7 @@ public class AttachmentReplaceFactorExtension extends PropertyExtension {
             }
         }
         if (weightMap.containsKey(slotName)) {
-            properties.addWeight(propertiesTag, weightMap.get(slotName) * sign);
+            properties.addWeight(propertiesTag, weightMap.get(slotName) * - sign);
         }
     }
 
