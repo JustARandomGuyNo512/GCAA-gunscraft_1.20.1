@@ -31,9 +31,9 @@ import java.util.function.Predicate;
 public class Projectile {
     private static final int DISABLE_LATENCY = -1;
     private static final Predicate<Entity> GENERIC_TARGETS = (input) -> input instanceof Grenade || (input instanceof LivingEntity && !input.isSpectator() && input.isAlive());
-    private static final float CHUNK_TO_METER = 1.6f;
-    private static final float BASE_SPREAD_INDEX = 0.01F;
-    private static final Random RANDOM = new Random();
+    public static final float CHUNK_TO_METER = 1.6f;
+    public static final float BASE_SPREAD_INDEX = 0.01F;
+    public static final Random RANDOM = new Random();
     public static final float dropRate = 0.1f;
     public Vec3 initialPos;
     public Vec3 position;
@@ -192,6 +192,10 @@ public class Projectile {
     }
 
     public void shoot(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange, IGun gun) {
+        shoot(shooter, shooter.getLookAngle(), speed, damage, spread, effectiveRange, gun);
+    }
+
+    public void shoot(LivingEntity shooter, Vec3 angle, float speed, float damage, float spread, float effectiveRange, IGun gun) {
         effectiveRange *= 16;
         this.gun = gun;
         this.shooter = shooter;
@@ -200,9 +204,8 @@ public class Projectile {
         this.effectiveRange = effectiveRange * effectiveRange;
         this.position = new Vec3(this.shooter.getX(), this.shooter.getY()  + shooter.getEyeHeight(shooter.getPose()), this.shooter.getZ());
         this.initialPos = new Vec3(position.x, position.y, position.z);
-        speed *= CHUNK_TO_METER;
-        spread *= BASE_SPREAD_INDEX * CommonConfig.globalBulletSpeedModify.get();
-        Vec3 angle = this.shooter.getLookAngle();
+        speed *= CHUNK_TO_METER * CommonConfig.globalBulletSpeedModify.get();
+        spread *= BASE_SPREAD_INDEX;
         velocity = angle.normalize().add(
                 RANDOM.nextGaussian() * spread,
                 RANDOM.nextGaussian() * spread,

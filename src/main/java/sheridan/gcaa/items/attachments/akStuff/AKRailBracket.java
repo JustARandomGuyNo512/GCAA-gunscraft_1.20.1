@@ -15,7 +15,9 @@ public class AKRailBracket extends SubSlotProvider {
     private final AttachmentSlot root = AttachmentSlot.root()
             .addChild(new AttachmentSlot("rail_bracket_scope", Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")));
 
-    public AKRailBracket() {}
+    public AKRailBracket() {
+        super(0.2f);
+    }
 
     @Override
     public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {}

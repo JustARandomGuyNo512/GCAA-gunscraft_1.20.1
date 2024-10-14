@@ -2,10 +2,13 @@ package sheridan.gcaa.items.gun.guns;
 
 import net.minecraft.resources.ResourceLocation;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.calibers.Caliber;
 import sheridan.gcaa.items.gun.fireModes.Auto;
+import sheridan.gcaa.items.gun.propertyExtensions.AttachmentReplaceFactorExtension;
+import sheridan.gcaa.items.gun.propertyExtensions.AttachmentReplaceFactorExtension.*;
 import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.List;
@@ -18,7 +21,13 @@ public class M249 extends Gun {
         super(new GunProperties(2.5f, 1.1f, 2.9f, 0.85f, 0.14f,
                 3.5f, GunProperties.toRPM(750), getTicks(5.25f), getTicks(6.6f), 150,
                 1.6f, 0.6f, 0.1f, 0.1f, 30, List.of(Auto.AUTO),
-                ModSounds.M249_FIRE, null, caliber));
+                ModSounds.M249_FIRE, null, caliber)
+                .addExtension(new AttachmentReplaceFactorExtension()
+                        .addReplaceFactor(Attachment.MAG, 5f,
+                                new PropertyEntry(GunProperties.AGILITY, 0.1f))
+                        .addReplaceFactor(Attachment.STOCK, 2f,
+                                new PropertyEntry(GunProperties.RECOIL_PITCH_CONTROL, 0.07f),
+                                new PropertyEntry(GunProperties.RECOIL_YAW_CONTROL, 0.05f))));
     }
 
     @Override

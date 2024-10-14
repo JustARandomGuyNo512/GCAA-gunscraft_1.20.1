@@ -13,7 +13,8 @@ public class Handguard extends SubSlotProvider{
     private final float recoilPitchControlIncRate;
     private final float yawPitchControlIncRate;
 
-    public Handguard(AttachmentSlot root, float recoilPitchControlIncRate, float yawPitchControlIncRate)    {
+    public Handguard(AttachmentSlot root, float recoilPitchControlIncRate, float yawPitchControlIncRate, float weight)    {
+        super(weight);
         this.root = root;
         this.recoilPitchControlIncRate = recoilPitchControlIncRate;
         this.yawPitchControlIncRate = yawPitchControlIncRate;
@@ -24,6 +25,7 @@ public class Handguard extends SubSlotProvider{
         GunProperties properties = gun.getGunProperties();
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate + recoilPitchControlIncRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate + yawPitchControlIncRate);
+        properties.addWeight(data, weight);
     }
 
     @Override
@@ -31,6 +33,7 @@ public class Handguard extends SubSlotProvider{
         GunProperties properties = gun.getGunProperties();
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate - recoilPitchControlIncRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate - yawPitchControlIncRate);
+        properties.addWeight(data, - weight);
     }
 
     @Override

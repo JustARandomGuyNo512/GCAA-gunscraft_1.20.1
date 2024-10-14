@@ -13,6 +13,6 @@ public class ARRailedHandguard extends Handguard {
             .addChild(new AttachmentSlot("handguard_right", Set.of("")).lower());
 
     public ARRailedHandguard() {
-        super(root, 0, 0);
+        super(root, 0, 0, 1f);
     }
 }

@@ -4,6 +4,6 @@ import sheridan.gcaa.items.attachments.Suppressor;
 
 public class ShotGunSuppressor extends Suppressor {
     public ShotGunSuppressor() {
-        super(0.3f, 0.06f, 0.06f);
+        super(0.3f, 0.06f, 0.06f, 1.2f);
     }
 }

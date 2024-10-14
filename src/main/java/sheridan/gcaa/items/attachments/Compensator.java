@@ -13,6 +13,7 @@ public class Compensator extends Attachment{
     private final float yawRecoilControlIncRate;
 
     public Compensator(float pitchRecoilLowerRate, float yawRecoilLowerRate, float pitchRecoilControlIncRate, float yawRecoilControlIncRate) {
+        super(0);
         this.pitchRecoilLowerRate = pitchRecoilLowerRate;
         this.yawRecoilLowerRate = yawRecoilLowerRate;
         this.pitchRecoilControlIncRate = pitchRecoilControlIncRate;

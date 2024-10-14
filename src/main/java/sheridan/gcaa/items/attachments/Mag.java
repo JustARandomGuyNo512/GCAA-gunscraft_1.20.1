@@ -12,7 +12,8 @@ public class Mag extends Attachment{
     protected Map<IGun, Integer> specialCapacity = new HashMap<>();
     int capacity;
 
-    public Mag(int capacity) {
+    public Mag(int capacity, float weight) {
+        super(weight);
         this.capacity = Math.max(capacity, 0);
     }
 
@@ -23,6 +24,7 @@ public class Mag extends Attachment{
     @Override
     public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
+        properties.addWeight(data, weight);
         if (specialCapacity.containsKey(gun)) {
             properties.setMagSize(data, specialCapacity.get(gun));
         } else {
@@ -33,6 +35,7 @@ public class Mag extends Attachment{
     @Override
     public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
         gun.getGunProperties().resetMagSize(data);
+        gun.getGunProperties().addWeight(data, - weight);
         int ammoLeft = gun.getAmmoLeft(stack);
         gun.setAmmoLeft(stack, Math.min(ammoLeft, gun.getMagSize(stack)));
     }

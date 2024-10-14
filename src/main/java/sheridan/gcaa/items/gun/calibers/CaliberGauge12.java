@@ -6,24 +6,41 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import sheridan.gcaa.common.config.CommonConfig;
+import sheridan.gcaa.common.server.projetile.Projectile;
 import sheridan.gcaa.items.ammunitions.IAmmunition;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.common.server.projetile.ProjectileHandler;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.List;
+import java.util.Random;
 
 public class CaliberGauge12 extends Caliber {
     public int projectileNum;
+    public float baseSpread = 1.5f;
 
     public CaliberGauge12(ResourceLocation name, float baseDamage, float minDamage, float effectiveRange, float speed, int projectileNum) {
         super(name, baseDamage, minDamage, effectiveRange, speed);
         this.projectileNum = projectileNum;
     }
 
+    public CaliberGauge12 modifySpread(float baseSpread) {
+        this.baseSpread = baseSpread;
+        return this;
+    }
+
     @Override
     public void fireBullet(IAmmunition ammunition, ItemStack ammunitionStack, IGun gun, Player player, ItemStack gunStack, float spread) {
+        Vec3 angle = player.getLookAngle();
+        spread *= Projectile.BASE_SPREAD_INDEX;
+        angle = angle.normalize().add(
+                RenderAndMathUtils.RANDOM.nextGaussian() * spread,
+                RenderAndMathUtils.RANDOM.nextGaussian() * spread,
+                RenderAndMathUtils.RANDOM.nextGaussian() * spread).scale(speed);
         for (int i = 0; i < projectileNum; i ++) {
-            ProjectileHandler.fire(player, speed, baseDamage, spread * 1.5f, effectiveRange, gun);
+            ProjectileHandler.fire(player, angle, speed, baseDamage, baseSpread, effectiveRange, gun);
         }
     }
 

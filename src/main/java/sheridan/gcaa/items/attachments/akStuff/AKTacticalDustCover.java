@@ -13,7 +13,9 @@ public class AKTacticalDustCover extends SubSlotProvider {
     private final AttachmentSlot root = AttachmentSlot.root()
             .addChild(new AttachmentSlot("dust_cover_scope", Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")).upper());
 
-    public AKTacticalDustCover() {}
+    public AKTacticalDustCover() {
+        super(0);
+    }
 
     @Override
     public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {}

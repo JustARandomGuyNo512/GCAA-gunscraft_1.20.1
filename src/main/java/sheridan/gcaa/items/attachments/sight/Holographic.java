@@ -4,6 +4,6 @@ import sheridan.gcaa.items.attachments.Sight;
 
 public class Holographic extends Sight {
     public Holographic() {
-        super(1);
+        super( 0.8f);
     }
 }

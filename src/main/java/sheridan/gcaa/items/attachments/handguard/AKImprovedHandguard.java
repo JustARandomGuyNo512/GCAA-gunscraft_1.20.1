@@ -13,6 +13,6 @@ public class AKImprovedHandguard extends Handguard {
             .addChild(new AttachmentSlot("handguard_right", Set.of("")).lower());
 
     public AKImprovedHandguard() {
-        super(root, 0.05f, 0.05f);
+        super(root, 0.05f, 0.05f, 0.9f);
     }
 }

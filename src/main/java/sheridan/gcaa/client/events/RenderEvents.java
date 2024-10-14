@@ -28,6 +28,7 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.ClientWeaponStatus;
+import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.model.attachments.ScopeModel;
 import sheridan.gcaa.client.model.guns.IGunModel;
@@ -99,20 +100,18 @@ public class RenderEvents {
             if (Clients.holdingGun()) {
                 Minecraft minecraft = Minecraft.getInstance();
                 Player player = minecraft.player;
-                if (player != null) {
-                    ItemStack stack = player.getMainHandItem();
-                    if (stack.getItem() instanceof IGun gun) {
-                        if (!Clients.mainHandStatus.ads && !Clients.shouldHideFPRender) {
-                            CrossHairRenderer.INSTANCE.render(16, gun, event.getGuiGraphics(), player, stack, event.getPartialTick());
-                        }
-                        event.setCanceled(true);
+                if (player == null) {
+                    return;
+                }
+                ItemStack stack = player.getMainHandItem();
+                if (stack.getItem() instanceof IGun gun) {
+                    if (!Clients.mainHandStatus.ads && !Clients.shouldHideFPRender && !SprintingHandler.INSTANCE.isSprinting()) {
+                        CrossHairRenderer.INSTANCE.render(16, gun, event.getGuiGraphics(), player, stack, event.getPartialTick());
                     }
-                    if (Clients.mainHandStatus.ads) {
-                        event.setCanceled(true);
-                    }
-                    if (Clients.shouldHideFPRender) {
-                        event.setCanceled(true);
-                    }
+                    event.setCanceled(true);
+                }
+                if (Clients.mainHandStatus.ads || Clients.shouldHideFPRender || SprintingHandler.INSTANCE.isSprinting()) {
+                    event.setCanceled(true);
                 }
             }
         }
@@ -185,13 +184,13 @@ public class RenderEvents {
                 RenderSystem.disableBlend();
                 if (now - TEMP_TIMERS.get(MAGNIFICATION) < 500) {
                     String str = "x" + Math.round(magnificationTip * 10.0) / 10.0;
-                    guiGraphics.drawString(font, str, (width - font.width(str)) * 0.5f, 0.75f * height, magnificationTipColor,  true);
+                    guiGraphics.drawString(font, str, (width - font.width(str)) * 0.5f, 0.74f * height, magnificationTipColor,  true);
                 }
                 if (now - TEMP_TIMERS.get(HEADSHOT) < 300) {
                     String str = Component.translatable("tooltip.screen_info.headshot").getString();
                     float alpha = (now - TEMP_TIMERS.get(HEADSHOT)) / 300f;
                     event.getGuiGraphics().setColor(1,0,0,alpha);
-                    guiGraphics.drawString(font, str, (width - font.width(str)) * 0.5f, 0.8f * height, -1,  true);
+                    guiGraphics.drawString(font, str, (width - font.width(str)) * 0.5f, 0.725f * height, -1,  true);
                     event.getGuiGraphics().setColor(1,1,1,1);
                 }
             }

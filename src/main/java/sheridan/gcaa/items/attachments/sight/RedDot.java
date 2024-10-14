@@ -4,6 +4,6 @@ import sheridan.gcaa.items.attachments.Sight;
 
 public class RedDot extends Sight {
     public RedDot() {
-        super(1);
+        super(0.5f);
     }
 }

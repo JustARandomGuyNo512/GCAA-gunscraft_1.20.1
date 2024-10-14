@@ -35,7 +35,7 @@ public class SprintingHandler {
                 inSprinting = shouldEnterSprinting(player);
                 float weight = gun.getWeight(stack) / GunProperties.MAX_WEIGHT;
                 float weightFactor = 1f - weight;
-                exitSpeed = 0.07f + weightFactor * 0.28f * getAgility(gun, stack) * (gun.isPistol() ? 1.85f : 1f);
+                exitSpeed = 0.06f + weightFactor * 0.3f * getAgility(gun, stack) * (gun.isPistol() ? 1.85f : 1f);
                 float enterSpeed = Math.min(0.2f, exitSpeed);
                 if (inSprinting) {
                     lastSprintingProgress = sprintingProgress;
@@ -66,7 +66,11 @@ public class SprintingHandler {
         return agility;
     }
 
-    public boolean shouldEnterSprinting(LocalPlayer player) {
+    public boolean isSprinting() {
+        return inSprinting;
+    }
+
+    private boolean shouldEnterSprinting(LocalPlayer player) {
         if (!player.isSprinting()) {
             return false;
         }

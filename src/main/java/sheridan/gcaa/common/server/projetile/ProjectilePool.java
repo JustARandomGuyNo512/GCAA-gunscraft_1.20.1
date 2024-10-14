@@ -1,6 +1,7 @@
 package sheridan.gcaa.common.server.projetile;
 
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.util.ArrayDeque;
@@ -16,15 +17,27 @@ public class ProjectilePool {
         }
     }
 
-    public Projectile getOrCreate(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange, IGun gun) {
+    public Projectile getOrCreate(LivingEntity shooter, Vec3 angle, float speed, float damage, float spread, float effectiveRange, IGun gun) {
         Projectile projectile = pool.pollFirst();
         if (projectile == null) {
             Projectile newProjectile = new Projectile();
-            newProjectile.shoot(shooter, speed, damage, spread, effectiveRange, gun);
+            newProjectile.shoot(shooter, angle, speed, damage, spread, effectiveRange, gun);
             return newProjectile;
         }
-        projectile.shoot(shooter, speed, damage, spread, effectiveRange, gun);
+        projectile.shoot(shooter, angle, speed, damage, spread, effectiveRange, gun);
         return projectile;
+    }
+
+    public Projectile getOrCreate(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange, IGun gun) {
+//        Projectile projectile = pool.pollFirst();
+//        if (projectile == null) {
+//            Projectile newProjectile = new Projectile();
+//            newProjectile.shoot(shooter, speed, damage, spread, effectiveRange, gun);
+//            return newProjectile;
+//        }
+//        projectile.shoot(shooter, speed, damage, spread, effectiveRange, gun);
+//        return projectile;
+        return getOrCreate(shooter, shooter.getLookAngle(), speed, damage, spread, effectiveRange, gun);
     }
 
     public void returnProjectile(Projectile projectile) {

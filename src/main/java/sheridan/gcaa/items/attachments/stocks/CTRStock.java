@@ -8,7 +8,9 @@ import sheridan.gcaa.items.gun.IGun;
 
 public class CTRStock extends Attachment {
 
-    public CTRStock() {}
+    public CTRStock() {
+        super(1.5f);
+    }
 
     @Override
     public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
@@ -18,6 +20,8 @@ public class CTRStock extends Attachment {
         properties.setPropertyRateIfHas(GunProperties.ADS_SPEED, data, (prevRate) -> prevRate + 0.1f);
         properties.setPropertyRateIfHas(GunProperties.SPREAD_RECOVER, data, (prevRate) -> prevRate + 0.025f);
         properties.setPropertyRateIfHas(GunProperties.SPRINTING_SPREAD_FACTOR, data, (prevRate) -> prevRate - 0.05f);
+        properties.setPropertyRateIfHas(GunProperties.AGILITY, data, (prevRate) -> prevRate + 0.05f);
+        properties.addWeight(data, weight);
     }
 
     @Override
@@ -28,5 +32,7 @@ public class CTRStock extends Attachment {
         properties.setPropertyRateIfHas(GunProperties.ADS_SPEED, data, (prevRate) -> prevRate - 0.1f);
         properties.setPropertyRateIfHas(GunProperties.SPREAD_RECOVER, data, (prevRate) -> prevRate - 0.025f);
         properties.setPropertyRateIfHas(GunProperties.SPRINTING_SPREAD_FACTOR, data, (prevRate) -> prevRate + 0.05f);
+        properties.setPropertyRateIfHas(GunProperties.AGILITY, data, (prevRate) -> prevRate - 0.05f);
+        properties.addWeight(data, - weight);
     }
 }

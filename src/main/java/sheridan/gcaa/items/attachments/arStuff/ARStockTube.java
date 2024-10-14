@@ -12,11 +12,19 @@ public class ARStockTube extends SubSlotProvider {
     private final AttachmentSlot root = AttachmentSlot.root()
             .addChild(new AttachmentSlot("stock_tube", Set.of("gcaa:ctr_stock")));
 
-    @Override
-    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {}
+    public ARStockTube() {
+        super(0.75f);
+    }
 
     @Override
-    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {}
+    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
+        gun.getGunProperties().addWeight(data, weight);
+    }
+
+    @Override
+    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
+        gun.getGunProperties().addWeight(data,  - weight);
+    }
 
     @Override
     public void appendSlots(AttachmentSlot parent) {

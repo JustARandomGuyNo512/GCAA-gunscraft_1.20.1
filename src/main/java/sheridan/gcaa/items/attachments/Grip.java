@@ -10,7 +10,8 @@ public class Grip extends Attachment implements IArmReplace{
     private final float yawRecoilControlIncRate;
     private final float agilityIncRate;
 
-    public Grip(float pitchRecoilControlIncRate, float yawRecoilControlIncRate, float agilityIncRate)  {
+    public Grip(float pitchRecoilControlIncRate, float yawRecoilControlIncRate, float agilityIncRate, float weight)  {
+        super(weight);
         this.pitchRecoilControlIncRate = pitchRecoilControlIncRate;
         this.yawRecoilControlIncRate = yawRecoilControlIncRate;
         this.agilityIncRate = agilityIncRate;
@@ -19,11 +20,13 @@ public class Grip extends Attachment implements IArmReplace{
     @Override
     public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
+        properties.addWeight(data, weight);
     }
 
     @Override
     public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
+        properties.addWeight(data, -weight);
     }
 
     @Override

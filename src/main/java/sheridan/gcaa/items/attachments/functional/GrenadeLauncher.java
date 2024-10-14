@@ -10,6 +10,7 @@ import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.GrenadeLauncherReloadTask;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingHandler;
+import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
@@ -33,6 +34,10 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
     public static final String KEY_AMMO = "grenade_ammo";
     @OnlyIn(Dist.CLIENT)
     private Object recoilData;
+
+    public GrenadeLauncher() {
+        super(2.5f);
+    }
 
     public static boolean hasGrenade(ItemStack stack, IGun gun) {
         CompoundTag tag = gun.getGun().checkAndGet(stack);
@@ -89,9 +94,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
             setHasGrenade(stack, gun, false);
         }
         setLastFire(data, 0L);
-//        GunProperties properties = gun.getGunProperties();
-//        properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate + 0.05f);
-//        properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate + 0.12f);
+        gun.getGunProperties().addWeight(data, weight);
     }
 
     @Override
@@ -101,9 +104,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
         }
         CompoundTag tag = gun.getGun().checkAndGet(stack);
         tag.remove(KEY_AMMO);
-//        GunProperties properties = gun.getGunProperties();
-//        properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate - 0.05f);
-//        properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate - 0.12f);
+        gun.getGunProperties().addWeight(data, - weight);
     }
 
     @Override
@@ -138,6 +139,10 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
     @OnlyIn(Dist.CLIENT)
     public void onKeyPress(int key, int action, ItemStack stack, IGun gun, Player player) {
         if (KeyBinds.USE_GRENADE_LAUNCHER.isDown() && action == 1) {
+            if (SprintingHandler.INSTANCE.getSprintingProgress() != 0) {
+                SprintingHandler.INSTANCE.exitSprinting(40);
+                return;
+            }
             if (hasGrenade(stack, gun)) {
                 if (!ReloadingHandler.INSTANCE.reloading()) {
                     handleClientShoot(stack, gun, player);

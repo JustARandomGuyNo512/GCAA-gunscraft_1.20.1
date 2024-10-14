@@ -1,4 +1,5 @@
 ### Guns Craft-Adventurer's Arsenal [枪械工艺：冒险者的武器库] Mod - README
+curseforge:https://www.curseforge.com/minecraft/mc-mods/guns-craft-adventurers-arsenal
 ### 这个项目正在开发中，请耐心等待！ ^v^
 #### 项目简介
 Guns Craft-Adventurer's Arsenal [枪械工艺：冒险者的武器库] 是一个为 Minecraft Forge Java Edition 1.20.1 开发的枪械模组。这是 Gunscarft 模组的续作，旨在为游戏带来更多样化的武器体验。
@@ -46,6 +47,7 @@ Guns Craft-Adventurer's Arsenal [枪械工艺：冒险者的武器库] 是一个
 ---
 
 ### Guns Craft-Adventurer's Arsenal [GCAA] Mod - README
+curseforge:https://www.curseforge.com/minecraft/mc-mods/guns-craft-adventurers-arsenal
 ###This project is under development, please wait patiently! ^v^
 #### Project Introduction
 Guns Craft-Adventurer's Arsenal [GCAA] is a firearm mod developed for Minecraft Forge Java Edition 1.20.1. It is the sequel to the Gunscarft mod, aiming to bring a more diverse weapon experience to the game.

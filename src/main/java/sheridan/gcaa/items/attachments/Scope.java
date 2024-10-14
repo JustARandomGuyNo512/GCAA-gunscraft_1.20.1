@@ -10,8 +10,8 @@ public abstract class Scope extends Sight {
     public final float minMagnification;
     public final float adsSpeedRate;
 
-    public Scope(int order, float maxMagnification, float minMagnification, float adsSpeedRate)    {
-        super(order);
+    public Scope(float maxMagnification, float minMagnification, float adsSpeedRate, float weight)    {
+        super(weight);
         this.maxMagnification = maxMagnification;
         this.minMagnification = minMagnification;
         this.adsSpeedRate = adsSpeedRate;

@@ -7,6 +7,10 @@ import sheridan.gcaa.items.gun.IGun;
 
 public abstract class SubSlotProvider extends Attachment implements ISubSlotProvider {
 
+    public SubSlotProvider(float weight) {
+        super(weight);
+    }
+
     @Override
     public AttachResult canDetach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
         AttachResult res = super.canDetach(stack, gun, root, prevSlot);

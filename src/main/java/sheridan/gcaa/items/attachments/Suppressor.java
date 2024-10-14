@@ -12,8 +12,8 @@ public class Suppressor extends Attachment{
     private final float pitchRecoilLowerRate;
     private final float yawRecoilLowerRate;
 
-
-    public Suppressor(float volumeLowerRate, float pitchRecoilLowerRate, float yawRecoilLowerRate) {
+    public Suppressor(float volumeLowerRate, float pitchRecoilLowerRate, float yawRecoilLowerRate, float weight) {
+        super(weight);
         this.volumeLowerRate = Mth.clamp(volumeLowerRate, 0, 1);
         this.pitchRecoilLowerRate = Mth.clamp(pitchRecoilLowerRate, 0, 1);
         this.yawRecoilLowerRate = Mth.clamp(yawRecoilLowerRate, 0, 1);
@@ -30,6 +30,7 @@ public class Suppressor extends Attachment{
         properties.setPropertyRateIfHas(GunProperties.FIRE_SOUND_VOL, data, (prevRate) -> prevRate - volumeLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH, data, (prevRate) -> prevRate - pitchRecoilLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW, data, (prevRate) -> prevRate - yawRecoilLowerRate);
+        properties.addWeight(data, weight);
     }
 
     @Override
@@ -39,6 +40,7 @@ public class Suppressor extends Attachment{
         properties.setPropertyRateIfHas(GunProperties.FIRE_SOUND_VOL, data, (prevRate) -> prevRate + volumeLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH, data, (prevRate) -> prevRate + pitchRecoilLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW, data, (prevRate) -> prevRate + yawRecoilLowerRate);
+        properties.addWeight(data, - weight);
     }
 
 }

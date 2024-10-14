@@ -17,7 +17,7 @@ public class AKImprovedDustCover extends SubSlotProvider {
             .addChild(new AttachmentSlot("dust_cover_scope", Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")).upper());
 
     public AKImprovedDustCover() {
-
+        super(0);
     }
 
     @Override

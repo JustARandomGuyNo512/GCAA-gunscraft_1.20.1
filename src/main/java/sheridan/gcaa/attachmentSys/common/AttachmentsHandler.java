@@ -157,7 +157,7 @@ public class AttachmentsHandler {
         attachment.onAttach(stack, gun, properties);
         PropertyExtension extension = gun.getGunProperties().getExtension(AttachmentReplaceFactorExtension.NAME);
         if (extension instanceof AttachmentReplaceFactorExtension attachmentReplaceFactorExtension) {
-            attachmentReplaceFactorExtension.onAttachmentAttached(gun, stack, properties, attachment, slotName);
+            attachmentReplaceFactorExtension.onAttachmentAttached(gun, properties, slotName);
         }
         CompoundTag mark = getMark(attachment, slotName, modelSlotName, parentUuid, direction);
         attachments.add(mark);
@@ -178,7 +178,7 @@ public class AttachmentsHandler {
                     attachment.onDetach(stack, gun, properties);
                     PropertyExtension extension = gun.getGunProperties().getExtension(AttachmentReplaceFactorExtension.NAME);
                     if (extension instanceof AttachmentReplaceFactorExtension attachmentReplaceFactorExtension) {
-                        attachmentReplaceFactorExtension.onAttachmentDetached(gun, stack, properties, attachment, tag.getString("slot_name"));
+                        attachmentReplaceFactorExtension.onAttachmentDetached(gun, properties, tag.getString("slot_name"));
                     }
                     stackToReturn = new ItemStack(attachment.get());
                     index = i;

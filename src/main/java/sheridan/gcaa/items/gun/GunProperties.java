@@ -214,8 +214,16 @@ public class GunProperties{
         return extensions.get(extension.name);
     }
 
-    public void setWeight(CompoundTag propertiesTag, int weight) {
+    public void setWeight(CompoundTag propertiesTag, float weight) {
         propertiesTag.putFloat("weight", weight);
+    }
+
+    public float getWeight(CompoundTag propertiesTag) {
+        return propertiesTag.getFloat("weight");
+    }
+
+    public void addWeight(CompoundTag propertiesTag, float weight) {
+        setWeight(propertiesTag, getWeight(propertiesTag) + weight);
     }
 
     static {

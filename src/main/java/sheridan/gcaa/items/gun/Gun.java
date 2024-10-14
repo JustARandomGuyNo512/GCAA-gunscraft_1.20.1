@@ -113,7 +113,6 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         }
         pControl *= Mth.clamp(1 + pControlIncRate, 0, 99999);
         yControl *= Mth.clamp(1 + yControlIncRate, 0, 99999);
-        System.out.println(pControlIncRate + " " + yControlIncRate);
         if (data != null) {
             InertialRecoilData inertialRecoilData = data.getInertialRecoilData();
             if (inertialRecoilData != null) {

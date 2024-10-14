@@ -5,7 +5,7 @@ import sheridan.gcaa.items.attachments.Mag;
 
 public class SniperExtendMag extends Mag {
     public SniperExtendMag() {
-        super(10);
+        super(10, 1f);
         addSpecialCapacityFor(ModItems.AWP.get(), 15);
     }
 }

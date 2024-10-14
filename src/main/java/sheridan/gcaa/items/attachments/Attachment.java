@@ -18,8 +18,10 @@ public abstract class Attachment extends NoRepairNoEnchantmentItem implements IA
     public static final String STOCK = "stock";
     public static final String GRIP = "grip";
     public static final String SCOPE = "scope";
-    public Attachment() {
+    public float weight = 0;
+    public Attachment(float weight) {
         super(new Properties().stacksTo(1));
+        this.weight = weight;
     }
 
     @Override
