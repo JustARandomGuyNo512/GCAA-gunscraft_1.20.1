@@ -32,7 +32,7 @@ public class Projectile {
     private static final int DISABLE_LATENCY = -1;
     private static final Predicate<Entity> GENERIC_TARGETS = (input) -> input instanceof Grenade || (input instanceof LivingEntity && !input.isSpectator() && input.isAlive());
     public static final float CHUNK_TO_METER = 1.6f;
-    public static final float BASE_SPREAD_INDEX = 0.01F;
+    public static final float BASE_SPREAD_INDEX = 0.0125F;
     public static final Random RANDOM = new Random();
     public static final float dropRate = 0.1f;
     public Vec3 initialPos;

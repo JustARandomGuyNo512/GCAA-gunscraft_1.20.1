@@ -36,15 +36,15 @@ public class AttachmentReplaceFactorExtension extends PropertyExtension {
     }
 
     private void handleDataChange(IGun gun, CompoundTag propertiesTag, String slotName, int sign) {
+        GunProperties properties = gun.getGunProperties();
         if (replaceFactors.containsKey(slotName)) {
             List<PropertyEntry> entries = replaceFactors.get(slotName);
-            GunProperties properties = gun.getGunProperties();
             for (PropertyEntry entry : entries) {
-                if (weightMap.containsKey(slotName)) {
-                    properties.addWeight(propertiesTag, weightMap.get(slotName) * sign);
-                }
                 properties.setPropertyRateIfHas(entry.propertyName, propertiesTag, (prevRate) -> prevRate + entry.getReplaceFactor() * sign);
             }
+        }
+        if (weightMap.containsKey(slotName)) {
+            properties.addWeight(propertiesTag, weightMap.get(slotName) * sign);
         }
     }
 
