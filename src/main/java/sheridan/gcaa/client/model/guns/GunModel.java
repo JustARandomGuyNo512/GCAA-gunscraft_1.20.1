@@ -119,4 +119,9 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
             }
         }
     }
+
+    @Override
+    public boolean hasAnimation(String name) {
+        return animations.containsKey(name);
+    }
 }

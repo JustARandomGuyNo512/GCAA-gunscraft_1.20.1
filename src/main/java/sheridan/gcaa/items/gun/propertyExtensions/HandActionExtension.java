@@ -17,11 +17,15 @@ public class HandActionExtension extends PropertyExtension {
     public int throwBulletShellDelay;
 
     public HandActionExtension(String handActionAnimationName, int startDelay, int length, int throwBulletShellDelay)  {
-        super(NAME);
         this.handActionAnimationName = handActionAnimationName;
         this.startDelay = startDelay;
         this.length = length;
         this.throwBulletShellDelay = throwBulletShellDelay;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override

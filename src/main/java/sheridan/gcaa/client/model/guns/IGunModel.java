@@ -15,6 +15,7 @@ public interface IGunModel extends ISlotProviderModel {
     AnimationDefinition getReload();
     AnimationDefinition getFullReload();
     AnimationDefinition get(String name);
+    boolean hasAnimation(String name);
 
     @Override
     void handleSlotTranslate(PoseStack poseStack, String modelSlotName);

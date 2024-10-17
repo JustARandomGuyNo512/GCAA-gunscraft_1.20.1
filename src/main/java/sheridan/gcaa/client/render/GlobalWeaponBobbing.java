@@ -89,7 +89,6 @@ public class GlobalWeaponBobbing {
         float idleYaw;
         float idleRoll;
 
-
         @Override
         public void use() {
             JumpBobbingHandler.initInstance();
@@ -143,16 +142,15 @@ public class GlobalWeaponBobbing {
                         swingRy * 0.9f * aimingFactor,
                         -swingRy * aimingFactor * pistolFactor + instance.equipProgress));
             }
-
             if (sprintingProgress != 0) {
                 float[] sprintingTrans = GunModelRegister.getDisplayData(gun).getSprintingTrans();
                 float shakeScale = (gun.isPistol() ? 1 : 1.6f) * bob;
                 poseStack.translate(
-                        (sprintingTrans[0] - Mth.sin(swing - PI * 0.15f) * shakeScale * 1.6f) * sprintingProgress,
-                        (sprintingTrans[1] + Math.abs(Mth.cos(swing - PI * 0.15f)) * 1.1f * shakeScale) * (sprintingProgress * sprintingProgress)
+                        (sprintingTrans[0] - Mth.sin(swing - PI * 0.14f) * shakeScale * 1.6f + swingRy * shakeScale * 32f) * sprintingProgress,
+                        (sprintingTrans[1] + Math.abs(Mth.cos(swing - PI * 0.14f)) * 1.1f * shakeScale) * (sprintingProgress * sprintingProgress)
                                 + idleYaw * idleScale,
                         sprintingTrans[2] * sprintingProgress + idleRoll * idleScale);
-                float xSway = - Math.abs(Mth.sin(swing - PI * 0.1f));
+                float xSway = - Math.abs(Mth.sin(swing - PI * 0.08f));
                 poseStack.mulPose(new Quaternionf().rotateXYZ(
                         (sprintingTrans[3] + (xSway - Math.abs(0.2f * xSway)) * 0.8f * shakeScale) * sprintingProgress - idlePitch * idleScale,
                         (sprintingTrans[4] + Mth.sin(swing) * 0.8f * shakeScale) * (RenderAndMathUtils.sLerp(sprintingProgress)),

@@ -17,8 +17,11 @@ public class AttachmentReplaceFactorExtension extends PropertyExtension {
     private final Map<String, List<PropertyEntry>> replaceFactors = new HashMap<>();
     private final Map<String, Float> weightMap = new HashMap<>();
 
-    public AttachmentReplaceFactorExtension() {
-        super(NAME);
+    public AttachmentReplaceFactorExtension() {}
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     public AttachmentReplaceFactorExtension addReplaceFactor(String slotName, float weight, PropertyEntry... entries) {
@@ -40,7 +43,7 @@ public class AttachmentReplaceFactorExtension extends PropertyExtension {
         if (replaceFactors.containsKey(slotName)) {
             List<PropertyEntry> entries = replaceFactors.get(slotName);
             for (PropertyEntry entry : entries) {
-                properties.setPropertyRateIfHas(entry.propertyName, propertiesTag, (prevRate) -> prevRate + entry.getReplaceFactor() * sign);
+                properties.setPropertyRateIfHas(entry.getPropertyName(), propertiesTag, (prevRate) -> prevRate + entry.getReplaceFactor() * sign);
             }
         }
         if (weightMap.containsKey(slotName)) {
@@ -58,14 +61,7 @@ public class AttachmentReplaceFactorExtension extends PropertyExtension {
         return false;
     }
 
-    public static class PropertyEntry {
-        private final String propertyName;
-        private final float replaceFactor;
-
-        public PropertyEntry(String propertyName, float replaceFactor) {
-            this.propertyName = propertyName;
-            this.replaceFactor = replaceFactor;
-        }
+    public record PropertyEntry(String propertyName, float replaceFactor) {
 
         public String getPropertyName() {
             return propertyName;

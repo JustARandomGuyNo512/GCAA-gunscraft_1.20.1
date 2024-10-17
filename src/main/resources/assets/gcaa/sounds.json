@@ -41,6 +41,9 @@
   "item.python_357.mag_close": { "subtitle": "item.python_357.mag_close", "sounds": [{ "name": "gcaa:python_357/mag_close" }]},
   "item.python_357.mag_open": { "subtitle": "item.python_357.mag_open", "sounds": [{ "name": "gcaa:python_357/mag_open" }]},
   "item.vector_45.fire": { "subtitle": "item.vector_45.fire", "sounds": [{ "name": "gcaa:vector_45/vector_45_fire" }]},
+  "item.xm1014.fire": { "subtitle": "item.xm1014.fire", "sounds": [{ "name": "gcaa:xm1014/xm1014_fire" }]},
+  "item.xm1014.fire_suppressed": { "subtitle": "item.xm1014.fire_suppressed", "sounds": [{ "name": "gcaa:xm1014/xm1014_fire_suppressed" }]},
+  "item.xm1014.insert_shell": { "subtitle": "item.xm1014.insert_shell", "sounds": [{ "name": "gcaa:xm1014/xm1014_insert_shell" }]},
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},
   "effect.headshot.2": { "subtitle": "effect.headshot.2", "sounds": [{ "name": "gcaa:generic/headshot_2" }]},

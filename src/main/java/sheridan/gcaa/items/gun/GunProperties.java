@@ -79,8 +79,8 @@ public class GunProperties{
     }
 
     public GunProperties addExtension(PropertyExtension extension) {
-        if (!extensions.containsKey(extension.name)) {
-            extensions.put(extension.name, extension);
+        if (extension != null && !extensions.containsKey(extension.getName())) {
+            extensions.put(extension.getName(), extension);
         }
         return this;
     }
@@ -134,7 +134,7 @@ public class GunProperties{
         for (PropertyExtension extension : extensions.values()) {
             CompoundTag extensionTag = extension.getExtendInitialData(tag);
             if (extensionTag != null) {
-                tag.put(extension.name, extensionTag);
+                tag.put(extension.getName(), extensionTag);
             }
         }
         return tag;
@@ -158,7 +158,7 @@ public class GunProperties{
              }
              PropertyExtension extension = ownsRateProperty(propertyName);
              if (extension != null) {
-                 CompoundTag tag = propertiesTag.getCompound(extension.name);
+                 CompoundTag tag = propertiesTag.getCompound(extension.getName());
                  return tag.getFloat(propertyName);
              }
         }
@@ -211,7 +211,7 @@ public class GunProperties{
     }
 
     public PropertyExtension getExtension(PropertyExtension extension) {
-        return extensions.get(extension.name);
+        return extensions.get(extension.getName());
     }
 
     public void setWeight(CompoundTag propertiesTag, float weight) {

@@ -58,6 +58,10 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> PYTHON_357_MAG_OPEN = registerSound("mag_open", "item.python_357.mag_open");
     public static RegistryObject<SoundEvent> PYTHON_357_MAG_CLOSE = registerSound("mag_close", "item.python_357.mag_close");
     public static RegistryObject<SoundEvent> VECTOR_45_FIRE = registerSound("vector_45_fire", "item.vector_45.fire");
+    public static RegistryObject<SoundEvent> XM1014_FIRE = registerSound("xm1014_fire", "item.xm1014.fire");
+    public static RegistryObject<SoundEvent> XM1014_FIRE_SUPPRESSED = registerSound("xm1014_fire_suppressed", "item.xm1014.fire_suppressed");
+    public static RegistryObject<SoundEvent> XM1014_INSERT_SHELL = registerSound("xm1014_insert_shell", "item.xm1014.insert_shell");
+
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");
     public static RegistryObject<SoundEvent> HEADSHOT_2 = registerSound("headshot_2", "effect.headshot.2");

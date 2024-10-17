@@ -2,11 +2,8 @@ package sheridan.gcaa;
 
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
-import sheridan.gcaa.attachmentSys.AttachmentSlotProxy;
-import sheridan.gcaa.attachmentSys.IAttachmentSlotProxyCreator;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.proxies.AkmAttachmentSlotProxy;
-import sheridan.gcaa.attachmentSys.proxies.utils.BinaryMutuallyExclusiveProxy;
 import sheridan.gcaa.items.ModItems;
 
 import java.util.Set;
@@ -83,6 +80,11 @@ public class Commons {
                 .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:vertical_grip")))
                 .addChild(new AttachmentSlot("left", "s_left", Set.of()))
                 .addChild(new AttachmentSlot("right", "s_right", Set.of()))
+        );
+
+        AttachmentsRegister.registerAttachmentSlot(ModItems.XM1014.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:shotgun_suppressor")))
         );
     }
 }

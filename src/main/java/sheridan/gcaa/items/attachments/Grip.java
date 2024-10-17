@@ -26,7 +26,7 @@ public class Grip extends Attachment implements IArmReplace{
     @Override
     public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
-        properties.addWeight(data, -weight);
+        properties.addWeight(data, - weight);
     }
 
     @Override

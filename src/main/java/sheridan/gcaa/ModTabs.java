@@ -60,6 +60,7 @@ public class ModTabs {
                     tab.accept(ModItems.M4A1.get());
                     tab.accept(ModItems.AWP.get());
                     tab.accept(ModItems.M870.get());
+                    tab.accept(ModItems.XM1014.get());
                     tab.accept(ModItems.M249.get());
                 }).build());
     }

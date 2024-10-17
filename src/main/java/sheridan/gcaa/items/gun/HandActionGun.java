@@ -38,6 +38,10 @@ public class HandActionGun extends Gun{
     @Override
     public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
         super.clientShoot(stack, player, fireMode);
+        afterClientShoot(stack, player, fireMode);
+    }
+
+    protected void afterClientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
         setNeedHandAction(stack, true);
         HandActionHandler.INSTANCE.setHandActionTask(getHandActionTask(stack, false));
     }
@@ -45,6 +49,10 @@ public class HandActionGun extends Gun{
     @Override
     public void shoot(ItemStack stack, Player player, IGunFireMode fireMode, float spread) {
         super.shoot(stack, player, fireMode, spread);
+        afterShoot(stack, player, fireMode, spread);
+    }
+
+    protected void afterShoot(ItemStack stack, Player player, IGunFireMode fireMode, float spread) {
         setNeedHandAction(stack, true);
     }
 

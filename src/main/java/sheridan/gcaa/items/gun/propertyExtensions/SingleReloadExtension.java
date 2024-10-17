@@ -20,7 +20,6 @@ public class SingleReloadExtension extends PropertyExtension {
     public int triggerReloadDelay;
 
     public SingleReloadExtension(int enterDelay, int singleReloadLength, int exitDelay, int singleReloadNum, int triggerReloadDelay)     {
-        super(NAME);
         this.enterDelay = enterDelay;
         this.singleReloadLength = singleReloadLength;
         this.exitDelay = exitDelay;
@@ -28,6 +27,10 @@ public class SingleReloadExtension extends PropertyExtension {
         this.triggerReloadDelay = triggerReloadDelay;
     }
 
+    @Override
+    public String getName() {
+        return NAME;
+    }
 
     @Override
     public CompoundTag getExtendInitialData(CompoundTag prevDataTag) {

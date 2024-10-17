@@ -4,6 +4,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 
@@ -18,6 +19,9 @@ public class Semi implements IGunFireMode {
 
     @Override
     public boolean canFire(Player player, ItemStack itemStack, IGun gun) {
+        if (gun instanceof HandActionGun handActionGun && handActionGun.needHandAction(itemStack)) {
+            return false;
+        }
         return fireInSprinting(player, itemStack, gun, 40);
     }
 

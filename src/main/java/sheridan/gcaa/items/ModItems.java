@@ -34,6 +34,7 @@ public class ModItems {
     public static final RegistryObject<M4a1> M4A1 = ITEMS.register("m4a1", M4a1::new);
     public static final RegistryObject<Awp> AWP = ITEMS.register("awp", Awp::new);
     public static final RegistryObject<M870> M870 = ITEMS.register("m870", M870::new);
+    public static final RegistryObject<Xm1014> XM1014 = ITEMS.register("xm1014", Xm1014::new);
     public static final RegistryObject<M249> M249 = ITEMS.register("m249", M249::new);
 
     public static final RegistryObject<UnknownAttachment> UNKNOWN_ATTACHMENT = ITEMS.register("unknown_attachment", UnknownAttachment::new);
