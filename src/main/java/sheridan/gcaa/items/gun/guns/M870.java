@@ -26,10 +26,6 @@ public class M870 extends PumpActionShotgun {
                 new SingleReloadExtension(getTicks(0.4f), getTicks(0.65f), getTicks(0.4f), 1, getTicks(0.35f)));
     }
 
-    @Override
-    public int getCrosshairType() {
-        return 1;
-    }
 
     @Override
     public boolean shootCreateBulletShell() {

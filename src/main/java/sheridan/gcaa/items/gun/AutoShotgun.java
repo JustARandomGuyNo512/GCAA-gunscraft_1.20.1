@@ -61,4 +61,9 @@ public class AutoShotgun extends HandActionGun {
     public boolean shouldHandleAds(ItemStack stack) {
         return true;
     }
+
+    @Override
+    public int getCrosshairType() {
+        return 1;
+    }
 }

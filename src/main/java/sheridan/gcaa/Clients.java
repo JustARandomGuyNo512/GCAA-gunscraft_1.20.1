@@ -279,7 +279,7 @@ public class Clients {
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
                 .setAds(0,8.4f,-18, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
-                .setInertialRecoilData(new InertialRecoilData(0.00f, 0.0f, 0.8f, 0.05f, 1.2f,  0.05f, 0.45f, 0.3f, new Vector3f(0.6f, 0.2f, 0.4f)))
+                .setInertialRecoilData(new InertialRecoilData(0.00f, 0.0f, 0.3f, 0.05f, 0.5f,  0.05f, 0.65f, 0.3f, new Vector3f(0.6f, 0.2f, 0.4f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4f, -101.5f).setScale(3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
                 .setBulletShellDisplayData(new BulletShellDisplayData(3f, 4f, -17.5f, new Vector3f(2.8f, 0.8f, -0.25f), BulletShellModel.SHOTGUN))

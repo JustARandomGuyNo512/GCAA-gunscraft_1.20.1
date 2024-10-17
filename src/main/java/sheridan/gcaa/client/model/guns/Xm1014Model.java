@@ -6,6 +6,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.animation.AnimationHandler;
+import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -66,7 +68,17 @@ public class Xm1014Model extends GunModel{
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
-        defaultAssaultRifleAnimation(context, recoil, shoot);
+        if (context.isFirstPerson) {
+            AnimationHandler.INSTANCE.applyRecoil(this);
+            AnimationHandler.INSTANCE.applyReload(this);
+            AnimationHandler.INSTANCE.applyHandAction(this);
+            CameraAnimationHandler.INSTANCE.mix(camera);
+        }
+    }
+
+    @Override
+    public AnimationDefinition getRecoil() {
+        return recoil;
     }
 
     @Override

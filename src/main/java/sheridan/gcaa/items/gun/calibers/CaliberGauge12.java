@@ -12,6 +12,7 @@ import sheridan.gcaa.common.server.projetile.Projectile;
 import sheridan.gcaa.items.ammunitions.IAmmunition;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.common.server.projetile.ProjectileHandler;
+import sheridan.gcaa.utils.FontUtils;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.List;
@@ -46,6 +47,11 @@ public class CaliberGauge12 extends Caliber {
 
     @Override
     public void handleTooltip(ItemStack stack, IGun gun, Level levelIn, List<Component> tooltip, TooltipFlag flagIn, boolean detail) {
-        super.handleTooltip(stack, gun, levelIn, tooltip, flagIn, detail);
+        int color = FontUtils.getColor(baseDamage * projectileNum, 35, 1);
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.damage", baseDamage + " x " + projectileNum, color));
+        if (detail) {
+            tooltip.add(FontUtils.dataTip("tooltip.gun_info.effective_range", effectiveRange, 10, 1, "gcaa.unit.chunk"));
+            tooltip.add(FontUtils.dataTip("tooltip.gun_info.bullet_speed", speed, 12, 1, "gcaa.unit.chunk_pre_second"));
+        }
     }
 }

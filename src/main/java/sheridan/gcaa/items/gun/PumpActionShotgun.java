@@ -33,6 +33,11 @@ public class PumpActionShotgun extends HandActionGun{
     }
 
     @Override
+    public int getCrosshairType() {
+        return 1;
+    }
+
+    @Override
     public IReloadingTask getReloadingTask(ItemStack stack) {
         return new SingleReloadTask(stack, this,
                 singleReloadExtension.enterDelay,

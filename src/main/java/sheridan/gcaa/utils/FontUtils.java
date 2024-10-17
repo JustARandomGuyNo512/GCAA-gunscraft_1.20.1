@@ -17,7 +17,7 @@ public class FontUtils {
         return component;
     }
 
-    private static int getColor(float value, float good, float bad) {
+    public static int getColor(float value, float good, float bad) {
         float ratio;
         ratio = Math.abs((value - good)) / Math.abs((bad - good));
         ratio = Mth.clamp(1 - ratio, 0, 1);
@@ -28,6 +28,10 @@ public class FontUtils {
 
     public static MutableComponent dataTip(String key, float value, float good, float bad)  {
         return Component.translatable(key).append(Component.literal(value + "").withStyle(Style.EMPTY.withColor(getColor(value, good, bad))));
+    }
+
+    public static MutableComponent dataTip(String key, String value, int color)  {
+        return Component.translatable(key).append(Component.literal(value).withStyle(Style.EMPTY.withColor(color)));
     }
 
     public static MutableComponent dataTip(String key, float value, float good, float bad, String unit)  {
