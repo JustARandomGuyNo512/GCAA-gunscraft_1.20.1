@@ -10,7 +10,6 @@ import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.AnimationSequence;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.frameAnimation.Mark;
-import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.propertyExtensions.AutoShotgunExtension;
 import sheridan.gcaa.network.PacketHandler;
@@ -30,12 +29,13 @@ public class AutoShotgunReloadTask extends SingleReloadTask{
             length = enterDelay + singleReloadLength * (reloadNum - 1) + chamberReloadLength + exitLength;
             isEmptyReload = true;
         }
+        this.trySetHandActionTask = false;
     }
 
     @Override
     public void tick(Player clientPlayer) {
         if (isEmptyReload) {
-            int reloadingTick = tick - enterDelay - (reloaded - 1) * singleReloadLength - chamberReloadLength;
+            int reloadingTick = tick - enterDelay - chamberReloadLength - (reloaded - 1) * singleReloadLength;
             if (reloaded < reloadNum) {
                 boolean triggerReload = reloaded == 0 ? reloadingTick == triggerChamberReloadDelay : reloadingTick == triggerReloadDelay;
                 if (triggerReload) {
@@ -47,10 +47,6 @@ public class AutoShotgunReloadTask extends SingleReloadTask{
             if (tick >= length) {
                 PlayerStatusProvider.setReloading(clientPlayer, false);
                 completed = true;
-                if (trySetHandActionTask && gun instanceof HandActionGun handActionGun && handActionGun.needHandAction(itemStack)) {
-                    IHandActionTask task = handActionGun.getHandActionTask(itemStack, true);
-                    HandActionHandler.INSTANCE.setHandActionTask(task);
-                }
                 return;
             }
             tick++;

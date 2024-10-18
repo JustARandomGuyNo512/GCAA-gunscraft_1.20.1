@@ -81,13 +81,13 @@ public class Projectile {
                         onHitEntity(entityHitResult.getEntity(), level, entityHitResult.getLocation(), position, nextPos, entityHitResult.boxHit);
                     }
                 }
-                dis += (float) position.distanceToSqr(nextPos);
                 velocity.add(0, - dropRate, 0);
+                position = nextPos;
+                dis = (float) position.distanceToSqr(initialPos);
                 if (dis > effectiveRange) {
                     living = false;
                     return;
                 }
-                position = nextPos;
                 if (reachedBoundary) {
                     living = false;
                 }
@@ -161,7 +161,7 @@ public class Projectile {
                 blockHitResult.getLocation().x,
                 blockHitResult.getLocation().y,
                 blockHitResult.getLocation().z,
-                48, shooter.level().dimension()
+                36, shooter.level().dimension()
         )), new ClientPlayParticlePacket(blockHitResult.getBlockPos(), blockHitResult.getLocation(), blockHitResult.getDirection(), 10));
     }
 
@@ -196,6 +196,7 @@ public class Projectile {
     }
 
     public void shoot(LivingEntity shooter, Vec3 angle, float speed, float damage, float spread, float effectiveRange, IGun gun) {
+        System.out.println(effectiveRange);
         effectiveRange *= 16;
         this.gun = gun;
         this.shooter = shooter;
@@ -210,7 +211,6 @@ public class Projectile {
                 RANDOM.nextGaussian() * spread,
                 RANDOM.nextGaussian() * spread,
                 RANDOM.nextGaussian() * spread).scale(speed);
-        living = true;
         birthTime = System.currentTimeMillis();
         if (shooter instanceof ServerPlayer player && CommonConfig.enableLagCompensation.get()) {
             latency = player.latency;

@@ -29,14 +29,6 @@ public class ProjectilePool {
     }
 
     public Projectile getOrCreate(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange, IGun gun) {
-//        Projectile projectile = pool.pollFirst();
-//        if (projectile == null) {
-//            Projectile newProjectile = new Projectile();
-//            newProjectile.shoot(shooter, speed, damage, spread, effectiveRange, gun);
-//            return newProjectile;
-//        }
-//        projectile.shoot(shooter, speed, damage, spread, effectiveRange, gun);
-//        return projectile;
         return getOrCreate(shooter, shooter.getLookAngle(), speed, damage, spread, effectiveRange, gun);
     }
 

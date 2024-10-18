@@ -38,6 +38,7 @@ import sheridan.gcaa.client.render.GlobalWeaponBobbing;
 import sheridan.gcaa.client.render.GunRenderer;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.client.render.gui.crosshair.CrossHairRenderer;
+import sheridan.gcaa.client.render.postEffect.PostChain;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.client.screens.AttachmentsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
@@ -68,6 +69,22 @@ public class RenderEvents {
     static {
         TEMP_TIMERS.put(MAGNIFICATION, 0L);
         TEMP_TIMERS.put(HEADSHOT, 0L);
+    }
+
+    public static PostChain flashlight;
+    static boolean failedLoadingFlashLightShader = false;
+    static boolean flashLightTurnOn = false;
+    @SubscribeEvent
+    public static void renderFlashLight(RenderLevelStageEvent event) {
+        if (failedLoadingFlashLightShader || !flashLightTurnOn) {
+            return;
+        }
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL) {
+            ItemStack stack = Clients.mainHandStatus.weapon.get();
+            if (Minecraft.getInstance().options.getCameraType().isFirstPerson() && stack.getItem() instanceof IGun gun) {
+
+            }
+        }
     }
 
     @SubscribeEvent
