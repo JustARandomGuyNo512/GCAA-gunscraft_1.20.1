@@ -102,17 +102,17 @@
 			}
 		},
 		"shoot": {
-			"animation_length": 0.06,
+			"animation_length": 0.15,
 			"bones": {
 				"slide": {
 					"position": {
 						"0.0": [0, 0, 0],
-						"0.02": {
+						"0.05": {
 							"pre": [0, 0, 13],
 							"post": [0, 0, 13],
 							"lerp_mode": "catmullrom"
 						},
-						"0.06": [0, 0, 0]
+						"0.14": [0, 0, 0]
 					}
 				}
 			}

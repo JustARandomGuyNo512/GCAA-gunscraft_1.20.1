@@ -15,12 +15,15 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
+import sheridan.gcaa.client.HandActionHandler;
+import sheridan.gcaa.client.HandActionTask;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.screens.ClientSettingsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.attachments.IInteractive;
 import sheridan.gcaa.items.attachments.Scope;
+import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.OpenAttachmentScreenPacket;
@@ -153,6 +156,8 @@ public class ControllerEvents {
                 handleReload(stackMain, player);
             } else if (KeyBinds.OPEN_ATTACHMENTS_SCREEN.isDown() && event.getAction() == 1) {
                 PacketHandler.simpleChannel.sendToServer(new OpenAttachmentScreenPacket());
+                ReloadingHandler.INSTANCE.breakTask();
+                HandActionHandler.INSTANCE.breakTask();
             } else if (KeyBinds.OPEN_CLIENT_SETTINGS_SCREEN.isDown() && event.getAction() == 1) {
                 Minecraft.getInstance().setScreen(new ClientSettingsScreen());
             } else if (KeyBinds.SWITCH_EFFECTIVE_SIGHT.isDown() && event.getAction() == 1) {

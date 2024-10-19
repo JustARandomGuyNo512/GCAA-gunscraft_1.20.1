@@ -178,7 +178,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AKM.get(), new AkmModel(), new DisplayData()
-                .setFirstPersonMain(-5.7f,16.7f,-20.4f, POS)
+                .setFirstPersonMain(-6f,16.7f,-20.4f, POS)
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -194,7 +194,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.M4A1.get(), new M4a1Model(), new DisplayData()
-                .setFirstPersonMain(-7.3f,15.8f,-27.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
+                .setFirstPersonMain(-7.5f,15.8f,-27.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -256,7 +256,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.VECTOR_45.get(), new Vector45Model(), new DisplayData()
-                .setFirstPersonMain(-7f,19.2f,-30.5f, POS)
+                .setFirstPersonMain(-7.5f,19.2f,-30.5f, POS)
                 .setThirdPersonRight(0.0f,0.9f,0.5f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -272,14 +272,14 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.XM1014.get(), new Xm1014Model(), new DisplayData()
-                .setFirstPersonMain(-6.2f,11.9f,-23.7f, POS)
+                .setFirstPersonMain(-6.1f,12.4f,-22.7f, POS)
                 .setThirdPersonRight(0.0f,-0.4f,-0.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
                 .setAds(0,8.4f,-18, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
-                .setInertialRecoilData(new InertialRecoilData(0.00f, 0.0f, 0.3f, 0.05f, 0.5f,  0.05f, 0.65f, 0.3f, new Vector3f(0.6f, 0.2f, 0.3f)))
+                .setInertialRecoilData(new InertialRecoilData(0.00f, 0.0f, 0.3f, 0.05f, 0.5f,  0.05f, 0.65f, 0.3f, new Vector3f(0.4f, 0.15f, 0.25f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4f, -101.5f).setScale(3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
                 .setBulletShellDisplayData(new BulletShellDisplayData(3f, 4f, -17.5f, new Vector3f(2.8f, 0.8f, -0.25f), BulletShellModel.SHOTGUN))
