@@ -1,9 +1,8 @@
 package sheridan.gcaa.items.gun.guns;
 
-import net.minecraft.resources.ResourceLocation;
-import sheridan.gcaa.GCAA;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.PumpActionShotgun;
+import sheridan.gcaa.items.gun.calibers.Caliber;
 import sheridan.gcaa.items.gun.calibers.CaliberGauge12;
 import sheridan.gcaa.items.gun.fireModes.HandAction;
 import sheridan.gcaa.items.gun.propertyExtensions.HandActionExtension;
@@ -14,7 +13,7 @@ import java.util.List;
 
 public class M870 extends PumpActionShotgun {
     private static final CaliberGauge12 caliber =
-            new CaliberGauge12(new ResourceLocation(GCAA.MODID, "12_gauge"), 4, 2, 4f, 6f, 8)
+            new CaliberGauge12(Caliber.CALIBER_12_GAUGE, 4, 2, 4f, 6f, 8)
                     .modifySpread(1.75f);
 
     public M870() {

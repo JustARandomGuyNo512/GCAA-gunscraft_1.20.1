@@ -1,9 +1,8 @@
 package sheridan.gcaa.items.gun.guns;
 
-import net.minecraft.resources.ResourceLocation;
-import sheridan.gcaa.GCAA;
 import sheridan.gcaa.items.gun.AutoShotgun;
 import sheridan.gcaa.items.gun.GunProperties;
+import sheridan.gcaa.items.gun.calibers.Caliber;
 import sheridan.gcaa.items.gun.calibers.CaliberGauge12;
 import sheridan.gcaa.items.gun.fireModes.Semi;
 import sheridan.gcaa.items.gun.propertyExtensions.AutoShotgunExtension;
@@ -13,7 +12,7 @@ import java.util.List;
 
 public class Xm1014 extends AutoShotgun {
     private static final CaliberGauge12 caliber =
-            new CaliberGauge12(new ResourceLocation(GCAA.MODID, "12_gauge"), 3.5f, 2, 3.75f, 6.25f, 8)
+            new CaliberGauge12(Caliber.CALIBER_12_GAUGE, 3.5f, 2, 3.75f, 6.25f, 8)
                     .modifySpread(1.85f);
 
     public Xm1014() {

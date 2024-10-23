@@ -73,30 +73,31 @@ public record HeadBox(float damageModify, float size, float yPos) {
     public static HeadBox parseAndInit(String str) {
         try {
             String[] strings = str.split("=");
-            if (strings.length == 2) {
-                ResourceLocation resourceLocation = new ResourceLocation(strings[0]);
-                if (ForgeRegistries.ENTITY_TYPES.containsKey(resourceLocation)) {
-                    EntityType<?> entityType = ForgeRegistries.ENTITY_TYPES.getValue(resourceLocation);
-                    if (entityType != null) {
-                        String[] params = strings[1].split(",");
-                        if (params.length == 3) {
-                            float damageModify = Float.parseFloat(params[0]);
-                            damageModify = Math.abs(damageModify);
-                            damageModify = Math.max(damageModify, CommonConfig.MIN_HEADSHOT_DAMAGE_FACTOR);
-                            damageModify = Math.min(damageModify, CommonConfig.MAX_HEADSHOT_DAMAGE_FACTOR);
+            if (strings.length != 2) {
+                return null;
+            }
+            ResourceLocation resourceLocation = new ResourceLocation(strings[0]);
+            if (ForgeRegistries.ENTITY_TYPES.containsKey(resourceLocation)) {
+                EntityType<?> entityType = ForgeRegistries.ENTITY_TYPES.getValue(resourceLocation);
+                if (entityType == null) {
+                    return null;
+                }
+                String[] params = strings[1].split(",");
+                if (params.length == 3) {
+                    float damageModify = Float.parseFloat(params[0]);
+                    damageModify = Math.abs(damageModify);
+                    damageModify = Math.max(damageModify, CommonConfig.MIN_HEADSHOT_DAMAGE_FACTOR);
+                    damageModify = Math.min(damageModify, CommonConfig.MAX_HEADSHOT_DAMAGE_FACTOR);
 
-                            float size = Float.parseFloat(params[1]);
-                            float yPos = Float.parseFloat(params[2]);
+                    float size = Float.parseFloat(params[1]);
+                    float yPos = Float.parseFloat(params[2]);
 
-                            HeadBox headBox = new HeadBox(damageModify, size, yPos);
-                            headBoxMap.put(entityType, headBox);
-                            return headBox;
-                        }
-                    }
+                    HeadBox headBox = new HeadBox(damageModify, size, yPos);
+                    headBoxMap.put(entityType, headBox);
+                    return headBox;
                 }
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         return null;
     }
 

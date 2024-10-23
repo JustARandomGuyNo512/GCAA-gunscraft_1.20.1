@@ -1,5 +1,6 @@
 package sheridan.gcaa.attachmentSys;
 
+import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.items.attachments.ReplaceableGunPart;
 
 import java.util.*;
@@ -73,12 +74,13 @@ public class AttachmentSlot {
         return this;
     }
 
+    @Nullable
     public ReplaceableGunPart getReplaceableGunPart() {
         return replaceableGunPart;
     }
 
     /**
-     * Returns a mix of attachment item registry name that this slot accepts.
+     * Returns a set of attachment item registry name that this slot accepts.
      * */
     public Set<String> getAcceptedAttachments() {
         return acceptedAttachments;
@@ -149,9 +151,16 @@ public class AttachmentSlot {
         return this;
     }
 
-    public AttachmentSlot removeChildren(Set<AttachmentSlot> children) {
+    public AttachmentSlot removeChildren(AttachmentSlot... children) {
         for (AttachmentSlot child : children) {
             this.children.remove(child.getSlotName());
+        }
+        return this;
+    }
+
+    public AttachmentSlot removeChildren(String... children) {
+        for (String id : children) {
+            this.children.remove(id);
         }
         return this;
     }
@@ -167,7 +176,7 @@ public class AttachmentSlot {
      * @param children the mix of child slots to add.
      * @return current slot.
      * */
-    public AttachmentSlot addChildren(Set<AttachmentSlot> children) {
+    public AttachmentSlot addChildren(AttachmentSlot... children) {
         for (AttachmentSlot child : children) {
             child.setParent(this);
             this.children.put(child.getSlotName(), child);
@@ -236,6 +245,11 @@ public class AttachmentSlot {
 
     public AttachmentSlot setLocked(boolean locked) {
         this.locked = locked;
+        return this;
+    }
+
+    public AttachmentSlot lock() {
+        this.locked = true;
         return this;
     }
 

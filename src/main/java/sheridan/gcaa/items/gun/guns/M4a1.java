@@ -1,8 +1,5 @@
 package sheridan.gcaa.items.gun.guns;
 
-import net.minecraft.resources.ResourceLocation;
-import sheridan.gcaa.GCAA;
-import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.calibers.Caliber;
@@ -14,7 +11,7 @@ import java.util.Arrays;
 
 public class M4a1 extends Gun {
     private static final Caliber caliber =
-            new Caliber(new ResourceLocation(GCAA.MODID, "5.56x45mm"),6.5f, 4f, 6.5f, 14f);
+            new Caliber(Caliber.CALIBER_556X45MM,6.5f, 4f, 6.5f, 14f);
 
     public M4a1() {
         super(new GunProperties(3.8f, 0.7f, 2.3f, 0.8f, 0.18f,

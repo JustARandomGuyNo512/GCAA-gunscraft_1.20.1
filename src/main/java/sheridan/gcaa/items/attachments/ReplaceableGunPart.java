@@ -23,11 +23,13 @@ public abstract class ReplaceableGunPart implements IAttachment{
     }
 
     public static ReplaceableGunPart get(String id) {
-        return REGISTRY.get(id).getValue();
+        Map.Entry<String, ReplaceableGunPart> entry = REGISTRY.get(id);
+        return entry == null ? null : entry.getValue();
     }
 
     public static String getId(ReplaceableGunPart part) {
-        return REGISTRY.get(part.ID).getKey();
+        Map.Entry<String, ReplaceableGunPart> entry = REGISTRY.get(part.ID);
+        return entry == null ? null : entry.getKey();
     }
 
     public static void register(String id, ReplaceableGunPart replaceableGunPart) {
@@ -58,7 +60,7 @@ public abstract class ReplaceableGunPart implements IAttachment{
 
     public void onOccupied(ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
-        properties.addWeight(data, weight);
+        properties.addWeight(data, - weight);
     }
 
     public void onEmpty(ItemStack stack, IGun gun, CompoundTag data) {

@@ -56,7 +56,6 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
     private AttachmentsGuiContext context;
     private final AttachmentsMenu menu;
     private OptionalImageButton installBtn;
-    //private OptionalImageButton replaceBtn;
     private OptionalImageButton uninstallBtn;
     private IGun gun;
     private final List<Slot> suitableSlots = new ArrayList<>();
@@ -101,15 +100,12 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
         dragBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.drag")));
         rowHelper.addChild(dragBtn);
         installBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, INSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> installAttachment(true));
-        //replaceBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, REPLACE_GUN_PART_BTN, 16, 16,  (btn) -> replaceGunPart(true));
         uninstallBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, UNINSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> uninstallAttachment(true));
         installBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.install_attachment")));
-        //replaceBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.replace_gun_part")));
         uninstallBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.uninstall_attachment")));
         installBtn.enableIf(false);
         uninstallBtn.enableIf(false);
         rowHelper.addChild(installBtn);
-        //rowHelper.addChild(replaceBtn);
         rowHelper.addChild(uninstallBtn);
         gridlayout.visitWidgets(this::addRenderableWidget);
         if (this.minecraft != null && this.minecraft.player != null) {
@@ -121,10 +117,6 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
             }
         }
     }
-
-//    private void replaceGunPart(boolean sendPacket) {
-//
-//    }
 
     private void installAttachment(boolean sendPacket) {
         if (context != null && selectedSlot != null && hasPlayer()) {
@@ -243,9 +235,6 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
             installBtn.setTooltip(slot.getReplaceableGunPart() == null ?
                     Tooltip.create(Component.translatable("tooltip.btn.install_attachment")) :
                     Tooltip.create(Component.translatable("tooltip.btn.replace_gun_part")));
-//            if (slot.getReplaceableGunPart() != null) {
-//
-//            }
             if (installBtn.active) {
                 installAttachment(false);
             } else if (uninstallBtn.active) {
@@ -256,8 +245,6 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
         installBtn.enableIf(false);
         uninstallBtn.enableIf(false);
     }
-
-
 
     private void updateSuitableSlots(AttachmentSlot selected) {
         Set<String> accepts = selected.getAcceptedAttachments();

@@ -1,8 +1,5 @@
 package sheridan.gcaa.items.gun.guns;
 
-import net.minecraft.resources.ResourceLocation;
-import sheridan.gcaa.GCAA;
-import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.gun.calibers.Caliber;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.HandActionGun;
@@ -14,7 +11,7 @@ import java.util.List;
 
 public class Awp extends HandActionGun {
     private static final Caliber caliber =
-            new Caliber(new ResourceLocation(GCAA.MODID, "7.62x51mm"), 22, 16, 10f, 15f);
+            new Caliber(Caliber.CALIBER_762X51MM, 22, 16, 10f, 15f);
 
     public Awp() {
         super(new GunProperties(3f, 0.25f, 3f, 1.8f, 0.1f,
