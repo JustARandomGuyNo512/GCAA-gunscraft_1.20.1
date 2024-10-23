@@ -5,6 +5,7 @@ import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.proxies.AkmAttachmentSlotProxy;
 import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.items.attachments.replaceableParts.TestPart;
 
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor", "gcaa:ar_compensator")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ar_extend_mag")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
-                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_railed_handguard")))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_railed_handguard")).setReplaceableGunPart(new TestPart()))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")))
                 .addChild(new AttachmentSlot("gas_block", Set.of("gcaa:ar_gas_block")))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))

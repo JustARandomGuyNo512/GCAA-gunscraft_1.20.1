@@ -76,7 +76,7 @@ public class RenderEvents {
     static boolean flashLightTurnOn = false;
     @SubscribeEvent
     public static void renderFlashLight(RenderLevelStageEvent event) {
-        if (failedLoadingFlashLightShader || !flashLightTurnOn) {
+        if (failedLoadingFlashLightShader || !flashLightTurnOn || flashlight == null) {
             return;
         }
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL) {

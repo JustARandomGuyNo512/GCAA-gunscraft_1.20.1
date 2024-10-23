@@ -1,7 +1,6 @@
 package sheridan.gcaa.attachmentSys;
 
-import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
-import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.items.attachments.ReplaceableGunPart;
 
 import java.util.*;
 
@@ -17,6 +16,7 @@ public class AttachmentSlot {
     private String attachmentId;
     private String id;
     private byte direction;
+    private ReplaceableGunPart replaceableGunPart;
 
     private final Set<String> acceptedAttachments;
     private final Map<String, AttachmentSlot> children = new HashMap<>();
@@ -35,6 +35,7 @@ public class AttachmentSlot {
         id = ROOT;
         direction = NO_DIRECTION;
         acceptedAttachments = Set.of();
+        replaceableGunPart = null;
     }
 
     public static AttachmentSlot root() {
@@ -65,6 +66,15 @@ public class AttachmentSlot {
 
     public AttachmentSlot(String slotName, String modelSlotName, Set<String> acceptedAttachments) {
         this(slotName, modelSlotName, acceptedAttachments, NONE, EMPTY, NONE, NO_DIRECTION);
+    }
+
+    public AttachmentSlot setReplaceableGunPart(ReplaceableGunPart replaceableGunPart) {
+        this.replaceableGunPart = replaceableGunPart;
+        return this;
+    }
+
+    public ReplaceableGunPart getReplaceableGunPart() {
+        return replaceableGunPart;
     }
 
     /**
@@ -126,6 +136,28 @@ public class AttachmentSlot {
             child.setParent(this);
             this.children.put(child.getSlotName(), child);
         }
+        return this;
+    }
+
+    public AttachmentSlot removeChild(String slotName) {
+        this.children.remove(slotName);
+        return this;
+    }
+
+    public AttachmentSlot removeChild(AttachmentSlot slot) {
+        this.children.remove(slot.getSlotName());
+        return this;
+    }
+
+    public AttachmentSlot removeChildren(Set<AttachmentSlot> children) {
+        for (AttachmentSlot child : children) {
+            this.children.remove(child.getSlotName());
+        }
+        return this;
+    }
+
+    public AttachmentSlot removeAllChildren() {
+        this.children.clear();
         return this;
     }
 
@@ -212,7 +244,7 @@ public class AttachmentSlot {
     }
 
     public AttachmentSlot copy() {
-        return new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY, this.id, this.direction);
+        return new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY, this.id, this.direction).setReplaceableGunPart(this.replaceableGunPart);
     }
 
     public static AttachmentSlot copyAll(AttachmentSlot original) {
@@ -223,7 +255,6 @@ public class AttachmentSlot {
             return EMPTY;
         }
         AttachmentSlot copiedSlot = original.copy();
-
         for (Map.Entry<String, AttachmentSlot> entry : original.children.entrySet()) {
             AttachmentSlot childCopy = copyAll(entry.getValue());
             childCopy.parent = copiedSlot;

@@ -196,7 +196,6 @@ public class Projectile {
     }
 
     public void shoot(LivingEntity shooter, Vec3 angle, float speed, float damage, float spread, float effectiveRange, IGun gun) {
-        System.out.println(effectiveRange);
         effectiveRange *= 16;
         this.gun = gun;
         this.shooter = shooter;

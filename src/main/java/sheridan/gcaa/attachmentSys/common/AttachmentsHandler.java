@@ -17,15 +17,12 @@ import sheridan.gcaa.client.render.AttachmentsRenderContext;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.attachments.*;
 import sheridan.gcaa.items.gun.IGun;
-import sheridan.gcaa.items.gun.PropertyExtension;
-import sheridan.gcaa.items.gun.propertyExtensions.AttachmentReplaceFactorExtension;
 
 import java.util.*;
 
 
 public class AttachmentsHandler {
     public static final AttachmentsHandler INSTANCE = new AttachmentsHandler();
-    //static final String PASSED = Attachment.PASSED;
     static final String ROOT = AttachmentSlot.ROOT;
     static final String NONE = AttachmentSlot.NONE;
 
@@ -55,20 +52,26 @@ public class AttachmentsHandler {
                         if (!prevSlot.isLocked() && proxy.onCanAttach(attachment, itemStack, gun, root, prevSlot).isPassed()) {
                             //如果当前配件可以安装
                             attachment.onAttach(itemStack, gun, properties);
+                            //如果当前配件有可替换的枪械部件
+                            ReplaceableGunPart replaceableGunPart = prevSlot.getReplaceableGunPart();
+                            if (replaceableGunPart != null) {
+                                //执行枪械部件替换
+                                replaceableGunPart.onOccupied(itemStack, gun, properties);
+                            }
                             if (attachment instanceof ISubSlotProvider provider) {
                                 //执行子配件槽扩展
-                                provider.appendSlots(prevSlot);
+                                provider.appendSlots(prevSlot, root);
                             }
                             if (attachment instanceof ISubSlotActivator activator) {
                                 //执行子配件槽解锁
-                                activator.unlockSlots(prevSlot);
+                                activator.unlockOrLockSlots(prevSlot, root);
                             }
                             newAttachments.add(tag);
                         } else {
                             unSupportedAttachments.add(attachment.get());
                         }
                     } else {
-                        //生成“未知配件”的物品，并还给玩家
+                        //生成“未知的配件”物品，并还给玩家
                         CompoundTag idTag = new CompoundTag();
                         idTag.putString("id", id);
                         ItemStack stack = new ItemStack(ModItems.UNKNOWN_ATTACHMENT.get());
@@ -151,20 +154,21 @@ public class AttachmentsHandler {
         return tag;
     }
 
-    public void serverSetAttachment(ItemStack stack, IGun gun, IAttachment attachment, String slotName, String modelSlotName, String parentUuid, byte direction)  {
+    public void serverSetAttachment(ItemStack stack, IGun gun, IAttachment attachment, String slotName,
+                                    String modelSlotName, String parentUuid, byte direction, String replaceableGunPartUuid)  {
         CompoundTag properties = gun.getPropertiesTag(stack);
         ListTag attachments = gun.getAttachmentsListTag(stack);
         attachment.onAttach(stack, gun, properties);
-        PropertyExtension extension = gun.getGunProperties().getExtension(AttachmentReplaceFactorExtension.NAME);
-        if (extension instanceof AttachmentReplaceFactorExtension attachmentReplaceFactorExtension) {
-            attachmentReplaceFactorExtension.onAttachmentAttached(gun, properties, slotName);
+        ReplaceableGunPart replaceableGunPart = ReplaceableGunPart.get(replaceableGunPartUuid);
+        if (replaceableGunPart != null) {
+            replaceableGunPart.onOccupied(stack, gun, properties);
         }
         CompoundTag mark = getMark(attachment, slotName, modelSlotName, parentUuid, direction);
         attachments.add(mark);
         gun.setAttachmentsListTag(stack, attachments);
     }
 
-    public ItemStack serverUninstallAttachment(ItemStack stack, IGun gun, String uuid) {
+    public ItemStack serverUninstallAttachment(ItemStack stack, IGun gun, String uuid, String replaceableGunPartUuid) {
         CompoundTag properties = gun.getPropertiesTag(stack);
         ListTag attachments = gun.getAttachmentsListTag(stack);
         ItemStack stackToReturn = null;
@@ -176,9 +180,9 @@ public class AttachmentsHandler {
                 IAttachment attachment = AttachmentsRegister.get(attachmentId);
                 if (attachment != null) {
                     attachment.onDetach(stack, gun, properties);
-                    PropertyExtension extension = gun.getGunProperties().getExtension(AttachmentReplaceFactorExtension.NAME);
-                    if (extension instanceof AttachmentReplaceFactorExtension attachmentReplaceFactorExtension) {
-                        attachmentReplaceFactorExtension.onAttachmentDetached(gun, properties, tag.getString("slot_name"));
+                    ReplaceableGunPart replaceableGunPart = ReplaceableGunPart.get(replaceableGunPartUuid);
+                    if (replaceableGunPart != null) {
+                        replaceableGunPart.onEmpty(stack, gun, properties);
                     }
                     stackToReturn = new ItemStack(attachment.get());
                     index = i;
@@ -215,6 +219,9 @@ public class AttachmentsHandler {
         return attachments;
     }
 
+    /**
+     * Get attachments tree
+     * */
     public AttachmentSlot getAttachmentSlots(ListTag attachmentsTag, IGun gun) {
         AttachmentSlot slot = getAttachmentBaseSlots(gun);
         if (slot != AttachmentSlot.EMPTY) {
@@ -222,24 +229,30 @@ public class AttachmentsHandler {
             if (attachmentsTag != null && !attachmentsTag.isEmpty()) {
                 for (int i = 0; i < attachmentsTag.size(); i++) {
                     CompoundTag slotTag = attachmentsTag.getCompound(i);
-                    String id = slotTag.getString("id");
                     String slotName = slotTag.getString("slot_name");
-                    IAttachment attachment = AttachmentsRegister.get(id);
                     AttachmentSlot prevSlot = slot.searchChild(slotName);
-                    if (prevSlot != null) {
-                        if (attachment != null) {
-                            if (attachment instanceof ISubSlotProvider provider) {
-                                provider.appendSlots(prevSlot);
-                            }
-                            if (attachment instanceof ISubSlotActivator activator) {
-                                activator.unlockSlots(prevSlot);
-                            }
-                            prevSlot.setAttachmentId(id);
-                            prevSlot.setId(slotTag.getString("uuid"));
-                        } else {
-                            prevSlot.cleanAll();
-                        }
+                    if (prevSlot == null) {
+                        continue;
                     }
+                    String id = slotTag.getString("id");
+                    IAttachment attachment = AttachmentsRegister.get(id);
+                    ReplaceableGunPart replaceableGunPart = prevSlot.getReplaceableGunPart();
+                    if (attachment != null) {
+                        if (replaceableGunPart != null) {
+                            replaceableGunPart.doSlotOperation(gun, slot, prevSlot);
+                        }
+                        if (attachment instanceof ISubSlotProvider provider) {
+                            provider.appendSlots(prevSlot, slot);
+                        }
+                        if (attachment instanceof ISubSlotActivator activator) {
+                            activator.unlockOrLockSlots(prevSlot, slot);
+                        }
+                        prevSlot.setAttachmentId(id);
+                        prevSlot.setId(slotTag.getString("uuid"));
+                    } else {
+                        prevSlot.cleanAll();
+                    }
+
                 }
             }
         }

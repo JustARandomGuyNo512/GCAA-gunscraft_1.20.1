@@ -32,6 +32,13 @@ public abstract class Attachment extends NoRepairNoEnchantmentItem implements IA
 
     @Override
     public AttachResult canAttach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
+        ReplaceableGunPart replaceableGunPart = prevSlot.getReplaceableGunPart();
+        if (replaceableGunPart != null) {
+            AttachResult result = replaceableGunPart.canReplace(stack, gun, root, prevSlot);
+            if (!result.isPassed()) {
+                return result;
+            }
+        }
         return prevSlot.isEmpty() && prevSlot.acceptsAttachment(AttachmentsRegister.getStrKey(this)) ? PASSED : REJECTED;
     }
 

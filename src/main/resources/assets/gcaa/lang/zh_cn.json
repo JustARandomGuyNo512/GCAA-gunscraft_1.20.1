@@ -49,6 +49,7 @@
   "tooltip.btn.reset": "重置模型姿态",
   "tooltip.btn.drag": "拖动模型",
   "tooltip.btn.install_attachment": "安装配件",
+  "tooltip.btn.replace_gun_part": "替换此部件",
   "tooltip.btn.uninstall_attachment": "卸下配件",
   "tooltip.action_res.prevented_by_child": "无法拆卸，有子配件依赖于此",
   "tooltip.action_res.conflict": "与配件'$id'产生冲突",

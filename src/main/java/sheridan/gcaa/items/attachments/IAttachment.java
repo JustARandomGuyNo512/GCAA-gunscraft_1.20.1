@@ -30,13 +30,13 @@ public interface IAttachment {
         private final boolean passed;
         private final MessageGetter messageGetter;
 
-        public AttachResult(boolean success) {
-            this.passed = success;
+        public AttachResult(boolean passed) {
+            this.passed = passed;
             this.messageGetter = () -> "no details...";
         }
 
-        public AttachResult(boolean success, MessageGetter messageGetter) {
-            this.passed = success;
+        public AttachResult(boolean passed, MessageGetter messageGetter) {
+            this.passed = passed;
             this.messageGetter = messageGetter;
         }
 

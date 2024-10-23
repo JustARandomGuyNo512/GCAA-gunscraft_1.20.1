@@ -9,8 +9,6 @@ import sheridan.gcaa.items.gun.calibers.Caliber;
 import sheridan.gcaa.items.gun.fireModes.Auto;
 import sheridan.gcaa.items.gun.fireModes.Burst;
 import sheridan.gcaa.items.gun.fireModes.Semi;
-import sheridan.gcaa.items.gun.propertyExtensions.AttachmentReplaceFactorExtension;
-import sheridan.gcaa.items.gun.propertyExtensions.AttachmentReplaceFactorExtension.*;
 import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.Arrays;
@@ -23,8 +21,6 @@ public class Vector45 extends Gun {
         super(new GunProperties(4f, 0.6f, 2.6f, 0.75f, 0.16f,
                 3.2f, GunProperties.toRPM(1000), getTicks(2.45f), getTicks(3.05f), 13,
                 1.45f, 0.65f, 0.13f, 0.1f, 10, Arrays.asList(Semi.SEMI, new Burst(2), Auto.AUTO),
-                ModSounds.VECTOR_45_FIRE, null, caliber)
-                .addExtension(new AttachmentReplaceFactorExtension()
-                        .addReplaceFactor(Attachment.STOCK, 1f, new PropertyEntry(GunProperties.RECOIL_PITCH_CONTROL, 0.05f))));
+                ModSounds.VECTOR_45_FIRE, null, caliber));
     }
 }

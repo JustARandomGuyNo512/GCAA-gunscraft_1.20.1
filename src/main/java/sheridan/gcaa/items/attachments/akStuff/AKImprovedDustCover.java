@@ -27,7 +27,7 @@ public class AKImprovedDustCover extends SubSlotProvider {
     public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {}
 
     @Override
-    public void appendSlots(AttachmentSlot parent) {
+    public void appendSlots(AttachmentSlot parent, AttachmentSlot root) {
         parent.addChild(root.getChild("dust_cover_scope").copy());
     }
 }

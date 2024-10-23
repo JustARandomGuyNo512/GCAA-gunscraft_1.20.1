@@ -9,8 +9,6 @@ import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.fireModes.Auto;
 import sheridan.gcaa.items.gun.fireModes.Semi;
-import sheridan.gcaa.items.gun.propertyExtensions.AttachmentReplaceFactorExtension;
-import sheridan.gcaa.items.gun.propertyExtensions.AttachmentReplaceFactorExtension.*;
 import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.Arrays;
@@ -24,10 +22,6 @@ public class Akm extends Gun {
         super(new GunProperties(3.5f, 1f, 2.8f, 1f, 0.15f,
                 3.2f, GunProperties.toRPM(600), getTicks(2.55f), getTicks(3.65f), 30,
                 2.5f, 0.8f, 0.1f, 0.1f, 15, Arrays.asList(Semi.SEMI, Auto.AUTO),
-                ModSounds.AKM_FIRE, null, caliber)
-                .addExtension(new AttachmentReplaceFactorExtension()
-                        .addReplaceFactor(Attachment.HANDGUARD, 1f)
-                        .addReplaceFactor(Attachment.STOCK, 2f, new PropertyEntry(GunProperties.RECOIL_PITCH_CONTROL, 0.08f)))
-        );
+                ModSounds.AKM_FIRE, null, caliber));
     }
 }

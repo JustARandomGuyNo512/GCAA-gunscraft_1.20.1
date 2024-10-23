@@ -16,6 +16,7 @@ public class OptionalImageButton extends ImageButton {
     private boolean mouseDown;
     private Tooltip preventedTooltip;
     private Tooltip normalTooltip;
+    private ResourceLocation currentTexture;
 
     public OptionalImageButton(int pX, int pY, int pWidth, int pHeight, int pXTexStart, int pYTexStart, int pYDiffTex, ResourceLocation pResourceLocation, int pTextureWidth, int pTextureHeight, OnPress pOnPress) {
         super(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffTex, pResourceLocation, pTextureWidth, pTextureHeight, pOnPress);
@@ -40,6 +41,14 @@ public class OptionalImageButton extends ImageButton {
                 this.setTooltip(normalTooltip);
             }
         }
+    }
+
+    public void setCurrentTexture(ResourceLocation currentTexture) {
+        this.currentTexture = currentTexture;
+    }
+
+    public void resetCurrentTexture() {
+        this.currentTexture = null;
     }
 
     public void setPreventedTooltip(String key) {
@@ -69,7 +78,11 @@ public class OptionalImageButton extends ImageButton {
                 pGuiGraphics.setColor(27 / 255f, 161 / 255f, 226 / 255f, 1);
             }
         }
-        super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        if (currentTexture != null) {
+            this.renderTexture(pGuiGraphics, currentTexture, this.getX(), this.getY(), this.xTexStart, this.yTexStart, this.yDiffTex, this.width, this.height, this.textureWidth, this.textureHeight);
+        } else {
+            super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        }
         pGuiGraphics.setColor(1, 1, 1, 1);
     }
 
@@ -89,7 +102,6 @@ public class OptionalImageButton extends ImageButton {
         mouseDown = false;
         return super.mouseReleased(pMouseX, pMouseY, pButton);
     }
-
 
     @Override
     public void onPress() {

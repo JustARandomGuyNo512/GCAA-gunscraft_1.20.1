@@ -17,21 +17,24 @@ import java.util.function.Supplier;
 
 public class UninstallAttachmentPacket implements IPacket<UninstallAttachmentPacket> {
     public String uuid;
+    public String replaceableGunPartUuid;
 
     public UninstallAttachmentPacket() {}
 
-    public UninstallAttachmentPacket(String uuid) {
+    public UninstallAttachmentPacket(String uuid, String replaceableGunPartUuid)  {
         this.uuid = uuid;
+        this.replaceableGunPartUuid = replaceableGunPartUuid;
     }
 
     @Override
     public void encode(UninstallAttachmentPacket message, FriendlyByteBuf buffer) {
         buffer.writeUtf(message.uuid);
+        buffer.writeUtf(message.replaceableGunPartUuid);
     }
 
     @Override
     public UninstallAttachmentPacket decode(FriendlyByteBuf buffer) {
-        return new UninstallAttachmentPacket(buffer.readUtf());
+        return new UninstallAttachmentPacket(buffer.readUtf(), buffer.readUtf());
     }
 
     @Override
@@ -41,7 +44,7 @@ public class UninstallAttachmentPacket implements IPacket<UninstallAttachmentPac
             if (player != null) {
                 ItemStack heldItem = player.getMainHandItem();
                 if (heldItem.getItem() instanceof IGun gun) {
-                    ItemStack stackToReturn = AttachmentsHandler.INSTANCE.serverUninstallAttachment(heldItem, gun, message.uuid);
+                    ItemStack stackToReturn = AttachmentsHandler.INSTANCE.serverUninstallAttachment(heldItem, gun, message.uuid, message.replaceableGunPartUuid);
                     if (stackToReturn != null) {
                         if (!player.addItem(stackToReturn)) {
                             ItemEntity entity = new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), stackToReturn);

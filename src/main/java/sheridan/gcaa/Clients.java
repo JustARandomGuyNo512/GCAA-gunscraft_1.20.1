@@ -272,14 +272,14 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.XM1014.get(), new Xm1014Model(), new DisplayData()
-                .setFirstPersonMain(-6.1f,12.4f,-22.7f, POS)
+                .setFirstPersonMain(-6.6f,12.6f,-22.7f, POS)
                 .setThirdPersonRight(0.0f,-0.4f,-0.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
                 .setAds(0,8.4f,-18, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
-                .setInertialRecoilData(new InertialRecoilData(0.00f, 0.0f, 0.3f, 0.05f, 0.5f,  0.05f, 0.65f, 0.3f, new Vector3f(0.4f, 0.15f, 0.25f)))
+                .setInertialRecoilData(new InertialRecoilData(0.00f, 0.0f, 0.3f, 0.05f, 0.3f,  0.03f, 0.65f, 0.3f, new Vector3f(0.3f, 0.1f, 0.16f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4f, -101.5f).setScale(3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
                 .setBulletShellDisplayData(new BulletShellDisplayData(3f, 4f, -17.5f, new Vector3f(2.8f, 0.8f, -0.25f), BulletShellModel.SHOTGUN))
@@ -420,9 +420,9 @@ public class Clients {
             spread *= 0.25f;
         }
         if (isInAds() && mainHandStatus.adsProgress >= 0.75f) {
-            spread *= 0.135f;
+            spread *= 1 -  Math.pow(mainHandStatus.adsProgress, 3) * 0.75f;
             if (gun.isSniper()) {
-                spread *= 0.25f;
+                spread *= 0.2f;
             }
         }
         if (player.isCrouching()) {
