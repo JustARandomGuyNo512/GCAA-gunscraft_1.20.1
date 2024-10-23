@@ -27,6 +27,6 @@ public class AKRailBracket extends SubSlotProvider {
 
     @Override
     public void appendSlots(AttachmentSlot parent, AttachmentSlot root) {
-        parent.addChild(root.getChild("rail_bracket_scope").copy());
+        parent.addChild(this.root.getChild("rail_bracket_scope").copy());
     }
 }

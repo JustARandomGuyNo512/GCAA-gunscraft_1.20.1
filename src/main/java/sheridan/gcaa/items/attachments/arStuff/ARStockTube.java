@@ -28,6 +28,6 @@ public class ARStockTube extends SubSlotProvider {
 
     @Override
     public void appendSlots(AttachmentSlot parent, AttachmentSlot root) {
-        parent.addChild(root.getChild("stock_tube").copy());
+        parent.addChild(this.root.getChild("stock_tube").copy());
     }
 }

@@ -25,6 +25,6 @@ public class AKTacticalDustCover extends SubSlotProvider {
 
     @Override
     public void appendSlots(AttachmentSlot parent, AttachmentSlot root) {
-        parent.addChild(root.getChild("dust_cover_scope").copy());
+        parent.addChild(this.root.getChild("dust_cover_scope").copy());
     }
 }
