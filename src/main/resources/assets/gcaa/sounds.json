@@ -26,6 +26,8 @@
   "item.generic.ar_mag_off": { "subtitle": "item.generic.ar_mag_off", "sounds": [{ "name": "gcaa:generic/ar_mag_off" }]},
   "item.generic.pistol_mag_off": { "subtitle": "item.generic.pistol_mag_off", "sounds": [{ "name": "gcaa:generic/pistol_mag_off" }]},
   "item.generic.pistol_mag_attach": { "subtitle": "item.generic.pistol_mag_attach", "sounds": [{ "name": "gcaa:generic/pistol_mag_attach" }]},
+  "item.generic.ar_charge_back": { "subtitle": "item.generic.ar_charge_back", "sounds": [{ "name": "gcaa:generic/ar_charge_back" }]},
+  "item.generic.ar_charge_forward": { "subtitle": "item.generic.ar_charge_forward", "sounds": [{ "name": "gcaa:generic/ar_charge_forward" }]},
 
   "item.akm.fire": { "subtitle": "item.akm.fire", "sounds": [{ "name": "gcaa:akm/akm_fire" }]},
   "item.m4a1.fire": { "subtitle": "item.m4a1.fire", "sounds": [{ "name": "gcaa:m4a1/m4a1_fire" }]},
@@ -44,6 +46,7 @@
   "item.xm1014.fire": { "subtitle": "item.xm1014.fire", "sounds": [{ "name": "gcaa:xm1014/xm1014_fire" }]},
   "item.xm1014.fire_suppressed": { "subtitle": "item.xm1014.fire_suppressed", "sounds": [{ "name": "gcaa:xm1014/xm1014_fire_suppressed" }]},
   "item.xm1014.insert_shell": { "subtitle": "item.xm1014.insert_shell", "sounds": [{ "name": "gcaa:xm1014/xm1014_insert_shell" }]},
+  "item.mk47.fire": { "subtitle": "item.mk47.fire", "sounds": [{ "name": "gcaa:mk47/mk47_fire" }]},
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},
   "effect.headshot.2": { "subtitle": "effect.headshot.2", "sounds": [{ "name": "gcaa:generic/headshot_2" }]},

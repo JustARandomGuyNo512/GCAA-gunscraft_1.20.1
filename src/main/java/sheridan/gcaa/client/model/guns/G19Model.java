@@ -59,9 +59,7 @@ public class G19Model extends GunModel {
         if (context.hasScope()) {
             context.pushPose().translateTo(slide).renderScopeAttachment(slot_scope).popPose();
         }
-        if (context.hasMag()) {
-            context.renderMagAttachment(mag);
-        }
+        context.renderMagAttachmentIf(mag, context.hasMag());
         context.renderAllAttachmentsLeft(gun);
     }
 

@@ -316,11 +316,16 @@ public class GunRenderContext {
         return this;
     }
 
-    public GunRenderContext renderMagAttachment(ModelPart pose) {
+    public void renderMagAttachmentIf(ModelPart pose, boolean condition) {
+        if (attachmentsRenderContext != null && condition) {
+            renderMagAttachment(pose);
+        }
+    }
+
+    public void renderMagAttachment(ModelPart pose) {
         if (attachmentsRenderContext != null) {
             renderEntry(attachmentsRenderContext.slotLayer.get(Attachment.MAG), pose);
         }
-        return this;
     }
 
     public void renderAllAttachmentsLeft(ModelPart layer) {

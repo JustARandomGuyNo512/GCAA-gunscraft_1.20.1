@@ -42,6 +42,8 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> AR_MAG_ATTACH = registerSound("ar_mag_attach", "item.generic.ar_mag_attach");
     public static RegistryObject<SoundEvent> PISTOL_MAG_OFF = registerSound("pistol_mag_off", "item.generic.pistol_mag_off");
     public static RegistryObject<SoundEvent> PISTOL_MAG_ATTACH = registerSound("pistol_mag_attach", "item.generic.pistol_mag_attach");
+    public static RegistryObject<SoundEvent> AR_CHARGE_BACK = registerSound("ar_charge_back", "item.generic.ar_charge_back");
+    public static RegistryObject<SoundEvent> AR_CHARGE_FROWARD = registerSound("ar_charge_forward", "item.generic.ar_charge_forward");
 
 
     public static RegistryObject<SoundEvent> AKM_FIRE = registerSound("akm_fire", "item.akm.fire");
@@ -61,6 +63,7 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> XM1014_FIRE = registerSound("xm1014_fire", "item.xm1014.fire");
     public static RegistryObject<SoundEvent> XM1014_FIRE_SUPPRESSED = registerSound("xm1014_fire_suppressed", "item.xm1014.fire_suppressed");
     public static RegistryObject<SoundEvent> XM1014_INSERT_SHELL = registerSound("xm1014_insert_shell", "item.xm1014.insert_shell");
+    public static RegistryObject<SoundEvent> MK47_FIRE = registerSound("mk47_fire", "item.mk47.fire");
 
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");
