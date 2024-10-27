@@ -40,6 +40,9 @@
   "item.gcaa.shotgun_extend_bay": "Shotgun Extended Bay",
   "item.gcaa.sniper_extend_mag": "Sniper Extended Bay",
   "item.gcaa.ctr_stock": "CTR Stock",
+  "item.gcaa.micro_laser_sight": "Micro Laser Sight",
+  "item.gcaa.laser_sight": "Laser Sight",
+  "item.gcaa.horizontal_laser_sight": "Horizontal Laser Sight",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",

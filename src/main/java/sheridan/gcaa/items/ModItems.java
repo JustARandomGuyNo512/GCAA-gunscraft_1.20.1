@@ -11,7 +11,7 @@ import sheridan.gcaa.items.attachments.akStuff.AKTacticalDustCover;
 import sheridan.gcaa.items.attachments.arStuff.ARGasBlock;
 import sheridan.gcaa.items.attachments.arStuff.ARStockTube;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
-import sheridan.gcaa.items.attachments.grips.VerticalGrip;
+import sheridan.gcaa.items.attachments.grips.*;
 import sheridan.gcaa.items.attachments.handguard.AKImprovedHandguard;
 import sheridan.gcaa.items.attachments.handguard.ARRailedHandguard;
 import sheridan.gcaa.items.attachments.mags.*;
@@ -69,4 +69,7 @@ public class ModItems {
     public static final RegistryObject<CTRStock> CTR_STOCK = ITEMS.register("ctr_stock", CTRStock::new);
     public static final RegistryObject<ARCompensator> AR_COMPENSATOR = ITEMS.register("ar_compensator", ARCompensator::new);
     public static final RegistryObject<SMGCompensator> SMG_COMPENSATOR = ITEMS.register("smg_compensator", SMGCompensator::new);
+    public static final RegistryObject<MicroLaserSight> MICRO_LASER_SIGHT = ITEMS.register("micro_laser_sight", MicroLaserSight::new);
+    public static final RegistryObject<HorizontalLaserSight> HORIZONTAL_LASER_SIGHT = ITEMS.register("horizontal_laser_sight", HorizontalLaserSight::new);
+    public static final RegistryObject<NormalLaserSight> LASER_SIGHT = ITEMS.register("laser_sight", NormalLaserSight::new);
 }

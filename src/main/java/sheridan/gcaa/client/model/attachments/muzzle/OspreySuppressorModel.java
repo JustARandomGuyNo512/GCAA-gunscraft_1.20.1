@@ -7,8 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.attachments.MuzzleFlashRendererModel;
-import sheridan.gcaa.client.model.attachments.statistic.MuzzleCollection1;
-import sheridan.gcaa.client.model.attachments.statistic.MuzzleCollection2;
+import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -18,10 +17,10 @@ public class OspreySuppressorModel extends MuzzleFlashRendererModel implements I
 
     private final ModelPart model;
     private final ModelPart muzzle;
-    private final ResourceLocation texture = MuzzleCollection2.TEXTURE;
+    private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION2.texture;
 
     public OspreySuppressorModel() {
-        model = MuzzleCollection2.get("osprey_suppressor");
+        model = StatisticModel.MUZZLE_COLLECTION2.get("osprey_suppressor");
         muzzle = model.getChild("osprey_suppressor_muzzle");
     }
 

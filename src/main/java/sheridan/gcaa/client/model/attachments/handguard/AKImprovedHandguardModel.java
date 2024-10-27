@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.ISlotProviderModel;
-import sheridan.gcaa.client.model.attachments.statistic.AKStuff1;
+import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -18,7 +18,7 @@ import java.util.Set;
 @OnlyIn(Dist.CLIENT)
 public class AKImprovedHandguardModel implements IAttachmentModel, ISlotProviderModel {
     private final ModelPart handguard;
-    private final ResourceLocation texture = AKStuff1.TEXTURE;
+    private final ResourceLocation texture = StatisticModel.AK_STUFF1.texture;
     private final ModelPart slot_handguard_grip;
     private final ModelPart slot_handguard_sight;
     private final ModelPart slot_handguard_left;
@@ -26,7 +26,7 @@ public class AKImprovedHandguardModel implements IAttachmentModel, ISlotProvider
     private final Set<String> slotNames = new HashSet<>();
 
     public AKImprovedHandguardModel() {
-        handguard = AKStuff1.get("handguard");
+        handguard = StatisticModel.AK_STUFF1.get("handguard");
         slotNames.add("s_handguard_grip");
         slotNames.add("s_handguard_sight");
         slotNames.add("s_handguard_left");

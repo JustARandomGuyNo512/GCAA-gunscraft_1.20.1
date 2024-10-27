@@ -7,8 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.attachments.MuzzleFlashRendererModel;
-import sheridan.gcaa.client.model.attachments.statistic.MuzzleCollection1;
-import sheridan.gcaa.client.model.attachments.statistic.MuzzleCollection2;
+import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -18,10 +17,10 @@ public class ARSuppressorModel extends MuzzleFlashRendererModel implements IAtta
 
     private final ModelPart model;
     private final ModelPart muzzle;
-    private final ResourceLocation texture = MuzzleCollection1.TEXTURE;
+    private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION1.texture;
 
     public ARSuppressorModel() {
-        model = MuzzleCollection1.get("ar_suppressor");
+        model = StatisticModel.MUZZLE_COLLECTION1.get("ar_suppressor");
         muzzle = model.getChild("ar_suppressor_muzzle");
     }
 

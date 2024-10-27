@@ -20,6 +20,7 @@ public class CTRStock extends Attachment {
         properties.setPropertyRateIfHas(GunProperties.ADS_SPEED, data, (prevRate) -> prevRate + 0.1f);
         properties.setPropertyRateIfHas(GunProperties.SPREAD_RECOVER, data, (prevRate) -> prevRate + 0.025f);
         properties.setPropertyRateIfHas(GunProperties.SPRINTING_SPREAD_FACTOR, data, (prevRate) -> prevRate - 0.05f);
+        properties.setPropertyRateIfHas(GunProperties.WALKING_SPREAD_FACTOR, data, (prevRate) -> prevRate - 0.05f);
         properties.setPropertyRateIfHas(GunProperties.AGILITY, data, (prevRate) -> prevRate + 0.05f);
         properties.addWeight(data, weight);
     }
@@ -32,6 +33,7 @@ public class CTRStock extends Attachment {
         properties.setPropertyRateIfHas(GunProperties.ADS_SPEED, data, (prevRate) -> prevRate - 0.1f);
         properties.setPropertyRateIfHas(GunProperties.SPREAD_RECOVER, data, (prevRate) -> prevRate - 0.025f);
         properties.setPropertyRateIfHas(GunProperties.SPRINTING_SPREAD_FACTOR, data, (prevRate) -> prevRate + 0.05f);
+        properties.setPropertyRateIfHas(GunProperties.WALKING_SPREAD_FACTOR, data, (prevRate) -> prevRate + 0.05f);
         properties.setPropertyRateIfHas(GunProperties.AGILITY, data, (prevRate) -> prevRate - 0.05f);
         properties.addWeight(data, - weight);
     }

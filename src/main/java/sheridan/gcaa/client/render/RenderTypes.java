@@ -25,8 +25,6 @@ import java.util.Optional;
 @OnlyIn(Dist.CLIENT)
 public class RenderTypes extends RenderType {
     private static final Map<String, RenderType> TEMP = new HashMap<>();
-    private static RenderType TEST;
-    private static final ResourceLocation TEXT_TEXTURE = new ResourceLocation(GCAA.MODID, "textures/misc/test.png");
 
     public RenderTypes(String pName, VertexFormat pFormat, VertexFormat.Mode pMode, int pBufferSize, boolean pAffectsCrumbling, boolean pSortOnUpload, Runnable pSetupState, Runnable pClearState) {
         super(pName, pFormat, pMode, pBufferSize, pAffectsCrumbling, pSortOnUpload, pSetupState, pClearState);

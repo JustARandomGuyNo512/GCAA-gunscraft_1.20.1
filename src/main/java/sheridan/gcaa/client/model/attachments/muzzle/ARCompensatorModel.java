@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.attachments.MuzzleFlashRendererModel;
-import sheridan.gcaa.client.model.attachments.statistic.MuzzleCollection1;
+import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -16,10 +16,10 @@ import sheridan.gcaa.client.render.GunRenderContext;
 public class ARCompensatorModel extends MuzzleFlashRendererModel implements IAttachmentModel {
     private final ModelPart model;
     private final ModelPart muzzle;
-    private final ResourceLocation texture = MuzzleCollection1.TEXTURE;
+    private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION1.texture;
 
     public ARCompensatorModel() {
-        model = MuzzleCollection1.get("ar_compensator");
+        model = StatisticModel.MUZZLE_COLLECTION1.get("ar_compensator");
         muzzle = model.getChild("ar_compensator_muzzle");
     }
 

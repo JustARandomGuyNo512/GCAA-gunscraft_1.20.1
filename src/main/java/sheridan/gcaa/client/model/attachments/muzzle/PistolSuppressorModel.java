@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.attachments.MuzzleFlashRendererModel;
-import sheridan.gcaa.client.model.attachments.statistic.MuzzleCollection1;
+import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -13,10 +13,10 @@ import sheridan.gcaa.client.render.GunRenderContext;
 public class PistolSuppressorModel extends MuzzleFlashRendererModel implements IAttachmentModel {
     private final ModelPart model;
     private final ModelPart muzzle;
-    private final ResourceLocation texture = MuzzleCollection1.TEXTURE;
+    private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION1.texture;
 
     public PistolSuppressorModel() {
-        model = MuzzleCollection1.get("pistol_suppressor");
+        model = StatisticModel.MUZZLE_COLLECTION1.get("pistol_suppressor");
         muzzle = model.getChild("pistol_suppressor_muzzle");
     }
 

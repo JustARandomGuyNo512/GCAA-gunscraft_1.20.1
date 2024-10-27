@@ -40,6 +40,9 @@
   "item.gcaa.shotgun_exp_bay": "霰弹枪扩容弹舱",
   "item.gcaa.sniper_exp_mag": "狙击枪扩容弹匣",
   "item.gcaa.ctr_stock": "CTR 后托",
+  "item.gcaa.micro_laser_sight": "微型激光指示器",
+  "item.gcaa.laser_sight": "激光指示器",
+  "item.gcaa.horizontal_laser_sight": "水平激光指示器",
 
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",

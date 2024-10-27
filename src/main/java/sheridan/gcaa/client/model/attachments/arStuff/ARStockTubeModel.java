@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.client.model.ISlotProviderModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
-import sheridan.gcaa.client.model.attachments.statistic.ARStuff1;
+import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -16,10 +16,10 @@ import sheridan.gcaa.client.render.GunRenderContext;
 public class ARStockTubeModel implements IAttachmentModel, ISlotProviderModel {
     private final ModelPart stock_tube;
     private final ModelPart s_stock_tube;
-    private final ResourceLocation texture = ARStuff1.TEXTURE;
+    private final ResourceLocation texture = StatisticModel.AR_STUFF1.texture;
 
     public ARStockTubeModel() {
-        stock_tube = ARStuff1.get("stock_tube");
+        stock_tube = StatisticModel.AR_STUFF1.get("stock_tube");
         s_stock_tube = stock_tube.getChild("s_stock_tube");
     }
 

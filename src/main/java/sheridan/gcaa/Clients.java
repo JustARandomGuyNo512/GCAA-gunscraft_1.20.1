@@ -37,6 +37,9 @@ import sheridan.gcaa.client.model.attachments.akStuff.AKTacticalDustCoverModel;
 import sheridan.gcaa.client.model.attachments.arStuff.ARGasBlockModel;
 import sheridan.gcaa.client.model.attachments.arStuff.ARStockTubeModel;
 import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
+import sheridan.gcaa.client.model.attachments.grip.HorizontalLaserModel;
+import sheridan.gcaa.client.model.attachments.grip.LaserSightModel;
+import sheridan.gcaa.client.model.attachments.grip.MicroLaserSightModel;
 import sheridan.gcaa.client.model.attachments.grip.VerticalGripModel;
 import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel;
 import sheridan.gcaa.client.model.attachments.handguard.ARRailedHandguardModel;
@@ -333,6 +336,9 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.VECTOR_45_EXTEND_MAG.get(), IAttachmentModel.EMPTY);
         ArsenalLib.registerAttachmentModel(ModItems.AR_COMPENSATOR.get(), new ARCompensatorModel());
         ArsenalLib.registerAttachmentModel(ModItems.SMG_COMPENSATOR.get(), new SMGCompensatorModel());
+        ArsenalLib.registerAttachmentModel(ModItems.MICRO_LASER_SIGHT.get(), new MicroLaserSightModel());
+        ArsenalLib.registerAttachmentModel(ModItems.LASER_SIGHT.get(), new LaserSightModel());
+        ArsenalLib.registerAttachmentModel(ModItems.HORIZONTAL_LASER_SIGHT.get(), new HorizontalLaserModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

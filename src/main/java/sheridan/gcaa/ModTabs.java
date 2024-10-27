@@ -48,6 +48,9 @@ public class ModTabs {
                     tab.accept(ModItems.SNIPER_EXTEND_MAG.get());
                     tab.accept(ModItems.SHOTGUN_EXTEND_BAY.get());
                     tab.accept(ModItems.CTR_STOCK.get());
+                    tab.accept(ModItems.MICRO_LASER_SIGHT.get());
+                    tab.accept(ModItems.LASER_SIGHT.get());
+                    tab.accept(ModItems.HORIZONTAL_LASER_SIGHT.get());
                 }).build());
 
         GUNS_TAB = MOD_TABS.register("guns", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.guns"))

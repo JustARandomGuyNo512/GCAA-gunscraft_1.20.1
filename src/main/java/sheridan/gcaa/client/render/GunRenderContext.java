@@ -132,6 +132,10 @@ public class GunRenderContext {
         part.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a, true);
     }
 
+    public void render(ModelPart part, int light, int overlay, float alpha, VertexConsumer vertexConsumer) {
+        part.render(poseStack, vertexConsumer, light, overlay, r, g, b, alpha, true);
+    }
+
     public VertexConsumer getBuffer(RenderType renderType) {
         return bufferSource.getBuffer(renderType);
     }
