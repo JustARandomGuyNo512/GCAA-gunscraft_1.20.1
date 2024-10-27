@@ -11,6 +11,7 @@ import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.client.render.RenderTypes;
 import sheridan.gcaa.lib.ArsenalLib;
 
 @OnlyIn(Dist.CLIENT)
@@ -44,7 +45,7 @@ public class ARRailedHandguardModel implements IAttachmentModel, ISlotProviderMo
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         root.copyFrom(pose);
         context.pushPose().translateTo(root);
-        context.render(body, context.getBuffer(RenderType.entityCutout(TEXTURE)));
+        context.render(body, context.getBuffer(RenderTypes.getCutOutMipmap(TEXTURE)));
         context.renderEntry(attachmentRenderEntry.getChild("s_handguard_scope"), s_handguard_scope);
         context.renderEntry(attachmentRenderEntry.getChild("s_handguard_left"), s_handguard_left);
         context.renderEntry(attachmentRenderEntry.getChild("s_handguard_right"), s_handguard_right);

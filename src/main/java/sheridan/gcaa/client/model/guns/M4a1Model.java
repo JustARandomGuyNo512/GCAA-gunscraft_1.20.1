@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -48,12 +47,12 @@ public class M4a1Model extends GunModel  {
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         bullet.visible = context.shouldBulletRender();
-        context.renderIf(IS, vertexConsumer, !context.containsScope());
-        context.renderIf(muzzle, vertexConsumer, !context.hasMuzzle());
+        context.renderIf(IS, vertexConsumer, context.notContainsScope());
+        context.renderIf(muzzle, vertexConsumer, context.notHasMuzzle());
         context.renderIf(front_IS, vertexConsumer, !context.has("gas_block"));
-        context.renderIf(handguard, vertexConsumer, !context.hasHandguard());
-        context.renderIf(mag, vertexConsumer, !context.hasMag());
-        context.renderIf(stock, vertexConsumer, !context.hasStock());
+        context.renderIf(handguard, vertexConsumer, context.notHasHandguard());
+        context.renderIf(mag, vertexConsumer, context.notHasMag());
+        context.renderIf(stock, vertexConsumer, context.notHasStock());
         context.render(vertexConsumer, barrel, charge, body, safety, bolt, grip, ring);
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);
@@ -61,7 +60,7 @@ public class M4a1Model extends GunModel  {
 
     @Override
     protected void renderAttachmentsModel(GunRenderContext context) {
-        context.renderMagAttachmentIf(mag, context.hasMag());
+        context.renderMagAttachmentIf(mag, !context.notHasMag());
         context.renderAllAttachmentsLeft(gun);
     }
 

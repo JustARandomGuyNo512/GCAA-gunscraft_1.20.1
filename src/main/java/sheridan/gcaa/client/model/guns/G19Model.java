@@ -46,7 +46,7 @@ public class G19Model extends GunModel {
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         bullet.visible = context.shouldBulletRender();
-        context.renderIf(mag, vertexConsumer, !context.hasMag());
+        context.renderIf(mag, vertexConsumer, context.notHasMag());
         context.render(vertexConsumer, barrel, slide, body);
         if (context.shouldShowLeftArm()) {
             context.renderArm(left_arm, false);
@@ -56,10 +56,10 @@ public class G19Model extends GunModel {
 
     @Override
     protected void renderAttachmentsModel(GunRenderContext context) {
-        if (context.hasScope()) {
+        if (!context.notHasScope()) {
             context.pushPose().translateTo(slide).renderScopeAttachment(slot_scope).popPose();
         }
-        context.renderMagAttachmentIf(mag, context.hasMag());
+        context.renderMagAttachmentIf(mag, !context.notHasMag());
         context.renderAllAttachmentsLeft(gun);
     }
 

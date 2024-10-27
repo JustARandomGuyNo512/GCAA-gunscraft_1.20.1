@@ -46,16 +46,16 @@ public class AwpModel extends GunModel {
     @Override
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
-        if (context.hasMag()) {
+        if (!context.notHasMag()) {
             bullet.visible = false;
             exp_mag_bullet.visible = context.shouldBulletRender();
         } else {
             exp_mag_bullet.visible = false;
             bullet.visible = context.shouldBulletRender();
         }
-        context.renderIf(vertexConsumer, !context.hasScope(), front_IS, IS);
-        context.renderIfOrElse(exp_mag, mag, context.hasMag(), vertexConsumer);
-        context.renderIf(muzzle, vertexConsumer, !context.hasMuzzle());
+        context.renderIf(vertexConsumer, context.notHasScope(), front_IS, IS);
+        context.renderIfOrElse(exp_mag, mag, !context.notHasMag(), vertexConsumer);
+        context.renderIf(muzzle, vertexConsumer, context.notHasMuzzle());
         context.render(vertexConsumer, barrel, bolt, bolt_back_part, body, pin);
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);

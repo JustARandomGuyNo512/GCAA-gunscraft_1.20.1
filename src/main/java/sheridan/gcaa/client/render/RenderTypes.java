@@ -1,17 +1,26 @@
 package sheridan.gcaa.client.render;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL30;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.client.events.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderTypes extends RenderType {
@@ -81,26 +90,58 @@ public class RenderTypes extends RenderType {
         }
     }
 
-    public static RenderType getTest(ResourceLocation location) {
-        String baseKey = location.toString() + ":" + "test";
+    public static RenderType getCutOutNoCullMipmap(ResourceLocation location) {
+        String baseKey = location.toString() + ":" + "cutout_no_cull_mip_map";
         if (TEMP.containsKey(baseKey)) {
             return TEMP.get(baseKey);
         } else {
-            RenderType.CompositeState compositeState = RenderType.CompositeState.builder()
-                    .setShaderState(new RenderStateShard.ShaderStateShard(Test::getTestShader))
-                    .setTextureState(new RenderStateShard.TextureStateShard(location, false, false))
-                    .setTransparencyState(NO_TRANSPARENCY)
-                    .setLightmapState(LIGHTMAP)
-                    .setOverlayState(OVERLAY)
-                    .createCompositeState(true);
-            RenderType baseType = create("test",
-                    DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS,
-                    256,
-                    true,
-                    false,
-                    compositeState);
+            RenderType.CompositeState type = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ENTITY_CUTOUT_NO_CULL_SHADER).setTextureState(new TextureStateShardMip(location)).setTransparencyState(NO_TRANSPARENCY).setCullState(NO_CULL).setLightmapState(LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(true);
+            RenderType baseType = create("cutout_no_cull_mip_map", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, type);
             TEMP.put(baseKey, baseType);
             return baseType;
         }
     }
+
+    public static RenderType getCutOutMipmap(ResourceLocation location) {
+        String baseKey = location.toString() + ":" + "cutout_mip_map";
+        if (TEMP.containsKey(baseKey)) {
+            return TEMP.get(baseKey);
+        } else {
+            RenderType.CompositeState type = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ENTITY_CUTOUT_SHADER).setTextureState(new TextureStateShardMip(location)).setTransparencyState(NO_TRANSPARENCY).setLightmapState(LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(true);
+            RenderType baseType = create("cutout_mip_map", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, type);
+            TEMP.put(baseKey, baseType);
+            return baseType;
+        }
+    }
+
+    public static final int GL_TEXTURE_MAX_ANISOTROPY = 0x84FE;
+    public static final int GL_MAX_TEXTURE_MAX_ANISOTROPY = 0x84FF;
+    public static class TextureStateShardMip extends RenderStateShard.EmptyTextureStateShard {
+        private final Optional<ResourceLocation> texture;
+        public TextureStateShardMip(ResourceLocation pTexture) {
+            super(() -> {
+                TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
+                AbstractTexture texture = texturemanager.getTexture(pTexture);
+                texture.setFilter(false, true);
+                GlStateManager._texParameter(GL11.GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, GL11.glGetFloat(GL_MAX_TEXTURE_MAX_ANISOTROPY));
+                RenderSystem.setShaderTexture(0, pTexture);
+            }, () -> {
+            });
+            this.texture = Optional.of(pTexture);
+            this.blur = false;
+            this.mipmap = true;
+        }
+
+        protected boolean blur;
+        protected boolean mipmap;
+
+        public @NotNull String toString() {
+            return this.name + "[" + this.texture + "(blur=" + this.blur + ", mipmap=" + this.mipmap + ")]";
+        }
+
+        protected @NotNull Optional<ResourceLocation> cutoutTexture() {
+            return this.texture;
+        }
+    }
+
 }

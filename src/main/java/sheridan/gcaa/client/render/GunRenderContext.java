@@ -277,36 +277,36 @@ public class GunRenderContext {
         return null;
     }
 
-    public boolean containsScope() {
-        return attachmentsRenderContext != null && attachmentsRenderContext.containsScope;
+    public boolean notContainsScope() {
+        return attachmentsRenderContext == null || !attachmentsRenderContext.containsScope;
     }
 
     public boolean has(String slotName) {
         return attachmentsRenderContext != null && attachmentsRenderContext.has(slotName);
     }
 
-    public boolean hasMuzzle() {
-        return has(Attachment.MUZZLE);
+    public boolean notHasMuzzle() {
+        return !has(Attachment.MUZZLE);
     }
 
-    public boolean hasStock() {
-        return has(Attachment.STOCK);
+    public boolean notHasStock() {
+        return !has(Attachment.STOCK);
     }
 
-    public boolean hasGrip() {
-        return has(Attachment.GRIP);
+    public boolean notHasGrip() {
+        return !has(Attachment.GRIP);
     }
 
-    public boolean hasScope() {
-        return has(Attachment.SCOPE);
+    public boolean notHasScope() {
+        return !has(Attachment.SCOPE);
     }
 
-    public boolean hasHandguard() {
-        return has(Attachment.HANDGUARD);
+    public boolean notHasHandguard() {
+        return !has(Attachment.HANDGUARD);
     }
 
-    public boolean hasMag() {
-        return has(Attachment.MAG);
+    public boolean notHasMag() {
+        return !has(Attachment.MAG);
     }
 
     public GunRenderContext renderScopeAttachment(ModelPart pose) {

@@ -3882,26 +3882,6 @@
 					]
 				},
 				{
-					"name": "left_arm",
-					"parent": "gun",
-					"pivot": [14.9, -14.9, -0.3],
-					"rotation": [-91.91357, 20.24303, 46.17736],
-					"cubes": [
-						{
-							"origin": [10.4, -68.9, -6.3],
-							"size": [9, 54, 12],
-							"uv": {
-								"north": {"uv": [42, 33], "uv_size": [21, 126]},
-								"east": {"uv": [14, 33], "uv_size": [28, 126]},
-								"south": {"uv": [91, 33], "uv_size": [21, 126]},
-								"west": {"uv": [63, 33], "uv_size": [28, 126]},
-								"up": {"uv": [42, 5], "uv_size": [21, 28]},
-								"down": {"uv": [63, 33], "uv_size": [21, -28]}
-							}
-						}
-					]
-				},
-				{
 					"name": "s_muzzle",
 					"parent": "gun",
 					"pivot": [0, 3.2825, -82.105]
@@ -3929,12 +3909,7 @@
 				{
 					"name": "s_handguard_scope",
 					"parent": "gun",
-					"pivot": [0, 8.6704, -65.75]
-				},
-				{
-					"name": "s_handguard_scope_rear",
-					"parent": "gun",
-					"pivot": [0, 8.6704, -38.75]
+					"pivot": [0, 8.6704, -51]
 				},
 				{
 					"name": "s_handguard_lower",
@@ -3969,6 +3944,26 @@
 					"parent": "gun",
 					"pivot": [-4.9163, 3.2806, -38.75],
 					"rotation": [0, 0, 90]
+				},
+				{
+					"name": "left_arm",
+					"parent": "gun",
+					"pivot": [14.4, -15.9, -0.3],
+					"rotation": [-93.7549, 21.03887, 45.57446],
+					"cubes": [
+						{
+							"origin": [9.9, -69.9, -6.3],
+							"size": [9, 54, 12],
+							"uv": {
+								"north": {"uv": [42, 33], "uv_size": [21, 126]},
+								"east": {"uv": [14, 33], "uv_size": [28, 126]},
+								"south": {"uv": [91, 33], "uv_size": [21, 126]},
+								"west": {"uv": [63, 33], "uv_size": [28, 126]},
+								"up": {"uv": [42, 5], "uv_size": [21, 28]},
+								"down": {"uv": [63, 33], "uv_size": [21, -28]}
+							}
+						}
+					]
 				},
 				{
 					"name": "camera",

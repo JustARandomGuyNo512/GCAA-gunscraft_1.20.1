@@ -53,9 +53,9 @@ public class M249Model extends GunModel{
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer bodyVertex = context.getBuffer(RenderType.entityCutout(TEXTURE));
         BulletChainHandler.handleBulletChain(context, bullets, 2400L);
-        context.renderIf(stock, bodyVertex, !context.hasStock());
+        context.renderIf(stock, bodyVertex, context.notHasStock());
         context.render(bodyVertex, barrel, handguard, body, charge, mag, grip, handle);
-        context.renderIf(muzzle, bodyVertex, !context.hasMuzzle());
+        context.renderIf(muzzle, bodyVertex, context.notHasMuzzle());
         VertexConsumer coverVertex = context.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
         context.render(cover, coverVertex);
         context.renderArmLong(left_arm, false);
@@ -64,7 +64,7 @@ public class M249Model extends GunModel{
 
     @Override
     protected void renderAttachmentsModel(GunRenderContext context) {
-        if (context.hasScope()) {
+        if (!context.notHasScope()) {
             context.pushPose().translateTo(cover).renderScopeAttachment(s_scope).popPose();
         }
         context.renderAllAttachmentsLeft(gun);

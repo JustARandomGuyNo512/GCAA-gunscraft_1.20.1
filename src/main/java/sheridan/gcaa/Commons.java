@@ -4,7 +4,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.proxies.AkmAttachmentSlotProxy;
+import sheridan.gcaa.attachmentSys.proxies.Mk47AttachmentSlotProxy;
 import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.items.attachments.replaceableParts.Mk47Handguard;
 import sheridan.gcaa.items.attachments.replaceableParts.TestPart;
 
 import java.util.Set;
@@ -36,7 +38,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor", "gcaa:ar_compensator")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ar_extend_mag")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
-                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_railed_handguard")).setReplaceableGunPart(new TestPart()))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_railed_handguard")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")))
                 .addChild(new AttachmentSlot("gas_block", Set.of("gcaa:ar_gas_block")))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
@@ -88,6 +90,21 @@ public class Commons {
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:shotgun_suppressor")))
         );
 
-
+        AttachmentsRegister.registerAttachmentSlot(ModItems.MK47.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of()).setReplaceableGunPart(new Mk47Handguard()))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ak_extend_mag")))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak_compensator", "gcaa:ak_suppressor")))
+                .addChild(new AttachmentSlot(GRIP, Set.of()))
+                .addChild(new AttachmentSlot("handguard_scope", Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")).upper())
+                .addChild(new AttachmentSlot("handguard_left", Set.of()).lower())
+                .addChild(new AttachmentSlot("handguard_left_rear", Set.of()).lower())
+                .addChild(new AttachmentSlot("handguard_right", Set.of()).lower())
+                .addChild(new AttachmentSlot("handguard_right_rear", Set.of()).lower())
+                .addChild(new AttachmentSlot("handguard_lower", Set.of()).lower())
+                .addChild(new AttachmentSlot("handguard_grip", Set.of("gcaa:vertical_grip", "gcaa:gp_25")).lower()),
+                Mk47AttachmentSlotProxy::new
+        );
     }
 }

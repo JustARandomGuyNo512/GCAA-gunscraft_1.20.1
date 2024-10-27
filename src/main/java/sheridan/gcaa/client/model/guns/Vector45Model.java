@@ -45,11 +45,11 @@ public class Vector45Model extends GunModel{
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         bullet0.visible = context.shouldBulletRender();
-        exp_part.visible = context.hasMag();
-        context.renderIf(stock, vertexConsumer, !context.hasStock());
-        context.renderIf(front_IS, vertexConsumer, !context.hasScope());
-        context.renderIf(IS, vertexConsumer, !context.hasScope());
-        context.renderIf(muzzle, vertexConsumer, !context.hasMuzzle());
+        exp_part.visible = !context.notHasMag();
+        context.renderIf(stock, vertexConsumer, context.notHasStock());
+        context.renderIf(front_IS, vertexConsumer, context.notHasScope());
+        context.renderIf(IS, vertexConsumer, context.notHasScope());
+        context.renderIf(muzzle, vertexConsumer, context.notHasMuzzle());
         context.render(vertexConsumer, safety, safety2, handle, slide, mag, body, barrel);
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);

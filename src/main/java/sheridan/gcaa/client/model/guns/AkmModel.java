@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -52,11 +51,11 @@ public class AkmModel extends GunModel {
     public void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         bullet.visible = context.shouldBulletRender();
-        context.renderIf(muzzle, vertexConsumer, !context.hasMuzzle());
-        context.renderIf(mag, vertexConsumer, !context.hasMag());
-        context.renderIf(handguard, vertexConsumer, !context.hasHandguard());
-        context.renderIf(grip, vertexConsumer, !context.hasGrip());
-        context.renderIf(stock, vertexConsumer, !context.hasStock());
+        context.renderIf(muzzle, vertexConsumer, context.notHasMuzzle());
+        context.renderIf(mag, vertexConsumer, context.notHasMag());
+        context.renderIf(handguard, vertexConsumer, context.notHasHandguard());
+        context.renderIf(grip, vertexConsumer, context.notHasGrip());
+        context.renderIf(stock, vertexConsumer, context.notHasStock());
         context.renderIf(dust_cover, vertexConsumer, !context.has("dust_cover"));
         context.render(vertexConsumer, barrel, rail_set, slide, IS, safety, body);
         context.renderArmLong(left_arm, false);
@@ -65,7 +64,7 @@ public class AkmModel extends GunModel {
 
     @Override
     public void renderAttachmentsModel(GunRenderContext context) {
-        context.renderMagAttachmentIf(mag, context.hasMag());
+        context.renderMagAttachmentIf(mag, !context.notHasMag());
         context.renderAllAttachmentsLeft(gun);
     }
 

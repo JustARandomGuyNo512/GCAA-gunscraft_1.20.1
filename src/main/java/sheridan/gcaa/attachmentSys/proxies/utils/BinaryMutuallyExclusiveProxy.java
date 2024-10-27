@@ -9,8 +9,10 @@ import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 
 public class BinaryMutuallyExclusiveProxy extends AttachmentSlotProxy {
+    private static final Exclusive DEFAULT_EXCLUSIVE = (prevSlot, other, prevAttachment, otherAttachment) -> true;
     private final AttachmentSlot A;
     private final AttachmentSlot B;
+    private Exclusive exclusive = DEFAULT_EXCLUSIVE;
 
     public BinaryMutuallyExclusiveProxy(AttachmentSlot root, String AName, String BName) {
         super(root);
@@ -18,17 +20,30 @@ public class BinaryMutuallyExclusiveProxy extends AttachmentSlotProxy {
         B = root.searchChild(BName);
     }
 
+    public BinaryMutuallyExclusiveProxy setExclusive(Exclusive exclusive) {
+        this.exclusive = exclusive;
+        return this;
+    }
+
     @Override
     public IAttachment.AttachResult onCanAttach(IAttachment attachment, ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
         if (prevSlot == A) {
             return B.isEmpty() ? attachment.canAttach(stack, gun, root, prevSlot) :
-                    new IAttachment.AttachResult(false, getMessage(B.getAttachmentId()));
+                    (exclusive.isExclusive(prevSlot, B, attachment, AttachmentsRegister.get(B.getAttachmentId())) ?
+                            new IAttachment.AttachResult(false, getMessage(B.getAttachmentId())) :
+                            attachment.canAttach(stack, gun, root, prevSlot));
         }
         if (prevSlot == B) {
             return A.isEmpty() ? attachment.canAttach(stack, gun, root, prevSlot) :
-                    new IAttachment.AttachResult(false, getMessage(A.getAttachmentId()));
+                    (exclusive.isExclusive(prevSlot, A, attachment, AttachmentsRegister.get(A.getAttachmentId())) ?
+                            new IAttachment.AttachResult(false, getMessage(A.getAttachmentId())):
+                            attachment.canAttach(stack, gun, root, prevSlot));
         }
         return attachment.canAttach(stack, gun, root, prevSlot);
+    }
+
+    public interface Exclusive {
+        boolean isExclusive(AttachmentSlot prevSlot, AttachmentSlot other, IAttachment prevAttachment, IAttachment otherAttachment);
     }
 
     @Override

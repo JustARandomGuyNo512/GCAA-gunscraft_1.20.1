@@ -52,7 +52,7 @@
   "tooltip.btn.install_attachment": "install attachment",
   "tooltip.btn.replace_gun_part": "replace this part",
   "tooltip.btn.uninstall_attachment": "uninstall attachment",
-  "tooltip.action_res.prevented_by_child": "Cannot be removed, there are sub-attachments dependent on this",
+  "tooltip.action_res.prevented_by_child": "Cannot operate, there are sub-attachments dependent on this",
   "tooltip.action_res.conflict": "Conflict with attachment '$id'",
 
   "tooltip.item.useless": "It's no use. Why don't you throw it away",
