@@ -39,6 +39,10 @@ public class StatisticModel {
             new ResourceLocation(GCAA.MODID, "model_assets/attachments/sights/sights1.png"),
             new ResourceLocation(GCAA.MODID, "model_assets/attachments/sights/sights1.geo.json"));
 
+    public static StatisticModel RAIL_PANELS = new StatisticModel(
+            new ResourceLocation(GCAA.MODID, "model_assets/attachments/grips/rail_panels.png"),
+            new ResourceLocation(GCAA.MODID, "model_assets/attachments/grips/rail_panels.geo.json"));
+
     public static final ResourceLocation HOLOGRAPHIC_CROSSHAIR = new ResourceLocation(GCAA.MODID, "model_assets/attachments/sights/holographic.png");
     public static final ResourceLocation RED_DOT_CROSSHAIR = new ResourceLocation(GCAA.MODID, "model_assets/attachments/sights/red_dot.png");
 

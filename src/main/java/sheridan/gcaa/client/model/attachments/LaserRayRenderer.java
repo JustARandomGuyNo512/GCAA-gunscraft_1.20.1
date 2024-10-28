@@ -56,7 +56,7 @@ public class LaserRayRenderer<T extends Entity> extends EntityModel<T> {
             part.xScale = 0.35f;
             part.yScale = 0.35f;
             part.zRot = 0.7854F;
-            context.pushPose().translateTo(INSTANCE.root).render(part, 157288880, 655360, 0.7f, vertexConsumer);
+            context.pushPose().translateTo(INSTANCE.root).render(part, 157288880, 655360, 0.9f, vertexConsumer);
             context.popPose();
             part.resetPose();
         }

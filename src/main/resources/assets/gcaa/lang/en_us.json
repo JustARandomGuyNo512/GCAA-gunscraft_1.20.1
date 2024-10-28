@@ -43,6 +43,8 @@
   "item.gcaa.micro_laser_sight": "Micro Laser Sight",
   "item.gcaa.laser_sight": "Laser Sight",
   "item.gcaa.horizontal_laser_sight": "Horizontal Laser Sight",
+  "item.gcaa.rail_panel": "Rail Panel",
+  "item.gcaa.rail_panel_short": "Rail Panel Short",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",

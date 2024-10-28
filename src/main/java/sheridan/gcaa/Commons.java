@@ -7,8 +7,12 @@ import sheridan.gcaa.attachmentSys.proxies.AkmAttachmentSlotProxy;
 import sheridan.gcaa.attachmentSys.proxies.Mk47AttachmentSlotProxy;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.attachments.replaceableParts.Mk47Handguard;
-import sheridan.gcaa.items.attachments.replaceableParts.TestPart;
+import sheridan.gcaa.items.attachments.replaceableParts.RecoilControlPart;
+import sheridan.gcaa.items.attachments.replaceableParts.RecoilLowerPart;
+import sheridan.gcaa.items.attachments.replaceableParts.WeightPart;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static sheridan.gcaa.items.attachments.Attachment.MUZZLE;
@@ -28,8 +32,8 @@ public class Commons {
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ak_extend_mag")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket")))
-                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")))
-                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")).setReplaceableGunPart(new WeightPart(1)))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1, 0.1f, 0.1f)))
                 .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover", "gcaa:ak_tactical_dust_cover"))),
                  AkmAttachmentSlotProxy::new
         );
@@ -38,10 +42,10 @@ public class Commons {
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor", "gcaa:ar_compensator")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ar_extend_mag")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
-                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_railed_handguard")))
-                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_railed_handguard")).setReplaceableGunPart(new RecoilControlPart(0.8f, 0.05f, 0.05f)))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")).setReplaceableGunPart(new WeightPart(1)))
                 .addChild(new AttachmentSlot("gas_block", Set.of("gcaa:ar_gas_block")))
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")).setReplaceableGunPart(new WeightPart(0.5f)))
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.G19.get(), AttachmentSlot.root()
@@ -54,7 +58,7 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.PYTHON_357.get(), AttachmentSlot.EMPTY);
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.AWP.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor")))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor")).setReplaceableGunPart(new RecoilLowerPart(0, 0.15f, 0.15f)))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10", "gcaa:acog")))
                 .addChild(new AttachmentSlot(MAG, "mag", Set.of("gcaa:sniper_extend_mag")))
         );
@@ -70,19 +74,19 @@ public class Commons {
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor", "gcaa:ar_compensator")))
-                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")))
-                .addChild(new AttachmentSlot(MAG, Set.of()))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1.2f, 0.1f, 0.08f)))
+                .addChild(new AttachmentSlot(MAG, Set.of()).setReplaceableGunPart(new WeightPart(3f)))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of()))
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.VECTOR_45.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_suppressor"," gcaa:pistol_suppressor", "gcaa:smg_compensator")))
-                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(0.7f, 0.05f, 0.06f)))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:vector_45_extend_mag")))
-                .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:vertical_grip")))
+                .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:vertical_grip", "gcaa:rail_panel_short")))
                 .addChild(new AttachmentSlot("left", "s_left", Set.of("gcaa:laser_sight")))
-                .addChild(new AttachmentSlot("right", "s_right", Set.of("gcaa:laser_sight")))
+                .addChild(new AttachmentSlot("right", "s_right", Set.of("gcaa:laser_sight", "gcaa:rail_panel_short")))
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.XM1014.get(), AttachmentSlot.root()
@@ -90,6 +94,11 @@ public class Commons {
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:shotgun_suppressor")))
         );
 
+        Set<String> mk47HandguardSlot = new HashSet<>(List.of(
+                "gcaa:laser_sight",
+                "gcaa:horizontal_laser_sight",
+                "gcaa:rail_panel",
+                "gcaa:rail_panel_short"));
         AttachmentsRegister.registerAttachmentSlot(ModItems.MK47.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of()).setReplaceableGunPart(new Mk47Handguard()))
@@ -101,14 +110,22 @@ public class Commons {
                         "gcaa:red_dot",
                         "gcaa:holographic",
                         "gcaa:acog",
-                        "gcaa:horizontal_laser_sight")).upper())
-                .addChild(new AttachmentSlot("handguard_left", Set.of("gcaa:laser_sight", "gcaa:horizontal_laser_sight")).lower())
-                .addChild(new AttachmentSlot("handguard_left_rear", Set.of("gcaa:laser_sight", "gcaa:horizontal_laser_sight")).lower())
-                .addChild(new AttachmentSlot("handguard_right", Set.of("gcaa:laser_sight", "gcaa:horizontal_laser_sight")).lower())
-                .addChild(new AttachmentSlot("handguard_right_rear", Set.of("gcaa:laser_sight", "gcaa:horizontal_laser_sight")).lower())
-                .addChild(new AttachmentSlot("handguard_lower", Set.of("gcaa:laser_sight", "gcaa:horizontal_laser_sight")).lower())
+                        "gcaa:horizontal_laser_sight",
+                        "gcaa:rail_panel",
+                        "gcaa:rail_panel_short")).upper())
+                .addChild(new AttachmentSlot("handguard_left", mk47HandguardSlot).lower())
+                .addChild(new AttachmentSlot("handguard_left_rear", mk47HandguardSlot).lower())
+                .addChild(new AttachmentSlot("handguard_right", mk47HandguardSlot).lower())
+                .addChild(new AttachmentSlot("handguard_right_rear", mk47HandguardSlot).lower())
+                .addChild(new AttachmentSlot("handguard_lower", Set.of(
+                        "gcaa:laser_sight",
+                        "gcaa:horizontal_laser_sight",
+                        "gcaa:rail_panel_short")).lower())
                 .addChild(new AttachmentSlot("handguard_grip", Set.of(
-                        "gcaa:vertical_grip",
+                        "gcaa:laser_sight",
+                        "gcaa:horizontal_laser_sight",
+                        "gcaa:rail_panel",
+                        "gcaa:rail_panel_short",
                         "gcaa:gp_25")).lower()),
                 Mk47AttachmentSlotProxy::new
         );

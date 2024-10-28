@@ -72,4 +72,6 @@ public class ModItems {
     public static final RegistryObject<MicroLaserSight> MICRO_LASER_SIGHT = ITEMS.register("micro_laser_sight", MicroLaserSight::new);
     public static final RegistryObject<HorizontalLaserSight> HORIZONTAL_LASER_SIGHT = ITEMS.register("horizontal_laser_sight", HorizontalLaserSight::new);
     public static final RegistryObject<NormalLaserSight> LASER_SIGHT = ITEMS.register("laser_sight", NormalLaserSight::new);
+    public static final RegistryObject<RailPanel> RAIL_PANEL = ITEMS.register("rail_panel", RailPanel::new);
+    public static final RegistryObject<RailPanelShort> RAL_PANEL_SHORT = ITEMS.register("rail_panel_short", RailPanelShort::new);
 }

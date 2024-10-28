@@ -43,6 +43,8 @@
   "item.gcaa.micro_laser_sight": "微型激光指示器",
   "item.gcaa.laser_sight": "激光指示器",
   "item.gcaa.horizontal_laser_sight": "水平激光指示器",
+  "item.gcaa.rail_panel": "导轨护木片",
+  "item.gcaa.rail_panel_short": "导轨护木片（短）",
 
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",

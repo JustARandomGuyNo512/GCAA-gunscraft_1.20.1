@@ -51,6 +51,8 @@ public class ModTabs {
                     tab.accept(ModItems.MICRO_LASER_SIGHT.get());
                     tab.accept(ModItems.LASER_SIGHT.get());
                     tab.accept(ModItems.HORIZONTAL_LASER_SIGHT.get());
+                    tab.accept(ModItems.RAIL_PANEL.get());
+                    tab.accept(ModItems.RAL_PANEL_SHORT.get());
                 }).build());
 
         GUNS_TAB = MOD_TABS.register("guns", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.guns"))

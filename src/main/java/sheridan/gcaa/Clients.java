@@ -37,10 +37,7 @@ import sheridan.gcaa.client.model.attachments.akStuff.AKTacticalDustCoverModel;
 import sheridan.gcaa.client.model.attachments.arStuff.ARGasBlockModel;
 import sheridan.gcaa.client.model.attachments.arStuff.ARStockTubeModel;
 import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
-import sheridan.gcaa.client.model.attachments.grip.HorizontalLaserModel;
-import sheridan.gcaa.client.model.attachments.grip.LaserSightModel;
-import sheridan.gcaa.client.model.attachments.grip.MicroLaserSightModel;
-import sheridan.gcaa.client.model.attachments.grip.VerticalGripModel;
+import sheridan.gcaa.client.model.attachments.grip.*;
 import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel;
 import sheridan.gcaa.client.model.attachments.handguard.ARRailedHandguardModel;
 import sheridan.gcaa.client.model.attachments.mags.AKExtendMagModel;
@@ -282,7 +279,7 @@ public class Clients {
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
                 .setAds(0,8.4f,-18, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
-                .setInertialRecoilData(new InertialRecoilData(0.00f, 0.0f, 0.3f, 0.05f, 0.3f,  0.03f, 0.65f, 0.3f, new Vector3f(0.3f, 0.1f, 0.16f)))
+                .setInertialRecoilData(new InertialRecoilData(0.00f, 0.0f, 0.45f, 0.05f, 0.21f,  0.01f, 0.3f, 0.3f, new Vector3f(0.2f, 0.05f, 0.12f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4f, -101.5f).setScale(3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
                 .setBulletShellDisplayData(new BulletShellDisplayData(3f, 4f, -17.5f, new Vector3f(2.8f, 0.8f, -0.25f), BulletShellModel.SHOTGUN))
@@ -339,6 +336,8 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.MICRO_LASER_SIGHT.get(), new MicroLaserSightModel());
         ArsenalLib.registerAttachmentModel(ModItems.LASER_SIGHT.get(), new LaserSightModel());
         ArsenalLib.registerAttachmentModel(ModItems.HORIZONTAL_LASER_SIGHT.get(), new HorizontalLaserModel());
+        ArsenalLib.registerAttachmentModel(ModItems.RAIL_PANEL.get(), new RailPanelModel());
+        ArsenalLib.registerAttachmentModel(ModItems.RAL_PANEL_SHORT.get(), new RailPanelShortModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

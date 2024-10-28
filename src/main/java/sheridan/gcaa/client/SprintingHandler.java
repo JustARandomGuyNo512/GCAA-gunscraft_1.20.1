@@ -35,8 +35,8 @@ public class SprintingHandler {
                 inSprinting = shouldEnterSprinting(player);
                 float weight = gun.getWeight(stack) / GunProperties.MAX_WEIGHT;
                 float weightFactor = 1f - weight;
-                exitSpeed = 0.06f + weightFactor * 0.3f * getAgility(gun, stack) * (gun.isPistol() ? 1.85f : 1f);
-                float enterSpeed = Math.min(0.2f, exitSpeed);
+                exitSpeed = 0.07f + weightFactor * 0.35f * getAgility(gun, stack) * (gun.isPistol() ? 1.85f : 1f);
+                float enterSpeed = Math.min(0.18f, exitSpeed);
                 if (inSprinting) {
                     lastSprintingProgress = sprintingProgress;
                     sprintingProgress = Math.min(1, sprintingProgress + enterSpeed);
