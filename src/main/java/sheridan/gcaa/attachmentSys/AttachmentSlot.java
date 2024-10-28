@@ -253,12 +253,18 @@ public class AttachmentSlot {
         return this;
     }
 
+    public AttachmentSlot unlock() {
+        this.locked = false;
+        return this;
+    }
+
     public boolean isRoot() {
         return root;
     }
 
     public AttachmentSlot copy() {
-        return new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY, this.id, this.direction).setReplaceableGunPart(this.replaceableGunPart);
+        return new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY, this.id, this.direction)
+                .setReplaceableGunPart(this.replaceableGunPart).setLocked(this.isLocked());
     }
 
     public static AttachmentSlot copyAll(AttachmentSlot original) {

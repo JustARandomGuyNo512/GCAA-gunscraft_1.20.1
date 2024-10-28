@@ -247,7 +247,7 @@ public class Clients {
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
                 .setAds(0,13.65f,-27.5f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
-                .setInertialRecoilData(new InertialRecoilData(0.01f, 0.005f, 0.42f, 0.068f, 0.6f,  0.05f, 0.35f, 0.35f, new Vector3f(0.6f, 0.45f, 0.3f)))
+                .setInertialRecoilData(new InertialRecoilData(0.01f, 0.005f, 0.42f, 0.068f, 0.6f,  0.05f, 0.3f, 0.35f, new Vector3f(0.6f, 0.45f, 0.25f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 5.7f, -113.1f).setScale(2.1f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AR_COMPENSATOR, new MuzzleFlashDisplayData().setScale(3.3f).setLength(25))
@@ -338,6 +338,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.HORIZONTAL_LASER_SIGHT.get(), new HorizontalLaserModel());
         ArsenalLib.registerAttachmentModel(ModItems.RAIL_PANEL.get(), new RailPanelModel());
         ArsenalLib.registerAttachmentModel(ModItems.RAL_PANEL_SHORT.get(), new RailPanelShortModel());
+        ArsenalLib.registerAttachmentModel(ModItems.M249_RAILED_HANDGUARD.get(), IAttachmentModel.EMPTY);
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {
