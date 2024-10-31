@@ -15,6 +15,7 @@ public class KeyBinds {
     public static final KeyMapping OPEN_CLIENT_SETTINGS_SCREEN = new KeyMapping("key.gcaa.open_client_settings_screen", 73, "keys.categories.gcaa");
     public static final KeyMapping SWITCH_EFFECTIVE_SIGHT = new KeyMapping("key.gcaa.switch_effective_sight", 89, "keys.categories.gcaa");
     public static final KeyMapping USE_GRENADE_LAUNCHER = new KeyMapping("key.gcaa.use_grenade_launcher", 342, "keys.categories.gcaa");
+    public static final KeyMapping TURN_FLASHLIGHT = new KeyMapping("key.gcaa.turn_flashlight", 75, "keys.categories.gcaa");
 
 
     public static final KeyMapping DEBUG_KEY = new KeyMapping("", 74, "");
@@ -29,6 +30,7 @@ public class KeyBinds {
         event.register(OPEN_CLIENT_SETTINGS_SCREEN);
         event.register(SWITCH_EFFECTIVE_SIGHT);
         event.register(USE_GRENADE_LAUNCHER);
-        event.register(DEBUG_KEY);
+        event.register(TURN_FLASHLIGHT);
+        //event.register(DEBUG_KEY);
     }
 }

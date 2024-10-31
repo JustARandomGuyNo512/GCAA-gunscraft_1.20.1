@@ -30,7 +30,7 @@ public class Suppressor extends Attachment{
         properties.setPropertyRateIfHas(GunProperties.FIRE_SOUND_VOL, data, (prevRate) -> prevRate - volumeLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH, data, (prevRate) -> prevRate - pitchRecoilLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW, data, (prevRate) -> prevRate - yawRecoilLowerRate);
-        properties.addWeight(data, weight);
+        super.onAttach(stack, gun, data);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class Suppressor extends Attachment{
         properties.setPropertyRateIfHas(GunProperties.FIRE_SOUND_VOL, data, (prevRate) -> prevRate + volumeLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH, data, (prevRate) -> prevRate + pitchRecoilLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW, data, (prevRate) -> prevRate + yawRecoilLowerRate);
-        properties.addWeight(data, - weight);
+        super.onDetach(stack, gun, data);
     }
 
 }

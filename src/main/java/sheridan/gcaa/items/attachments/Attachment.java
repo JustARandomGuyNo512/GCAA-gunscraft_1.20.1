@@ -1,5 +1,6 @@
 package sheridan.gcaa.items.attachments;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
@@ -12,6 +13,7 @@ import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.items.AutoRegister;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
+import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.util.List;
@@ -45,6 +47,18 @@ public abstract class Attachment extends NoRepairNoEnchantmentItem implements IA
     @Override
     public AttachResult canDetach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
         return PASSED;
+    }
+
+    @Override
+    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
+        GunProperties properties = gun.getGunProperties();
+        properties.addWeight(data, weight);
+    }
+
+    @Override
+    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
+        GunProperties properties = gun.getGunProperties();
+        properties.addWeight(data, -weight);
     }
 
     @Override

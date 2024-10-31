@@ -94,7 +94,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
             setHasGrenade(stack, gun, false);
         }
         setLastFire(data, 0L);
-        gun.getGunProperties().addWeight(data, weight);
+        super.onAttach(stack, gun, data);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
         }
         CompoundTag tag = gun.getGun().checkAndGet(stack);
         tag.remove(KEY_AMMO);
-        gun.getGunProperties().addWeight(data, - weight);
+        super.onDetach(stack, gun, data);
     }
 
     @Override

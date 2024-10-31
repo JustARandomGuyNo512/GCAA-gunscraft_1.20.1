@@ -202,7 +202,6 @@ public class GunRenderContext {
         }
     }
 
-
     public void renderArm(PoseStack poseStack, boolean mainHand) {
         if (isFirstPerson) {
             PlayerArmRenderer.INSTANCE.render(packedLight, packedOverlay, mainHand, bufferSource, poseStack);

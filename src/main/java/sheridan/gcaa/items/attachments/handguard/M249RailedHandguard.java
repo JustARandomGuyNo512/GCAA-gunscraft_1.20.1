@@ -28,18 +28,6 @@ public class M249RailedHandguard extends Attachment implements ISubSlotActivator
     }
 
     @Override
-    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
-        GunProperties properties = gun.getGunProperties();
-        properties.addWeight(data, weight);
-    }
-
-    @Override
-    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
-        GunProperties properties = gun.getGunProperties();
-        properties.addWeight(data, - weight);
-    }
-
-    @Override
     public void unlockOrLockSlots(AttachmentSlot slot, AttachmentSlot root) {
         List<AttachmentSlot> linkedSlots = getLinkedSlots(root);
         for (AttachmentSlot linkedSlot : linkedSlots) {

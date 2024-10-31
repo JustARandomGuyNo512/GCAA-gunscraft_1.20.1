@@ -23,11 +23,13 @@ import sheridan.gcaa.client.screens.ClientSettingsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.attachments.IInteractive;
 import sheridan.gcaa.items.attachments.Scope;
+import sheridan.gcaa.items.attachments.grips.Flashlight;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.OpenAttachmentScreenPacket;
 import sheridan.gcaa.network.packets.c2s.SwitchFireModePacket;
+import sheridan.gcaa.network.packets.c2s.TurnFlashlightPacket;
 
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
@@ -152,6 +154,16 @@ public class ControllerEvents {
                         PacketHandler.simpleChannel.sendToServer(new SwitchFireModePacket());
                     }
                 }
+            } else if (KeyBinds.TURN_FLASHLIGHT.isDown() && event.getAction() == 1) {
+                ItemStack stack = player.getMainHandItem();
+                if (!ReloadingHandler.isReloading() && !HandActionHandler.INSTANCE.hasTask() && stack.getItem() instanceof IGun gun) {
+                    if (Flashlight.getFlashlightNum(stack, gun) <= 0) {
+                        return;
+                    }
+                    boolean on = Flashlight.getFlashlightTurnOn(stack, gun);
+                    PacketHandler.simpleChannel.sendToServer(new TurnFlashlightPacket(!on));
+                    Flashlight.setFlashlightTurnOn(stack, gun, on);
+                }
             } else if (KeyBinds.RELOAD.isDown() && event.getAction() == 1) {
                 handleReload(stackMain, player);
             } else if (KeyBinds.OPEN_ATTACHMENTS_SCREEN.isDown() && event.getAction() == 1) {
@@ -174,7 +186,6 @@ public class ControllerEvents {
                     event.getKey() == KeyBinds.SHOW_FULL_GUN_INFO.getKey().getValue() && event.getAction() == 2;
             Clients.debugKeyDown =
                     event.getKey() == KeyBinds.DEBUG_KEY.getKey().getValue() && event.getAction() == 2;
-
         }
     }
 

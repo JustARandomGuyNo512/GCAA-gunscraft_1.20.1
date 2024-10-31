@@ -17,7 +17,7 @@ plugins {
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'sheridan'
-version = '0.1.7'
+version = '0.1.8'
 
 java {
     archivesBaseName = 'gcaa'
@@ -167,7 +167,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    // implementation fg.deobf("curse.maven:oculus-581495:5108615")
+    //implementation fg.deobf("curse.maven:oculus-581495:5108615")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

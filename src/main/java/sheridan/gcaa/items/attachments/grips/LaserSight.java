@@ -20,7 +20,7 @@ public class LaserSight extends Attachment {
         GunProperties properties = gun.getGunProperties();
         properties.setPropertyRateIfHas(GunProperties.WALKING_SPREAD_FACTOR, data, (prevRate) -> prevRate - walkingSpreadFactorLowerRate);
         properties.setPropertyRateIfHas(GunProperties.WALKING_SPREAD_FACTOR, data, (prevRate) -> prevRate - sprintingSpreadFactorLowerRate);
-        properties.addWeight(data, weight);
+        super.onAttach(stack, gun, data);
     }
 
     @Override
@@ -28,6 +28,6 @@ public class LaserSight extends Attachment {
         GunProperties properties = gun.getGunProperties();
         properties.setPropertyRateIfHas(GunProperties.WALKING_SPREAD_FACTOR, data, (prevRate) -> prevRate + walkingSpreadFactorLowerRate);
         properties.setPropertyRateIfHas(GunProperties.WALKING_SPREAD_FACTOR, data, (prevRate) -> prevRate - sprintingSpreadFactorLowerRate);
-        properties.addWeight(data, - weight);
+        super.onDetach(stack, gun, data);
     }
 }

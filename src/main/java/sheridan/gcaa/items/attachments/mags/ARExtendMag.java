@@ -4,6 +4,6 @@ import sheridan.gcaa.items.attachments.Mag;
 
 public class ARExtendMag extends Mag {
     public ARExtendMag() {
-        super(40, 1.3f);
+        super(40, 0.8f);
     }
 }

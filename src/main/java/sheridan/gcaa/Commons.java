@@ -51,7 +51,7 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.G19.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:pistol_suppressor", "gcaa:osprey_suppressor")))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:micro_red_dot")))
-                .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:micro_laser_sight")))
+                .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:micro_laser_sight", "gcaa:micro_flashlight")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:glock_extend_mag")))
         );
 
@@ -74,7 +74,8 @@ public class Commons {
                 "gcaa:laser_sight",
                 "gcaa:horizontal_laser_sight",
                 "gcaa:rail_panel",
-                "gcaa:rail_panel_short"));
+                "gcaa:rail_panel_short",
+                "gcaa:flashlight"));
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.M249.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
@@ -85,6 +86,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:m249_railed_handguard")).setReplaceableGunPart(new WeightPart(0.5f)))
                 .addChild(new AttachmentSlot("handguard_grip", Set.of(
                         "gcaa:laser_sight",
+                        "gcaa:flashlight",
                         "gcaa:horizontal_laser_sight",
                         "gcaa:rail_panel",
                         "gcaa:rail_panel_short",
@@ -99,9 +101,9 @@ public class Commons {
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_suppressor"," gcaa:pistol_suppressor", "gcaa:smg_compensator")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(0.7f, 0.05f, 0.06f)))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:vector_45_extend_mag")))
-                .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:vertical_grip", "gcaa:rail_panel_short")))
-                .addChild(new AttachmentSlot("left",  Set.of("gcaa:laser_sight")))
-                .addChild(new AttachmentSlot("right", Set.of("gcaa:laser_sight", "gcaa:rail_panel_short")))
+                .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:vertical_grip", "gcaa:rail_panel_short", "gcaa:laser_sight", "gcaa:flashlight")))
+                .addChild(new AttachmentSlot("left",  Set.of("gcaa:laser_sight", "gcaa:flashlight", "gcaa:micro_flashlight")))
+                .addChild(new AttachmentSlot("right", Set.of("gcaa:laser_sight", "gcaa:rail_panel_short", "gcaa:flashlight")))
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.XM1014.get(), AttachmentSlot.root()
@@ -130,10 +132,12 @@ public class Commons {
                 .addChild(new AttachmentSlot("handguard_lower", Set.of(
                         "gcaa:laser_sight",
                         "gcaa:horizontal_laser_sight",
+                        "gcaa:flashlight",
                         "gcaa:rail_panel_short")).lower())
                 .addChild(new AttachmentSlot("handguard_grip", Set.of(
                         "gcaa:laser_sight",
                         "gcaa:horizontal_laser_sight",
+                        "gcaa:flashlight",
                         "gcaa:rail_panel",
                         "gcaa:rail_panel_short",
                         "gcaa:vertical_grip",

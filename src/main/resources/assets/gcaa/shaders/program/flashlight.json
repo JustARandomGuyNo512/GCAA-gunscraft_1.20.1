@@ -1,0 +1,25 @@
+{
+  "blend": {
+    "func": "add",
+    "srcrgb": "one",
+    "dstrgb": "zero"
+  },
+  "vertex": "blit",
+  "fragment": "gcaa:flashlight",
+  "attributes": [ "Position" ],
+  "samplers": [
+    { "name": "DiffuseDepthSampler" },
+    { "name": "DiffuseSampler" }
+  ],
+  "uniforms": [
+    { "name": "ProjMat",     "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "OutSize",     "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
+    { "name": "InversePerspectiveProjMat",     "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "InverseModelViewMat",     "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "To",    "type": "float", "count": 3, "values": [ 0.0, 0.0, 0.0 ] },
+    { "name": "Angle",    "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "Range",    "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "Luminance",    "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "MinZ",    "type": "float", "count": 1, "values": [ 0.0 ] }
+  ]
+}

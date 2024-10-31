@@ -2,6 +2,7 @@ package sheridan.gcaa.client.render.postEffect;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
@@ -61,7 +62,6 @@ public class PostPass implements AutoCloseable {
             this.effect.setSampler(this.auxNames.get(i), this.auxAssets.get(i));
             this.effect.safeGetUniform("AuxSize" + i).set((float) this.auxWidths.get(i), (float) this.auxHeights.get(i));
         }
-
         this.effect.safeGetUniform("ProjMat").set(this.shaderOrthoMatrix);
         this.effect.safeGetUniform("InSize").set((float)this.inTarget.width, (float)this.inTarget.height);
         this.effect.safeGetUniform("OutSize").set(f, f1);

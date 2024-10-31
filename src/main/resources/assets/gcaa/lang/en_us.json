@@ -43,6 +43,8 @@
   "item.gcaa.ctr_stock": "CTR Stock",
   "item.gcaa.micro_laser_sight": "Micro Laser Sight",
   "item.gcaa.laser_sight": "Laser Sight",
+  "item.gcaa.micro_flashlight": "Micro Flashlight",
+  "item.gcaa.flashlight": "Flashlight",
   "item.gcaa.horizontal_laser_sight": "Horizontal Laser Sight",
   "item.gcaa.rail_panel": "Rail Panel",
   "item.gcaa.rail_panel_short": "Rail Panel Short",
@@ -83,6 +85,7 @@
   "tooltip.gun_info.reload_length": "Reload Time: ",
   "tooltip.gcaa.show_full_gun_info": "Press $key to display details",
   "tooltip.gcaa.excellent_worse": "Excellent: Worse:",
+  "tooltip.gcaa.turn_flashlight": "Press $key turn on / off flashlight",
 
   "tooltip.screen_info.switch_sight": "Press $key to switch effective sight",
   "tooltip.screen_info.headshot": "Head Shot!",
@@ -92,6 +95,7 @@
 
   "label.attachments_screen.suitable": "Suitable attachments↓",
   "label.attachments_screen.wait_response": "Waiting for response from the server",
+  "label.attachments_screen.health": "Player health: ",
   "label.client_settings.title": "Client side settings",
 
   "keys.categories.gcaa": "GCAA: key bindings",
@@ -103,6 +107,7 @@
   "key.gcaa.open_client_settings_screen": "Open client settings screen",
   "key.gcaa.switch_effective_sight": "Switching sight",
   "key.gcaa.use_grenade_launcher": "launch / reload grenade",
+  "key.gcaa.turn_flashlight": "Turn ON / OFF flashlight",
 
   "itemGroup.guns": "Guns",
   "itemGroup.attachments": "Attachments",

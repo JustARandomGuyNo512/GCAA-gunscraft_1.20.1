@@ -3,6 +3,7 @@ package sheridan.gcaa.client.events;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.PostPass;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,13 +24,13 @@ public class Test {
     static boolean firstTick = true;
     @SubscribeEvent
     public static void init(TickEvent.ClientTickEvent event) throws IOException {
-        if (!firstTick) {
-            return;
-        }
-        if (event.phase == TickEvent.Phase.END) {
-            testShader = new ShaderInstance(Minecraft.getInstance().getResourceManager(), new ResourceLocation(GCAA.MODID, "rendertype_test"), DefaultVertexFormat.NEW_ENTITY);
-            firstTick = false;
-        }
+//        if (!firstTick) {
+//            return;
+//        }
+//        if (event.phase == TickEvent.Phase.END) {
+//            testShader = new ShaderInstance(Minecraft.getInstance().getResourceManager(), new ResourceLocation(GCAA.MODID, "rendertype_test"), DefaultVertexFormat.NEW_ENTITY);
+//            firstTick = false;
+//        }
     }
 
     public static ShaderInstance getTestShader() {

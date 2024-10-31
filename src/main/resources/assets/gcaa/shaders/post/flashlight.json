@@ -1,0 +1,24 @@
+{
+  "targets": [
+    "minecraft:main",
+    "swap"
+  ],
+  "passes": [
+    {
+        "name": "gcaa:flashlight",
+        "intarget": "minecraft:main",
+        "outtarget": "swap",
+        "auxtargets": [
+            {
+                "name": "DiffuseDepthSampler",
+                "id": "minecraft:main:depth"
+            }
+        ]
+    },
+    {
+      "name": "blit",
+      "intarget": "swap",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

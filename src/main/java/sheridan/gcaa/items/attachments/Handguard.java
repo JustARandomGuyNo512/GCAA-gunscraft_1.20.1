@@ -25,7 +25,7 @@ public class Handguard extends SubSlotProvider{
         GunProperties properties = gun.getGunProperties();
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate + recoilPitchControlIncRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate + yawPitchControlIncRate);
-        properties.addWeight(data, weight);
+        super.onAttach(stack, gun, data);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class Handguard extends SubSlotProvider{
         GunProperties properties = gun.getGunProperties();
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate - recoilPitchControlIncRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate - yawPitchControlIncRate);
-        properties.addWeight(data, - weight);
+        super.onDetach(stack, gun, data);
     }
 
     @Override

@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
@@ -331,14 +332,20 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
         float alphaTick = (System.currentTimeMillis() % 1000) * 0.001f;
         renderSuitableSlotMark(pGuiGraphics, alphaTick);
         renderSelectedSlotMark(pGuiGraphics);
+        int width = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+        int height = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+        Player player = Minecraft.getInstance().player;
+        if (player != null && !player.isCreative() && !player.isSpectator()) {
+           String str = Component.translatable("label.attachments_screen.health").getString()
+                   + "" + Math.floor(player.getHealth())+ "/" + Math.floor(player.getMaxHealth());
+            pGuiGraphics.drawString(font, str, (int) (width * 0.75), (int) (height * 0.1), -1);
+        }
         if (needUpdate) {
             this.renderBackground(pGuiGraphics);
             RenderSystem.enableDepthTest();
             String text = Component.translatable("label.attachments_screen.wait_response").getString();
             Font font = Minecraft.getInstance().font;
-            pGuiGraphics.drawString(font, text,
-                    (Minecraft.getInstance().getWindow().getGuiScaledWidth() - font.width(text)) / 2,
-                    Minecraft.getInstance().getWindow().getGuiScaledHeight() / 2, -1);
+            pGuiGraphics.drawString(font, text, (width - font.width(text)) / 2, height / 2, -1);
         }
     }
 

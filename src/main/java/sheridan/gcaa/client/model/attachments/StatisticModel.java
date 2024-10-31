@@ -11,6 +11,10 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class StatisticModel {
+    public static StatisticModel FLASHLIGHTS = new StatisticModel(
+            new ResourceLocation(GCAA.MODID, "model_assets/attachments/grips/flashlights.png"),
+            new ResourceLocation(GCAA.MODID, "model_assets/attachments/grips/flashlights.geo.json"));
+
     public static StatisticModel LASER_SIGHTS = new StatisticModel(
             new ResourceLocation(GCAA.MODID, "model_assets/attachments/grips/laser_sights.png"),
             new ResourceLocation(GCAA.MODID, "model_assets/attachments/grips/laser_sights.geo.json"));

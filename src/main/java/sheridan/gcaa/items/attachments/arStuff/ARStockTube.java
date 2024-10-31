@@ -17,16 +17,6 @@ public class ARStockTube extends SubSlotProvider {
     }
 
     @Override
-    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
-        gun.getGunProperties().addWeight(data, weight);
-    }
-
-    @Override
-    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
-        gun.getGunProperties().addWeight(data,  - weight);
-    }
-
-    @Override
     public void appendSlots(AttachmentSlot parent, AttachmentSlot root) {
         parent.addChild(this.root.getChild("stock_tube").copy());
     }

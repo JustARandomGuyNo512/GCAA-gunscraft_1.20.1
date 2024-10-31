@@ -36,6 +36,7 @@ public class PacketHandler
         registerPacket(FireGrenadeLauncherPacket.class, new FireGrenadeLauncherPacket());
         registerPacket(GrenadeLauncherReloadPacket.class, new GrenadeLauncherReloadPacket());
         registerPacket(HeadShotFeedBackPacket.class, new HeadShotFeedBackPacket());
+        registerPacket(TurnFlashlightPacket.class, new TurnFlashlightPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

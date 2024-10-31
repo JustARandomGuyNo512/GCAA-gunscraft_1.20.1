@@ -51,6 +51,8 @@ public class ModTabs {
                     tab.accept(ModItems.CTR_STOCK.get());
                     tab.accept(ModItems.MICRO_LASER_SIGHT.get());
                     tab.accept(ModItems.LASER_SIGHT.get());
+                    tab.accept(ModItems.MICRO_FLASHLIGHT.get());
+                    tab.accept(ModItems.FLASHLIGHT.get());
                     tab.accept(ModItems.HORIZONTAL_LASER_SIGHT.get());
                     tab.accept(ModItems.RAIL_PANEL.get());
                     tab.accept(ModItems.RAL_PANEL_SHORT.get());

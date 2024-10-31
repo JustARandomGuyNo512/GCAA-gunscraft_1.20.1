@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.joml.Vector3f;
@@ -142,6 +143,8 @@ public class Clients {
     public static float gunModelFovModify = Float.NaN;
     @OnlyIn(Dist.CLIENT)
     public static boolean isInSprintingTransAdjust = false;
+    @OnlyIn(Dist.CLIENT)
+    public static RenderLevelStageEvent.Stage currentStage;
 
 
     @OnlyIn(Dist.CLIENT)
@@ -194,7 +197,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.M4A1.get(), new M4a1Model(), new DisplayData()
-                .setFirstPersonMain(-7.5f,15.8f,-27.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
+                .setFirstPersonMain(-7.6f,15.8f,-27.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -287,7 +290,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.MK47.get(), new Mk47Model(), new DisplayData()
-                .setFirstPersonMain(-7f,14.8f,-28.2f, POS)
+                .setFirstPersonMain(-7.6f,15f,-28.2f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.6f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -339,6 +342,8 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.RAIL_PANEL.get(), new RailPanelModel());
         ArsenalLib.registerAttachmentModel(ModItems.RAL_PANEL_SHORT.get(), new RailPanelShortModel());
         ArsenalLib.registerAttachmentModel(ModItems.M249_RAILED_HANDGUARD.get(), IAttachmentModel.EMPTY);
+        ArsenalLib.registerAttachmentModel(ModItems.MICRO_FLASHLIGHT.get(), new MicroFlashlightModel());
+        ArsenalLib.registerAttachmentModel(ModItems.FLASHLIGHT.get(), new FlashlightModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

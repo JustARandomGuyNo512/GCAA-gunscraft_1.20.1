@@ -76,4 +76,6 @@ public class ModItems {
     public static final RegistryObject<NormalLaserSight> LASER_SIGHT = ITEMS.register("laser_sight", NormalLaserSight::new);
     public static final RegistryObject<RailPanel> RAIL_PANEL = ITEMS.register("rail_panel", RailPanel::new);
     public static final RegistryObject<RailPanelShort> RAL_PANEL_SHORT = ITEMS.register("rail_panel_short", RailPanelShort::new);
+    public static final RegistryObject<MicroFlashLight> MICRO_FLASHLIGHT = ITEMS.register("micro_flashlight", MicroFlashLight::new);
+    public static final RegistryObject<NormalFlashlight> FLASHLIGHT = ITEMS.register("flashlight", NormalFlashlight::new);
 }

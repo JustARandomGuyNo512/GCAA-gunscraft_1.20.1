@@ -10,6 +10,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -22,7 +23,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.joml.Vector2f;
+import org.joml.*;
 import org.lwjgl.opengl.GL11;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
@@ -32,13 +33,16 @@ import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.model.attachments.ScopeModel;
 import sheridan.gcaa.client.model.guns.IGunModel;
+import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.GlobalWeaponBobbing;
+import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.client.render.GunRenderer;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.client.render.gui.crosshair.CrossHairRenderer;
 import sheridan.gcaa.client.render.postEffect.PostChain;
+import sheridan.gcaa.client.render.postEffect.PostPass;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.client.screens.AttachmentsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
@@ -49,8 +53,10 @@ import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
+import java.lang.Math;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.lwjgl.opengl.GL30C.*;
@@ -71,18 +77,120 @@ public class RenderEvents {
         TEMP_TIMERS.put(HEADSHOT, 0L);
     }
 
-    public static PostChain flashlight;
+    static PostChain flashlight;
     static boolean failedLoadingFlashLightShader = false;
-    static boolean flashLightTurnOn = false;
+    static int lastWidth;
+    static int lastHeight;
+
+    static Vector3f ZERO = new Vector3f(0,0,0.1f);
+    static Vector3f To = ZERO;
+    static boolean doFlashlightEffect = false;
+    static float Luminance = 0f;
+    static float range = 20f;
+    static float lightFov = 5f;
+    static float MinZ = 0;
+
+    public static void clearFlashlightEffectData() {
+        doFlashlightEffect = false;
+        Luminance = 0f;
+        range = 20f;
+        lightFov = 5f;
+        MinZ = 0;
+    }
+
+    static boolean canNotCallFlashlight() {
+        return failedLoadingFlashLightShader ||
+                Minecraft.getInstance().screen instanceof AttachmentsScreen ||
+                Minecraft.getInstance().screen instanceof GunDebugAdjustScreen;
+    }
+
+    public static void callFlashlightEffect(GunRenderContext context, ModelPart near, ModelPart far, float luminance) {
+        if (canNotCallFlashlight()) {
+            return;
+        }
+        PoseStack nearPose = RenderAndMathUtils.copyPoseStack(context.poseStack);
+        near.translateAndRotate(nearPose);
+        Vector3f from = nearPose.last().pose().getTranslation(new Vector3f(0,0,0));
+        PoseStack farPose = RenderAndMathUtils.copyPoseStack(context.poseStack);
+        far.translateAndRotate(farPose);
+        Vector3f end = farPose.last().pose().getTranslation(new Vector3f(0,0,0));
+        RenderEvents.To = new Vector3f(end.x - from.x, end.y - from.y, end.z - from.z - from.z * 0.1f);
+        if (Clients.currentStage != RenderLevelStageEvent.Stage.AFTER_LEVEL) {
+            Matrix4f m0 = new Matrix4f(RenderSystem.getModelViewMatrix());
+            Matrix4f m1 = new Matrix4f(RenderSystem.getProjectionMatrix());
+            Vector4f vector4f = new Vector4f(end.x, end.y, end.z, 1.0f);
+            Vector4f ndc = vector4f.mul(m0).mul(m1);
+            float depth = (ndc.z / ndc.w) / 2f + 0.5f;
+            if (depth > MinZ) {
+                MinZ = depth;
+            }
+        } else {
+            MinZ = 0;
+        }
+        Luminance += luminance;
+        range += luminance * 5.25f;
+        lightFov += luminance / 1.5f;
+        doFlashlightEffect = true;
+    }
     @SubscribeEvent
     public static void renderFlashLight(RenderLevelStageEvent event) {
-        if (failedLoadingFlashLightShader || !flashLightTurnOn || flashlight == null) {
+        Clients.currentStage = event.getStage();
+        if (canNotCallFlashlight() || !doFlashlightEffect) {
+            clearFlashlightEffectData();
             return;
         }
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL) {
-            ItemStack stack = Clients.mainHandStatus.weapon.get();
-            if (Minecraft.getInstance().options.getCameraType().isFirstPerson() && stack.getItem() instanceof IGun gun) {
-
+            Player player = Minecraft.getInstance().player;
+            if (player == null) {
+                return;
+            }
+            ItemStack stack = player.getMainHandItem();
+            if (Minecraft.getInstance().options.getCameraType().isFirstPerson() && stack.getItem() instanceof IGun) {
+                if (flashlight == null) {
+                    try {
+                        PostChain postChain = new PostChain(Minecraft.getInstance().textureManager,
+                                Minecraft.getInstance().getResourceManager(),
+                                Minecraft.getInstance().getMainRenderTarget(),
+                                new ResourceLocation(GCAA.MODID, "shaders/post/flashlight.json"));
+                        lastWidth = Minecraft.getInstance().getWindow().getWidth();
+                        lastHeight = Minecraft.getInstance().getWindow().getHeight();
+                        postChain.resize(lastWidth, lastHeight);
+                        flashlight = postChain;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        GCAA.LOGGER.info(e.getMessage());
+                        failedLoadingFlashLightShader = true;
+                        player.sendSystemMessage(Component.literal("Error loading flashlight shader!!!")
+                                .setStyle(Style.EMPTY.withColor(0xFF0000)));
+                    }
+                } else {
+                    if (Luminance == 0) {
+                        clearFlashlightEffectData();
+                        return;
+                    }
+                    int width = Minecraft.getInstance().getWindow().getWidth();
+                    int height = Minecraft.getInstance().getWindow().getHeight();
+                    if (width != lastWidth || height != lastHeight) {
+                        lastHeight = height;
+                        lastWidth = width;
+                        flashlight.resize(width, height);
+                    }
+                    List<PostPass> passes = flashlight.passes;
+                    Matrix4f inversePerspectiveProjMat = new Matrix4f(RenderSystem.getProjectionMatrix().invert());
+                    Matrix4f inverseModelViewMat = new Matrix4f(RenderSystem.getModelViewMatrix().invert());
+                    for (PostPass pass : passes) {
+                        pass.getEffect().safeGetUniform("InversePerspectiveProjMat").set(inversePerspectiveProjMat);
+                        pass.getEffect().safeGetUniform("InverseModelViewMat").set(inverseModelViewMat);
+                        pass.getEffect().safeGetUniform("To").set(To);
+                        pass.getEffect().safeGetUniform("Angle").set((float) Math.toRadians(Mth.clamp(lightFov, 5, 15)));
+                        pass.getEffect().safeGetUniform("Range").set(Mth.clamp(range, 15, 100));
+                        pass.getEffect().safeGetUniform("Luminance").set(Mth.clamp(Luminance, 0.5f, 12));
+                        pass.getEffect().safeGetUniform("MinZ").set(MinZ);
+                    }
+                    flashlight.process(event.getPartialTick());
+                    Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+                    clearFlashlightEffectData();
+                }
             }
         }
     }
@@ -136,7 +244,9 @@ public class RenderEvents {
 
     @SubscribeEvent
     public static void onRenderInventoryTab(RenderGuiOverlayEvent.Pre event) {
-        if (event.getOverlay().id().equals(VanillaGuiOverlay.HOTBAR.id())) {
+        ResourceLocation id = event.getOverlay().id();
+        if (id.equals(VanillaGuiOverlay.HOTBAR.id()) || id.equals(VanillaGuiOverlay.EXPERIENCE_BAR.id()) ||
+                id.equals(VanillaGuiOverlay.PLAYER_HEALTH.id()) || id.equals(VanillaGuiOverlay.FOOD_LEVEL.id())) {
             Minecraft minecraft = Minecraft.getInstance();
             if (minecraft.screen instanceof AttachmentsScreen) {
                 event.setCanceled(true);
