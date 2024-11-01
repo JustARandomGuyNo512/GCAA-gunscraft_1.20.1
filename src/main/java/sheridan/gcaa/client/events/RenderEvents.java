@@ -48,6 +48,7 @@ import sheridan.gcaa.client.screens.AttachmentsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
+import sheridan.gcaa.items.attachments.grips.Flashlight;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
@@ -66,14 +67,17 @@ public class RenderEvents {
     private static final ResourceLocation CHAMBER_EMPTY = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/chamber_empty.png");
     private static final ResourceLocation CHAMBER_FILLED = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/chamber_filled.png");
     private static final ResourceLocation HAS_GRENADE = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/has_grenade.png");
+    private static final ResourceLocation FEED_BACK = new ResourceLocation(GCAA.MODID, "textures/gui/crosshair/feed_back.png");
     private static final Map<String, Long> TEMP_TIMERS = new HashMap<>();
     private static final String MAGNIFICATION = "magnification_tip";
+    private static final String SHOT = "shot";
     private static final String HEADSHOT = "headshot";
     private static float magnificationTip = 0;
     private static int magnificationTipColor = 0;
 
     static {
         TEMP_TIMERS.put(MAGNIFICATION, 0L);
+        TEMP_TIMERS.put(SHOT, 0L);
         TEMP_TIMERS.put(HEADSHOT, 0L);
     }
 
@@ -145,7 +149,7 @@ public class RenderEvents {
                 return;
             }
             ItemStack stack = player.getMainHandItem();
-            if (Minecraft.getInstance().options.getCameraType().isFirstPerson() && stack.getItem() instanceof IGun) {
+            if (Minecraft.getInstance().options.getCameraType().isFirstPerson() && stack.getItem() instanceof IGun gun) {
                 if (flashlight == null) {
                     try {
                         PostChain postChain = new PostChain(Minecraft.getInstance().textureManager,
@@ -164,7 +168,8 @@ public class RenderEvents {
                                 .setStyle(Style.EMPTY.withColor(0xFF0000)));
                     }
                 } else {
-                    if (Luminance == 0) {
+                    int mode = Flashlight.getFlashlightMode(stack, gun);
+                    if (Luminance == 0 || mode == Flashlight.OFF) {
                         clearFlashlightEffectData();
                         return;
                     }
@@ -178,14 +183,23 @@ public class RenderEvents {
                     List<PostPass> passes = flashlight.passes;
                     Matrix4f inversePerspectiveProjMat = new Matrix4f(RenderSystem.getProjectionMatrix().invert());
                     Matrix4f inverseModelViewMat = new Matrix4f(RenderSystem.getModelViewMatrix().invert());
+                    if (mode == Flashlight.SPREAD) {
+                        lightFov *= 1.1f;
+                        range *= 0.9f;
+                    } else if (mode == Flashlight.SEARCHLIGHT) {
+                        lightFov *= 0.9f;
+                        range *= 1.5f;
+                        Luminance *= 1.6f;
+                    }
                     for (PostPass pass : passes) {
                         pass.getEffect().safeGetUniform("InversePerspectiveProjMat").set(inversePerspectiveProjMat);
                         pass.getEffect().safeGetUniform("InverseModelViewMat").set(inverseModelViewMat);
                         pass.getEffect().safeGetUniform("To").set(To);
-                        pass.getEffect().safeGetUniform("Angle").set((float) Math.toRadians(Mth.clamp(lightFov, 5, 15)));
-                        pass.getEffect().safeGetUniform("Range").set(Mth.clamp(range, 15, 100));
-                        pass.getEffect().safeGetUniform("Luminance").set(Mth.clamp(Luminance, 0.5f, 12));
+                        pass.getEffect().safeGetUniform("Angle").set((float) Math.toRadians(Mth.clamp(lightFov, 1, 20)));
+                        pass.getEffect().safeGetUniform("Range").set(Mth.clamp(range, 10, mode == Flashlight.SEARCHLIGHT ? 180 : 95));
+                        pass.getEffect().safeGetUniform("Luminance").set(Mth.clamp(Luminance, 0.1f,  mode == Flashlight.SEARCHLIGHT ? 20f : 13f));
                         pass.getEffect().safeGetUniform("MinZ").set(MinZ);
+                        pass.getEffect().safeGetUniform("Mode").set(mode);
                     }
                     flashlight.process(event.getPartialTick());
                     Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
@@ -231,7 +245,8 @@ public class RenderEvents {
                 ItemStack stack = player.getMainHandItem();
                 if (stack.getItem() instanceof IGun gun) {
                     if (!Clients.mainHandStatus.ads && !Clients.shouldHideFPRender && !SprintingHandler.INSTANCE.isSprinting()) {
-                        CrossHairRenderer.INSTANCE.render(16, gun, event.getGuiGraphics(), player, stack, event.getPartialTick());
+                        CrossHairRenderer.INSTANCE.render(16, gun, event.getGuiGraphics(), player, stack, event.getPartialTick(),
+                                System.currentTimeMillis() - TEMP_TIMERS.get(SHOT) < 100, System.currentTimeMillis() - TEMP_TIMERS.get(HEADSHOT) < 100);
                     }
                     event.setCanceled(true);
                 }
@@ -315,7 +330,7 @@ public class RenderEvents {
                 }
                 if (now - TEMP_TIMERS.get(HEADSHOT) < 300) {
                     String str = Component.translatable("tooltip.screen_info.headshot").getString();
-                    float alpha = (now - TEMP_TIMERS.get(HEADSHOT)) / 300f;
+                    float alpha = (now - TEMP_TIMERS.get(SHOT)) / 300f;
                     event.getGuiGraphics().setColor(1,0,0,alpha);
                     guiGraphics.drawString(font, str, (width - font.width(str)) * 0.5f, 0.725f * height, -1,  true);
                     event.getGuiGraphics().setColor(1,1,1,1);
@@ -324,8 +339,11 @@ public class RenderEvents {
         }
     }
 
-    public static void callHeadShotFeedBack() {
-        TEMP_TIMERS.put(HEADSHOT, System.currentTimeMillis());
+    public static void callHeadShotFeedBack(boolean isHeadshot) {
+        TEMP_TIMERS.put(SHOT, System.currentTimeMillis());
+        if (isHeadshot) {
+            TEMP_TIMERS.put(HEADSHOT, System.currentTimeMillis());
+        }
     }
 
     private static void renderAmmoCounter(ItemStack stack, GuiGraphics guiGraphics, IGun gun, Font font, int width, int height)  {

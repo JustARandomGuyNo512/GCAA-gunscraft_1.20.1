@@ -36,7 +36,7 @@ public class TurnFlashlightPacket implements IPacket<TurnFlashlightPacket> {
             if (player != null) {
                 ItemStack stack = player.getMainHandItem();
                 if (stack.getItem() instanceof IGun gun) {
-                    Flashlight.setFlashlightTurnOn(stack, gun, message.turnOn);
+                    Flashlight.switchFlashlightMode(stack, gun);
                 }
             }
         });

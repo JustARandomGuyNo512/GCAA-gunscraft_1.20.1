@@ -14,6 +14,9 @@ import sheridan.gcaa.items.gun.IGun;
 import java.util.List;
 
 public class Flashlight extends Attachment {
+    public static final int OFF = 0;
+    public static final int SPREAD = 1;
+    public static final int SEARCHLIGHT = 2;
     private final float luminance;
 
     public Flashlight(float weight, float luminance) {
@@ -25,8 +28,8 @@ public class Flashlight extends Attachment {
     public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
         super.onAttach(stack, gun, data);
         CompoundTag nbt = gun.getGun().checkAndGet(stack);
-        if (!nbt.contains("flashlight_on")) {
-            nbt.putBoolean("flashlight_on", false);
+        if (!nbt.contains("flashlight_mode")) {
+            nbt.putInt("flashlight_mode", OFF);
         }
         if (!data.contains("flashlights")) {
             data.putInt("flashlights", 1);
@@ -45,21 +48,39 @@ public class Flashlight extends Attachment {
             return false;
         }
         CompoundTag tag = gun.getGun().checkAndGet(stack);
-        return tag.contains("flashlight_on") && tag.getBoolean("flashlight_on");
+        return tag.contains("flashlight_mode") && tag.getInt("flashlight_mode") != OFF;
     }
 
     public float getLuminance() {
         return luminance;
     }
 
-    public static void setFlashlightTurnOn(ItemStack stack, IGun gun, boolean on) {
+    public static void switchFlashlightMode(ItemStack stack, IGun gun) {
+        if (getFlashlightNum(stack, gun) == 0) {
+            return;
+        }
         CompoundTag tag = gun.getGun().checkAndGet(stack);
-        tag.putBoolean("flashlight_on", on);
+        if (tag.contains("flashlight_mode")) {
+            tag.putInt("flashlight_mode", (tag.getInt("flashlight_mode") + 1) % 3);
+        }
+    }
+
+    public static int getFlashlightMode(ItemStack stack, IGun gun) {
+        CompoundTag tag = gun.getGun().checkAndGet(stack);
+        if (tag.contains("flashlight_mode")) {
+            return tag.getInt("flashlight_mode");
+        }
+        return OFF;
     }
 
     @Override
     public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
         super.onDetach(stack, gun, data);
+        CompoundTag nbt = gun.getGun().checkAndGet(stack);
+        System.out.println(getFlashlightNum(stack, gun));
+        if (nbt.contains("flashlight_mode") && getFlashlightNum(stack, gun) <= 1) {
+            nbt.putInt("flashlight_mode", OFF);
+        }
         if (data.contains("flashlights")) {
             int num = data.getInt("flashlights");
             if (num - 1 > 0) {
@@ -67,10 +88,6 @@ public class Flashlight extends Attachment {
             } else {
                 data.remove("flashlights");
             }
-        }
-        CompoundTag nbt = gun.getGun().checkAndGet(stack);
-        if (nbt.contains("flashlight_on") && getFlashlightNum(stack, gun) == 1) {
-            nbt.putBoolean("flashlight_on", false);
         }
     }
 

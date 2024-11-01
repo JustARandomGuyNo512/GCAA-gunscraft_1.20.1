@@ -178,14 +178,16 @@ public class Projectile {
         damageSource.gun = gun;
         float dis = (float) initialPos.distanceToSqr(hitPos);
         float progress = Mth.clamp(dis / effectiveRange, 0, 1);
+        boolean isHeadShot = false;
         if (CommonConfig.enableHeadShot.get()) {
             HeadBox.HeadShotResult headShotResult = HeadBox.getHeadShotResult(entity, boxHit, from, to);
             if (headShotResult.getIsHeadShot()) {
                 damage *= headShotResult.getDamageModify();
-                if (this.shooter instanceof Player && !shooter.level().isClientSide) {
-                    PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) this.shooter), new HeadShotFeedBackPacket());
-                }
+                isHeadShot = true;
             }
+        }
+        if (this.shooter instanceof Player && !shooter.level().isClientSide) {
+            PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) this.shooter), new HeadShotFeedBackPacket(isHeadShot));
         }
         entity.hurt(damageSource, damage * (1 - progress * progress) * CommonConfig.globalBulletDamageModify.get().floatValue());
         living = false;

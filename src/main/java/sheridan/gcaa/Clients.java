@@ -364,8 +364,8 @@ public class Clients {
     }
 
     private static long lastHeadShotSound = 0;
-    public static void handleClientHeadShotFeedBack() {
-        if (System.currentTimeMillis() - lastHeadShotSound > 300) {
+    public static void handleClientShotFeedBack(boolean isHeadshot) {
+        if (isHeadshot && System.currentTimeMillis() - lastHeadShotSound > 300) {
             Player player = Minecraft.getInstance().player;
             if (player != null) {
                 try {
@@ -375,7 +375,7 @@ public class Clients {
                 } catch (Exception e) {e.printStackTrace();}
             }
         }
-        RenderEvents.callHeadShotFeedBack();
+        RenderEvents.callHeadShotFeedBack(isHeadshot);
     }
 
     public static float calculateVolume(float disSq, float rangeSq) {

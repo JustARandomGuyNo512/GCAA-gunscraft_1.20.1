@@ -1,5 +1,6 @@
 package sheridan.gcaa.client;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -67,7 +68,8 @@ public class ClientWeaponStatus {
                         if (!switchSightTooltipShowed && attachmentsStatus.sights.size() > 1) {
                             String info = Component.translatable("tooltip.screen_info.switch_sight").getString();
                             info = info.replace("$key", KeyBinds.SWITCH_EFFECTIVE_SIGHT.getTranslatedKeyMessage().getString());
-                            player.displayClientMessage(Component.literal(info), false);
+//                            player.displayClientMessage(Component.literal(info), false);
+                            Minecraft.getInstance().gui.setOverlayMessage(Component.literal(info), false);
                             switchSightTooltipShowed = true;
                         }
                         if (getEffectiveSight() instanceof Scope scope && lastAdsProgress != 1) {

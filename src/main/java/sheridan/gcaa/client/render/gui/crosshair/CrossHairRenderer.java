@@ -23,9 +23,10 @@ public class CrossHairRenderer{
     public static final CrossHairRenderer INSTANCE = new CrossHairRenderer();
     public static final ResourceLocation CROSSHAIR = new ResourceLocation(GCAA.MODID, "textures/gui/crosshair/crosshair.png");
     public static final ResourceLocation GUI_ICONS_LOCATION_MINECRAFT = new ResourceLocation("textures/gui/icons.png");
+    private static final ResourceLocation FEED_BACK = new ResourceLocation(GCAA.MODID, "textures/gui/crosshair/feed_back.png");
     private static float tempSpread;
 
-    public void render(int singleQuadSize, IGun gun, GuiGraphics guiGraphics, Player player, ItemStack itemStack, float particleTick) {
+    public void render(int singleQuadSize, IGun gun, GuiGraphics guiGraphics, Player player, ItemStack itemStack, float particleTick, boolean feedBack, boolean headShot) {
         int index = gun.getGun().getCrosshairType();
         if (index == -1) {
             defaultCrosshair(guiGraphics);
@@ -49,6 +50,13 @@ public class CrossHairRenderer{
         guiGraphics.blit(CROSSHAIR, centerX + currentSpread, centerY, singleQuadSize * 4, vOffset, partSize, partSize, textureSize, textureSize);
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableBlend();
+        if (feedBack) {
+            if (headShot) {
+                guiGraphics.blit(FEED_BACK, centerX, centerY, 16, 0, 15, 15, 32, 16);
+            } else {
+                guiGraphics.blit(FEED_BACK, centerX, centerY, 0, 0, 15, 15, 32, 16);
+            }
+        }
     }
 
     public void defaultCrosshair(GuiGraphics guiGraphics) {

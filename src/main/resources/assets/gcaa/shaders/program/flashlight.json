@@ -20,6 +20,7 @@
     { "name": "Angle",    "type": "float", "count": 1, "values": [ 0.0 ] },
     { "name": "Range",    "type": "float", "count": 1, "values": [ 0.0 ] },
     { "name": "Luminance",    "type": "float", "count": 1, "values": [ 0.0 ] },
-    { "name": "MinZ",    "type": "float", "count": 1, "values": [ 0.0 ] }
+    { "name": "MinZ",    "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "Mode",    "type": "int", "count": 1, "values": [ 0.0 ] }
   ]
 }

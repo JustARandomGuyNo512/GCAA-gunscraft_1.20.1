@@ -1,6 +1,7 @@
 package sheridan.gcaa.client.events;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
@@ -16,7 +17,6 @@ import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.HandActionHandler;
-import sheridan.gcaa.client.HandActionTask;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.screens.ClientSettingsScreen;
@@ -24,7 +24,6 @@ import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.attachments.IInteractive;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.attachments.grips.Flashlight;
-import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.OpenAttachmentScreenPacket;
@@ -162,7 +161,14 @@ public class ControllerEvents {
                     }
                     boolean on = Flashlight.getFlashlightTurnOn(stack, gun);
                     PacketHandler.simpleChannel.sendToServer(new TurnFlashlightPacket(!on));
-                    Flashlight.setFlashlightTurnOn(stack, gun, on);
+                    Flashlight.switchFlashlightMode(stack, gun);
+                    int mode = Flashlight.getFlashlightMode(stack, gun);
+                    if (mode == Flashlight.SPREAD) {
+                        Minecraft.getInstance().gui.setOverlayMessage(Component.translatable("tooltip.screen_info.spread_mode"), false);
+                    }
+                    if (mode == Flashlight.SEARCHLIGHT) {
+                        Minecraft.getInstance().gui.setOverlayMessage(Component.translatable("tooltip.screen_info.searchlight_mode"), false);
+                    }
                 }
             } else if (KeyBinds.RELOAD.isDown() && event.getAction() == 1) {
                 handleReload(stackMain, player);

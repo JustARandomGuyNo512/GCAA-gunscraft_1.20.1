@@ -13,6 +13,7 @@ uniform float Angle;
 uniform float Range;
 uniform float Luminance;
 uniform float MinZ;
+uniform int Mode;
 
 in vec2 texCoord;
 out vec4 fragColor;
@@ -43,9 +44,12 @@ void main(){
     float cutoffCos = cos(Angle);
     float intensity = 0.0;
     float disToCenter = sqrt(1.0 - angleCos * angleCos);
-    intensity = clamp(exp(- disToCenter * 15) * Luminance / (dist * 0.015) * (Range - dist) / Range, 0.0, 1.5);
-    if (angleCos > cutoffCos) {
-       intensity += smoothstep(cutoffCos, 1.0, angleCos) * (1.0 - dist / Range) * clamp(Luminance, 0.0, 1.5);
+    if (Mode == 1) {
+        intensity = clamp(exp(- disToCenter * 15) * Luminance / (dist * 0.015) * (Range - dist) / Range, 0.0, 1.8);
+    } else if (Mode == 2) {
+        if (angleCos > cutoffCos) {
+            intensity += smoothstep(cutoffCos, 1.0, angleCos) * (1.0 - dist / Range) * clamp(Luminance, 0.0, 5) * 1.2;
+        }
     }
     fragColor = vec4(diffuseColor.rgb  * (1.0 + intensity), 1.0);
 }

@@ -10,14 +10,22 @@ import sheridan.gcaa.network.IPacket;
 import java.util.function.Supplier;
 
 public class HeadShotFeedBackPacket implements IPacket<HeadShotFeedBackPacket> {
+    public boolean isHeadshot = false;
+
+    public HeadShotFeedBackPacket(){}
+
+    public HeadShotFeedBackPacket(boolean isHeadshot){
+        this.isHeadshot = isHeadshot;
+    }
+
     @Override
     public void encode(HeadShotFeedBackPacket message, FriendlyByteBuf buffer) {
-
+        buffer.writeBoolean(message.isHeadshot);
     }
 
     @Override
     public HeadShotFeedBackPacket decode(FriendlyByteBuf buffer) {
-        return new HeadShotFeedBackPacket();
+        return new HeadShotFeedBackPacket(buffer.readBoolean());
     }
 
     @Override
@@ -25,7 +33,7 @@ public class HeadShotFeedBackPacket implements IPacket<HeadShotFeedBackPacket> {
         supplier.get().enqueueWork(() -> {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
                     {
-                        Clients.handleClientHeadShotFeedBack();
+                        Clients.handleClientShotFeedBack(message.isHeadshot);
                     }
             );
         });

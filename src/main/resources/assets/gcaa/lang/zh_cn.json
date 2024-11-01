@@ -85,10 +85,12 @@
   "tooltip.gun_info.reload_length": "换弹时间：",
   "tooltip.gcaa.show_full_gun_info": "按 $key 显示详细信息",
   "tooltip.gcaa.excellent_worse": "很棒： 差劲：",
-  "tooltip.gcaa.turn_flashlight": "按 $key 开启/关闭 电筒",
+  "tooltip.gcaa.turn_flashlight": "按 $key 开启/关闭 手电筒或者切换照明模式",
 
   "tooltip.screen_info.switch_sight": "按 $key 切换瞄具",
   "tooltip.screen_info.headshot": "命中头部!",
+  "tooltip.screen_info.spread_mode": "切换到散射模式",
+  "tooltip.screen_info.searchlight_mode": "切换到探照灯模式",
 
   "gcaa.unit.chunk_pre_second": "区块/秒",
   "gcaa.unit.chunk": "区块",
@@ -107,7 +109,7 @@
   "key.gcaa.open_client_settings_screen": "打开客户端设置界面",
   "key.gcaa.switch_effective_sight": "切换瞄具",
   "key.gcaa.use_grenade_launcher": "发射 / 装填榴弹",
-  "key.gcaa.turn_flashlight": "开/关 手电筒",
+  "key.gcaa.turn_flashlight": "开/关 手电筒或者切换照明模式",
 
   "itemGroup.guns": "枪械",
   "itemGroup.attachments": "配件",
