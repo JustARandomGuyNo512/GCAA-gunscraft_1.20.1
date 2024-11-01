@@ -67,7 +67,6 @@ public class RenderEvents {
     private static final ResourceLocation CHAMBER_EMPTY = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/chamber_empty.png");
     private static final ResourceLocation CHAMBER_FILLED = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/chamber_filled.png");
     private static final ResourceLocation HAS_GRENADE = new ResourceLocation(GCAA.MODID, "textures/gui/screen_layout_icon/has_grenade.png");
-    private static final ResourceLocation FEED_BACK = new ResourceLocation(GCAA.MODID, "textures/gui/crosshair/feed_back.png");
     private static final Map<String, Long> TEMP_TIMERS = new HashMap<>();
     private static final String MAGNIFICATION = "magnification_tip";
     private static final String SHOT = "shot";
