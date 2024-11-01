@@ -48,8 +48,12 @@ void main(){
         intensity = clamp(exp(- disToCenter * 15) * Luminance / (dist * 0.015) * (Range - dist) / Range, 0.0, 1.8);
     } else if (Mode == 2) {
         if (angleCos > cutoffCos) {
-            intensity += smoothstep(cutoffCos, 1.0, angleCos) * (1.0 - dist / Range) * clamp(Luminance, 0.0, 5) * 1.2;
+            intensity = smoothstep(cutoffCos, 1.0, angleCos) * (1.0 - dist / Range) * clamp(Luminance, 0.0, 5);
+            intensity = mix(0, intensity * 3, 1 - pow(dist / Range, 2.0));
         }
     }
-    fragColor = vec4(diffuseColor.rgb  * (1.0 + intensity), 1.0);
+    float brightness = dot(diffuseColor.rgb, vec3(0.299, 0.587, 0.114));
+    float adjustedIntensity = intensity * (1.0 - pow(brightness, 3.0));
+    vec3 adjustedColor = diffuseColor.rgb * (1.0 + adjustedIntensity);
+    fragColor = vec4(adjustedColor.rgb, 1.0);
 }

@@ -187,7 +187,7 @@ public class RenderEvents {
                         lightFov *= 1.1f;
                         range *= 0.9f;
                     } else if (mode == Flashlight.SEARCHLIGHT) {
-                        lightFov *= 0.9f;
+                        lightFov *= 0.8f;
                         range *= 1.5f;
                         Luminance *= 1.6f;
                     }
