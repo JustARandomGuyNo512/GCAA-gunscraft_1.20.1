@@ -41,12 +41,12 @@ void main(){
     lightDir = normalize(lightDir);
     vec3 lightTo = normalize(To - From);
     float angleCos = dot(lightDir, lightTo);
-    float cutoffCos = cos(Angle);
     float intensity = 0.0;
-    float disToCenter = sqrt(1.0 - angleCos * angleCos);
     if (Mode == 1) {
-        intensity = clamp(exp(- disToCenter * 15) * Luminance / (dist * 0.015) * (Range - dist) / Range, 0.0, 1.8);
+        float disToCenter = sqrt(1.0 - angleCos * angleCos);
+        intensity = clamp(exp( - disToCenter * 15) * Luminance / (dist * 0.015) * (Range - dist) / Range, 0.0, 1.8);
     } else if (Mode == 2) {
+        float cutoffCos = cos(Angle);
         if (angleCos > cutoffCos) {
             intensity = smoothstep(cutoffCos, 1.0, angleCos) * (1.0 - dist / Range) * clamp(Luminance, 0.0, 5);
             intensity = mix(0, intensity * 3, 1 - pow(dist / Range, 2.0));
