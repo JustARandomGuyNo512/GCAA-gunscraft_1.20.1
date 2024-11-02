@@ -21,6 +21,7 @@ import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.screens.ClientSettingsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
+import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.attachments.IInteractive;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.attachments.grips.Flashlight;
@@ -115,6 +116,9 @@ public class ControllerEvents {
                         iInteractive.onMouseButton(event.getButton(), event.getAction(), stack, gun, player);
                     }
                 });
+            } else if (stack.getItem() instanceof Ammunition ammunition) {
+                ammunition.onRightClick(player, stack);
+                event.setCanceled(true);
             }
         } else {
             Clients.mainHandStatus.buttonDown.set(false);

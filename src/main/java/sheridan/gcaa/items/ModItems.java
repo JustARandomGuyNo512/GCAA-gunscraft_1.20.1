@@ -5,6 +5,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.items.ammunition.ammunitions.Ammo9x19mm;
 import sheridan.gcaa.items.attachments.akStuff.AKImprovedDustCover;
 import sheridan.gcaa.items.attachments.akStuff.AKRailBracket;
 import sheridan.gcaa.items.attachments.akStuff.AKTacticalDustCover;
@@ -78,4 +79,6 @@ public class ModItems {
     public static final RegistryObject<RailPanelShort> RAL_PANEL_SHORT = ITEMS.register("rail_panel_short", RailPanelShort::new);
     public static final RegistryObject<MicroFlashLight> MICRO_FLASHLIGHT = ITEMS.register("micro_flashlight", MicroFlashLight::new);
     public static final RegistryObject<NormalFlashlight> FLASHLIGHT = ITEMS.register("flashlight", NormalFlashlight::new);
+
+    public static final RegistryObject<Ammo9x19mm> AMMO_9X19MM = ITEMS.register("ammo9x19mm", Ammo9x19mm::new);
 }

@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.items.ammunitions.IAmmunition;
+import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.common.server.projetile.ProjectileHandler;
 import sheridan.gcaa.utils.FontUtils;

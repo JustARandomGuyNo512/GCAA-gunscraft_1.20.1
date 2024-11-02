@@ -49,6 +49,8 @@
   "item.gcaa.rail_panel": "Rail Panel",
   "item.gcaa.rail_panel_short": "Rail Panel Short",
 
+  "item.gcaa.ammo9x19mm": "Parabellum 9mm Pistol Ammo",
+
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",
   "tooltip.fire_mode.burst": "BURST",
@@ -87,10 +89,13 @@
   "tooltip.gcaa.excellent_worse": "Excellent: Worse:",
   "tooltip.gcaa.turn_flashlight": "Press $key turn on / off flashlight or lighting mode",
 
+  "tooltip.ammunition_info.ammo_left": "Ammo Left：",
+
   "tooltip.screen_info.switch_sight": "Press $key to switch effective sight",
   "tooltip.screen_info.headshot": "Head Shot!",
   "tooltip.screen_info.spread_mode": "Switch to spread mode",
   "tooltip.screen_info.searchlight_mode": "Switch to lighting mode",
+  "tooltip.screen_info.ammunition_manage_cool_down": "Ammunition manage function cooling",
 
   "gcaa.unit.chunk_pre_second": "Chunks/s",
   "gcaa.unit.chunk": "Chunk",
@@ -113,6 +118,7 @@
 
   "itemGroup.guns": "Guns",
   "itemGroup.attachments": "Attachments",
+  "itemGroup.ammunition": "Ammunition",
 
   "death.attack.gcaa.projectile": "$victim is shot by $shooter using $gun",
 

@@ -49,6 +49,8 @@
   "item.gcaa.rail_panel": "导轨护木片",
   "item.gcaa.rail_panel_short": "导轨护木片（短）",
 
+  "item.gcaa.ammo9x19mm": "帕拉贝鲁姆9mm手枪弹",
+
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",
   "tooltip.fire_mode.burst": "连发",
@@ -87,10 +89,13 @@
   "tooltip.gcaa.excellent_worse": "很棒： 差劲：",
   "tooltip.gcaa.turn_flashlight": "按 $key 开启/关闭 手电筒或者切换照明模式",
 
+  "tooltip.ammunition_info.ammo_left": "子弹剩余：",
+
   "tooltip.screen_info.switch_sight": "按 $key 切换瞄具",
   "tooltip.screen_info.headshot": "命中头部!",
   "tooltip.screen_info.spread_mode": "切换到散射模式",
   "tooltip.screen_info.searchlight_mode": "切换到探照灯模式",
+  "tooltip.screen_info.ammunition_manage_cool_down": "弹药整理功能冷却中",
 
   "gcaa.unit.chunk_pre_second": "区块/秒",
   "gcaa.unit.chunk": "区块",
@@ -113,6 +118,7 @@
 
   "itemGroup.guns": "枪械",
   "itemGroup.attachments": "配件",
+  "itemGroup.ammunition": "弹药",
 
   "death.attack.gcaa.projectile": "$victim 被 $shooter 使用 $gun 击杀了",
 
