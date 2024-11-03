@@ -1,25 +1,28 @@
 package sheridan.gcaa.items.ammunition;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.NotImplementedException;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.AmmunitionManagePacket;
 
-import java.util.List;
-import java.util.Set;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition{
+    public static final String WITHE = "white";
     private static final int AMMUNITION_MANAGE_DELAY = 1000;
     private static long lastAmmunitionManageTime = 0;
 
@@ -28,19 +31,15 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
 
     public Ammunition(int capacity, int modCapacity, Set<IAmmunitionMod> suitableMods)  {
         super(new Properties().defaultDurability(capacity).setNoRepair());
-        this.suitableMods = suitableMods;
+        this.suitableMods = new HashSet<>(suitableMods);
         this.modCapacity = modCapacity;
-    }
-
-    public static void manageAmmunition(Player player, ItemStack stack) {
-
     }
 
     @OnlyIn(Dist.CLIENT)
     public static void clientManageAmmunition(Player player, ItemStack stack) {
         if (System.currentTimeMillis() - lastAmmunitionManageTime > AMMUNITION_MANAGE_DELAY) {
             PacketHandler.simpleChannel.sendToServer(new AmmunitionManagePacket());
-            manageAmmunition(player, stack);
+            AmmunitionHandler.manageAmmunition(player, stack);
             lastAmmunitionManageTime = System.currentTimeMillis();
         } else {
             Minecraft.getInstance().gui.setOverlayMessage(Component.translatable("tooltip.screen_info.ammunition_manage_cool_down"), false);
@@ -68,7 +67,7 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("tooltip.ammunition_info.ammo_left").append(getAmmoLeft(pStack) + " /  " + getMaxCapacity(pStack)));
     }
 
@@ -103,17 +102,75 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
     }
 
     @Override
-    public Set<IAmmunitionMod> getMods(ItemStack itemStack) {
+    public List<IAmmunitionMod> getMods(ItemStack itemStack) {
         throw new NotImplementedException();
     }
 
     @Override
-    public void putMod(IAmmunitionMod mod) {
+    public void addMod(IAmmunitionMod mod, ItemStack itemStack) {
+        CompoundTag tag = checkAndGet(itemStack);
+        CompoundTag modTag = tag.getCompound("mod");
+        if (modTag.contains(mod.getId().toString())) {
+            return;
+        }
+        int maxModCapacity = tag.getInt("max_mod_capacity");
+        int capacity = modTag.getInt("capacity");
+        if (maxModCapacity - capacity - mod.cost() < 0) {
+            throw new NotImplementedException();
+        }
+    }
+
+    @Override
+    public void removeMod(IAmmunitionMod mod, ItemStack itemStack) {
 
     }
 
     @Override
-    public void removeMod(IAmmunitionMod mod) {
+    public boolean canMerge(ItemStack thisStack, ItemStack otherStack) {
+        return false;
+    }
 
+    @Override
+    public Ammunition get() {
+        return this;
+    }
+
+    public CompoundTag checkAndGet(ItemStack itemStack) {
+        CompoundTag nbt = itemStack.getTag();
+        if (nbt == null) {
+            this.onCraftedBy(itemStack, null, null);
+            nbt = itemStack.getTag();
+        }
+        return nbt;
+    }
+
+    @Override
+    public void onCraftedBy(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull Player pPlayer) {
+        super.onCraftedBy(pStack, pLevel, pPlayer);
+        CompoundTag nbt = pStack.getTag();
+        if (nbt == null) {
+            nbt = new CompoundTag();
+            pStack.setTag(nbt);
+        }
+        if (!nbt.contains("mods")) {
+            CompoundTag modTag = new CompoundTag();
+            modTag.putInt("capacity", 0);
+            nbt.put("mods", modTag);
+        }
+        nbt.putInt("max_mod_capacity", getMaxModCapacity());
+    }
+
+    @Override
+    public String getModsUUID(ItemStack itemStack) {
+        List<IAmmunitionMod> mods = getMods(itemStack);
+        if (mods.size() == 0) {
+            return WITHE;
+        }
+        mods.sort(Comparator.comparing(m -> m.getId().toString()));
+        StringBuilder id = new StringBuilder();
+        for (IAmmunitionMod mod : mods) {
+            id.append(mod.getId().toString());
+        }
+        return UUID.nameUUIDFromBytes(id.toString().getBytes(StandardCharsets.UTF_8)).toString();
     }
 }

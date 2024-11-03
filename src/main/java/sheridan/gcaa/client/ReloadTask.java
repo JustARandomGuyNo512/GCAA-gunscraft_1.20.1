@@ -11,14 +11,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.AnimationHandler;
-import sheridan.gcaa.client.model.guns.IGunModel;
+import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GunReloadPacket;
 
 @OnlyIn(Dist.CLIENT)
-public class ReloadTask implements IReloadingTask{
+public class ReloadTask implements IReloadTask {
     public int length;
     public int tick;
     public int ammoLeft;
@@ -87,7 +87,7 @@ public class ReloadTask implements IReloadingTask{
 
     @Override
     public void start() {
-        if (model != null) {
+        if (model != null && !isGenericReloading) {
             AnimationHandler.INSTANCE.startReload(ammoLeft == 0 ? model.getFullReload() : model.getReload());
         }
         Clients.mainHandStatus.ads = false;

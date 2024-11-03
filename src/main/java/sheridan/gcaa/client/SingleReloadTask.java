@@ -69,7 +69,7 @@ public class SingleReloadTask extends ReloadTask {
 
     @Override
     public void start() {
-        if (model != null) {
+        if (model != null && !isGenericReloading()) {
             AnimationDefinition enter = model.get("enter_reload");
             AnimationDefinition single = model.get("reload_single");
             AnimationDefinition exit = model.get("exit_reload");

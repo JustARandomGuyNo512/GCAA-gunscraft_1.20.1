@@ -3,7 +3,7 @@ package sheridan.gcaa.items.gun;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.client.HandActionHandler;
-import sheridan.gcaa.client.IReloadingTask;
+import sheridan.gcaa.client.IReloadTask;
 import sheridan.gcaa.client.SingleReloadTask;
 import sheridan.gcaa.items.gun.propertyExtensions.HandActionExtension;
 import sheridan.gcaa.items.gun.propertyExtensions.SingleReloadExtension;
@@ -38,7 +38,7 @@ public class PumpActionShotgun extends HandActionGun{
     }
 
     @Override
-    public IReloadingTask getReloadingTask(ItemStack stack) {
+    public IReloadTask getReloadingTask(ItemStack stack) {
         return new SingleReloadTask(stack, this,
                 singleReloadExtension.enterDelay,
                 singleReloadExtension.singleReloadLength,

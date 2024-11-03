@@ -1,10 +1,12 @@
-package sheridan.gcaa.client.model.guns;
+package sheridan.gcaa.client.model.gun;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.Clients;
+import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
@@ -13,7 +15,6 @@ import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
-import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.Map;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     public final ModelPart left_arm;
     public final ModelPart right_arm;
     public ModelPart camera;
-    Map<String, AnimationDefinition> animations;
+    protected Map<String, AnimationDefinition> animations;
 
     public GunModel(ResourceLocation modelPath, ResourceLocation animationPath) {
         this.root = ArsenalLib.loadBedRockGunModel(modelPath).bakeRoot().getChild("root");
@@ -33,8 +34,8 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         gun = this.root.getChild("gun");
         left_arm = this.gun.getChild("left_arm");
         right_arm = this.gun.getChild("right_arm");
-        postInit(gun, root);
         animations = ArsenalLib.loadBedRockAnimationWithSound(animationPath);
+        postInit(gun, root);
     }
 
     @Override
@@ -117,6 +118,17 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
                 AnimationHandler.INSTANCE.applyReload(this);
                 CameraAnimationHandler.INSTANCE.mix(camera);
             }
+        }
+    }
+
+    protected void defaultPistolAnimation(GunRenderContext gunRenderContext, AnimationDefinition shoot)  {
+        if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
+            if (gunRenderContext.isFirstPerson) {
+                AnimationHandler.INSTANCE.applyRecoil(this);
+                AnimationHandler.INSTANCE.applyReload(this);
+                CameraAnimationHandler.INSTANCE.mix(camera);
+            }
+            KeyframeAnimations.animate(this, shoot, Clients.lastShootMain(), 1);
         }
     }
 

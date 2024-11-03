@@ -16,7 +16,7 @@ import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.GrenadeLauncherReloadPacket;
 
 @OnlyIn(Dist.CLIENT)
-public class GrenadeLauncherReloadTask implements IReloadingTask{
+public class GrenadeLauncherReloadTask implements IReloadTask {
     public static final int CUSTOM_PAYLOAD = 241;
     private final int length;
     private final AnimationDefinition gunReloadAnimation;

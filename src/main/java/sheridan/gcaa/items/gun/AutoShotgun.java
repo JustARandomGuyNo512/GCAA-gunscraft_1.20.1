@@ -23,7 +23,7 @@ public class AutoShotgun extends HandActionGun {
     }
 
     @Override
-    public IReloadingTask getReloadingTask(ItemStack stack) {
+    public IReloadTask getReloadingTask(ItemStack stack) {
         return new AutoShotgunReloadTask(stack, this, (getMagSize(stack) - getAmmoLeft(stack)), autoShotgunExtension);
     }
 

@@ -52,7 +52,7 @@ import sheridan.gcaa.client.model.attachments.sight.HolographicModel;
 import sheridan.gcaa.client.model.attachments.sight.MicroRedDotModel;
 import sheridan.gcaa.client.model.attachments.sight.RedDotModel;
 import sheridan.gcaa.client.model.attachments.stocks.CTRStockModel;
-import sheridan.gcaa.client.model.guns.*;
+import sheridan.gcaa.client.model.gun.guns.*;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
 import sheridan.gcaa.client.render.fx.muzzleFlash.CommonMuzzleFlashes;

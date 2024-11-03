@@ -32,7 +32,7 @@ import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.model.attachments.ScopeModel;
-import sheridan.gcaa.client.model.guns.IGunModel;
+import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;

@@ -358,7 +358,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     @Override
-    public IReloadingTask getReloadingTask(ItemStack stack) {
+    public IReloadTask getReloadingTask(ItemStack stack) {
         return new ReloadTask(stack, this);
     }
 
@@ -394,6 +394,11 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     public void newAttachmentsModifiedUUID(ItemStack stack) {
         CompoundTag tag = checkAndGet(stack);
         tag.putString("attachments_modified_uuid", UUID.randomUUID().toString());
+    }
+
+    @Override
+    public String getSelectedAmmunitionTypeUUID(ItemStack stack) {
+        return checkAndGet(stack).getString("selected_ammunition_type_uuid");
     }
 
     public CompoundTag checkAndGet(ItemStack stack) {
@@ -463,6 +468,9 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         if (!nbt.contains("scope_magnifications")) {
             CompoundTag magnificationMap = new CompoundTag();
             nbt.put("scope_magnifications", magnificationMap);
+        }
+        if (!nbt.contains("selected_ammunition_type_uuid"))  {
+            nbt.putString("selected_ammunition_type_uuid", "");
         }
         pStack.setTag(nbt);
     }

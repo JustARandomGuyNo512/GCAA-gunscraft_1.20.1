@@ -52,6 +52,7 @@ public class GunRenderContext {
     public int ammoLeft;
 
     public boolean renderLongArm = false;
+    public boolean inAttachmentScreen = false;
 
     private static String lastAttachmentContextUUID = "none";
     private static AttachmentsRenderContext tempAttachmentContext = null;

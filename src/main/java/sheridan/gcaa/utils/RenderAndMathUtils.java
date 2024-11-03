@@ -182,4 +182,14 @@ public class RenderAndMathUtils {
         return RANDOM.nextInt(max);
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public static float disToCamera(PoseStack poseStack) {
+        return (float) Math.sqrt(disToCameraSqr(poseStack));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static float disToCameraSqr(PoseStack poseStack) {
+        Vector3f pos = poseStack.last().pose().getTranslation(new Vector3f(0,0,0));
+        return pos.x * pos.x + pos.y * pos.y + pos.z * pos.z;
+    }
 }

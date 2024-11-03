@@ -13,7 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
@@ -48,6 +47,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
     private static final ResourceLocation INVENTORY_SHOW_SUITABLE = new ResourceLocation(GCAA.MODID, "textures/gui/screen/inventory_show_suitable.png");
     private static final ResourceLocation DRAG_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/drag_btn.png");
     private static final ResourceLocation RESET_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/reset_btn.png");
+    private static final ResourceLocation ZOOM_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/zoom_btn.png");
     private static final ResourceLocation INSTALL_ATTACHMENT_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/install_attachment_btn.png");
     private static final ResourceLocation REPLACE_GUN_PART_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/replace_gun_part_btn.png");
     private static final ResourceLocation UNINSTALL_ATTACHMENT_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/uninstall_attachment_btn.png");
@@ -100,6 +100,9 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
         ImageButton dragBtn = new ImageButton(this.leftPos + 244, 40, 16, 16, 0, 0, 0, DRAG_BTN, 16, 16,  (btn) -> isDraggingModel = true);
         dragBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.drag")));
         rowHelper.addChild(dragBtn);
+        ImageButton zoomBtn = new ImageButton(this.leftPos + 244, 60, 16, 16, 0, 0, 0, ZOOM_BTN, 16, 16,  (btn) -> {});
+        zoomBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.zoom")));
+        rowHelper.addChild(zoomBtn);
         installBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, INSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> installAttachment(true));
         uninstallBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, UNINSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> uninstallAttachment(true));
         installBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.install_attachment")));

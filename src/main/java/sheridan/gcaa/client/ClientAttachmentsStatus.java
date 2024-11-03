@@ -14,7 +14,7 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.model.ISlotProviderModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.attachments.SightModel;
-import sheridan.gcaa.client.model.guns.IGunModel;
+import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.attachments.IArmReplace;

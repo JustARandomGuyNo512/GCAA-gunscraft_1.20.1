@@ -1,14 +1,14 @@
 package sheridan.gcaa.items.gun.guns;
 
+import sheridan.gcaa.items.gun.Pistol;
 import sheridan.gcaa.items.gun.calibers.Caliber;
-import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.fireModes.Semi;
 import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.List;
 
-public class G19 extends Gun {
+public class G19 extends Pistol {
     private static final Caliber caliber =
             new Caliber(Caliber.CALIBER_9MM, 6f, 4, 3.5f, 5.5f);
 
@@ -19,13 +19,4 @@ public class G19 extends Gun {
                 List.of(Semi.SEMI), ModSounds.G19_FIRE, null, caliber));
     }
 
-    @Override
-    public boolean isPistol() {
-        return true;
-    }
-
-    @Override
-    public boolean canUseWithShield() {
-        return true;
-    }
 }

@@ -62,6 +62,7 @@
   "tooltip.btn.install_attachment": "install attachment",
   "tooltip.btn.replace_gun_part": "replace this part",
   "tooltip.btn.uninstall_attachment": "uninstall attachment",
+  "tooltip.btn.zoom": "Use the mouse wheel to scale the model ",
   "tooltip.action_res.prevented_by_child": "Cannot operate, there are sub-attachments dependent on this",
   "tooltip.action_res.conflict": "Conflict with attachment '$id'",
 

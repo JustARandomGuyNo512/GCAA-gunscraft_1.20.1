@@ -1,4 +1,4 @@
-package sheridan.gcaa.events;
+package sheridan.gcaa.common.events;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
@@ -16,6 +16,7 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.items.AutoRegister;
 import sheridan.gcaa.items.NoRepair;
 import sheridan.gcaa.items.UnknownAttachment;
+import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 
@@ -41,6 +42,7 @@ public class CommonEvents {
                     AttachmentsHandler.INSTANCE.checkAndUpdate(stack, gun, player);
                     gun.afterGunDataUpdate(stack);
                 }
+                AmmunitionHandler.checkAndUpdateAmmunition(player, stack, gun);
             }
             if (stack.getItem() instanceof UnknownAttachment) {
                 CompoundTag tag = stack.getTag();

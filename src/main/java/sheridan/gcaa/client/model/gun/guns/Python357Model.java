@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.model.guns;
+package sheridan.gcaa.client.model.gun.guns;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -13,11 +13,12 @@ import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class Python357Model extends GunModel{
+public class Python357Model extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/python_357/python_357.png");
     private final AnimationDefinition recoil, reload;
     private ModelPart body;
@@ -92,10 +93,8 @@ public class Python357Model extends GunModel{
     protected void animationGlobal(GunRenderContext context) {
         if (context.isFirstPerson) {
             AnimationHandler.INSTANCE.applyRecoil(this);
-            if (!ReloadingHandler.isReloadingGeneric()) {
-                AnimationHandler.INSTANCE.applyReload(this);
-                CameraAnimationHandler.INSTANCE.mix(camera);
-            }
+            AnimationHandler.INSTANCE.applyReload(this);
+            CameraAnimationHandler.INSTANCE.mix(camera);
         }
     }
 

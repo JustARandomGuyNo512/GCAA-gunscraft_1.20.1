@@ -1,14 +1,14 @@
 package sheridan.gcaa.items.gun.guns;
 
-import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
+import sheridan.gcaa.items.gun.Pistol;
 import sheridan.gcaa.items.gun.calibers.Caliber;
 import sheridan.gcaa.items.gun.fireModes.Charge;
 import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.List;
 
-public class Python357 extends Gun {
+public class Python357 extends Pistol {
     private static final Caliber caliber =
             new Caliber(Caliber.CALIBER_357_MAGNUM, 9.5f, 6f, 5f, 6.6f);
 
@@ -22,10 +22,5 @@ public class Python357 extends Gun {
     @Override
     public boolean shootCreateBulletShell() {
         return false;
-    }
-
-    @Override
-    public boolean canUseWithShield() {
-        return true;
     }
 }

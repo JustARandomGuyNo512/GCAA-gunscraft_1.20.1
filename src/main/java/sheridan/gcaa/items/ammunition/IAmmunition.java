@@ -2,6 +2,7 @@ package sheridan.gcaa.items.ammunition;
 
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
 import java.util.Set;
 
 public interface IAmmunition {
@@ -26,7 +27,17 @@ public interface IAmmunition {
     /*
      * returns the set of mods that are currently applied to the ammunition
      */
-    Set<IAmmunitionMod> getMods(ItemStack itemStack);
-    void putMod(IAmmunitionMod mod);
-    void removeMod(IAmmunitionMod mod);
+    List<IAmmunitionMod> getMods(ItemStack itemStack);
+    void addMod(IAmmunitionMod mod, ItemStack itemStack);
+    void removeMod(IAmmunitionMod mod, ItemStack itemStack);
+    /*
+     * returns true if the two stacks can be merged
+     */
+    boolean canMerge(ItemStack thisStack, ItemStack otherStack);
+    /*
+    * get the Ammunition class instance of the item
+    * */
+    Ammunition get();
+
+    String getModsUUID(ItemStack itemStack);
 }

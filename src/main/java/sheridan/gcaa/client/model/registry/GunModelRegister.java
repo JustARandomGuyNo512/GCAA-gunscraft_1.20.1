@@ -3,7 +3,7 @@ package sheridan.gcaa.client.model.registry;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sheridan.gcaa.client.model.guns.IGunModel;
+import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.gun.IGun;
 

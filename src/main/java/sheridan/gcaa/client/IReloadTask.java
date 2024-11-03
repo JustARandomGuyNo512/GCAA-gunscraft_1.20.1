@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 /**
  * A logic controller that handles the reloading process on the client side and is typically instantiated and assigned to this ReloadingHandler INSTANCE when the reloading process is triggered, with the ReloadingHandler executing the task.
  * */
-public interface IReloadingTask {
+public interface IReloadTask {
     /**
      * return ture means this task is successfully completed.
      * */

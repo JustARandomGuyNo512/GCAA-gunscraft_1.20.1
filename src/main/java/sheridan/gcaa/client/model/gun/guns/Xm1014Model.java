@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.model.guns;
+package sheridan.gcaa.client.model.gun.guns;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
@@ -9,11 +9,12 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class Xm1014Model extends GunModel{
+public class Xm1014Model extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/xm1014/xm1014.png");
     private final AnimationDefinition recoil;
     private final AnimationDefinition shoot;

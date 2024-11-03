@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.model.guns;
+package sheridan.gcaa.client.model.gun;
 
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraftforge.api.distmarker.Dist;

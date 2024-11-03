@@ -16,7 +16,7 @@ public class ReloadingHandler {
     public static final ReloadingHandler INSTANCE = new ReloadingHandler();
     public static final int EMPTY_PAYLOAD = -1;
     private int lastPayload = EMPTY_PAYLOAD;
-    private IReloadingTask reloadingTask;
+    private IReloadTask reloadingTask;
     private long lastStartReload = 0;
     private long lastEndReload = 0;
 
@@ -52,7 +52,7 @@ public class ReloadingHandler {
         return lastEndReload;
     }
 
-    public IReloadingTask getReloadingTask() {
+    public IReloadTask getReloadingTask() {
         return reloadingTask;
     }
 
@@ -94,7 +94,7 @@ public class ReloadingHandler {
         }
     }
 
-    public void setTask(IReloadingTask task) {
+    public void setTask(IReloadTask task) {
         if (task.getStack().getItem() instanceof IGun) {
             if (reloadingTask == null || !ItemStack.isSameItemSameTags(reloadingTask.getStack(), task.getStack())) {
                 if (reloadingTask != null) {

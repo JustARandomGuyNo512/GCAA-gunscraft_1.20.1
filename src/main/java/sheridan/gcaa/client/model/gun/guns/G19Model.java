@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.model.guns;
+package sheridan.gcaa.client.model.gun.guns;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -13,22 +13,26 @@ import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.animation.AnimationHandler;
+import sheridan.gcaa.client.model.gun.GunModel;
+import sheridan.gcaa.client.model.gun.LodGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 @OnlyIn(Dist.CLIENT)
-public class G19Model extends GunModel {
+public class G19Model extends LodGunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.png");
+    private final ResourceLocation TEXTURE_LOW = new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19_low.png");
     private ModelPart body, slide, mag, barrel, bullet;
     private ModelPart slot_scope;
 
-    private final AnimationDefinition recoil;
-    private final AnimationDefinition shoot;
+    private ModelPart body_low, slide_low, mag_low, barrel_low;
+
+    private AnimationDefinition recoil;
+    private AnimationDefinition shoot;
 
     public G19Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.geo.json"),
+                new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19_low.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.animation.json"));
-        recoil = animations.get("recoil");
-        shoot = animations.get("shoot");
     }
 
     @Override
@@ -38,20 +42,39 @@ public class G19Model extends GunModel {
         slide = gun.getChild("slide").meshing();
         mag = gun.getChild("mag").meshing();
         bullet = mag.getChild("bullet").meshing();
-
         slot_scope = slide.getChild("s_scope");
+
+        recoil = animations.get("recoil");
+        shoot = animations.get("shoot");
     }
 
     @Override
-    protected void renderGunModel(GunRenderContext context) {
+    protected void postInitLowQuality(ModelPart lowQualityGun, ModelPart lowQualityRoot) {
+        barrel_low = lowQualityGun.getChild("barrel").meshing();
+        body_low = lowQualityGun.getChild("body").meshing();
+        slide_low = lowQualityGun.getChild("slide").meshing();
+        mag_low = lowQualityGun.getChild("mag").meshing();
+    }
+
+    @Override
+    protected void renderGunNormal(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         bullet.visible = context.shouldBulletRender();
-        context.renderIf(mag, vertexConsumer, context.notHasMag());
+        context.renderIf(mag, vertexConsumer, context.notHasMuzzle());
         context.render(vertexConsumer, barrel, slide, body);
         if (context.shouldShowLeftArm()) {
             context.renderArm(left_arm, false);
         }
         context.renderArm(right_arm, true);
+    }
+
+    @Override
+    protected void renderGunLow(GunRenderContext context) {
+        slide_low.copyFrom(slide);
+        barrel_low.copyFrom(barrel);
+        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE_LOW));
+        context.renderIf(mag_low, vertexConsumer, context.notHasMuzzle());
+        context.render(vertexConsumer, barrel_low, slide_low, body_low);
     }
 
     @Override
@@ -71,16 +94,7 @@ public class G19Model extends GunModel {
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
-        if (context.isFirstPerson || context.isThirdPerson()) {
-            if (context.isFirstPerson) {
-                AnimationHandler.INSTANCE.applyRecoil(this);
-                if (!ReloadingHandler.isReloadingGeneric()) {
-                    AnimationHandler.INSTANCE.applyReload(this);
-                    CameraAnimationHandler.INSTANCE.mix(camera);
-                }
-            }
-            KeyframeAnimations.animate(this, shoot, Clients.lastShootMain(), 1);
-        }
+        defaultPistolAnimation(context, shoot);
     }
 
     @Override
@@ -113,6 +127,10 @@ public class G19Model extends GunModel {
         left_arm.resetPose();
         mag.resetPose();
         camera.resetPose();
+        if (getShouldRenderLowQuality(gunRenderContext)) {
+            slide_low.resetPose();
+            barrel_low.resetPose();
+        }
     }
 
     @Override

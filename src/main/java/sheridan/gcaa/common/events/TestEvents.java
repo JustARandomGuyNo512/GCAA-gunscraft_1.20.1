@@ -1,4 +1,4 @@
-package sheridan.gcaa.events;
+package sheridan.gcaa.common.events;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

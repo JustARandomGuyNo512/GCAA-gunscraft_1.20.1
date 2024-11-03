@@ -19,7 +19,7 @@ import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.config.ClientConfig;
-import sheridan.gcaa.client.model.guns.IGunModel;
+import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
@@ -37,7 +37,9 @@ public class GunRenderer{
             poseStack.mulPose(Axis.ZP.rotationDegrees(180));
             displayData.applyAttachmentScreenTransform(poseStack, x, y, rx, ry, scale);
             poseStack.pushPose();
-            model.render(GunRenderContext.getClientMainHand(bufferSource, poseStack, itemStack, gun, FIXED, null, 15728880, 655360));
+            GunRenderContext gunRenderContext = GunRenderContext.getClientMainHand(bufferSource, poseStack, itemStack, gun, FIXED, null, 15728880, 655360);
+            gunRenderContext.inAttachmentScreen = true;
+            model.render(gunRenderContext);
             poseStack.popPose();
             if (context != null) {
                 context.updateIconPos(poseStack, model);

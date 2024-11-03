@@ -17,6 +17,7 @@ import sheridan.gcaa.common.HeadBox;
 import sheridan.gcaa.common.damageTypes.DamageTypes;
 import sheridan.gcaa.common.damageTypes.ProjectileDamage;
 import sheridan.gcaa.entities.projectiles.Grenade;
+import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
@@ -46,6 +47,7 @@ public class Projectile {
     private float dis = 0;
     private long birthTime;
     private int latency = DISABLE_LATENCY;
+    private IAmmunition ammunition;
 
     Projectile() {}
 
