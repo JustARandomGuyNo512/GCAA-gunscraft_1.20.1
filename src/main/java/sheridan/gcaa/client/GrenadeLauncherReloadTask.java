@@ -83,6 +83,6 @@ public class GrenadeLauncherReloadTask implements IReloadTask {
 
     @Override
     public float getProgress() {
-        return 0;
+        return length == 0 ? 0 : tick / (float) length;
     }
 }

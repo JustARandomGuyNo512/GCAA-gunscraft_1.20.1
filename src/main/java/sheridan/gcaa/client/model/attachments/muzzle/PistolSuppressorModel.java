@@ -14,15 +14,23 @@ public class PistolSuppressorModel extends MuzzleFlashRendererModel implements I
     private final ModelPart model;
     private final ModelPart muzzle;
     private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION1.texture;
+    private final ModelPart low;
 
     public PistolSuppressorModel() {
         model = StatisticModel.MUZZLE_COLLECTION1.get("pistol_suppressor");
         muzzle = model.getChild("pistol_suppressor_muzzle");
+        low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("muzzle_collection").getChild("pistol_suppressor");
     }
 
     @Override
     public void renderModel(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        context.render(model, context.getBuffer(RenderType.entityCutout(texture)));
+        if (context.useLowQuality()) {
+            low.copyFrom(pose);
+            context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
+            low.resetPose();
+        } else {
+            context.render(model, context.getBuffer(RenderType.entityCutout(texture)));
+        }
     }
 
     @Override

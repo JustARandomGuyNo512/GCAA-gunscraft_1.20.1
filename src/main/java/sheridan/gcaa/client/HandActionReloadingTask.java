@@ -30,7 +30,7 @@ public class HandActionReloadingTask extends ReloadTask {
 
     @Override
     public void start() {
-        if (model != null) {
+        if (model != null && !isGenericReloading()) {
             AnimationHandler.INSTANCE.startReload(needHandAction ? model.getFullReload() : model.getReload());
         }
         Clients.mainHandStatus.ads = false;

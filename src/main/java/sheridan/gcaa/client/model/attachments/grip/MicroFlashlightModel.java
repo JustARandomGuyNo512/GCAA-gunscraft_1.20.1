@@ -13,5 +13,6 @@ public class MicroFlashlightModel extends FlashlightModel implements IAttachment
         this.body = StatisticModel.FLASHLIGHTS.get("micro");
         this.light_rear = body.getChild("light_rear");
         this.light_far = body.getChild("light_far");
+        this.low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("flashlights").getChild("micro").meshing();
     }
 }

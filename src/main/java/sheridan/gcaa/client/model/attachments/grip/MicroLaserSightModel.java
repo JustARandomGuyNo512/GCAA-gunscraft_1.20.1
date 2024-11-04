@@ -15,17 +15,23 @@ import sheridan.gcaa.client.render.GunRenderContext;
 public class MicroLaserSightModel implements IAttachmentModel, IDirectionalModel {
     private final ModelPart sight;
     private final ModelPart laser;
+    private final ModelPart low;
 
     public MicroLaserSightModel() {
         this.sight = StatisticModel.LASER_SIGHTS.get("micro");
         this.laser = sight.getChild("laser_micro");
+        this.low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("laser_sights").getChild("micro2").meshing();
     }
 
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         context.pushPose();
         initTranslation(attachmentRenderEntry, context, pose);
-        context.render(sight, context.getBuffer(RenderType.entityCutout(StatisticModel.LASER_SIGHTS.texture)));
+        if (context.useLowQuality()) {
+            context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
+        } else {
+            context.render(sight, context.getBuffer(RenderType.entityCutout(StatisticModel.LASER_SIGHTS.texture)));
+        }
         context.pushPose().translateTo(sight);
         LaserRayRenderer.render(context, laser, LaserRayRenderer.GREEN, false);
         context.popPose();

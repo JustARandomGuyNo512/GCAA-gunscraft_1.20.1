@@ -16,19 +16,26 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class LodGunModel extends GunModel{
-    public static final String LOW_QUALITY_KEY = "lowQuality";
+    public static final String LOW_QUALITY_KEY = "__low_quality__";
     private boolean lowQualityLoaded = false;
     protected ModelPart lowQualityRoot;
     protected ModelPart lowQualityGun;
     protected Map<ModelPart, ModelPart> gunLayerMapping;
 
     public LodGunModel(ResourceLocation modelPath, @Nullable ResourceLocation lowQualityModelPath, ResourceLocation animationPath) {
+        this(modelPath, lowQualityModelPath, animationPath, false);
+    }
+
+    public LodGunModel(ResourceLocation modelPath, @Nullable ResourceLocation lowQualityModelPath, ResourceLocation animationPath, boolean createMapping) {
         super(modelPath, animationPath);
         if (lowQualityModelPath != null) {
             try {
                 lowQualityRoot = ArsenalLib.loadBedRockGunModel(lowQualityModelPath).bakeRoot().getChild("root");
                 lowQualityGun = lowQualityRoot.getChild("gun");
-                gunLayerMapping = new HashMap<>();
+                if (createMapping) {
+                    gunLayerMapping = new HashMap<>();
+                    resolveLowQualityMapping(gun, lowQualityGun);
+                }
                 lowQualityLoaded = true;
                 postInitLowQuality(lowQualityGun, lowQualityRoot);
             } catch (Exception e) {
@@ -52,7 +59,7 @@ public abstract class LodGunModel extends GunModel{
                     gunLayerMapping.put(key, value);
                     resolveLowQualityMapping(key, value);
                 } else {
-                    throw new RuntimeException("Unable to mapping low quality model part " + childName);
+                    System.out.println("Unable to mapping low quality model part " + childName);
                 }
             }
         }
@@ -88,46 +95,12 @@ public abstract class LodGunModel extends GunModel{
     protected abstract void renderGunNormal(GunRenderContext context);
     protected abstract void renderGunLow(GunRenderContext context);
 
-    public ModelPart getFromMapping(GunRenderContext context, ModelPart modelPart) {
-        return getShouldRenderLowQuality(context) ? gunLayerMapping.get(modelPart) : modelPart;
-    }
-
-    public ModelPart[] getFromMapping(GunRenderContext context, ModelPart... modelParts) {
-        if (getShouldRenderLowQuality(context)) {
-            for (int i = 0; i < modelParts.length; i++) {
-                modelParts[i] = gunLayerMapping.get(modelParts[i]);
-            }
-        }
-        return modelParts;
-    }
-
-    public ModelPart getFromMapping(boolean useLowQuality, ModelPart modelPart) {
-        return useLowQuality ? gunLayerMapping.get(modelPart) : modelPart;
+    public ModelPart getFromMapping(ModelPart modelPart) {
+        return gunLayerMapping.get(modelPart);
     }
 
     protected boolean getShouldRenderLowQuality(GunRenderContext context) {
         return context.localRenderStorage != null && context.localRenderStorage.containsKey(LOW_QUALITY_KEY);
-    }
-
-
-    @Override
-    protected void renderAttachmentsModel(GunRenderContext context) {
-
-    }
-
-    @Override
-    protected void renderPostEffect(GunRenderContext context) {
-
-    }
-
-    @Override
-    protected void animationGlobal(GunRenderContext context) {
-
-    }
-
-    @Override
-    protected void afterRender(GunRenderContext context) {
-
     }
 
 }
