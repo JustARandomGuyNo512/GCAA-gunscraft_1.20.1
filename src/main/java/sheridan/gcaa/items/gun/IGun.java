@@ -52,9 +52,6 @@ public interface IGun {
     void newAttachmentsModifiedUUID(ItemStack stack);
     String getSelectedAmmunitionTypeUUID(ItemStack stack);
 
-    default int applySprintingPoseDelay() {
-        return 1000;
-    }
     default boolean allowShootWhileReloading() {return false;}
     default boolean shouldHandleAds(ItemStack stack) {return true;}
     default boolean isFreeBlot() {

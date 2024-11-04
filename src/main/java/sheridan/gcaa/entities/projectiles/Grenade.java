@@ -1,8 +1,10 @@
 package sheridan.gcaa.entities.projectiles;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -18,12 +20,17 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AbstractGlassBlock;
 import net.minecraft.world.level.block.BellBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.StainedGlassPaneBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import sheridan.gcaa.common.config.CommonConfig;
 import sheridan.gcaa.common.damageTypes.DamageTypes;
 import sheridan.gcaa.common.damageTypes.ProjectileDamage;
 
@@ -98,13 +105,26 @@ public class Grenade extends Entity{
                     explode();
                     return;
                 }
-                switch (hitResult.getDirection()) {
-                    case UP, DOWN -> deltaMovement = new Vec3(deltaMovement.x, -deltaMovement.y, deltaMovement.z).scale(0.6f);
-                    case NORTH, SOUTH -> deltaMovement = new Vec3(deltaMovement.x, deltaMovement.y, -deltaMovement.z).scale(0.6f);
-                    case WEST, EAST -> deltaMovement = new Vec3(-deltaMovement.x, deltaMovement.y, deltaMovement.z).scale(0.6f);
+                boolean bounce = true;
+                if (bounced == 0 && CommonConfig.bulletBreakGlass.get()) {
+                    BlockState blockState = this.level().getBlockState(hitResult.getBlockPos());
+                    Block block = blockState.getBlock();
+                    if (block instanceof AbstractGlassBlock || block instanceof StainedGlassPaneBlock || "minecraft:glass_pane".equals(BuiltInRegistries.BLOCK.getKey(block).toString())) {
+                        this.level().destroyBlock(hitResult.getBlockPos(), false);
+                        this.setDeltaMovement(deltaMovement.scale(0.5f));
+                        bounce = false;
+                        bounced ++;
+                    }
+                }
+                if (bounce) {
+                    switch (hitResult.getDirection()) {
+                        case UP, DOWN -> deltaMovement = new Vec3(deltaMovement.x, -deltaMovement.y, deltaMovement.z).scale(0.6f);
+                        case NORTH, SOUTH -> deltaMovement = new Vec3(deltaMovement.x, deltaMovement.y, -deltaMovement.z).scale(0.6f);
+                        case WEST, EAST -> deltaMovement = new Vec3(-deltaMovement.x, deltaMovement.y, deltaMovement.z).scale(0.6f);
+                    }
+                    bounced ++;
                 }
                 this.level().playSound(this, hitResult.getBlockPos(), SoundEvents.IRON_GOLEM_HURT, SoundSource.BLOCKS, 1, 1);
-                bounced ++;
                 nextPos = hitResult.getLocation();
                 if (this.level().getBlockState(hitResult.getBlockPos()).getBlock() instanceof BellBlock bell && this.shooter instanceof Player) {
                     bell.attemptToRing(this, this.level(), hitResult.getBlockPos(), hitResult.getDirection());
