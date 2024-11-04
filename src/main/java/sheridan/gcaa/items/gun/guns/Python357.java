@@ -1,5 +1,6 @@
 package sheridan.gcaa.items.gun.guns;
 
+import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.Pistol;
 import sheridan.gcaa.items.gun.calibers.Caliber;
@@ -10,7 +11,8 @@ import java.util.List;
 
 public class Python357 extends Pistol {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_357_MAGNUM, 9.5f, 6f, 5f, 6.6f);
+            new Caliber(Caliber.CALIBER_357_MAGNUM, 9.5f, 6f, 5f, 6.6f)
+                    .setAmmunition(ModItems.AMMO_357MAGNUM.get());
 
     public Python357() {
         super(new GunProperties(4.8f, 0.4f, 2.6f, 1f, 0.3f,

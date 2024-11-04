@@ -1,5 +1,6 @@
 package sheridan.gcaa.items.gun.guns;
 
+import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.PumpActionShotgun;
 import sheridan.gcaa.items.gun.calibers.Caliber;
@@ -13,8 +14,9 @@ import java.util.List;
 
 public class M870 extends PumpActionShotgun {
     private static final CaliberGauge12 caliber =
-            new CaliberGauge12(Caliber.CALIBER_12_GAUGE, 4, 2, 4f, 6f, 8)
-                    .modifySpread(1.75f);
+            (CaliberGauge12) new CaliberGauge12(Caliber.CALIBER_12_GAUGE, 4, 2, 4f, 6f, 8)
+                    .modifySpread(1.75f)
+                    .setAmmunition(ModItems.AMMO_12GAUGE.get());
 
     public M870() {
         super(new GunProperties(3.7f, 1.3f, 3.5f, 1.2f, 0.25f,

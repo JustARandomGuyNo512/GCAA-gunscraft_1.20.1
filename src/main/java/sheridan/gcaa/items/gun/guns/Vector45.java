@@ -1,5 +1,6 @@
 package sheridan.gcaa.items.gun.guns;
 
+import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.calibers.Caliber;
@@ -12,7 +13,8 @@ import java.util.Arrays;
 
 public class Vector45 extends Gun {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_45_ACP,7.5f, 4.5f, 4f, 5f);
+            new Caliber(Caliber.CALIBER_45_ACP,7.5f, 4.5f, 4f, 5f)
+                    .setAmmunition(ModItems.AMMO_45ACP.get());
 
     public Vector45() {
         super(new GunProperties(4f, 0.6f, 2.6f, 0.75f, 0.16f,

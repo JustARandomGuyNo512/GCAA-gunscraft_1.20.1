@@ -2,8 +2,6 @@ package sheridan.gcaa.items.ammunition;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -18,11 +16,9 @@ import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.AmmunitionManagePacket;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition{
-    public static final String WITHE = "white";
     private static final int AMMUNITION_MANAGE_DELAY = 1000;
     private static long lastAmmunitionManageTime = 0;
 
@@ -69,6 +65,10 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("tooltip.ammunition_info.ammo_left").append(getAmmoLeft(pStack) + " /  " + getMaxCapacity(pStack)));
+        List<IAmmunitionMod> mods = getMods(pStack);
+        if (mods.size() > 0) {
+            //TODO: add mod info
+        }
     }
 
     @Override
@@ -103,7 +103,22 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
 
     @Override
     public List<IAmmunitionMod> getMods(ItemStack itemStack) {
-        throw new NotImplementedException();
+        CompoundTag tag = checkAndGet(itemStack);
+        List<IAmmunitionMod> mods = new ArrayList<>();
+        if (tag.contains("mods")) {
+            CompoundTag modsTag = tag.getCompound("mods");
+            Set<String> allKeys = modsTag.getAllKeys();
+            for (String key : allKeys) {
+                if ("capacity".equals(key)) {
+                    continue;
+                }
+                IAmmunitionMod mod = AmmunitionModRegister.getAmmunitionMod(key);
+                if (mod != null) {
+                    mods.add(mod);
+                }
+            }
+        }
+        return mods;
     }
 
     @Override
@@ -127,7 +142,7 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
 
     @Override
     public boolean canMerge(ItemStack thisStack, ItemStack otherStack) {
-        return false;
+        return thisStack.getItem() == otherStack.getItem() && Objects.equals(getModsUUID(thisStack), getModsUUID(otherStack));
     }
 
     @Override
@@ -158,19 +173,26 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
             nbt.put("mods", modTag);
         }
         nbt.putInt("max_mod_capacity", getMaxModCapacity());
+        nbt.putString("modsUUID", "");
     }
 
     @Override
     public String getModsUUID(ItemStack itemStack) {
+        CompoundTag tag = checkAndGet(itemStack);
+        if (tag.contains("modsUUID")) {
+            return tag.getString("modsUUID");
+        }
         List<IAmmunitionMod> mods = getMods(itemStack);
         if (mods.size() == 0) {
-            return WITHE;
+            return "";
         }
         mods.sort(Comparator.comparing(m -> m.getId().toString()));
         StringBuilder id = new StringBuilder();
         for (IAmmunitionMod mod : mods) {
             id.append(mod.getId().toString());
         }
-        return UUID.nameUUIDFromBytes(id.toString().getBytes(StandardCharsets.UTF_8)).toString();
+        String uuid = UUID.fromString(id.toString()).toString();
+        tag.putString("modsUUID", uuid);
+        return uuid;
     }
 }

@@ -31,7 +31,7 @@ public class Caliber {
     public float minDamage;
     public float effectiveRange;
     public float speed;
-    public Set<IAmmunition> ammunition;
+    public IAmmunition ammunition;
 
     public Caliber(ResourceLocation name, float baseDamage, float minDamage, float effectiveRange, float speed) {
         this.name = name;
@@ -39,21 +39,10 @@ public class Caliber {
         this.minDamage = minDamage;
         this.effectiveRange = effectiveRange;
         this.speed = speed;
-        ammunition = new HashSet<>();
     }
 
-    public Caliber setAmmunitionUnmodifiable(IAmmunition ammunition) {
-        this.ammunition = Set.of(ammunition);
-        return this;
-    }
-
-    public Caliber setAmmunition(IAmmunition... ammunition) {
-        this.ammunition.addAll(List.of(ammunition));
-        return this;
-    }
-
-    public Caliber addAmmunition(IAmmunition ammunition) {
-        this.ammunition.add(ammunition);
+    public Caliber setAmmunition(IAmmunition ammunition) {
+        this.ammunition = ammunition;
         return this;
     }
 

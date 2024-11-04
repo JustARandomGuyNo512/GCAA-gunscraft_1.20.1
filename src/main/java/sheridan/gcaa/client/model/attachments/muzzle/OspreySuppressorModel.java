@@ -18,10 +18,12 @@ public class OspreySuppressorModel extends MuzzleFlashRendererModel implements I
     private final ModelPart model;
     private final ModelPart muzzle;
     private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION2.texture;
+    private final ModelPart low;
 
     public OspreySuppressorModel() {
         model = StatisticModel.MUZZLE_COLLECTION2.get("osprey_suppressor");
         muzzle = model.getChild("osprey_suppressor_muzzle");
+        low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("muzzle_collection2").getChild("osprey_suppressor").meshing();
     }
 
     @Override
@@ -31,7 +33,11 @@ public class OspreySuppressorModel extends MuzzleFlashRendererModel implements I
 
     @Override
     public void renderModel(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        context.render(model, context.getBuffer(RenderType.entityCutout(texture)));
+        if (context.useLowQuality()) {
+            context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
+        } else {
+            context.render(model, context.getBuffer(RenderType.entityCutout(texture)));
+        }
     }
 
     @Override

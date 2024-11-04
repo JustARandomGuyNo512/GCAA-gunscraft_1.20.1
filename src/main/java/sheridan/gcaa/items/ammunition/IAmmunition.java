@@ -40,4 +40,5 @@ public interface IAmmunition {
     Ammunition get();
 
     String getModsUUID(ItemStack itemStack);
+
 }

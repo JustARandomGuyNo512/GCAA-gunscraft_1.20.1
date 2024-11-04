@@ -33,6 +33,8 @@ import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
+import sheridan.gcaa.items.ammunition.AmmunitionHandler;
+import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.calibers.Caliber;
@@ -341,7 +343,21 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     public boolean clientReload(ItemStack stack, Player player) {
         boolean allow = getAmmoLeft(stack) < getMagSize(stack);
         if (allow) {
-            PlayerStatusProvider.setReloading(player, true);
+            IAmmunition ammunition = this.gunProperties.caliber.ammunition;
+            if (ammunition == null) {
+                //直接换弹
+                PlayerStatusProvider.setReloading(player, true);
+            } else {
+                if (AmmunitionHandler.hasAmmunition(stack, ammunition, player)) {
+                    PlayerStatusProvider.setReloading(player, true);
+                    return true;
+                } else {
+                    String str = Component.translatable("tooltip.screen_info.no_ammo").getString();
+                    String ammunitionName = Component.translatable(gunProperties.caliber.ammunition.get().getDescriptionId()).getString();
+                    Minecraft.getInstance().gui.setOverlayMessage(Component.literal(str.replace("$ammo", ammunitionName)), false);
+                    return false;
+                }
+            }
         }
         return allow;
     }
@@ -398,7 +414,13 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
 
     @Override
     public String getSelectedAmmunitionTypeUUID(ItemStack stack) {
-        return checkAndGet(stack).getString("selected_ammunition_type_uuid");
+        CompoundTag tag = checkAndGet(stack);
+        if (tag.contains("selected_ammunition_type_uuid")) {
+            return tag.getString("selected_ammunition_type_uuid");
+        } else {
+            tag.putString("selected_ammunition_type_uuid", "");
+            return "";
+        }
     }
 
     public CompoundTag checkAndGet(ItemStack stack) {

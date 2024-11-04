@@ -5,7 +5,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.items.ammunition.ammunitions.Ammo9x19mm;
+import sheridan.gcaa.items.ammunition.ammunitions.*;
 import sheridan.gcaa.items.attachments.akStuff.AKImprovedDustCover;
 import sheridan.gcaa.items.attachments.akStuff.AKRailBracket;
 import sheridan.gcaa.items.attachments.akStuff.AKTacticalDustCover;
@@ -28,6 +28,14 @@ import sheridan.gcaa.items.gun.guns.*;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, GCAA.MODID);
+
+    public static final RegistryObject<Ammo9x19mm> AMMO_9X19MM = ITEMS.register("ammo9x19mm", Ammo9x19mm::new);
+    public static final RegistryObject<Ammo556x45mm> AMMO_5_56X45MM = ITEMS.register("ammo5_56x45mm", Ammo556x45mm::new);
+    public static final RegistryObject<Ammo762x51mm> AMMO_7_62X51MM = ITEMS.register("ammo7_62x51mm", Ammo762x51mm::new);
+    public static final RegistryObject<Ammo12Gauge> AMMO_12GAUGE = ITEMS.register("ammo12gauge", Ammo12Gauge::new);
+    public static final RegistryObject<Ammo762x39mm> AMMO_7_62X39MM = ITEMS.register("ammo7_62x39mm", Ammo762x39mm::new);
+    public static final RegistryObject<Ammo45ACP> AMMO_45ACP = ITEMS.register("ammo_45acp", Ammo45ACP::new);
+    public static final RegistryObject<Ammo357Magnum> AMMO_357MAGNUM = ITEMS.register("ammo_357magnum", Ammo357Magnum::new);
 
     public static final RegistryObject<G19> G19 = ITEMS.register("g19", G19::new);
     public static final RegistryObject<Python357> PYTHON_357 = ITEMS.register("python_357", Python357::new);
@@ -80,5 +88,4 @@ public class ModItems {
     public static final RegistryObject<MicroFlashLight> MICRO_FLASHLIGHT = ITEMS.register("micro_flashlight", MicroFlashLight::new);
     public static final RegistryObject<NormalFlashlight> FLASHLIGHT = ITEMS.register("flashlight", NormalFlashlight::new);
 
-    public static final RegistryObject<Ammo9x19mm> AMMO_9X19MM = ITEMS.register("ammo9x19mm", Ammo9x19mm::new);
 }

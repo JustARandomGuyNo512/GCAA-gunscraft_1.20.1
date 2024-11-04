@@ -1,5 +1,6 @@
 package sheridan.gcaa.items.gun.guns;
 
+import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.calibers.Caliber;
@@ -11,7 +12,8 @@ import java.util.Arrays;
 
 public class M4a1 extends Gun {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_556X45MM,6.5f, 4f, 6.5f, 14f);
+            new Caliber(Caliber.CALIBER_556X45MM,6.5f, 4f, 6.5f, 14f)
+                    .setAmmunition(ModItems.AMMO_5_56X45MM.get());
 
     public M4a1() {
         super(new GunProperties(3.8f, 0.7f, 2.3f, 0.8f, 0.18f,

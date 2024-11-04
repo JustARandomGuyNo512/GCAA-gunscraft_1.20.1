@@ -17,6 +17,7 @@ import sheridan.gcaa.items.AutoRegister;
 import sheridan.gcaa.items.NoRepair;
 import sheridan.gcaa.items.UnknownAttachment;
 import sheridan.gcaa.items.ammunition.AmmunitionHandler;
+import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 
@@ -33,6 +34,16 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
+    public static void checkAndUpdateAmmunition(LivingEquipmentChangeEvent event) {
+        if (event.getEntity() instanceof Player) {
+            ItemStack stack = event.getTo();
+            if (stack.getItem() instanceof IAmmunition ammunition) {
+                ammunition.get().checkAndGet(stack);
+            }
+        }
+    }
+
+        @SubscribeEvent
     public static void checkAndUpdateGun(LivingEquipmentChangeEvent event) {
         if (event.getEntity() instanceof Player player) {
             ItemStack stack = event.getTo();
@@ -42,7 +53,7 @@ public class CommonEvents {
                     AttachmentsHandler.INSTANCE.checkAndUpdate(stack, gun, player);
                     gun.afterGunDataUpdate(stack);
                 }
-                AmmunitionHandler.checkAndUpdateAmmunition(player, stack, gun);
+                AmmunitionHandler.checkAndUpdateAmmunitionBind(player, stack, gun);
             }
             if (stack.getItem() instanceof UnknownAttachment) {
                 CompoundTag tag = stack.getTag();

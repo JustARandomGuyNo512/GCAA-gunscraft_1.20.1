@@ -49,7 +49,13 @@
   "item.gcaa.rail_panel": "Rail Panel",
   "item.gcaa.rail_panel_short": "Rail Panel Short",
 
-  "item.gcaa.ammo9x19mm": "Parabellum 9mm Pistol Ammo",
+  "item.gcaa.ammo9x19mm": "Parabellum 9mm Pistol Rounds",
+  "item.gcaa.ammo5_56x45mm": "5.56x45mm Assault Rifle Rounds",
+  "item.gcaa.ammo7_62x51mm": "7.62x51mm Rifle Rounds",
+  "item.gcaa.ammo12gauge": "12 Gauge Shotgun Rounds",
+  "item.gcaa.ammo7_62x39mm": "7.62x39mmmm Assault Rifle Rounds",
+  "item.gcaa.ammo_45acp": ".45 ACP Pistol Rounds",
+  "item.gcaa.ammo_357magnum": ".357 Magnum Rounds",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",
@@ -86,6 +92,7 @@
   "tooltip.gun_info.ads_speed": "ADS Speed: ",
   "tooltip.gun_info.fire_sound_vol": "Fire Sound Range: ",
   "tooltip.gun_info.reload_length": "Reload Time: ",
+  "tooltip.gun_info.ammunition": "Ammunition Used: ",
   "tooltip.gcaa.show_full_gun_info": "Press $key to display details",
   "tooltip.gcaa.excellent_worse": "Excellent: Worse:",
   "tooltip.gcaa.turn_flashlight": "Press $key turn on / off flashlight or lighting mode",
@@ -97,6 +104,7 @@
   "tooltip.screen_info.spread_mode": "Switch to spread mode",
   "tooltip.screen_info.searchlight_mode": "Switch to lighting mode",
   "tooltip.screen_info.ammunition_manage_cool_down": "Ammunition manage function cooling",
+  "tooltip.screen_info.no_ammo": "Need $ammo!" ,
 
   "gcaa.unit.chunk_pre_second": "Chunks/s",
   "gcaa.unit.chunk": "Chunk",
