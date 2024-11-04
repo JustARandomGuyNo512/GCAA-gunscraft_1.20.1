@@ -14,12 +14,14 @@ import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.GunModel;
+import sheridan.gcaa.client.model.gun.LodGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class Python357Model extends GunModel {
+public class Python357Model extends LodGunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/python_357/python_357.png");
+    private final ResourceLocation TEXTURE_LOW = new ResourceLocation(GCAA.MODID, "model_assets/guns/python_357/python_357_low.png");
     private final AnimationDefinition recoil, reload;
     private ModelPart body;
     private ModelPart hammer;
@@ -30,8 +32,11 @@ public class Python357Model extends GunModel {
     private ModelPart[] unFiredBullets;
     private ModelPart[] firedBullets;
 
+    private ModelPart body_low, mag_low, hammer_low;
+
     public Python357Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/python_357/python_357.geo.json"),
+                new ResourceLocation(GCAA.MODID, "model_assets/guns/python_357/python_357_low.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/python_357/python_357.animation.json"));
         recoil = animations.get("recoil");
         reload = animations.get("reload");
@@ -63,7 +68,14 @@ public class Python357Model extends GunModel {
     }
 
     @Override
-    protected void renderGunModel(GunRenderContext context) {
+    protected void postInitLowQuality(ModelPart lowQualityGun, ModelPart lowQualityRoot) {
+        body_low = lowQualityGun.getChild("body").meshing();
+        mag_low = lowQualityGun.getChild("mag").meshing();
+        hammer_low = lowQualityGun.getChild("hammer").meshing();
+    }
+
+    @Override
+    protected void renderGunNormal(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         if (context.isFirstPerson) {
             handleBulletsVisible(context);
@@ -79,6 +91,12 @@ public class Python357Model extends GunModel {
             context.renderArm(leftArm, false);
         }
         context.renderArm(right_arm, true);
+    }
+
+    @Override
+    protected void renderGunLow(GunRenderContext context) {
+        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE_LOW));
+        context.render(vertexConsumer, body_low, hammer_low, mag_low);
     }
 
     @Override
