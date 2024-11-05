@@ -5,6 +5,7 @@ import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.IReloadTask;
 import sheridan.gcaa.client.SingleReloadTask;
+import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.gun.propertyExtensions.HandActionExtension;
 import sheridan.gcaa.items.gun.propertyExtensions.SingleReloadExtension;
 
@@ -20,7 +21,7 @@ public class PumpActionShotgun extends HandActionGun{
     public void reload(ItemStack stack, Player player) {
         int num = singleReloadExtension.singleReloadNum;
         if (num > 0) {
-            setAmmoLeft(stack, Math.min(getAmmoLeft(stack) + num, getMagSize(stack)));
+            AmmunitionHandler.reloadFor(player, stack, this, num);
         }
     }
 

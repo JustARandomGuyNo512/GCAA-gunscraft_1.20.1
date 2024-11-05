@@ -51,6 +51,7 @@ public interface IGun {
     void setEffectiveSightUUID(ItemStack stack, String uuid);
     void newAttachmentsModifiedUUID(ItemStack stack);
     String getSelectedAmmunitionTypeUUID(ItemStack stack);
+    void setSelectedAmmunitionTypeUUID(ItemStack stack, String UUID);
 
     default boolean allowShootWhileReloading() {return false;}
     default boolean shouldHandleAds(ItemStack stack) {return true;}

@@ -3,6 +3,7 @@ package sheridan.gcaa.items.gun;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.client.*;
+import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.gun.propertyExtensions.AutoShotgunExtension;
 
 public class AutoShotgun extends HandActionGun {
@@ -18,7 +19,7 @@ public class AutoShotgun extends HandActionGun {
     public void reload(ItemStack stack, Player player) {
         int num = autoShotgunExtension.singleReloadNum;
         if (num > 0) {
-            setAmmoLeft(stack, Math.min(getAmmoLeft(stack) + num, getMagSize(stack)));
+            AmmunitionHandler.reloadFor(player, stack, this, num);
         }
     }
 

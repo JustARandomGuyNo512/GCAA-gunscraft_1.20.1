@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.AmmunitionManagePacket;
+import sheridan.gcaa.utils.FontUtils;
 
 import java.util.*;
 
@@ -69,11 +70,17 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         if (mods.size() > 0) {
             //TODO: add mod info
         }
+        pTooltipComponents.add(FontUtils.helperTip(Component.literal(Component.translatable("tooltip.gcaa.manage_ammunition").getString())));
     }
 
     @Override
     public int getAmmoLeft(ItemStack itemStack) {
         return getMaxCapacity(itemStack) - itemStack.getDamageValue();
+    }
+
+    @Override
+    public void setAmmoLeft(ItemStack itemStack, int leftCount) {
+        itemStack.setDamageValue(getMaxCapacity(itemStack) - leftCount);
     }
 
     @Override

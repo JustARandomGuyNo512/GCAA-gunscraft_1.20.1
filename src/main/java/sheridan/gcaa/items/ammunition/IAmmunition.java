@@ -10,6 +10,7 @@ public interface IAmmunition {
     * returns the amount of ammo left in the item
     * */
     int getAmmoLeft(ItemStack itemStack);
+    void setAmmoLeft(ItemStack itemStack, int leftCount);
     /*
     * returns the maximum amount of ammo the item can hold
     */

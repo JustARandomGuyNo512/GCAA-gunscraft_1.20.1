@@ -10,6 +10,7 @@ import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.AnimationSequence;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.frameAnimation.Mark;
+import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
@@ -44,6 +45,9 @@ public class SingleReloadTask extends ReloadTask {
 
     @Override
     public void tick(Player clientPlayer) {
+        if (tick == 0) {
+            reloadNum = Math.min(reloadNum, AmmunitionHandler.getAmmunitionCount(itemStack, gun, clientPlayer));
+        }
         int reloadingTick = tick - enterDelay - reloaded * singleReloadLength;
         if (reloadingTick == triggerReloadDelay && reloaded < reloadNum) {
             PacketHandler.simpleChannel.sendToServer(new GunReloadPacket());

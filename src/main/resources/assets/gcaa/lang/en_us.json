@@ -96,6 +96,7 @@
   "tooltip.gcaa.show_full_gun_info": "Press $key to display details",
   "tooltip.gcaa.excellent_worse": "Excellent: Worse:",
   "tooltip.gcaa.turn_flashlight": "Press $key turn on / off flashlight or lighting mode",
+  "tooltip.gcaa.manage_ammunition": "Right-click to merge this type of loose ammo",
 
   "tooltip.ammunition_info.ammo_left": "Ammo Left：",
 

@@ -364,7 +364,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
 
     @Override
     public void reload(ItemStack stack, Player player) {
-        setAmmoLeft(stack, getMagSize(stack));
+        AmmunitionHandler.reloadFor(player, stack, this, getMagSize(stack));
     }
 
     @Override
@@ -421,6 +421,11 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             tag.putString("selected_ammunition_type_uuid", "");
             return "";
         }
+    }
+
+    @Override
+    public void setSelectedAmmunitionTypeUUID(ItemStack stack, String UUID) {
+        checkAndGet(stack).putString("selected_ammunition_type_uuid", UUID);
     }
 
     public CompoundTag checkAndGet(ItemStack stack) {

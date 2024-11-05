@@ -96,6 +96,7 @@
   "tooltip.gcaa.show_full_gun_info": "按 $key 显示详细信息",
   "tooltip.gcaa.excellent_worse": "很棒： 差劲：",
   "tooltip.gcaa.turn_flashlight": "按 $key 开启/关闭 手电筒或者切换照明模式",
+  "tooltip.gcaa.manage_ammunition": "右键鼠标以合并此种类的零散弹药",
 
   "tooltip.ammunition_info.ammo_left": "子弹剩余：",
 
