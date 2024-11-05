@@ -86,7 +86,7 @@ public class Clients {
         return mainHandStatus.holdingGun.get();
     }
     @OnlyIn(Dist.CLIENT)
-    public static ReentrantLock lock = new ReentrantLock();
+    public static final ReentrantLock LOCK = new ReentrantLock();
     @OnlyIn(Dist.CLIENT)
     public static boolean clientRegistriesHandled = false;
     @OnlyIn(Dist.CLIENT)
@@ -423,7 +423,7 @@ public class Clients {
     @OnlyIn(Dist.CLIENT)
     public static int handleClientShoot(ItemStack stack, IGun gun, Player player) {
         try {
-            lock.lock();
+            LOCK.lock();
             IGunFireMode fireMode = gun.getFireMode(stack);
             if (fireMode != null && fireMode.canFire(player, stack, gun)) {
                 fireMode.clientShoot(player, stack, gun);
@@ -432,7 +432,7 @@ public class Clients {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            lock.unlock();
+            LOCK.unlock();
         }
         return 0;
     }

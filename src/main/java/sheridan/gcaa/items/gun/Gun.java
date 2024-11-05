@@ -2,6 +2,8 @@ package sheridan.gcaa.items.gun;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -434,6 +436,12 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             this.onCraftedBy(stack, null, null);
             nbt = stack.getTag();
         }
+        if (!nbt.contains("identity"))  {
+            nbt.putString("identity", UUID.randomUUID().toString());
+        }
+        if (!nbt.contains("selected_ammunition_type_uuid"))  {
+            nbt.putString("selected_ammunition_type_uuid", "");
+        }
         return nbt;
     }
 
@@ -496,10 +504,11 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             CompoundTag magnificationMap = new CompoundTag();
             nbt.put("scope_magnifications", magnificationMap);
         }
-        if (!nbt.contains("selected_ammunition_type_uuid"))  {
-            nbt.putString("selected_ammunition_type_uuid", "");
-        }
         pStack.setTag(nbt);
+    }
+
+    public String getIdentity(ItemStack stack) {
+        return checkAndGet(stack).getString("identity");
     }
 
     @Override
@@ -525,6 +534,10 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @OnlyIn(Dist.CLIENT)
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        Player player = Minecraft.getInstance().player;
+        if (player == null || newStack == player.getOffhandItem()) {
+            return super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
+        }
         if (slotChanged) {
             ReloadingHandler.INSTANCE.cancelTask();
             HandActionHandler.INSTANCE.breakTask();
@@ -533,10 +546,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             Clients.mainHandStatus.buttonDown.set(false);
             Clients.mainHandStatus.ads = false;
             Clients.setEquipDelay(3);
-            Player player = Minecraft.getInstance().player;
-            if (player != null) {
-                player.resetAttackStrengthTicker();
-            }
+            player.resetAttackStrengthTicker();
         }
         return Clients.getEquipDelay() > 0;
     }

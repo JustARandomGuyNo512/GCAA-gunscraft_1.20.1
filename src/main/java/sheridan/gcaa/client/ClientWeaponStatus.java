@@ -29,6 +29,7 @@ public class ClientWeaponStatus {
     public final AtomicBoolean holdingGun;
     public final AtomicInteger fireDelay;
     public final AtomicReference<ItemStack> weapon;
+    public String identity;
     public boolean ads;
     public float equipProgress;
     public int fireCount = 0;
@@ -52,6 +53,7 @@ public class ClientWeaponStatus {
         fireDelay = new AtomicInteger(0);
         weapon = new AtomicReference<>(ItemStack.EMPTY);
         attachmentsStatus = new ClientAttachmentsStatus(this);
+        identity = "";
     }
 
     public void handleAds(ItemStack stack, IGun gun, Player player) {

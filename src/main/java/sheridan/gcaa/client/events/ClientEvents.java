@@ -23,7 +23,7 @@ public class ClientEvents {
                 Clients.cancelLooperWork.set(!Minecraft.getInstance().isWindowActive() || minecraft.isPaused() || minecraft.screen != null);
                 Clients.cancelLooperWorkWithCoolDown.set(player == null || player.isSpectator() || player.isSwimming() || player.isInLava());
                 AnimationHandler.INSTANCE.onClientTick();
-                Clients.lock.lock();
+                Clients.LOCK.lock();
             } catch (Exception ignored) {}
             if (!Clients.clientRegistriesHandled) {
                 ForgeRegistries.ITEMS.getEntries().forEach(entry -> {
@@ -36,8 +36,8 @@ public class ClientEvents {
         }
 
         if (event.phase == TickEvent.Phase.END) {
-            if (Clients.lock.isLocked()) {
-                Clients.lock.unlock();
+            if (Clients.LOCK.isLocked()) {
+                Clients.LOCK.unlock();
             }
             Clients.lastClientTick = System.currentTimeMillis();
             Clients.equipDelayCoolDown();
