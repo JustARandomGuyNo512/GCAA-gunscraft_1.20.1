@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Awp extends HandActionGun {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_762X51MM, 22, 16, 10f, 15f)
+            new Caliber(Caliber.CALIBER_762X51MM, 22, 12, 10f, 15f)
                     .setAmmunition(ModItems.AMMO_7_62X51MM.get());
 
     public Awp() {
@@ -21,7 +21,8 @@ public class Awp extends HandActionGun {
                         10, 3.5f, 1f, 0.1f, 0.1f, 22,
                         List.of(HandAction.HAND_ACTION),
                         ModSounds.AWP_FIRE, ModSounds.AWP_FIRE_SUPPRESSED, caliber),
-                new HandActionExtension("bolt_action", getTicks(0.5f), getTicks(1.25f), 8));
+                new HandActionExtension("bolt_action_ads","bolt_action",
+                        getTicks(0.5f), getTicks(1.25f), 8, true));
     }
 
     @Override

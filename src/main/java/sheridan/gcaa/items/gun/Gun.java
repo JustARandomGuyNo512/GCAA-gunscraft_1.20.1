@@ -556,10 +556,14 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
+        gunBaseInfo(stack, levelIn, tooltip, flagIn);
         if (Clients.displayGunInfoDetails) {
             gunDetailInfo(stack, levelIn, tooltip, flagIn);
         } else {
-            gunBaseInfo(stack, levelIn, tooltip, flagIn);
+            String showDetail = Component.translatable("tooltip.gcaa.show_full_gun_info").getString();
+            showDetail = showDetail.replace("$key", KeyBinds.SHOW_FULL_GUN_INFO.getTranslatedKeyMessage().getString());
+            tooltip.add(FontUtils.helperTip(Component.literal(showDetail)));
+            tooltip.add(FontUtils.getExcellentWorse());
         }
     }
 
@@ -568,17 +572,14 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         tooltip.add(FontUtils.dataTip("tooltip.gun_info.rpm", gunProperties.getRPM(), 1200, 200));
         tooltip.add(FontUtils.dataTip("tooltip.gun_info.weight", getWeight(stack), 5, 40));
         gunProperties.caliber.handleTooltip(stack, this, levelIn, tooltip, flagIn, false);
-        tooltip.add(FontUtils.getExcellentWorse());
-
-        String showDetail = Component.translatable("tooltip.gcaa.show_full_gun_info").getString();
-        showDetail = showDetail.replace("$key", KeyBinds.SHOW_FULL_GUN_INFO.getTranslatedKeyMessage().getString());
-        tooltip.add(FontUtils.helperTip(Component.literal(showDetail)));
+        if (gunProperties.caliber.ammunition != null) {
+            String ammo = Component.translatable("tooltip.gun_info.ammunition").getString();
+            String name = Component.translatable(gunProperties.caliber.ammunition.get().getDescriptionId()).getString();
+            tooltip.add(Component.literal(ammo + name));
+        }
     }
 
     protected void gunDetailInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(FontUtils.dataTip("tooltip.gun_info.mag_size", getMagSize(stack), 100, 0));
-        tooltip.add(FontUtils.dataTip("tooltip.gun_info.rpm", gunProperties.getRPM(), 1200, 0));
-        tooltip.add(FontUtils.dataTip("tooltip.gun_info.weight", getWeight(stack), 5, 40));
         gunProperties.caliber.handleTooltip(stack, this, levelIn, tooltip, flagIn, true);
         tooltip.add(FontUtils.getExcellentWorse());
     }

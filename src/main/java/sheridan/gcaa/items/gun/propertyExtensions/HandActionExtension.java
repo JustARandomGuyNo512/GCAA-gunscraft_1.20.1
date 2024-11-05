@@ -12,15 +12,19 @@ public class HandActionExtension extends PropertyExtension {
     public static final String THROW_BULLET_SHELL_DELAY = "throw_bullet_shell_delay";
 
     public String handActionAnimationName;
+    public String adsHandActionAnimationName;
     public int startDelay;
     public int length;
     public int throwBulletShellDelay;
+    public boolean allowAds;
 
-    public HandActionExtension(String handActionAnimationName, int startDelay, int length, int throwBulletShellDelay)  {
+    public HandActionExtension(String adsHandActionAnimationName, String handActionAnimationName, int startDelay, int length, int throwBulletShellDelay, boolean allowAds)  {
         this.handActionAnimationName = handActionAnimationName;
+        this.adsHandActionAnimationName = adsHandActionAnimationName;
         this.startDelay = startDelay;
         this.length = length;
         this.throwBulletShellDelay = throwBulletShellDelay;
+        this.allowAds = allowAds;
     }
 
     @Override

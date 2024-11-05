@@ -66,7 +66,8 @@ public class HandActionGun extends Gun{
                 stack, this,
                 immediate ? 0 : handActionExtension.startDelay,
                 handActionExtension.length,
-                handActionExtension.handActionAnimationName,
+                Clients.mainHandStatus.ads ?
+                        handActionExtension.adsHandActionAnimationName : handActionExtension.handActionAnimationName,
                 handActionExtension.throwBulletShellDelay);
     }
 
@@ -78,14 +79,20 @@ public class HandActionGun extends Gun{
 
     @Override
     public boolean shouldHandleAds(ItemStack stack) {
-        boolean needHandAction = needHandAction(stack);
-        if (needHandAction && !HandActionHandler.INSTANCE.hasTask()
-                && getAmmoLeft(stack) > 0 && HandActionHandler.INSTANCE.secondsSinceLastTask() > 0.5f) {
-            HandActionHandler.INSTANCE.setHandActionTask(getHandActionTask(stack, true));
-            return false;
-        }
-        if (HandActionHandler.INSTANCE.hasTask() && RenderAndMathUtils.secondsFromNow(Clients.lastShootMain()) > 0.5f) {
-            return false;
+        if (!handActionExtension.allowAds) {
+            boolean needHandAction = needHandAction(stack);
+            if (needHandAction && !HandActionHandler.INSTANCE.hasTask()
+                    && getAmmoLeft(stack) > 0 && HandActionHandler.INSTANCE.secondsSinceLastTask() > 0.5f) {
+                HandActionHandler.INSTANCE.setHandActionTask(getHandActionTask(stack, true));
+                return false;
+            }
+            if (HandActionHandler.INSTANCE.hasTask() && RenderAndMathUtils.secondsFromNow(Clients.lastShootMain()) > 0.5f) {
+                return false;
+            }
+        } else {
+            if (needHandAction(stack) && getAmmoLeft(stack) > 0 && HandActionHandler.INSTANCE.secondsSinceLastTask() > 0.5f) {
+                HandActionHandler.INSTANCE.setHandActionTask(getHandActionTask(stack, true));
+            }
         }
         return super.shouldHandleAds(stack);
     }
