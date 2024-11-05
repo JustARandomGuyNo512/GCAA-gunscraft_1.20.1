@@ -51,7 +51,7 @@ public class AttachmentsHandler {
                         AttachmentSlot prevSlot = root.searchChild(slotName);
                         if (!prevSlot.isLocked() && proxy.onCanAttach(attachment, itemStack, gun, root, prevSlot).isPassed()) {
                             //如果当前配件可以安装
-                            attachment.onAttach(itemStack, gun, properties);
+                            attachment.onAttach(player, itemStack, gun, properties);
                             //如果当前配件有可替换的枪械部件
                             ReplaceableGunPart replaceableGunPart = prevSlot.getReplaceableGunPart();
                             if (replaceableGunPart != null) {
@@ -154,11 +154,11 @@ public class AttachmentsHandler {
         return tag;
     }
 
-    public void serverSetAttachment(ItemStack stack, IGun gun, IAttachment attachment, String slotName,
+    public void serverSetAttachment(Player player, ItemStack stack, IGun gun, IAttachment attachment, String slotName,
                                     String modelSlotName, String parentUuid, byte direction, String replaceableGunPartUuid)  {
         CompoundTag properties = gun.getPropertiesTag(stack);
         ListTag attachments = gun.getAttachmentsListTag(stack);
-        attachment.onAttach(stack, gun, properties);
+        attachment.onAttach(player, stack, gun, properties);
         ReplaceableGunPart replaceableGunPart = ReplaceableGunPart.get(replaceableGunPartUuid);
         if (replaceableGunPart != null) {
             replaceableGunPart.onOccupied(stack, gun, properties);
@@ -168,7 +168,7 @@ public class AttachmentsHandler {
         gun.setAttachmentsListTag(stack, attachments);
     }
 
-    public ItemStack serverUninstallAttachment(ItemStack stack, IGun gun, String uuid, String replaceableGunPartUuid) {
+    public ItemStack serverUninstallAttachment(Player player, ItemStack stack, IGun gun, String uuid, String replaceableGunPartUuid) {
         CompoundTag properties = gun.getPropertiesTag(stack);
         ListTag attachments = gun.getAttachmentsListTag(stack);
         ItemStack stackToReturn = null;
@@ -179,7 +179,7 @@ public class AttachmentsHandler {
                 String attachmentId = tag.getString("id");
                 IAttachment attachment = AttachmentsRegister.get(attachmentId);
                 if (attachment != null) {
-                    attachment.onDetach(stack, gun, properties);
+                    attachment.onDetach(player, stack, gun, properties);
                     ReplaceableGunPart replaceableGunPart = ReplaceableGunPart.get(replaceableGunPartUuid);
                     if (replaceableGunPart != null) {
                         replaceableGunPart.onEmpty(stack, gun, properties);

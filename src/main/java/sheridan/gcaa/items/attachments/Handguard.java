@@ -1,6 +1,7 @@
 package sheridan.gcaa.items.attachments;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.items.gun.GunProperties;
@@ -21,19 +22,19 @@ public class Handguard extends SubSlotProvider{
     }
 
     @Override
-    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
+    public void onAttach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate + recoilPitchControlIncRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate + yawPitchControlIncRate);
-        super.onAttach(stack, gun, data);
+        super.onAttach(player, stack, gun, data);
     }
 
     @Override
-    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
+    public void onDetach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate - recoilPitchControlIncRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate - yawPitchControlIncRate);
-        super.onDetach(stack, gun, data);
+        super.onDetach(player, stack, gun, data);
     }
 
     @Override

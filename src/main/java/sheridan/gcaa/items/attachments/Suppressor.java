@@ -2,6 +2,7 @@ package sheridan.gcaa.items.attachments;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
@@ -24,23 +25,23 @@ public class Suppressor extends Attachment{
     }
 
     @Override
-    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
+    public void onAttach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
         properties.setMuzzleFlash(data, Gun.MUZZLE_STATE_SUPPRESSOR);
         properties.setPropertyRateIfHas(GunProperties.FIRE_SOUND_VOL, data, (prevRate) -> prevRate - volumeLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH, data, (prevRate) -> prevRate - pitchRecoilLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW, data, (prevRate) -> prevRate - yawRecoilLowerRate);
-        super.onAttach(stack, gun, data);
+        super.onAttach(player, stack, gun, data);
     }
 
     @Override
-    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
+    public void onDetach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
         properties.setMuzzleFlash(data, Gun.MUZZLE_STATE_NORMAL);
         properties.setPropertyRateIfHas(GunProperties.FIRE_SOUND_VOL, data, (prevRate) -> prevRate + volumeLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH, data, (prevRate) -> prevRate + pitchRecoilLowerRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW, data, (prevRate) -> prevRate + yawRecoilLowerRate);
-        super.onDetach(stack, gun, data);
+        super.onDetach(player, stack, gun, data);
     }
 
 }

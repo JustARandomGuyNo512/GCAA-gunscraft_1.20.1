@@ -1,6 +1,7 @@
 package sheridan.gcaa.items.attachments;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.items.gun.GunProperties;
@@ -69,10 +70,10 @@ public abstract class ReplaceableGunPart implements IAttachment{
     }
 
     @Override
-    public final void onAttach(ItemStack stack, IGun gun, CompoundTag data) {}
+    public final void onAttach(Player player, ItemStack stack, IGun gun, CompoundTag data) {}
 
     @Override
-    public final void onDetach(ItemStack stack, IGun gun, CompoundTag data) {}
+    public final void onDetach(Player player, ItemStack stack, IGun gun, CompoundTag data) {}
 
     @Override
     public final AttachResult canAttach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {return PASSED;}

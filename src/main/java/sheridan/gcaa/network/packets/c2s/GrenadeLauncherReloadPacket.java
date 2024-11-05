@@ -12,16 +12,21 @@ import sheridan.gcaa.network.IPacket;
 import java.util.function.Supplier;
 
 public class GrenadeLauncherReloadPacket implements IPacket<GrenadeLauncherReloadPacket> {
+    public String attachmentId;
     public GrenadeLauncherReloadPacket() {}
+
+    public GrenadeLauncherReloadPacket(String attachmentId) {
+        this.attachmentId = attachmentId;
+    }
 
     @Override
     public void encode(GrenadeLauncherReloadPacket message, FriendlyByteBuf buffer) {
-
+        buffer.writeUtf(message.attachmentId);
     }
 
     @Override
     public GrenadeLauncherReloadPacket decode(FriendlyByteBuf buffer) {
-        return new GrenadeLauncherReloadPacket();
+        return new GrenadeLauncherReloadPacket(buffer.readUtf());
     }
 
     @Override
@@ -31,7 +36,7 @@ public class GrenadeLauncherReloadPacket implements IPacket<GrenadeLauncherReloa
             if (player != null) {
                 ItemStack heldItem = player.getMainHandItem();
                 if (heldItem.getItem() instanceof IGun gun) {
-                    GrenadeLauncher.reload(heldItem, gun, player);
+                    GrenadeLauncher.reload(message.attachmentId, heldItem, gun, player);
                 }
             }
         });

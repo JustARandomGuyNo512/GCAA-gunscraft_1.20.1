@@ -70,6 +70,38 @@ public class AmmunitionHandler {
         }
     }
 
+    public static void andAmmunition(Player player, IAmmunition ammunition, int count) {
+        NonNullList<ItemStack> items = player.getInventory().items;
+        int left = count;
+        for (ItemStack itemStack : items) {
+            if (itemStack.getItem() instanceof IAmmunition ammo && ammo == ammunition && Objects.equals(ammo.getModsUUID(itemStack), "")) {
+                int capacityLeft = ammo.getMaxCapacity(itemStack) - ammo.getAmmoLeft(itemStack);
+                if (capacityLeft > 0) {
+                    int add = Math.min(capacityLeft, left);
+                    ammo.setAmmoLeft(itemStack, ammo.getAmmoLeft(itemStack) + add);
+                    left -= add;
+                    if (left == 0) {
+                        return;
+                    }
+                }
+            }
+        }
+        int capacity = ammunition.get().getMaxDamage();
+        while (left > 0) {
+            int ammoCount = Math.min(left, capacity);
+            ItemStack itemStack = new ItemStack(ammunition.get());
+            ammunition.setAmmoLeft(itemStack, ammoCount);
+            if (!player.addItem(itemStack)) {
+                player.drop(itemStack, false);
+            }
+            left -= ammoCount;
+        }
+    }
+
+    public static void andAmmunition(Player player, IAmmunition ammunition, ItemStack itemStack) {
+
+    }
+
     public static void reloadFor(Player player, ItemStack gunStack, IGun gun, int exceptedReloadNum) {
         if (exceptedReloadNum <= 0) {
             return;

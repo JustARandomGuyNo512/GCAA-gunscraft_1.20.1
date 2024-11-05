@@ -36,6 +36,7 @@ public class ModItems {
     public static final RegistryObject<Ammo762x39mm> AMMO_7_62X39MM = ITEMS.register("ammo7_62x39mm", Ammo762x39mm::new);
     public static final RegistryObject<Ammo45ACP> AMMO_45ACP = ITEMS.register("ammo_45acp", Ammo45ACP::new);
     public static final RegistryObject<Ammo357Magnum> AMMO_357MAGNUM = ITEMS.register("ammo_357magnum", Ammo357Magnum::new);
+    public static final RegistryObject<AmmoVOG25> AMMO_VOG_25 = ITEMS.register("ammo_vog_25", AmmoVOG25::new);
 
     public static final RegistryObject<G19> G19 = ITEMS.register("g19", G19::new);
     public static final RegistryObject<Python357> PYTHON_357 = ITEMS.register("python_357", Python357::new);

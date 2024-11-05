@@ -44,7 +44,7 @@ public class UninstallAttachmentPacket implements IPacket<UninstallAttachmentPac
             if (player != null) {
                 ItemStack heldItem = player.getMainHandItem();
                 if (heldItem.getItem() instanceof IGun gun) {
-                    ItemStack stackToReturn = AttachmentsHandler.INSTANCE.serverUninstallAttachment(heldItem, gun, message.uuid, message.replaceableGunPartUuid);
+                    ItemStack stackToReturn = AttachmentsHandler.INSTANCE.serverUninstallAttachment(player, heldItem, gun, message.uuid, message.replaceableGunPartUuid);
                     if (stackToReturn != null) {
                         if (!player.addItem(stackToReturn)) {
                             ItemEntity entity = new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), stackToReturn);

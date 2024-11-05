@@ -111,7 +111,7 @@ public class Grenade extends Entity{
                     Block block = blockState.getBlock();
                     if (block instanceof AbstractGlassBlock || block instanceof StainedGlassPaneBlock || "minecraft:glass_pane".equals(BuiltInRegistries.BLOCK.getKey(block).toString())) {
                         this.level().destroyBlock(hitResult.getBlockPos(), false);
-                        this.setDeltaMovement(deltaMovement.scale(0.5f));
+                        this.setDeltaMovement(deltaMovement.scale(0.3f));
                         bounce = false;
                         bounced ++;
                     }

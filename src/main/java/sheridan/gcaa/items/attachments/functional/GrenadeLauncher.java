@@ -1,11 +1,20 @@
 package sheridan.gcaa.items.attachments.functional;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.GrenadeLauncherReloadTask;
 import sheridan.gcaa.client.KeyBinds;
@@ -17,8 +26,12 @@ import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
 import sheridan.gcaa.entities.ModEntities;
 import sheridan.gcaa.entities.projectiles.Grenade;
+import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.items.ammunition.AmmunitionHandler;
+import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.IArmReplace;
+import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.IInteractive;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
@@ -28,15 +41,18 @@ import sheridan.gcaa.network.packets.c2s.FireGrenadeLauncherPacket;
 import sheridan.gcaa.sounds.ModSounds;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
+import java.util.List;
 import java.util.Objects;
 
 public class GrenadeLauncher extends Attachment implements IArmReplace, IInteractive {
     public static final String KEY_AMMO = "grenade_ammo";
     @OnlyIn(Dist.CLIENT)
     private Object recoilData;
+    public final IAmmunition ammunition;
 
     public GrenadeLauncher() {
         super(2.5f);
+        this.ammunition = ModItems.AMMO_VOG_25.get();
     }
 
     public static boolean hasGrenade(ItemStack stack, IGun gun) {
@@ -62,8 +78,27 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
         return tag.contains("last_fire_grenade") ? tag.getLong("last_fire_grenade") : 0;
     }
 
-    public static void reload(ItemStack stack, IGun gun, Player player) {
-        setHasGrenade(stack, gun, true);
+    public static void reload(String attachmentId, ItemStack stack, IGun gun, Player player) {
+        IAttachment attachment = AttachmentsRegister.get(attachmentId);
+        if (attachment instanceof GrenadeLauncher grenadeLauncher) {
+            IAmmunition ammunition = grenadeLauncher.ammunition;
+            NonNullList<ItemStack> items = player.getInventory().items;
+            for (int i = 0; i < items.size(); i ++) {
+                ItemStack itemStack = items.get(i);
+                if (itemStack.getItem() instanceof IAmmunition ammo && ammo == ammunition) {
+                    int ammoLeft = ammo.getAmmoLeft(itemStack);
+                    if (ammoLeft - 1 == 0) {
+                        items.set(i, new ItemStack(Items.AIR));
+                    } else {
+                        ammo.setAmmoLeft(itemStack, ammoLeft - 1);
+                    }
+                    if (ammoLeft > 0) {
+                        setHasGrenade(stack, gun, true);
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     public static void shoot(ItemStack stack, IGun gun, Player player, long lastFire) {
@@ -89,22 +124,22 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
     }
 
     @Override
-    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
+    public void onAttach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         if (!hasGrenade(stack, gun)) {
             setHasGrenade(stack, gun, false);
         }
         setLastFire(data, 0L);
-        super.onAttach(stack, gun, data);
+        super.onAttach(player, stack, gun, data);
     }
 
     @Override
-    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
+    public void onDetach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         if (hasGrenade(stack, gun)) {
-            //TODO: 出了弹药系统记得把榴弹还给玩家
+            AmmunitionHandler.andAmmunition(player, ammunition, 1);
         }
         CompoundTag tag = gun.getGun().checkAndGet(stack);
         tag.remove(KEY_AMMO);
-        super.onDetach(stack, gun, data);
+        super.onDetach(player, stack, gun, data);
     }
 
     @Override
@@ -154,7 +189,14 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
                             && gun.getAmmoLeft(stack) > 0) {
                         return;
                     }
+                    if (!AmmunitionHandler.hasAmmunition(stack, ammunition, player)) {
+                        String str = Component.translatable("tooltip.screen_info.no_ammo").getString();
+                        String ammunitionName = Component.translatable(ammunition.get().getDescriptionId()).getString();
+                        Minecraft.getInstance().gui.setOverlayMessage(Component.literal(str.replace("$ammo", ammunitionName)), false);
+                        return;
+                    }
                     ReloadingHandler.INSTANCE.setTask(new GrenadeLauncherReloadTask(
+                            AttachmentsRegister.getStrKey(this),
                             RenderAndMathUtils.secondsToTicks(2.1f),
                             GP_25Model.INSTANCE.getGunReload(),
                             GP_25Model.INSTANCE.getAttachmentReload(),
@@ -169,4 +211,12 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
     @Override
     @OnlyIn(Dist.CLIENT)
     public void onMouseButton(int btn, int action, ItemStack stack, IGun gun, Player player) {}
+
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        String ammo = Component.translatable("tooltip.gun_info.ammunition").getString();
+        String name = Component.translatable(ammunition.get().getDescriptionId()).getString();
+        pTooltipComponents.add(Component.literal(ammo + name));
+    }
 }

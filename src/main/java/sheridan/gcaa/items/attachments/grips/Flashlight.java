@@ -2,6 +2,7 @@ package sheridan.gcaa.items.attachments.grips;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -25,8 +26,8 @@ public class Flashlight extends Attachment {
     }
 
     @Override
-    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
-        super.onAttach(stack, gun, data);
+    public void onAttach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
+        super.onAttach(player, stack, gun, data);
         CompoundTag nbt = gun.getGun().checkAndGet(stack);
         if (!nbt.contains("flashlight_mode")) {
             nbt.putInt("flashlight_mode", OFF);
@@ -74,8 +75,8 @@ public class Flashlight extends Attachment {
     }
 
     @Override
-    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
-        super.onDetach(stack, gun, data);
+    public void onDetach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
+        super.onDetach(player, stack, gun, data);
         CompoundTag nbt = gun.getGun().checkAndGet(stack);
         System.out.println(getFlashlightNum(stack, gun));
         if (nbt.contains("flashlight_mode") && getFlashlightNum(stack, gun) <= 1) {

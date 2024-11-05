@@ -69,6 +69,7 @@ public class ModTabs {
                     tab.accept(ModItems.AMMO_7_62X51MM.get());
                     tab.accept(ModItems.AMMO_12GAUGE.get());
                     tab.accept(ModItems.AMMO_357MAGNUM.get());
+                    tab.accept(ModItems.AMMO_VOG_25.get());
                 }).build());
 
         GUNS_TAB = MOD_TABS.register("guns", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.guns"))

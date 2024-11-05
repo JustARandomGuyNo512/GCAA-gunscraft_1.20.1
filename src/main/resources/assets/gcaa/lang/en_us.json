@@ -56,6 +56,7 @@
   "item.gcaa.ammo7_62x39mm": "7.62x39mmmm Assault Rifle Rounds",
   "item.gcaa.ammo_45acp": ".45 ACP Pistol Rounds",
   "item.gcaa.ammo_357magnum": ".357 Magnum Rounds",
+  "item.gcaa.ammo_vog_25": "VOG-25 Grenade",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",

@@ -1,6 +1,7 @@
 package sheridan.gcaa.items.attachments;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
@@ -22,9 +23,9 @@ public class Mag extends Attachment{
     }
 
     @Override
-    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
+    public void onAttach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
-        super.onAttach(stack, gun, data);
+        super.onAttach(player, stack, gun, data);
         if (specialCapacity.containsKey(gun)) {
             properties.setMagSize(data, specialCapacity.get(gun));
         } else {
@@ -33,9 +34,9 @@ public class Mag extends Attachment{
     }
 
     @Override
-    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
+    public void onDetach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         gun.getGunProperties().resetMagSize(data);
-        super.onDetach(stack, gun, data);
+        super.onDetach(player, stack, gun, data);
         int ammoLeft = gun.getAmmoLeft(stack);
         gun.setAmmoLeft(stack, Math.min(ammoLeft, gun.getMagSize(stack)));
     }

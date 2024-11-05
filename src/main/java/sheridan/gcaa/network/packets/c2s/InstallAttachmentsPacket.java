@@ -73,7 +73,7 @@ public class InstallAttachmentsPacket implements IPacket<InstallAttachmentsPacke
                 if (player != null) {
                     ItemStack heldItem = player.getMainHandItem();
                     if (heldItem.getItem() instanceof IGun gun) {
-                        AttachmentsHandler.INSTANCE.serverSetAttachment(heldItem, gun, attachment, message.slotName,
+                        AttachmentsHandler.INSTANCE.serverSetAttachment(player, heldItem, gun, attachment, message.slotName,
                                 message.modelSlotName, message.parentUuid, message.direction, message.replaceableGunPartUuid);
                         ListTag attachments = gun.getAttachmentsListTag(heldItem);
                         if (player.containerMenu instanceof AttachmentsMenu menu) {

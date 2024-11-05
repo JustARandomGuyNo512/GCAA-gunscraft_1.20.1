@@ -25,13 +25,16 @@ public class GrenadeLauncherReloadTask implements IReloadTask {
     private final IGun gun;
     private int tick = 0;
     private boolean completed = false;
+    private final String attachmentId;
 
-    public GrenadeLauncherReloadTask(int length, AnimationDefinition gunReloadAnimation, AnimationDefinition attachmentReloadAnimation, IGun gun, ItemStack itemStack) {
+    public GrenadeLauncherReloadTask(String attachmentId, int length, AnimationDefinition gunReloadAnimation,
+                                     AnimationDefinition attachmentReloadAnimation, IGun gun, ItemStack itemStack) {
         this.length = length;
         this.gunReloadAnimation = gunReloadAnimation;
         this.attachmentReloadAnimation = attachmentReloadAnimation;
         this.gun = gun;
         this.itemStack = itemStack;
+        this.attachmentId = attachmentId;
     }
 
     @Override
@@ -43,8 +46,8 @@ public class GrenadeLauncherReloadTask implements IReloadTask {
     public void tick(Player clientPlayer) {
         if (tick >= length) {
             PlayerStatusProvider.setReloading(clientPlayer, false);
-            PacketHandler.simpleChannel.sendToServer(new GrenadeLauncherReloadPacket());
-            GrenadeLauncher.reload(itemStack, gun, clientPlayer);
+            PacketHandler.simpleChannel.sendToServer(new GrenadeLauncherReloadPacket(attachmentId));
+            GrenadeLauncher.reload(attachmentId, itemStack, gun, clientPlayer);
             completed = true;
             return;
         }

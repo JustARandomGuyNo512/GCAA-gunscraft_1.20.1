@@ -18,4 +18,6 @@ public class AKImprovedDustCover extends SubSlotProvider {
     public void appendSlots(AttachmentSlot parent, AttachmentSlot root) {
         parent.addChild(this.root.getChild("dust_cover_scope").copy());
     }
+
+
 }

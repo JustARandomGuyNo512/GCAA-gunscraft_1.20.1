@@ -1,6 +1,7 @@
 package sheridan.gcaa.items.attachments.stocks;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.gun.GunProperties;
@@ -13,7 +14,7 @@ public class CTRStock extends Attachment {
     }
 
     @Override
-    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
+    public void onAttach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate + 0.2f);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate + 0.2f);
@@ -22,11 +23,11 @@ public class CTRStock extends Attachment {
         properties.setPropertyRateIfHas(GunProperties.SPRINTING_SPREAD_FACTOR, data, (prevRate) -> prevRate - 0.05f);
         properties.setPropertyRateIfHas(GunProperties.WALKING_SPREAD_FACTOR, data, (prevRate) -> prevRate - 0.05f);
         properties.setPropertyRateIfHas(GunProperties.AGILITY, data, (prevRate) -> prevRate + 0.05f);
-        properties.addWeight(data, weight);
+        super.onAttach(player, stack, gun, data);
     }
 
     @Override
-    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
+    public void onDetach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate - 0.2f);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate - 0.2f);
@@ -35,6 +36,6 @@ public class CTRStock extends Attachment {
         properties.setPropertyRateIfHas(GunProperties.SPRINTING_SPREAD_FACTOR, data, (prevRate) -> prevRate + 0.05f);
         properties.setPropertyRateIfHas(GunProperties.WALKING_SPREAD_FACTOR, data, (prevRate) -> prevRate + 0.05f);
         properties.setPropertyRateIfHas(GunProperties.AGILITY, data, (prevRate) -> prevRate - 0.05f);
-        properties.addWeight(data, - weight);
+        super.onAttach(player, stack, gun, data);
     }
 }

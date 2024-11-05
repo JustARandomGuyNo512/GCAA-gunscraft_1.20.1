@@ -3,6 +3,7 @@ package sheridan.gcaa.items.attachments;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -50,13 +51,13 @@ public abstract class Attachment extends NoRepairNoEnchantmentItem implements IA
     }
 
     @Override
-    public void onAttach(ItemStack stack, IGun gun, CompoundTag data) {
+    public void onAttach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
         properties.addWeight(data, weight);
     }
 
     @Override
-    public void onDetach(ItemStack stack, IGun gun, CompoundTag data) {
+    public void onDetach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
         properties.addWeight(data, -weight);
     }
