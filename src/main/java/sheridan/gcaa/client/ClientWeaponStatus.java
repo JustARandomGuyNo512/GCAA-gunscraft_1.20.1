@@ -70,7 +70,6 @@ public class ClientWeaponStatus {
                         if (!switchSightTooltipShowed && attachmentsStatus.sights.size() > 1) {
                             String info = Component.translatable("tooltip.screen_info.switch_sight").getString();
                             info = info.replace("$key", KeyBinds.SWITCH_EFFECTIVE_SIGHT.getTranslatedKeyMessage().getString());
-//                            player.displayClientMessage(Component.literal(info), false);
                             Minecraft.getInstance().gui.setOverlayMessage(Component.literal(info), false);
                             switchSightTooltipShowed = true;
                         }

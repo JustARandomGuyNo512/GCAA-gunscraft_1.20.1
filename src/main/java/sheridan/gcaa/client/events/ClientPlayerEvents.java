@@ -44,8 +44,8 @@ public class ClientPlayerEvents {
                 Clients.mainHandStatus.fireDelay.set(gunMain.getFireDelay(stackMain));
                 Clients.mainHandStatus.adsSpeed = Math.min(gunMain.getAdsSpeed(stackMain) * 0.05f, 0.25f);
                 Clients.mainHandStatus.attachmentsStatus.checkAndUpdate(stackMain, gunMain, player);
-                Clients.mainHandStatus.weapon.set(stackMain);
                 Clients.mainHandStatus.identity = gunMain.getGun().getIdentity(stackMain);
+                Clients.mainHandStatus.weapon.set(stackMain);
             } else {
                 Clients.mainHandStatus.weapon.set(ItemStack.EMPTY);
                 Clients.mainHandStatus.identity = "";

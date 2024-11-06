@@ -21,6 +21,8 @@ import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 
+import java.util.UUID;
+
 @Mod.EventBusSubscriber
 public class CommonEvents {
     @SubscribeEvent
@@ -54,6 +56,10 @@ public class CommonEvents {
                     gun.afterGunDataUpdate(stack);
                 }
                 AmmunitionHandler.checkAndUpdateAmmunitionBind(player, stack, gun);
+                CompoundTag tag = gun.getGun().checkAndGet(stack);
+                if (!tag.contains("identity_temp")) {
+                    tag.putString("identity_temp", UUID.randomUUID().toString());
+                }
             }
             if (stack.getItem() instanceof UnknownAttachment) {
                 CompoundTag tag = stack.getTag();

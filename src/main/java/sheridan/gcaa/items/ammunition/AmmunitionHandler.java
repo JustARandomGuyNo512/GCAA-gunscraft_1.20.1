@@ -103,7 +103,7 @@ public class AmmunitionHandler {
     }
 
     public static void reloadFor(Player player, ItemStack gunStack, IGun gun, int exceptedReloadNum) {
-        if (exceptedReloadNum <= 0) {
+        if (exceptedReloadNum <= 0 || gunStack != player.getMainHandItem()) {
             return;
         }
         exceptedReloadNum = Math.min(exceptedReloadNum, gun.getMagSize(gunStack) - gun.getAmmoLeft(gunStack));

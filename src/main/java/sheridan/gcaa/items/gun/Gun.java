@@ -436,12 +436,6 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             this.onCraftedBy(stack, null, null);
             nbt = stack.getTag();
         }
-        if (!nbt.contains("identity"))  {
-            nbt.putString("identity", UUID.randomUUID().toString());
-        }
-        if (!nbt.contains("selected_ammunition_type_uuid"))  {
-            nbt.putString("selected_ammunition_type_uuid", "");
-        }
         return nbt;
     }
 
@@ -504,11 +498,15 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             CompoundTag magnificationMap = new CompoundTag();
             nbt.put("scope_magnifications", magnificationMap);
         }
+        if (!nbt.contains("selected_ammunition_type_uuid"))  {
+            nbt.putString("selected_ammunition_type_uuid", "");
+        }
         pStack.setTag(nbt);
     }
 
     public String getIdentity(ItemStack stack) {
-        return checkAndGet(stack).getString("identity");
+        CompoundTag nbt = checkAndGet(stack);
+        return nbt.contains("identity_temp") ? nbt.getString("identity_temp") : "";
     }
 
     @Override
