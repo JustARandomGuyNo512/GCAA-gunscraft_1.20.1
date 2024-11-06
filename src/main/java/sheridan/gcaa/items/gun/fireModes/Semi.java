@@ -28,8 +28,8 @@ public class Semi implements IGunFireMode {
     @Override
     public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
         gun.clientShoot(itemStack, player, this);
-        Clients.mainHandStatus.buttonDown.set(false);
-        Clients.mainHandStatus.fireCount = 0;
+        Clients.MAIN_HAND_STATUS.buttonDown.set(false);
+        Clients.MAIN_HAND_STATUS.fireCount = 0;
     }
 
     @Override

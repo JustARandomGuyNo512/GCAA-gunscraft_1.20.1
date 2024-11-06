@@ -13,7 +13,6 @@ import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
-import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.gun.LodGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -119,7 +118,7 @@ public class Python357Model extends LodGunModel {
     private static final float R_45 = (float) Math.toRadians(45);
     private static final float R_60 = (float) Math.toRadians(60);
     private void handleChargeAnimation(GunRenderContext context) {
-        float chargeProgress = Clients.mainHandStatus.getLerpedChargeTick(Minecraft.getInstance().getPartialTick());
+        float chargeProgress = Clients.MAIN_HAND_STATUS.getLerpedChargeTick(Minecraft.getInstance().getPartialTick());
         int ammoLeft = context.ammoLeft;
         if (chargeProgress != 0) {
             hammer.xRot = -Mth.lerp(chargeProgress, 0, R_45);

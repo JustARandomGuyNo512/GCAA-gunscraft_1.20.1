@@ -77,7 +77,7 @@ public class AutoShotgunReloadTask extends SingleReloadTask{
                 super.start();
             }
         }
-        Clients.mainHandStatus.ads = false;
+        Clients.MAIN_HAND_STATUS.ads = false;
         HandActionHandler.INSTANCE.breakTask();
     }
 }

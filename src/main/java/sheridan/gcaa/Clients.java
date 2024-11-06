@@ -76,21 +76,21 @@ import static sheridan.gcaa.client.render.DisplayData.DataType.SCALE;
 
 public class Clients {
     @OnlyIn(Dist.CLIENT)
-    public static ClientWeaponStatus mainHandStatus = new ClientWeaponStatus(true);
+    public static final ClientWeaponStatus MAIN_HAND_STATUS = new ClientWeaponStatus(true);
     @OnlyIn(Dist.CLIENT)
     public static boolean mainButtonDown() {
-        return mainHandStatus.buttonDown.get();
+        return MAIN_HAND_STATUS.buttonDown.get();
     }
     @OnlyIn(Dist.CLIENT)
     public static boolean holdingGun() {
-        return mainHandStatus.holdingGun.get();
+        return MAIN_HAND_STATUS.holdingGun.get();
     }
     @OnlyIn(Dist.CLIENT)
     public static final ReentrantLock LOCK = new ReentrantLock();
     @OnlyIn(Dist.CLIENT)
     public static boolean clientRegistriesHandled = false;
     @OnlyIn(Dist.CLIENT)
-    public static Timer clientWeaponLooperTimer = new Timer();
+    public static final Timer CLIENT_WEAPON_LOOPER_TIMER = new Timer();
     @OnlyIn(Dist.CLIENT)
     public static AtomicBoolean cancelLooperWork = new AtomicBoolean(false);
     @OnlyIn(Dist.CLIENT)
@@ -99,7 +99,7 @@ public class Clients {
     public static int clientPlayerId = 0;
     @OnlyIn(Dist.CLIENT)
     public static long lastShootMain() {
-        return mainHandStatus.lastShoot;
+        return MAIN_HAND_STATUS.lastShoot;
     }
     @OnlyIn(Dist.CLIENT)
     public static volatile long lastClientTick;
@@ -109,23 +109,23 @@ public class Clients {
     public static boolean debugKeyDown = false;
     @OnlyIn(Dist.CLIENT)
     public static int getEquipDelay() {
-        return mainHandStatus.equipDelay;
+        return MAIN_HAND_STATUS.equipDelay;
     }
     @OnlyIn(Dist.CLIENT)
     public static void equipDelayCoolDown() {
-        mainHandStatus.equipDelay = Math.max(0, mainHandStatus.equipDelay-1);
+        MAIN_HAND_STATUS.equipDelay = Math.max(0, MAIN_HAND_STATUS.equipDelay-1);
     }
     @OnlyIn(Dist.CLIENT)
     public static void setEquipDelay(int delay) {
-        mainHandStatus.equipDelay = delay;
+        MAIN_HAND_STATUS.equipDelay = delay;
     }
     @OnlyIn(Dist.CLIENT)
     public static boolean isInAds() {
-        return mainHandStatus.ads;
+        return MAIN_HAND_STATUS.ads;
     }
     @OnlyIn(Dist.CLIENT)
     public static float getAdsProgress() {
-        return mainHandStatus.adsProgress;
+        return MAIN_HAND_STATUS.adsProgress;
     }
     @OnlyIn(Dist.CLIENT)
     public static boolean shouldHideFPRender = false;
@@ -133,7 +133,7 @@ public class Clients {
     public static boolean displayGunInfoDetails = false;
     @OnlyIn(Dist.CLIENT)
     public static String getEffectiveSightUUID() {
-        return mainHandStatus.attachmentsStatus.getEffectiveSightUUID();
+        return MAIN_HAND_STATUS.attachmentsStatus.getEffectiveSightUUID();
     }
     @OnlyIn(Dist.CLIENT)
     public static float weaponAdsZMinDistance = Float.NaN;
@@ -149,7 +149,7 @@ public class Clients {
 
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {
-        clientWeaponLooperTimer.scheduleAtFixedRate(new ClientWeaponLooper(), 0, 5L);
+        CLIENT_WEAPON_LOOPER_TIMER.scheduleAtFixedRate(new ClientWeaponLooper(), 0, 5L);
 
         //gun models register
         ArsenalLib.registerGunModel(ModItems.G19.get(), new G19Model(), new DisplayData()
@@ -197,7 +197,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.M4A1.get(), new M4a1Model(), new DisplayData()
-                .setFirstPersonMain(-7.6f,15.8f,-27.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
+                .setFirstPersonMain(-7.6f,15.8f,-27.5f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -408,7 +408,7 @@ public class Clients {
 
     @OnlyIn(Dist.CLIENT)
     public static boolean allowFireBtnDown(ItemStack stack, IGun gun, Player player) {
-        boolean allow = mainHandStatus.equipProgress == 0 && !player.isSwimming();
+        boolean allow = MAIN_HAND_STATUS.equipProgress == 0 && !player.isSwimming();
         if (allow && ReloadingHandler.INSTANCE.reloading()) {
             allow = gun.allowShootWhileReloading();
         }
@@ -417,7 +417,7 @@ public class Clients {
 
     @OnlyIn(Dist.CLIENT)
     public static boolean allowAdsStart(ItemStack stack, IGun gun, Player player) {
-        return mainHandStatus.equipProgress == 0 && !player.isSwimming() && !ReloadingHandler.isReloading();
+        return MAIN_HAND_STATUS.equipProgress == 0 && !player.isSwimming() && !ReloadingHandler.isReloading();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -427,7 +427,7 @@ public class Clients {
             IGunFireMode fireMode = gun.getFireMode(stack);
             if (fireMode != null && fireMode.canFire(player, stack, gun)) {
                 fireMode.clientShoot(player, stack, gun);
-                return mainHandStatus.fireDelay.get();
+                return MAIN_HAND_STATUS.fireDelay.get();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -439,15 +439,15 @@ public class Clients {
 
     @OnlyIn(Dist.CLIENT)
     public static float getSpread(IGun gun, Player player, ItemStack stack) {
-        float spread = mainHandStatus.spread;
-        int fireDelay = mainHandStatus.fireDelay.get();
+        float spread = MAIN_HAND_STATUS.spread;
+        int fireDelay = MAIN_HAND_STATUS.fireDelay.get();
         int fireFactor = fireDelay * 10 * (gun.isPistol() ? 4 : 8);
-        int fireCount = mainHandStatus.fireCount;
-        if (fireCount == 0 && !gun.isFreeBlot() && (System.currentTimeMillis() - mainHandStatus.lastShoot) > fireFactor) {
+        int fireCount = MAIN_HAND_STATUS.fireCount;
+        if (fireCount == 0 && !gun.isFreeBlot() && (System.currentTimeMillis() - MAIN_HAND_STATUS.lastShoot) > fireFactor) {
             spread *= 0.25f;
         }
-        if (isInAds() && mainHandStatus.adsProgress >= 0.75f) {
-            spread *= 1 -  Math.pow(mainHandStatus.adsProgress, 3) * 0.75f;
+        if (isInAds() && MAIN_HAND_STATUS.adsProgress >= 0.75f) {
+            spread *= 1 -  Math.pow(MAIN_HAND_STATUS.adsProgress, 3) * 0.75f;
             if (gun.isSniper()) {
                 spread *= 0.2f;
             }

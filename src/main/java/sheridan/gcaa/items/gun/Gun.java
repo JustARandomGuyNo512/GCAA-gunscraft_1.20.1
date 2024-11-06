@@ -2,8 +2,6 @@ package sheridan.gcaa.items.gun;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import com.mojang.blaze3d.platform.InputConstants;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -95,12 +93,12 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
-        Clients.mainHandStatus.lastShoot = System.currentTimeMillis();
+        Clients.MAIN_HAND_STATUS.lastShoot = System.currentTimeMillis();
         PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
         PacketHandler.simpleChannel.sendToServer(new GunFirePacket(Clients.getSpread(this, player, stack)));
         DisplayData data = GunModelRegister.getDisplayData(this);
-        IArmReplace leftArmReplace = Clients.mainHandStatus.getLeftArmReplaceAttachment();
-        IArmReplace rightArmReplace = Clients.mainHandStatus.getRightArmReplaceAttachment();
+        IArmReplace leftArmReplace = Clients.MAIN_HAND_STATUS.getLeftArmReplaceAttachment();
+        IArmReplace rightArmReplace = Clients.MAIN_HAND_STATUS.getRightArmReplaceAttachment();
         CompoundTag tag = getPropertiesTag(stack);
         float directionY = RenderAndMathUtils.randomIndex();
         float pControl = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH_CONTROL, tag);
@@ -121,7 +119,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             InertialRecoilData inertialRecoilData = data.getInertialRecoilData();
             if (inertialRecoilData != null) {
                 float directionX = RenderAndMathUtils.randomIndex();
-                Clients.mainHandStatus.lastRecoilDirection = directionX;
+                Clients.MAIN_HAND_STATUS.lastRecoilDirection = directionX;
                 float pRate = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH, tag);
                 float yRate = gunProperties.getPropertyRate(GunProperties.RECOIL_YAW, tag);
                 AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY,
@@ -137,10 +135,10 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         if (player.isCrouching()) {
             spread *= 0.8f;
         }
-        if (Clients.mainHandStatus.ads && Clients.mainHandStatus.adsProgress > 0.7f) {
+        if (Clients.MAIN_HAND_STATUS.ads && Clients.MAIN_HAND_STATUS.adsProgress > 0.7f) {
             spread *= 0.7f;
         }
-        Clients.mainHandStatus.spread += spread;
+        Clients.MAIN_HAND_STATUS.spread += spread;
         setAmmoLeft(stack, getAmmoLeft(stack) > 0 ? getAmmoLeft(stack) - 1 : 0);
     }
 
@@ -541,8 +539,8 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             HandActionHandler.INSTANCE.breakTask();
             SprintingHandler.INSTANCE.exitSprinting(40);
             BulletShellRenderer.clear();
-            Clients.mainHandStatus.buttonDown.set(false);
-            Clients.mainHandStatus.ads = false;
+            Clients.MAIN_HAND_STATUS.buttonDown.set(false);
+            Clients.MAIN_HAND_STATUS.ads = false;
             Clients.setEquipDelay(3);
             player.resetAttackStrengthTicker();
         }

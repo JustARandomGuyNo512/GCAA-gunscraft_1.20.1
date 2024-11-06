@@ -111,7 +111,7 @@ public class GlobalWeaponBobbing {
             float idle = idleProgress * 2;
             float particleTick = instance.particleTicks;
             float sprintingProgress = SprintingHandler.INSTANCE.getLerpedSprintingProgress(particleTick);
-            float aimingFactor = 1f - Clients.mainHandStatus.adsProgress * 0.75f;
+            float aimingFactor = 1f - Clients.MAIN_HAND_STATUS.adsProgress * 0.75f;
             walkDis = player.walkDist - player.walkDistO;
             swing = -(player.walkDist + walkDis * particleTick) * PI;
             float bob = Mth.lerp(particleTick, player.oBob, player.bob);

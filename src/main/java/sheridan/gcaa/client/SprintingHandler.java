@@ -55,11 +55,11 @@ public class SprintingHandler {
 
     private float getAgility(IGun gun, ItemStack stack) {
         float agility = gun.getAgility(stack);
-        IArmReplace left = Clients.mainHandStatus.getLeftArmReplaceAttachment();
+        IArmReplace left = Clients.MAIN_HAND_STATUS.getLeftArmReplaceAttachment();
         if (left != null) {
             agility += left.getAgilityIncRate();
         }
-        IArmReplace right = Clients.mainHandStatus.getRightArmReplaceAttachment();
+        IArmReplace right = Clients.MAIN_HAND_STATUS.getRightArmReplaceAttachment();
         if (right != null) {
             agility += right.getAgilityIncRate();
         }
@@ -74,11 +74,11 @@ public class SprintingHandler {
         if (!player.isSprinting()) {
             return false;
         }
-        if (ReloadingHandler.isReloading() || HandActionHandler.INSTANCE.hasTask() || Clients.mainHandStatus.ads) {
+        if (ReloadingHandler.isReloading() || HandActionHandler.INSTANCE.hasTask() || Clients.MAIN_HAND_STATUS.ads) {
             exitSprinting(20);
         }
         return sprintingCoolDown == 0 && !player.getAbilities().flying && !player.isCrouching() &&
-                !ReloadingHandler.isReloading() && !HandActionHandler.INSTANCE.hasTask() && !Clients.mainHandStatus.ads;
+                !ReloadingHandler.isReloading() && !HandActionHandler.INSTANCE.hasTask() && !Clients.MAIN_HAND_STATUS.ads;
     }
 
     public void exitSprinting(int coolDown)  {

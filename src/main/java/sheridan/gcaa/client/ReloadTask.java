@@ -90,7 +90,7 @@ public class ReloadTask implements IReloadTask {
         if (model != null && !isGenericReloading) {
             AnimationHandler.INSTANCE.startReload(ammoLeft == 0 ? model.getFullReload() : model.getReload());
         }
-        Clients.mainHandStatus.ads = false;
+        Clients.MAIN_HAND_STATUS.ads = false;
         HandActionHandler.INSTANCE.breakTask();
         if (isGenericReloading) {
             Clients.setEquipDelay(length);

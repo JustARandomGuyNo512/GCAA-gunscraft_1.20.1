@@ -4,10 +4,12 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.sun.jna.platform.win32.WinUser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -32,6 +34,7 @@ import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.model.attachments.ScopeModel;
+import sheridan.gcaa.client.model.attachments.SightModel;
 import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
@@ -211,9 +214,9 @@ public class RenderEvents {
     @SubscribeEvent
     public static void onRenderHandFP(RenderHandEvent event) {
         if (event.getHand() == InteractionHand.MAIN_HAND) {
-            ClientWeaponStatus status = Clients.mainHandStatus;
+            ClientWeaponStatus status = Clients.MAIN_HAND_STATUS;
             status.equipProgress = event.getEquipProgress();
-            if (Clients.mainHandStatus.holdingGun.get()) {
+            if (Clients.MAIN_HAND_STATUS.holdingGun.get()) {
                 if (Minecraft.getInstance().options.bobView().get()) {
                     GlobalWeaponBobbing.INSTANCE.update(event.getPartialTick(), status.equipProgress);
                 }
@@ -224,7 +227,7 @@ public class RenderEvents {
     @SubscribeEvent
     public static void onRenderTick(TickEvent.RenderTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
-            if (Clients.mainHandStatus.isHoldingGun()) {
+            if (Clients.MAIN_HAND_STATUS.isHoldingGun()) {
                 BulletShellRenderer.update();
             } else {
                 BulletShellRenderer.clear();
@@ -243,13 +246,13 @@ public class RenderEvents {
                 }
                 ItemStack stack = player.getMainHandItem();
                 if (stack.getItem() instanceof IGun gun) {
-                    if (!Clients.mainHandStatus.ads && !Clients.shouldHideFPRender && !SprintingHandler.INSTANCE.isSprinting()) {
+                    if (!Clients.MAIN_HAND_STATUS.ads && !Clients.shouldHideFPRender && !SprintingHandler.INSTANCE.isSprinting()) {
                         CrossHairRenderer.INSTANCE.render(16, gun, event.getGuiGraphics(), player, stack, event.getPartialTick(),
                                 System.currentTimeMillis() - TEMP_TIMERS.get(SHOT) < 100, System.currentTimeMillis() - TEMP_TIMERS.get(HEADSHOT) < 100);
                     }
                     event.setCanceled(true);
                 }
-                if (Clients.mainHandStatus.ads || Clients.shouldHideFPRender || SprintingHandler.INSTANCE.isSprinting()) {
+                if (Clients.MAIN_HAND_STATUS.ads || Clients.shouldHideFPRender || SprintingHandler.INSTANCE.isSprinting()) {
                     event.setCanceled(true);
                 }
             }
@@ -440,13 +443,14 @@ public class RenderEvents {
         }
     }
 
+    static float tempGunModelFovModify = Float.NaN;
     @SubscribeEvent
     public static void onFovCompute(ViewportEvent.ComputeFov event) {
-        if (Clients.isInAds() && Clients.mainHandStatus.getEffectiveSight() instanceof Scope scope) {
-            float adsProgress = Clients.mainHandStatus.getLerpAdsProgress(event.getPartialTick());
+        float adsProgress = Clients.MAIN_HAND_STATUS.getLerpAdsProgress(event.getPartialTick());
+        if (Clients.isInAds() && Clients.MAIN_HAND_STATUS.getEffectiveSight() instanceof Scope scope) {
             double prevFov = event.getFOV();
             if (event.usedConfiguredFov()) {
-                float magnificationRate = Clients.mainHandStatus.attachmentsStatus.getScopeMagnificationRate();
+                float magnificationRate = Clients.MAIN_HAND_STATUS.attachmentsStatus.getScopeMagnificationRate();
                 if (Float.isNaN(magnificationRate)) {
                     magnificationRate = 0;
                 }
@@ -458,18 +462,31 @@ public class RenderEvents {
             } else {
                 if (AttachmentsRegister.getModel(scope) instanceof ScopeModel scopeModel) {
                     if (scopeModel.useModelFovModifyWhenAds()) {
-                        double newFov = Mth.lerp(Math.pow(adsProgress, 4), prevFov, scopeModel.modelFovModifyWhenAds());
-                        event.setFOV(newFov);
+                        double newFov = Mth.lerp(Math.pow(adsProgress, 4f), prevFov, scopeModel.modelFovModifyWhenAds());
                         Clients.gunModelFovModify = (float) newFov;
                     }
-                    Clients.weaponAdsZMinDistance = scopeModel.getMinDisZDistance(adsProgress);
                     return;
                 }
             }
+        } else {
+            if (!(Clients.MAIN_HAND_STATUS.getEffectiveSight() instanceof Scope)) {
+                tempGunModelFovModify = Float.NaN;
+                Clients.gunModelFovModify = Float.NaN;
+                Clients.fovModify = Float.NaN;
+                return;
+            }
+            if (adsProgress != 0) {
+                if (Float.isNaN(tempGunModelFovModify)) {
+                    tempGunModelFovModify = Clients.gunModelFovModify;
+                }
+                Clients.gunModelFovModify = (float) Mth.lerp(Math.pow(adsProgress, 2), 70f, tempGunModelFovModify);
+            } else {
+                Clients.gunModelFovModify = Float.NaN;
+                tempGunModelFovModify = Float.NaN;
+            }
         }
-        Clients.weaponAdsZMinDistance = Float.NaN;
         Clients.fovModify = Float.NaN;
-        Clients.gunModelFovModify = Float.NaN;
     }
+
 
 }

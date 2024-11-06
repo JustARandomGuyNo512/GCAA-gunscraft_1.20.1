@@ -10,7 +10,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingSwapItemsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
@@ -37,31 +36,31 @@ public class ClientPlayerEvents {
             Clients.clientPlayerId = player.getId();
             ItemStack stackMain = player.getMainHandItem();
             IGun gunMain = stackMain.getItem() instanceof IGun ? (IGun) stackMain.getItem() : null;
-            boolean lastTickHoldingGun = Clients.mainHandStatus.holdingGun.get();
-            Clients.mainHandStatus.holdingGun.set(gunMain != null);
-            String itemIdentity = Clients.mainHandStatus.identity;
+            boolean lastTickHoldingGun = Clients.MAIN_HAND_STATUS.holdingGun.get();
+            Clients.MAIN_HAND_STATUS.holdingGun.set(gunMain != null);
+            String itemIdentity = Clients.MAIN_HAND_STATUS.identity;
             if (gunMain != null) {
-                Clients.mainHandStatus.fireDelay.set(gunMain.getFireDelay(stackMain));
-                Clients.mainHandStatus.adsSpeed = Math.min(gunMain.getAdsSpeed(stackMain) * 0.05f, 0.25f);
-                Clients.mainHandStatus.attachmentsStatus.checkAndUpdate(stackMain, gunMain, player);
-                Clients.mainHandStatus.identity = gunMain.getGun().getIdentity(stackMain);
-                Clients.mainHandStatus.weapon.set(stackMain);
+                Clients.MAIN_HAND_STATUS.fireDelay.set(gunMain.getFireDelay(stackMain));
+                Clients.MAIN_HAND_STATUS.adsSpeed = Math.min(gunMain.getAdsSpeed(stackMain) * 0.05f, 0.25f);
+                Clients.MAIN_HAND_STATUS.attachmentsStatus.checkAndUpdate(stackMain, gunMain, player);
+                Clients.MAIN_HAND_STATUS.identity = gunMain.getGun().getIdentity(stackMain);
+                Clients.MAIN_HAND_STATUS.weapon.set(stackMain);
             } else {
-                Clients.mainHandStatus.weapon.set(ItemStack.EMPTY);
-                Clients.mainHandStatus.identity = "";
+                Clients.MAIN_HAND_STATUS.weapon.set(ItemStack.EMPTY);
+                Clients.MAIN_HAND_STATUS.identity = "";
             }
-            if (!Objects.equals(itemIdentity, Clients.mainHandStatus.identity) && (lastTickHoldingGun || gunMain != null)) {
+            if (!Objects.equals(itemIdentity, Clients.MAIN_HAND_STATUS.identity) && (lastTickHoldingGun || gunMain != null)) {
                 if (gunMain != null) {
                     gunMain.getGun().shouldCauseReequipAnimation(ItemStack.EMPTY, stackMain, true);
                 }
                 KeyMapping.set(InputConstants.Type.MOUSE.getOrCreate(0), false);
                 KeyMapping.set(InputConstants.Type.MOUSE.getOrCreate(1), false);
-                Clients.mainHandStatus.buttonDown.set(false);
+                Clients.MAIN_HAND_STATUS.buttonDown.set(false);
             }
-            Clients.mainHandStatus.updatePlayerSpread(stackMain, gunMain, player);
-            Clients.mainHandStatus.updateChargeTick(stackMain, gunMain);
-            Clients.mainHandStatus.handleAds(stackMain, gunMain, player);
-            if (Clients.mainHandStatus.attachmentsStatus.getEffectiveSight() instanceof Scope scope) {
+            Clients.MAIN_HAND_STATUS.updatePlayerSpread(stackMain, gunMain, player);
+            Clients.MAIN_HAND_STATUS.updateChargeTick(stackMain, gunMain);
+            Clients.MAIN_HAND_STATUS.handleAds(stackMain, gunMain, player);
+            if (Clients.MAIN_HAND_STATUS.attachmentsStatus.getEffectiveSight() instanceof Scope scope) {
                 scope.handleMouseSensitivity();
             }
             SprintingHandler.INSTANCE.tick((LocalPlayer) player);
@@ -81,7 +80,7 @@ public class ClientPlayerEvents {
     public static void playerJump(LivingEvent.LivingJumpEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (player.getId() == Clients.clientPlayerId) {
-                Clients.mainHandStatus.spread += 0.5f;
+                Clients.MAIN_HAND_STATUS.spread += 0.5f;
             }
         }
     }

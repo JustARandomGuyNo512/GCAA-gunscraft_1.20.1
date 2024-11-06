@@ -1,14 +1,6 @@
 package sheridan.gcaa.common.events;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import sheridan.gcaa.items.gun.HandActionGun;
-import sheridan.gcaa.items.gun.IGun;
-import sheridan.gcaa.items.gun.fireModes.HandAction;
 
 @Mod.EventBusSubscriber
 public class TestEvents {

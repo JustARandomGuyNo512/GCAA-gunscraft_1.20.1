@@ -38,14 +38,14 @@ public class ControllerEvents {
     static ScopeMagnificationTask scopeMagnificationTask = null;
     @SubscribeEvent
     public static void onMouseScroll(InputEvent.MouseScrollingEvent event) {
-        if (shouldHandleInputEvent() && Clients.isInAds() && Clients.mainHandStatus.getEffectiveSight() instanceof Scope scope) {
-            float scopeMagnification = Clients.mainHandStatus.getScopeMagnificationRate();
+        if (shouldHandleInputEvent() && Clients.isInAds() && Clients.MAIN_HAND_STATUS.getEffectiveSight() instanceof Scope scope) {
+            float scopeMagnification = Clients.MAIN_HAND_STATUS.getScopeMagnificationRate();
             if (!Float.isNaN(scopeMagnification)) {
                 boolean zoomIn = event.getScrollDelta() == -1;
-                if (Clients.mainHandStatus.setScopeMagnificationRate(scopeMagnification + (
+                if (Clients.MAIN_HAND_STATUS.setScopeMagnificationRate(scopeMagnification + (
                         zoomIn ? -0.1f : 0.1f
                 ))) {
-                    float magnification = Clients.mainHandStatus.getScopeMagnificationRate();
+                    float magnification = Clients.MAIN_HAND_STATUS.getScopeMagnificationRate();
                     scopeMagnificationTask = new ScopeMagnificationTask(
                             magnification,
                             System.currentTimeMillis(),
@@ -83,7 +83,7 @@ public class ControllerEvents {
                 return false;
             }
             RenderEvents.renderScopeMagnificationTip(scope, scopeMagnification, 0x00ff00);
-            Clients.mainHandStatus.attachmentsStatus.sendSetScopeMagnificationPacket();
+            Clients.MAIN_HAND_STATUS.attachmentsStatus.sendSetScopeMagnificationPacket();
             return true;
         }
     }
@@ -99,14 +99,14 @@ public class ControllerEvents {
             if (stack.getItem() instanceof IGun gun) {
                 if (event.getButton() == 0) {
                     if (event.getAction() == 1) {
-                        Clients.mainHandStatus.buttonDown.set(Clients.allowFireBtnDown(stack, gun, player));
+                        Clients.MAIN_HAND_STATUS.buttonDown.set(Clients.allowFireBtnDown(stack, gun, player));
                     } else if (event.getAction() == 0) {
-                        Clients.mainHandStatus.buttonDown.set(false);
+                        Clients.MAIN_HAND_STATUS.buttonDown.set(false);
                     }
                     event.setCanceled(true);
                 } else if (event.getButton() == 1) {
                     if (shouldHandleRightClick()) {
-                        Clients.mainHandStatus.ads = (event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
+                        Clients.MAIN_HAND_STATUS.ads = (event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
                         boolean cancel = ReloadingHandler.isReloading() || !gun.canUseWithShield() || !(player.getOffhandItem().getItem() instanceof ShieldItem);
                         event.setCanceled(cancel);
                     }
@@ -121,8 +121,8 @@ public class ControllerEvents {
                 event.setCanceled(true);
             }
         } else {
-            Clients.mainHandStatus.buttonDown.set(false);
-            Clients.mainHandStatus.ads = false;
+            Clients.MAIN_HAND_STATUS.buttonDown.set(false);
+            Clients.MAIN_HAND_STATUS.ads = false;
         }
     }
 
@@ -152,7 +152,7 @@ public class ControllerEvents {
             } else if (KeyBinds.SWITCH_FIRE_MODE.isDown() && event.getAction() == 1) {
                 if (stackMain.getItem() instanceof IGun gun && !ReloadingHandler.isReloading()) {
                     if (gun.getGunProperties().fireModes.size() > 1) {
-                        Clients.mainHandStatus.buttonDown.set(false);
+                        Clients.MAIN_HAND_STATUS.buttonDown.set(false);
                         player.playSound(SoundEvents.LEVER_CLICK, 0.5f, 1.5f);
                         PacketHandler.simpleChannel.sendToServer(new SwitchFireModePacket());
                     }
@@ -183,7 +183,7 @@ public class ControllerEvents {
             } else if (KeyBinds.OPEN_CLIENT_SETTINGS_SCREEN.isDown() && event.getAction() == 1) {
                 Minecraft.getInstance().setScreen(new ClientSettingsScreen());
             } else if (KeyBinds.SWITCH_EFFECTIVE_SIGHT.isDown() && event.getAction() == 1) {
-                Clients.mainHandStatus.attachmentsStatus.onSwitchEffectiveSight();
+                Clients.MAIN_HAND_STATUS.attachmentsStatus.onSwitchEffectiveSight();
             }
             if (stackMain.getItem() instanceof IGun gun) {
                 AttachmentsHandler.INSTANCE.getAttachments(stackMain, gun).forEach((attachment) -> {
@@ -202,7 +202,7 @@ public class ControllerEvents {
     private static void handleReload(ItemStack stack, Player player) {
         if (stack.getItem() instanceof IGun gun) {
             if (gun.clientReload(stack, player)) {
-                Clients.mainHandStatus.buttonDown.set(false);
+                Clients.MAIN_HAND_STATUS.buttonDown.set(false);
                 ReloadingHandler.INSTANCE.setTask(gun.getReloadingTask(stack));
             }
         }

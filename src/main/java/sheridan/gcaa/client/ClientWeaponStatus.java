@@ -163,7 +163,7 @@ public class ClientWeaponStatus {
     }
 
     public float getScopeMagnificationRate() {
-        return attachmentsStatus == null ? Float.NaN : attachmentsStatus.getScopeMagnificationRate();
+        return attachmentsStatus == null ? 0 : attachmentsStatus.getScopeMagnificationRate();
     }
 
     public boolean setScopeMagnificationRate(float val) {

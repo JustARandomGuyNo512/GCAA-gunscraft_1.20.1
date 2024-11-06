@@ -83,7 +83,7 @@ public class SingleReloadTask extends ReloadTask {
                     .append(new Mark(exit));
             AnimationHandler.INSTANCE.startReload(sequence);
         }
-        Clients.mainHandStatus.ads = false;
+        Clients.MAIN_HAND_STATUS.ads = false;
         HandActionHandler.INSTANCE.breakTask();
     }
 }

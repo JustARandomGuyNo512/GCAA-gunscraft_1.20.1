@@ -58,18 +58,18 @@ public class DisplayData {
     }
 
     void applyTransformFirstPerson(PoseStack poseStack) {
-        ClientWeaponStatus status = Clients.mainHandStatus;
+        ClientWeaponStatus status = Clients.MAIN_HAND_STATUS;
         float particleTick = Minecraft.getInstance().getPartialTick();
         float progress = status.getLerpAdsProgress(particleTick);
-        float[] sightAimPos = Clients.mainHandStatus.getSightAimPos(particleTick);
+        float[] sightAimPos = Clients.MAIN_HAND_STATUS.getSightAimPos(particleTick);
         if (progress != 0) {
             float lerpProgress = RenderAndMathUtils.sLerp(progress);
             float yLerp = Clients.isInAds() ? lerpProgress * lerpProgress : lerpProgress;
 
             if (emptyMarks[0][0] || emptyMarks[5][0]) {
-                float x = Mth.lerp(lerpProgress, transforms[0][0], (sightAimPos == null ? transforms[5][0] : -sightAimPos[0]));
-                float y = Mth.lerp(yLerp, transforms[0][1], (sightAimPos == null ? transforms[5][1] : -sightAimPos[1]));
-                float z = Mth.lerp(lerpProgress, transforms[0][2], (Float.isNaN(Clients.weaponAdsZMinDistance) ? transforms[5][2] : -Clients.weaponAdsZMinDistance));
+                float x = Mth.lerp(lerpProgress, transforms[0][0], (sightAimPos == null ? transforms[5][0] : - sightAimPos[0]));
+                float y = Mth.lerp(yLerp, transforms[0][1], (sightAimPos == null ? transforms[5][1] : - sightAimPos[1]));
+                float z = getMinDisZ((float) Math.pow(progress, 2.5f));
                 poseStack.translate(x, y, z);
             }
 
@@ -88,13 +88,33 @@ public class DisplayData {
                 poseStack.mulPose(new Quaternionf().rotateXYZ(transforms[0][3], transforms[0][4], transforms[0][5]));
             }
         }
+        boolean modifyZ = !Float.isNaN(Clients.gunModelFovModify);
         if (emptyMarks[0][2]) {
-            poseStack.scale(transforms[0][6], transforms[0][7], transforms[0][8]);
+            float scaleZRate = modifyZ ? getGunModelFovRatio() : 1;
+            poseStack.scale(transforms[0][6], transforms[0][7], transforms[0][8] * scaleZRate);
+        } else if (modifyZ) {
+            poseStack.scale(1F, 1F, getGunModelFovRatio());
         }
         if (Clients.isInSprintingTransAdjust) {
             poseStack.translate(transforms[7][0], transforms[7][1], transforms[7][2]);
             poseStack.mulPose(new Quaternionf().rotateXYZ(transforms[7][3], transforms[7][4], transforms[7][5]));
         }
+    }
+
+    protected float getMinDisZ(float progress) {
+        float minZ = lerpMinZ(transforms[0][2]);
+        return Mth.lerp(progress, transforms[0][2], minZ);
+    }
+
+    protected float getGunModelFovRatio() {
+        return (float) (Math.tan(Math.toRadians(Clients.gunModelFovModify / 2f)) / 0.7002075382097097f);
+    }
+
+    protected float lerpMinZ(float defaultVal) {
+        if (Float.isNaN(Clients.weaponAdsZMinDistance) || Float.isNaN(Clients.gunModelFovModify)) {
+            return defaultVal;
+        }
+        return - Clients.weaponAdsZMinDistance;
     }
 
     void applyTransform(float[] transform, boolean[] mark, PoseStack poseStack) {

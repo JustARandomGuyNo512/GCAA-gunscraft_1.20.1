@@ -52,7 +52,7 @@ public class ArsenalLib {
      * Gets the client weapon status in main hand.
      * */
     public static ClientWeaponStatus getClientWeaponStatus() {
-        return Clients.mainHandStatus;
+        return Clients.MAIN_HAND_STATUS;
     }
 
     /**

@@ -33,7 +33,6 @@ import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.IInteractive;
-import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.fireModes.Auto;
 import sheridan.gcaa.network.PacketHandler;
@@ -185,7 +184,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
             } else {
                 if (!ReloadingHandler.INSTANCE.reloading()) {
                     if (Objects.equals(gun.getFireMode(stack).getName(), Auto.AUTO.getName())
-                            && Clients.mainHandStatus.buttonDown.get()
+                            && Clients.MAIN_HAND_STATUS.buttonDown.get()
                             && gun.getAmmoLeft(stack) > 0) {
                         return;
                     }
@@ -202,7 +201,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
                             GP_25Model.INSTANCE.getAttachmentReload(),
                             gun, stack));
                     PlayerStatusProvider.setReloading(player, true);
-                    Clients.mainHandStatus.buttonDown.set(false);
+                    Clients.MAIN_HAND_STATUS.buttonDown.set(false);
                 }
             }
         }

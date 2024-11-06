@@ -58,7 +58,7 @@ public class InertialRecoilHandler {
             if (player != null && player.isCrouching()) {
                 scaleRot *= 0.9f;
             }
-            float adsProgress = Clients.mainHandStatus.adsProgress;
+            float adsProgress = Clients.MAIN_HAND_STATUS.adsProgress;
             if (aiming || adsProgress > 0) {
                 scaleY = Mth.lerp(adsProgress, scaleY, data.aimingScaleUp);
                 scaleZ = Mth.lerp(adsProgress, scaleZ, data.aimingBackScale);

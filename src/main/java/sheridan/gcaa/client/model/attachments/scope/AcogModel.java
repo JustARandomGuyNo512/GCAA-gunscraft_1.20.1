@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Vector3f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.attachments.ScopeModel;
@@ -13,6 +14,7 @@ import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.lib.ArsenalLib;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class AcogModel extends ScopeModel {
@@ -22,6 +24,7 @@ public class AcogModel extends ScopeModel {
     private final ModelPart body;
     private final ModelPart glass_shape;
     private final ModelPart back_ground;
+    private final ModelPart min_z_dis;
     private static final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/scopes/acog/acog.png");
     private static final ResourceLocation CROSSHAIR_TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/scopes/acog/acog_crosshair.png");
 
@@ -32,16 +35,12 @@ public class AcogModel extends ScopeModel {
         body = root.getChild("body").meshing();
         glass_shape = root.getChild("glass_shape").meshing();
         back_ground = root.getChild("back_ground");
+        min_z_dis = root.getChild("min_z_dis");
     }
 
     @Override
     public ModelPart getRoot() {
         return root;
-    }
-
-    @Override
-    public float getMinDisZDistance(float prevAdsProgress) {
-        return !useModelFovModifyWhenAds() ? 1f : calcMinDisZDistance(0.4f, Mth.lerp(prevAdsProgress, 70, modelFovModifyWhenAds()));
     }
 
     @Override
@@ -60,6 +59,11 @@ public class AcogModel extends ScopeModel {
         boolean active = context.isEffectiveSight(attachmentRenderEntry) && Clients.isInAds() && Clients.getAdsProgress() == 1f;
         SightViewRenderer.renderScope(active, false, 0.35f, 0.5f, context,
                 CROSSHAIR_TEXTURE, TEXTURE, crosshair, glass_shape, back_glass, back_ground, body);
+    }
+
+    @Override
+    public float handleMinZTranslation(PoseStack poseStack) {
+        return defaultHandleMinZTranslation(poseStack, back_glass, min_z_dis);
     }
 
 }

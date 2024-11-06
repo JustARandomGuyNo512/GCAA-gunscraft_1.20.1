@@ -29,17 +29,17 @@ public class Charge implements IGunFireMode {
 
     @Override
     public boolean canFire(Player player, ItemStack itemStack, IGun gun) {
-        return fireInSprinting(player, itemStack, gun, 40) && Clients.mainHandStatus.chargeTick >= chargeLength;
+        return fireInSprinting(player, itemStack, gun, 40) && Clients.MAIN_HAND_STATUS.chargeTick >= chargeLength;
     }
 
     @Override
     public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
         gun.clientShoot(itemStack, player, this);
         if (breakShoot) {
-            Clients.mainHandStatus.buttonDown.set(false);
+            Clients.MAIN_HAND_STATUS.buttonDown.set(false);
         }
-        Clients.mainHandStatus.fireCount = 0;
-        Clients.mainHandStatus.clearCharge();
+        Clients.MAIN_HAND_STATUS.fireCount = 0;
+        Clients.MAIN_HAND_STATUS.clearCharge();
     }
 
     @Override

@@ -187,7 +187,7 @@ public class GunRenderContext {
     }
 
     private boolean shouldRenderArmImmediately(boolean mainHand, ModelPart pose) {
-        AttachmentSlot armReplace = mainHand ? Clients.mainHandStatus.getRightArmReplace() : Clients.mainHandStatus.getLeftArmReplace();
+        AttachmentSlot armReplace = mainHand ? Clients.MAIN_HAND_STATUS.getRightArmReplace() : Clients.MAIN_HAND_STATUS.getLeftArmReplace();
         if (armReplace != null) {
             String key = mainHand ? RIGHT_ARM_RENDER_REPLACE : LEFT_ARM_RENDER_REPLACE;
             PoseStack poseStack = RenderAndMathUtils.copyPoseStack(this.poseStack);
@@ -354,7 +354,7 @@ public class GunRenderContext {
     }
 
     public boolean isEffectiveSight(AttachmentRenderEntry entry) {
-        return isFirstPerson && Clients.mainHandStatus.adsProgress > 0.7f && Objects.equals(entry.slotUUID, Clients.getEffectiveSightUUID());
+        return isFirstPerson && Clients.MAIN_HAND_STATUS.adsProgress > 0.7f && Objects.equals(entry.slotUUID, Clients.getEffectiveSightUUID());
     }
 
     public boolean shouldShowLeftArm() {

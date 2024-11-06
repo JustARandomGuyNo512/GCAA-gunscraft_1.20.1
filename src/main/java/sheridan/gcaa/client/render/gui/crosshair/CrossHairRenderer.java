@@ -2,16 +2,13 @@ package sheridan.gcaa.client.render.gui.crosshair;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Matrix4f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.items.gun.IGun;
@@ -38,7 +35,7 @@ public class CrossHairRenderer{
         float vOffset = singleQuadSize * index;
         int centerX = (int) ((guiGraphics.guiWidth() - partSize) / 2f);
         int centerY = (int) ((guiGraphics.guiHeight() - partSize) / 2f);
-        int spread = (int) (Clients.mainHandStatus.spread * SPREAD_SIZE_FACTOR + BASE_SCALE + partSize / 2f);
+        int spread = (int) (Clients.MAIN_HAND_STATUS.spread * SPREAD_SIZE_FACTOR + BASE_SCALE + partSize / 2f);
         int currentSpread = (int) Mth.lerp(particleTick, tempSpread, spread);
         tempSpread = spread;
         RenderSystem.enableBlend();

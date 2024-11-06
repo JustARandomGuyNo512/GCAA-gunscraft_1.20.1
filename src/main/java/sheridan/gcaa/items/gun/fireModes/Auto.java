@@ -4,7 +4,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.Clients;
-import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 
@@ -25,7 +24,7 @@ public class Auto implements IGunFireMode {
     @Override
     public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
         gun.clientShoot(itemStack, player, this);
-        Clients.mainHandStatus.fireCount ++;
+        Clients.MAIN_HAND_STATUS.fireCount ++;
     }
 
     @Override

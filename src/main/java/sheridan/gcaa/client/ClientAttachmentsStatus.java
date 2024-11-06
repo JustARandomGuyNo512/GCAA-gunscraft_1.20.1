@@ -8,11 +8,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.model.ISlotProviderModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
+import sheridan.gcaa.client.model.attachments.ScopeModel;
 import sheridan.gcaa.client.model.attachments.SightModel;
 import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
@@ -74,8 +76,9 @@ public class ClientAttachmentsStatus {
             rightArmReplace = null;
             effectiveSight = null;
             tempSightAimPos = null;
-            scopeMagnificationRate = Float.NaN;
-            originalScopeMagnification = Float.NaN;
+            Clients.weaponAdsZMinDistance = Float.NaN;
+            scopeMagnificationRate = 0;
+            originalScopeMagnification = 0;
             sightSwitchingProgress = 0.9f;
             tempSightSwitchingProgress = 0.9f;
             String sightUUID = gun.getEffectiveSightUUID(stack);
@@ -212,6 +215,11 @@ public class ClientAttachmentsStatus {
             }
         }
         if (AttachmentsRegister.getModel(effectiveSight.getAttachmentId()) instanceof SightModel sightModel) {
+            if (sightModel instanceof ScopeModel scopeModel) {
+                Clients.weaponAdsZMinDistance = scopeModel.handleMinZTranslation(RenderAndMathUtils.copyPoseStack(poseStack));
+            } else {
+                Clients.weaponAdsZMinDistance = Float.NaN;
+            }
             sightModel.handleCrosshairTranslation(poseStack);
         }
         Vector3f translation = poseStack.last().pose().getTranslation(new Vector3f(0, 0, 0));

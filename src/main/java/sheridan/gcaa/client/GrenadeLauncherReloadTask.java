@@ -80,7 +80,7 @@ public class GrenadeLauncherReloadTask implements IReloadTask {
     public void start() {
         AnimationHandler.INSTANCE.startReload(gunReloadAnimation);
         AnimationHandler.INSTANCE.startAnimation(GP_25Model.RELOAD_ANIMATION_KEY, attachmentReloadAnimation, false, false);
-        Clients.mainHandStatus.ads = false;
+        Clients.MAIN_HAND_STATUS.ads = false;
         HandActionHandler.INSTANCE.breakTask();
     }
 

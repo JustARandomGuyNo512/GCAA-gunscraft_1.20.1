@@ -46,7 +46,7 @@ public abstract class ArmRendererModel extends HierarchicalModel<Entity> {
         if (!context.isFirstPerson) {
             return false;
         }
-        AttachmentSlot slot = mainHand ? Clients.mainHandStatus.getRightArmReplace() : Clients.mainHandStatus.getLeftArmReplace();
+        AttachmentSlot slot = mainHand ? Clients.MAIN_HAND_STATUS.getRightArmReplace() : Clients.MAIN_HAND_STATUS.getLeftArmReplace();
         if (slot == null) {
             return false;
         }

@@ -66,7 +66,7 @@ public class HandActionGun extends Gun{
                 stack, this,
                 immediate ? 0 : handActionExtension.startDelay,
                 handActionExtension.length,
-                Clients.mainHandStatus.ads ?
+                Clients.MAIN_HAND_STATUS.ads ?
                         handActionExtension.adsHandActionAnimationName : handActionExtension.handActionAnimationName,
                 handActionExtension.throwBulletShellDelay);
     }

@@ -1,30 +1,33 @@
 package sheridan.gcaa.client.model.attachments;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import org.joml.Vector3f;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.client.model.modelPart.ModelPart;
+import sheridan.gcaa.client.render.AttachmentRenderEntry;
+import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 public abstract class ScopeModel extends SightModel {
-    protected float getNormalField() {
-        GameRenderer renderer = Minecraft.getInstance().gameRenderer;
-        return (float) (renderer.isPanoramicMode() ? Math.tan(Math.toRadians(45)) : Math.tan(Math.toRadians(35)));
-    }
-
-    public abstract float getMinDisZDistance(float prevAdsProgress);
-
-    public float calcMinDisZDistance(float defaultVal, float prevFov)  {
-        if (useModelFovModifyWhenAds() && Clients.isInAds()) {
-            double tanNew = Math.tan(Math.toRadians(prevFov / 2.0));
-            return (float) (defaultVal * (getNormalField() / tanNew));
-        }
-        return defaultVal;
-    }
 
     public float modelFovModifyWhenAds() {
         return 8.5f;
     }
 
-    public boolean useModelFovModifyWhenAds() {
+    public final boolean useModelFovModifyWhenAds() {
         return true;
     }
+
+    public abstract float handleMinZTranslation(PoseStack poseStack);
+
+    protected float defaultHandleMinZTranslation(PoseStack poseStack, ModelPart back_glass, ModelPart min_z_dis) {
+        PoseStack near = RenderAndMathUtils.copyPoseStack(poseStack);
+        back_glass.translateAndRotate(near);
+        float zStart = near.last().pose().getTranslation(new Vector3f(0 , 0, 0)).z;
+        min_z_dis.translateAndRotate(poseStack);
+        return poseStack.last().pose().getTranslation(new Vector3f(0 , 0, 0)).z - zStart;
+    }
+
 }

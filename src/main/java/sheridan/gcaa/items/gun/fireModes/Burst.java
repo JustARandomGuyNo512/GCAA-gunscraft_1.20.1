@@ -4,7 +4,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.Clients;
-import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 
@@ -27,12 +26,12 @@ public class Burst implements IGunFireMode {
 
     @Override
     public void clientShoot(Player player, ItemStack itemStack, IGun gun) {
-        if (Clients.mainHandStatus.fireCount < burstCount) {
+        if (Clients.MAIN_HAND_STATUS.fireCount < burstCount) {
             gun.clientShoot(itemStack, player, this);
-            Clients.mainHandStatus.fireCount ++;
+            Clients.MAIN_HAND_STATUS.fireCount ++;
         } else {
-            Clients.mainHandStatus.buttonDown.set(false);
-            Clients.mainHandStatus.fireCount = 0;
+            Clients.MAIN_HAND_STATUS.buttonDown.set(false);
+            Clients.MAIN_HAND_STATUS.fireCount = 0;
         }
     }
 
