@@ -34,7 +34,9 @@ public class OspreySuppressorModel extends MuzzleFlashRendererModel implements I
     @Override
     public void renderModel(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         if (context.useLowQuality()) {
+            low.copyFrom(pose);
             context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
+            low.resetPose();
         } else {
             context.render(model, context.getBuffer(RenderType.entityCutout(texture)));
         }

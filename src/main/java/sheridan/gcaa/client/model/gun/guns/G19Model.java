@@ -60,7 +60,7 @@ public class G19Model extends LodGunModel {
     protected void renderGunNormal(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
         bullet.visible = context.shouldBulletRender();
-        context.renderIf(mag, vertexConsumer, context.notHasMuzzle());
+        context.renderIf(mag, vertexConsumer, context.notHasMag());
         context.render(vertexConsumer, barrel, slide, body);
         if (context.shouldShowLeftArm()) {
             context.renderArm(left_arm, false);
