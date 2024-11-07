@@ -13,13 +13,13 @@ import sheridan.gcaa.GCAA;
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, GCAA.MODID);
 
-//    public static final RegistryObject<Block> AMMUNITION_PROCESSOR = BLOCKS.register(
-//            "ammunition_processor", () -> new AmmunitionProcessor(
-//                    BlockBehaviour.Properties.of()
-//                            .mapColor(MapColor.METAL)
-//                            .sound(SoundType.METAL)
-//                            .strength(1.0f)
-//                            .explosionResistance(180)
-//
-//            ));
+    public static final RegistryObject<Block> AMMUNITION_PROCESSOR = BLOCKS.register(
+            "ammunition_processor", () -> new AmmunitionProcessor(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.METAL)
+                            .sound(SoundType.METAL)
+                            .strength(1.0f)
+                            .explosionResistance(180)
+                            .noOcclusion()
+            ));
 }

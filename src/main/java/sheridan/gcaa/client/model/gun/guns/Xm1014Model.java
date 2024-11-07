@@ -9,6 +9,7 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -73,6 +74,7 @@ public class Xm1014Model extends GunModel {
             AnimationHandler.INSTANCE.applyRecoil(this);
             AnimationHandler.INSTANCE.applyReload(this);
             AnimationHandler.INSTANCE.applyHandAction(this);
+            KeyframeAnimations.animate(this, shoot, context.lastShoot,1);
             CameraAnimationHandler.INSTANCE.mix(camera);
         }
     }
