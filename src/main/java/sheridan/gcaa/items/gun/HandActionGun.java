@@ -57,7 +57,7 @@ public class HandActionGun extends Gun{
     }
 
     @Override
-    public IReloadTask getReloadingTask(ItemStack stack) {
+    public IReloadTask getReloadingTask(ItemStack stack, Player player) {
         return new HandActionReloadingTask(stack, this);
     }
 

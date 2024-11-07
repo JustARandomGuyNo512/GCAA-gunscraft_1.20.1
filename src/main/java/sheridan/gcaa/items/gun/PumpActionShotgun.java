@@ -31,12 +31,12 @@ public class PumpActionShotgun extends HandActionGun{
     }
 
     @Override
-    public IReloadTask getReloadingTask(ItemStack stack) {
+    public IReloadTask getReloadingTask(ItemStack stack, Player player) {
         return new SingleReloadTask(stack, this,
                 singleReloadExtension.enterDelay,
                 singleReloadExtension.singleReloadLength,
                 singleReloadExtension.exitDelay,
-                (getMagSize(stack) - getAmmoLeft(stack)),
+                Math.min((getMagSize(stack) - getAmmoLeft(stack)), AmmunitionHandler.getAmmunitionCount(stack, this, player)),
                 singleReloadExtension.triggerReloadDelay);
     }
 

@@ -45,9 +45,6 @@ public class SingleReloadTask extends ReloadTask {
 
     @Override
     public void tick(Player clientPlayer) {
-        if (tick == 0) {
-            reloadNum = Math.min(reloadNum, AmmunitionHandler.getAmmunitionCount(itemStack, gun, clientPlayer));
-        }
         int reloadingTick = tick - enterDelay - reloaded * singleReloadLength;
         if (reloadingTick == triggerReloadDelay && reloaded < reloadNum) {
             PacketHandler.simpleChannel.sendToServer(new GunReloadPacket());

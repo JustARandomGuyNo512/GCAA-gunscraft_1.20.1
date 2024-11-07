@@ -58,6 +58,8 @@
   "item.gcaa.ammo_357magnum": ".357 Magnum Rounds",
   "item.gcaa.ammo_vog_25": "VOG-25 Grenade",
 
+  "block.gcaa.ammunition_processor": "Ammunition Processor",
+
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",
   "tooltip.fire_mode.burst": "BURST",
@@ -130,6 +132,7 @@
   "itemGroup.guns": "Guns",
   "itemGroup.attachments": "Attachments",
   "itemGroup.ammunition": "Ammunition",
+  "itemGroup.other": "Other",
 
   "death.attack.gcaa.projectile": "$victim is shot by $shooter using $gun",
 

@@ -58,6 +58,8 @@
   "item.gcaa.ammo_357magnum": ".357马格南子弹",
   "item.gcaa.ammo_vog_25": "VOG-25榴弹",
 
+  "block.gcaa.ammunition_processor": "弹药加工台",
+
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",
   "tooltip.fire_mode.burst": "连发",
@@ -130,6 +132,7 @@
   "itemGroup.guns": "枪械",
   "itemGroup.attachments": "配件",
   "itemGroup.ammunition": "弹药",
+  "itemGroup.other": "杂项",
 
   "death.attack.gcaa.projectile": "$victim 被 $shooter 使用 $gun 击杀了",
 

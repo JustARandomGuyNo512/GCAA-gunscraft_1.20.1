@@ -24,8 +24,8 @@ public class AutoShotgun extends HandActionGun {
     }
 
     @Override
-    public IReloadTask getReloadingTask(ItemStack stack) {
-        return new AutoShotgunReloadTask(stack, this, (getMagSize(stack) - getAmmoLeft(stack)), autoShotgunExtension);
+    public IReloadTask getReloadingTask(ItemStack stack, Player player) {
+        return new AutoShotgunReloadTask(stack, this,  Math.min((getMagSize(stack) - getAmmoLeft(stack)), AmmunitionHandler.getAmmunitionCount(stack, this, player)), autoShotgunExtension);
     }
 
     @Override

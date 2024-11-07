@@ -374,7 +374,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     @Override
-    public IReloadTask getReloadingTask(ItemStack stack) {
+    public IReloadTask getReloadingTask(ItemStack stack, Player player) {
         return new ReloadTask(stack, this);
     }
 

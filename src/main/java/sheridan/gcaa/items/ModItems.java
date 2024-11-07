@@ -1,10 +1,12 @@
 package sheridan.gcaa.items;
 
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.blocks.ModBlocks;
 import sheridan.gcaa.items.ammunition.ammunitions.*;
 import sheridan.gcaa.items.attachments.akStuff.AKImprovedDustCover;
 import sheridan.gcaa.items.attachments.akStuff.AKRailBracket;
@@ -88,5 +90,8 @@ public class ModItems {
     public static final RegistryObject<RailPanelShort> RAL_PANEL_SHORT = ITEMS.register("rail_panel_short", RailPanelShort::new);
     public static final RegistryObject<MicroFlashLight> MICRO_FLASHLIGHT = ITEMS.register("micro_flashlight", MicroFlashLight::new);
     public static final RegistryObject<NormalFlashlight> FLASHLIGHT = ITEMS.register("flashlight", NormalFlashlight::new);
+
+   // public static final RegistryObject<Item> AMMUNITION_PROCESSOR = ITEMS.register("ammunition_processor", () -> new BlockItem(ModBlocks.AMMUNITION_PROCESSOR.get(), new Item.Properties()));
+
 
 }

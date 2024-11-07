@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "gunscraft:block/ammunition_processor",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "gunscraft:block/ammunition_processor",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "gunscraft:block/ammunition_processor",
+      "y": 0
+    },
+    "facing=west": {
+      "model": "gunscraft:block/ammunition_processor",
+      "y": 90
+    },
+  }
+}

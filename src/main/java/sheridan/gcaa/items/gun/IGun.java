@@ -43,7 +43,7 @@ public interface IGun {
     boolean clientReload(ItemStack stack, Player player);
     void reload(ItemStack stack, Player player);
     int getReloadLength(ItemStack stack, boolean fullReload);
-    IReloadTask getReloadingTask(ItemStack stack);
+    IReloadTask getReloadingTask(ItemStack stack, Player player);
     long getDate(ItemStack stack);
     void updateDate(ItemStack stack);
     String getAttachmentsModifiedUUID(ItemStack stack);

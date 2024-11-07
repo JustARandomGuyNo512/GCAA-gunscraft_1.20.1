@@ -35,9 +35,6 @@ public class AutoShotgunReloadTask extends SingleReloadTask{
 
     @Override
     public void tick(Player clientPlayer) {
-        if (tick == 0) {
-            reloadNum = Math.min(reloadNum, AmmunitionHandler.getAmmunitionCount(itemStack, gun, clientPlayer));
-        }
         if (isEmptyReload) {
             int reloadingTick = tick - enterDelay - chamberReloadLength - (reloaded - 1) * singleReloadLength;
             if (reloaded < reloadNum) {

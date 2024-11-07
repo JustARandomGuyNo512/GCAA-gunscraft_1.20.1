@@ -203,7 +203,7 @@ public class ControllerEvents {
         if (stack.getItem() instanceof IGun gun) {
             if (gun.clientReload(stack, player)) {
                 Clients.MAIN_HAND_STATUS.buttonDown.set(false);
-                ReloadingHandler.INSTANCE.setTask(gun.getReloadingTask(stack));
+                ReloadingHandler.INSTANCE.setTask(gun.getReloadingTask(stack, player));
             }
         }
     }

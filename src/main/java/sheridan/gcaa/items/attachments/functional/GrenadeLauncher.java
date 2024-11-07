@@ -78,6 +78,9 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
     }
 
     public static void reload(String attachmentId, ItemStack stack, IGun gun, Player player) {
+        if (stack != player.getMainHandItem()) {
+            return;
+        }
         IAttachment attachment = AttachmentsRegister.get(attachmentId);
         if (attachment instanceof GrenadeLauncher grenadeLauncher) {
             IAmmunition ammunition = grenadeLauncher.ammunition;

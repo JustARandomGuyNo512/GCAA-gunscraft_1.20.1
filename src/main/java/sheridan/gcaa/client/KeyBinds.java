@@ -27,7 +27,7 @@ public class KeyBinds {
         event.register(RELOAD);
         event.register(OPEN_ATTACHMENTS_SCREEN);
         event.register(SHOW_FULL_GUN_INFO);
-        event.register(OPEN_CLIENT_SETTINGS_SCREEN);
+        //event.register(OPEN_CLIENT_SETTINGS_SCREEN);
         event.register(SWITCH_EFFECTIVE_SIGHT);
         event.register(USE_GRENADE_LAUNCHER);
         event.register(TURN_FLASHLIGHT);

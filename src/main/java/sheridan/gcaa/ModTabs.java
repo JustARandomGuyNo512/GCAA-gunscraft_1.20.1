@@ -13,6 +13,7 @@ public class ModTabs {
     public static final RegistryObject<CreativeModeTab> GUNS_TAB;
     public static final RegistryObject<CreativeModeTab> ATTACHMENTS_TAB;
     public static final RegistryObject<CreativeModeTab> AMMUNITION_TAB;
+    //public static final RegistryObject<CreativeModeTab> OTHER_TAB;
     static {
         MOD_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, GCAA.MODID);
 
@@ -86,6 +87,12 @@ public class ModTabs {
                     tab.accept(ModItems.XM1014.get());
                     tab.accept(ModItems.M249.get());
                 }).build());
+
+//        OTHER_TAB = MOD_TABS.register("other", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.other"))
+//                .icon(() ->new ItemStack(ModItems.AMMUNITION_PROCESSOR.get()))
+//                .displayItems((parameters, tab) -> {
+//                    tab.accept(ModItems.AMMUNITION_PROCESSOR.get());
+//                }).build());
     }
 
 }
