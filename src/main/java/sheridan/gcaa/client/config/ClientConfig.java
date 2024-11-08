@@ -49,7 +49,7 @@ public class ClientConfig {
         renderLowQualityModelInGroundView = BUILDER.define("render_low_quality_model_ground", false);
         BUILDER.comment("\n");
         BUILDER.comment("渲染物品栏模型时使用低质量模型（如果模型支持），这将极大提升gui界面渲染性能\nUsing low quality models when rendering inventory models (if the model supports it) will greatly improve the rendering performance of the gui interface");
-        renderLowQualityModelInGuiView = BUILDER.define("render_low_quality_model_gui", false);
+        renderLowQualityModelInGuiView = BUILDER.define("render_low_quality_model_gui", true);
         BUILDER.comment("\n");
         BUILDER.comment("在第一人称渲染已经以上配置之外的情景下渲染低质量模型（如果模型支持），可以提升性能\nRendering low-quality models (if the model supports it) in situations where first-person rendering is already beyond the above configuration can improve performance");
         renderLowQualityModelInOtherView = BUILDER.define("render_low_quality_model_other", false);

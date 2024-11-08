@@ -8,13 +8,15 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.items.gun.IGun;
 
-public class AttachmentsMenu extends AbstractContainerMenu {
+public class GunModifyMenu extends AbstractContainerMenu {
     public Inventory playerInventory;
     public SimpleContainer displaySuitableAttachments;
+    public SimpleContainer ammoSelector;
 
     public static class DisplaySlot extends Slot {
         public boolean active = false;
@@ -29,7 +31,7 @@ public class AttachmentsMenu extends AbstractContainerMenu {
         }
     }
 
-    protected AttachmentsMenu(@Nullable MenuType<?> menuType, int pContainerId, Inventory playerInventory) {
+    protected GunModifyMenu(@Nullable MenuType<?> menuType, int pContainerId, Inventory playerInventory) {
         super(menuType, pContainerId);
         this.playerInventory = playerInventory;
         for (int i = 0; i < 3; i++) {
@@ -49,8 +51,10 @@ public class AttachmentsMenu extends AbstractContainerMenu {
             }
         }
 
+        ammoSelector = new SimpleContainer(1);
+        this.addSlot(new Slot(ammoSelector, 0, 251, 142));
     }
-    public AttachmentsMenu(int i, Inventory inventory) {
+    public GunModifyMenu(int i, Inventory inventory) {
         this(ModContainers.ATTACHMENTS.get(), i, inventory);
     }
 

@@ -8,7 +8,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
-import sheridan.gcaa.client.screens.containers.AttachmentsMenu;
+import sheridan.gcaa.client.screens.containers.GunModifyMenu;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.IPacket;
@@ -76,7 +76,7 @@ public class InstallAttachmentsPacket implements IPacket<InstallAttachmentsPacke
                         AttachmentsHandler.INSTANCE.serverSetAttachment(player, heldItem, gun, attachment, message.slotName,
                                 message.modelSlotName, message.parentUuid, message.direction, message.replaceableGunPartUuid);
                         ListTag attachments = gun.getAttachmentsListTag(heldItem);
-                        if (player.containerMenu instanceof AttachmentsMenu menu) {
+                        if (player.containerMenu instanceof GunModifyMenu menu) {
                             menu.slots.get(message.itemSlotIndex).set(ItemStack.EMPTY);
                         }
                         PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player), new UpdateAttachmentScreenGuiContextPacket(attachments));

@@ -3,9 +3,12 @@ package sheridan.gcaa.common.server.projetile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -23,6 +26,7 @@ import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
 import sheridan.gcaa.common.config.CommonConfig;
 import sheridan.gcaa.network.packets.s2c.HeadShotFeedBackPacket;
+import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.List;
 import java.util.Optional;
@@ -193,6 +197,11 @@ public class Projectile {
         }
         entity.hurt(damageSource, damage * (1 - progress * progress) * CommonConfig.globalBulletDamageModify.get().floatValue());
         living = false;
+        if (Math.random() <= 0.0025) {
+            if (entity instanceof Chicken) {
+                level.playSound(entity, new BlockPos((int) hitPos.x, (int) hitPos.y, (int) hitPos.z), ModSounds.NI_GAN_MA.get(), SoundSource.PLAYERS, 1, 1);
+            }
+        }
     }
 
     public void shoot(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange, IGun gun) {

@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.items.gun.calibers.Caliber;
 
 import java.util.HashMap;
@@ -55,7 +56,7 @@ public class GunProperties{
 
     public GunProperties(float adsSpeed, float minSpread, float maxSpread, float shootSpread, float spreadRecover, float fireSoundVol, int fireDelay, int reloadLength, int fullReloadLength,
                          int magSize, float recoilPitch, float recoilYaw, float recoilPitchControl, float recoilYawControl, float weight, List<IGunFireMode> fireModes,
-                         RegistryObject<SoundEvent> fireSound, RegistryObject<SoundEvent> suppressedSound, Caliber caliber) {
+                         RegistryObject<SoundEvent> fireSound, @Nullable RegistryObject<SoundEvent> suppressedSound, Caliber caliber) {
         this.adsSpeed = adsSpeed;
         this.fireDelay = fireDelay;
         this.minSpread = minSpread;

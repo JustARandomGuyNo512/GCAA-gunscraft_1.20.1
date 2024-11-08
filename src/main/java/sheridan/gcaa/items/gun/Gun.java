@@ -521,6 +521,14 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         }
     }
 
+    public void onEquipped(ItemStack itemStack, Player player) {
+        AmmunitionHandler.checkAndUpdateAmmunitionBind(player, itemStack, this);
+        CompoundTag tag = checkAndGet(itemStack);
+        if (!tag.contains("identity_temp")) {
+            tag.putString("identity_temp", UUID.randomUUID().toString());
+        }
+    }
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public @NotNull Object getRenderPropertiesInternal() {

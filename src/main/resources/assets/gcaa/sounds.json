@@ -28,6 +28,7 @@
   "item.generic.pistol_mag_attach": { "subtitle": "item.generic.pistol_mag_attach", "sounds": [{ "name": "gcaa:generic/pistol_mag_attach" }]},
   "item.generic.ar_charge_back": { "subtitle": "item.generic.ar_charge_back", "sounds": [{ "name": "gcaa:generic/ar_charge_back" }]},
   "item.generic.ar_charge_forward": { "subtitle": "item.generic.ar_charge_forward", "sounds": [{ "name": "gcaa:generic/ar_charge_forward" }]},
+  "item.generic.ni_gan_ma": { "subtitle": "item.generic.ni_gan_ma", "sounds": [{ "name": "gcaa:generic/ni_gan_ma" }]},
 
   "item.akm.fire": { "subtitle": "item.akm.fire", "sounds": [{ "name": "gcaa:akm/akm_fire" }]},
   "item.m4a1.fire": { "subtitle": "item.m4a1.fire", "sounds": [{ "name": "gcaa:m4a1/m4a1_fire" }]},

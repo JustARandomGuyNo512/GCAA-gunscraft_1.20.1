@@ -57,7 +57,7 @@ import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
 import sheridan.gcaa.client.render.fx.muzzleFlash.CommonMuzzleFlashes;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
-import sheridan.gcaa.client.screens.AttachmentsScreen;
+import sheridan.gcaa.client.screens.GunModifyScreen;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.IGun;
@@ -158,7 +158,7 @@ public class Clients {
                 .setGround(0f, 0f, 1.2f, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-2, 0f, 0f, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-2.1f, 0f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.5f, SCALE)
-                .setAds(0,1.37f,-5.625f, POS)
+                .setAds(0,1.37f,-5.2f, POS)
                 .setAttachmentScreen(1.6f, -0.75f, -9.9f, 0f, 90f, 0, 0.205f, 0.205f, 0.205f)
                 .setInertialRecoilData(new InertialRecoilData(0.3f,0.05f,0.35f,0.08f,1.8f,0.18f,0.5f, 0.5f, new Vector3f(0.5f, 0.5f, 0.5f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 3.65f, -21.2f))
@@ -186,7 +186,7 @@ public class Clients {
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,12.4f,-16.5f, POS)
+                .setAds(0,12.4f,-16f, POS)
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(new InertialRecoilData(0.03f, 0.01f, 0.48f, 0.05f, 0.7f,  0.05f, 0.5f, 0.5f, new Vector3f(0.5f, 0.25f, 0.4f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.9f, -99f).setScale(1.8f))
@@ -202,7 +202,7 @@ public class Clients {
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,14.65f,-20f, POS)
+                .setAds(0,14.65f,-19f, POS)
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(new InertialRecoilData(0.03f, 0.01f, 0.3f, 0.04f, 0.45f, 0.045f, 0.375f, 0.32f, new Vector3f(0.5f, 0.25f, 0.35f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 3.725f, -88f).setScale(1.8f))
@@ -218,7 +218,7 @@ public class Clients {
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,12.2f,-15, POS)
+                .setAds(0,12.2f,-12, POS)
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(new InertialRecoilData(0f, 0f, 0.1f, 0.05f, 0.1f,  0.05f, 0.2f, 0.2f, new Vector3f(0.6f, 0.1f, 0.5f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.9f, -127.8f).setScale(4f))
@@ -233,7 +233,7 @@ public class Clients {
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,8.3f,-16, POS)
+                .setAds(0,8.3f,-15, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(new InertialRecoilData(0.00f, 0.0f, 1.2f, 0.06f, 1.2f,  0.06f, 0.5f, 0.2f, new Vector3f(0.6f, 0.2f, 0.5f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.575f, -110.1f).setScale(3f))
@@ -248,7 +248,7 @@ public class Clients {
                 .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,13.65f,-27.5f, POS)
+                .setAds(0,13.65f,-26f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(new InertialRecoilData(0.01f, 0.005f, 0.42f, 0.068f, 0.6f,  0.05f, 0.3f, 0.35f, new Vector3f(0.6f, 0.45f, 0.25f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 5.7f, -113.1f).setScale(2.1f))
@@ -264,7 +264,7 @@ public class Clients {
                 .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,15.35f,-19.1f, POS)
+                .setAds(0,15.35f,-19f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(new InertialRecoilData(0f, 0f, 0.35f, 0.035f, 0.3f,  0.03f, 0.45f, 0.3f, new Vector3f(0.55f, 0.4f, 0.25f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.8f, -57.6f).setScale(1.8f))
@@ -280,7 +280,7 @@ public class Clients {
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,8.4f,-18, POS)
+                .setAds(0,8.4f,-17, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(new InertialRecoilData(0.00f, 0.0f, 0.45f, 0.05f, 0.21f,  0.01f, 0.3f, 0.3f, new Vector3f(0.2f, 0.05f, 0.12f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4f, -101.5f).setScale(3f))
@@ -295,7 +295,7 @@ public class Clients {
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,12.325f,-20.8f, POS)
+                .setAds(0,12.325f,-20f, POS)
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(new InertialRecoilData(0.03f, 0.01f, 0.42f, 0.055f, 0.72f,  0.06f, 0.5f, 0.45f, new Vector3f(0.5f, 0.25f, 0.4f)))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 3.2f, -87.2f).setScale(1.8f))
@@ -398,7 +398,7 @@ public class Clients {
     }
 
     public static void updateAttachmentScreenGuiContext(ListTag attachmentsTag) {
-        if (Minecraft.getInstance().screen instanceof AttachmentsScreen attachmentsScreen) {
+        if (Minecraft.getInstance().screen instanceof GunModifyScreen attachmentsScreen) {
             Player player = Minecraft.getInstance().player;
             if (player.getMainHandItem().getItem() instanceof IGun gun) {
                 attachmentsScreen.updateGuiContext(attachmentsTag, gun);

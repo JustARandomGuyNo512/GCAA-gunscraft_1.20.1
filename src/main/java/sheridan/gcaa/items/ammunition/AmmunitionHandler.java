@@ -40,22 +40,20 @@ public class AmmunitionHandler {
         if (ammunitionStack.getItem() instanceof IAmmunition ammunition) {
             NonNullList<ItemStack> items = player.getInventory().items;
             int totalCount = 0;
-            boolean canMergeAmmo = false;
             CompoundTag mods = ammunition.get().checkAndGet(ammunitionStack);
             for (int i = 0; i < items.size(); i ++) {
                 ItemStack itemStack = items.get(i);
-                if (itemStack.getItem() instanceof IAmmunition && ammunition.canMerge(ammunitionStack, itemStack)) {
-                    totalCount += ammunition.getAmmoLeft(itemStack);
-                    items.set(i, new ItemStack(Items.AIR));
-                    if (ammunition.getAmmoLeft(itemStack) < ammunition.getMaxCapacity(itemStack)) {
-                        canMergeAmmo = true;
+                if (itemStack.getItem() instanceof IAmmunition stackAmmunition) {
+                    stackAmmunition.get().checkAndGet(itemStack);
+                    if (ammunition.canMerge(ammunitionStack, itemStack)) {
+                        totalCount += ammunition.getAmmoLeft(itemStack);
+                        items.set(i, new ItemStack(Items.AIR));
                     }
                 }
             }
-            if (totalCount == 0 || !canMergeAmmo) {
+            if (totalCount == 0) {
                 return;
             }
-            System.out.println(totalCount);
             int capacity = ammunition.getMaxCapacity(ammunitionStack);
             while (totalCount > 0) {
                 int ammoCount = Math.min(totalCount, capacity);

@@ -29,7 +29,7 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.screens.componets.OptionalImageButton;
-import sheridan.gcaa.client.screens.containers.AttachmentsMenu;
+import sheridan.gcaa.client.screens.containers.GunModifyMenu;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
-public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> {
+public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
     private static final ResourceLocation INVENTORY_CLEAR = new ResourceLocation(GCAA.MODID, "textures/gui/screen/inventory_clear.png");
     private static final ResourceLocation INVENTORY_SHOW_SUITABLE = new ResourceLocation(GCAA.MODID, "textures/gui/screen/inventory_show_suitable.png");
     private static final ResourceLocation DRAG_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/drag_btn.png");
@@ -53,11 +53,13 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
     private static final ResourceLocation UNINSTALL_ATTACHMENT_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/uninstall_attachment_btn.png");
     private static final ResourceLocation SELECTED_SLOT = new ResourceLocation(GCAA.MODID, "textures/gui/component/selected_slot.png");
     private static final ResourceLocation SUITABLE_SLOT_MARK = new ResourceLocation(GCAA.MODID, "textures/gui/component/suitable_slot_mark.png");
+    private static final ResourceLocation AMMO_SELECT_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/ammo_select_btn.png");
 
     private AttachmentsGuiContext context;
-    private final AttachmentsMenu menu;
+    private final GunModifyMenu menu;
     private OptionalImageButton installBtn;
     private OptionalImageButton uninstallBtn;
+    private OptionalImageButton ammoSelectBtn;
     private IGun gun;
     private final List<Slot> suitableSlots = new ArrayList<>();
     private Slot selectedSlot;
@@ -74,7 +76,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
     private float dragStartX;
     private float dragStartY;
 
-    public AttachmentsScreen(AttachmentsMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
+    public GunModifyScreen(GunModifyMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         this.width = 376;
         this.height = 241;
@@ -105,12 +107,15 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
         rowHelper.addChild(zoomBtn);
         installBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, INSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> installAttachment(true));
         uninstallBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, UNINSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> uninstallAttachment(true));
+        ammoSelectBtn = new OptionalImageButton(this.leftPos + 232, 151, 16, 16, 0, 0, 0, AMMO_SELECT_BTN, 16, 16,  (btn) -> {});
         installBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.install_attachment")));
         uninstallBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.uninstall_attachment")));
+        ammoSelectBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.ammo_select")));
         installBtn.enableIf(false);
         uninstallBtn.enableIf(false);
         rowHelper.addChild(installBtn);
         rowHelper.addChild(uninstallBtn);
+        rowHelper.addChild(ammoSelectBtn);
         gridlayout.visitWidgets(this::addRenderableWidget);
         if (this.minecraft != null && this.minecraft.player != null) {
             Player player = this.minecraft.player;
@@ -272,7 +277,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
             suitableSlots.clear();
             for (int i = 0; i < menu.slots.size(); i++) {
                 Slot slot = menu.getSlot(i);
-                if (!(slot instanceof AttachmentsMenu.DisplaySlot) &&
+                if (!(slot instanceof GunModifyMenu.DisplaySlot) &&
                         slot.getItem().getItem() instanceof IAttachment attachment && attachments.contains(attachment)) {
                     suitableSlots.add(slot);
                 }
@@ -287,7 +292,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
     private void updateDisplay() {
         for (int i = 0; i < menu.slots.size(); i++) {
             Slot slot = menu.getSlot(i);
-            if (slot instanceof AttachmentsMenu.DisplaySlot displaySlot) {
+            if (slot instanceof GunModifyMenu.DisplaySlot displaySlot) {
                 displaySlot.active = displaySlot.hasItem();
             }
         }
@@ -300,7 +305,7 @@ public class AttachmentsScreen extends AbstractContainerScreen<AttachmentsMenu> 
 
     @Override
     protected void slotClicked(@NotNull Slot pSlot, int pSlotId, int pMouseButton, @NotNull ClickType pType) {
-        if (pSlot instanceof AttachmentsMenu.DisplaySlot) {
+        if (pSlot instanceof GunModifyMenu.DisplaySlot) {
             return;
         }
         if (pSlot == selectedSlot) {

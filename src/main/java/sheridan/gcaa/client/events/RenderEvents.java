@@ -4,12 +4,10 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.sun.jna.platform.win32.WinUser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -34,7 +32,6 @@ import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.model.attachments.ScopeModel;
-import sheridan.gcaa.client.model.attachments.SightModel;
 import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
@@ -47,7 +44,7 @@ import sheridan.gcaa.client.render.gui.crosshair.CrossHairRenderer;
 import sheridan.gcaa.client.render.postEffect.PostChain;
 import sheridan.gcaa.client.render.postEffect.PostPass;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
-import sheridan.gcaa.client.screens.AttachmentsScreen;
+import sheridan.gcaa.client.screens.GunModifyScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
@@ -106,7 +103,7 @@ public class RenderEvents {
 
     static boolean canNotCallFlashlight() {
         return failedLoadingFlashLightShader ||
-                Minecraft.getInstance().screen instanceof AttachmentsScreen ||
+                Minecraft.getInstance().screen instanceof GunModifyScreen ||
                 Minecraft.getInstance().screen instanceof GunDebugAdjustScreen;
     }
 
@@ -265,7 +262,7 @@ public class RenderEvents {
         if (id.equals(VanillaGuiOverlay.HOTBAR.id()) || id.equals(VanillaGuiOverlay.EXPERIENCE_BAR.id()) ||
                 id.equals(VanillaGuiOverlay.PLAYER_HEALTH.id()) || id.equals(VanillaGuiOverlay.FOOD_LEVEL.id())) {
             Minecraft minecraft = Minecraft.getInstance();
-            if (minecraft.screen instanceof AttachmentsScreen) {
+            if (minecraft.screen instanceof GunModifyScreen) {
                 event.setCanceled(true);
             }
         }
@@ -289,7 +286,7 @@ public class RenderEvents {
     @SubscribeEvent
     public static void renderGunInfo(RenderGuiEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.screen instanceof AttachmentsScreen) {
+        if (minecraft.screen instanceof GunModifyScreen) {
             return;
         }
         Player player = minecraft.player;
@@ -405,7 +402,7 @@ public class RenderEvents {
             Minecraft minecraft = Minecraft.getInstance();
             Player player = minecraft.player;
             Screen screen = minecraft.screen;
-            if (player != null && (screen instanceof AttachmentsScreen || screen instanceof GunDebugAdjustScreen)) {
+            if (player != null && (screen instanceof GunModifyScreen || screen instanceof GunDebugAdjustScreen)) {
                 if (screen instanceof GunDebugAdjustScreen gunDebugAdjustScreen) {
                     if (!"AttachmentScreen".equals(gunDebugAdjustScreen.getViewModeName())) {
                         Clients.shouldHideFPRender = false;
@@ -420,7 +417,7 @@ public class RenderEvents {
                     DisplayData displayData = GunModelRegister.getDisplayData(gun);
                     MultiBufferSource.BufferSource bufferSource = MultiBufferSource.immediate(GUN_MODEL_BUFFER);
                     PoseStack poseStack = new PoseStack();
-                    AttachmentsGuiContext context = screen instanceof AttachmentsScreen ? ((AttachmentsScreen) screen).getContext() : null;
+                    AttachmentsGuiContext context = screen instanceof GunModifyScreen ? ((GunModifyScreen) screen).getContext() : null;
                     GL11.glDepthMask(true);
 
                     int currentFrameBuffer = RenderAndMathUtils.getCurrentFramebuffer();

@@ -55,11 +55,7 @@ public class CommonEvents {
                     AttachmentsHandler.INSTANCE.checkAndUpdate(stack, gun, player);
                     gun.afterGunDataUpdate(stack);
                 }
-                AmmunitionHandler.checkAndUpdateAmmunitionBind(player, stack, gun);
-                CompoundTag tag = gun.getGun().checkAndGet(stack);
-                if (!tag.contains("identity_temp")) {
-                    tag.putString("identity_temp", UUID.randomUUID().toString());
-                }
+                gun.getGun().onEquipped(stack, player);
             }
             if (stack.getItem() instanceof UnknownAttachment) {
                 CompoundTag tag = stack.getTag();

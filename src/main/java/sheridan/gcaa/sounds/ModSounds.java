@@ -44,6 +44,7 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> PISTOL_MAG_ATTACH = registerSound("pistol_mag_attach", "item.generic.pistol_mag_attach");
     public static RegistryObject<SoundEvent> AR_CHARGE_BACK = registerSound("ar_charge_back", "item.generic.ar_charge_back");
     public static RegistryObject<SoundEvent> AR_CHARGE_FROWARD = registerSound("ar_charge_forward", "item.generic.ar_charge_forward");
+    public static RegistryObject<SoundEvent> NI_GAN_MA = registerSound("ni_gan_ma", "item.generic.ni_gan_ma");
 
 
     public static RegistryObject<SoundEvent> AKM_FIRE = registerSound("akm_fire", "item.akm.fire");
