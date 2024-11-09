@@ -52,7 +52,7 @@ public class GunModifyMenu extends AbstractContainerMenu {
         }
 
         ammoSelector = new SimpleContainer(1);
-        this.addSlot(new Slot(ammoSelector, 0, 251, 142));
+        this.addSlot(new Slot(ammoSelector, 0, 252, 142));
     }
     public GunModifyMenu(int i, Inventory inventory) {
         this(ModContainers.ATTACHMENTS.get(), i, inventory);

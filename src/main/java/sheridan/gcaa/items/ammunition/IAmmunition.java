@@ -1,5 +1,6 @@
 package sheridan.gcaa.items.ammunition;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -41,5 +42,7 @@ public interface IAmmunition {
     Ammunition get();
 
     String getModsUUID(ItemStack itemStack);
+
+    CompoundTag getModsTag(ItemStack itemStack);
 
 }

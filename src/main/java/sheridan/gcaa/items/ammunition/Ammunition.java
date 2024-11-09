@@ -202,4 +202,10 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         tag.putString("modsUUID", uuid);
         return uuid;
     }
+
+    @Override
+    public CompoundTag getModsTag(ItemStack itemStack) {
+        CompoundTag tag = checkAndGet(itemStack);
+        return tag.contains("mods") ? new CompoundTag() : tag.getCompound("mods");
+    }
 }

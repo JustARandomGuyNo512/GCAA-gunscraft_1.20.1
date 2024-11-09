@@ -6,6 +6,6 @@ import sheridan.gcaa.items.ammunition.AmmunitionMod;
 
 public class Incendiary extends AmmunitionMod {
     public Incendiary() {
-        super(new ResourceLocation(GCAA.MODID, "incendiary"));
+        super(new ResourceLocation(GCAA.MODID, "incendiary"), 1);
     }
 }

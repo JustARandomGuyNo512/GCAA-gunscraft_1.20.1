@@ -30,6 +30,7 @@ import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.events.*;
 import sheridan.gcaa.client.render.entity.GrenadeRenderer;
+import sheridan.gcaa.client.screens.AmmunitionModifyScreen;
 import sheridan.gcaa.client.screens.GunModifyScreen;
 import sheridan.gcaa.client.screens.containers.ModContainers;
 import sheridan.gcaa.entities.ModEntities;
@@ -76,6 +77,7 @@ public class GCAA {
         MinecraftForge.EVENT_BUS.register(ClientPlayerEvents.class);
         MinecraftForge.EVENT_BUS.register(ClientEvents.class);
         event.enqueueWork(() -> MenuScreens.register(ModContainers.ATTACHMENTS.get(), GunModifyScreen::new));
+        event.enqueueWork(() -> MenuScreens.register(ModContainers.AMMUNITION_MODIFY_MENU.get(), AmmunitionModifyScreen::new));
         Clients.onSetUp(event);
     }
 

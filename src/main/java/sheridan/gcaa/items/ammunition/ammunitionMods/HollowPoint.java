@@ -4,8 +4,8 @@ import net.minecraft.resources.ResourceLocation;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.items.ammunition.AmmunitionMod;
 
-public class Tracer extends AmmunitionMod {
-    public Tracer() {
-        super(new ResourceLocation(GCAA.MODID, "tracer"));
+public class HollowPoint extends AmmunitionMod {
+    public HollowPoint() {
+        super(new ResourceLocation(GCAA.MODID, "hollow_point"), 5);
     }
 }

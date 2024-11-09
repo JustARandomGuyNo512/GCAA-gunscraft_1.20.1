@@ -73,6 +73,8 @@
   "tooltip.btn.uninstall_attachment": "卸下配件",
   "tooltip.btn.zoom": "使用鼠标滚轮来缩放模型尺寸",
   "tooltip.btn.ammo_select": "选定优先使用的弹药种类",
+  "tooltip.btn.need_put_ammo": "未放入待处理弹药",
+  "tooltip.btn.not_suitable": "不合适",
   "tooltip.action_res.prevented_by_child": "无法操作，有子配件依赖于此",
   "tooltip.action_res.conflict": "与配件'$id'产生冲突",
 

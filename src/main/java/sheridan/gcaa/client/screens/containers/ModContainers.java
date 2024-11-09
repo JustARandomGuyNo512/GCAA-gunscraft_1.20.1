@@ -12,4 +12,6 @@ public class ModContainers {
     public static final DeferredRegister<MenuType<?>> REGISTER = DeferredRegister.create(MENU_TYPES, GCAA.MODID);
 
     public static final RegistryObject<MenuType<GunModifyMenu>> ATTACHMENTS = REGISTER.register("attachments", () -> new MenuType<>(GunModifyMenu::new, FeatureFlags.DEFAULT_FLAGS));
+    public static final RegistryObject<MenuType<AmmunitionModifyMenu>> AMMUNITION_MODIFY_MENU = REGISTER.register("ammunition_modify_menu", () -> new MenuType<>(AmmunitionModifyMenu::new, FeatureFlags.DEFAULT_FLAGS));
+
 }

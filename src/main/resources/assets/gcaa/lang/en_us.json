@@ -73,6 +73,8 @@
   "tooltip.btn.uninstall_attachment": "uninstall attachment",
   "tooltip.btn.zoom": "Use the mouse wheel to scale the model ",
   "tooltip.btn.ammo_select": "Select the type of ammunition to use first",
+  "tooltip.btn.need_put_ammo": "Not put in ammo to be disposed ",
+  "tooltip.btn.not_suitable": "Item not suitable",
   "tooltip.action_res.prevented_by_child": "Cannot operate, there are sub-attachments dependent on this",
   "tooltip.action_res.conflict": "Conflict with attachment '$id'",
 

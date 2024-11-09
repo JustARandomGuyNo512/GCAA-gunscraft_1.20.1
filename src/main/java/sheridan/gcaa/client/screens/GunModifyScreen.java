@@ -107,7 +107,7 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
         rowHelper.addChild(zoomBtn);
         installBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, INSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> installAttachment(true));
         uninstallBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, UNINSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> uninstallAttachment(true));
-        ammoSelectBtn = new OptionalImageButton(this.leftPos + 232, 151, 16, 16, 0, 0, 0, AMMO_SELECT_BTN, 16, 16,  (btn) -> {});
+        ammoSelectBtn = new OptionalImageButton(this.leftPos + 232, this.topPos + 141, 16, 16, 0, 0, 0, AMMO_SELECT_BTN, 16, 16,  (btn) -> {});
         installBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.install_attachment")));
         uninstallBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.uninstall_attachment")));
         ammoSelectBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.ammo_select")));
