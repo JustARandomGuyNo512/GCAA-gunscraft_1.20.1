@@ -66,16 +66,13 @@ public abstract class LodGunModel extends GunModel{
     }
 
     protected abstract void postInitLowQuality(ModelPart lowQualityGun, ModelPart lowQualityRoot);
-
     protected boolean handleShouldRenderLowQuality(GunRenderContext context) {
         if (context.isFirstPerson || !lowQualityLoaded || context.inAttachmentScreen) {
             return false;
         }
         ItemDisplayContext transformType = context.transformType;
         switch (transformType) {
-            case THIRD_PERSON_LEFT_HAND, THIRD_PERSON_RIGHT_HAND -> {
-                return ClientConfig.renderLowQualityModelInTPView.get();
-            }
+            case THIRD_PERSON_LEFT_HAND, THIRD_PERSON_RIGHT_HAND -> {return ClientConfig.renderLowQualityModelInTPView.get();}
             case GROUND -> {return ClientConfig.renderLowQualityModelInGroundView.get();}
             case GUI -> {return ClientConfig.renderLowQualityModelInGuiView.get();}
             default -> {return ClientConfig.renderLowQualityModelInOtherView.get();}

@@ -73,7 +73,7 @@ public class G19Model extends LodGunModel {
         slide_low.copyFrom(slide);
         barrel_low.copyFrom(barrel);
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE_LOW));
-        context.renderIf(mag_low, vertexConsumer, context.notHasMuzzle());
+        context.renderIf(mag_low, vertexConsumer, context.notHasMag());
         context.render(vertexConsumer, barrel_low, slide_low, body_low);
     }
 
