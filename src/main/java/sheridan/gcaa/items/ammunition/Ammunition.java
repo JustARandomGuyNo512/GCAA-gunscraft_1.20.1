@@ -17,6 +17,7 @@ import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.AmmunitionManagePacket;
 import sheridan.gcaa.utils.FontUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition{
@@ -94,8 +95,13 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
     }
 
     @Override
+    public int getModCapacityUsed(ItemStack itemStack) {
+        return getModsTag(itemStack).contains("capacity") ? getModsTag(itemStack).getInt("capacity") : 0;
+    }
+
+    @Override
     public int getModCapacityLeft(ItemStack itemStack) {
-        return 0;
+        return getMaxModCapacity() - getModsTag(itemStack).getInt("capacity");
     }
 
     @Override
@@ -116,7 +122,7 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
             CompoundTag modsTag = tag.getCompound("mods");
             Set<String> allKeys = modsTag.getAllKeys();
             for (String key : allKeys) {
-                if ("capacity".equals(key)) {
+                if ("capacity".equals(key) || "modsUUID".equals(key)) {
                     continue;
                 }
                 IAmmunitionMod mod = AmmunitionModRegister.getAmmunitionMod(key);
@@ -128,6 +134,15 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         return mods;
     }
 
+
+    @Override
+    public void addModById(String modId, ItemStack itemStack) {
+        IAmmunitionMod mod = AmmunitionModRegister.getAmmunitionMod(modId);
+        if (mod != null) {
+            addMod(mod, itemStack);
+        }
+    }
+
     @Override
     public void addMod(IAmmunitionMod mod, ItemStack itemStack) {
         CompoundTag tag = checkAndGet(itemStack);
@@ -137,15 +152,61 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         }
         int maxModCapacity = tag.getInt("max_mod_capacity");
         int capacity = modTag.getInt("capacity");
-        if (maxModCapacity - capacity - mod.cost() < 0) {
-            throw new NotImplementedException();
+        if (maxModCapacity - capacity - mod.cost() >= 0) {
+            modTag.putByte(mod.getId().toString(), (byte) 0);
+            String uuid = genModsUUID(itemStack);
+            modTag.putString("modsUUID", uuid);
+            tag.putString("modsUUID", uuid);
+            modTag.putInt("capacity", capacity + mod.cost());
         }
     }
 
     @Override
-    public void removeMod(IAmmunitionMod mod, ItemStack itemStack) {
-
+    public void addMods(List<IAmmunitionMod> mods, ItemStack itemStack) {
+        CompoundTag tag = checkAndGet(itemStack);
+        CompoundTag modTag = tag.getCompound("mods");
+        int maxModCapacity = tag.getInt("max_mod_capacity");
+        boolean resetUUID = false;
+        for (IAmmunitionMod mod : mods) {
+            int capacityLeft = maxModCapacity - modTag.getInt("capacity");
+            if (!modTag.contains(mod.getId().toString()) && capacityLeft >= mod.cost())  {
+                resetUUID = true;
+                modTag.putByte(mod.getId().toString(), (byte) 0);
+                modTag.putInt("capacity", modTag.getInt("capacity") + mod.cost());
+            }
+        }
+        if (resetUUID) {
+            String uuid = genModsUUID(itemStack);
+            modTag.putString("modsUUID", uuid);
+            tag.putString("modsUUID", uuid);
+        }
     }
+
+    @Override
+    public void addModsById(List<String> modIdList, ItemStack itemStack) {
+        CompoundTag tag = checkAndGet(itemStack);
+        CompoundTag modTag = tag.getCompound("mods");
+        int maxModCapacity = tag.getInt("max_mod_capacity");
+        boolean resetUUID = false;
+        for (String modId : modIdList) {
+            IAmmunitionMod mod = AmmunitionModRegister.getAmmunitionMod(modId);
+            if (mod == null) {
+                continue;
+            }
+            int capacityLeft = maxModCapacity - modTag.getInt("capacity");
+            if (!modTag.contains(mod.getId().toString()) && capacityLeft >= mod.cost())  {
+                resetUUID = true;
+                modTag.putByte(mod.getId().toString(), (byte) 0);
+                modTag.putInt("capacity", modTag.getInt("capacity") + mod.cost());
+            }
+        }
+        if (resetUUID) {
+            String uuid = genModsUUID(itemStack);
+            modTag.putString("modsUUID", uuid);
+            tag.putString("modsUUID", uuid);
+        }
+    }
+
 
     @Override
     public boolean canMerge(ItemStack thisStack, ItemStack otherStack) {
@@ -159,7 +220,7 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
 
     public CompoundTag checkAndGet(ItemStack itemStack) {
         CompoundTag nbt = itemStack.getTag();
-        if (nbt == null) {
+        if (nbt == null || !nbt.contains("mods"))  {
             this.onCraftedBy(itemStack, null, null);
             nbt = itemStack.getTag();
         }
@@ -177,10 +238,15 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         if (!nbt.contains("mods")) {
             CompoundTag modTag = new CompoundTag();
             modTag.putInt("capacity", 0);
+            modTag.putString("modsUUID", "");
             nbt.put("mods", modTag);
         }
-        nbt.putInt("max_mod_capacity", getMaxModCapacity());
-        nbt.putString("modsUUID", "");
+        if (!nbt.contains("max_mod_capacity")) {
+            nbt.putInt("max_mod_capacity", getMaxModCapacity());
+        }
+        if (!nbt.contains("modsUUID")) {
+            nbt.putString("modsUUID", "");
+        }
     }
 
     @Override
@@ -189,6 +255,14 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         if (tag.contains("modsUUID")) {
             return tag.getString("modsUUID");
         }
+        String uuid = genModsUUID(itemStack);
+        tag.putString("modsUUID", uuid);
+        CompoundTag modsTag = getModsTag(itemStack);
+        modsTag.putString("modsUUID", uuid);
+        return uuid;
+    }
+
+    protected String genModsUUID(ItemStack itemStack) {
         List<IAmmunitionMod> mods = getMods(itemStack);
         if (mods.size() == 0) {
             return "";
@@ -198,14 +272,12 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         for (IAmmunitionMod mod : mods) {
             id.append(mod.getId().toString());
         }
-        String uuid = UUID.fromString(id.toString()).toString();
-        tag.putString("modsUUID", uuid);
-        return uuid;
+        return UUID.nameUUIDFromBytes(id.toString().getBytes(StandardCharsets.UTF_8)).toString();
     }
 
     @Override
     public CompoundTag getModsTag(ItemStack itemStack) {
         CompoundTag tag = checkAndGet(itemStack);
-        return tag.contains("mods") ? new CompoundTag() : tag.getCompound("mods");
+        return tag.contains("mods") ? tag.getCompound("mods") : new CompoundTag();
     }
 }

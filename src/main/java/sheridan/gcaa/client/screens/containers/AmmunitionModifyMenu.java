@@ -6,8 +6,10 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.items.ammunition.IAmmunition;
 
@@ -15,7 +17,7 @@ public class AmmunitionModifyMenu extends AbstractContainerMenu {
     public final BlockPos blockPos;
     public Inventory playerInventory;
     public SimpleContainer ammo;
-    public SimpleContainer res;
+    private final ContainerLevelAccess access;
 
     public static class AmmunitionSlot extends Slot {
 
@@ -41,17 +43,19 @@ public class AmmunitionModifyMenu extends AbstractContainerMenu {
         }
     }
 
-    public AmmunitionModifyMenu(int i, Inventory inventory, BlockPos pos) {
+    public AmmunitionModifyMenu(int i, Inventory inventory, Level level, BlockPos pos) {
         super(ModContainers.AMMUNITION_MODIFY_MENU.get(), i);
         playerInventory = inventory;
         blockPos = pos;
         initContainer();
+        this.access = ContainerLevelAccess.create(level, pos);
     }
 
     public AmmunitionModifyMenu(int i, Inventory inventory) {
         super(ModContainers.AMMUNITION_MODIFY_MENU.get(), i);
         playerInventory = inventory;
         blockPos = BlockPos.ZERO;
+        this.access = ContainerLevelAccess.NULL;
         initContainer();
     }
 
@@ -66,10 +70,16 @@ public class AmmunitionModifyMenu extends AbstractContainerMenu {
         }
 
         ammo = new SimpleContainer(1);
-        this.addSlot(new AmmunitionSlot(ammo, 0, 108, 18));
+        this.addSlot(new AmmunitionSlot(ammo, 0, 136, 18));
 
-        res = new SimpleContainer(1);
-        this.addSlot(new ResSlot(res, 0, 162, 18));
+    }
+
+    @Override
+    public void removed(Player pPlayer) {
+        super.removed(pPlayer);
+        this.access.execute((p_39371_, p_39372_) -> {
+            this.clearContainer(pPlayer, this.ammo);
+        });
     }
 
     @Override

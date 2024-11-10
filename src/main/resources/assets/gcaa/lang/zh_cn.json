@@ -75,6 +75,8 @@
   "tooltip.btn.ammo_select": "选定优先使用的弹药种类",
   "tooltip.btn.need_put_ammo": "未放入待处理弹药",
   "tooltip.btn.not_suitable": "不合适",
+  "tooltip.btn.apply": "应用更改，更改不能撤销，请谨慎考虑！",
+  "tooltip.btn.no_modify_selected": "未选择更改项目！",
   "tooltip.action_res.prevented_by_child": "无法操作，有子配件依赖于此",
   "tooltip.action_res.conflict": "与配件'$id'产生冲突",
 

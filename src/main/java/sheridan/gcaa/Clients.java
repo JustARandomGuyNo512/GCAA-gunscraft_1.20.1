@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -57,6 +58,7 @@ import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
 import sheridan.gcaa.client.render.fx.muzzleFlash.CommonMuzzleFlashes;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
+import sheridan.gcaa.client.screens.AmmunitionModifyScreen;
 import sheridan.gcaa.client.screens.GunModifyScreen;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.Gun;
@@ -397,12 +399,18 @@ public class Clients {
         }
     }
 
-    public static void updateAttachmentScreenGuiContext(ListTag attachmentsTag) {
+    public static void updateGunModifyScreenGuiContext(ListTag attachmentsTag) {
         if (Minecraft.getInstance().screen instanceof GunModifyScreen attachmentsScreen) {
             Player player = Minecraft.getInstance().player;
             if (player.getMainHandItem().getItem() instanceof IGun gun) {
                 attachmentsScreen.updateGuiContext(attachmentsTag, gun);
             }
+        }
+    }
+
+    public static void updateAmmunitionModifyScreen(String modsUUID, int maxModCapability, CompoundTag modsTag) {
+        if (Minecraft.getInstance().screen instanceof AmmunitionModifyScreen ammunitionModifyScreen) {
+            ammunitionModifyScreen.updateClient(modsUUID, maxModCapability, modsTag);
         }
     }
 

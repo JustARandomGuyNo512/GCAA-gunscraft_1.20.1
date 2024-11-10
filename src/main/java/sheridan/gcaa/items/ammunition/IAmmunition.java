@@ -20,6 +20,7 @@ public interface IAmmunition {
      * returns the capacity of mods the ammunition can hold
      */
     int getMaxModCapacity();
+    int getModCapacityUsed(ItemStack itemStack);
     int getModCapacityLeft(ItemStack itemStack);
     boolean isModSuitable(ItemStack itemStack, IAmmunitionMod ammunitionMod);
     /*
@@ -30,8 +31,11 @@ public interface IAmmunition {
      * returns the set of mods that are currently applied to the ammunition
      */
     List<IAmmunitionMod> getMods(ItemStack itemStack);
+    void addModById(String modId, ItemStack itemStack);
     void addMod(IAmmunitionMod mod, ItemStack itemStack);
-    void removeMod(IAmmunitionMod mod, ItemStack itemStack);
+
+    void addMods(List<IAmmunitionMod> mods, ItemStack itemStack);
+    void addModsById(List<String> modIdList, ItemStack itemStack);
     /*
      * returns true if the two stacks can be merged
      */

@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class Ammo45ACP extends Ammunition {
     public Ammo45ACP() {
-        super(400, 10, Set.of(
+        super(400, 12, Set.of(
                 AmmunitionMods.AP,
                 AmmunitionMods.HOLLOW_POINT,
                 AmmunitionMods.EXPLOSIVE,

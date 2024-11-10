@@ -26,7 +26,7 @@ public class PacketHandler
         registerPacket(ClientPlayParticlePacket.class, new ClientPlayParticlePacket());
         registerPacket(OpenAttachmentScreenPacket.class, new OpenAttachmentScreenPacket());
         registerPacket(InstallAttachmentsPacket.class, new InstallAttachmentsPacket());
-        registerPacket(UpdateAttachmentScreenGuiContextPacket.class, new UpdateAttachmentScreenGuiContextPacket());
+        registerPacket(UpdateGunModifyScreenGuiContextPacket.class, new UpdateGunModifyScreenGuiContextPacket());
         registerPacket(UninstallAttachmentPacket.class, new UninstallAttachmentPacket());
         registerPacket(SetEffectiveSightPacket.class, new SetEffectiveSightPacket());
         registerPacket(ClientSoundPacket.class, new ClientSoundPacket());
@@ -38,6 +38,8 @@ public class PacketHandler
         registerPacket(HeadShotFeedBackPacket.class, new HeadShotFeedBackPacket());
         registerPacket(TurnFlashlightPacket.class, new TurnFlashlightPacket());
         registerPacket(AmmunitionManagePacket.class, new AmmunitionManagePacket());
+        registerPacket(ApplyAmmunitionModifyPacket.class, new ApplyAmmunitionModifyPacket());
+        registerPacket(UpdateAmmunitionModifyScreenPacket.class, new UpdateAmmunitionModifyScreenPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

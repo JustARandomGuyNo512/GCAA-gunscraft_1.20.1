@@ -20,7 +20,11 @@ public class AmmunitionModRegister {
     }
 
     public static IAmmunitionMod getAmmunitionMod(String id) {
-        return ammunitionModMap.get(id).mod;
+        ModEntry entry = ammunitionModMap.get(id);
+        if (entry != null) {
+            return entry.mod;
+        }
+        return null;
     }
 
     public static IAmmunitionMod getAmmunitionMod(ResourceLocation id) {
@@ -28,7 +32,11 @@ public class AmmunitionModRegister {
     }
 
     public static int getModIndex(String id) {
-        return ammunitionModMap.get(id).index;
+        ModEntry entry = ammunitionModMap.get(id);
+        if (entry != null) {
+            return entry.index;
+        }
+        return -1;
     }
 
     public static String getModId(int index) {

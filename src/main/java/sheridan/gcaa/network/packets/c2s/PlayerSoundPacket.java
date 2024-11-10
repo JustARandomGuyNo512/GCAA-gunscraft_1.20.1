@@ -1,18 +1,10 @@
 package sheridan.gcaa.network.packets.c2s;
 
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.PacketDistributor;
-import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
-import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.IPacket;
-import sheridan.gcaa.network.PacketHandler;
-import sheridan.gcaa.network.packets.s2c.UpdateAttachmentScreenGuiContextPacket;
 import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.function.Supplier;

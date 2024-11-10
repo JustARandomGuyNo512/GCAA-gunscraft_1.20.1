@@ -70,7 +70,7 @@ public class AmmunitionProcessor extends HorizontalDirectionalBlock implements I
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide) {
-            pPlayer.openMenu(new AmmunitionMenuProvider());
+            pPlayer.openMenu(new AmmunitionMenuProvider(pLevel, pPos));
             pPlayer.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
             return InteractionResult.CONSUME;
         }

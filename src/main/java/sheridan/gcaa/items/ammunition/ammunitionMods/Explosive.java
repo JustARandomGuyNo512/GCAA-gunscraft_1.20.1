@@ -8,7 +8,7 @@ import sheridan.gcaa.items.ammunition.AmmunitionMod;
 
 public class Explosive extends AmmunitionMod {
     public Explosive() {
-        super(new ResourceLocation(GCAA.MODID, "explosive"), 1, ICONS_0, new Vector4i(16, 0, 128, 128));
+        super(new ResourceLocation(GCAA.MODID, "explosive"), 3, ICONS_0, new Vector4i(16, 0, 128, 128));
     }
 
 }

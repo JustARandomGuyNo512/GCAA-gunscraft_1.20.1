@@ -12,34 +12,34 @@ import sheridan.gcaa.network.IPacket;
 
 import java.util.function.Supplier;
 
-public class UpdateAttachmentScreenGuiContextPacket implements IPacket<UpdateAttachmentScreenGuiContextPacket> {
+public class UpdateGunModifyScreenGuiContextPacket implements IPacket<UpdateGunModifyScreenGuiContextPacket> {
     public ListTag attachments;
 
-    public UpdateAttachmentScreenGuiContextPacket() {}
+    public UpdateGunModifyScreenGuiContextPacket() {}
 
-    public UpdateAttachmentScreenGuiContextPacket(ListTag attachments) {
+    public UpdateGunModifyScreenGuiContextPacket(ListTag attachments) {
         this.attachments = attachments;
     }
 
     @Override
-    public void encode(UpdateAttachmentScreenGuiContextPacket message, FriendlyByteBuf buffer) {
+    public void encode(UpdateGunModifyScreenGuiContextPacket message, FriendlyByteBuf buffer) {
         CompoundTag tag = new CompoundTag();
         tag.put("data", message.attachments);
         buffer.writeNbt(tag);
     }
 
     @Override
-    public UpdateAttachmentScreenGuiContextPacket decode(FriendlyByteBuf buffer) {
+    public UpdateGunModifyScreenGuiContextPacket decode(FriendlyByteBuf buffer) {
         CompoundTag tag = buffer.readNbt();
-        return new UpdateAttachmentScreenGuiContextPacket(tag.getList("data", Tag.TAG_COMPOUND));
+        return new UpdateGunModifyScreenGuiContextPacket(tag.getList("data", Tag.TAG_COMPOUND));
     }
 
     @Override
-    public void handle(UpdateAttachmentScreenGuiContextPacket message, Supplier<NetworkEvent.Context> supplier) {
+    public void handle(UpdateGunModifyScreenGuiContextPacket message, Supplier<NetworkEvent.Context> supplier) {
         supplier.get().enqueueWork(() -> {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
                     {
-                        Clients.updateAttachmentScreenGuiContext(message.attachments);
+                        Clients.updateGunModifyScreenGuiContext(message.attachments);
                     }
             );
         });
