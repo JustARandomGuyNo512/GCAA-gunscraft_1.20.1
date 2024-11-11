@@ -30,7 +30,7 @@ public class Explosive extends AmmunitionMod {
     @Override
     public net.minecraft.network.chat.Component getSpecialDescription() {
         String str = net.minecraft.network.chat.Component.translatable("gcaa.ammunition_mod.explosive_special").getString().replace("$rate", FontUtils.toPercentageStr(explosiveDamageRate));
-        return net.minecraft.network.chat.Component.empty().append("\n").append(Component.literal(str));
+        return net.minecraft.network.chat.Component.empty().append(Component.literal(str));
     }
 
     public float getExplosiveDamageRate() {

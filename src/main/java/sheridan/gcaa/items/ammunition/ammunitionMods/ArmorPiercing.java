@@ -13,7 +13,7 @@ import java.awt.*;
 
 public class ArmorPiercing extends AmmunitionMod {
     public ArmorPiercing() {
-        super(new ResourceLocation(GCAA.MODID, "armor_piercing"), 3, ICONS_0, new Vector4i(0, 0, 128, 128)
+        super(new ResourceLocation(GCAA.MODID, "armor_piercing"), 4, ICONS_0, new Vector4i(0, 0, 128, 128)
         ,"gcaa.ammunition_mod.armor_piercing", new Color(0x53257b).getRGB());
     }
 

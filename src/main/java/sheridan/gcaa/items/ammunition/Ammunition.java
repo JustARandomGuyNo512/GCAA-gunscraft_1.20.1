@@ -3,6 +3,7 @@ package sheridan.gcaa.items.ammunition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -64,8 +65,13 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         pTooltipComponents.add(Component.translatable("tooltip.ammunition_info.ammo_left").append(getAmmoLeft(pStack) + " /  " + getMaxCapacity(pStack)));
         List<IAmmunitionMod> mods = getMods(pStack);
         if (mods.size() > 0) {
+            List<Component> specials = new ArrayList<>();
             for (IAmmunitionMod mod : mods) {
                 pTooltipComponents.add(Component.translatable(mod.getDescriptionId()).withStyle(Style.EMPTY.withColor(mod.getThemeColor()).withBold(true)));
+                Component component = mod.getSpecialDescription();
+                if (component != null) {
+                    specials.add(component.copy().withStyle(Style.EMPTY.withColor(mod.getThemeColor()).withItalic(true)));
+                }
             }
             CompoundTag dataRate = getDataRateTag(pStack);
             float baseDamageRate = Math.max(dataRate.getFloat(BASE_DAMAGE_RATE), MIN_BASE_DAMAGE_RATE);
@@ -93,6 +99,7 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
                 pTooltipComponents.add(Component.translatable("gcaa.ammunition_data.penetration_rate")
                         .append(Component.literal(FontUtils.toPercentageStr(penetrationRate)).withStyle(Style.EMPTY.withBold(true))));
             }
+            pTooltipComponents.addAll(specials);
         }
         pTooltipComponents.add(FontUtils.helperTip(Component.literal(Component.translatable("tooltip.gcaa.manage_ammunition").getString())));
     }

@@ -411,19 +411,23 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
                     select();
                 }
                 blocked = false;
-                setTooltip(Tooltip.create(Component.translatable("tooltip.btn.select_modify")
-                        .append("\n")
-                        .append(Component.translatable(entry.mod().getDescriptionId()).withStyle(Style.EMPTY.withColor(entry.mod().getThemeColor())))
-                        .append(entry.mod().getSpecialDescription())
-                ));
+                genTooltip(entry);
             } else {
                 blocked = true;
-                setTooltip(Tooltip.create(Component.translatable("tooltip.btn.modify_prevented")
-                        .append("\n")
-                        .append(Component.translatable(entry.mod().getDescriptionId()).withStyle(Style.EMPTY.withColor(entry.mod().getThemeColor())))
-                        .append(entry.mod().getSpecialDescription())
-                ));
+                genTooltip(entry);
             }
+        }
+
+        private void genTooltip(AmmunitionModRegister.ModEntry entry) {
+            MutableComponent component = Component.translatable("tooltip.btn.select_modify")
+                    .append("\n")
+                    .append(Component.translatable(entry.mod().getDescriptionId()).withStyle(Style.EMPTY.withColor(entry.mod().getThemeColor())));
+            Component specialDescription = entry.mod().getSpecialDescription();
+            if (specialDescription != null) {
+                component.append("\n");
+                component.append(specialDescription);
+            }
+            setTooltip(Tooltip.create(component));
         }
 
         @Override

@@ -65,7 +65,7 @@ public class AmmunitionMod implements IAmmunitionMod{
 
     @Override
     public Component getSpecialDescription() {
-        return Component.empty();
+        return null;
     }
 
     @Override

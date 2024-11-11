@@ -21,7 +21,7 @@ public class Incendiary extends AmmunitionMod {
     @Override
     public Component getSpecialDescription() {
         String str = Component.translatable("gcaa.ammunition_mod.incendiary_special").getString().replace("$rate", FontUtils.toPercentageStr(fireDamageRate));
-        return Component.empty().append("\n").append(Component.literal(str));
+        return Component.empty().append(Component.literal(str));
     }
 
     public float getFireDamageRate() {
