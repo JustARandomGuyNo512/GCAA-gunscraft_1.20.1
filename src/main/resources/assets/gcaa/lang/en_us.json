@@ -115,7 +115,7 @@
   "tooltip.screen_info.spread_mode": "Switch to spread mode",
   "tooltip.screen_info.searchlight_mode": "Switch to lighting mode",
   "tooltip.screen_info.ammunition_manage_cool_down": "Ammunition manage function cooling",
-  "tooltip.screen_info.no_ammo": "Need $ammo!" ,
+  "tooltip.screen_info.no_ammo": "No @ammo carried or this type of ammunition is depleted" ,
 
   "gcaa.unit.chunk_pre_second": "Chunks/s",
   "gcaa.unit.chunk": "Chunk",
@@ -135,6 +135,7 @@
   "key.gcaa.switch_effective_sight": "Switching sight",
   "key.gcaa.use_grenade_launcher": "launch / reload grenade",
   "key.gcaa.turn_flashlight": "Turn ON / OFF flashlight or switch lighting mode",
+  "tooltip.gcaa.modify_magnification": "Use the mouse wheel to adjust magnification while aiming",
 
   "itemGroup.guns": "Guns",
   "itemGroup.attachments": "Attachments",

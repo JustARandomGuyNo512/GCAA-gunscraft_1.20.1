@@ -15,6 +15,7 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.items.AutoRegister;
 import sheridan.gcaa.items.NoRepair;
+import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.items.UnknownAttachment;
 import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.ammunition.IAmmunition;
@@ -50,12 +51,12 @@ public class CommonEvents {
         if (event.getEntity() instanceof Player player) {
             ItemStack stack = event.getTo();
             if (stack.getItem() instanceof IGun gun) {
-                if (gun.shouldUpdate(stack)) {
-                    gun.beforeGunDataUpdate(stack);
-                    AttachmentsHandler.INSTANCE.checkAndUpdate(stack, gun, player);
-                    gun.afterGunDataUpdate(stack);
-                }
                 gun.getGun().onEquipped(stack, player);
+                if (gun.shouldUpdate(stack)) {
+                    gun.beforeGunDataUpdate(player, stack);
+                    AttachmentsHandler.INSTANCE.checkAndUpdate(stack, gun, player);
+                    gun.afterGunDataUpdate(player, stack);
+                }
             }
             if (stack.getItem() instanceof UnknownAttachment) {
                 CompoundTag tag = stack.getTag();
@@ -73,7 +74,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void anvilChangeEvent(AnvilUpdateEvent event) {
-        if (event.getLeft().getItem() instanceof NoRepair || event.getRight().getItem() instanceof NoRepair) {
+        if (event.getLeft().getItem() instanceof NoRepairNoEnchantmentItem || event.getRight().getItem() instanceof NoRepairNoEnchantmentItem) {
             event.setCanceled(true);
         }
     }

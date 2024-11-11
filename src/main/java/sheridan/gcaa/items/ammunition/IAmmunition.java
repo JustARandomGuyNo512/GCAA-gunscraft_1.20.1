@@ -31,6 +31,7 @@ public interface IAmmunition {
      * returns the set of mods that are currently applied to the ammunition
      */
     List<IAmmunitionMod> getMods(ItemStack itemStack);
+    List<IAmmunitionMod> getMods(CompoundTag modsTag);
     void addModById(String modId, ItemStack itemStack);
     void addMod(IAmmunitionMod mod, ItemStack itemStack);
 
@@ -49,4 +50,6 @@ public interface IAmmunition {
 
     CompoundTag getModsTag(ItemStack itemStack);
     CompoundTag getDataRateTag(ItemStack itemStack);
+
+    String getFullName(ItemStack itemStack);
 }

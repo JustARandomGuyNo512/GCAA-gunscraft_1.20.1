@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -33,8 +34,10 @@ import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
+import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.ammunition.IAmmunition;
+import sheridan.gcaa.items.ammunition.IAmmunitionMod;
 import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.calibers.Caliber;
@@ -44,6 +47,7 @@ import sheridan.gcaa.sounds.ModSounds;
 import sheridan.gcaa.utils.FontUtils;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -345,16 +349,22 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         if (allow) {
             IAmmunition ammunition = this.gunProperties.caliber.ammunition;
             if (ammunition == null) {
-                //直接换弹
                 PlayerStatusProvider.setReloading(player, true);
             } else {
-                if (AmmunitionHandler.hasAmmunition(stack, ammunition, player)) {
+                if (AmmunitionHandler.hasAmmunition(this, stack, ammunition, player)) {
                     PlayerStatusProvider.setReloading(player, true);
                     return true;
                 } else {
-                    String str = Component.translatable("tooltip.screen_info.no_ammo").getString();
-                    String ammunitionName = Component.translatable(gunProperties.caliber.ammunition.get().getDescriptionId()).getString();
-                    Minecraft.getInstance().gui.setOverlayMessage(Component.literal(str.replace("$ammo", ammunitionName)), false);
+                    String ammunitionName = getFullAmmunitionUsedName(stack);
+                    String[] split = Component.translatable("tooltip.screen_info.no_ammo").getString().split("@ammo");
+                    Minecraft.getInstance().gui.setOverlayMessage(
+                            Component.literal(split[0])
+                                    .append(Component.literal(ammunitionName).withStyle(
+                                            Style.EMPTY.withColor(new Color(0xe85015).getRGB())
+                                                    .withItalic(true)
+                                                    .withBold(true)))
+                                    .append(Component.literal(split[1]))
+                            , false);
                     return false;
                 }
             }
@@ -418,14 +428,34 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         if (tag.contains("selected_ammunition_type_uuid")) {
             return tag.getString("selected_ammunition_type_uuid");
         } else {
-            tag.putString("selected_ammunition_type_uuid", "");
             return "";
         }
     }
 
     @Override
-    public void setSelectedAmmunitionTypeUUID(ItemStack stack, String UUID) {
-        checkAndGet(stack).putString("selected_ammunition_type_uuid", UUID);
+    public void bindAmmunition(ItemStack gunStack, ItemStack ammunitionStack, IAmmunition ammunition) {
+        String typeUUID = ammunition.getModsUUID(ammunitionStack);
+        CompoundTag gunTag = checkAndGet(gunStack);
+        gunTag.putString("selected_ammunition_type_uuid", typeUUID);
+        if (!gunTag.contains("ammunition_data")) {
+            CompoundTag ammunitionData = new CompoundTag();
+            gunTag.put("ammunition_data", ammunitionData);
+        }
+        CompoundTag ammunitionData = gunTag.getCompound("ammunition_data");
+        CompoundTag selected = new CompoundTag();
+        selected.put("mods", ammunition.getModsTag(ammunitionStack));
+        selected.put("data_rate", ammunition.getDataRateTag(ammunitionStack));
+        ammunitionData.put("selected", selected);
+        if (!ammunitionData.contains("using")) {
+            CompoundTag using = new CompoundTag();
+            CompoundTag usingMods = new CompoundTag();
+            usingMods.putInt("capacity", 0);
+            usingMods.putString("modsUUID", "");
+            using.put("mods", usingMods);
+            CompoundTag usingDataRate = Ammunition.getWhiteDataTag();
+            using.put("data_rate", usingDataRate);
+            ammunitionData.put("using", using);
+        }
     }
 
     public CompoundTag checkAndGet(ItemStack stack) {
@@ -507,8 +537,12 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         return nbt.contains("identity_temp") ? nbt.getString("identity_temp") : "";
     }
 
+    public boolean isAmmunitionBind(ItemStack stack) {
+        return checkAndGet(stack).contains("ammunition_data");
+    }
+
     @Override
-    public void afterGunDataUpdate(ItemStack stack) {
+    public void afterGunDataUpdate(Player player, ItemStack stack) {
         CompoundTag scopeMagnifications = checkAndGetMagnificationsTag(stack);
         Set<String> keyToRemove = new HashSet<>();
         for (String key : scopeMagnifications.getAllKeys()) {
@@ -522,11 +556,36 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     public void onEquipped(ItemStack itemStack, Player player) {
-        AmmunitionHandler.checkAndUpdateAmmunitionBind(player, itemStack, this);
         CompoundTag tag = checkAndGet(itemStack);
         if (!tag.contains("identity_temp")) {
             tag.putString("identity_temp", UUID.randomUUID().toString());
         }
+        if (!isAmmunitionBind(itemStack)) {
+            AmmunitionHandler.checkAndUpdateAmmunitionBind(player, itemStack, this);
+        }
+    }
+
+    protected String getFullAmmunitionUsedName(ItemStack itemStack) {
+        IAmmunition ammunition = gunProperties.caliber.ammunition;
+        StringBuilder baseName = new StringBuilder(Component.translatable(ammunition.get().getDescriptionId()).getString());
+        CompoundTag tag = getAmmunitionData(itemStack);
+        CompoundTag selected = tag.getCompound("selected");
+        CompoundTag modsTag = selected.getCompound("mods");
+        List<IAmmunitionMod> mods = ammunition.getMods(modsTag);
+        if (mods.size() > 0) {
+            baseName.append("(");
+            for (int i = 0; i < mods.size(); i++) {
+                IAmmunitionMod mod = mods.get(i);
+                baseName.append(Component.translatable(mod.getDescriptionId()).getString());
+                baseName.append(i == mods.size() - 1 ? ")" : ", ");
+            }
+        }
+        return baseName.toString();
+    }
+
+    public CompoundTag getAmmunitionData(ItemStack itemStack) {
+        CompoundTag tag = checkAndGet(itemStack);
+        return tag.contains("ammunition_data") ? tag.getCompound("ammunition_data") : new CompoundTag();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -588,7 +647,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         gunProperties.caliber.handleTooltip(stack, this, levelIn, tooltip, flagIn, false);
         if (gunProperties.caliber.ammunition != null) {
             String ammo = Component.translatable("tooltip.gun_info.ammunition").getString();
-            String name = Component.translatable(gunProperties.caliber.ammunition.get().getDescriptionId()).getString();
+            String name = getFullAmmunitionUsedName(stack);
             tooltip.add(Component.literal(ammo + name));
         }
     }

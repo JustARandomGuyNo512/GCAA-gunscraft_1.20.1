@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.Commons;
 import sheridan.gcaa.client.IReloadTask;
+import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.gun.calibers.Caliber;
 
 public interface IGun {
@@ -51,15 +52,15 @@ public interface IGun {
     void setEffectiveSightUUID(ItemStack stack, String uuid);
     void newAttachmentsModifiedUUID(ItemStack stack);
     String getSelectedAmmunitionTypeUUID(ItemStack stack);
-    void setSelectedAmmunitionTypeUUID(ItemStack stack, String UUID);
+    void bindAmmunition(ItemStack gunStack, ItemStack ammunitionStack, IAmmunition ammunition);
 
     default boolean allowShootWhileReloading() {return false;}
     default boolean shouldHandleAds(ItemStack stack) {return true;}
     default boolean isFreeBlot() {
         return false;
     }
-    default void beforeGunDataUpdate(ItemStack stack) {}
-    default void afterGunDataUpdate(ItemStack stack) {}
+    default void beforeGunDataUpdate(Player player, ItemStack stack) {}
+    default void afterGunDataUpdate(Player player, ItemStack stack) {}
     default boolean shouldUpdate(ItemStack stack) { return getDate(stack) != Commons.SERVER_START_TIME;}
     default boolean shootCreateBulletShell() {return true;}
     default boolean canUseWithShield() {return false;}

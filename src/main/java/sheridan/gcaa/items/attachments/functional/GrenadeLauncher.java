@@ -191,7 +191,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
                             && gun.getAmmoLeft(stack) > 0) {
                         return;
                     }
-                    if (!AmmunitionHandler.hasAmmunition(stack, ammunition, player)) {
+                    if (!AmmunitionHandler.hasAmmunition(gun, stack, ammunition, player)) {
                         String str = Component.translatable("tooltip.screen_info.no_ammo").getString();
                         String ammunitionName = Component.translatable(ammunition.get().getDescriptionId()).getString();
                         Minecraft.getInstance().gui.setOverlayMessage(Component.literal(str.replace("$ammo", ammunitionName)), false);

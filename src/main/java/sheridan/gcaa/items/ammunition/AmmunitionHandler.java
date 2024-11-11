@@ -18,22 +18,20 @@ public class AmmunitionHandler {
         IAmmunition gunAmmunition = gun.getGunProperties().caliber.ammunition;
         ItemStack useAmmo = null;
         for (ItemStack stack : items) {
-            if (stack.getItem() instanceof IAmmunition Ammo && Ammo == gunAmmunition) {
+            if (stack.getItem() instanceof IAmmunition ammo && ammo == gunAmmunition) {
                 if (useAmmo == null) {
                     useAmmo = stack;
                 }
-                String stackAmmoModsUUID = Ammo.getModsUUID(stack);
+                String stackAmmoModsUUID = ammo.getModsUUID(stack);
                 if (Objects.equals(stackAmmoModsUUID, modsUUID)) {
                     useAmmo = stack;
                     break;
                 }
             }
         }
-        if (useAmmo == null) {
-            gun.setSelectedAmmunitionTypeUUID(gunStack, "");
-            return;
+        if (useAmmo != null) {
+            gun.bindAmmunition(gunStack, useAmmo, gunAmmunition);
         }
-        gun.setSelectedAmmunitionTypeUUID(gunStack, gunAmmunition.getModsUUID(useAmmo));
     }
 
     public static void manageAmmunition(Player player, ItemStack ammunitionStack) {
@@ -106,30 +104,39 @@ public class AmmunitionHandler {
         }
         exceptedReloadNum = Math.min(exceptedReloadNum, gun.getMagSize(gunStack) - gun.getAmmoLeft(gunStack));
         int findCount = 0;
+        boolean isAmmunitionBind = gun.getGun().isAmmunitionBind(gunStack);
         NonNullList<ItemStack> items = player.getInventory().items;
         IAmmunition gunAmmunition = gun.getGunProperties().caliber.ammunition;
         for (int i = 0; i < items.size(); i++) {
             ItemStack stack = items.get(i);
-            if (stack.getItem() instanceof IAmmunition ammunition &&
-                    ammunition == gunAmmunition && Objects.equals(ammunition.getModsUUID(stack), gunAmmunition.getModsUUID(gunStack))) {
-                int ammoLeft = ammunition.getAmmoLeft(stack);
-                if (ammoLeft >= exceptedReloadNum) {
-                    findCount = exceptedReloadNum;
-                    if (ammoLeft - exceptedReloadNum == 0) {
-                        items.set(i, new ItemStack(Items.AIR));
-                    } else {
-                        ammunition.setAmmoLeft(stack, ammoLeft - exceptedReloadNum);
-                    }
-                    break;
-                } else {
-                    if (findCount + ammoLeft <= exceptedReloadNum) {
-                        findCount += ammoLeft;
-                        items.set(i, new ItemStack(Items.AIR));
-                    } else {
-                        int need = exceptedReloadNum - findCount;
-                        ammunition.setAmmoLeft(stack, ammoLeft - need);
+            if (stack.getItem() instanceof IAmmunition ammunition) {
+                boolean isSameAmmunition = ammunition == gunAmmunition;
+                if (!isSameAmmunition) {
+                    continue;
+                }
+                if (!isAmmunitionBind) {
+                    gun.bindAmmunition(gunStack, stack, gunAmmunition);
+                }
+                if (Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeUUID(gunStack))) {
+                    int ammoLeft = ammunition.getAmmoLeft(stack);
+                    if (ammoLeft >= exceptedReloadNum) {
                         findCount = exceptedReloadNum;
+                        if (ammoLeft - exceptedReloadNum == 0) {
+                            items.set(i, new ItemStack(Items.AIR));
+                        } else {
+                            ammunition.setAmmoLeft(stack, ammoLeft - exceptedReloadNum);
+                        }
                         break;
+                    } else {
+                        if (findCount + ammoLeft <= exceptedReloadNum) {
+                            findCount += ammoLeft;
+                            items.set(i, new ItemStack(Items.AIR));
+                        } else {
+                            int need = exceptedReloadNum - findCount;
+                            ammunition.setAmmoLeft(stack, ammoLeft - need);
+                            findCount = exceptedReloadNum;
+                            break;
+                        }
                     }
                 }
             }
@@ -145,7 +152,7 @@ public class AmmunitionHandler {
         IAmmunition gunAmmunition = gun.getGunProperties().caliber.ammunition;
         for (ItemStack stack : items) {
             if (stack.getItem() instanceof IAmmunition ammunition &&
-                    ammunition == gunAmmunition && Objects.equals(ammunition.getModsUUID(stack), gunAmmunition.getModsUUID(gunStack))) {
+                    ammunition == gunAmmunition && Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeUUID(gunStack))) {
                 int ammoLeft = ammunition.getAmmoLeft(stack);
                 findCount += ammoLeft;
             }
@@ -153,11 +160,16 @@ public class AmmunitionHandler {
         return findCount;
     }
 
-    public static boolean hasAmmunition(ItemStack itemStack, IAmmunition ammunition, Player player) {
+    public static boolean hasAmmunition(IGun gun, ItemStack gunStack, IAmmunition ammunition, Player player) {
         NonNullList<ItemStack> items = player.getInventory().items;
+        boolean isAmmunitionBind = gun.getGun().isAmmunitionBind(gunStack);
         for (ItemStack stack : items) {
             if (stack.getItem() == ammunition) {
-                return ammunition.getAmmoLeft(stack) > 0;
+                if (isAmmunitionBind) {
+                    return Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeUUID(gunStack)) && ammunition.getAmmoLeft(stack) > 0;
+                } else {
+                    return ammunition.getAmmoLeft(stack) > 0;
+                }
             }
         }
         return false;

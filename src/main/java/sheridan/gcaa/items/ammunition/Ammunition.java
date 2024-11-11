@@ -3,7 +3,6 @@ package sheridan.gcaa.items.ammunition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -148,18 +147,25 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
     @Override
     public List<IAmmunitionMod> getMods(ItemStack itemStack) {
         CompoundTag tag = checkAndGet(itemStack);
-        List<IAmmunitionMod> mods = new ArrayList<>();
         if (tag.contains("mods")) {
             CompoundTag modsTag = tag.getCompound("mods");
-            Set<String> allKeys = modsTag.getAllKeys();
-            for (String key : allKeys) {
-                if ("capacity".equals(key) || "modsUUID".equals(key)) {
-                    continue;
-                }
-                IAmmunitionMod mod = AmmunitionModRegister.getAmmunitionMod(key);
-                if (mod != null) {
-                    mods.add(mod);
-                }
+            return getMods(modsTag);
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<IAmmunitionMod> getMods(CompoundTag modsTag) {
+        Set<String> allKeys = modsTag.getAllKeys();
+        List<IAmmunitionMod> mods = new ArrayList<>();
+        for (String key : allKeys) {
+            if ("capacity".equals(key) || "modsUUID".equals(key)) {
+                continue;
+            }
+            IAmmunitionMod mod = AmmunitionModRegister.getAmmunitionMod(key);
+            if (mod != null) {
+                mods.add(mod);
             }
         }
         return mods;
@@ -349,5 +355,20 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
     @Override
     public CompoundTag getDataRateTag(ItemStack itemStack) {
         return checkAndGet(itemStack).getCompound(DATA_RATE);
+    }
+
+    @Override
+    public String getFullName(ItemStack itemStack) {
+        String baseName = Component.translatable(getDescriptionId()).getString();
+        List<IAmmunitionMod> mods = getMods(itemStack);
+        if (mods.size() == 0) {
+            return baseName;
+        }
+        StringBuilder suffix = new StringBuilder();
+        suffix.append(baseName).append("-");
+        for (IAmmunitionMod mod : mods) {
+            suffix.append(Component.translatable(mod.getDescriptionId()).getString()).append(" ");
+        }
+        return suffix.toString();
     }
 }

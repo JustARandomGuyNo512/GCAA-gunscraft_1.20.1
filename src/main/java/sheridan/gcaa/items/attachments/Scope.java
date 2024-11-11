@@ -2,8 +2,17 @@ package sheridan.gcaa.items.attachments;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.utils.FontUtils;
+
+import java.util.List;
 
 public abstract class Scope extends Sight {
     public final float maxMagnification;
@@ -53,5 +62,11 @@ public abstract class Scope extends Sight {
 
     public static float getFov(float rate) {
         return (float) (Math.atan(getNormalField() / rate) * 180 / Math.PI * 2);
+    }
+
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+        pTooltipComponents.add(FontUtils.helperTip(Component.translatable("tooltip.gcaa.modify_magnification")));
     }
 }

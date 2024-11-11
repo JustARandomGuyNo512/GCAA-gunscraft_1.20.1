@@ -107,6 +107,7 @@
   "tooltip.gcaa.excellent_worse": "很棒： 差劲：",
   "tooltip.gcaa.turn_flashlight": "按 $key 开启/关闭 手电筒或者切换照明模式",
   "tooltip.gcaa.manage_ammunition": "右键鼠标以合并此种类的零散弹药",
+  "tooltip.gcaa.modify_magnification": "瞄准状态下使用鼠标滚轮调整倍率",
 
   "tooltip.ammunition_info.ammo_left": "子弹剩余：",
 
@@ -115,7 +116,7 @@
   "tooltip.screen_info.spread_mode": "切换到散射模式",
   "tooltip.screen_info.searchlight_mode": "切换到探照灯模式",
   "tooltip.screen_info.ammunition_manage_cool_down": "弹药整理功能冷却中",
-  "tooltip.screen_info.no_ammo": "未携带 $ammo ！",
+  "tooltip.screen_info.no_ammo": "未携带 @ammo 或此种弹药已耗尽",
 
   "gcaa.unit.chunk_pre_second": "区块/秒",
   "gcaa.unit.chunk": "区块",

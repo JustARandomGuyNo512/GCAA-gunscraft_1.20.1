@@ -54,7 +54,7 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
     private IAmmunition currentAmmo = null;
     private List<List<ModIcon>> modIcons = null;
     private final Set<AmmunitionModRegister.ModEntry> selectedMods = new HashSet<>();
-    private Set<IAmmunitionMod> ammoAlreadyHas = new HashSet<>();
+    private final Set<IAmmunitionMod> ammoAlreadyHas = new HashSet<>();
     private boolean needUpdate = false;
 
     public AmmunitionModifyScreen(AmmunitionModifyMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
@@ -73,7 +73,7 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
         gridlayout.defaultCellSetting();
         GridLayout.RowHelper rowHelper = gridlayout.createRowHelper(1);
         gridlayout.defaultCellSetting().padding(1, 1, 1, 1);
-        applyBtn = new OptionalImageButton(this.leftPos + 140, this.topPos + 62, 16, 16, 0, 0, 0, MODIFY_AMMUNITION, 16, 16,  (btn) -> {applyModify();});
+        applyBtn = new OptionalImageButton(this.leftPos + 140, this.topPos + 62, 16, 16, 0, 0, 0, MODIFY_AMMUNITION, 16, 16,  (btn) -> applyModify());
         modIcons = new ArrayList<>();
         for (int i = 0; i < PAGE_SIZE / COLUMN_SIZE; i++) {
             List<ModIcon> column = new ArrayList<>();
@@ -348,18 +348,10 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
             }
         }
 
-        public ResourceLocation getCurrentTexture() {
-            return currentTexture;
-        }
-
         public void setCurrentTexture(ResourceLocation currentTexture, int texW, int texH)  {
             this.currentTexture = currentTexture;
             this.texW = texW;
             this.texH = texH;
-        }
-
-        public Vector2i getOffset() {
-            return offset;
         }
 
         public void setOffset(Vector2i offset) {
@@ -411,15 +403,15 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
                     select();
                 }
                 blocked = false;
-                genTooltip(entry);
+                genTooltip(entry, false);
             } else {
                 blocked = true;
-                genTooltip(entry);
+                genTooltip(entry, true);
             }
         }
 
-        private void genTooltip(AmmunitionModRegister.ModEntry entry) {
-            MutableComponent component = Component.translatable("tooltip.btn.select_modify")
+        private void genTooltip(AmmunitionModRegister.ModEntry entry, boolean blocked) {
+            MutableComponent component = Component.translatable(blocked ? "tooltip.btn.modify_prevented" : "tooltip.btn.select_modify")
                     .append("\n")
                     .append(Component.translatable(entry.mod().getDescriptionId()).withStyle(Style.EMPTY.withColor(entry.mod().getThemeColor())));
             Component specialDescription = entry.mod().getSpecialDescription();
