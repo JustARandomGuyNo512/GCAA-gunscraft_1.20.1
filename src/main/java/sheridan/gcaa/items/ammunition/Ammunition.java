@@ -3,13 +3,13 @@ package sheridan.gcaa.items.ammunition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
@@ -23,9 +23,19 @@ import java.util.*;
 public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition{
     private static final int AMMUNITION_MANAGE_DELAY = 1000;
     private static long lastAmmunitionManageTime = 0;
-
     private final Set<IAmmunitionMod> suitableMods;
-    private int modCapacity;
+    private final int modCapacity;
+    public static final String BASE_DAMAGE_RATE = "base_damage_rate";
+    public static final String MIN_DAMAGE_RATE = "min_damage_rate";
+    public static final String EFFECTIVE_RANGE_RATE = "effective_range_rate";
+    public static final String SPEED_RATE = "speed_rate";
+    public static final String PENETRATION_RATE = "penetration_rate";
+    public static final String DATA_RATE = "data_rate";
+    public static final float MIN_BASE_DAMAGE_RATE = 0.02f;
+    public static final float MIN_MIN_DAMAGE_RATE = 0.01f;
+    public static final float MIN_EFFECTIVE_RANGE_RATE = 0.01f;
+    public static final float MIN_SPEED_RATE = 0.01f;
+    public static final float MIN_PENETRATION_RATE = 0.01f;
 
     public Ammunition(int capacity, int modCapacity, Set<IAmmunitionMod> suitableMods)  {
         super(new Properties().defaultDurability(capacity).setNoRepair());
@@ -44,21 +54,6 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         }
     }
 
-    public void setModCapacity(int modCapacity)  {
-        this.modCapacity = modCapacity;
-    }
-
-    /*
-    * Adjust the mod capacity of ammo to ensure that the capacity is a rate multiple of the total capacity of getSuitableMods()
-    * */
-    public void refineModCapacity(float rate) {
-        Set<IAmmunitionMod> suitableMods = getSuitableMods();
-        for (IAmmunitionMod mod : suitableMods) {
-            modCapacity += mod.cost();
-        }
-        modCapacity = (int) (modCapacity * rate);
-    }
-
     @OnlyIn(Dist.CLIENT)
     public void onRightClick(Player player, ItemStack stack) {
         clientManageAmmunition(player, stack);
@@ -69,7 +64,35 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         pTooltipComponents.add(Component.translatable("tooltip.ammunition_info.ammo_left").append(getAmmoLeft(pStack) + " /  " + getMaxCapacity(pStack)));
         List<IAmmunitionMod> mods = getMods(pStack);
         if (mods.size() > 0) {
-            //TODO: add mod info
+            for (IAmmunitionMod mod : mods) {
+                pTooltipComponents.add(Component.translatable(mod.getDescriptionId()).withStyle(Style.EMPTY.withColor(mod.getThemeColor()).withBold(true)));
+            }
+            CompoundTag dataRate = getDataRateTag(pStack);
+            float baseDamageRate = Math.max(dataRate.getFloat(BASE_DAMAGE_RATE), MIN_BASE_DAMAGE_RATE);
+            if (baseDamageRate != 1.0f) {
+                pTooltipComponents.add(Component.translatable("gcaa.ammunition_data.base_damage_rate")
+                        .append(Component.literal(FontUtils.toPercentageStr(baseDamageRate)).withStyle(Style.EMPTY.withBold(true))));
+            }
+            float minDamageRate = Math.max(dataRate.getFloat(MIN_DAMAGE_RATE), MIN_MIN_DAMAGE_RATE);
+            if (minDamageRate != 1.0f) {
+                pTooltipComponents.add(Component.translatable("gcaa.ammunition_data.min_damage_rate")
+                        .append(Component.literal(FontUtils.toPercentageStr(minDamageRate)).withStyle(Style.EMPTY.withBold(true))));
+            }
+            float effectiveRangeRate = Math.max(dataRate.getFloat(EFFECTIVE_RANGE_RATE), MIN_EFFECTIVE_RANGE_RATE);
+            if (effectiveRangeRate != 1.0f) {
+                pTooltipComponents.add(Component.translatable("gcaa.ammunition_data.effective_range_rate")
+                        .append(Component.literal(FontUtils.toPercentageStr(effectiveRangeRate)).withStyle(Style.EMPTY.withBold(true))));
+            }
+            float speedRate = Math.max(dataRate.getFloat(SPEED_RATE), MIN_SPEED_RATE);
+            if (speedRate != 1.0f) {
+                pTooltipComponents.add(Component.translatable("gcaa.ammunition_data.speed_rate")
+                        .append(Component.literal(FontUtils.toPercentageStr(speedRate)).withStyle(Style.EMPTY.withBold(true))));
+            }
+            float penetrationRate = Math.max(dataRate.getFloat(PENETRATION_RATE), MIN_PENETRATION_RATE);
+            if (penetrationRate != 1.0f) {
+                pTooltipComponents.add(Component.translatable("gcaa.ammunition_data.penetration_rate")
+                        .append(Component.literal(FontUtils.toPercentageStr(penetrationRate)).withStyle(Style.EMPTY.withBold(true))));
+            }
         }
         pTooltipComponents.add(FontUtils.helperTip(Component.literal(Component.translatable("tooltip.gcaa.manage_ammunition").getString())));
     }
@@ -96,7 +119,8 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
 
     @Override
     public int getModCapacityUsed(ItemStack itemStack) {
-        return getModsTag(itemStack).contains("capacity") ? getModsTag(itemStack).getInt("capacity") : 0;
+        CompoundTag modTag = getModsTag(itemStack);
+        return modTag.contains("capacity") ? modTag.getInt("capacity") : 0;
     }
 
     @Override
@@ -106,7 +130,7 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
 
     @Override
     public boolean isModSuitable(ItemStack itemStack, IAmmunitionMod ammunitionMod) {
-        return suitableMods.contains(ammunitionMod) && getModCapacityLeft(itemStack) >= ammunitionMod.cost();
+        return suitableMods.contains(ammunitionMod) && getModCapacityLeft(itemStack) >= ammunitionMod.getCostFor(this);
     }
 
     @Override
@@ -152,12 +176,13 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         }
         int maxModCapacity = tag.getInt("max_mod_capacity");
         int capacity = modTag.getInt("capacity");
-        if (maxModCapacity - capacity - mod.cost() >= 0) {
+        if (maxModCapacity - capacity - mod.getCostFor(this) >= 0) {
             modTag.putByte(mod.getId().toString(), (byte) 0);
             String uuid = genModsUUID(itemStack);
             modTag.putString("modsUUID", uuid);
             tag.putString("modsUUID", uuid);
-            modTag.putInt("capacity", capacity + mod.cost());
+            modTag.putInt("capacity", capacity + mod.getCostFor(this));
+            refineDataRate(itemStack);
         }
     }
 
@@ -169,16 +194,17 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         boolean resetUUID = false;
         for (IAmmunitionMod mod : mods) {
             int capacityLeft = maxModCapacity - modTag.getInt("capacity");
-            if (!modTag.contains(mod.getId().toString()) && capacityLeft >= mod.cost())  {
+            if (!modTag.contains(mod.getId().toString()) && capacityLeft >= mod.getCostFor(this))  {
                 resetUUID = true;
                 modTag.putByte(mod.getId().toString(), (byte) 0);
-                modTag.putInt("capacity", modTag.getInt("capacity") + mod.cost());
+                modTag.putInt("capacity", modTag.getInt("capacity") + mod.getCostFor(this));
             }
         }
         if (resetUUID) {
             String uuid = genModsUUID(itemStack);
             modTag.putString("modsUUID", uuid);
             tag.putString("modsUUID", uuid);
+            refineDataRate(itemStack);
         }
     }
 
@@ -194,16 +220,17 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
                 continue;
             }
             int capacityLeft = maxModCapacity - modTag.getInt("capacity");
-            if (!modTag.contains(mod.getId().toString()) && capacityLeft >= mod.cost())  {
+            if (!modTag.contains(mod.getId().toString()) && capacityLeft >= mod.getCostFor(this))  {
                 resetUUID = true;
                 modTag.putByte(mod.getId().toString(), (byte) 0);
-                modTag.putInt("capacity", modTag.getInt("capacity") + mod.cost());
+                modTag.putInt("capacity", modTag.getInt("capacity") + mod.getCostFor(this));
             }
         }
         if (resetUUID) {
             String uuid = genModsUUID(itemStack);
             modTag.putString("modsUUID", uuid);
             tag.putString("modsUUID", uuid);
+            refineDataRate(itemStack);
         }
     }
 
@@ -220,7 +247,7 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
 
     public CompoundTag checkAndGet(ItemStack itemStack) {
         CompoundTag nbt = itemStack.getTag();
-        if (nbt == null || !nbt.contains("mods"))  {
+        if (nbt == null || !nbt.contains("mods") || !nbt.contains(DATA_RATE))  {
             this.onCraftedBy(itemStack, null, null);
             nbt = itemStack.getTag();
         }
@@ -241,12 +268,43 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
             modTag.putString("modsUUID", "");
             nbt.put("mods", modTag);
         }
+        if (!nbt.contains(DATA_RATE)) {
+            CompoundTag rateTag = getWhiteDataTag();
+            nbt.put(DATA_RATE, rateTag);
+        }
         if (!nbt.contains("max_mod_capacity")) {
             nbt.putInt("max_mod_capacity", getMaxModCapacity());
         }
         if (!nbt.contains("modsUUID")) {
             nbt.putString("modsUUID", "");
         }
+    }
+
+    public static CompoundTag getWhiteDataTag() {
+        CompoundTag rateTag = new CompoundTag();
+        rateTag.putFloat(BASE_DAMAGE_RATE, 1);
+        rateTag.putFloat(MIN_DAMAGE_RATE, 1);
+        rateTag.putFloat(EFFECTIVE_RANGE_RATE, 1);
+        rateTag.putFloat(SPEED_RATE, 1);
+        rateTag.putFloat(PENETRATION_RATE, 1);
+        return rateTag;
+    }
+
+    public static CompoundTag processDataRateByGivenMods(CompoundTag rateTag, List<IAmmunitionMod> mods, IAmmunition ammunition) {
+        for (IAmmunitionMod mod : mods) {
+            mod.onModifyAmmunition(ammunition,  rateTag);
+        }
+        return rateTag;
+    }
+
+    protected void refineDataRate(ItemStack itemStack) {
+        CompoundTag tag = checkAndGet(itemStack);
+        CompoundTag dataTag = getWhiteDataTag();
+        List<IAmmunitionMod> mods = getMods(itemStack);
+        for (IAmmunitionMod mod : mods) {
+            mod.onModifyAmmunition(this, dataTag);
+        }
+        tag.put(DATA_RATE, dataTag);
     }
 
     @Override
@@ -279,5 +337,10 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
     public CompoundTag getModsTag(ItemStack itemStack) {
         CompoundTag tag = checkAndGet(itemStack);
         return tag.contains("mods") ? tag.getCompound("mods") : new CompoundTag();
+    }
+
+    @Override
+    public CompoundTag getDataRateTag(ItemStack itemStack) {
+        return checkAndGet(itemStack).getCompound(DATA_RATE);
     }
 }

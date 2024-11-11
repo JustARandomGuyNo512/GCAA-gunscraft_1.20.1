@@ -31,6 +31,7 @@ public class Caliber {
     public float minDamage;
     public float effectiveRange;
     public float speed;
+    public float penetration = 1.0f;
     public IAmmunition ammunition;
 
     public Caliber(ResourceLocation name, float baseDamage, float minDamage, float effectiveRange, float speed) {
@@ -41,10 +42,16 @@ public class Caliber {
         this.speed = speed;
     }
 
+    public Caliber(ResourceLocation name, float baseDamage, float minDamage, float effectiveRange, float speed, float penetration) {
+        this(name, baseDamage, minDamage, effectiveRange, speed);
+        this.penetration = penetration;
+    }
+
     public Caliber setAmmunition(IAmmunition ammunition) {
         this.ammunition = ammunition;
         return this;
     }
+
 
     public final ResourceLocation getName() {
         return name;

@@ -48,5 +48,5 @@ public interface IAmmunition {
     String getModsUUID(ItemStack itemStack);
 
     CompoundTag getModsTag(ItemStack itemStack);
-
+    CompoundTag getDataRateTag(ItemStack itemStack);
 }

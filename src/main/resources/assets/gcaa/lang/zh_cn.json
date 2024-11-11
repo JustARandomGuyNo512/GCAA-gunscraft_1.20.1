@@ -77,6 +77,8 @@
   "tooltip.btn.not_suitable": "不合适",
   "tooltip.btn.apply": "应用更改，更改不能撤销，请谨慎考虑！",
   "tooltip.btn.no_modify_selected": "未选择更改项目！",
+  "tooltip.btn.modify_prevented": "已经应用此项更改，或剩余空间不足",
+  "tooltip.btn.select_modify": "点击以选中此项更改",
   "tooltip.action_res.prevented_by_child": "无法操作，有子配件依赖于此",
   "tooltip.action_res.conflict": "与配件'$id'产生冲突",
 
@@ -141,5 +143,19 @@
 
   "death.attack.gcaa.projectile": "$victim 被 $shooter 使用 $gun 击杀了",
 
-  "entity.gcaa.grenade": "榴弹"
+  "entity.gcaa.grenade": "榴弹",
+
+  "gcaa.ammunition_mod.armor_piercing": "穿甲弹",
+  "gcaa.ammunition_mod.explosive": "高爆弹",
+  "gcaa.ammunition_mod.hollow_point": "空尖弹",
+  "gcaa.ammunition_mod.incendiary": "燃烧弹",
+
+  "gcaa.ammunition_mod.incendiary_special": "给予额外 $rate 的火焰伤害，点燃目标，点燃TNT",
+  "gcaa.ammunition_mod.explosive_special": "给予额外 $rate 的爆炸伤害，点燃TNT",
+
+  "gcaa.ammunition_data.base_damage_rate": "基础伤害：",
+  "gcaa.ammunition_data.min_damage_rate": "末端伤害：",
+  "gcaa.ammunition_data.effective_range_rate": "有效射程：",
+  "gcaa.ammunition_data.speed_rate": "弹速：",
+  "gcaa.ammunition_data.penetration_rate": "穿深："
 }

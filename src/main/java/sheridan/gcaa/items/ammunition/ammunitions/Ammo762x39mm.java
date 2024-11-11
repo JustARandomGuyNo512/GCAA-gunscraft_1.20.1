@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class Ammo762x39mm extends Ammunition {
     public Ammo762x39mm() {
-        super(220, 10, Set.of(
+        super(260, 10, Set.of(
                 AmmunitionMods.AP,
                 AmmunitionMods.EXPLOSIVE,
                 AmmunitionMods.INCENDIARY

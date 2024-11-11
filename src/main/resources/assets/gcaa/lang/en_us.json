@@ -77,6 +77,8 @@
   "tooltip.btn.not_suitable": "Item not suitable",
   "tooltip.btn.apply": "Apply modifications, modifications cannot be undone, please consider carefully!" ,
   "tooltip.btn.no_modify_selected": "No modification item selected!" ,
+  "tooltip.btn.modify_prevented": "The modification has been applied or there is not enough space left ",
+  "tooltip.btn.select_modify": "Click to select this modification",
   "tooltip.action_res.prevented_by_child": "Cannot operate, there are sub-attachments dependent on this",
   "tooltip.action_res.conflict": "Conflict with attachment '$id'",
 
@@ -141,5 +143,19 @@
 
   "death.attack.gcaa.projectile": "$victim is shot by $shooter using $gun",
 
-  "entity.gcaa.grenade": "Grenade"
+  "entity.gcaa.grenade": "Grenade",
+
+  "gcaa.ammunition_mod.armor_piercing": "Armor Piercing",
+  "gcaa.ammunition_mod.explosive": "High Explosive",
+  "gcaa.ammunition_mod.hollow_point": "Hollow Point",
+  "gcaa.ammunition_mod.incendiary": "Incendiary",
+
+  "gcaa.ammunition_mod.incendiary_special": "Grant extra $rate of fire damage, ignite target, ignite TNT",
+  "gcaa.ammunition_mod.explosive_special": "Give an additional $rate of explosive damage, ignite TNT",
+
+  "gcaa.ammunition_data.base_damage_rate": "Base Damage: ",
+  "gcaa.ammunition_data.min_damage_rate": "End Damage: ",
+  "gcaa.ammunition_data.effective_range_rate": "Range: ",
+  "gcaa.ammunition_data.speed_rate": "Speed: ",
+  "gcaa.ammunition_data.penetration_rate": "Penetration: "
 }

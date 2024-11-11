@@ -50,4 +50,12 @@ public class FontUtils {
         }
         return EXCELLENT_WORSE;
     }
+
+    public static float toPercentage(float val) {
+        return Math.round(val * 10000) / 100.0f;
+    }
+
+    public static String toPercentageStr(float val) {
+        return String.format("%.2f%%", val * 100);
+    }
 }

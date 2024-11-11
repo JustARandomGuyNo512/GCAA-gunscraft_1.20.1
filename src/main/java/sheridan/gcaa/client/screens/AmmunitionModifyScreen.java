@@ -10,6 +10,8 @@ import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -22,11 +24,13 @@ import org.joml.Vector4i;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.screens.componets.OptionalImageButton;
 import sheridan.gcaa.client.screens.containers.AmmunitionModifyMenu;
+import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.ammunition.AmmunitionModRegister;
 import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.ammunition.IAmmunitionMod;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.ApplyAmmunitionModifyPacket;
+import sheridan.gcaa.utils.FontUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -39,6 +43,8 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
     private static final ResourceLocation AMMO_PROGRESS_EMPTY = new ResourceLocation(GCAA.MODID, "textures/gui/component/ammo_progress_empty.png");
     private static final ResourceLocation AMMO_PROGRESS_FILLED = new ResourceLocation(GCAA.MODID, "textures/gui/component/ammo_progress_filled.png");
     private static final ResourceLocation MODIFY_AMMUNITION = new ResourceLocation(GCAA.MODID, "textures/gui/component/modify_ammunition.png");
+    private static final ResourceLocation BTN_BORDER = new ResourceLocation(GCAA.MODID, "textures/gui/component/btn_border.png");
+
     private static final int PAGE_SIZE = 42;
     private static final int COLUMN_SIZE = 6;
     private OptionalImageButton applyBtn;
@@ -178,6 +184,60 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
     @Override
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        this.renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+        renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+        renderDataRate(pGuiGraphics);
+    }
+
+    private void renderDataRate(@NotNull GuiGraphics pGuiGraphics) {
+        if (checkAmmo()) {
+            CompoundTag prevRate = Ammunition.getWhiteDataTag();
+            List<IAmmunitionMod> mods = currentAmmo.getMods(ammo.getItem(0));
+            if (selectedMods != null && selectedMods.size() > 0) {
+                for (AmmunitionModRegister.ModEntry entry : selectedMods) {
+                    mods.add(entry.mod());
+                }
+            }
+            Ammunition.processDataRateByGivenMods(prevRate, mods, currentAmmo);
+            float baseDamageRate = prevRate.getFloat(Ammunition.BASE_DAMAGE_RATE);
+            MutableComponent baseDamageRateComponent = Component.translatable("gcaa.ammunition_data.base_damage_rate")
+                    .append(FontUtils.toPercentageStr(baseDamageRate));
+            if (baseDamageRate < Ammunition.MIN_BASE_DAMAGE_RATE) {
+                baseDamageRateComponent.append(Component.literal("(" + FontUtils.toPercentageStr(Ammunition.MIN_BASE_DAMAGE_RATE) + ")"));
+            }
+            float minDamageRate = prevRate.getFloat(Ammunition.MIN_DAMAGE_RATE);
+            MutableComponent minDamageRateComponent = Component.translatable("gcaa.ammunition_data.min_damage_rate")
+                    .append(FontUtils.toPercentageStr(minDamageRate));
+            if (minDamageRate < Ammunition.MIN_MIN_DAMAGE_RATE) {
+                minDamageRateComponent.append(Component.literal("(" + FontUtils.toPercentageStr(Ammunition.MIN_MIN_DAMAGE_RATE) + ")"));
+            }
+            float effectiveRangeRate = prevRate.getFloat(Ammunition.EFFECTIVE_RANGE_RATE);
+            MutableComponent effectiveRangeRateComponent = Component.translatable("gcaa.ammunition_data.effective_range_rate")
+                    .append(FontUtils.toPercentageStr(effectiveRangeRate));
+            if (effectiveRangeRate < Ammunition.MIN_EFFECTIVE_RANGE_RATE) {
+                effectiveRangeRateComponent.append(Component.literal("(" + FontUtils.toPercentageStr(Ammunition.MIN_EFFECTIVE_RANGE_RATE) + ")"));
+            }
+            float speedRate = prevRate.getFloat(Ammunition.SPEED_RATE);
+            MutableComponent speedRateComponent = Component.translatable("gcaa.ammunition_data.speed_rate")
+                    .append(FontUtils.toPercentageStr(speedRate));
+            if (speedRate < Ammunition.MIN_SPEED_RATE) {
+                speedRateComponent.append(Component.literal("(" + FontUtils.toPercentageStr(Ammunition.MIN_SPEED_RATE) + ")"));
+            }
+            float penetrationRate = prevRate.getFloat(Ammunition.PENETRATION_RATE);
+            MutableComponent penetrationRateComponent = Component.translatable("gcaa.ammunition_data.penetration_rate")
+                    .append(FontUtils.toPercentageStr(penetrationRate));
+            if (penetrationRate < Ammunition.MIN_PENETRATION_RATE) {
+                penetrationRateComponent.append(Component.literal("(" + FontUtils.toPercentageStr(Ammunition.MIN_PENETRATION_RATE) + ")"));
+            }
+            int x = this.leftPos + 189;
+            int yStart = this.topPos + 10;
+            int color = 0x36e1f1;
+            pGuiGraphics.drawString(this.font, baseDamageRateComponent, x, yStart, color);
+            pGuiGraphics.drawString(this.font, minDamageRateComponent, x, yStart + 12, color);
+            pGuiGraphics.drawString(this.font, effectiveRangeRateComponent, x, yStart + 24, color);
+            pGuiGraphics.drawString(this.font, speedRateComponent, x, yStart + 36, color);
+            pGuiGraphics.drawString(this.font, penetrationRateComponent, x, yStart + 48, color);
+        }
     }
 
     public void updateClient(String modsUUID, int maxModCapability, CompoundTag modsTag) {
@@ -235,7 +295,7 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
             int startX = (this.width - this.getXSize()) / 2;
             int startY = (this.height - this.getYSize()) / 2;
             pGuiGraphics.blit(AMMO_PROGRESS_EMPTY, startX + 104, startY + 39,  0,0, 84, 24, 84, 24);
-            if (selectedMods != null && selectedMods.size() > 0 && checkAmmo()) {
+            if (selectedMods != null && checkAmmo()) {
                 float cap = currentAmmo.getMaxModCapacity();
                 float total = getTotal();
                 float progress = total / cap;
@@ -255,14 +315,14 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
     private int getTotal() {
         int total = currentAmmo.getModCapacityUsed(ammo.getItem(0));
         for (AmmunitionModRegister.ModEntry entry : selectedMods) {
-            total += entry.mod().cost();
+            total += entry.mod().getCostFor(currentAmmo);
         }
         return total;
     }
 
     private boolean canAddMod(IAmmunitionMod mod) {
         if (checkAmmo()) {
-            return !ammoAlreadyHas.contains(mod) && currentAmmo.getMaxModCapacity() - getTotal() >= mod.cost();
+            return !ammoAlreadyHas.contains(mod) && currentAmmo.getMaxModCapacity() - getTotal() >= mod.getCostFor(currentAmmo);
         }
         return false;
     }
@@ -275,6 +335,7 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
         private AmmunitionModRegister.ModEntry entry;
         public boolean selected = false;
         public boolean blocked = false;
+        private boolean mouseDown = false;
 
         public ModIcon(int pX, int pY, int pWidth, int pHeight, OnPress pOnPress, AmmunitionModRegister.ModEntry entry)  {
             super(pX, pY, pWidth, pHeight, 0, 0, new ResourceLocation(""), pOnPress);
@@ -350,9 +411,31 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
                     select();
                 }
                 blocked = false;
+                setTooltip(Tooltip.create(Component.translatable("tooltip.btn.select_modify")
+                        .append("\n")
+                        .append(Component.translatable(entry.mod().getDescriptionId()).withStyle(Style.EMPTY.withColor(entry.mod().getThemeColor())))
+                        .append(entry.mod().getSpecialDescription())
+                ));
             } else {
                 blocked = true;
+                setTooltip(Tooltip.create(Component.translatable("tooltip.btn.modify_prevented")
+                        .append("\n")
+                        .append(Component.translatable(entry.mod().getDescriptionId()).withStyle(Style.EMPTY.withColor(entry.mod().getThemeColor())))
+                        .append(entry.mod().getSpecialDescription())
+                ));
             }
+        }
+
+        @Override
+        public void onClick(double pMouseX, double pMouseY) {
+            super.onClick(pMouseX, pMouseY);
+            mouseDown = true;
+        }
+
+        @Override
+        public void onRelease(double pMouseX, double pMouseY) {
+            super.onRelease(pMouseX, pMouseY);
+            mouseDown = false;
         }
 
         @Override
@@ -362,13 +445,23 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
                     pGuiGraphics.setColor(27 / 255f, 161 / 255f, 226 / 255f, 1);
                 } else {
                     if (blocked) {
-                        pGuiGraphics.setColor(0.5f, 0.5f, 0.5f, 1);
+                        pGuiGraphics.setColor(0.5f, 0.5f, 0.5f, 0.5f);
                     } else {
                         pGuiGraphics.setColor(1, 1, 1, 1);
                     }
                 }
+                if (mouseDown) {
+                    pGuiGraphics.pose().pushPose();
+                    pGuiGraphics.pose().scale(1.01f, 1.01f, 1f);
+                }
                 pGuiGraphics.blit(currentTexture, getX(), getY(), offset.x, offset.y, getWidth(), getHeight(), texW, texH);
+                if (isHovered) {
+                    pGuiGraphics.blit(BTN_BORDER, getX(), getY(), 0, 0, getWidth(), getHeight(), 16, 16);
+                }
                 pGuiGraphics.setColor(1, 1, 1, 1);
+                if (mouseDown) {
+                    pGuiGraphics.pose().popPose();
+                }
             }
         }
     }
