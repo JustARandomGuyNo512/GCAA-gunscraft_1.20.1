@@ -27,4 +27,9 @@ public class Incendiary extends AmmunitionMod {
     public float getFireDamageRate() {
         return fireDamageRate;
     }
+
+    @Override
+    public boolean handleSpecialHooks() {
+        return true;
+    }
 }

@@ -64,4 +64,5 @@ public interface IGun {
     default boolean shouldUpdate(ItemStack stack) { return getDate(stack) != Commons.SERVER_START_TIME;}
     default boolean shootCreateBulletShell() {return true;}
     default boolean canUseWithShield() {return false;}
+    default boolean canUnload() {return true;}
 }

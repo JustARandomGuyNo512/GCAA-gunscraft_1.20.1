@@ -36,4 +36,14 @@ public class Explosive extends AmmunitionMod {
     public float getExplosiveDamageRate() {
         return explosiveDamageRate;
     }
+
+    @Override
+    public boolean handleSpecialHooks() {
+        return true;
+    }
+
+    @Override
+    public boolean handleClientHooks() {
+        return true;
+    }
 }

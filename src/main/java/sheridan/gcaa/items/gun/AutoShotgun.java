@@ -67,4 +67,9 @@ public class AutoShotgun extends HandActionGun {
     public int getCrosshairType() {
         return 1;
     }
+
+    @Override
+    public boolean canUnload() {
+        return false;
+    }
 }

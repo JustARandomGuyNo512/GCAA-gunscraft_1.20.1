@@ -24,7 +24,7 @@ public class PacketHandler
         registerPacket(SwitchFireModePacket.class, new SwitchFireModePacket());
         registerPacket(GunReloadPacket.class, new GunReloadPacket());
         registerPacket(ClientPlayParticlePacket.class, new ClientPlayParticlePacket());
-        registerPacket(OpenAttachmentScreenPacket.class, new OpenAttachmentScreenPacket());
+        registerPacket(OpenGunModifyScreenPacket.class, new OpenGunModifyScreenPacket());
         registerPacket(InstallAttachmentsPacket.class, new InstallAttachmentsPacket());
         registerPacket(UpdateGunModifyScreenGuiContextPacket.class, new UpdateGunModifyScreenGuiContextPacket());
         registerPacket(UninstallAttachmentPacket.class, new UninstallAttachmentPacket());
@@ -40,6 +40,7 @@ public class PacketHandler
         registerPacket(AmmunitionManagePacket.class, new AmmunitionManagePacket());
         registerPacket(ApplyAmmunitionModifyPacket.class, new ApplyAmmunitionModifyPacket());
         registerPacket(UpdateAmmunitionModifyScreenPacket.class, new UpdateAmmunitionModifyScreenPacket());
+        registerPacket(ScreenBindAmmunitionPacket.class, new ScreenBindAmmunitionPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

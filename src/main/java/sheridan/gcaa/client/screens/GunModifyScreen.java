@@ -30,16 +30,15 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.screens.componets.OptionalImageButton;
 import sheridan.gcaa.client.screens.containers.GunModifyMenu;
+import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.InstallAttachmentsPacket;
+import sheridan.gcaa.network.packets.c2s.ScreenBindAmmunitionPacket;
 import sheridan.gcaa.network.packets.c2s.UninstallAttachmentPacket;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
@@ -107,7 +106,7 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
         rowHelper.addChild(zoomBtn);
         installBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, INSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> installAttachment(true));
         uninstallBtn = new OptionalImageButton(this.leftPos + 180, 144, 16, 16, 0, 0, 0, UNINSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> uninstallAttachment(true));
-        ammoSelectBtn = new OptionalImageButton(this.leftPos + 232, this.topPos + 141, 16, 16, 0, 0, 0, AMMO_SELECT_BTN, 16, 16,  (btn) -> {});
+        ammoSelectBtn = new OptionalImageButton(this.leftPos + 232, this.topPos + 141, 16, 16, 0, 0, 0, AMMO_SELECT_BTN, 16, 16,  (btn) -> selectAmmo());
         installBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.install_attachment")));
         uninstallBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.uninstall_attachment")));
         ammoSelectBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.ammo_select")));
@@ -125,6 +124,10 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
                 this.context = new AttachmentsGuiContext(gun, slot);
             }
         }
+    }
+
+    private void selectAmmo() {
+        PacketHandler.simpleChannel.sendToServer(new ScreenBindAmmunitionPacket());
     }
 
     private void installAttachment(boolean sendPacket) {
@@ -220,7 +223,7 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
                             selectedSlot = null;
                         }
                         updateDisplay();
-                        updateBtn();
+                        updateBtn(stack);
                     } else {
                         installBtn.enableIf(false);
                         uninstallBtn.enableIf(false);
@@ -234,7 +237,7 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
         }
     }
 
-    private void updateBtn() {
+    private void updateBtn(ItemStack gunStack) {
         AttachmentSlot slot = context.getSelected();
         if (slot != null) {
             installBtn.enableIf(slot.isEmpty() && selectedSlot != null);
@@ -253,6 +256,33 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
         }
         installBtn.enableIf(false);
         uninstallBtn.enableIf(false);
+
+        ItemStack itemStack = menu.ammoSelector.getItem(0);
+        if (itemStack.getItem() instanceof IAmmunition ammunition) {
+            boolean isAmmunitionBind = gun.getGun().isAmmunitionBind(gunStack);
+            boolean sameAmmunition = ammunition == gun.getGunProperties().caliber.ammunition;
+            if (sameAmmunition) {
+                if (!isAmmunitionBind) {
+                    ammoSelectBtn.setPrevented(false);
+                    ammoSelectBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.ammo_select")));
+                } else {
+                    String selectedAmmunitionTypeID = gun.getSelectedAmmunitionTypeUUID(gunStack);
+                    if (!Objects.equals(selectedAmmunitionTypeID, ammunition.getModsUUID(itemStack))) {
+                        ammoSelectBtn.setPrevented(false);
+                        ammoSelectBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.ammo_select")));
+                    } else {
+                        ammoSelectBtn.setPrevented(true);
+                        ammoSelectBtn.setPreventedTooltipStr(Component.translatable("tooltip.btn.same_type_ammo").getString());
+                    }
+                }
+            } else {
+                ammoSelectBtn.setPrevented(true);
+                ammoSelectBtn.setPreventedTooltipStr(Component.translatable("tooltip.btn.ammo_type_error").getString());
+            }
+        } else {
+            ammoSelectBtn.setPrevented(true);
+            ammoSelectBtn.setPreventedTooltipStr(Component.translatable("tooltip.btn.need_put_ammo").getString());
+        }
     }
 
     private void updateSuitableSlots(AttachmentSlot selected) {

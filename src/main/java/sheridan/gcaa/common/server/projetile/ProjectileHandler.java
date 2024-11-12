@@ -7,11 +7,13 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.common.config.CommonConfig;
+import sheridan.gcaa.items.ammunition.IAmmunitionMod;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
 @Mod.EventBusSubscriber
 public class ProjectileHandler {
@@ -19,6 +21,11 @@ public class ProjectileHandler {
     private static ProjectilePool POOL = null;
     private static List<Projectile> ACTIVE_PROJECTILES = null;
     private static long lastUpdate = 0;
+    private static final WeakHashMap<String, List<IAmmunitionMod>> AMMUNITION_MODS_CACHE = new WeakHashMap<>();
+
+    public static void clearAmmunitionModsCache() {
+        AMMUNITION_MODS_CACHE.clear();
+    }
 
     /*
     * This method can only be called by server thread!!!

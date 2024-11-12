@@ -36,4 +36,8 @@ public class ProjectilePool {
         projectile.reset();
         pool.offerFirst(projectile);
     }
+
+    public int size() {
+        return pool.size();
+    }
 }

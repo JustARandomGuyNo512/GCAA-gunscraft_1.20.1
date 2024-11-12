@@ -5,29 +5,29 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkHooks;
-import sheridan.gcaa.client.screens.containers.providers.AttachmentsMenuProvider;
+import sheridan.gcaa.client.screens.containers.providers.GunModifyMenuProvider;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.IPacket;
 
 import java.util.function.Supplier;
 
-public class OpenAttachmentScreenPacket implements IPacket<OpenAttachmentScreenPacket>  {
+public class OpenGunModifyScreenPacket implements IPacket<OpenGunModifyScreenPacket>  {
     @Override
-    public void encode(OpenAttachmentScreenPacket message, FriendlyByteBuf buffer) {}
+    public void encode(OpenGunModifyScreenPacket message, FriendlyByteBuf buffer) {}
 
     @Override
-    public OpenAttachmentScreenPacket decode(FriendlyByteBuf buffer) {
-        return new OpenAttachmentScreenPacket();
+    public OpenGunModifyScreenPacket decode(FriendlyByteBuf buffer) {
+        return new OpenGunModifyScreenPacket();
     }
 
     @Override
-    public void handle(OpenAttachmentScreenPacket message, Supplier<NetworkEvent.Context> supplier) {
+    public void handle(OpenGunModifyScreenPacket message, Supplier<NetworkEvent.Context> supplier) {
         supplier.get().enqueueWork(() -> {
             ServerPlayer player = supplier.get().getSender();
             if (player != null) {
                 ItemStack heldItem = player.getMainHandItem();
                 if (heldItem.getItem() instanceof IGun) {
-                    NetworkHooks.openScreen(player, new AttachmentsMenuProvider());
+                    NetworkHooks.openScreen(player, new GunModifyMenuProvider());
                 }
             }
         });

@@ -34,6 +34,8 @@ import java.util.Random;
 import java.util.function.Predicate;
 
 public class Projectile {
+    private static int ACTIVE_NUM = 0;
+    private static int TOTAL_NUM = 0;
     private static final int DISABLE_LATENCY = -1;
     private static final Predicate<Entity> GENERIC_TARGETS = (input) -> input instanceof Grenade || (input instanceof LivingEntity && !input.isSpectator() && input.isAlive());
     public static final float CHUNK_TO_METER = 1.6f;
@@ -53,7 +55,17 @@ public class Projectile {
     private int latency = DISABLE_LATENCY;
     private IAmmunition ammunition;
 
-    Projectile() {}
+    Projectile() {
+        TOTAL_NUM ++;
+    }
+
+    public static int getActiveNum() {
+        return ACTIVE_NUM;
+    }
+
+    public static int getTotalNum() {
+        return ACTIVE_NUM;
+    }
 
     public void tick(float timeDis) {
         if (living) {
@@ -149,6 +161,7 @@ public class Projectile {
         living = false;
         dis = 0;
         latency = DISABLE_LATENCY;
+        ACTIVE_NUM --;
     }
 
     private void onHitBlock(BlockHitResult blockHitResult) {
@@ -229,6 +242,12 @@ public class Projectile {
             int maxAccept = CommonConfig.maxLagCompensationMilliseconds.get();
             latency = latency > maxAccept ? DISABLE_LATENCY : latency;
         }
+        ACTIVE_NUM ++;
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        TOTAL_NUM --;
+    }
 }

@@ -143,6 +143,11 @@ public class AmmunitionHandler {
         }
         if (findCount != 0) {
             gun.setAmmoLeft(gunStack, gun.getAmmoLeft(gunStack) + findCount);
+            CompoundTag ammunitionData = gun.getGun().getAmmunitionData(gunStack);
+            if (ammunitionData != null) {
+                CompoundTag selected = ammunitionData.getCompound("selected");
+                ammunitionData.put("using", selected.copy());
+            }
         }
     }
 

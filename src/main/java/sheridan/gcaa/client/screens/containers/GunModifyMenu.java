@@ -5,6 +5,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +18,7 @@ public class GunModifyMenu extends AbstractContainerMenu {
     public Inventory playerInventory;
     public SimpleContainer displaySuitableAttachments;
     public SimpleContainer ammoSelector;
+    private ContainerLevelAccess access;
 
     public static class DisplaySlot extends Slot {
         public boolean active = false;
@@ -31,7 +33,7 @@ public class GunModifyMenu extends AbstractContainerMenu {
         }
     }
 
-    protected GunModifyMenu(@Nullable MenuType<?> menuType, int pContainerId, Inventory playerInventory) {
+    public GunModifyMenu(@Nullable MenuType<?> menuType, int pContainerId, Inventory playerInventory, Player player) {
         super(menuType, pContainerId);
         this.playerInventory = playerInventory;
         for (int i = 0; i < 3; i++) {
@@ -52,10 +54,15 @@ public class GunModifyMenu extends AbstractContainerMenu {
         }
 
         ammoSelector = new SimpleContainer(1);
-        this.addSlot(new Slot(ammoSelector, 0, 252, 142));
+        this.addSlot(new AmmunitionModifyMenu.AmmunitionSlot(ammoSelector, 0, 252, 142));
+        if (player == null) {
+            this.access = ContainerLevelAccess.NULL;
+        } else {
+            this.access = ContainerLevelAccess.create(player.level(), player.getOnPos());
+        }
     }
     public GunModifyMenu(int i, Inventory inventory) {
-        this(ModContainers.ATTACHMENTS.get(), i, inventory);
+        this(ModContainers.ATTACHMENTS.get(), i, inventory, null);
     }
 
     @Override
@@ -66,6 +73,14 @@ public class GunModifyMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player player) {
         return player.getMainHandItem().getItem() instanceof IGun;
+    }
+
+    @Override
+    public void removed(Player pPlayer) {
+        super.removed(pPlayer);
+        this.access.execute((p_39371_, p_39372_) -> {
+            this.clearContainer(pPlayer, this.ammoSelector);
+        });
     }
 }
 

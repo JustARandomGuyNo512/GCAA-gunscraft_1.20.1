@@ -48,10 +48,8 @@ import sheridan.gcaa.utils.FontUtils;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.awt.*;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     public static final String MUZZLE_STATE_NORMAL = "normal";
@@ -586,6 +584,24 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     public CompoundTag getAmmunitionData(ItemStack itemStack) {
         CompoundTag tag = checkAndGet(itemStack);
         return tag.contains("ammunition_data") ? tag.getCompound("ammunition_data") : new CompoundTag();
+    }
+
+    public CompoundTag getUsingAmmunitionData(ItemStack itemStack) {
+        CompoundTag tag = checkAndGet(itemStack);
+        if (!tag.contains("ammunition_data")) {
+            return null;
+        }
+        CompoundTag ammunitionData = tag.getCompound("ammunition_data");
+        return ammunitionData.getCompound("using");
+    }
+
+    public boolean canDoUnload(ItemStack itemStack)  {
+        CompoundTag tag = checkAndGet(itemStack);
+        if (!tag.contains("ammunition_data")) {
+            return false;
+        }
+        return canUnload() && getAmmoLeft(itemStack) > 0 &&
+                !Objects.equals(tag.getCompound("selected").getString("modsUUID"), tag.getCompound("using").getString("modsUUID"));
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -7,8 +7,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.client.screens.containers.GunModifyMenu;
+import sheridan.gcaa.client.screens.containers.ModContainers;
 
-public class AttachmentsMenuProvider implements MenuProvider {
+public class GunModifyMenuProvider implements MenuProvider {
     @Override
     public Component getDisplayName() {
         return Component.translatable("container.gcaa.attachments");
@@ -17,6 +18,6 @@ public class AttachmentsMenuProvider implements MenuProvider {
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return new GunModifyMenu(pContainerId, pPlayerInventory);
+        return new GunModifyMenu(ModContainers.ATTACHMENTS.get(), pContainerId, pPlayerInventory, pPlayer);
     }
 }

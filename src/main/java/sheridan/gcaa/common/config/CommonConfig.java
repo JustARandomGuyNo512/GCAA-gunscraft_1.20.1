@@ -64,8 +64,8 @@ public class CommonConfig {
                 If you're running on a server, 1024 would be a good choice, but if you're playing solo, it's recommended to set it to 256
                 GCAA采用对象池来处理子弹这种可能会大量存在的对象，这个值决定了对象池创建时对初始化多少子弹对象
                 合适的值能避免后续的内存分配以及池扩容带来的性能损耗（每个子弹对象大小大约是188 字节）
-                如果您是在服务器上运行，那么1024会是个不错的值，如果您只是独自游玩，建议设置为256""");
-        initialBulletPoolSize = BUILDER.defineInRange("initial_bullet_pool_size", 1024, MIN_BULLET_POOL_INITIAL_SIZE, MAX_BULLET_POOL_INITIAL_SIZE);
+                如果您是在服务器上运行，那么256会是个不错的值，如果您只是独自游玩，建议设置为32""");
+        initialBulletPoolSize = BUILDER.defineInRange("initial_bullet_pool_size", 32, MIN_BULLET_POOL_INITIAL_SIZE, MAX_BULLET_POOL_INITIAL_SIZE);
         BUILDER.comment("""
                 
                 The bullet has a maximum survival time of milliseconds(1000 milliseconds = 1 second), beyond which it will be recovered

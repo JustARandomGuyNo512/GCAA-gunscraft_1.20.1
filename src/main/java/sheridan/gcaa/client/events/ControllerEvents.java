@@ -19,7 +19,6 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingHandler;
-import sheridan.gcaa.client.model.gun.LodGunModel;
 import sheridan.gcaa.client.screens.ClientSettingsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.ammunition.Ammunition;
@@ -28,7 +27,7 @@ import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.attachments.grips.Flashlight;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
-import sheridan.gcaa.network.packets.c2s.OpenAttachmentScreenPacket;
+import sheridan.gcaa.network.packets.c2s.OpenGunModifyScreenPacket;
 import sheridan.gcaa.network.packets.c2s.SwitchFireModePacket;
 import sheridan.gcaa.network.packets.c2s.TurnFlashlightPacket;
 
@@ -178,7 +177,7 @@ public class ControllerEvents {
             } else if (KeyBinds.RELOAD.isDown() && event.getAction() == 1) {
                 handleReload(stackMain, player);
             } else if (KeyBinds.OPEN_ATTACHMENTS_SCREEN.isDown() && event.getAction() == 1) {
-                PacketHandler.simpleChannel.sendToServer(new OpenAttachmentScreenPacket());
+                PacketHandler.simpleChannel.sendToServer(new OpenGunModifyScreenPacket());
                 ReloadingHandler.INSTANCE.breakTask();
                 HandActionHandler.INSTANCE.breakTask();
             } else if (KeyBinds.OPEN_CLIENT_SETTINGS_SCREEN.isDown() && event.getAction() == 1) {
@@ -186,7 +185,8 @@ public class ControllerEvents {
             } else if (KeyBinds.SWITCH_EFFECTIVE_SIGHT.isDown() && event.getAction() == 1) {
                 Clients.MAIN_HAND_STATUS.attachmentsStatus.onSwitchEffectiveSight();
             }
-            if (stackMain.getItem() instanceof IGun gun) {
+            //45
+            if (event.getAction() == 1 && stackMain.getItem() instanceof IGun gun) {
                 AttachmentsHandler.INSTANCE.getAttachments(stackMain, gun).forEach((attachment) -> {
                     if (attachment instanceof IInteractive iInteractive) {
                         iInteractive.onKeyPress(event.getKey(), event.getAction(), stackMain, gun, player);
