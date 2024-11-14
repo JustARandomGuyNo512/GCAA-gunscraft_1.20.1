@@ -34,7 +34,6 @@ public class Incendiary extends AmmunitionMod {
     @Override
     public void onHitEntity(Projectile projectile, Entity entity, boolean isHeadSHot, IGun gun, ProjectileHandler.AmmunitionDataCache cache) {
         float baseDamage = projectile.damage / cache.baseDamageRate();
-        float minDamage = projectile.minDamage / cache.minDamageRate();
         //TODO: 点燃目标 entity， 给予额外 10% 的燃烧伤害
     }
 

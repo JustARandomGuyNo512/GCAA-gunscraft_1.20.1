@@ -3,7 +3,10 @@ package sheridan.gcaa.items.ammunition.ammunitionMods;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.TntBlock;
 import org.joml.Vector4i;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.common.server.projetile.Projectile;
@@ -43,7 +46,13 @@ public class Explosive extends AmmunitionMod {
 
     @Override
     public void onHitEntity(Projectile projectile, Entity entity, boolean isHeadSHot, IGun gun, ProjectileHandler.AmmunitionDataCache cache) {
-
+//        if (entity.ignoreExplosion()) {
+//            return;
+//        }
+        entity.invulnerableTime = 0;
+        float baseDamage = projectile.damage / cache.baseDamageRate();
+        DamageSource explosion = projectile.shooter.level().damageSources().explosion(projectile.shooter, projectile.shooter);
+        entity.hurt(explosion, baseDamage * getExplosiveDamageRate());
     }
 
     @Override

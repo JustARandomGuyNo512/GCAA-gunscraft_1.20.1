@@ -91,11 +91,13 @@ public class Projectile {
                     if (entityHitResult != null && entityHitResult.getEntity() != this.shooter) {
                         onHitEntity(entityHitResult.getEntity(), level, entityHitResult.getLocation(), position, endPos, entityHitResult.boxHit);
                         living = false;
+                        return;
                     } else {
                         onHitBlock(hitResult);
                     }
                     if (!through) {
                         living = false;
+                        return;
                     }
                 } else {
                     ProjectileEntityHitResult entityHitResult = findEntity(level, position, nextPos);
@@ -269,6 +271,7 @@ public class Projectile {
                     mod.onShootInServer(this, gun);
                 }
             }
+            this.cache = cache;
         } else {
             this.cache = ProjectileHandler.EMPTY_MODS;
         }

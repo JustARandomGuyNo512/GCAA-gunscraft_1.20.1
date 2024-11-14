@@ -119,14 +119,18 @@ public class ProjectileHandler {
                                       float effectiveRangeRate) {
         @Override
         public String toString() {
-            return "AmmunitionDataCache{" +
-                    "mods=" + mods +
+            StringBuilder str1 = new StringBuilder("AmmunitionDataCache{" +
                     ",\n baseDamageRate=" + baseDamageRate +
                     ",\n minDamageRate=" + minDamageRate +
                     ",\n penetrationRate=" + penetrationRate +
                     ",\n speedRate=" + speedRate +
                     ",\n effectiveRangeRate=" + effectiveRangeRate +
-                    '}';
+                    '}');
+            str1.append("\n").append("mods: ");
+            for (IAmmunitionMod mod : mods) {
+                str1.append(mod.getId().toString()).append(" ");
+            }
+            return str1.toString();
         }
     }
 }
