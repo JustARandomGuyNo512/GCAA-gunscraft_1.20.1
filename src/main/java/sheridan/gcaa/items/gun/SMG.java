@@ -5,23 +5,13 @@ import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.client.IReloadTask;
 import sheridan.gcaa.client.UnloadTask;
 
-public class Pistol extends Gun{
-    public Pistol(GunProperties gunProperties) {
+public class SMG extends Gun{
+    public SMG(GunProperties gunProperties) {
         super(gunProperties);
     }
 
     @Override
-    public boolean isPistol() {
-        return true;
-    }
-
-    @Override
-    public boolean canUseWithShield() {
-        return true;
-    }
-
-    @Override
     public IReloadTask getUnloadingTask(ItemStack stack, Player player) {
-        return new UnloadTask(this, stack, UnloadTask.PISTOL);
+        return new UnloadTask(this, stack, UnloadTask.SMG);
     }
 }

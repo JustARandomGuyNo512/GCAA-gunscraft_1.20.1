@@ -41,6 +41,7 @@ public class PacketHandler
         registerPacket(ApplyAmmunitionModifyPacket.class, new ApplyAmmunitionModifyPacket());
         registerPacket(UpdateAmmunitionModifyScreenPacket.class, new UpdateAmmunitionModifyScreenPacket());
         registerPacket(ScreenBindAmmunitionPacket.class, new ScreenBindAmmunitionPacket());
+        registerPacket(ClearGunAmmoPacket.class, new ClearGunAmmoPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

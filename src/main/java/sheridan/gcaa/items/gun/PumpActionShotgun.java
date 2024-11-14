@@ -2,9 +2,9 @@ package sheridan.gcaa.items.gun;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.IReloadTask;
 import sheridan.gcaa.client.SingleReloadTask;
+import sheridan.gcaa.client.UnloadTask;
 import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.gun.propertyExtensions.HandActionExtension;
 import sheridan.gcaa.items.gun.propertyExtensions.SingleReloadExtension;
@@ -31,6 +31,14 @@ public class PumpActionShotgun extends HandActionGun{
     }
 
     @Override
+    public boolean clientReload(ItemStack stack, Player player) {
+        if (isUsingSelectedAmmo(stack)) {
+            //TODO: unload
+        }
+        return super.clientReload(stack, player);
+    }
+
+    @Override
     public IReloadTask getReloadingTask(ItemStack stack, Player player) {
         return new SingleReloadTask(stack, this,
                 singleReloadExtension.enterDelay,
@@ -45,8 +53,9 @@ public class PumpActionShotgun extends HandActionGun{
         return true;
     }
 
+
     @Override
-    public boolean canUnload() {
-        return false;
+    public IReloadTask getUnloadingTask(ItemStack stack, Player player) {
+        return new UnloadTask(this, stack, UnloadTask.SHOTGUN);
     }
 }

@@ -119,6 +119,7 @@
   "tooltip.screen_info.searchlight_mode": "切换到探照灯模式",
   "tooltip.screen_info.ammunition_manage_cool_down": "弹药整理功能冷却中",
   "tooltip.screen_info.no_ammo": "未携带 @ammo 或此种弹药已耗尽",
+  "tooltip.screen_info.unmodified": "（未改装）",
 
   "gcaa.unit.chunk_pre_second": "区块/秒",
   "gcaa.unit.chunk": "区块",
@@ -130,7 +131,7 @@
 
   "keys.categories.gcaa": "GCAA：按键绑定",
   "key.gcaa.open_debug_gun_screen": "打开调试枪械界面（仅debug模式）",
-  "key.gcaa.open_attachments_screen": "打开枪械配自定义界面",
+  "key.gcaa.open_gun_modify_screen": "打开枪械自定义界面",
   "key.gcaa.switch_fire_mode": "切换开火模式",
   "key.gcaa.reload": "重新装填",
   "key.gcaa.key_show_full_gun_info": "显示详细枪械信息",
@@ -138,6 +139,7 @@
   "key.gcaa.switch_effective_sight": "切换瞄具",
   "key.gcaa.use_grenade_launcher": "发射 / 装填榴弹",
   "key.gcaa.turn_flashlight": "开/关 手电筒或者切换照明模式",
+  "key.gcaa.unload_gun": "卸掉弹药",
 
   "itemGroup.guns": "枪械",
   "itemGroup.attachments": "配件",

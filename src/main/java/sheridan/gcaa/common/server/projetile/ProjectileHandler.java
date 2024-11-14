@@ -1,6 +1,7 @@
 package sheridan.gcaa.common.server.projetile;
 
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
@@ -30,12 +31,12 @@ public class ProjectileHandler {
     /*
     * This method can only be called by server thread!!!
     * */
-    public static void fire(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange, IGun gun) {
+    public static void fire(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange, IGun gun, ItemStack gunStack) {
         Projectile bullet = POOL.getOrCreate(shooter, speed, damage, spread, effectiveRange, gun);
         ACTIVE_PROJECTILES.add(bullet);
     }
 
-    public static void fire(LivingEntity shooter, Vec3 angle, float speed, float damage, float spread, float effectiveRange, IGun gun) {
+    public static void fire(LivingEntity shooter, Vec3 angle, float speed, float damage, float spread, float effectiveRange, IGun gun, ItemStack gunStack) {
         Projectile bullet = POOL.getOrCreate(shooter, angle, speed, damage, spread, effectiveRange, gun);
         ACTIVE_PROJECTILES.add(bullet);
     }

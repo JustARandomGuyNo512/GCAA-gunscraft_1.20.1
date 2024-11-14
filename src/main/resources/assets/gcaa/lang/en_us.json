@@ -118,6 +118,7 @@
   "tooltip.screen_info.searchlight_mode": "Switch to lighting mode",
   "tooltip.screen_info.ammunition_manage_cool_down": "Ammunition manage function cooling",
   "tooltip.screen_info.no_ammo": "No @ammo carried or this type of ammunition is depleted" ,
+  "tooltip.screen_info.unmodified": "(unmodified)",
 
   "gcaa.unit.chunk_pre_second": "Chunks/s",
   "gcaa.unit.chunk": "Chunk",
@@ -129,7 +130,7 @@
 
   "keys.categories.gcaa": "GCAA: key bindings",
   "key.gcaa.open_debug_gun_screen": "Show gun debug screen (only debug mode)",
-  "key.gcaa.open_attachments_screen": "Open the gun customization screen",
+  "key.gcaa.open_gun_modify_screen": "Open the gun customization screen",
   "key.gcaa.switch_fire_mode": "Switch fire mode",
   "key.gcaa.reload": "Reload your gun",
   "key.gcaa.key_show_full_gun_info": "Show gun details",
@@ -137,6 +138,7 @@
   "key.gcaa.switch_effective_sight": "Switching sight",
   "key.gcaa.use_grenade_launcher": "launch / reload grenade",
   "key.gcaa.turn_flashlight": "Turn ON / OFF flashlight or switch lighting mode",
+  "key.gcaa.unload_gun": "Remove ammo",
   "tooltip.gcaa.modify_magnification": "Use the mouse wheel to adjust magnification while aiming",
 
   "itemGroup.guns": "Guns",

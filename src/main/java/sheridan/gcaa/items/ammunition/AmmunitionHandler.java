@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.apache.commons.lang3.NotImplementedException;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.util.*;
@@ -94,13 +95,69 @@ public class AmmunitionHandler {
         }
     }
 
-    public static void andAmmunition(Player player, IAmmunition ammunition, ItemStack itemStack) {
+    public static void andAmmunition(Player player, IAmmunition ammunition, ItemStack ammoTemp) {
+        throw new NotImplementedException();
+    }
 
+    public static void andAmmunition(Player player, IAmmunition ammunition, CompoundTag modsTag) {
+        throw new NotImplementedException();
+    }
+
+    public static void andAmmunition(Player player, IAmmunition ammunition, List<IAmmunitionMod> mods) {
+        throw new NotImplementedException();
+    }
+
+    public static void clearGun(Player player, IGun gun, ItemStack gunStack) {
+        if (gunStack != player.getMainHandItem()) {
+            return;
+        }
+        int count = gun.getAmmoLeft(gunStack);
+        if (count == 0) {
+            return;
+        }
+        IAmmunition ammunition = gun.getGunProperties().caliber.ammunition;
+        List<IAmmunitionMod> mods = new ArrayList<>();
+        CompoundTag ammunitionData = gun.getGun().getAmmunitionData(gunStack);
+        if (ammunitionData.contains("using") && ammunitionData.contains("mods")) {
+            CompoundTag modsTag = ammunitionData.getCompound("mods");
+            mods = ammunition.getMods(modsTag);
+        }
+        int ammoBoxSize = ammunition.get().getMaxDamage();
+        int boxCount = count / ammoBoxSize;
+        int left = count % ammoBoxSize;
+        List<ItemStack> ammoList = new ArrayList<>();
+        if (boxCount > 0) {
+            for (int i = 0; i < boxCount; i++) {
+                ItemStack itemStack = new ItemStack(ammunition.get());
+                ammunition.get().checkAndGet(itemStack);
+                if (mods.size() > 0) {
+                    ammunition.addMods(mods, itemStack);
+                }
+                ammoList.add(itemStack);
+            }
+        }
+        if (left > 0) {
+            ItemStack itemStack = new ItemStack(ammunition.get());
+            ammunition.get().checkAndGet(itemStack);
+            ammunition.setAmmoLeft(itemStack, left);
+            if (mods.size() > 0) {
+                ammunition.addMods(mods, itemStack);
+            }
+            ammoList.add(itemStack);
+        }
+        for (ItemStack stack : ammoList) {
+            if (!player.addItem(stack)) {
+                player.drop(stack, false);
+            }
+        }
     }
 
     public static void reloadFor(Player player, ItemStack gunStack, IGun gun, int exceptedReloadNum) {
         if (exceptedReloadNum <= 0 || gunStack != player.getMainHandItem()) {
             return;
+        }
+        if (!gun.getGun().isUsingSelectedAmmo(gunStack)) {
+            clearGun(player, gun, gunStack);
         }
         exceptedReloadNum = Math.min(exceptedReloadNum, gun.getMagSize(gunStack) - gun.getAmmoLeft(gunStack));
         int findCount = 0;
@@ -171,7 +228,9 @@ public class AmmunitionHandler {
         for (ItemStack stack : items) {
             if (stack.getItem() == ammunition) {
                 if (isAmmunitionBind) {
-                    return Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeUUID(gunStack)) && ammunition.getAmmoLeft(stack) > 0;
+                    if (Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeUUID(gunStack))) {
+                        return ammunition.getAmmoLeft(stack) > 0;
+                    }
                 } else {
                     return ammunition.getAmmoLeft(stack) > 0;
                 }

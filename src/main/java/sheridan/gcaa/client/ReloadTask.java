@@ -34,7 +34,7 @@ public class ReloadTask implements IReloadTask {
         model = GunModelRegister.getModel(gun);
         tick = 0;
         ammoLeft = gun.getAmmoLeft(itemStack);
-        length = gun.getReloadLength(itemStack, ammoLeft == 0);
+        length = gun.getReloadLength(itemStack, gun.getGun().shouldUseFullReload(itemStack));
         completed = false;
         Player player = Minecraft.getInstance().player;
         if (gun.canUseWithShield() && player != null && player.getOffhandItem().getItem() instanceof ShieldItem) {
@@ -88,7 +88,8 @@ public class ReloadTask implements IReloadTask {
     @Override
     public void start() {
         if (model != null && !isGenericReloading) {
-            AnimationHandler.INSTANCE.startReload(ammoLeft == 0 ? model.getFullReload() : model.getReload());
+            AnimationHandler.INSTANCE.startReload(gun.getGun().shouldUseFullReload(itemStack)
+                    ? model.getFullReload() : model.getReload());
         }
         Clients.MAIN_HAND_STATUS.ads = false;
         HandActionHandler.INSTANCE.breakTask();

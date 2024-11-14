@@ -39,7 +39,7 @@ public class CaliberGauge12 extends Caliber {
                 RenderAndMathUtils.RANDOM.nextGaussian() * spread,
                 RenderAndMathUtils.RANDOM.nextGaussian() * spread).scale(speed);
         for (int i = 0; i < projectileNum; i ++) {
-            ProjectileHandler.fire(player, angle, speed, baseDamage, baseSpread, effectiveRange, gun);
+            ProjectileHandler.fire(player, angle, speed, baseDamage, baseSpread, effectiveRange, gun, gunStack);
         }
     }
 

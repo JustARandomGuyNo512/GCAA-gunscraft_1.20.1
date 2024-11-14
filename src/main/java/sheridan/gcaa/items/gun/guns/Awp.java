@@ -1,6 +1,7 @@
 package sheridan.gcaa.items.gun.guns;
 
 import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.items.gun.Sniper;
 import sheridan.gcaa.items.gun.calibers.Caliber;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.HandActionGun;
@@ -10,7 +11,7 @@ import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.List;
 
-public class Awp extends HandActionGun {
+public class Awp extends Sniper {
     private static final Caliber caliber =
             new Caliber(Caliber.CALIBER_762X51MM, 22, 12, 10f, 15f)
                     .setAmmunition(ModItems.AMMO_7_62X51MM.get());
@@ -25,18 +26,4 @@ public class Awp extends HandActionGun {
                         getTicks(0.5f), getTicks(1.25f), 8, true));
     }
 
-    @Override
-    public boolean isSniper() {
-        return true;
-    }
-
-    @Override
-    public int getCrosshairType() {
-        return -1;
-    }
-
-    @Override
-    public boolean shootCreateBulletShell() {
-        return false;
-    }
 }

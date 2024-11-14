@@ -335,15 +335,7 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
 
     protected String genModsUUID(ItemStack itemStack) {
         List<IAmmunitionMod> mods = getMods(itemStack);
-        if (mods.size() == 0) {
-            return "";
-        }
-        mods.sort(Comparator.comparing(m -> m.getId().toString()));
-        StringBuilder id = new StringBuilder();
-        for (IAmmunitionMod mod : mods) {
-            id.append(mod.getId().toString());
-        }
-        return UUID.nameUUIDFromBytes(id.toString().getBytes(StandardCharsets.UTF_8)).toString();
+        return genModsUUID(mods);
     }
 
     @Override
@@ -370,5 +362,18 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
             suffix.append(Component.translatable(mod.getDescriptionId()).getString()).append(" ");
         }
         return suffix.toString();
+    }
+
+    @Override
+    public String genModsUUID(List<IAmmunitionMod> mods) {
+        if (mods.size() == 0) {
+            return "";
+        }
+        mods.sort(Comparator.comparing(m -> m.getId().toString()));
+        StringBuilder id = new StringBuilder();
+        for (IAmmunitionMod mod : mods) {
+            id.append(mod.getId().toString());
+        }
+        return UUID.nameUUIDFromBytes(id.toString().getBytes(StandardCharsets.UTF_8)).toString();
     }
 }

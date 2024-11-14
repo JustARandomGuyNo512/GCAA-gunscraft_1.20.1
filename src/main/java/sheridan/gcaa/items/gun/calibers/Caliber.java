@@ -58,7 +58,7 @@ public class Caliber {
     }
 
     public void fireBullet(IAmmunition ammunition, ItemStack ammunitionStack, IGun gun, Player player, ItemStack gunStack, float spread) {
-        ProjectileHandler.fire(player, speed, baseDamage, spread, effectiveRange, gun);
+        ProjectileHandler.fire(player, speed, baseDamage, spread, effectiveRange, gun, gunStack);
     }
 
     public void handleTooltip(ItemStack stack, IGun gun, Level levelIn, List<Component> tooltip, TooltipFlag flagIn, boolean detail) {

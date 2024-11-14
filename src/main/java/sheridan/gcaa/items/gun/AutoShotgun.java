@@ -69,7 +69,15 @@ public class AutoShotgun extends HandActionGun {
     }
 
     @Override
-    public boolean canUnload() {
-        return false;
+    public boolean clientReload(ItemStack stack, Player player) {
+        if (isUsingSelectedAmmo(stack)) {
+            //TODO: unload
+        }
+        return super.clientReload(stack, player);
+    }
+
+    @Override
+    public IReloadTask getUnloadingTask(ItemStack stack, Player player) {
+        return new UnloadTask(this, stack, UnloadTask.SHOTGUN);
     }
 }

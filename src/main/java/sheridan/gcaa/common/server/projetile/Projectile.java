@@ -21,6 +21,7 @@ import sheridan.gcaa.common.damageTypes.DamageTypes;
 import sheridan.gcaa.common.damageTypes.ProjectileDamage;
 import sheridan.gcaa.entities.projectiles.Grenade;
 import sheridan.gcaa.items.ammunition.IAmmunition;
+import sheridan.gcaa.items.ammunition.IAmmunitionMod;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
@@ -53,7 +54,7 @@ public class Projectile {
     private float dis = 0;
     private long birthTime;
     private int latency = DISABLE_LATENCY;
-    private IAmmunition ammunition;
+    private List<IAmmunitionMod> mods;
 
     Projectile() {
         TOTAL_NUM ++;
@@ -210,7 +211,7 @@ public class Projectile {
         }
         entity.hurt(damageSource, damage * (1 - progress * progress) * CommonConfig.globalBulletDamageModify.get().floatValue());
         living = false;
-        if (Math.random() <= 0.0025) {
+        if (Math.random() <= 0.025) {
             if (entity instanceof Chicken) {
                 level.playSound(entity, new BlockPos((int) hitPos.x, (int) hitPos.y, (int) hitPos.z), ModSounds.NI_GAN_MA.get(), SoundSource.PLAYERS, 1, 1);
             }

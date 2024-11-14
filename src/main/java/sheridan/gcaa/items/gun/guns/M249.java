@@ -1,5 +1,9 @@
 package sheridan.gcaa.items.gun.guns;
 
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import sheridan.gcaa.client.IReloadTask;
+import sheridan.gcaa.client.UnloadTask;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
@@ -24,5 +28,15 @@ public class M249 extends Gun {
     @Override
     public boolean isFreeBlot() {
         return true;
+    }
+
+    @Override
+    public IReloadTask getUnloadingTask(ItemStack stack, Player player) {
+        return new UnloadTask(this, stack, UnloadTask.MG);
+    }
+
+    @Override
+    public int getCrosshairType() {
+        return 2;
     }
 }

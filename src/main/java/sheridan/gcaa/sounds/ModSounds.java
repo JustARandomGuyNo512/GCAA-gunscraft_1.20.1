@@ -47,6 +47,16 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> NI_GAN_MA = registerSound("ni_gan_ma", "item.generic.ni_gan_ma");
 
 
+    public static RegistryObject<SoundEvent> MG_UNLOAD = registerSound("mg_unload", "item.generic.mg_unload");
+    public static RegistryObject<SoundEvent> PISTOL_UNLOAD = registerSound("pistol_unload", "item.generic.pistol_unload");
+    public static RegistryObject<SoundEvent> SHOTGUN_UNLOAD = registerSound("shotgun_unload", "item.generic.shotgun_unload");
+    public static RegistryObject<SoundEvent> SMG_UNLOAD = registerSound("smg_unload", "item.generic.smg_unload");
+    public static RegistryObject<SoundEvent> SNIPER_UNLOAD = registerSound("sniper_unload", "item.generic.sniper_unload");
+    public static RegistryObject<SoundEvent> CAL_50_UNLOAD = registerSound("cal_50_unload", "item.generic.cal_50_unload");
+    public static RegistryObject<SoundEvent> RIFLE_UNLOAD = registerSound("rifle_unload", "item.generic.rifle_unload");
+    public static RegistryObject<SoundEvent> REVOLVER_UNLOAD = registerSound("revolver_unload", "item.generic.revolver_unload");
+
+
     public static RegistryObject<SoundEvent> AKM_FIRE = registerSound("akm_fire", "item.akm.fire");
     public static RegistryObject<SoundEvent> M4A1_FIRE = registerSound("m4a1_fire", "item.m4a1.fire");
     public static RegistryObject<SoundEvent> G19_FIRE = registerSound("g19_fire", "item.g19.fire");

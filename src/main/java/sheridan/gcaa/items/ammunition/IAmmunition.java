@@ -52,4 +52,6 @@ public interface IAmmunition {
     CompoundTag getDataRateTag(ItemStack itemStack);
 
     String getFullName(ItemStack itemStack);
+
+    String genModsUUID(List<IAmmunitionMod> mods);
 }

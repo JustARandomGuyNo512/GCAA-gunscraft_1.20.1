@@ -27,6 +27,7 @@ import sheridan.gcaa.blocks.ModBlocks;
 import sheridan.gcaa.capability.PlayerStatusEvents;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.KeyBinds;
+import sheridan.gcaa.client.UnloadTask;
 import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.events.*;
 import sheridan.gcaa.client.render.entity.GrenadeRenderer;
@@ -79,6 +80,7 @@ public class GCAA {
         event.enqueueWork(() -> MenuScreens.register(ModContainers.ATTACHMENTS.get(), GunModifyScreen::new));
         event.enqueueWork(() -> MenuScreens.register(ModContainers.AMMUNITION_MODIFY_MENU.get(), AmmunitionModifyScreen::new));
         Clients.onSetUp(event);
+        UnloadTask.init();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

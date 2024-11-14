@@ -45,6 +45,7 @@ public interface IGun {
     void reload(ItemStack stack, Player player);
     int getReloadLength(ItemStack stack, boolean fullReload);
     IReloadTask getReloadingTask(ItemStack stack, Player player);
+    IReloadTask getUnloadingTask(ItemStack stack, Player player);
     long getDate(ItemStack stack);
     void updateDate(ItemStack stack);
     String getAttachmentsModifiedUUID(ItemStack stack);
@@ -53,6 +54,8 @@ public interface IGun {
     void newAttachmentsModifiedUUID(ItemStack stack);
     String getSelectedAmmunitionTypeUUID(ItemStack stack);
     void bindAmmunition(ItemStack gunStack, ItemStack ammunitionStack, IAmmunition ammunition);
+    void clearAmmo(ItemStack gunStack, Player player);
+    boolean isUsingSelectedAmmo(ItemStack itemStack);
 
     default boolean allowShootWhileReloading() {return false;}
     default boolean shouldHandleAds(ItemStack stack) {return true;}
@@ -64,5 +67,4 @@ public interface IGun {
     default boolean shouldUpdate(ItemStack stack) { return getDate(stack) != Commons.SERVER_START_TIME;}
     default boolean shootCreateBulletShell() {return true;}
     default boolean canUseWithShield() {return false;}
-    default boolean canUnload() {return true;}
 }

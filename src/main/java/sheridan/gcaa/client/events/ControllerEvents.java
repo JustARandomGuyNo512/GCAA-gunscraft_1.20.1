@@ -176,7 +176,7 @@ public class ControllerEvents {
                 }
             } else if (KeyBinds.RELOAD.isDown() && event.getAction() == 1) {
                 handleReload(stackMain, player);
-            } else if (KeyBinds.OPEN_ATTACHMENTS_SCREEN.isDown() && event.getAction() == 1) {
+            } else if (KeyBinds.OPEN_GUN_MODIFY_SCREEN.isDown() && event.getAction() == 1) {
                 PacketHandler.simpleChannel.sendToServer(new OpenGunModifyScreenPacket());
                 ReloadingHandler.INSTANCE.breakTask();
                 HandActionHandler.INSTANCE.breakTask();
@@ -201,11 +201,17 @@ public class ControllerEvents {
     }
 
     private static void handleReload(ItemStack stack, Player player) {
-        if (stack.getItem() instanceof IGun gun) {
+        if (stack.getItem() instanceof IGun gun && !ReloadingHandler.isReloading()) {
             if (gun.clientReload(stack, player)) {
                 Clients.MAIN_HAND_STATUS.buttonDown.set(false);
                 ReloadingHandler.INSTANCE.setTask(gun.getReloadingTask(stack, player));
             }
+        }
+    }
+
+    private static void handleUnload(ItemStack stack, Player player) {
+        if (stack.getItem() instanceof IGun gun && !ReloadingHandler.isReloading() && gun.getAmmoLeft(stack) > 0) {
+            ReloadingHandler.INSTANCE.setTask(gun.getUnloadingTask(stack, player));
         }
     }
 }

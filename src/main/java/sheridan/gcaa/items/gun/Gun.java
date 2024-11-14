@@ -357,8 +357,9 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
                     String[] split = Component.translatable("tooltip.screen_info.no_ammo").getString().split("@ammo");
                     Minecraft.getInstance().gui.setOverlayMessage(
                             Component.literal(split[0])
-                                    .append(Component.literal(ammunitionName).withStyle(
-                                            Style.EMPTY.withColor(new Color(0xe85015).getRGB())
+                                    .append(Component.literal(ammunitionName)
+                                            .withStyle(Style.EMPTY
+                                                    .withColor(new Color(0xe84015).getRGB())
                                                     .withItalic(true)
                                                     .withBold(true)))
                                     .append(Component.literal(split[1]))
@@ -382,8 +383,28 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     @Override
+    public boolean isUsingSelectedAmmo(ItemStack itemStack) {
+        CompoundTag ammunitionData = getAmmunitionData(itemStack);
+        if (!ammunitionData.contains("using")) {
+            return true;
+        }
+        String usingID = ammunitionData.getCompound("using").getCompound("mods").getString("modsUUID");
+        String selectedID = ammunitionData.getCompound("selected").getCompound("mods").getString("modsUUID");
+        return Objects.equals(usingID, selectedID);
+    }
+
+    public boolean shouldUseFullReload(ItemStack itemStack) {
+        return getAmmoLeft(itemStack) == 0 || !isUsingSelectedAmmo(itemStack);
+    }
+
+    @Override
     public IReloadTask getReloadingTask(ItemStack stack, Player player) {
         return new ReloadTask(stack, this);
+    }
+
+    @Override
+    public IReloadTask getUnloadingTask(ItemStack stack, Player player) {
+        return new UnloadTask(this, stack, UnloadTask.RIFLE);
     }
 
 
@@ -454,6 +475,11 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             using.put("data_rate", usingDataRate);
             ammunitionData.put("using", using);
         }
+    }
+
+    @Override
+    public void clearAmmo(ItemStack gunStack, Player player) {
+
     }
 
     public CompoundTag checkAndGet(ItemStack stack) {
@@ -553,6 +579,11 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         }
     }
 
+    public String getIdentityTemp(ItemStack stack) {
+        CompoundTag nbt = checkAndGet(stack);
+        return nbt.contains("identity_temp") ? nbt.getString("identity_temp") : "";
+    }
+
     public void onEquipped(ItemStack itemStack, Player player) {
         CompoundTag tag = checkAndGet(itemStack);
         if (!tag.contains("identity_temp")) {
@@ -577,6 +608,8 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
                 baseName.append(Component.translatable(mod.getDescriptionId()).getString());
                 baseName.append(i == mods.size() - 1 ? ")" : ", ");
             }
+        } else {
+            baseName.append(Component.translatable("tooltip.screen_info.unmodified").getString());
         }
         return baseName.toString();
     }
@@ -595,14 +628,6 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         return ammunitionData.getCompound("using");
     }
 
-    public boolean canDoUnload(ItemStack itemStack)  {
-        CompoundTag tag = checkAndGet(itemStack);
-        if (!tag.contains("ammunition_data")) {
-            return false;
-        }
-        return canUnload() && getAmmoLeft(itemStack) > 0 &&
-                !Objects.equals(tag.getCompound("selected").getString("modsUUID"), tag.getCompound("using").getString("modsUUID"));
-    }
 
     @OnlyIn(Dist.CLIENT)
     @Override
