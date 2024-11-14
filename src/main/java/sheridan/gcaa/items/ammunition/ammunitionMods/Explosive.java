@@ -6,6 +6,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -62,8 +65,9 @@ public class Explosive extends AmmunitionMod {
 
     @Override
     public void onHitBlockServer(Projectile projectile, BlockHitResult hitResult, BlockState blockState) {
-        if (blockState.getBlock() instanceof TntBlock tntBlock) {
-            tntBlock.onCaughtFire(blockState, projectile.shooter.level(), hitResult.getBlockPos(), hitResult.getDirection(), projectile.shooter);
+        BlockState blockStateInner = projectile.shooter.level().getBlockState(hitResult.getBlockPos());
+        if (blockStateInner.getBlock() instanceof TntBlock tntBlock) {
+            tntBlock.onCaughtFire(blockStateInner, projectile.shooter.level(), hitResult.getBlockPos(), hitResult.getDirection(), projectile.shooter);
             projectile.shooter.level().removeBlock(hitResult.getBlockPos(), false);
         }
     }

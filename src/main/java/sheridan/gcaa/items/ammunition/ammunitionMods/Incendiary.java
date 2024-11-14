@@ -39,8 +39,9 @@ public class Incendiary extends AmmunitionMod {
 
     @Override
     public void onHitBlockServer(Projectile projectile, BlockHitResult hitResult, BlockState blockState) {
-        if (blockState.getBlock() instanceof TntBlock tntBlock) {
-            tntBlock.onCaughtFire(blockState, projectile.shooter.level(), hitResult.getBlockPos(), hitResult.getDirection(), projectile.shooter);
+        BlockState blockStateInner = projectile.shooter.level().getBlockState(hitResult.getBlockPos());
+        if (blockStateInner.getBlock() instanceof TntBlock tntBlock) {
+            tntBlock.onCaughtFire(blockStateInner, projectile.shooter.level(), hitResult.getBlockPos(), hitResult.getDirection(), projectile.shooter);
             projectile.shooter.level().removeBlock(hitResult.getBlockPos(), false);
         }
     }

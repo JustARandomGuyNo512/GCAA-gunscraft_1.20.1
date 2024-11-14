@@ -3,7 +3,6 @@ package sheridan.gcaa.common.server.projetile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -20,7 +19,6 @@ import sheridan.gcaa.common.HeadBox;
 import sheridan.gcaa.common.damageTypes.DamageTypes;
 import sheridan.gcaa.common.damageTypes.ProjectileDamage;
 import sheridan.gcaa.entities.projectiles.Grenade;
-import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.ammunition.IAmmunitionMod;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
@@ -68,7 +66,7 @@ public class Projectile {
     }
 
     public static int getTotalNum() {
-        return ACTIVE_NUM;
+        return TOTAL_NUM;
     }
 
     public void tick(float timeDis) {
@@ -187,7 +185,9 @@ public class Projectile {
         }
         if (this.mods != null) {
             for (IAmmunitionMod mod : mods) {
-                mod.onHitBlockServer(this, blockHitResult, blockState);
+                try {
+                    mod.onHitBlockServer(this, blockHitResult, blockState);
+                } catch (Exception ignored) {}
             }
         }
         PacketHandler.simpleChannel.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
@@ -226,7 +226,9 @@ public class Projectile {
                 Mth.lerp((1 - progress * progress), minDamage, damage) * CommonConfig.globalBulletDamageModify.get().floatValue());
         if (this.mods != null) {
             for (IAmmunitionMod mod : mods) {
-                mod.onHitEntity(this, entity, isHeadShot, gun, cache);
+                try {
+                    mod.onHitEntity(this, entity, isHeadShot, gun, cache);
+                } catch (Exception ignored) {}
             }
         }
         living = false;
