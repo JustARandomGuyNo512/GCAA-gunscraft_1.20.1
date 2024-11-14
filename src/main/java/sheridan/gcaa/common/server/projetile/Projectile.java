@@ -48,13 +48,14 @@ public class Projectile {
     public Vec3 velocity;
     public IGun gun;
     public float damage;
+    public float minDamage;
     public float effectiveRange;
     public LivingEntity shooter;
     private boolean living;
     private float dis = 0;
     private long birthTime;
     private int latency = DISABLE_LATENCY;
-    private List<IAmmunitionMod> mods;
+    private String modsUUID;
 
     Projectile() {
         TOTAL_NUM ++;
@@ -163,6 +164,7 @@ public class Projectile {
         dis = 0;
         latency = DISABLE_LATENCY;
         ACTIVE_NUM --;
+        modsUUID = null;
     }
 
     private void onHitBlock(BlockHitResult blockHitResult) {
@@ -209,7 +211,8 @@ public class Projectile {
         if (this.shooter instanceof Player && !shooter.level().isClientSide) {
             PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) this.shooter), new HeadShotFeedBackPacket(isHeadShot));
         }
-        entity.hurt(damageSource, damage * (1 - progress * progress) * CommonConfig.globalBulletDamageModify.get().floatValue());
+        entity.hurt(damageSource,
+                Mth.lerp((1 - progress * progress), minDamage, damage) * CommonConfig.globalBulletDamageModify.get().floatValue());
         living = false;
         if (Math.random() <= 0.025) {
             if (entity instanceof Chicken) {
@@ -218,20 +221,24 @@ public class Projectile {
         }
     }
 
-    public void shoot(LivingEntity shooter, float speed, float damage, float spread, float effectiveRange, IGun gun) {
-        shoot(shooter, shooter.getLookAngle(), speed, damage, spread, effectiveRange, gun);
+    public void shoot(LivingEntity shooter, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, String modsUUID) {
+        shoot(shooter, shooter.getLookAngle(), speed, damage, minDamage, spread, effectiveRange, gun, modsUUID);
     }
 
-    public void shoot(LivingEntity shooter, Vec3 angle, float speed, float damage, float spread, float effectiveRange, IGun gun) {
-        effectiveRange *= 16;
+    public void shoot(LivingEntity shooter, Vec3 angle, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, String modsUUID) {
+        this.modsUUID = modsUUID;
+        ProjectileHandler.AmmunitionDataCache cache = ProjectileHandler.getAmmunitionDataFromCache(this.modsUUID);
+        System.out.println(cache);
+        effectiveRange *= 16 * cache.effectiveRangeRate();
         this.gun = gun;
         this.shooter = shooter;
-        this.damage = (float) (damage * (0.9f + Math.random() * 0.2f));
+        this.damage = (float) (damage * (0.95f + Math.random() * 0.1f)) * cache.baseDamageRate();
+        this.minDamage = (float) (minDamage * (0.9f + Math.random() * 0.2f)) * cache.minDamageRate();
         this.living = true;
         this.effectiveRange = effectiveRange * effectiveRange;
         this.position = new Vec3(this.shooter.getX(), this.shooter.getY()  + shooter.getEyeHeight(shooter.getPose()), this.shooter.getZ());
         this.initialPos = new Vec3(position.x, position.y, position.z);
-        speed *= CHUNK_TO_METER * CommonConfig.globalBulletSpeedModify.get();
+        speed *= CHUNK_TO_METER * CommonConfig.globalBulletSpeedModify.get() * cache.speedRate();
         spread *= BASE_SPREAD_INDEX;
         velocity = angle.normalize().add(
                 RANDOM.nextGaussian() * spread,

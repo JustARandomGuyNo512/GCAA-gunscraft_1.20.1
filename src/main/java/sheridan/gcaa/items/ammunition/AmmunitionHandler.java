@@ -107,6 +107,9 @@ public class AmmunitionHandler {
         throw new NotImplementedException();
     }
 
+    /*
+    * 清空枪械中的弹药，并将弹药还给玩家
+    * */
     public static void clearGun(Player player, IGun gun, ItemStack gunStack) {
         if (gunStack != player.getMainHandItem()) {
             return;
@@ -118,8 +121,8 @@ public class AmmunitionHandler {
         IAmmunition ammunition = gun.getGunProperties().caliber.ammunition;
         List<IAmmunitionMod> mods = new ArrayList<>();
         CompoundTag ammunitionData = gun.getGun().getAmmunitionData(gunStack);
-        if (ammunitionData.contains("using") && ammunitionData.contains("mods")) {
-            CompoundTag modsTag = ammunitionData.getCompound("mods");
+        if (ammunitionData.contains("using")) {
+            CompoundTag modsTag = ammunitionData.getCompound("using").getCompound("mods");
             mods = ammunition.getMods(modsTag);
         }
         int ammoBoxSize = ammunition.get().getMaxDamage();
@@ -150,6 +153,7 @@ public class AmmunitionHandler {
                 player.drop(stack, false);
             }
         }
+        gun.setAmmoLeft(gunStack, 0);
     }
 
     public static void reloadFor(Player player, ItemStack gunStack, IGun gun, int exceptedReloadNum) {

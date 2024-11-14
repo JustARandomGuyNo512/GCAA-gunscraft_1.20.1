@@ -145,7 +145,7 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
     }
 
     @Override
-    public List<IAmmunitionMod> getMods(ItemStack itemStack) {
+    public @NotNull List<IAmmunitionMod> getMods(ItemStack itemStack) {
         CompoundTag tag = checkAndGet(itemStack);
         if (tag.contains("mods")) {
             CompoundTag modsTag = tag.getCompound("mods");
@@ -156,7 +156,7 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
     }
 
     @Override
-    public List<IAmmunitionMod> getMods(CompoundTag modsTag) {
+    public @NotNull List<IAmmunitionMod> getMods(CompoundTag modsTag) {
         Set<String> allKeys = modsTag.getAllKeys();
         List<IAmmunitionMod> mods = new ArrayList<>();
         for (String key : allKeys) {

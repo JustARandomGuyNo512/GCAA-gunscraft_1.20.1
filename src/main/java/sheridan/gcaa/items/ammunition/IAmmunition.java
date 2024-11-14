@@ -2,6 +2,7 @@ package sheridan.gcaa.items.ammunition;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Set;
@@ -30,7 +31,9 @@ public interface IAmmunition {
     /*
      * returns the set of mods that are currently applied to the ammunition
      */
+    @NotNull
     List<IAmmunitionMod> getMods(ItemStack itemStack);
+    @NotNull
     List<IAmmunitionMod> getMods(CompoundTag modsTag);
     void addModById(String modId, ItemStack itemStack);
     void addMod(IAmmunitionMod mod, ItemStack itemStack);
