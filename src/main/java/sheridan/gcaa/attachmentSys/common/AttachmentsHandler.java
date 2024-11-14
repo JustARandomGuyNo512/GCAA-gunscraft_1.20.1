@@ -20,7 +20,10 @@ import sheridan.gcaa.items.gun.IGun;
 
 import java.util.*;
 
-
+/**
+ * @author sheridan
+ * @description 用于枪械配件的工具集
+ */
 public class AttachmentsHandler {
     public static final AttachmentsHandler INSTANCE = new AttachmentsHandler();
     static final String ROOT = AttachmentSlot.ROOT;
