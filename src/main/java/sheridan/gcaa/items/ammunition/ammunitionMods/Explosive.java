@@ -21,6 +21,9 @@ import sheridan.gcaa.utils.FontUtils;
 
 import java.awt.*;
 
+/**
+ * 高爆弹-普通子弹改装
+ */
 public class Explosive extends AmmunitionMod {
     private final float explosiveDamageRate = 0.5f;
 

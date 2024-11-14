@@ -20,6 +20,9 @@ import sheridan.gcaa.utils.FontUtils;
 
 import java.awt.*;
 
+/**
+ * 燃烧弹-普通子弹改造
+ */
 public class Incendiary extends AmmunitionMod {
     private final float fireDamageRate = 0.1f;
 
@@ -45,7 +48,13 @@ public class Incendiary extends AmmunitionMod {
     @Override
     public void onHitEntity(Projectile projectile, Entity entity, boolean isHeadSHot, IGun gun, ProjectileHandler.AmmunitionDataCache cache) {
         float baseDamage = projectile.damage / cache.baseDamageRate();
-        //TODO: 点燃目标 entity， 给予额外 10% 的燃烧伤害
+        if (!entity.fireImmune()) {
+            entity.setRemainingFireTicks(entity.getRemainingFireTicks() + 1);
+            if (entity.getRemainingFireTicks() == 0) {
+                entity.setSecondsOnFire(6);
+            }
+        }
+        entity.hurt(projectile.shooter.level().damageSources().inFire(), baseDamage * getFireDamageRate());
     }
 
     public float getFireDamageRate() {
