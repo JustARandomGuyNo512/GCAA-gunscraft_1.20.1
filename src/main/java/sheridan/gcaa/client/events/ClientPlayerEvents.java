@@ -60,6 +60,7 @@ public class ClientPlayerEvents {
             Clients.MAIN_HAND_STATUS.updatePlayerSpread(stackMain, gunMain, player);
             Clients.MAIN_HAND_STATUS.updateChargeTick(stackMain, gunMain);
             Clients.MAIN_HAND_STATUS.handleAds(stackMain, gunMain, player);
+            Clients.MAIN_HAND_STATUS.updateAmmunitionMods(stackMain, gunMain);
             if (Clients.MAIN_HAND_STATUS.attachmentsStatus.getEffectiveSight() instanceof Scope scope) {
                 scope.handleMouseSensitivity();
             }

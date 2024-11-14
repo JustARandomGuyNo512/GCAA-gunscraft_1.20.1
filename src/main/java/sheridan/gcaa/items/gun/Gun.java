@@ -142,6 +142,12 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         }
         Clients.MAIN_HAND_STATUS.spread += spread;
         setAmmoLeft(stack, getAmmoLeft(stack) > 0 ? getAmmoLeft(stack) - 1 : 0);
+        List<IAmmunitionMod> mods = Clients.MAIN_HAND_STATUS.ammunitionMods;
+        if (!mods.isEmpty()) {
+            for (IAmmunitionMod mod : mods) {
+                mod.onShootInOwnClient(this, player);
+            }
+        }
     }
 
     @OnlyIn(Dist.CLIENT)

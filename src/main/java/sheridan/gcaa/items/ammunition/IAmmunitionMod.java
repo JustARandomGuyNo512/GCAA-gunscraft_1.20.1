@@ -3,7 +3,12 @@ package sheridan.gcaa.items.ammunition;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import org.joml.Vector4i;
+import sheridan.gcaa.common.server.projetile.Projectile;
+import sheridan.gcaa.common.server.projetile.ProjectileHandler;
+import sheridan.gcaa.items.gun.IGun;
 
 public interface IAmmunitionMod {
     int defaultCost();
@@ -24,21 +29,14 @@ public interface IAmmunitionMod {
 
     void onModifyAmmunition(IAmmunition ammunition, CompoundTag dataRateTag);
 
-    default void onHitEntity() {}
+    default void onShootInServer(Projectile projectile, IGun gun) {}
+    default void onHitEntity(Projectile projectile, Entity entity, boolean isHeadSHot, IGun gun, ProjectileHandler.AmmunitionDataCache cache) {}
     default void onHitBlockServer() {}
+
+    default void onShootInOwnClient(IGun gun, Player shooter) {}
     default void onHitBlockClient() {}
 
-    /*
-    * If you want to use hooks like onHitEntity or onHitBlockServer, please return true here
-    * */
-    default boolean handleSpecialHooks() {
-        return false;
-    }
-
-    /*
-     * If you want to use hooks in client side like 'onHitBlockClient', please return true here and 'handleSpecialHooks'
-     * */
-    default boolean handleClientHooks() {
+    default boolean syncClientHooks() {
         return false;
     }
 }

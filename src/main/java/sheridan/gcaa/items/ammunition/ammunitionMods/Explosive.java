@@ -3,11 +3,15 @@ package sheridan.gcaa.items.ammunition.ammunitionMods;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import org.joml.Vector4i;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.common.server.projetile.Projectile;
+import sheridan.gcaa.common.server.projetile.ProjectileHandler;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.ammunition.AmmunitionMod;
 import sheridan.gcaa.items.ammunition.IAmmunition;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.FontUtils;
 
 import java.awt.*;
@@ -38,12 +42,12 @@ public class Explosive extends AmmunitionMod {
     }
 
     @Override
-    public boolean handleSpecialHooks() {
-        return true;
+    public void onHitEntity(Projectile projectile, Entity entity, boolean isHeadSHot, IGun gun, ProjectileHandler.AmmunitionDataCache cache) {
+
     }
 
     @Override
-    public boolean handleClientHooks() {
+    public boolean syncClientHooks() {
         return true;
     }
 }

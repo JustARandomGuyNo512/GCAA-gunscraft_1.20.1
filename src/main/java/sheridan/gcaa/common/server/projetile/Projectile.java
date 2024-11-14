@@ -56,6 +56,8 @@ public class Projectile {
     private long birthTime;
     private int latency = DISABLE_LATENCY;
     private String modsUUID;
+    private List<IAmmunitionMod> mods;
+    private ProjectileHandler.AmmunitionDataCache cache;
 
     Projectile() {
         TOTAL_NUM ++;
@@ -165,6 +167,8 @@ public class Projectile {
         latency = DISABLE_LATENCY;
         ACTIVE_NUM --;
         modsUUID = null;
+        mods = null;
+        cache = null;
     }
 
     private void onHitBlock(BlockHitResult blockHitResult) {
@@ -213,6 +217,11 @@ public class Projectile {
         }
         entity.hurt(damageSource,
                 Mth.lerp((1 - progress * progress), minDamage, damage) * CommonConfig.globalBulletDamageModify.get().floatValue());
+        if (this.mods != null) {
+            for (IAmmunitionMod mod : mods) {
+                mod.onHitEntity(this, entity, isHeadShot, gun, cache);
+            }
+        }
         living = false;
         if (Math.random() <= 0.025) {
             if (entity instanceof Chicken) {
@@ -226,19 +235,16 @@ public class Projectile {
     }
 
     public void shoot(LivingEntity shooter, Vec3 angle, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, String modsUUID) {
-        this.modsUUID = modsUUID;
-        ProjectileHandler.AmmunitionDataCache cache = ProjectileHandler.getAmmunitionDataFromCache(this.modsUUID);
-        System.out.println(cache);
-        effectiveRange *= 16 * cache.effectiveRangeRate();
+        effectiveRange *= 16;
         this.gun = gun;
         this.shooter = shooter;
-        this.damage = (float) (damage * (0.95f + Math.random() * 0.1f)) * cache.baseDamageRate();
-        this.minDamage = (float) (minDamage * (0.9f + Math.random() * 0.2f)) * cache.minDamageRate();
+        this.damage = (float) (damage * (0.95f + Math.random() * 0.1f));
+        this.minDamage = (float) (minDamage * (0.9f + Math.random() * 0.2f));
         this.living = true;
         this.effectiveRange = effectiveRange * effectiveRange;
         this.position = new Vec3(this.shooter.getX(), this.shooter.getY()  + shooter.getEyeHeight(shooter.getPose()), this.shooter.getZ());
         this.initialPos = new Vec3(position.x, position.y, position.z);
-        speed *= CHUNK_TO_METER * CommonConfig.globalBulletSpeedModify.get() * cache.speedRate();
+        speed *= CHUNK_TO_METER * CommonConfig.globalBulletSpeedModify.get();
         spread *= BASE_SPREAD_INDEX;
         velocity = angle.normalize().add(
                 RANDOM.nextGaussian() * spread,
@@ -249,6 +255,22 @@ public class Projectile {
             latency = player.latency;
             int maxAccept = CommonConfig.maxLagCompensationMilliseconds.get();
             latency = latency > maxAccept ? DISABLE_LATENCY : latency;
+        }
+        this.modsUUID = modsUUID;
+        ProjectileHandler.AmmunitionDataCache cache = ProjectileHandler.getAmmunitionDataFromCache(this.modsUUID);
+        if (cache != null && cache != ProjectileHandler.EMPTY_MODS) {
+            this.damage *= cache.baseDamageRate();
+            this.minDamage *= cache.minDamageRate();
+            this.velocity = velocity.scale(cache.speedRate());
+            this.effectiveRange *= cache.effectiveRangeRate();
+            if (!cache.mods().isEmpty()) {
+                mods = cache.mods();
+                for (IAmmunitionMod mod : mods) {
+                    mod.onShootInServer(this, gun);
+                }
+            }
+        } else {
+            this.cache = ProjectileHandler.EMPTY_MODS;
         }
         ACTIVE_NUM ++;
     }

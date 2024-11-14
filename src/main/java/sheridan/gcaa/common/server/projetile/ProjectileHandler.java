@@ -17,6 +17,7 @@ import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 @Mod.EventBusSubscriber
@@ -26,7 +27,7 @@ public class ProjectileHandler {
     private static List<Projectile> ACTIVE_PROJECTILES = null;
     private static long lastUpdate = 0;
     private static final WeakHashMap<String, AmmunitionDataCache> AMMUNITION_MODS_CACHE = new WeakHashMap<>();
-    private static final AmmunitionDataCache EMPTY_MODS = new AmmunitionDataCache(new ArrayList<>(), 1, 1, 1, 1, 1);
+    public static final AmmunitionDataCache EMPTY_MODS = new AmmunitionDataCache(new ArrayList<>(), 1, 1, 1, 1, 1);
 
     public static void clearAmmunitionModsCache() {
         AMMUNITION_MODS_CACHE.clear();
@@ -50,10 +51,11 @@ public class ProjectileHandler {
         if (tag.contains("using")) {
             CompoundTag using = tag.getCompound("using");
             CompoundTag mods = using.getCompound("mods");
-            String modsUUID = String.copyValueOf(mods.getString("modsUUID").toCharArray());
+            String modsUUID = mods.getString("modsUUID");
             if ("".equals(modsUUID)) {
                 return "";
             }
+            modsUUID = String.copyValueOf(modsUUID.toCharArray()); //to avoid memory leak
             if (!AMMUNITION_MODS_CACHE.containsKey(modsUUID)) {
                 CompoundTag dataRate = using.getCompound("data_rate");
                 IAmmunition ammunition = gun.getGunProperties().caliber.ammunition;
@@ -109,6 +111,7 @@ public class ProjectileHandler {
                 POOL.returnProjectile(projectile);
             }
         }
+
     }
 
     public record AmmunitionDataCache(List<IAmmunitionMod> mods,
@@ -118,11 +121,11 @@ public class ProjectileHandler {
         public String toString() {
             return "AmmunitionDataCache{" +
                     "mods=" + mods +
-                    ", baseDamageRate=" + baseDamageRate +
-                    ", minDamageRate=" + minDamageRate +
-                    ", penetrationRate=" + penetrationRate +
-                    ", speedRate=" + speedRate +
-                    ", effectiveRangeRate=" + effectiveRangeRate +
+                    ",\n baseDamageRate=" + baseDamageRate +
+                    ",\n minDamageRate=" + minDamageRate +
+                    ",\n penetrationRate=" + penetrationRate +
+                    ",\n speedRate=" + speedRate +
+                    ",\n effectiveRangeRate=" + effectiveRangeRate +
                     '}';
         }
     }

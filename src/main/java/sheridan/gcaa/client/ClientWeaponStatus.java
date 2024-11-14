@@ -1,6 +1,7 @@
 package sheridan.gcaa.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -11,12 +12,15 @@ import org.joml.Vector2f;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.events.RenderEvents;
+import sheridan.gcaa.items.ammunition.IAmmunitionMod;
 import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.fireModes.Charge;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -43,6 +47,8 @@ public class ClientWeaponStatus {
     public int equipDelay = 0;
     public float spread = 0;
     public float lastRecoilDirection = 1;
+    public List<IAmmunitionMod> ammunitionMods;
+    private String ammunitionModsUUID = "none";
     private static boolean switchSightTooltipShowed = false;
 
     public ClientWeaponStatus(boolean mainHand) {
@@ -54,6 +60,7 @@ public class ClientWeaponStatus {
         weapon = new AtomicReference<>(ItemStack.EMPTY);
         attachmentsStatus = new ClientAttachmentsStatus(this);
         identity = "";
+        ammunitionMods = new ArrayList<>();
     }
 
     public void handleAds(ItemStack stack, IGun gun, Player player) {
@@ -105,6 +112,29 @@ public class ClientWeaponStatus {
     public void clearCharge() {
         chargeTick = 0;
         lastChargeTick = 0;
+    }
+
+    public void updateAmmunitionMods(ItemStack stack, IGun gun) {
+        if (gun == null) {
+            ammunitionModsUUID = "none";
+            ammunitionMods.clear();
+            return;
+        }
+        CompoundTag ammunitionData = gun.getGun().getAmmunitionData(stack);
+        if (ammunitionData.contains("using")) {
+            CompoundTag using = ammunitionData.getCompound("using");
+            if (using.contains("mods")) {
+                String modsUUID = using.getCompound("mods").getString("modsUUID");
+                if (!ammunitionModsUUID.equals(modsUUID)) {
+                    ammunitionModsUUID = modsUUID;
+                    CompoundTag mods = using.getCompound("mods");
+                    ammunitionMods = gun.getGunProperties().caliber.ammunition.getMods(mods);
+                }
+                return;
+            }
+        }
+        ammunitionModsUUID = "none";
+        ammunitionMods.clear();
     }
 
     public void updateChargeTick(ItemStack stack, IGun gun) {
