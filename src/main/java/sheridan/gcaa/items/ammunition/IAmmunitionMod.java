@@ -5,6 +5,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import org.joml.Vector4i;
 import sheridan.gcaa.common.server.projetile.Projectile;
 import sheridan.gcaa.common.server.projetile.ProjectileHandler;
@@ -31,7 +33,7 @@ public interface IAmmunitionMod {
 
     default void onShootInServer(Projectile projectile, IGun gun) {}
     default void onHitEntity(Projectile projectile, Entity entity, boolean isHeadSHot, IGun gun, ProjectileHandler.AmmunitionDataCache cache) {}
-    default void onHitBlockServer() {}
+    default void onHitBlockServer(Projectile projectile, BlockHitResult hitResult, BlockState blockState) {}
 
     default void onShootInOwnClient(IGun gun, Player shooter) {}
     default void onHitBlockClient() {}

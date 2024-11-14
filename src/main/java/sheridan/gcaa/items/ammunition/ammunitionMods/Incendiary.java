@@ -4,6 +4,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.TntBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import org.joml.Vector2i;
 import org.joml.Vector4i;
 import sheridan.gcaa.GCAA;
@@ -29,6 +32,14 @@ public class Incendiary extends AmmunitionMod {
     public Component getSpecialDescription() {
         String str = Component.translatable("gcaa.ammunition_mod.incendiary_special").getString().replace("$rate", FontUtils.toPercentageStr(fireDamageRate));
         return Component.empty().append(Component.literal(str));
+    }
+
+    @Override
+    public void onHitBlockServer(Projectile projectile, BlockHitResult hitResult, BlockState blockState) {
+        if (blockState.getBlock() instanceof TntBlock tntBlock) {
+            tntBlock.onCaughtFire(blockState, projectile.shooter.level(), hitResult.getBlockPos(), hitResult.getDirection(), projectile.shooter);
+            projectile.shooter.level().removeBlock(hitResult.getBlockPos(), false);
+        }
     }
 
     @Override

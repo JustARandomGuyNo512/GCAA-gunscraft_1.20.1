@@ -7,6 +7,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.TntBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import org.joml.Vector4i;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.common.server.projetile.Projectile;
@@ -46,13 +48,21 @@ public class Explosive extends AmmunitionMod {
 
     @Override
     public void onHitEntity(Projectile projectile, Entity entity, boolean isHeadSHot, IGun gun, ProjectileHandler.AmmunitionDataCache cache) {
-//        if (entity.ignoreExplosion()) {
-//            return;
-//        }
+        if (entity.ignoreExplosion()) {
+            return;
+        }
         entity.invulnerableTime = 0;
         float baseDamage = projectile.damage / cache.baseDamageRate();
         DamageSource explosion = projectile.shooter.level().damageSources().explosion(projectile.shooter, projectile.shooter);
         entity.hurt(explosion, baseDamage * getExplosiveDamageRate());
+    }
+
+    @Override
+    public void onHitBlockServer(Projectile projectile, BlockHitResult hitResult, BlockState blockState) {
+        if (blockState.getBlock() instanceof TntBlock tntBlock) {
+            tntBlock.onCaughtFire(blockState, projectile.shooter.level(), hitResult.getBlockPos(), hitResult.getDirection(), projectile.shooter);
+            projectile.shooter.level().removeBlock(hitResult.getBlockPos(), false);
+        }
     }
 
     @Override

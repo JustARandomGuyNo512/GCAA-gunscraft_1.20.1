@@ -185,6 +185,11 @@ public class Projectile {
                 "minecraft:glass_pane".equals(BuiltInRegistries.BLOCK.getKey(block).toString()))) {
             this.shooter.level().destroyBlock(blockHitResult.getBlockPos(), false);
         }
+        if (this.mods != null) {
+            for (IAmmunitionMod mod : mods) {
+                mod.onHitBlockServer(this, blockHitResult, blockState);
+            }
+        }
         PacketHandler.simpleChannel.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
                 blockHitResult.getLocation().x,
                 blockHitResult.getLocation().y,
