@@ -1,13 +1,25 @@
 package sheridan.gcaa.items.ammunition.ammunitionMods;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.TntBlock;
+import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector2i;
+import org.joml.Vector3f;
 import org.joml.Vector4i;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.common.damageTypes.DamageTypes;
@@ -62,4 +74,23 @@ public class Incendiary extends AmmunitionMod {
         return fireDamageRate;
     }
 
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void onHitBlockClient(BlockPos pos, Vector3f hitVec, Direction direction, Vector3f normalVec, Player player) {
+        if (player != null) {
+            for (int i = 0; i < 5; i++) {
+                Vector3f particleVec = normalVec.mul(
+                        (float) (Math.random() - 0.5f),
+                        (float) (Math.random() - 0.5f),
+                        (float) (Math.random() - 0.5f)).mul(0.25f);
+                player.level().addParticle(ParticleTypes.SMOKE, hitVec.x, hitVec.y, hitVec.z, particleVec.x, particleVec.y + 0.2f, particleVec.z);
+                player.level().addParticle(ParticleTypes.FLAME, hitVec.x, hitVec.y, hitVec.z, particleVec.x, particleVec.y + 0.1f, particleVec.z);
+            }
+        }
+    }
+
+    @Override
+    public boolean syncClientHooks() {
+        return true;
+    }
 }

@@ -18,7 +18,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
@@ -61,6 +60,8 @@ import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
 import sheridan.gcaa.client.screens.AmmunitionModifyScreen;
 import sheridan.gcaa.client.screens.GunModifyScreen;
 import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.items.ammunition.AmmunitionModRegister;
+import sheridan.gcaa.items.ammunition.IAmmunitionMod;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
@@ -115,7 +116,7 @@ public class Clients {
     }
     @OnlyIn(Dist.CLIENT)
     public static void equipDelayCoolDown() {
-        MAIN_HAND_STATUS.equipDelay = Math.max(0, MAIN_HAND_STATUS.equipDelay-1);
+        MAIN_HAND_STATUS.equipDelay = Math.max(0, MAIN_HAND_STATUS.equipDelay - 1);
     }
     @OnlyIn(Dist.CLIENT)
     public static void setEquipDelay(int delay) {
@@ -466,18 +467,34 @@ public class Clients {
         return spread;
     }
 
-    public static void testPlayParticle(BlockPos pos, Vec3 vec3, int directionIndex, int force) {
-        if (force <= 0 || force >= 100) {
-            return;
-        }
+    public static void onProjectileHitBlock(BlockPos pos, Vector3f hitVec, int directionIndex, int[] modsIndexList) {
+        Direction direction = getDirection(directionIndex);
         Player player = Minecraft.getInstance().player;
+        Vector3f normalVec = getNormalVec(direction);
+        testPlayParticle(pos, hitVec, normalVec, player);
+        for (int i : modsIndexList) {
+            IAmmunitionMod mod = AmmunitionModRegister.getByIndex(i);
+            if (mod != null) {
+                mod.onHitBlockClient(pos, hitVec, direction, normalVec, player);
+            }
+        }
+    }
+
+    public static void testPlayParticle(BlockPos pos, Vector3f vec3, Vector3f normalVec, Player player) {
         if (player != null) {
             Level level = player.level();
             BlockState state = level.getBlockState(pos);
-            Direction direction = getDirection(directionIndex);
-            Vec3 particleVelocity = getParticleVelocity(direction);
-            for (int i = 0; i < force; i++) {
-                level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state.getBlock().defaultBlockState()), vec3.x + (Math.random() * 0.2 - 0.1), vec3.y + (Math.random() * 0.2 - 0.1), vec3.z + (Math.random() * 0.2 - 0.1), particleVelocity.x, particleVelocity.y, particleVelocity.z);
+            for (int i = 0; i < 8; i++) {
+                Vector3f dir = normalVec.add(
+                        (float) (Math.random() * 0.5f - 0.25f),
+                        (float) (Math.random() * 0.5f - 0.25f),
+                        (float) (Math.random() * 0.5f - 0.25f));
+                level.addParticle(new BlockParticleOption(
+                        ParticleTypes.BLOCK, state.getBlock().defaultBlockState()),
+                        vec3.x + (Math.random() * 0.2 - 0.1),
+                        vec3.y + (Math.random() * 0.2 - 0.1),
+                        vec3.z + (Math.random() * 0.2 - 0.1),
+                        dir.x, dir.y, dir.z);
             }
             float pit = (float) (1 + Math.random() * 0.2 - 0.1);
             if (state.getSoundType() == SoundType.METAL) {
@@ -490,39 +507,36 @@ public class Clients {
 
     public static Direction getDirection(int index) {
         return switch (index) {
-            case 0 -> Direction.UP;
             case 1 -> Direction.DOWN;
             case 2 -> Direction.SOUTH;
             case 3 -> Direction.NORTH;
             case 4 -> Direction.WEST;
             case 5 -> Direction.EAST;
-            default -> null;
+            default -> Direction.UP;
         };
     }
 
-    private static Vec3 getParticleVelocity(Direction direction) {
-        double seed1 = Math.random() * 0.5 - 0.25;
-        double seed2 = Math.random() * 0.5 - 0.25;
+    private static Vector3f getNormalVec(Direction direction) {
         switch (direction) {
             case UP -> {
-                return new Vec3(seed1, 1, seed2);
+                return new Vector3f(0, 1, 0);
             }
             case DOWN -> {
-                return new Vec3(seed1, -1, seed2);
+                return new Vector3f(0, -1, 0);
             }
             case SOUTH -> {
-                return new Vec3(seed1, seed2, 1);
+                return new Vector3f(0, 0, 1);
             }
             case NORTH -> {
-                return new Vec3(seed1, seed2, -1);
+                return new Vector3f(0, 0, -1);
             }
             case WEST -> {
-                return new Vec3(-1, seed1, seed2);
+                return new Vector3f(-1, 0, 0);
             }
             case EAST -> {
-                return new Vec3(1, seed1, seed2);
+                return new Vector3f(1, 0, 0);
             }
         }
-        return Vec3.ZERO;
+        return new Vector3f(0,0,0);
     }
 }

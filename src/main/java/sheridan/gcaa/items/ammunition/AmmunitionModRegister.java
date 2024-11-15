@@ -31,6 +31,10 @@ public class AmmunitionModRegister {
         return ammunitionModMap.get(id.toString()).mod;
     }
 
+    /*
+    * 通过ID获取index
+    * index是运行时生成的int编号，用于运行时快速序列化，请勿用于数据持久化
+    * */
     public static int getModIndex(String id) {
         ModEntry entry = ammunitionModMap.get(id);
         if (entry != null) {

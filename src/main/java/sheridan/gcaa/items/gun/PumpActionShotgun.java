@@ -8,6 +8,8 @@ import sheridan.gcaa.client.UnloadTask;
 import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.gun.propertyExtensions.HandActionExtension;
 import sheridan.gcaa.items.gun.propertyExtensions.SingleReloadExtension;
+import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.network.packets.c2s.ClearGunAmmoPacket;
 
 public class PumpActionShotgun extends HandActionGun{
     protected final SingleReloadExtension singleReloadExtension;
@@ -32,8 +34,9 @@ public class PumpActionShotgun extends HandActionGun{
 
     @Override
     public boolean clientReload(ItemStack stack, Player player) {
-        if (isUsingSelectedAmmo(stack)) {
-            //TODO: unload
+        if (!isUsingSelectedAmmo(stack)) {
+            PacketHandler.simpleChannel.sendToServer(new ClearGunAmmoPacket());
+            clearAmmo(stack, player);
         }
         return super.clientReload(stack, player);
     }

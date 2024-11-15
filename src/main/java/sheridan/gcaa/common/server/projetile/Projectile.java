@@ -15,18 +15,21 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
 import net.minecraftforge.network.PacketDistributor;
+import org.joml.Vector3f;
 import sheridan.gcaa.common.HeadBox;
 import sheridan.gcaa.common.damageTypes.DamageTypes;
 import sheridan.gcaa.common.damageTypes.ProjectileDamage;
 import sheridan.gcaa.entities.projectiles.Grenade;
+import sheridan.gcaa.items.ammunition.AmmunitionModRegister;
 import sheridan.gcaa.items.ammunition.IAmmunitionMod;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
-import sheridan.gcaa.network.packets.s2c.ClientPlayParticlePacket;
+import sheridan.gcaa.network.packets.s2c.ClientHitBlockPacket;
 import sheridan.gcaa.common.config.CommonConfig;
 import sheridan.gcaa.network.packets.s2c.HeadShotFeedBackPacket;
 import sheridan.gcaa.sounds.ModSounds;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -183,19 +186,32 @@ public class Projectile {
                 "minecraft:glass_pane".equals(BuiltInRegistries.BLOCK.getKey(block).toString()))) {
             this.shooter.level().destroyBlock(blockHitResult.getBlockPos(), false);
         }
+        List<Integer> clientModsIndexList = null;
         if (this.mods != null) {
             for (IAmmunitionMod mod : mods) {
                 try {
                     mod.onHitBlockServer(this, blockHitResult, blockState);
                 } catch (Exception ignored) {}
+                if (mod.syncClientHooks()) {
+                    if (clientModsIndexList == null) {
+                        clientModsIndexList = new ArrayList<>();
+                    }
+                    clientModsIndexList.add(AmmunitionModRegister.getModIndex(mod.getId().toString()));
+                }
             }
         }
+        int[] modsIndexArray = clientModsIndexList == null ? new int[0] : clientModsIndexList.stream().mapToInt(Integer::intValue).toArray();
         PacketHandler.simpleChannel.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
                 blockHitResult.getLocation().x,
                 blockHitResult.getLocation().y,
                 blockHitResult.getLocation().z,
                 36, shooter.level().dimension()
-        )), new ClientPlayParticlePacket(blockHitResult.getBlockPos(), blockHitResult.getLocation(), blockHitResult.getDirection(), 10));
+        )), new ClientHitBlockPacket(
+                blockHitResult.getBlockPos(),
+                blockHitResult.getLocation(),
+                blockHitResult.getDirection(),
+                modsIndexArray
+        ));
     }
 
     private void onHitEntity(Entity entity, Level level, Vec3 hitPos, Vec3 from, Vec3 to, AABB boxHit) {

@@ -5,6 +5,8 @@ import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.client.*;
 import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.gun.propertyExtensions.AutoShotgunExtension;
+import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.network.packets.c2s.ClearGunAmmoPacket;
 
 public class AutoShotgun extends HandActionGun {
     protected final AutoShotgunExtension autoShotgunExtension;
@@ -70,8 +72,9 @@ public class AutoShotgun extends HandActionGun {
 
     @Override
     public boolean clientReload(ItemStack stack, Player player) {
-        if (isUsingSelectedAmmo(stack)) {
-            //TODO: unload
+        if (!isUsingSelectedAmmo(stack)) {
+            PacketHandler.simpleChannel.sendToServer(new ClearGunAmmoPacket());
+            clearAmmo(stack, player);
         }
         return super.clientReload(stack, player);
     }

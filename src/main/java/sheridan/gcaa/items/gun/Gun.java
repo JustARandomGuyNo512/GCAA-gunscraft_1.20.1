@@ -485,7 +485,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
 
     @Override
     public void clearAmmo(ItemStack gunStack, Player player) {
-
+        AmmunitionHandler.clearGun(player, this, gunStack);
     }
 
     public CompoundTag checkAndGet(ItemStack stack) {

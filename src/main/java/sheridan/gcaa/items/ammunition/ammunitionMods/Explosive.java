@@ -1,5 +1,10 @@
 package sheridan.gcaa.items.ammunition.ammunitionMods;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +17,9 @@ import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Vector3f;
 import org.joml.Vector4i;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.common.server.projetile.Projectile;
@@ -69,6 +77,14 @@ public class Explosive extends AmmunitionMod {
         if (blockStateInner.getBlock() instanceof TntBlock tntBlock) {
             tntBlock.onCaughtFire(blockStateInner, projectile.shooter.level(), hitResult.getBlockPos(), hitResult.getDirection(), projectile.shooter);
             projectile.shooter.level().removeBlock(hitResult.getBlockPos(), false);
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void onHitBlockClient(BlockPos pos, Vector3f hitVec, Direction direction, Vector3f normalVec, Player player) {
+        if (player != null) {
+            player.level().addParticle(ParticleTypes.EXPLOSION, hitVec.x, hitVec.y, hitVec.z, 0, 0, 0);
         }
     }
 
