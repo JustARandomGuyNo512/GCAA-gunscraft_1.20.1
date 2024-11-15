@@ -16,16 +16,23 @@ import sheridan.gcaa.client.render.GunRenderContext;
 public class AKSuppressorModel extends MuzzleFlashRendererModel implements IAttachmentModel {
     private final ModelPart model;
     private final ModelPart muzzle;
+    private final ModelPart low;
     private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION1.texture;
 
     public AKSuppressorModel() {
         model = StatisticModel.MUZZLE_COLLECTION1.get("ak_suppressor");
         muzzle = model.getChild("ak_suppressor_muzzle");
+        low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("muzzle_collection").getChild("ak_suppressor").meshing();
     }
 
     @Override
     public void renderModel(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        context.render(model, context.getBuffer(RenderType.entityCutout(texture)));
+        if (context.useLowQuality()) {
+            low.copyFrom(model);
+            context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
+        } else {
+            context.render(model, context.getBuffer(RenderType.entityCutout(texture)));
+        }
     }
 
     @Override

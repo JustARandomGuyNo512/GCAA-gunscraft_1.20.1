@@ -16,11 +16,13 @@ import sheridan.gcaa.client.render.GunRenderContext;
 public class AKRailBracketModel implements IAttachmentModel, ISlotProviderModel {
     public final ModelPart rail;
     private final ModelPart slot_scope;
+    private final ModelPart low;
     private final ResourceLocation texture = StatisticModel.AK_STUFF1.texture;
 
     public AKRailBracketModel() {
         rail = StatisticModel.AK_STUFF1.get("rail");
         slot_scope = rail.getChild("s_rail_bracket_scope");
+        low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("ak_handguard1_rail_set1").getChild("rail").meshing();
     }
 
     @Override
@@ -38,7 +40,12 @@ public class AKRailBracketModel implements IAttachmentModel, ISlotProviderModel 
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         rail.copyFrom(pose);
-        context.render(rail, context.getBuffer(RenderType.entityCutout(texture)));
+        if (context.useLowQuality()) {
+            low.copyFrom(rail);
+            context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
+        } else {
+            context.render(rail, context.getBuffer(RenderType.entityCutout(texture)));
+        }
         context.translateTo(rail);
         context.renderEntry(attachmentRenderEntry.getChild("s_rail_bracket_scope"), slot_scope);
         rail.resetPose();

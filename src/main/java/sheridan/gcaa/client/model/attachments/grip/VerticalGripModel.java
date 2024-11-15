@@ -10,6 +10,7 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.attachments.ArmRendererModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.attachments.IDirectionalModel;
+import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -22,6 +23,7 @@ public class VerticalGripModel extends ArmRendererModel implements IAttachmentMo
     private final ModelPart body;
     private final ModelPart left_arm;
     private final ModelPart left_arm_long;
+    private final ModelPart low;
     private static final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/grips/vertical_grip.png");
 
     public VerticalGripModel() {
@@ -29,13 +31,19 @@ public class VerticalGripModel extends ArmRendererModel implements IAttachmentMo
         body = root.getChild("body").meshing();
         left_arm = root.getChild("left_arm");
         left_arm_long = root.getChild("left_arm_long");
+        low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("grip").meshing();
     }
 
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         context.pushPose();
         initTranslation(attachmentRenderEntry, context, pose);
-        context.render(body, context.getBuffer(RenderType.entityCutout(TEXTURE)));
+        if (context.useLowQuality()) {
+            low.copyFrom(body);
+            context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
+        } else {
+            context.render(body, context.getBuffer(RenderType.entityCutout(TEXTURE)));
+        }
         renderArm(false, RenderAndMathUtils.copyPoseStack(context.poseStack), context, attachmentRenderEntry);
         context.popPose();
     }

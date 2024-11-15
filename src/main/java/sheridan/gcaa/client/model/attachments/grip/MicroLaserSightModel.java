@@ -28,6 +28,7 @@ public class MicroLaserSightModel implements IAttachmentModel, IDirectionalModel
         context.pushPose();
         initTranslation(attachmentRenderEntry, context, pose);
         if (context.useLowQuality()) {
+            low.copyFrom(sight);
             context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
         } else {
             context.render(sight, context.getBuffer(RenderType.entityCutout(StatisticModel.LASER_SIGHTS.texture)));

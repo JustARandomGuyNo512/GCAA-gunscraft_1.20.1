@@ -15,6 +15,7 @@ import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.model.attachments.ArmRendererModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.attachments.IDirectionalModel;
+import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.DisplayData;
@@ -34,6 +35,7 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
     private final ModelPart left_arm, left_arm_long, body, grenade, grenade_reloading, muzzle;
     private final AnimationDefinition reload;
     private final AnimationDefinition rifle_ak_reload;
+    private final ModelPart low;
 
     private final DisplayData.MuzzleFlashEntry muzzleFlashEntry =
             new DisplayData.MuzzleFlashEntry(new MuzzleFlashDisplayData().setScale(4f), CommonMuzzleFlashes.SUPPRESSOR_COMMON);
@@ -52,6 +54,7 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
         rifle_ak_reload = ArsenalLib.loadBedRockAnimationWithSound(
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/generic/gp_25_reload_ak_rifle.animation.json")).get("reload");
         INSTANCE = this;
+        low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("gp_25").meshing();
     }
 
     public AnimationDefinition getGunReload() {
@@ -93,10 +96,15 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
         context.pushPose();
         initTranslation(attachmentRenderEntry, context, pose);
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
-        boolean hasGrenade = !context.isFirstPerson && GrenadeLauncher.hasGrenade(context.itemStack, context.gun);
-        context.render(body, vertexConsumer);
-        context.renderIf(vertexConsumer, hasGrenade, grenade);
-        context.renderIf(vertexConsumer, showAnimation, grenade_reloading);
+        if (context.useLowQuality()) {
+            low.copyFrom(body);
+            context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
+        } else {
+            boolean hasGrenade = !context.isFirstPerson && GrenadeLauncher.hasGrenade(context.itemStack, context.gun);
+            context.render(body, vertexConsumer);
+            context.renderIf(vertexConsumer, hasGrenade, grenade);
+            context.renderIf(vertexConsumer, showAnimation, grenade_reloading);
+        }
         if (lastFire != 0) {
             context.pushPose().translateTo(muzzle);
             context.renderMuzzleFlashEntry(muzzleFlashEntry, lastFire, 1f);

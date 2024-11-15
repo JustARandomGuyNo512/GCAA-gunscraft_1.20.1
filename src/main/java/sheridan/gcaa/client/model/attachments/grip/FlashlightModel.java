@@ -27,6 +27,7 @@ public class FlashlightModel implements IAttachmentModel, IDirectionalModel {
         this.body = StatisticModel.FLASHLIGHTS.get("normal");
         this.light_rear = body.getChild("light_rear_normal");
         this.light_far = body.getChild("light_far_normal");
+        this.low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("flashlights").getChild("normal").meshing();
     }
 
     @Override
@@ -35,6 +36,9 @@ public class FlashlightModel implements IAttachmentModel, IDirectionalModel {
         initTranslation(attachmentRenderEntry, context, pose);
         boolean useLow = context.useLowQuality() && low != null;
         ModelPart bodyModel = useLow ? low : body;
+        if (useLow) {
+            low.copyFrom(body);
+        }
         context.render(bodyModel, context.getBuffer(RenderType.entityCutout(useLow ?
                 StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture :
                 StatisticModel.FLASHLIGHTS.texture)));

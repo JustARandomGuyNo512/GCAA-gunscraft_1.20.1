@@ -103,7 +103,7 @@ public class PlayerArmRenderer {
                     if (usePose) {
                         sleeve.copyFrom(posePart);
                         sleeve.xScale = 1.12F * sx;
-                        sleeve.yScale = sy;
+                        sleeve.yScale = sy * 1.12f;
                         sleeve.zScale = 1.12F * sz;
                     } else {
                         poseStack.scale(1.12F, 1,1.12F);
