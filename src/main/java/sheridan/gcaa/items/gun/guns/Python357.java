@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Python357 extends Pistol {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_357_MAGNUM, 9.5f, 6f, 5f, 6.6f)
+            new Caliber(Caliber.CALIBER_357_MAGNUM, 9.5f, 6f, 5f, 6.6f, 0.65f)
                     .setAmmunition(ModItems.AMMO_357MAGNUM.get());
 
     public Python357() {

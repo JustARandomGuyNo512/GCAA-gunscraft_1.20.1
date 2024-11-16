@@ -19,19 +19,19 @@ public class ProjectilePool {
         }
     }
 
-    public Projectile getOrCreate(LivingEntity shooter, Vec3 angle, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, String modsUUID) {
+    public Projectile getOrCreate(LivingEntity shooter, Vec3 angle, float penetration, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, String modsUUID) {
         Projectile projectile = pool.pollFirst();
         if (projectile == null) {
             Projectile newProjectile = new Projectile();
-            newProjectile.shoot(shooter, angle, speed, damage, minDamage, spread, effectiveRange, gun, modsUUID);
+            newProjectile.shoot(shooter, angle, penetration, speed, damage, minDamage, spread, effectiveRange, gun, modsUUID);
             return newProjectile;
         }
-        projectile.shoot(shooter, angle, speed, damage, minDamage, spread, effectiveRange, gun, modsUUID);
+        projectile.shoot(shooter, angle, penetration, speed, damage, minDamage, spread, effectiveRange, gun, modsUUID);
         return projectile;
     }
 
-    public Projectile getOrCreate(LivingEntity shooter, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, String modsUUID) {
-        return getOrCreate(shooter, shooter.getLookAngle(), speed, damage, minDamage, spread, effectiveRange, gun, modsUUID);
+    public Projectile getOrCreate(LivingEntity shooter, float penetration, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, String modsUUID) {
+        return getOrCreate(shooter, shooter.getLookAngle(), penetration, speed, damage, minDamage, spread, effectiveRange, gun, modsUUID);
     }
 
     public void returnProjectile(Projectile projectile) {

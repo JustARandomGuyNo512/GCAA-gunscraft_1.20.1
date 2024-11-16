@@ -11,7 +11,7 @@ import java.util.List;
 
 public class G19 extends Pistol {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_9MM, 6f, 4, 3.5f, 5.5f)
+            new Caliber(Caliber.CALIBER_9MM, 6f, 4, 3.5f, 5.5f, 0.6f)
                     .setAmmunition(ModItems.AMMO_9X19MM.get());
 
     public G19() {

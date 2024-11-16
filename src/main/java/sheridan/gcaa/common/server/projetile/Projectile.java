@@ -20,6 +20,8 @@ import sheridan.gcaa.common.HeadBox;
 import sheridan.gcaa.common.damageTypes.DamageTypes;
 import sheridan.gcaa.common.damageTypes.ProjectileDamage;
 import sheridan.gcaa.entities.projectiles.Grenade;
+import sheridan.gcaa.items.ammunition.Ammunition;
+import sheridan.gcaa.items.ammunition.AmmunitionMod;
 import sheridan.gcaa.items.ammunition.AmmunitionModRegister;
 import sheridan.gcaa.items.ammunition.IAmmunitionMod;
 import sheridan.gcaa.items.gun.IGun;
@@ -55,6 +57,7 @@ public class Projectile {
     private boolean living;
     private float dis = 0;
     private long birthTime;
+    private float penetration;
     private int latency = DISABLE_LATENCY;
     private String modsUUID;
     private List<IAmmunitionMod> mods;
@@ -225,6 +228,7 @@ public class Projectile {
                 (ProjectileDamage) DamageTypes.getDamageSource(level, DamageTypes.GENERIC_PROJECTILE, null, this.shooter);
         damageSource.shooter = this.shooter;
         damageSource.gun = gun;
+        damageSource.penetration = this.penetration;
         float dis = (float) initialPos.distanceToSqr(hitPos);
         float progress = Mth.clamp(dis / effectiveRange, 0, 1);
         boolean isHeadShot = false;
@@ -255,17 +259,18 @@ public class Projectile {
         }
     }
 
-    public void shoot(LivingEntity shooter, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, String modsUUID) {
-        shoot(shooter, shooter.getLookAngle(), speed, damage, minDamage, spread, effectiveRange, gun, modsUUID);
+    public void shoot(LivingEntity shooter, float penetration, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, String modsUUID) {
+        shoot(shooter, shooter.getLookAngle(), penetration, speed, damage, minDamage, spread, effectiveRange, gun, modsUUID);
     }
 
-    public void shoot(LivingEntity shooter, Vec3 angle, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, String modsUUID) {
+    public void shoot(LivingEntity shooter, Vec3 angle, float penetration, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, String modsUUID) {
         effectiveRange *= 16;
         this.gun = gun;
         this.shooter = shooter;
         this.damage = (float) (damage * (0.95f + Math.random() * 0.1f));
         this.minDamage = (float) (minDamage * (0.9f + Math.random() * 0.2f));
         this.living = true;
+        this.penetration = penetration;
         this.effectiveRange = effectiveRange * effectiveRange;
         this.position = new Vec3(this.shooter.getX(), this.shooter.getY()  + shooter.getEyeHeight(shooter.getPose()), this.shooter.getZ());
         this.initialPos = new Vec3(position.x, position.y, position.z);
@@ -284,10 +289,11 @@ public class Projectile {
         this.modsUUID = modsUUID;
         ProjectileHandler.AmmunitionDataCache cache = ProjectileHandler.getAmmunitionDataFromCache(this.modsUUID);
         if (cache != null && cache != ProjectileHandler.EMPTY_MODS) {
-            this.damage *= cache.baseDamageRate();
-            this.minDamage *= cache.minDamageRate();
-            this.velocity = velocity.scale(cache.speedRate());
-            this.effectiveRange *= cache.effectiveRangeRate();
+            this.damage *= Math.max(cache.baseDamageRate(), Ammunition.MIN_BASE_DAMAGE_RATE);
+            this.minDamage *= Math.max(cache.minDamageRate(), Ammunition.MIN_MIN_DAMAGE_RATE);
+            this.velocity = velocity.scale(Math.max(cache.speedRate(), Ammunition.MIN_SPEED_RATE));
+            this.effectiveRange *= Math.max(cache.effectiveRangeRate(), Ammunition.MIN_EFFECTIVE_RANGE_RATE);
+            this.penetration *= Math.max(cache.penetrationRate(), Ammunition.MIN_PENETRATION_RATE);
             if (!cache.mods().isEmpty()) {
                 mods = cache.mods();
                 for (IAmmunitionMod mod : mods) {

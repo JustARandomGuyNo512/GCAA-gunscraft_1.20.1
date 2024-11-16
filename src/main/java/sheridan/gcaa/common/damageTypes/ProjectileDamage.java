@@ -17,6 +17,7 @@ import sheridan.gcaa.items.gun.IGun;
 public class ProjectileDamage extends DamageSource {
     public Entity shooter;
     public IGun gun;
+    public float penetration;
 
     public ProjectileDamage(Holder<DamageType> pType, @Nullable Entity pDirectEntity, @Nullable Entity pCausingEntity) {
         super(pType, pDirectEntity, pCausingEntity);

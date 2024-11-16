@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class Akm extends Gun {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_762X39MM,8.5f, 5f, 6f, 10.8f)
+            new Caliber(Caliber.CALIBER_762X39MM,8.5f, 5f, 6f, 10.8f, 0.85f)
                     .setAmmunition(ModItems.AMMO_7_62X39MM.get());
 
     public Akm() {

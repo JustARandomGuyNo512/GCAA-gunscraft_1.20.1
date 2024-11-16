@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class Vector45 extends Gun {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_45_ACP,7.5f, 4.5f, 4f, 5f)
+            new Caliber(Caliber.CALIBER_45_ACP,7.5f, 4.5f, 4f, 5f, 0.55f)
                     .setAmmunition(ModItems.AMMO_45ACP.get());
 
     public Vector45() {

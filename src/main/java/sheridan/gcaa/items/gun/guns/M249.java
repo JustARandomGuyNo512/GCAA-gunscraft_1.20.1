@@ -15,7 +15,7 @@ import java.util.List;
 
 public class M249 extends Gun {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_556X45MM,7f, 4.5f, 6f, 14.25f)
+            new Caliber(Caliber.CALIBER_556X45MM,7f, 4.5f, 6f, 14.25f, 0.9f)
                     .setAmmunition(ModItems.AMMO_5_56X45MM.get());
 
     public M249() {

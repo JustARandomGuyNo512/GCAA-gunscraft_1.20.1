@@ -4,6 +4,9 @@
   "package": "sheridan.gcaa.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "gcaa.refmap.json",
+  "mixins": [
+    "PenetrationMixin"
+  ],
   "client": [
     "GameRendererMixin",
     "RenderItemMixin",

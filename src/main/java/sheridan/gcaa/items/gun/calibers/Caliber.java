@@ -42,9 +42,14 @@ public class Caliber {
         this.speed = speed;
     }
 
+    public Caliber setPenetration(float penetration) {
+        this.penetration = Math.max(0, penetration);
+        return this;
+    }
+
     public Caliber(ResourceLocation name, float baseDamage, float minDamage, float effectiveRange, float speed, float penetration) {
         this(name, baseDamage, minDamage, effectiveRange, speed);
-        this.penetration = penetration;
+        this.penetration = Math.max(0, penetration);
     }
 
     public Caliber setAmmunition(IAmmunition ammunition) {
@@ -58,7 +63,7 @@ public class Caliber {
     }
 
     public void fireBullet(IAmmunition ammunition, ItemStack ammunitionStack, IGun gun, Player player, ItemStack gunStack, float spread) {
-        ProjectileHandler.fire(player, speed, baseDamage, minDamage, spread, effectiveRange, gun, gunStack);
+        ProjectileHandler.fire(player, penetration, speed, baseDamage, minDamage, spread, effectiveRange, gun, gunStack);
     }
 
     public void handleTooltip(ItemStack stack, IGun gun, Level levelIn, List<Component> tooltip, TooltipFlag flagIn, boolean detail) {

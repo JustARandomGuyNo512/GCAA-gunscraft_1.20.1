@@ -15,7 +15,8 @@ public class Xm1014 extends AutoShotgun {
     private static final CaliberGauge12 caliber =
             (CaliberGauge12) new CaliberGauge12(Caliber.CALIBER_12_GAUGE, 3.5f, 2, 3.75f, 6.25f, 8)
                     .modifySpread(1.85f)
-                    .setAmmunition(ModItems.AMMO_12GAUGE.get());
+                    .setAmmunition(ModItems.AMMO_12GAUGE.get())
+                    .setPenetration(0.35f);
 
     public Xm1014() {
         super(new GunProperties(3.8f, 1.6f, 3.7f, 1.1f, 0.2f,

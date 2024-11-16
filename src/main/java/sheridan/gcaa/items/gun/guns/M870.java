@@ -16,7 +16,8 @@ public class M870 extends PumpActionShotgun {
     private static final CaliberGauge12 caliber =
             (CaliberGauge12) new CaliberGauge12(Caliber.CALIBER_12_GAUGE, 4, 2, 4f, 6f, 8)
                     .modifySpread(1.75f)
-                    .setAmmunition(ModItems.AMMO_12GAUGE.get());
+                    .setAmmunition(ModItems.AMMO_12GAUGE.get())
+                    .setPenetration(0.35f);
 
     public M870() {
         super(new GunProperties(3.7f, 1.3f, 3.5f, 1.2f, 0.25f,

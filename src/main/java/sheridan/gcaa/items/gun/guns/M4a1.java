@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class M4a1 extends Gun {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_556X45MM,6.5f, 4f, 6.5f, 14f)
+            new Caliber(Caliber.CALIBER_556X45MM,6.5f, 4f, 6.5f, 14f, 0.9f)
                     .setAmmunition(ModItems.AMMO_5_56X45MM.get());
 
     public M4a1() {

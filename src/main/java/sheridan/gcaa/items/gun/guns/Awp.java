@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Awp extends Sniper {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_762X51MM, 22, 12, 10f, 15f)
+            new Caliber(Caliber.CALIBER_762X51MM, 22, 12, 10f, 15f, 1.2f)
                     .setAmmunition(ModItems.AMMO_7_62X51MM.get());
 
     public Awp() {

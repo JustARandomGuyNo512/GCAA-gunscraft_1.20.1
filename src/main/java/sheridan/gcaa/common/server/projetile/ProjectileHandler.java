@@ -36,13 +36,13 @@ public class ProjectileHandler {
     /*
     * This method can only be called by server thread!!!
     * */
-    public static void fire(LivingEntity shooter, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, ItemStack gunStack) {
-        Projectile bullet = POOL.getOrCreate(shooter, speed, damage, minDamage, spread, effectiveRange, gun, handleAmmunitionModsCache(gunStack, gun));
+    public static void fire(LivingEntity shooter, float penetration, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, ItemStack gunStack) {
+        Projectile bullet = POOL.getOrCreate(shooter, penetration, speed, damage, minDamage, spread, effectiveRange, gun, handleAmmunitionModsCache(gunStack, gun));
         ACTIVE_PROJECTILES.add(bullet);
     }
 
-    public static void fire(LivingEntity shooter, Vec3 angle, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, ItemStack gunStack) {
-        Projectile bullet = POOL.getOrCreate(shooter, angle, speed, damage, minDamage, spread, effectiveRange, gun, handleAmmunitionModsCache(gunStack, gun));
+    public static void fire(LivingEntity shooter, Vec3 angle, float penetration, float speed, float damage, float minDamage, float spread, float effectiveRange, IGun gun, ItemStack gunStack) {
+        Projectile bullet = POOL.getOrCreate(shooter, angle, penetration, speed, damage, minDamage, spread, effectiveRange, gun, handleAmmunitionModsCache(gunStack, gun));
         ACTIVE_PROJECTILES.add(bullet);
     }
 

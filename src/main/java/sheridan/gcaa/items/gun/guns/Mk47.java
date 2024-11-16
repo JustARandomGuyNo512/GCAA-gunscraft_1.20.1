@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class Mk47 extends Gun {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_762X39MM,8f, 5f, 6.5f, 10f)
+            new Caliber(Caliber.CALIBER_762X39MM,8f, 5f, 6.5f, 10f, 0.85f)
                     .setAmmunition(ModItems.AMMO_7_62X39MM.get());
 
     public Mk47() {
