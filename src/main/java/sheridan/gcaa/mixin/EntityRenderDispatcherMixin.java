@@ -21,7 +21,7 @@ import sheridan.gcaa.common.config.CommonConfig;
 @Mixin(EntityRenderDispatcher.class)
 public abstract class EntityRenderDispatcherMixin {
     @Inject( method = "renderHitbox", at = @At("HEAD"))
-    private static void hitBoxRenderMixin(PoseStack poseStack, VertexConsumer p_114443_, Entity entity, float p_114445_, CallbackInfo ci) {
+    private static void hitBoxRenderMixin(PoseStack poseStack, VertexConsumer vertexConsumer, Entity entity, float p_114445_, CallbackInfo ci) {
         if (!CommonConfig.enableHeadShot.get() || !HeadBox.contains(entity.getType())) {
             return;
         }
@@ -29,8 +29,8 @@ public abstract class EntityRenderDispatcherMixin {
         try {
             HeadBox box = HeadBox.getBox(entity.getType());
             if (box != null) {
-                AABB aabb = box.createAABB(entity).move(-entity.getX(), -entity.getY(), -entity.getZ());
-                LevelRenderer.renderLineBox(poseStack, p_114443_, aabb, 0.0F, 1F, 0F, 1.0F);
+                AABB aabb = box.createAABB(entity, 0).move(-entity.getX(), -entity.getY(), -entity.getZ());
+                LevelRenderer.renderLineBox(poseStack, vertexConsumer, aabb, 0.0F, 1F, 0F, 1.0F);
             }
         } catch (Exception ignored){}
         poseStack.popPose();

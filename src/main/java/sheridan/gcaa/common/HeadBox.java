@@ -28,7 +28,7 @@ public record HeadBox(float damageModify, float size, float yPos) {
     public static HeadShotResult getHeadShotResult(Entity entity, @Nullable AABB entityAABB, Vec3 startPos, Vec3 endPos) {
         HeadBox headBox = headBoxMap.get(entity.getType());
         if (headBox != null) {
-            AABB headAABB = entityAABB == null ? headBox.createAABB(entity) : headBox.createAABB(entityAABB);
+            AABB headAABB = entityAABB == null ? headBox.createAABB(entity, 0.1f) : headBox.createAABB(entityAABB, 0.1f);
             Optional<Vec3> hit = headAABB.clip(startPos, endPos);
             if (hit.isPresent()) {
                 return new HeadShotResult(headBox.damageModify, true);
@@ -45,11 +45,11 @@ public record HeadBox(float damageModify, float size, float yPos) {
         return contains(entityType) ? headBoxMap.get(entityType) : null;
     }
 
-    public AABB createAABB(Entity entity) {
-        return createAABB(entity.getBoundingBox().inflate(0, 0.3, 0));
+    public AABB createAABB(Entity entity, float inflate) {
+        return createAABB(entity.getBoundingBox(), inflate);
     }
 
-    public AABB createAABB(AABB entityAABB) {
+    public AABB createAABB(AABB entityAABB, float inflate) {
         double sx = entityAABB.getXsize();
         double sy = entityAABB.getYsize();
         double len = sx * this.size;
@@ -61,7 +61,7 @@ public record HeadBox(float damageModify, float size, float yPos) {
                 center.x + len / 2,
                 entityAABB.minY + yPos * sy + len / 2,
                 center.z + len / 2
-        );
+        ).inflate(inflate);
     }
 
     public HeadBox(float damageModify, float size, float yPos) {

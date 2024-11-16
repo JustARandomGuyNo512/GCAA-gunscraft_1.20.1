@@ -105,28 +105,31 @@ public class CommonConfig {
                 \n第二个参数：头部碰撞箱（这是一个正方体）相对于原生物碰撞箱的大小
                 第三个参数：头部碰撞箱中心相对于相对于原生物碰撞箱的高度（脚底为0，头顶为1）""");
         headshotModify = BUILDER.defineListAllowEmpty("headshot_modify", List.of(
-                "minecraft:zombie=2.0,0.75,0.8",
-                "minecraft:husk=2.0,0.8,0.82",
-                "minecraft:zombified_piglin=2.0,0.85,0.8",
-                "minecraft:piglin_brute=2.0,0.85,0.8",
-                "minecraft:piglin=2.0,0.85,0.8",
-                "minecraft:enderman=2.0,0.85,0.825",
-                "minecraft:drowned=2.0,0.75,0.8",
-                "minecraft:zombie_villager=2.0,0.9,0.8",
-                "minecraft:pillager=2.0,0.9,0.8",
-                "minecraft:evoker=2.0,0.9,0.8",
-                "minecraft:villager=1.5,0.9,0.8",
-                "minecraft:wandering_trader=1.5,0.9,0.8",
-                "minecraft:vindicator=2.0,0.9,0.8",
-                "minecraft:witch=2.0,0.9,0.8",
-                "minecraft:blaze=2.0,0.75,0.8",
-                "minecraft:skeleton=2.0,0.75,0.8",
-                "minecraft:player=1.5,0.7,0.82",
-                "minecraft:iron_golem=1.5,0.5,0.82",
-                "minecraft:snow_golem=1.5,0.9,0.8",
+                "minecraft:zombie=2.0,0.75,0.91",
+                "minecraft:husk=2.0,0.8,0.95",
+                "minecraft:zombified_piglin=2.0,0.85,0.91",
+                "minecraft:piglin_brute=2.0,0.85,0.91",
+                "minecraft:piglin=2.0,0.85,0.91",
+                "minecraft:enderman=2.0,0.85,0.88",
+                "minecraft:drowned=2.0,0.8,0.91",
+                "minecraft:zombie_villager=2.0,0.9,0.91",
+                "minecraft:pillager=2.0,0.9,0.92",
+                "minecraft:evoker=2.0,0.9,0.85",
+                "minecraft:allay=2.0,0.88,0.82",
+                "minecraft:villager=1.5,0.9,0.85",
+                "minecraft:wandering_trader=1.5,0.9,0.88",
+                "minecraft:stray=1.5,0.8,0.85",
+                "minecraft:vindicator=2.0,0.9,0.86",
+                "minecraft:witch=2.0,0.9,0.85",
+                "minecraft:blaze=2.0,0.75,0.91",
+                "minecraft:skeleton=2.0,0.75,0.87",
+                "minecraft:player=1.5,0.7,0.88",
+                "minecraft:iron_golem=1.5,0.5,0.85",
+                "minecraft:snow_golem=1.5,0.9,0.85",
                 "minecraft:vex=2.0,0.9,0.65",
-                "minecraft:warden=2.0,1.0,0.8",
-                "minecraft:creeper=2.0,0.8,0.75"), CommonConfig::verifyHeadShotModify);
+                "minecraft:warden=2.0,1.0,0.88",
+                "minecraft:creeper=2.0,0.8,0.84"
+        ), CommonConfig::verifyHeadShotModify);
         BUILDER.comment("""
                 
                 Bullet breaks glass block or glass pane.
