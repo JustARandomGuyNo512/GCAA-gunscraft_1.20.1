@@ -289,11 +289,11 @@ public class Projectile {
         this.modsUUID = modsUUID;
         ProjectileHandler.AmmunitionDataCache cache = ProjectileHandler.getAmmunitionDataFromCache(this.modsUUID);
         if (cache != null && cache != ProjectileHandler.EMPTY_MODS) {
-            this.damage *= Math.max(cache.baseDamageRate(), Ammunition.MIN_BASE_DAMAGE_RATE);
-            this.minDamage *= Math.max(cache.minDamageRate(), Ammunition.MIN_MIN_DAMAGE_RATE);
-            this.velocity = velocity.scale(Math.max(cache.speedRate(), Ammunition.MIN_SPEED_RATE));
-            this.effectiveRange *= Math.max(cache.effectiveRangeRate(), Ammunition.MIN_EFFECTIVE_RANGE_RATE);
-            this.penetration *= Math.max(cache.penetrationRate(), Ammunition.MIN_PENETRATION_RATE);
+            this.damage *= cache.baseDamageRate();
+            this.minDamage *= cache.minDamageRate();
+            this.velocity = velocity.scale(cache.speedRate());
+            this.effectiveRange *= cache.effectiveRangeRate();
+            this.penetration *= cache.penetrationRate();
             if (!cache.mods().isEmpty()) {
                 mods = cache.mods();
                 for (IAmmunitionMod mod : mods) {
