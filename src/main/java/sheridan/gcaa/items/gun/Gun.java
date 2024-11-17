@@ -625,6 +625,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         return tag.contains("ammunition_data") ? tag.getCompound("ammunition_data") : new CompoundTag();
     }
 
+    @Nullable
     public CompoundTag getUsingAmmunitionData(ItemStack itemStack) {
         CompoundTag tag = checkAndGet(itemStack);
         if (!tag.contains("ammunition_data")) {

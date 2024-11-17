@@ -170,6 +170,16 @@ public class GunRenderContext {
         }
     }
 
+    public void renderArmLong(ModelPart pose, float scale, boolean mainHand) {
+        if (isFirstPerson) {
+            if (!shouldRenderArmImmediately(mainHand, pose)) {
+                renderLongArm = true;
+                return;
+            }
+            PlayerArmRenderer.INSTANCE.renderLong(pose, scale, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
+        }
+    }
+
     public void renderArmLong(ModelPart pose, boolean mainHand) {
         if (isFirstPerson) {
             if (!shouldRenderArmImmediately(mainHand, pose)) {
@@ -185,6 +195,7 @@ public class GunRenderContext {
             PlayerArmRenderer.INSTANCE.render(pose, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
         }
     }
+
 
     private boolean shouldRenderArmImmediately(boolean mainHand, ModelPart pose) {
         AttachmentSlot armReplace = mainHand ? Clients.MAIN_HAND_STATUS.getRightArmReplace() : Clients.MAIN_HAND_STATUS.getLeftArmReplace();

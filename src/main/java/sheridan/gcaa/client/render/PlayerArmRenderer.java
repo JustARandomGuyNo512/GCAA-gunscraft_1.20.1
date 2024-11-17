@@ -64,8 +64,16 @@ public class PlayerArmRenderer {
         render(posePart, light, overlay, 1, 1, 1, mainHand, bufferSource, poseStack, true);
     }
 
+    public void render(ModelPart posePart, float scale, int light, int overlay, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack) {
+        render(posePart, light, overlay, 1 * scale, 1 * scale, 1 * scale, mainHand, bufferSource, poseStack, true);
+    }
+
     public void renderLong(ModelPart posePart, int light, int overlay, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack) {
         render(posePart, light, overlay, 1, 1.5f, 1, mainHand, bufferSource, poseStack, true);
+    }
+
+    public void renderLong(ModelPart posePart, float scale, int light, int overlay, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack) {
+        render(posePart, light, overlay, 1 * scale, 1.5f * scale, 1 * scale, mainHand, bufferSource, poseStack, true);
     }
 
     public void render(ModelPart posePart, int light, int overlay, float scale, boolean mainHand, MultiBufferSource bufferSource, PoseStack poseStack) {
