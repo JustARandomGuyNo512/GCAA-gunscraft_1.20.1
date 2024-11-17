@@ -80,6 +80,7 @@ public class ReloadingHandler {
 
     public void cancelTask() {
         if (reloadingTask != null && !reloadingTask.isCompleted()) {
+            System.out.println("Canceling reload task");
             reloadingTask.onCancel();
         }
         clearTask();
@@ -117,7 +118,7 @@ public class ReloadingHandler {
                     boolean shouldCancel = reloadingTask.restrictNBT() ?
                             !ItemStack.isSameItemSameTags(player.getMainHandItem(), reloadingTask.getStack()) :
                             !ItemStack.isSameItem(player.getMainHandItem(), reloadingTask.getStack());
-                    if (shouldCancel) {
+                    if (shouldCancel || !(player.getMainHandItem().getItem() instanceof IGun)) {
                         cancelTask();
                         return;
                     }

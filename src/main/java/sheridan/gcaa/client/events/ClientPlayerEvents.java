@@ -48,6 +48,8 @@ public class ClientPlayerEvents {
             } else {
                 Clients.MAIN_HAND_STATUS.weapon.set(ItemStack.EMPTY);
                 Clients.MAIN_HAND_STATUS.identity = "";
+//                ReloadingHandler.INSTANCE.breakTask();
+//                HandActionHandler.INSTANCE.breakTask();
             }
             if (!Objects.equals(itemIdentity, Clients.MAIN_HAND_STATUS.identity) && (lastTickHoldingGun || gunMain != null)) {
                 if (gunMain != null) {

@@ -226,6 +226,16 @@ public class AmmunitionHandler {
         return findCount;
     }
 
+    public static boolean hasAmmunitionItem(IAmmunition ammunition, Player player) {
+        NonNullList<ItemStack> items = player.getInventory().items;
+        for (ItemStack stack : items) {
+            if (stack.getItem() == ammunition) {
+                return ammunition.getAmmoLeft(stack) > 0;
+            }
+        }
+        return false;
+    }
+
     public static boolean hasAmmunition(IGun gun, ItemStack gunStack, IAmmunition ammunition, Player player) {
         NonNullList<ItemStack> items = player.getInventory().items;
         boolean isAmmunitionBind = gun.getGun().isAmmunitionBind(gunStack);

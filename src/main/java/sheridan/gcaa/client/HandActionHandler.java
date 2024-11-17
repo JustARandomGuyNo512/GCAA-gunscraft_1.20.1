@@ -6,6 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.items.gun.HandActionGun;
+import sheridan.gcaa.items.gun.IGun;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,9 +21,10 @@ public class HandActionHandler {
     public static boolean lastTaskFinished = false;
 
     public void tick(Player clientPlayer) {
-        if (handActionTask != null && !Minecraft.getInstance().isPaused() && !clientPlayer.isSpectator()) {
+        if (!Minecraft.getInstance().isPaused() && !clientPlayer.isSpectator()) {
             if (handActionTask != null) {
-                boolean shouldCancel = !ItemStack.isSameItem(clientPlayer.getMainHandItem(), handActionTask.getItemStack());
+                boolean shouldCancel = !ItemStack.isSameItem(clientPlayer.getMainHandItem(), handActionTask.getItemStack())
+                        || !(clientPlayer.getMainHandItem().getItem() instanceof IGun);
                 if (shouldCancel) {
                     lastEndTask = System.currentTimeMillis();
                     lastTaskFinished = false;
