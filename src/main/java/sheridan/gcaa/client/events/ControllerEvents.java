@@ -116,7 +116,7 @@ public class ControllerEvents {
                         iInteractive.onMouseButton(event.getButton(), event.getAction(), stack, gun, player);
                     }
                 });
-            } else if (stack.getItem() instanceof Ammunition ammunition) {
+            } else if (stack.getItem() instanceof Ammunition ammunition && event.getButton() == 1 && event.getAction() == 1) {
                 ammunition.onRightClick(player, stack);
                 event.setCanceled(true);
             }

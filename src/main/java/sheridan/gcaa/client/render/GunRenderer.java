@@ -121,7 +121,7 @@ public class GunRenderer{
                     if (isLocalPlayer) {
                         model.render(GunRenderContext.getClientMainHand(bufferIn, stackIn, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn));
                     } else {
-                        long lastShoot = PlayerStatusProvider.getStatus(player).getLastShoot() + 80L;
+                        long lastShoot = PlayerStatusProvider.getStatus(player).getLastShoot() + 75L;
                         model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry, lastShoot, true));
                     }
                 }
