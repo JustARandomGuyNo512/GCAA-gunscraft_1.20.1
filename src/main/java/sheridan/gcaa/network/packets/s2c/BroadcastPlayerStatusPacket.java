@@ -13,14 +13,18 @@ public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatu
     public int id;
     public long lastShoot;
     public long lastChamberAction;
+    public long localTimeOffset;
+    public int latency;
     public boolean reloading;
 
     public BroadcastPlayerStatusPacket() {}
 
-    public BroadcastPlayerStatusPacket(int id, long lastShootLeft, long lastChamberAction, boolean reloading) {
+    public BroadcastPlayerStatusPacket(int id, long lastShootLeft, long lastChamberAction, long localTimeOffset, int latency, boolean reloading) {
         this.id = id;
         this.lastShoot = lastShootLeft;
         this.lastChamberAction = lastChamberAction;
+        this.localTimeOffset = localTimeOffset;
+        this.latency = latency;
         this.reloading = reloading;
     }
 
@@ -29,6 +33,8 @@ public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatu
         buffer.writeInt(message.id);
         buffer.writeLong(message.lastShoot);
         buffer.writeLong(message.lastChamberAction);
+        buffer.writeLong(message.localTimeOffset);
+        buffer.writeInt(message.latency);
         buffer.writeBoolean(message.reloading);
     }
 
@@ -38,6 +44,8 @@ public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatu
         packet.id = buffer.readInt();
         packet.lastShoot = buffer.readLong();
         packet.lastChamberAction = buffer.readLong();
+        packet.localTimeOffset = buffer.readLong();
+        packet.latency = buffer.readInt();
         packet.reloading = buffer.readBoolean();
         return packet;
     }
@@ -49,6 +57,8 @@ public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatu
                         message.id,
                         message.lastShoot,
                         message.lastChamberAction,
+                        message.localTimeOffset,
+                        message.latency,
                         message.reloading
                 )));
         supplier.get().setPacketHandled(true);

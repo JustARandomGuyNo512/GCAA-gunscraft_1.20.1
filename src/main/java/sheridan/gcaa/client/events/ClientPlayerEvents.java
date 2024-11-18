@@ -8,11 +8,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.SprintingHandler;
@@ -34,6 +36,7 @@ public class ClientPlayerEvents {
         }
         if (event.phase == TickEvent.Phase.START) {
             Clients.clientPlayerId = player.getId();
+            Clients.localTimeOffset = System.currentTimeMillis() - player.level().getGameTime() * 50;
             ItemStack stackMain = player.getMainHandItem();
             IGun gunMain = stackMain.getItem() instanceof IGun ? (IGun) stackMain.getItem() : null;
             boolean lastTickHoldingGun = Clients.MAIN_HAND_STATUS.holdingGun.get();
@@ -48,8 +51,6 @@ public class ClientPlayerEvents {
             } else {
                 Clients.MAIN_HAND_STATUS.weapon.set(ItemStack.EMPTY);
                 Clients.MAIN_HAND_STATUS.identity = "";
-//                ReloadingHandler.INSTANCE.breakTask();
-//                HandActionHandler.INSTANCE.breakTask();
             }
             if (!Objects.equals(itemIdentity, Clients.MAIN_HAND_STATUS.identity) && (lastTickHoldingGun || gunMain != null)) {
                 if (gunMain != null) {
@@ -86,6 +87,13 @@ public class ClientPlayerEvents {
                 Clients.MAIN_HAND_STATUS.spread += 0.5f;
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void clientJoinGame(ClientPlayerNetworkEvent.LoggingIn event) {
+        //make initial sync for player status
+        PlayerStatusProvider.getStatus(event.getPlayer()).setLastShoot(1L);
+
     }
 
 }

@@ -11,13 +11,15 @@ import java.util.function.Supplier;
 public class SyncPlayerStatusPacket implements IPacket<SyncPlayerStatusPacket> {
     public long lastShoot;
     public long lastChamberAction;
+    public long localTimeOffset;
     public boolean reloading;
 
     public SyncPlayerStatusPacket() {}
 
-    public SyncPlayerStatusPacket(long lastShootLeft, long lastChamberAction, boolean reloading) {
+    public SyncPlayerStatusPacket(long lastShootLeft, long lastChamberAction, long localTimeOffset, boolean reloading) {
         this.lastShoot = lastShootLeft;
         this.lastChamberAction = lastChamberAction;
+        this.localTimeOffset = localTimeOffset;
         this.reloading = reloading;
     }
 
@@ -25,6 +27,7 @@ public class SyncPlayerStatusPacket implements IPacket<SyncPlayerStatusPacket> {
     public void encode(SyncPlayerStatusPacket message, FriendlyByteBuf buffer) {
         buffer.writeLong(message.lastShoot);
         buffer.writeLong(message.lastChamberAction);
+        buffer.writeLong(message.localTimeOffset);
         buffer.writeBoolean(message.reloading);
     }
 
@@ -33,6 +36,7 @@ public class SyncPlayerStatusPacket implements IPacket<SyncPlayerStatusPacket> {
         SyncPlayerStatusPacket packet = new SyncPlayerStatusPacket();
         packet.lastShoot = buffer.readLong();
         packet.lastChamberAction = buffer.readLong();
+        packet.localTimeOffset = buffer.readLong();
         packet.reloading = buffer.readBoolean();
         return packet;
     }
@@ -46,6 +50,8 @@ public class SyncPlayerStatusPacket implements IPacket<SyncPlayerStatusPacket> {
                     capability.setLastShoot(message.lastShoot);
                     capability.setLastChamberAction(message.lastChamberAction);
                     capability.setReloading(message.reloading);
+                    capability.setLocalTimeOffset(message.localTimeOffset);
+                    capability.serverSetLatency(player);
                     capability.dataChanged = true;
                 }));
             }

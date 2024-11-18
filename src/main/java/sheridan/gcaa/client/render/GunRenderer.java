@@ -14,6 +14,7 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.capability.PlayerStatus;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
@@ -117,12 +118,14 @@ public class GunRenderer{
                 if (entityIn instanceof Player player) {
                     stackIn.mulPose(Axis.ZP.rotationDegrees(180));
                     displayData.applyTransform(type, stackIn);
-                    boolean isLocalPlayer = player == Minecraft.getInstance().player;
+                    boolean isLocalPlayer = entityIn.getId() == Clients.clientPlayerId;
                     if (isLocalPlayer) {
                         model.render(GunRenderContext.getClientMainHand(bufferIn, stackIn, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn));
                     } else {
-                        long lastShoot = PlayerStatusProvider.getStatus(player).getLastShoot() + 75L;
-                        model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry, lastShoot, true));
+                        PlayerStatus status = PlayerStatusProvider.getStatus(player);
+                        long timeDist = status.getLocalTimeOffset() - Clients.localTimeOffset;
+                        long currentLastShoot = status.getLastShoot() - timeDist + status.getLatency() + Clients.getLocalLatency() + 50L;
+                        model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry, currentLastShoot, true));
                     }
                 }
             }

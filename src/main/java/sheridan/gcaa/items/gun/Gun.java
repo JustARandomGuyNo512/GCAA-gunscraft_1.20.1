@@ -97,6 +97,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
         Clients.MAIN_HAND_STATUS.lastShoot = System.currentTimeMillis();
         PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
+        PlayerStatusProvider.updateLocalTimeOffset(player);
         PacketHandler.simpleChannel.sendToServer(new GunFirePacket(Clients.getSpread(this, player, stack)));
         DisplayData data = GunModelRegister.getDisplayData(this);
         IArmReplace leftArmReplace = Clients.MAIN_HAND_STATUS.getLeftArmReplaceAttachment();

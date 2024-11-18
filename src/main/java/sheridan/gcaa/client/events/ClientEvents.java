@@ -8,11 +8,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.items.AutoRegister;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class ClientEvents {
+    private static int timeOffsetSyncTick = 0;
 
     @SubscribeEvent
     public static void onTick(TickEvent.ClientTickEvent event) {
@@ -41,6 +43,11 @@ public class ClientEvents {
             }
             Clients.lastClientTick = System.currentTimeMillis();
             Clients.equipDelayCoolDown();
+            if (timeOffsetSyncTick == 20 && player != null) {
+                PlayerStatusProvider.updateLocalTimeOffset(player);
+                timeOffsetSyncTick = 0;
+            }
+            timeOffsetSyncTick++;
         }
     }
 

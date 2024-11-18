@@ -69,6 +69,8 @@ import sheridan.gcaa.lib.ArsenalLib;
 import sheridan.gcaa.sounds.ModSounds;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
@@ -148,6 +150,10 @@ public class Clients {
     public static boolean isInSprintingTransAdjust = false;
     @OnlyIn(Dist.CLIENT)
     public static RenderLevelStageEvent.Stage currentStage;
+    @OnlyIn(Dist.CLIENT)
+    public static Map<Integer, Integer> playerTimeDistMap = new HashMap<>();
+    @OnlyIn(Dist.CLIENT)
+    public static long localTimeOffset = 0;
 
 
     @OnlyIn(Dist.CLIENT)
@@ -385,7 +391,7 @@ public class Clients {
         return disSq >= rangeSq ? 0 : (1 - disSq / rangeSq);
     }
 
-    public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, boolean reloading) {
+    public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, long localTimeOffset, int latency, boolean reloading) {
         ClientLevel clientLevel = Minecraft.getInstance().level;
         if (clientLevel != null) {
             Entity entity = clientLevel.getEntity(id);
@@ -394,10 +400,21 @@ public class Clients {
                     cap.setLastShoot(lastShoot);
                     cap.setReloading(reloading);
                     cap.setLastChamberAction(lastChamber);
+                    cap.setLocalTimeOffset(localTimeOffset);
+                    cap.setLatency(latency);
                     cap.dataChanged = false;
                 });
             }
         }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static int getLocalLatency() {
+        Player player = Minecraft.getInstance().player;
+        if (player != null) {
+            return PlayerStatusProvider.getStatus(player).getLatency();
+        }
+        return 0;
     }
 
     public static void updateGunModifyScreenGuiContext(ListTag attachmentsTag) {

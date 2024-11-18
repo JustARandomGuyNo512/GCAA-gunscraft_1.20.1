@@ -1,15 +1,11 @@
 package sheridan.gcaa.capability;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.SyncPlayerStatusPacket;
 import sheridan.gcaa.network.packets.s2c.BroadcastPlayerStatusPacket;
@@ -23,14 +19,21 @@ public class PlayerStatusEvents {
     }
 
     @SubscribeEvent
-    public static void playerServerTick(TickEvent.PlayerTickEvent event) {
+    public static void playerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             Player player = event.player;
             if (!event.player.level().isClientSide()) {
                 player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
                     if (cap.dataChanged) {
                         PacketHandler.simpleChannel.send(PacketDistributor.TRACKING_ENTITY.with(() -> event.player),
-                                new BroadcastPlayerStatusPacket(player.getId(), cap.getLastShoot(), cap.getLastChamberAction(), cap.isReloading()));
+                                new BroadcastPlayerStatusPacket(
+                                        player.getId(),
+                                        cap.getLastShoot(),
+                                        cap.getLastChamberAction(),
+                                        cap.getLocalTimeOffset(),
+                                        cap.getLatency(),
+                                        cap.isReloading()
+                                ));
                         cap.dataChanged = false;
                     }
                 });
@@ -38,7 +41,12 @@ public class PlayerStatusEvents {
                 player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
                     if (cap.dataChanged) {
                         PacketHandler.simpleChannel.sendToServer(
-                                new SyncPlayerStatusPacket(cap.getLastShoot(), cap.getLastChamberAction(), cap.isReloading()));
+                                new SyncPlayerStatusPacket(
+                                        cap.getLastShoot(),
+                                        cap.getLastChamberAction(),
+                                        cap.getLocalTimeOffset(),
+                                        cap.isReloading()
+                                ));
                         cap.dataChanged = false;
                     }
                 });

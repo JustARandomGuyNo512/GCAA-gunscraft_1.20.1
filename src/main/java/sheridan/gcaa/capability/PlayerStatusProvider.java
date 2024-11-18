@@ -1,8 +1,10 @@
 package sheridan.gcaa.capability;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -65,6 +67,24 @@ public class PlayerStatusProvider implements ICapabilityProvider, INBTSerializab
         }
         player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
             cap.setLastChamberAction(lastChamberAction);
+        });
+    }
+
+    public static void updateLocalTimeOffset(Player player)  {
+        if (player == null) {
+            return;
+        }
+        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
+            cap.setLocalTimeOffset(System.currentTimeMillis() - player.level().getGameTime() * 50);
+        });
+    }
+
+    public static void serverSetLatency(ServerPlayer player)  {
+        if (player == null) {
+            return;
+        }
+        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
+            cap.serverSetLatency(player);
         });
     }
 
