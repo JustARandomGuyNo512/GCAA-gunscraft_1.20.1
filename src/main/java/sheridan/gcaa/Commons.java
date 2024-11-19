@@ -1,5 +1,6 @@
 package sheridan.gcaa;
 
+import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
@@ -10,6 +11,8 @@ import sheridan.gcaa.items.attachments.replaceableParts.Mk47Handguard;
 import sheridan.gcaa.items.attachments.replaceableParts.RecoilControlPart;
 import sheridan.gcaa.items.attachments.replaceableParts.RecoilLowerPart;
 import sheridan.gcaa.items.attachments.replaceableParts.WeightPart;
+import sheridan.gcaa.service.ProductsRegister;
+import sheridan.gcaa.service.product.CommonProduct;
 
 import java.util.HashSet;
 import java.util.List;
@@ -144,5 +147,13 @@ public class Commons {
                         "gcaa:gp_25")).lower()),
                 Mk47AttachmentSlotProxy::new
         );
+
+
+        ProductsRegister.registerProducts(ProductsRegister.EXCHANGE,
+                new CommonProduct(Items.GOLD_INGOT, 100),
+                new CommonProduct(Items.DIAMOND, 200),
+                new CommonProduct(Items.IRON_INGOT, 20));
+
+
     }
 }

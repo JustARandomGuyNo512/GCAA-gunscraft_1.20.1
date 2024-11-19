@@ -1,12 +1,15 @@
 package sheridan.gcaa.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -26,12 +29,14 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.extensions.IForgeBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import sheridan.gcaa.client.screens.containers.providers.VendingMachineMenuProvider;
+import sheridan.gcaa.items.TransactionTerminal;
 
 public class VendingMachine extends HorizontalDirectionalBlock implements IForgeBlock {
-
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final VoxelShape VOXEL_SHAPE = Block.box(0.5, 0, 0.5, 15.5, 16, 15.5);
+
 
     protected VendingMachine(Properties pProperties) {
         super(pProperties);
@@ -75,11 +80,16 @@ public class VendingMachine extends HorizontalDirectionalBlock implements IForge
     public @NotNull InteractionResult use(@NotNull BlockState blockState, Level level, @NotNull BlockPos blockPos,
                                           @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
         if (!level.isClientSide) {
+            if (player.getMainHandItem().getItem() instanceof TransactionTerminal) {
+                player.openMenu(new VendingMachineMenuProvider(level, blockPos));
+                player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
 
-            //player.openMenu(new VendingMachineMenuProvider());
-            //player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
+                //充值：minecraft兑换成金额 交易页1
+                //交易：金额兑换成物品 交易页2
+            } else {
+                player.sendSystemMessage(Component.translatable("tooltip.screen_info.need_terminal"));
+            }
             return InteractionResult.CONSUME;
-
         }
         return InteractionResult.SUCCESS;
     }

@@ -91,6 +91,8 @@ public class ModItems {
     public static final RegistryObject<MicroFlashLight> MICRO_FLASHLIGHT = ITEMS.register("micro_flashlight", MicroFlashLight::new);
     public static final RegistryObject<NormalFlashlight> FLASHLIGHT = ITEMS.register("flashlight", NormalFlashlight::new);
 
+    public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
+
     public static final RegistryObject<Item> AMMUNITION_PROCESSOR = ITEMS.register("ammunition_processor", () -> new BlockItem(ModBlocks.AMMUNITION_PROCESSOR.get(), new Item.Properties()));
     public static final RegistryObject<Item> VENDING_MACHINE = ITEMS.register("vending_machine", () -> new BlockItem(ModBlocks.VENDING_MACHINE.get(), new Item.Properties()));
 

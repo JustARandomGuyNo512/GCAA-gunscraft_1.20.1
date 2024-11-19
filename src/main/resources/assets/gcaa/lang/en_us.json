@@ -121,6 +121,9 @@
   "tooltip.screen_info.ammunition_manage_cool_down": "Ammunition manage function cooling",
   "tooltip.screen_info.no_ammo": "No @ammo carried or this type of ammunition is depleted" ,
   "tooltip.screen_info.unmodified": "(unmodified)",
+  "tooltip.screen_info.need_terminal": "Please use the trading terminal to open",
+  "tooltip.screen_info.balance": "Balance: ",
+  "tooltip.screen_info.worth": "Worth: ",
 
   "gcaa.unit.chunk_pre_second": "Chunks/s",
   "gcaa.unit.chunk": "Chunk",

@@ -28,7 +28,7 @@ import sheridan.gcaa.attachmentSys.AttachmentSlotProxy;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.events.RenderEvents;
-import sheridan.gcaa.client.screens.componets.OptionalImageButton;
+import sheridan.gcaa.client.screens.components.OptionalImageButton;
 import sheridan.gcaa.client.screens.containers.GunModifyMenu;
 import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.attachments.IAttachment;

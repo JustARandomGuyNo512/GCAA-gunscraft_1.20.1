@@ -59,6 +59,7 @@ import sheridan.gcaa.client.render.fx.muzzleFlash.CommonMuzzleFlashes;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
 import sheridan.gcaa.client.screens.AmmunitionModifyScreen;
 import sheridan.gcaa.client.screens.GunModifyScreen;
+import sheridan.gcaa.client.screens.VendingMachineScreen;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.ammunition.AmmunitionModRegister;
 import sheridan.gcaa.items.ammunition.IAmmunitionMod;
@@ -391,7 +392,7 @@ public class Clients {
         return disSq >= rangeSq ? 0 : (1 - disSq / rangeSq);
     }
 
-    public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, long localTimeOffset, int latency, boolean reloading) {
+    public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, long localTimeOffset, int latency, long balance, boolean reloading) {
         ClientLevel clientLevel = Minecraft.getInstance().level;
         if (clientLevel != null) {
             Entity entity = clientLevel.getEntity(id);
@@ -402,6 +403,7 @@ public class Clients {
                     cap.setLastChamberAction(lastChamber);
                     cap.setLocalTimeOffset(localTimeOffset);
                     cap.setLatency(latency);
+                    cap.setBalance(balance);
                     cap.dataChanged = false;
                 });
             }
@@ -423,6 +425,12 @@ public class Clients {
             if (player.getMainHandItem().getItem() instanceof IGun gun) {
                 attachmentsScreen.updateGuiContext(attachmentsTag, gun);
             }
+        }
+    }
+
+    public static void updateVendingMachineScreen(long balance) {
+        if (Minecraft.getInstance().screen instanceof VendingMachineScreen vendingMachineScreen) {
+            vendingMachineScreen.handleUpdate(balance);
         }
     }
 

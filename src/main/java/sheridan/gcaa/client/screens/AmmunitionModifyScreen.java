@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
 import org.joml.Vector4i;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.client.screens.componets.OptionalImageButton;
+import sheridan.gcaa.client.screens.components.OptionalImageButton;
 import sheridan.gcaa.client.screens.containers.AmmunitionModifyMenu;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.ammunition.AmmunitionModRegister;

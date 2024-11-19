@@ -93,6 +93,7 @@ public class ModTabs {
                 .displayItems((parameters, tab) -> {
                     tab.accept(ModItems.AMMUNITION_PROCESSOR.get());
                     tab.accept(ModItems.VENDING_MACHINE.get());
+                    tab.accept(ModItems.TRANSACTION_TERMINAL.get());
                 }).build());
     }
 

@@ -15,16 +15,18 @@ public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatu
     public long lastChamberAction;
     public long localTimeOffset;
     public int latency;
+    public long balance;
     public boolean reloading;
 
     public BroadcastPlayerStatusPacket() {}
 
-    public BroadcastPlayerStatusPacket(int id, long lastShootLeft, long lastChamberAction, long localTimeOffset, int latency, boolean reloading) {
+    public BroadcastPlayerStatusPacket(int id, long lastShootLeft, long lastChamberAction, long localTimeOffset, int latency, long balance, boolean reloading) {
         this.id = id;
         this.lastShoot = lastShootLeft;
         this.lastChamberAction = lastChamberAction;
         this.localTimeOffset = localTimeOffset;
         this.latency = latency;
+        this.balance = balance;
         this.reloading = reloading;
     }
 
@@ -35,6 +37,7 @@ public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatu
         buffer.writeLong(message.lastChamberAction);
         buffer.writeLong(message.localTimeOffset);
         buffer.writeInt(message.latency);
+        buffer.writeLong(message.balance);
         buffer.writeBoolean(message.reloading);
     }
 
@@ -46,6 +49,7 @@ public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatu
         packet.lastChamberAction = buffer.readLong();
         packet.localTimeOffset = buffer.readLong();
         packet.latency = buffer.readInt();
+        packet.balance = buffer.readLong();
         packet.reloading = buffer.readBoolean();
         return packet;
     }
@@ -59,6 +63,7 @@ public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatu
                         message.lastChamberAction,
                         message.localTimeOffset,
                         message.latency,
+                        message.balance,
                         message.reloading
                 )));
         supplier.get().setPacketHandled(true);

@@ -2,7 +2,6 @@ package sheridan.gcaa.capability;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 
 public class PlayerStatus {
     public static final PlayerStatus EMPTY;
@@ -13,6 +12,7 @@ public class PlayerStatus {
         EMPTY.lastChamberAction = -1L;
         EMPTY.localTimeOffset = -1L;
         EMPTY.latency = -1;
+        EMPTY.balance = -1;
         EMPTY.reloading = false;
         EMPTY.dataChanged = false;
     }
@@ -24,9 +24,12 @@ public class PlayerStatus {
     private boolean reloading;
     private long localTimeOffset;
     private int latency;
+    private long balance;
     public boolean dataChanged;
 
-    public void saveToNbt(CompoundTag tag) {}
+    public void saveToNbt(CompoundTag tag) {
+        tag.putLong("balance", balance);
+    }
 
     public void readFromNbt(CompoundTag tag) {
         lastShoot = 0L;
@@ -35,6 +38,11 @@ public class PlayerStatus {
         latency = 0;
         reloading = false;
         dataChanged = true;
+        if (tag.contains("balance")) {
+            balance = tag.getLong("balance");
+        } else {
+            balance = 0;
+        }
     }
 
     public long getLastShoot() {
@@ -48,8 +56,23 @@ public class PlayerStatus {
         }
     }
 
+    public long getBalance() {
+        return balance;
+    }
+
     public void serverSetLatency(ServerPlayer player) {
         this.latency = player.latency;
+    }
+
+    public void serverSetBalance(long balance) {
+        if (balance >= 0 && balance != this.balance) {
+            this.balance = balance;
+            dataChanged = true;
+        }
+    }
+
+    public void setBalance(long balance) {
+        this.balance = balance;
     }
 
     public void setLatency(int latency) {
@@ -93,4 +116,7 @@ public class PlayerStatus {
         }
     }
 
+    public void copyFrom(PlayerStatus oldData) {
+        serverSetBalance(oldData.getBalance());
+    }
 }

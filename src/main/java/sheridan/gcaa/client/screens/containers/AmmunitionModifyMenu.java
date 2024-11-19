@@ -31,18 +31,6 @@ public class AmmunitionModifyMenu extends AbstractContainerMenu {
         }
     }
 
-    public static class ResSlot extends Slot {
-
-        public ResSlot(Container pContainer, int pSlot, int pX, int pY) {
-            super(pContainer, pSlot, pX, pY);
-        }
-
-        @Override
-        public boolean mayPlace(@NotNull ItemStack pStack) {
-            return false;
-        }
-    }
-
     public AmmunitionModifyMenu(int i, Inventory inventory, Level level, BlockPos pos) {
         super(ModContainers.AMMUNITION_MODIFY_MENU.get(), i);
         playerInventory = inventory;
