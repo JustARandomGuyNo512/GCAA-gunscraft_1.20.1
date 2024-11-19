@@ -392,7 +392,8 @@ public class Clients {
         return disSq >= rangeSq ? 0 : (1 - disSq / rangeSq);
     }
 
-    public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, long localTimeOffset, int latency, long balance, boolean reloading) {
+    public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, long localTimeOffset,
+                                                int latency, long balance, boolean reloading) {
         ClientLevel clientLevel = Minecraft.getInstance().level;
         if (clientLevel != null) {
             Entity entity = clientLevel.getEntity(id);

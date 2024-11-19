@@ -12,7 +12,6 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.SyncPlayerStatusPacket;
 import sheridan.gcaa.network.packets.s2c.BroadcastPlayerStatusPacket;
-import sheridan.gcaa.network.packets.s2c.UpdateVendingMachineScreenPacket;
 
 @Mod.EventBusSubscriber(modid = GCAA.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class PlayerStatusEvents {
@@ -71,36 +70,21 @@ public class PlayerStatusEvents {
                         cap.getLocalTimeOffset(),
                         cap.getLatency(),
                         cap.getBalance(),
-                        cap.isReloading()
-                )));
+                        cap.isReloading())));
     }
 
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
-        // 检查玩家是否死亡导致的克隆
         if (event.isWasDeath()) {
-            // 获取旧的玩家实例和新的玩家实例
             Player original = event.getOriginal();
             Player newPlayer = event.getEntity();
-
-            PlayerStatus oldStatus = PlayerStatusProvider.getStatus(original);
-            PlayerStatus newStatus = PlayerStatusProvider.getStatus(newPlayer);
-            System.out.println(oldStatus.getBalance() + " old");
-            System.out.println(newStatus.getBalance() + " new");
-
-            // 检查和传递 Capability 数据
+            original.reviveCaps();
             original.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent(oldData ->
-                    {
-                        System.out.println("Old data: " + oldData.getBalance());
-                        newPlayer.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent(newData -> {
-                            // 将旧数据复制到新实例中
-                            System.out.println("copying old data to new player");
-                            newData.copyFrom(oldData);
-                            System.out.println(newData.getBalance());
-                        });
-                    }
+                    newPlayer.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent(newData -> {
+                        newData.copyFrom(oldData);
+                    })
             );
-            System.out.println(PlayerStatusProvider.getStatus(newPlayer).getBalance() + "<=");
+            original.invalidateCaps();
         }
     }
 

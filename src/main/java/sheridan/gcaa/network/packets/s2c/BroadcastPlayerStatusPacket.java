@@ -20,7 +20,8 @@ public class BroadcastPlayerStatusPacket implements IPacket<BroadcastPlayerStatu
 
     public BroadcastPlayerStatusPacket() {}
 
-    public BroadcastPlayerStatusPacket(int id, long lastShootLeft, long lastChamberAction, long localTimeOffset, int latency, long balance, boolean reloading) {
+    public BroadcastPlayerStatusPacket(int id, long lastShootLeft, long lastChamberAction, long localTimeOffset,
+                                       int latency, long balance, boolean reloading) {
         this.id = id;
         this.lastShoot = lastShootLeft;
         this.lastChamberAction = lastChamberAction;

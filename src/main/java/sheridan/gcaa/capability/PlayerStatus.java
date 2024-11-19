@@ -12,7 +12,7 @@ public class PlayerStatus {
         EMPTY.lastChamberAction = -1L;
         EMPTY.localTimeOffset = -1L;
         EMPTY.latency = -1;
-        EMPTY.balance = -1;
+        EMPTY.balance = -1L;
         EMPTY.reloading = false;
         EMPTY.dataChanged = false;
     }

@@ -21,6 +21,8 @@ import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.client.render.JumpBobbingHandler;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.network.packets.c2s.RequestDataSyncPacket;
 
 import java.util.Objects;
 
@@ -91,9 +93,13 @@ public class ClientPlayerEvents {
 
     @SubscribeEvent
     public static void clientJoinGame(ClientPlayerNetworkEvent.LoggingIn event) {
-        //make initial sync for player status
         PlayerStatusProvider.getStatus(event.getPlayer()).setLastShoot(1L);
+        PlayerStatusProvider.updateLocalTimeOffset(event.getPlayer());
+    }
 
+    @SubscribeEvent
+    public static void onPlayerRespawn(ClientPlayerNetworkEvent.Clone event) {
+        PacketHandler.simpleChannel.sendToServer(new RequestDataSyncPacket());
     }
 
 }

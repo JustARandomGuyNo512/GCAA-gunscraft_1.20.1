@@ -1,10 +1,8 @@
 package sheridan.gcaa.capability;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -18,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 public class PlayerStatusProvider implements ICapabilityProvider, INBTSerializable {
     public PlayerStatus playerStatus;
     public static final Capability<PlayerStatus> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
-    public final LazyOptional<PlayerStatus> longLazyOptional = LazyOptional.of( () -> playerStatus);
+    public final LazyOptional<PlayerStatus> longLazyOptional = LazyOptional.of(() -> playerStatus);
 
     public PlayerStatusProvider() {
         this.playerStatus = new PlayerStatus();
@@ -65,25 +63,22 @@ public class PlayerStatusProvider implements ICapabilityProvider, INBTSerializab
         if (player == null) {
             return;
         }
-        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
-            cap.setLastChamberAction(lastChamberAction);
-        });
+        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) ->
+                cap.setLastChamberAction(lastChamberAction));
     }
 
     public static void updateLocalTimeOffset(Player player)  {
         if (player == null) {
             return;
         }
-        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
-            cap.setLocalTimeOffset(System.currentTimeMillis() - player.level().getGameTime() * 50);
-        });
+        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) ->
+                cap.setLocalTimeOffset(System.currentTimeMillis() - player.level().getGameTime() * 50));
     }
 
     public static void setReloading(Player player, boolean reloading)  {
         if (player != null) {
-            player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
-                cap.setReloading(reloading);
-            });
+            player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) ->
+                    cap.setReloading(reloading));
         }
     }
 }
