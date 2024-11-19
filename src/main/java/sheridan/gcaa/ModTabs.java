@@ -92,6 +92,7 @@ public class ModTabs {
                 .icon(() ->new ItemStack(ModItems.AMMUNITION_PROCESSOR.get()))
                 .displayItems((parameters, tab) -> {
                     tab.accept(ModItems.AMMUNITION_PROCESSOR.get());
+                    tab.accept(ModItems.VENDING_MACHINE.get());
                 }).build());
     }
 

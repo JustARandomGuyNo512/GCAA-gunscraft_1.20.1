@@ -1,0 +1,36 @@
+{
+  "variants": {
+    "facing=east,half=lower": {
+      "model": "gcaa:block/vending_machine",
+      "y": 270
+    },
+    "facing=north,half=lower": {
+      "model": "gcaa:block/vending_machine",
+      "y": 180
+    },
+    "facing=south,half=lower": {
+      "model": "gcaa:block/vending_machine",
+      "y": 0
+    },
+    "facing=west,half=lower": {
+      "model": "gcaa:block/vending_machine",
+      "y": 90
+    },
+    "facing=east,half=upper": {
+      "model": "gcaa:block/blank",
+      "y": 0
+    },
+    "facing=north,half=upper": {
+      "model": "gcaa:block/blank",
+      "y": 0
+    },
+    "facing=south,half=upper": {
+      "model": "gcaa:block/blank",
+      "y": 0
+    },
+    "facing=west,half=upper": {
+      "model": "gcaa:block/blank",
+      "y": 0
+    }
+  }
+}

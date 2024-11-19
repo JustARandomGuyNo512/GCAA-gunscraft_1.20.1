@@ -22,4 +22,15 @@ public class ModBlocks {
                             .explosionResistance(180)
                             .noOcclusion()
             ));
+
+    public static final RegistryObject<Block> VENDING_MACHINE = BLOCKS.register(
+            "vending_machine", () -> new VendingMachine(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.METAL)
+                            .sound(SoundType.METAL)
+                            .strength(1.0f)
+                            .explosionResistance(180)
+                            .pushReaction(PushReaction.DESTROY)
+            ));
+
 }

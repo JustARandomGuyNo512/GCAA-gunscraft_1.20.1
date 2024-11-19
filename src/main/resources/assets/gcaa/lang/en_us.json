@@ -59,6 +59,7 @@
   "item.gcaa.ammo_vog_25": "VOG-25 Grenade",
 
   "block.gcaa.ammunition_processor": "Ammunition Processor",
+  "block.gcaa.vending_machine": "Vending Machine",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",

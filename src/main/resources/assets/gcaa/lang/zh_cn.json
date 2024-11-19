@@ -59,6 +59,7 @@
   "item.gcaa.ammo_vog_25": "VOG-25榴弹",
 
   "block.gcaa.ammunition_processor": "弹药加工台",
+  "block.gcaa.vending_machine": "自动售货机",
 
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",

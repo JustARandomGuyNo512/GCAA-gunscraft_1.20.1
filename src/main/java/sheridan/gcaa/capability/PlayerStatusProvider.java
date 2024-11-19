@@ -79,15 +79,6 @@ public class PlayerStatusProvider implements ICapabilityProvider, INBTSerializab
         });
     }
 
-    public static void serverSetLatency(ServerPlayer player)  {
-        if (player == null) {
-            return;
-        }
-        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
-            cap.serverSetLatency(player);
-        });
-    }
-
     public static void setReloading(Player player, boolean reloading)  {
         if (player != null) {
             player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> {
