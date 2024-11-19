@@ -10,6 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.common.config.CommonConfig;
 import sheridan.gcaa.items.ammunition.Ammunition;
+import sheridan.gcaa.items.ammunition.AmmunitionModRegister;
 import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.ammunition.IAmmunitionMod;
 import sheridan.gcaa.items.gun.IGun;
@@ -113,9 +114,15 @@ public class ProjectileHandler {
 
     }
 
-    public record AmmunitionDataCache(List<IAmmunitionMod> mods,
-                                      float baseDamageRate, float minDamageRate, float penetrationRate, float speedRate,
-                                      float effectiveRangeRate) {
+    public static class AmmunitionDataCache {
+        private final List<IAmmunitionMod> mods;
+        private final float baseDamageRate;
+        private final float minDamageRate;
+        private final float penetrationRate;
+        private final float speedRate;
+        private final float effectiveRangeRate;
+        private final int[] clientModsIndexList;
+
         public AmmunitionDataCache(List<IAmmunitionMod> mods,
                                    float baseDamageRate, float minDamageRate, float penetrationRate, float speedRate,
                                    float effectiveRangeRate) {
@@ -125,6 +132,45 @@ public class ProjectileHandler {
             this.penetrationRate = Math.max(penetrationRate, Ammunition.MIN_PENETRATION_RATE);
             this.speedRate = Math.max(speedRate, Ammunition.MIN_SPEED_RATE);
             this.effectiveRangeRate = Math.max(effectiveRangeRate, Ammunition.MIN_EFFECTIVE_RANGE_RATE);
+            List<Integer> clientHooksMods = new ArrayList<>();
+            for (IAmmunitionMod mod : mods) {
+                if (mod.syncClientHooks()) {
+                    clientHooksMods.add(AmmunitionModRegister.getModIndex(mod.getId().toString()));
+                }
+            }
+            if (!clientHooksMods.isEmpty()) {
+                this.clientModsIndexList = clientHooksMods.stream().mapToInt(i -> i).toArray();
+            } else {
+                this.clientModsIndexList = new int[0];
+            }
+        }
+
+        public List<IAmmunitionMod> mods() {
+            return mods;
+        }
+
+        public float baseDamageRate() {
+            return baseDamageRate;
+        }
+
+        public float minDamageRate() {
+            return minDamageRate;
+        }
+
+        public float penetrationRate() {
+            return penetrationRate;
+        }
+
+        public float speedRate() {
+            return speedRate;
+        }
+
+        public float effectiveRangeRate() {
+            return effectiveRangeRate;
+        }
+
+        public int[] getClientModsIndexList() {
+            return clientModsIndexList;
         }
 
         @Override

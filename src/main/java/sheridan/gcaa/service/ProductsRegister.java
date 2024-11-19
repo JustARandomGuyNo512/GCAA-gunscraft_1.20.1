@@ -1,6 +1,5 @@
 package sheridan.gcaa.service;
 
-import net.minecraft.world.item.Item;
 import sheridan.gcaa.service.product.IProduct;
 
 import java.util.*;

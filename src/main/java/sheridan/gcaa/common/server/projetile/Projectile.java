@@ -189,31 +189,23 @@ public class Projectile {
                 "minecraft:glass_pane".equals(BuiltInRegistries.BLOCK.getKey(block).toString()))) {
             this.shooter.level().destroyBlock(blockHitResult.getBlockPos(), false);
         }
-        List<Integer> clientModsIndexList = null;
         if (this.mods != null) {
             for (IAmmunitionMod mod : mods) {
                 try {
                     mod.onHitBlockServer(this, blockHitResult, blockState);
                 } catch (Exception ignored) {}
-                if (mod.syncClientHooks()) {
-                    if (clientModsIndexList == null) {
-                        clientModsIndexList = new ArrayList<>();
-                    }
-                    clientModsIndexList.add(AmmunitionModRegister.getModIndex(mod.getId().toString()));
-                }
             }
         }
-        int[] modsIndexArray = clientModsIndexList == null ? new int[0] : clientModsIndexList.stream().mapToInt(Integer::intValue).toArray();
         PacketHandler.simpleChannel.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
                 blockHitResult.getLocation().x,
                 blockHitResult.getLocation().y,
                 blockHitResult.getLocation().z,
-                36, shooter.level().dimension()
+                48, shooter.level().dimension()
         )), new ClientHitBlockPacket(
                 blockHitResult.getBlockPos(),
                 blockHitResult.getLocation(),
                 blockHitResult.getDirection(),
-                modsIndexArray
+                cache.getClientModsIndexList()
         ));
     }
 

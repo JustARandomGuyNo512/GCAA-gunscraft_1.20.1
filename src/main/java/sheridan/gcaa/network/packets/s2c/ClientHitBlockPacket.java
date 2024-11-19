@@ -62,7 +62,6 @@ public class ClientHitBlockPacket implements IPacket<ClientHitBlockPacket> {
         supplier.get().enqueueWork(() -> {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
                     Clients.onProjectileHitBlock(message.blockPos, message.pos, message.directionIndex, message.modsIndexList));
-                    //Clients.testPlayParticle(message.blockPos, message.pos, message.directionIndex, message.force));
         });
         supplier.get().setPacketHandled(true);
     }

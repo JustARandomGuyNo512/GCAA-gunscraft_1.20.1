@@ -52,27 +52,24 @@ public class PlayerStatusProvider implements ICapabilityProvider, INBTSerializab
     }
 
     public static void setLastShoot(Player player, long lastShootLeft)  {
-        if (player == null) {
-            return;
+        if (player != null) {
+            player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> cap.setLastShoot(lastShootLeft));
         }
-        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) -> cap.setLastShoot(lastShootLeft));
     }
 
 
     public static void setLastChamberAction(Player player, long lastChamberAction)  {
-        if (player == null) {
-            return;
+        if (player != null) {
+            player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) ->
+                    cap.setLastChamberAction(lastChamberAction));
         }
-        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) ->
-                cap.setLastChamberAction(lastChamberAction));
     }
 
     public static void updateLocalTimeOffset(Player player)  {
-        if (player == null) {
-            return;
+        if (player != null) {
+            player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) ->
+                    cap.setLocalTimeOffset(System.currentTimeMillis() - player.level().getGameTime() * 50));
         }
-        player.getCapability(PlayerStatusProvider.CAPABILITY).ifPresent((cap) ->
-                cap.setLocalTimeOffset(System.currentTimeMillis() - player.level().getGameTime() * 50));
     }
 
     public static void setReloading(Player player, boolean reloading)  {
