@@ -12,7 +12,9 @@ import sheridan.gcaa.items.attachments.replaceableParts.RecoilControlPart;
 import sheridan.gcaa.items.attachments.replaceableParts.RecoilLowerPart;
 import sheridan.gcaa.items.attachments.replaceableParts.WeightPart;
 import sheridan.gcaa.service.ProductsRegister;
+import sheridan.gcaa.service.product.AmmunitionProduct;
 import sheridan.gcaa.service.product.CommonProduct;
+import sheridan.gcaa.service.product.GunProduct;
 
 import java.util.HashSet;
 import java.util.List;
@@ -154,6 +156,72 @@ public class Commons {
                 new CommonProduct(Items.DIAMOND, 200),
                 new CommonProduct(Items.IRON_INGOT, 20));
 
+        ProductsRegister.registerProducts(ProductsRegister.GUN,
+                new GunProduct(ModItems.G19.get(), 800),
+                new GunProduct(ModItems.PYTHON_357.get(), 700),
+                new GunProduct(ModItems.VECTOR_45.get(), 1300),
+                new GunProduct(ModItems.AKM.get(), 2700),
+                new GunProduct(ModItems.M4A1.get(), 2900),
+                new GunProduct(ModItems.MK47.get(), 3050),
+                new GunProduct(ModItems.AWP.get(), 4750),
+                new GunProduct(ModItems.M870.get(), 2000),
+                new GunProduct(ModItems.XM1014.get(), 2400),
+                new GunProduct(ModItems.M249.get(), 4400));
+
+        ProductsRegister.registerProducts(ProductsRegister.AMMUNITION,
+                new AmmunitionProduct(ModItems.AMMO_9X19MM.get(), 100),
+                new AmmunitionProduct(ModItems.AMMO_357MAGNUM.get(), 150),
+                new AmmunitionProduct(ModItems.AMMO_45ACP.get(), 180),
+                new AmmunitionProduct(ModItems.AMMO_7_62X39MM.get(), 300),
+                new AmmunitionProduct(ModItems.AMMO_5_56X45MM.get(), 280),
+                new AmmunitionProduct(ModItems.AMMO_7_62X51MM.get(), 400),
+                new AmmunitionProduct(ModItems.AMMO_12GAUGE.get(), 200),
+                new AmmunitionProduct(ModItems.AMMO_VOG_25.get(), 100));
+
+        ProductsRegister.registerProducts(ProductsRegister.ATTACHMENT,
+                new CommonProduct(ModItems.PISTOL_SUPPRESSOR.get(), 50),
+                new CommonProduct(ModItems.AK_SUPPRESSOR.get(), 110),
+                new CommonProduct(ModItems.AR_SUPPRESSOR.get(), 130),
+                new CommonProduct(ModItems.SHOTGUN_SUPPRESSOR.get(), 150),
+                new CommonProduct(ModItems.SNIPER_SUPPRESSOR.get(), 210),
+                new CommonProduct(ModItems.OSPREY_SUPPRESSOR.get(), 150),
+                new CommonProduct(ModItems.AK_COMPENSATOR.get(), 180),
+                new CommonProduct(ModItems.AR_COMPENSATOR.get(), 220),
+                new CommonProduct(ModItems.SMG_COMPENSATOR.get(), 160),
+                new CommonProduct(ModItems.AK_IMPROVED_HANDGUARD.get(), 270),
+                new CommonProduct(ModItems.AK_RAIL_BRACKET.get(), 100),
+                new CommonProduct(ModItems.AK_IMPROVED_DUST_COVER.get(), 100),
+                new CommonProduct(ModItems.AK_TACTICAL_DUST_COVER.get(), 120),
+                new CommonProduct(ModItems.MICRO_RED_DOT.get(), 75),
+                new CommonProduct(ModItems.RED_DOT.get(), 102),
+                new CommonProduct(ModItems.HOLOGRAPHIC.get(), 100),
+                new CommonProduct(ModItems.ACOG.get(), 220),
+                new CommonProduct(ModItems.SCOPE_X10.get(), 400),
+                new CommonProduct(ModItems.VERTICAL_GRIP.get(), 80),
+                new CommonProduct(ModItems.GP_25.get(), 240),
+                new CommonProduct(ModItems.AR_GAS_BLOCK.get(), 30),
+                new CommonProduct(ModItems.AR_STOCK_TUBE.get(), 60),
+                new CommonProduct(ModItems.AR_RAILED_HANDGUARD.get(), 180),
+                new CommonProduct(ModItems.M249_RAILED_HANDGUARD.get(), 100),
+                new CommonProduct(ModItems.AR_EXTEND_MAG.get(), 150),
+                new CommonProduct(ModItems.AK_EXTEND_MAG.get(), 170),
+                new CommonProduct(ModItems.GLOCK_EXTEND_MAG.get(), 70),
+                new CommonProduct(ModItems.VECTOR_45_EXTEND_MAG.get(), 130),
+                new CommonProduct(ModItems.SNIPER_EXTEND_MAG.get(), 50),
+                new CommonProduct(ModItems.SHOTGUN_EXTEND_BAY.get(), 70),
+                new CommonProduct(ModItems.CTR_STOCK.get(), 166),
+                new CommonProduct(ModItems.MICRO_LASER_SIGHT.get(), 30),
+                new CommonProduct(ModItems.LASER_SIGHT.get(), 50),
+                new CommonProduct(ModItems.MICRO_FLASHLIGHT.get(), 50),
+                new CommonProduct(ModItems.FLASHLIGHT.get(), 70),
+                new CommonProduct(ModItems.HORIZONTAL_LASER_SIGHT.get(), 60),
+                new CommonProduct(ModItems.RAIL_PANEL.get(), 15),
+                new CommonProduct(ModItems.RAL_PANEL_SHORT.get(), 10));
+
+        ProductsRegister.registerProducts(ProductsRegister.OTHER,
+                new CommonProduct(Items.IRON_INGOT, 20),
+                new CommonProduct(Items.GOLD_INGOT, 100),
+                new CommonProduct(Items.DIAMOND, 200));
 
     }
 }

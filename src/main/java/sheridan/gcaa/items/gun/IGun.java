@@ -55,7 +55,9 @@ public interface IGun {
     String getSelectedAmmunitionTypeUUID(ItemStack stack);
     void bindAmmunition(ItemStack gunStack, ItemStack ammunitionStack, IAmmunition ammunition);
     void clearAmmo(ItemStack gunStack, Player player);
-    boolean isUsingSelectedAmmo(ItemStack itemStack);
+    boolean isNotUsingSelectedAmmo(ItemStack itemStack);
+    CompoundTag getAmmunitionData(ItemStack itemStack);
+    String getIdentity(ItemStack stack);
 
     default boolean allowShootWhileReloading() {return false;}
     default boolean shouldHandleAds(ItemStack stack) {return true;}

@@ -72,7 +72,7 @@ public class AutoShotgun extends HandActionGun {
 
     @Override
     public boolean clientReload(ItemStack stack, Player player) {
-        if (!isUsingSelectedAmmo(stack)) {
+        if (isNotUsingSelectedAmmo(stack)) {
             PacketHandler.simpleChannel.sendToServer(new ClearGunAmmoPacket());
             clearAmmo(stack, player);
         }

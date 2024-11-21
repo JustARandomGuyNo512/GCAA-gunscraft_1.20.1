@@ -390,18 +390,18 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     @Override
-    public boolean isUsingSelectedAmmo(ItemStack itemStack) {
+    public boolean isNotUsingSelectedAmmo(ItemStack itemStack) {
         CompoundTag ammunitionData = getAmmunitionData(itemStack);
         if (!ammunitionData.contains("using")) {
-            return true;
+            return false;
         }
         String usingID = ammunitionData.getCompound("using").getCompound("mods").getString("modsUUID");
         String selectedID = ammunitionData.getCompound("selected").getCompound("mods").getString("modsUUID");
-        return Objects.equals(usingID, selectedID);
+        return !Objects.equals(usingID, selectedID);
     }
 
     public boolean shouldUseFullReload(ItemStack itemStack) {
-        return getAmmoLeft(itemStack) == 0 || !isUsingSelectedAmmo(itemStack);
+        return getAmmoLeft(itemStack) == 0 || isNotUsingSelectedAmmo(itemStack);
     }
 
     @Override
@@ -563,6 +563,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         pStack.setTag(nbt);
     }
 
+    @Override
     public String getIdentity(ItemStack stack) {
         CompoundTag nbt = checkAndGet(stack);
         return nbt.contains("identity_temp") ? nbt.getString("identity_temp") : "";
@@ -584,11 +585,6 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         for (String key : keyToRemove) {
             scopeMagnifications.remove(key);
         }
-    }
-
-    public String getIdentityTemp(ItemStack stack) {
-        CompoundTag nbt = checkAndGet(stack);
-        return nbt.contains("identity_temp") ? nbt.getString("identity_temp") : "";
     }
 
     public void onEquipped(ItemStack itemStack, Player player) {
@@ -621,6 +617,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         return baseName.toString();
     }
 
+    @Override
     public CompoundTag getAmmunitionData(ItemStack itemStack) {
         CompoundTag tag = checkAndGet(itemStack);
         return tag.contains("ammunition_data") ? tag.getCompound("ammunition_data") : new CompoundTag();

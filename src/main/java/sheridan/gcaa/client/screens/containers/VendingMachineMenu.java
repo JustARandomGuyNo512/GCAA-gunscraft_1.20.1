@@ -10,9 +10,12 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.service.ProductsRegister;
 import sheridan.gcaa.service.product.IProduct;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class VendingMachineMenu extends AbstractContainerMenu {
@@ -20,8 +23,13 @@ public class VendingMachineMenu extends AbstractContainerMenu {
     public final BlockPos blockPos;
     public Inventory playerInventory;
     public SimpleContainer exchange;
+    public List<HindSlot> playerInventorySlots;
+    public ExchangeSlot exchangeSlot;
+    public SimpleContainer products;
+    public List<ProductSlot> productSlots;
 
     public static class ExchangeSlot extends Slot {
+        public boolean active = true;
 
         public ExchangeSlot(Container pContainer, int pSlot, int pX, int pY) {
             super(pContainer, pSlot, pX, pY);
@@ -31,6 +39,36 @@ public class VendingMachineMenu extends AbstractContainerMenu {
         public boolean mayPlace(ItemStack pStack) {
             Set<IProduct> products = ProductsRegister.getProducts(ProductsRegister.EXCHANGE);
             return products.contains(IProduct.of(pStack.getItem()));
+        }
+
+        @Override
+        public boolean isActive() {
+            return active;
+        }
+    }
+
+    public static class HindSlot extends Slot {
+        public boolean active = true;
+
+        public HindSlot(Container pContainer, int pSlot, int pX, int pY) {
+            super(pContainer, pSlot, pX, pY);
+        }
+
+        @Override
+        public boolean isActive() {
+            return active;
+        }
+    }
+
+    public static class ProductSlot extends HindSlot {
+
+        public ProductSlot(Container pContainer, int pSlot, int pX, int pY) {
+            super(pContainer, pSlot, pX, pY);
+        }
+
+        @Override
+        public boolean mayPickup(@NotNull Player pPlayer) {
+            return false;
         }
     }
 
@@ -51,17 +89,34 @@ public class VendingMachineMenu extends AbstractContainerMenu {
     }
 
     private void initContainer() {
+        playerInventorySlots = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             for(int j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(playerInventory, (i + 1) * 9 + j, 48 + j * 18, 84 + i * 18));
+                HindSlot slot = new HindSlot(playerInventory, (i + 1) * 9 + j, 48 + j * 18, 84 + i * 18);
+                this.addSlot(slot);
+                playerInventorySlots.add(slot);
             }
         }
         for (int i = 0; i < 9; i++) {
-            this.addSlot(new Slot(playerInventory, i, 48 + i * 18, 142));
+            HindSlot slot = new HindSlot(playerInventory, i, 48 + i * 18, 142);
+            this.addSlot(slot);
+            playerInventorySlots.add(slot);
         }
 
         exchange = new SimpleContainer(1);
-        this.addSlot(new ExchangeSlot(exchange, 0, 96, 35));
+        exchangeSlot = new ExchangeSlot(exchange, 0, 96, 35);
+        this.addSlot(exchangeSlot);
+
+        products = new SimpleContainer(35);
+        productSlots = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 5; j++) {
+                ProductSlot slot = new ProductSlot(products, i * 5 + j, 45 + j * 18, 32 + i * 18);
+                this.addSlot(slot);
+                productSlots.add(slot);
+                slot.active = false;
+            }
+        }
     }
 
     @Override

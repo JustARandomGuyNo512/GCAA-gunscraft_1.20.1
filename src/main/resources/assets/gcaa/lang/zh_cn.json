@@ -125,6 +125,12 @@
   "tooltip.screen_info.need_terminal": "请使用交易终端打开",
   "tooltip.screen_info.balance": "余额：",
   "tooltip.screen_info.worth": "价值：",
+  "tooltip.category.exchange": "货币兑换",
+  "tooltip.category.gun": "枪械",
+  "tooltip.category.ammunition": "弹药",
+  "tooltip.category.attachment": "配件",
+  "tooltip.category.other": "其它",
+
 
   "gcaa.unit.chunk_pre_second": "区块/秒",
   "gcaa.unit.chunk": "区块",

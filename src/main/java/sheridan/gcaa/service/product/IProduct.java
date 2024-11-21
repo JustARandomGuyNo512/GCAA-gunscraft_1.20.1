@@ -7,7 +7,8 @@ public interface IProduct {
     int getPrice(ItemStack itemStack);
     int getDefaultPrice();
     Item getItem();
-    ItemStack getItemStack();
+    ItemStack getItemStack(int count);
+    int getMaxBuyCount();
 
     static IProduct of(Item item) {
         return new CommonProduct(item, 0);

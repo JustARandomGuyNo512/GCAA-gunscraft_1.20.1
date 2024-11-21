@@ -124,6 +124,11 @@
   "tooltip.screen_info.need_terminal": "Please use the trading terminal to open",
   "tooltip.screen_info.balance": "Balance: ",
   "tooltip.screen_info.worth": "Worth: ",
+  "tooltip.category.exchange": "Balance Exchange",
+  "tooltip.category.gun": "Gun",
+  "tooltip.category.ammunition": "Ammunition",
+  "tooltip.category.attachment": "Attachment",
+  "tooltip.category.other": "Other",
 
   "gcaa.unit.chunk_pre_second": "Chunks/s",
   "gcaa.unit.chunk": "Chunk",

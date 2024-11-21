@@ -47,7 +47,7 @@ public class ProjectileHandler {
     }
 
     private static String handleAmmunitionModsCache(ItemStack gunStack, IGun gun) {
-        CompoundTag tag = gun.getGun().getAmmunitionData(gunStack);
+        CompoundTag tag = gun.getAmmunitionData(gunStack);
         if (tag.contains("using")) {
             CompoundTag using = tag.getCompound("using");
             CompoundTag mods = using.getCompound("mods");

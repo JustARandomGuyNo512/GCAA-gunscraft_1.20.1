@@ -3,7 +3,6 @@ package sheridan.gcaa.items.ammunition;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.apache.commons.lang3.NotImplementedException;
@@ -120,7 +119,7 @@ public class AmmunitionHandler {
         }
         IAmmunition ammunition = gun.getGunProperties().caliber.ammunition;
         List<IAmmunitionMod> mods = new ArrayList<>();
-        CompoundTag ammunitionData = gun.getGun().getAmmunitionData(gunStack);
+        CompoundTag ammunitionData = gun.getAmmunitionData(gunStack);
         if (ammunitionData.contains("using")) {
             CompoundTag modsTag = ammunitionData.getCompound("using").getCompound("mods");
             mods = ammunition.getMods(modsTag);
@@ -160,7 +159,7 @@ public class AmmunitionHandler {
         if (exceptedReloadNum <= 0 || gunStack != player.getMainHandItem()) {
             return;
         }
-        if (!gun.getGun().isUsingSelectedAmmo(gunStack)) {
+        if (gun.getGun().isNotUsingSelectedAmmo(gunStack)) {
             clearGun(player, gun, gunStack);
         }
         exceptedReloadNum = Math.min(exceptedReloadNum, gun.getMagSize(gunStack) - gun.getAmmoLeft(gunStack));
@@ -204,7 +203,7 @@ public class AmmunitionHandler {
         }
         if (findCount != 0) {
             gun.setAmmoLeft(gunStack, gun.getAmmoLeft(gunStack) + findCount);
-            CompoundTag ammunitionData = gun.getGun().getAmmunitionData(gunStack);
+            CompoundTag ammunitionData = gun.getAmmunitionData(gunStack);
             if (ammunitionData != null) {
                 CompoundTag selected = ammunitionData.getCompound("selected");
                 ammunitionData.put("using", selected.copy());

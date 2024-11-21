@@ -28,8 +28,13 @@ public class CommonProduct implements IProduct{
     }
 
     @Override
-    public ItemStack getItemStack() {
-        return new ItemStack(item);
+    public ItemStack getItemStack(int count) {
+        return new ItemStack(item, count);
+    }
+
+    @Override
+    public int getMaxBuyCount() {
+        return Item.MAX_STACK_SIZE;
     }
 
     @Override
