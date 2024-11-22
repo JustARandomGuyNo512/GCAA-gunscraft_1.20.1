@@ -58,6 +58,8 @@
   "item.gcaa.ammo_357magnum": ".357 Magnum Rounds",
   "item.gcaa.ammo_vog_25": "VOG-25 Grenade",
 
+  "item.gcaa.transaction_terminal": "Transaction Terminal",
+
   "block.gcaa.ammunition_processor": "Ammunition Processor",
   "block.gcaa.vending_machine": "Vending Machine",
 

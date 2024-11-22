@@ -24,4 +24,9 @@ public class AmmunitionProduct extends CommonProduct{
         ammunition.setAmmoLeft(stack, count);
         return stack;
     }
+
+    @Override
+    public ItemStack getDisplayItem() {
+        return getItemStack(getMaxBuyCount());
+    }
 }

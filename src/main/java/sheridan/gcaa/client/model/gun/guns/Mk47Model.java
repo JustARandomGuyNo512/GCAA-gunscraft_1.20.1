@@ -81,8 +81,8 @@ public class Mk47Model extends GunModel {
         context.render(vertexConsumer, barrel, charge, body, safety, slide);
         if (context.notHasHandguard()) {
             handleRailsVisible(context);
-            VertexConsumer handguardConsumer = context.getBuffer(RenderTypes.getCutOutNoCullMipmap(TEXTURE));
-            context.render(handguardConsumer, handguard);
+            vertexConsumer = context.getBuffer(RenderTypes.getCutOutNoCullMipmap(TEXTURE));
+            context.render(vertexConsumer, handguard);
         }
         context.renderArmLong(left_arm, false);
         context.renderArmLong(right_arm, true);

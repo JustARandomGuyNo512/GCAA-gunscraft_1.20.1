@@ -58,6 +58,8 @@
   "item.gcaa.ammo_357magnum": ".357马格南子弹",
   "item.gcaa.ammo_vog_25": "VOG-25榴弹",
 
+  "item.gcaa.transaction_terminal": "交易终端",
+
   "block.gcaa.ammunition_processor": "弹药加工台",
   "block.gcaa.vending_machine": "自动售货机",
 

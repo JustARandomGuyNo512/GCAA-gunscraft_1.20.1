@@ -8,6 +8,7 @@ public interface IProduct {
     int getDefaultPrice();
     Item getItem();
     ItemStack getItemStack(int count);
+    ItemStack getDisplayItem();
     int getMaxBuyCount();
 
     static IProduct of(Item item) {

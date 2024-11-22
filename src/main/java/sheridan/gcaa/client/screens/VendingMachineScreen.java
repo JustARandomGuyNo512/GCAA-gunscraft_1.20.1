@@ -1,6 +1,8 @@
 package sheridan.gcaa.client.screens;
 
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,13 +16,25 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Quaternionf;
+import org.lwjgl.opengl.GL11;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.capability.PlayerStatusProvider;
+import sheridan.gcaa.client.model.gun.IGunModel;
+import sheridan.gcaa.client.model.gun.LodGunModel;
+import sheridan.gcaa.client.model.registry.GunModelRegister;
+import sheridan.gcaa.client.render.DisplayData;
+import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.client.render.GunRenderer;
 import sheridan.gcaa.client.screens.components.OptionalImageButton;
 import sheridan.gcaa.client.screens.containers.VendingMachineMenu;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.ExchangePacket;
 import sheridan.gcaa.service.ProductsRegister;
@@ -36,6 +50,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
     private static final ResourceLocation NEXT_PAGE = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/next_page.png");
     private static final ResourceLocation PREV_PAGE = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/prev_page.png");
     private static final ResourceLocation SCROLL_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/scroll_btn.png");
+    private static final ResourceLocation SELECTED_PRODUCT = new ResourceLocation(GCAA.MODID, "textures/gui/component/selected_slot.png");
     private String currentCategory = ProductsRegister.EXCHANGE;
     private long balance = 0;
     public SimpleContainer exchange;
@@ -47,6 +62,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
     private OptionalImageButton nextPageBtn;
     private OptionalImageButton prevPageBtn;
     private int pageIndex = 0;
+    private VendingMachineMenu.ProductSlot selectedProduct;
 
     public VendingMachineScreen(VendingMachineMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -99,7 +115,55 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             } else {
                 renderPageSign(pGuiGraphics, font);
             }
+            if (selectedProduct != null) {
+                pGuiGraphics.blit(SELECTED_PRODUCT, this.leftPos + selectedProduct.x - 3, this.topPos + selectedProduct.y - 3,
+                        0,0, 22,22, 22, 22);
+            }
         }
+    }
+
+    private void renderGun(GuiGraphics graphics, ItemStack itemStack) {
+        if (itemStack.getItem() instanceof IGun gun) {
+            IGunModel gunModel = GunModelRegister.getModel(gun);
+            if (gunModel == null) {
+                return;
+            }
+            PoseStack poseStackView = graphics.pose();
+            poseStackView.pushPose();
+            float seed = (System.currentTimeMillis() % 10000) / 10000f;
+            poseStackView.translate(this.leftPos + 138, this.topPos + 58, 300);
+            poseStackView.mulPose(new Quaternionf().rotateY((float) Math.toRadians(360 * seed)));
+            GL11.glEnable(GL11.GL_SCISSOR_TEST);
+            setupScissor(this.leftPos + 192, this.topPos + 32, 110, 52);
+            Lighting.setupForEntityInInventory();
+            RenderSystem.setShaderColor(1,1,1,1);
+            GunRenderContext gunRenderContext =
+                    new GunRenderContext(graphics.bufferSource(), poseStackView, itemStack, gun, ItemDisplayContext.GROUND, 15728880, 655360, false);
+            LodGunModel.disableLowQuality(gunRenderContext);
+            DisplayData displayData = GunModelRegister.getDisplayData(gun);
+            if (displayData != null) {
+                float[] floats = displayData.get(DisplayData.GROUND);
+                poseStackView.scale(floats[6], floats[7], floats[8]);
+                float scale = gun.isPistol() ? 100 : 44f;
+                poseStackView.scale(-scale,scale,scale);
+            }
+            gunModel.render(gunRenderContext);
+            graphics.bufferSource().endBatch();
+            Lighting.setupFor3DItems();
+            GL11.glDisable(GL11.GL_SCISSOR_TEST);
+            poseStackView.popPose();
+        }
+    }
+
+    public static void setupScissor(int x, int y, int width, int height) {
+        Minecraft mc = Minecraft.getInstance();
+        int scale = (int)mc.getWindow().getGuiScale();
+        GL11.glScissor(
+                x * scale,
+                mc.getWindow().getHeight() - y * scale - height * scale,
+                Math.max(0, width * scale),
+                Math.max(0, height * scale
+                ));
     }
 
     private void renderPageSign(GuiGraphics pGuiGraphics, Font font) {
@@ -149,7 +213,6 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         if (checkPlayer()) {
             Player player = this.minecraft.player;
             balance = PlayerStatusProvider.getStatus(player).getBalance();
-
             boolean isInExchange = ProductsRegister.EXCHANGE.equals(currentCategory);
             exchangeBtn.visible = isInExchange;
             exchangeBtn.setPrevented(getExchangeVal() == 0);
@@ -166,7 +229,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
                 List<IProduct> products = getPageProducts();
                 for (int i = 0; i < 35; i++) {
                     if (i < products.size()) {
-                        menu.productSlots.get(i).set(products.get(i).getItemStack(1));
+                        menu.productSlots.get(i).set(products.get(i).getDisplayItem());
                     } else {
                         menu.productSlots.get(i).set(ItemStack.EMPTY);
                     }
@@ -177,6 +240,17 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             prevPageBtn.visible = !isInExchange;
 
         }
+    }
+
+    @Override
+    protected void slotClicked(Slot pSlot, int pSlotId, int pMouseButton, ClickType pType) {
+        if (pSlot instanceof VendingMachineMenu.ProductSlot productSlot){
+            if (productSlot.active && productSlot.getItem() != ItemStack.EMPTY)  {
+                selectedProduct = selectedProduct == productSlot ? null : productSlot;
+                return;
+            }
+        }
+        super.slotClicked(pSlot, pSlotId, pMouseButton, pType);
     }
 
     private void renderBalance(GuiGraphics pGuiGraphics, Font font, int sx, int sy) {
@@ -220,7 +294,9 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             int startX = (this.width - this.getXSize()) / 2;
             int startY = (this.height - this.getYSize()) / 2;
             pGuiGraphics.blit(chooseBackground(), startX, startY,  0,0, this.getXSize(), this.getYSize(), this.getXSize(), this.getYSize());
-
+            if (ProductsRegister.GUN.equals(currentCategory) && selectedProduct != null) {
+                renderGun(pGuiGraphics, selectedProduct.getItem());
+            }
         }
         if (needUpdate) {
             this.renderBackground(pGuiGraphics);
@@ -243,6 +319,9 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             });
             this.name = name;
             setTooltip(Tooltip.create(Component.translatable("tooltip.category." + name)));
+            if (Objects.equals(currentCategory, this.name)) {
+                this.click();
+            }
         }
 
         @Override
@@ -262,7 +341,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
                 if (isHovered) {
                     pGuiGraphics.setColor(27 / 255f, 161 / 255f, 226 / 255f, 0.6f);
                 } else {
-                    pGuiGraphics.setColor(0.5f, 0.5f, 0.5f, 0.5f);
+                    pGuiGraphics.setColor(0.5f, 0.5f, 0.5f, 1f);
                 }
                 this.renderTexture(pGuiGraphics, TAB, this.getX(), this.getY(), this.xTexStart, this.yTexStart, this.yDiffTex, this.width, this.height, this.textureWidth, this.textureHeight);
             }
@@ -273,6 +352,9 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             currentCategory = name;
             if (selectedCategory != null) {
                 selectedCategory.isSelected = false;
+                if (!Objects.equals(selectedCategory.name, this.name)) {
+                    selectedProduct = null;
+                }
             }
             isSelected = true;
             selectedCategory = this;

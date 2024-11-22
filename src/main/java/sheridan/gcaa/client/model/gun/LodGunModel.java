@@ -17,6 +17,7 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public abstract class LodGunModel extends GunModel{
     public static final String LOW_QUALITY_KEY = "__low_quality__";
+    public static final String LOW_QUALITY_DISABLE = "__low_quality_disable__";
     private boolean lowQualityLoaded = false;
     protected ModelPart lowQualityRoot;
     protected ModelPart lowQualityGun;
@@ -70,6 +71,9 @@ public abstract class LodGunModel extends GunModel{
         if (context.isFirstPerson || !lowQualityLoaded || context.inAttachmentScreen) {
             return false;
         }
+        if (context.localRenderStorage != null && context.localRenderStorage.containsKey(LOW_QUALITY_DISABLE)) {
+            return false;
+        }
         ItemDisplayContext transformType = context.transformType;
         switch (transformType) {
             case THIRD_PERSON_LEFT_HAND, THIRD_PERSON_RIGHT_HAND -> {return ClientConfig.renderLowQualityModelInTPView.get();}
@@ -82,7 +86,7 @@ public abstract class LodGunModel extends GunModel{
     @Override
     protected void renderGunModel(GunRenderContext context) {
         if (handleShouldRenderLowQuality(context)) {
-            context.saveInLocal(LOW_QUALITY_KEY, null);
+            context.saveInLocal(LOW_QUALITY_KEY, Boolean.TRUE);
             renderGunLow(context);
         } else {
             renderGunNormal(context);
@@ -96,8 +100,13 @@ public abstract class LodGunModel extends GunModel{
         return gunLayerMapping.get(modelPart);
     }
 
+    public static void disableLowQuality(GunRenderContext context) {
+        context.saveInLocal(LOW_QUALITY_KEY, null);
+        context.saveInLocal(LOW_QUALITY_DISABLE, true);
+    }
+
     protected boolean getShouldRenderLowQuality(GunRenderContext context) {
-        return context.localRenderStorage != null && context.localRenderStorage.containsKey(LOW_QUALITY_KEY);
+        return context.localRenderStorage != null && context.localRenderStorage.get(LOW_QUALITY_KEY) != null;
     }
 
 }

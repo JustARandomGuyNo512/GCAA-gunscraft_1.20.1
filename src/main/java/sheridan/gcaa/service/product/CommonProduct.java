@@ -33,6 +33,11 @@ public class CommonProduct implements IProduct{
     }
 
     @Override
+    public ItemStack getDisplayItem() {
+        return getItemStack(1);
+    }
+
+    @Override
     public int getMaxBuyCount() {
         return Item.MAX_STACK_SIZE;
     }

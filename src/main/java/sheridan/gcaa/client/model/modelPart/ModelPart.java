@@ -164,6 +164,9 @@ public final class ModelPart {
         }
     }
 
+    public List<Cube> getCubes() {
+        return this.cubes;
+    }
 
     public Map<String, ModelPart> getChildren() {
         return this.children;

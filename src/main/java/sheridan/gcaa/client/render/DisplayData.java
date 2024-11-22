@@ -33,7 +33,7 @@ public class DisplayData {
             GUI = 4,
             AIMING = 5,
             ATTACHMENT_SCREEN = 6;
-    private final float[][] transforms = new float[][]{{0, 0, 0, 0, 0, 0, 1, 1, 1}, {}, {}, {}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1}};
+    private final float[][] transforms = new float[][]{{0, 0, 0, 0, 0, 0, 1, 1, 1}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1}};
     private final boolean[][] emptyMarks = new boolean[][]{{}, {}, {}, {}, {}, {}, {}, {}};
     private final Map<String, MuzzleFlashEntry> muzzleFlashMap = new HashMap<>();
     private InertialRecoilData inertialRecoilData;
