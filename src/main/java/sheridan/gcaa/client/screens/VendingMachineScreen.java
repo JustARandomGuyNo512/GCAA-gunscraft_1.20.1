@@ -131,10 +131,10 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             PoseStack poseStackView = graphics.pose();
             poseStackView.pushPose();
             float seed = (System.currentTimeMillis() % 10000) / 10000f;
-            poseStackView.translate(this.leftPos + 138, this.topPos + 58, 300);
+            poseStackView.translate(this.leftPos + 192, this.topPos + 58, 300);
             poseStackView.mulPose(new Quaternionf().rotateY((float) Math.toRadians(360 * seed)));
             GL11.glEnable(GL11.GL_SCISSOR_TEST);
-            setupScissor(this.leftPos + 192, this.topPos + 32, 110, 52);
+            setupScissor(this.leftPos + 138, this.topPos + 32, 110, 52);
             Lighting.setupForEntityInInventory();
             RenderSystem.setShaderColor(1,1,1,1);
             GunRenderContext gunRenderContext =

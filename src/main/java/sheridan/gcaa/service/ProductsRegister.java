@@ -17,15 +17,15 @@ public class ProductsRegister {
     private static final Map<String, Item> ICON_MAP = new HashMap<>();
 
     static {
-        PRODUCTS.put(EXCHANGE, new HashSet<>());
-        PRODUCTS.put(GUN, new HashSet<>());
-        PRODUCTS.put(AMMUNITION, new HashSet<>());
-        PRODUCTS.put(ATTACHMENT, new HashSet<>());
-        PRODUCTS.put(OTHER, new HashSet<>());
+        PRODUCTS.put(EXCHANGE, new LinkedHashSet<>());
+        PRODUCTS.put(GUN, new LinkedHashSet<>());
+        PRODUCTS.put(AMMUNITION, new LinkedHashSet<>());
+        PRODUCTS.put(ATTACHMENT, new LinkedHashSet<>());
+        PRODUCTS.put(OTHER, new LinkedHashSet<>());
     }
 
     public static Set<IProduct> getProducts(String type) {
-        return PRODUCTS.getOrDefault(type, new HashSet<>());
+        return PRODUCTS.getOrDefault(type, new LinkedHashSet<>());
     }
 
 
