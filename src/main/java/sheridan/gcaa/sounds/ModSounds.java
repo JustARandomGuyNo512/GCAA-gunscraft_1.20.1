@@ -45,6 +45,7 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> AR_CHARGE_BACK = registerSound("ar_charge_back", "item.generic.ar_charge_back");
     public static RegistryObject<SoundEvent> AR_CHARGE_FROWARD = registerSound("ar_charge_forward", "item.generic.ar_charge_forward");
     public static RegistryObject<SoundEvent> NI_GAN_MA = registerSound("ni_gan_ma", "item.generic.ni_gan_ma");
+    public static RegistryObject<SoundEvent> DEAL = registerSound("deal", "item.generic.deal");
 
 
     public static RegistryObject<SoundEvent> MG_UNLOAD = registerSound("mg_unload", "item.generic.mg_unload");

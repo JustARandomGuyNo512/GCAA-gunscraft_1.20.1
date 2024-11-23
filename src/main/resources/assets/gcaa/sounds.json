@@ -29,6 +29,7 @@
   "item.generic.ar_charge_back": { "subtitle": "item.generic.ar_charge_back", "sounds": [{ "name": "gcaa:generic/ar_charge_back" }]},
   "item.generic.ar_charge_forward": { "subtitle": "item.generic.ar_charge_forward", "sounds": [{ "name": "gcaa:generic/ar_charge_forward" }]},
   "item.generic.ni_gan_ma": { "subtitle": "item.generic.ni_gan_ma", "sounds": [{ "name": "gcaa:generic/ni_gan_ma" }]},
+  "item.generic.deal": { "subtitle": "item.generic.deal", "sounds": [{ "name": "gcaa:generic/deal" }]},
 
   "item.generic.mg_unload": { "subtitle": "item.generic.mg_unload", "sounds": [{ "name": "gcaa:generic/mg_unload" }]},
   "item.generic.pistol_unload": { "subtitle": "item.generic.pistol_unload", "sounds": [{ "name": "gcaa:generic/pistol_unload" }]},

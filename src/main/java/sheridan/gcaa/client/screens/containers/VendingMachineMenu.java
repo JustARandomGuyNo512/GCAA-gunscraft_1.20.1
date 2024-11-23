@@ -27,6 +27,7 @@ public class VendingMachineMenu extends AbstractContainerMenu {
     public ExchangeSlot exchangeSlot;
     public SimpleContainer products;
     public List<ProductSlot> productSlots;
+    public ProductSlot productDisplaySlot;
 
     public static class ExchangeSlot extends Slot {
         public boolean active = true;
@@ -61,6 +62,7 @@ public class VendingMachineMenu extends AbstractContainerMenu {
     }
 
     public static class ProductSlot extends HindSlot {
+        public IProduct product;
 
         public ProductSlot(Container pContainer, int pSlot, int pX, int pY) {
             super(pContainer, pSlot, pX, pY);
@@ -117,6 +119,10 @@ public class VendingMachineMenu extends AbstractContainerMenu {
                 slot.active = false;
             }
         }
+
+        productDisplaySlot = new ProductSlot(new SimpleContainer(1), 0, 185, 50);
+        this.addSlot(productDisplaySlot);
+        productDisplaySlot.active = false;
     }
 
     @Override

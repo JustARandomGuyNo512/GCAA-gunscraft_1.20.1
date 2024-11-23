@@ -179,6 +179,7 @@ public class AmmunitionHandler {
                 }
                 if (Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeUUID(gunStack))) {
                     int ammoLeft = ammunition.getAmmoLeft(stack);
+                    exceptedReloadNum -= findCount;
                     if (ammoLeft >= exceptedReloadNum) {
                         findCount = exceptedReloadNum;
                         if (ammoLeft - exceptedReloadNum == 0) {
@@ -188,15 +189,9 @@ public class AmmunitionHandler {
                         }
                         break;
                     } else {
-                        if (findCount + ammoLeft <= exceptedReloadNum) {
-                            findCount += ammoLeft;
-                            items.set(i, new ItemStack(Items.AIR));
-                        } else {
-                            int need = exceptedReloadNum - findCount;
-                            ammunition.setAmmoLeft(stack, ammoLeft - need);
-                            findCount = exceptedReloadNum;
-                            break;
-                        }
+                        findCount += ammoLeft;
+                        exceptedReloadNum -= ammoLeft;
+                        items.set(i, new ItemStack(Items.AIR));
                     }
                 }
             }

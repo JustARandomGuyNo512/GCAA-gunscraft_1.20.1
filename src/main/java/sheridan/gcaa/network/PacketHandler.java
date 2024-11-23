@@ -45,6 +45,7 @@ public class PacketHandler
         registerPacket(ExchangePacket.class, new ExchangePacket());
         registerPacket(UpdateVendingMachineScreenPacket.class, new UpdateVendingMachineScreenPacket());
         registerPacket(RequestDataSyncPacket.class, new RequestDataSyncPacket());
+        registerPacket(BuyProductPacket.class, new BuyProductPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

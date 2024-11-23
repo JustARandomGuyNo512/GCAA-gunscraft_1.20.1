@@ -153,8 +153,13 @@ public class Commons {
 
         ProductsRegister.registerProducts(ProductsRegister.EXCHANGE,
                 new CommonProduct(Items.GOLD_INGOT, 100),
+                new CommonProduct(Items.GOLD_BLOCK, 900),
                 new CommonProduct(Items.DIAMOND, 200),
-                new CommonProduct(Items.IRON_INGOT, 20));
+                new CommonProduct(Items.DIAMOND_BLOCK, 1800),
+                new CommonProduct(Items.IRON_INGOT, 20),
+                new CommonProduct(Items.IRON_BLOCK, 180),
+                new CommonProduct(Items.COPPER_INGOT, 30),
+                new CommonProduct(Items.COPPER_BLOCK, 270));
 
         ProductsRegister.registerProducts(ProductsRegister.GUN,
                 new GunProduct(ModItems.G19.get(), 800),
@@ -221,7 +226,13 @@ public class Commons {
         ProductsRegister.registerProducts(ProductsRegister.OTHER,
                 new CommonProduct(Items.IRON_INGOT, 20),
                 new CommonProduct(Items.GOLD_INGOT, 100),
-                new CommonProduct(Items.DIAMOND, 200));
+                new CommonProduct(Items.DIAMOND, 200),
+                new CommonProduct(ModItems.VENDING_MACHINE.get(), 200),
+                new CommonProduct(ModItems.AMMUNITION_PROCESSOR.get(), 160),
+                new CommonProduct(Items.COOKED_BEEF, 20),
+                new CommonProduct(Items.CARROT, 5),
+                new CommonProduct(Items.APPLE, 5),
+                new CommonProduct(Items.GOLDEN_APPLE, 805));
 
     }
 }

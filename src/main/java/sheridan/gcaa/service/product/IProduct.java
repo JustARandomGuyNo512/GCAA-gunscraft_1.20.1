@@ -10,9 +10,10 @@ public interface IProduct {
     ItemStack getItemStack(int count);
     ItemStack getDisplayItem();
     int getMaxBuyCount();
+    int getMinBuyCount();
 
     static IProduct of(Item item) {
-        return new CommonProduct(item, 0);
+        return new CommonProduct(item, 1);
     }
 
     default void writeToNBT(ItemStack itemStack) {}

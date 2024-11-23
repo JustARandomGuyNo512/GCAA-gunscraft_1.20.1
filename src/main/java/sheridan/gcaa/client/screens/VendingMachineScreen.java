@@ -21,6 +21,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.lwjgl.opengl.GL11;
@@ -31,14 +32,15 @@ import sheridan.gcaa.client.model.gun.LodGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.GunRenderContext;
-import sheridan.gcaa.client.render.GunRenderer;
 import sheridan.gcaa.client.screens.components.OptionalImageButton;
 import sheridan.gcaa.client.screens.containers.VendingMachineMenu;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
+import sheridan.gcaa.network.packets.c2s.BuyProductPacket;
 import sheridan.gcaa.network.packets.c2s.ExchangePacket;
 import sheridan.gcaa.service.ProductsRegister;
 import sheridan.gcaa.service.product.IProduct;
+import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.*;
 
@@ -51,18 +53,25 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
     private static final ResourceLocation PREV_PAGE = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/prev_page.png");
     private static final ResourceLocation SCROLL_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/scroll_btn.png");
     private static final ResourceLocation SELECTED_PRODUCT = new ResourceLocation(GCAA.MODID, "textures/gui/component/selected_slot.png");
+    private static final ResourceLocation SUITABLE_SLOT_MARK = new ResourceLocation(GCAA.MODID, "textures/gui/component/suitable_slot_mark.png");
+    private static final ResourceLocation BUY = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/buy.png");
     private String currentCategory = ProductsRegister.EXCHANGE;
     private long balance = 0;
     public SimpleContainer exchange;
     private List<IProduct> currentProducts = new ArrayList<>(ProductsRegister.getProducts(currentCategory));
-    private final Map<Item, IProduct> currentProductsMap = new HashMap<>();
+    private final Map<Item, IProduct> exchangeProductsMap = new HashMap<>();
     private OptionalImageButton exchangeBtn;
     private boolean needUpdate = false;
     private Category selectedCategory;
     private OptionalImageButton nextPageBtn;
     private OptionalImageButton prevPageBtn;
+    private OptionalImageButton buyBtn;
+    private ScrollBtn scrollBtn;
     private int pageIndex = 0;
     private VendingMachineMenu.ProductSlot selectedProduct;
+    private int maxBuyCount = 1;
+    private int minBuyCount = maxBuyCount;
+    private Category recycle;
 
     public VendingMachineScreen(VendingMachineMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -71,7 +80,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         this.imageWidth = 256;
         this.imageHeight = 166;
         exchange = pMenu.exchange;
-        refineProductsMap();
+        refineExchangeProducts();
     }
 
     @Override
@@ -87,14 +96,41 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         rowHelper.addChild(prevPageBtn);
         nextPageBtn = new OptionalImageButton(this.leftPos + 116, this.topPos + 10, 16, 16, 0, 0, 0, PREV_PAGE, 16, 16,  (btn) -> switchPage(1));
         rowHelper.addChild(nextPageBtn);
-
+        scrollBtn = new ScrollBtn(this.leftPos + 140, this.topPos + 106, 15, 12, 90, SCROLL_BTN, 15, 12);
+        rowHelper.addChild(scrollBtn);
+        scrollBtn.visible = false;
         rowHelper.addChild(new Category(this.leftPos + 11, this.topPos + 4, ProductsRegister.EXCHANGE));
         rowHelper.addChild(new Category(this.leftPos + 11, this.topPos + 35, ProductsRegister.GUN));
         rowHelper.addChild(new Category(this.leftPos + 11, this.topPos + 67, ProductsRegister.AMMUNITION));
         rowHelper.addChild(new Category(this.leftPos + 11, this.topPos + 99, ProductsRegister.ATTACHMENT));
         rowHelper.addChild(new Category(this.leftPos + 11, this.topPos + 131, ProductsRegister.OTHER));
 
+        buyBtn = new OptionalImageButton(this.leftPos + 185, this.topPos + 140, 16, 16, 0, 0, 0, BUY, 16, 16,  (btn) -> buy());
+        rowHelper.addChild(buyBtn);
+        buyBtn.visible = false;
+
         gridlayout.visitWidgets(this::addRenderableWidget);
+    }
+
+    private void buy() {
+        if (needUpdate) {
+            return;
+        }
+        if (!ProductsRegister.EXCHANGE.equals(currentCategory) && selectedProduct != null) {
+            IProduct product = selectedProduct.product;
+            if (product == null) {
+                return;
+            }
+            ItemStack stack = menu.productDisplaySlot.getItem();
+            if (stack.getItem() == Items.AIR) {
+                return;
+            }
+            int price = product.getPrice(stack);
+            if (price > 0 && price <= balance) {
+                PacketHandler.simpleChannel.sendToServer(new BuyProductPacket(stack, ProductsRegister.getId(selectedProduct.product)));
+                needUpdate = true;
+            }
+        }
     }
 
     private void switchPage(int dist) {
@@ -112,12 +148,29 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             Font font = this.minecraft.font;
             if (ProductsRegister.EXCHANGE.equals(currentCategory)) {
                 renderBalance(pGuiGraphics, font, startX, startY);
+                renderSuitableExchangeMark(pGuiGraphics);
             } else {
                 renderPageSign(pGuiGraphics, font);
+                String str = Component.translatable("tooltip.screen_info.balance").getString() + balance;
+                pGuiGraphics.drawString(font, str, this.leftPos + 248 - font.width(str), this.topPos + 4, 0x00ff00);
             }
             if (selectedProduct != null) {
                 pGuiGraphics.blit(SELECTED_PRODUCT, this.leftPos + selectedProduct.x - 3, this.topPos + selectedProduct.y - 3,
                         0,0, 22,22, 22, 22);
+                IProduct product = selectedProduct.product;
+                ItemStack stack = menu.productDisplaySlot.getItem();
+                if (product != null && !stack.isEmpty() && !ProductsRegister.EXCHANGE.equals(currentCategory)) {
+                    int price = product.getPrice(stack);
+                    int color = balance >= price ? 0x00ff00 : 0xff0000;
+                    String str2 = Component.translatable("tooltip.screen_info.worth").getString() + price;
+                    if (ProductsRegister.GUN.equals(currentCategory)) {
+                        pGuiGraphics.drawString(font, str2, this.leftPos + 137, this.topPos + 88, color);
+                    } else {
+                        pGuiGraphics.drawString(font, str2,
+                                this.leftPos + 193 - font.width(str2) / 2,
+                                this.topPos + 87, color);
+                    }
+                }
             }
         }
     }
@@ -176,18 +229,25 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         return currentProducts.size() / 35 + (currentProducts.size() % 35 == 0 ? 0 : 1);
     }
 
-    private void refineProductsMap() {
-        currentProductsMap.clear();
+    private void refineExchangeProducts() {
+        exchangeProductsMap.clear();
         for (IProduct product : currentProducts) {
-            currentProductsMap.put(product.getItem(), product);
+            exchangeProductsMap.put(product.getItem(), product);
         }
     }
 
     private List<IProduct> getPageProducts() {
-        return currentProducts.subList(pageIndex * 35, Math.min((pageIndex + 1) * 35, currentProducts.size()));
+        try {
+            return currentProducts.subList(pageIndex * 35, Math.min((pageIndex + 1) * 35, currentProducts.size()));
+        } catch (Exception ignore) {
+            return new ArrayList<>();
+        }
     }
 
     private void exchange() {
+        if (needUpdate) {
+            return;
+        }
         long val = getExchangeVal();
         if (val != 0) {
             PacketHandler.simpleChannel.sendToServer(new ExchangePacket(val));
@@ -201,6 +261,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         this.balance = balance;
         if (checkPlayer()) {
             PlayerStatusProvider.getStatus(this.minecraft.player).setBalance(balance);
+            ModSounds.sound(1, 1, this.minecraft.player, ModSounds.DEAL.get());
         }
     }
 
@@ -230,20 +291,62 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
                 for (int i = 0; i < 35; i++) {
                     if (i < products.size()) {
                         menu.productSlots.get(i).set(products.get(i).getDisplayItem());
+                        menu.productSlots.get(i).product = products.get(i);
                     } else {
                         menu.productSlots.get(i).set(ItemStack.EMPTY);
+                        menu.productSlots.get(i).product = null;
                     }
+                }
+                if (ProductsRegister.GUN.equals(currentCategory)) {
+                    buyBtn.setPosition(this.leftPos + 185, this.topPos + 86);
+                } else {
+                    buyBtn.setPosition(this.leftPos + 185, this.topPos + 140);
                 }
             }
 
             nextPageBtn.visible = !isInExchange;
             prevPageBtn.visible = !isInExchange;
+            buyBtn.visible = !isInExchange;
+
+            boolean commonPage = !isInExchange && !ProductsRegister.GUN.equals(currentCategory);
+            scrollBtn.visible = commonPage;
+            menu.productDisplaySlot.active = commonPage;
+
+            boolean banScroll;
+            if (selectedProduct != null) {
+                IProduct product = selectedProduct.product;
+                if (product != null) {
+                    maxBuyCount = product.getMaxBuyCount();
+                    minBuyCount = product.getMinBuyCount();
+                    int buyCount = calculateBuyCount(scrollBtn.progress);
+                    menu.productDisplaySlot.set(product.getItemStack(buyCount));
+                    banScroll = maxBuyCount <= 1;
+                    buyBtn.setPrevented(false);
+                } else {
+                    banScroll = true;
+                }
+            } else {
+                banScroll = true;
+                buyBtn.setPrevented(true);
+            }
+            if (banScroll) {
+                scrollBtn.reset();
+                scrollBtn.setPrevented(true);
+            } else {
+                scrollBtn.setPrevented(false);
+            }
 
         }
     }
 
+    private int calculateBuyCount(float progress) {
+        int target = Math.round(minBuyCount + (maxBuyCount - minBuyCount) * progress);
+        int adjustedTarget = (target / minBuyCount) * minBuyCount;
+        return Mth.clamp(adjustedTarget, minBuyCount, maxBuyCount);
+    }
+
     @Override
-    protected void slotClicked(Slot pSlot, int pSlotId, int pMouseButton, ClickType pType) {
+    protected void slotClicked(@NotNull Slot pSlot, int pSlotId, int pMouseButton, @NotNull ClickType pType) {
         if (pSlot instanceof VendingMachineMenu.ProductSlot productSlot){
             if (productSlot.active && productSlot.getItem() != ItemStack.EMPTY)  {
                 selectedProduct = selectedProduct == productSlot ? null : productSlot;
@@ -258,13 +361,26 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         pGuiGraphics.drawString(font, str, sx + 211 - font.width(str), sy + 5, 0x00ff00);
         String str2 = Component.translatable("tooltip.screen_info.worth").getString() + getExchangeVal();
         pGuiGraphics.drawString(font, str2, sx + 145, sy + 38, 0x00ff00);
+    }
 
+    private void renderSuitableExchangeMark(GuiGraphics pGuiGraphics) {
+        RenderSystem.enableBlend();
+        float alphaTick = (System.currentTimeMillis() % 1000) * 0.001f;
+        RenderSystem.setShaderColor(1, 1, 1, 0.25f + alphaTick);
+        for (Slot slot : menu.playerInventorySlots) {
+            if (ProductsRegister.getProducts(currentCategory).contains(IProduct.of(slot.getItem().getItem()))) {
+                pGuiGraphics.blit(SUITABLE_SLOT_MARK, this.leftPos + slot.x, this.topPos + slot.y,
+                        0,0, 16,16, 16, 16);
+            }
+        }
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+        RenderSystem.disableBlend();
     }
 
     private long getExchangeVal() {
         if (!exchange.isEmpty()) {
             ItemStack itemStack = exchange.getItem(0);
-            IProduct product = currentProductsMap.get(itemStack.getItem());
+            IProduct product = exchangeProductsMap.get(itemStack.getItem());
             return product.getPrice(itemStack);
         }
         return 0;
@@ -314,9 +430,8 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         public String name;
 
         public Category(int pX, int pY, String name) {
-            super(pX, pY, 32, 28, 0, 0, 0, TAB_SELECTED, 32, 28, (button) -> {
-                ((Category) button).click();
-            });
+            super(pX, pY, 32, 28, 0, 0, 0, TAB_SELECTED, 32,
+                    28, (button) -> ((Category) button).click());
             this.name = name;
             setTooltip(Tooltip.create(Component.translatable("tooltip.category." + name)));
             if (Objects.equals(currentCategory, this.name)) {
@@ -325,7 +440,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         }
 
         @Override
-        public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
             super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
             pGuiGraphics.renderFakeItem(new ItemStack(ProductsRegister.getIcon(name)),
                     this.getX() + getWidth() / 2 - 6,
@@ -334,7 +449,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         }
 
         @Override
-        public void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        public void renderWidget(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
             if (isSelected) {
                 super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
             } else {
@@ -354,11 +469,62 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
                 selectedCategory.isSelected = false;
                 if (!Objects.equals(selectedCategory.name, this.name)) {
                     selectedProduct = null;
+                    menu.productDisplaySlot.set(ItemStack.EMPTY);
                 }
             }
+            pageIndex = 0;
             isSelected = true;
             selectedCategory = this;
             currentProducts = new ArrayList<>(ProductsRegister.getProducts(name));
+            if (ProductsRegister.EXCHANGE.equals(name)) {
+                refineExchangeProducts();
+            }
+        }
+    }
+
+    @Override
+    public void mouseMoved(double pMouseX, double pMouseY) {
+        super.mouseMoved(pMouseX, pMouseY);
+        if (selectedProduct != null) {
+            scrollBtn.mouseMove(pMouseX);
+        }
+    }
+
+    private static class ScrollBtn extends OptionalImageButton {
+        private double xOffset;
+        private final int len;
+        public float progress;
+        private final int originalX;
+
+        public ScrollBtn(int pX, int pY, int pWidth, int pHeight, int len, ResourceLocation pResourceLocation, int pTextureWidth, int pTextureHeight) {
+            super(pX, pY, pWidth, pHeight, 0, 0, 0, pResourceLocation, pTextureWidth, pTextureHeight, (btn) -> {});
+            this.len = len;
+            originalX= getX();
+        }
+
+        @Override
+        public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+            boolean clicked = super.mouseClicked(pMouseX, pMouseY, pButton);
+            if (clicked && mouseDown && !isPrevented()) {
+                xOffset = pMouseX;
+            }
+            return clicked;
+        }
+
+        public void mouseMove(double pMouseX) {
+            if (mouseDown && !isPrevented())  {
+                float dis = (float) (pMouseX - xOffset);
+                xOffset = pMouseX;
+                progress = Mth.clamp( progress + dis / len, 0, 1);
+                this.setX((int) (originalX + len * progress));
+            }
+        }
+
+        public void reset() {
+            progress = 0;
+            xOffset = 0;
+            setX(originalX);
+            super.reset();
         }
     }
 }

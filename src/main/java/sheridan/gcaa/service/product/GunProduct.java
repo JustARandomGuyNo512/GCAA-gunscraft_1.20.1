@@ -11,4 +11,6 @@ public class GunProduct extends CommonProduct{
     public int getMaxBuyCount() {
         return 1;
     }
+
+
 }

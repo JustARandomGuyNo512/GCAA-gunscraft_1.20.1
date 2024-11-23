@@ -29,4 +29,16 @@ public class AmmunitionProduct extends CommonProduct{
     public ItemStack getDisplayItem() {
         return getItemStack(getMaxBuyCount());
     }
+
+    @Override
+    public int getPrice(ItemStack itemStack) {
+        double singlePrice = getDefaultPrice() / (double) getMaxBuyCount();
+        int ammoLeft = ammunition.getAmmoLeft(itemStack);
+        return (int) (ammoLeft * singlePrice);
+    }
+
+    @Override
+    public int getMinBuyCount() {
+        return Math.min((int) Math.ceil(getMaxBuyCount() / (double) getDefaultPrice()), getMaxBuyCount());
+    }
 }

@@ -3,6 +3,7 @@
   "item.gcaa.python_357": "柯尔特 蟒蛇 .357",
   "item.gcaa.vector_45": "维克托 .45",
   "item.gcaa.akm": "Akm",
+  "item.gcaa.akm": "Akm",
   "item.gcaa.m4a1": "M4a1",
   "item.gcaa.awp": "Awp",
   "item.gcaa.m870": "雷明顿 M870",
@@ -126,7 +127,8 @@
   "tooltip.screen_info.unmodified": "（未改装）",
   "tooltip.screen_info.need_terminal": "请使用交易终端打开",
   "tooltip.screen_info.balance": "余额：",
-  "tooltip.screen_info.worth": "价值：",
+  "tooltip.screen_info.worth": "价格：",
+
   "tooltip.category.exchange": "货币兑换",
   "tooltip.category.gun": "枪械",
   "tooltip.category.ammunition": "弹药",

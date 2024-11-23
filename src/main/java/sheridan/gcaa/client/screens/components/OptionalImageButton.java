@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class OptionalImageButton extends ImageButton {
     private boolean prevented;
-    private boolean mouseDown;
+    protected boolean mouseDown;
     private Tooltip preventedTooltip;
     private Tooltip normalTooltip;
     private ResourceLocation currentTexture;
@@ -98,6 +98,16 @@ public class OptionalImageButton extends ImageButton {
     public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
         mouseDown = false;
         return super.mouseReleased(pMouseX, pMouseY, pButton);
+    }
+
+
+    @Override
+    public boolean isMouseOver(double pMouseX, double pMouseY) {
+        boolean over = super.isMouseOver(pMouseX, pMouseY);
+        if (!over) {
+            mouseDown = false;
+        }
+        return over;
     }
 
     @Override

@@ -9,7 +9,7 @@ public class CommonProduct implements IProduct{
 
     public CommonProduct(Item item, int price) {
         this.item = item;
-        this.price = price;
+        this.price = Math.max(price, 1);
     }
 
     @Override
@@ -39,7 +39,12 @@ public class CommonProduct implements IProduct{
 
     @Override
     public int getMaxBuyCount() {
-        return Item.MAX_STACK_SIZE;
+        return item.getMaxStackSize();
+    }
+
+    @Override
+    public int getMinBuyCount() {
+        return 1;
     }
 
     @Override

@@ -16,6 +16,11 @@ public class ProductsRegister {
     private static final Map<String, Set<IProduct>> PRODUCTS = new HashMap<>();
     private static final Map<String, Item> ICON_MAP = new HashMap<>();
 
+    private static int nextId = 0;
+
+    private static final Map<Integer, IProduct> ID_TO_PRODUCT = new HashMap<>();
+    private static final Map<IProduct, Integer> PRODUCT_TO_ID = new HashMap<>();
+
     static {
         PRODUCTS.put(EXCHANGE, new LinkedHashSet<>());
         PRODUCTS.put(GUN, new LinkedHashSet<>());
@@ -30,7 +35,11 @@ public class ProductsRegister {
 
 
     public static void registerProduct(String category, IProduct product) {
-        PRODUCTS.get(category).add(product);
+        if (PRODUCTS.get(category).add(product)) {
+            ID_TO_PRODUCT.put(nextId, product);
+            PRODUCT_TO_ID.put(product, nextId);
+            nextId++;
+        }
         if (!ICON_MAP.containsKey(category)) {
             ICON_MAP.put(category, product.getItem());
         }
@@ -44,5 +53,21 @@ public class ProductsRegister {
 
     public static Item getIcon(String category) {
         return ICON_MAP.getOrDefault(category, Items.AIR);
+    }
+
+    public static IProduct getProductById(int id) {
+        return ID_TO_PRODUCT.get(id);
+    }
+
+    public static int getId(IProduct product) {
+        return PRODUCT_TO_ID.get(product);
+    }
+
+    public static void syncFrom() {
+
+    }
+
+    public static void writeForSync() {
+
     }
 }
