@@ -17,14 +17,16 @@ public class AmmunitionMod implements IAmmunitionMod{
     public final int cost;
     public final String descriptionId;
     public final int themeColor;
+    public final int price;
 
-    public AmmunitionMod(ResourceLocation id, int cost, ResourceLocation icon, Vector4i iconUV, String descriptionId, int themeColor)  {
+    public AmmunitionMod(ResourceLocation id, int cost, ResourceLocation icon, Vector4i iconUV, String descriptionId, int themeColor, int price)  {
         this.id = id;
         this.cost = cost;
         this.icon = icon;
         this.iconUV = iconUV;
         this.descriptionId = descriptionId;
         this.themeColor = themeColor;
+        this.price = price;
         AmmunitionModRegister.registerAmmunitionMod(this);
     }
 
@@ -71,6 +73,12 @@ public class AmmunitionMod implements IAmmunitionMod{
     @Override
     public void onModifyAmmunition(IAmmunition ammunition, CompoundTag dataRateTag) {
 
+    }
+
+
+    @Override
+    public int getPrice() {
+        return price;
     }
 
 }

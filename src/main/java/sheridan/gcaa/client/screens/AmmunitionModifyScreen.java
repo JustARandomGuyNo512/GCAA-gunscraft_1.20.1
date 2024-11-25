@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -22,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
 import org.joml.Vector4i;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.screens.components.OptionalImageButton;
 import sheridan.gcaa.client.screens.containers.AmmunitionModifyMenu;
 import sheridan.gcaa.items.ammunition.Ammunition;
@@ -56,6 +58,7 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
     private final Set<AmmunitionModRegister.ModEntry> selectedMods = new HashSet<>();
     private final Set<IAmmunitionMod> ammoAlreadyHas = new HashSet<>();
     private boolean needUpdate = false;
+    private long balance;
 
     public AmmunitionModifyScreen(AmmunitionModifyMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -98,6 +101,8 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
         if (this.minecraft != null && this.minecraft.player != null) {
             if (!needUpdate) {
                 update();
+                Player player = this.minecraft.player;
+                balance = PlayerStatusProvider.getStatus(player).getBalance();
             }
         } else {
             onClose();
@@ -123,8 +128,13 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
         updateModIcons();
         if (ammoPut) {
             if (selectedMods != null && selectedMods.size() > 0) {
-                applyBtn.setPrevented(false);
-                applyBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.apply")));
+                if (getPrice() <= balance) {
+                    applyBtn.setPrevented(false);
+                    applyBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.apply")));
+                } else {
+                    applyBtn.setPrevented(true);
+                    applyBtn.setPreventedTooltip("");
+                }
             } else {
                 applyBtn.setPrevented(true);
                 applyBtn.setPreventedTooltipStr(Component.translatable("tooltip.btn.no_modify_selected").getString());
@@ -146,6 +156,10 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
             if (total > cap) {
                 return;
             }
+            long price = getPrice();
+            if (balance < price) {
+                return;
+            }
             List<IAmmunitionMod> mods = new ArrayList<>();
             for (AmmunitionModRegister.ModEntry entry : selectedMods) {
                 mods.add(entry.mod());
@@ -153,6 +167,25 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
             PacketHandler.simpleChannel.sendToServer(new ApplyAmmunitionModifyPacket((mods)));
             needUpdate = true;
         }
+    }
+
+    private long getPrice() {
+        if (selectedMods != null && selectedMods.size() > 0) {
+            long price = 0;
+            for (AmmunitionModRegister.ModEntry entry : selectedMods) {
+                price += entry.mod().getPrice();
+            }
+            if (currentAmmo != null) {
+                int ammoLeft = currentAmmo.getAmmoLeft(ammo.getItem(0));
+                if (ammoLeft > 0) {
+                    price *= (double) ammoLeft / currentAmmo.get().getMaxDamage(ammo.getItem(0));
+                } else {
+                    return 0;
+                }
+            }
+            return price;
+        }
+        return 0;
     }
 
     private boolean checkAmmo() {
@@ -187,6 +220,18 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
         this.renderTooltip(pGuiGraphics, pMouseX, pMouseY);
         renderTooltip(pGuiGraphics, pMouseX, pMouseY);
         renderDataRate(pGuiGraphics);
+        renderBalance(pGuiGraphics);
+    }
+
+    private void renderBalance(@NotNull GuiGraphics pGuiGraphics) {
+        if (this.minecraft != null) {
+            Font font = this.minecraft.font;
+            String str = Component.translatable("tooltip.screen_info.balance").getString() + balance;
+            pGuiGraphics.drawString(font, str, this.leftPos + 277, this.topPos + 5, 0x00ff00);
+            int color = balance >= getPrice() ? 0x00ff00 : 0xff0000;
+            String str2 = Component.translatable("tooltip.screen_info.worth").getString() + getPrice();
+            pGuiGraphics.drawString(font, str2, this.leftPos + 277, this.topPos + 15, color);
+        }
     }
 
     private void renderDataRate(@NotNull GuiGraphics pGuiGraphics) {
@@ -240,7 +285,7 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
         }
     }
 
-    public void updateClient(String modsUUID, int maxModCapability, CompoundTag modsTag) {
+    public void updateClient(String modsUUID, int maxModCapability, CompoundTag modsTag, long balance) {
         needUpdate = false;
         selectedMods.clear();
         updateAmmoAlreadyHas();
@@ -257,6 +302,9 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
                 tag.putInt("max_mod_capacity", maxModCapability);
                 tag.put("mods", modsTag);
             }
+        }
+        if (this.minecraft != null && this.minecraft.player != null) {
+            PlayerStatusProvider.getStatus(this.minecraft.player).setBalance(balance);
         }
     }
 
@@ -322,7 +370,8 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
 
     private boolean canAddMod(IAmmunitionMod mod) {
         if (checkAmmo()) {
-            return !ammoAlreadyHas.contains(mod) && currentAmmo.getMaxModCapacity() - getTotal() >= mod.getCostFor(currentAmmo);
+            return !ammoAlreadyHas.contains(mod) && currentAmmo.getMaxModCapacity() - getTotal() >= mod.getCostFor(currentAmmo)
+                    && (balance >= getPrice() + mod.getPrice());
         }
         return false;
     }
@@ -411,15 +460,30 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
         }
 
         private void genTooltip(AmmunitionModRegister.ModEntry entry, boolean blocked) {
-            MutableComponent component = Component.translatable(blocked ? "tooltip.btn.modify_prevented" : "tooltip.btn.select_modify")
+            MutableComponent component = Component.translatable(blocked ?
+                            (balance < (getPrice() + entry.mod().getPrice()) ?  "tooltip.btn.underfund" : "tooltip.btn.modify_prevented") :
+                            "tooltip.btn.select_modify")
                     .append("\n")
                     .append(Component.translatable(entry.mod().getDescriptionId()).withStyle(Style.EMPTY.withColor(entry.mod().getThemeColor())));
             Component specialDescription = entry.mod().getSpecialDescription();
             if (specialDescription != null) {
                 component.append("\n");
-                component.append(specialDescription);
+                component.append(specialDescription).append("\n");
             }
+            String str2 = Component.translatable("tooltip.screen_info.worth").getString() + price(entry.mod());
+            component.append(Component.literal(str2));
             setTooltip(Tooltip.create(component));
+        }
+
+        private long price(IAmmunitionMod mod) {
+            long price = mod.getPrice();
+            if (currentAmmo != null) {
+                int ammoLeft = currentAmmo.getAmmoLeft(ammo.getItem(0));
+                if (ammoLeft > 0) {
+                    price *= (double) ammoLeft / currentAmmo.get().getMaxDamage(ammo.getItem(0));
+                }
+            }
+            return price;
         }
 
         @Override

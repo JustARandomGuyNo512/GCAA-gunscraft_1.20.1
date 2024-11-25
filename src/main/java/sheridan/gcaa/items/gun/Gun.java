@@ -618,11 +618,12 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     @Override
-    public CompoundTag getAmmunitionData(ItemStack itemStack) {
+    public @NotNull CompoundTag getAmmunitionData(ItemStack itemStack) {
         CompoundTag tag = checkAndGet(itemStack);
         return tag.contains("ammunition_data") ? tag.getCompound("ammunition_data") : new CompoundTag();
     }
 
+    @Override
     @Nullable
     public CompoundTag getUsingAmmunitionData(ItemStack itemStack) {
         CompoundTag tag = checkAndGet(itemStack);

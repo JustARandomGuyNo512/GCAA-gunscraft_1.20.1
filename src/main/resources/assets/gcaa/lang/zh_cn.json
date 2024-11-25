@@ -84,6 +84,7 @@
   "tooltip.btn.apply": "应用更改，更改不能撤销，请谨慎考虑！",
   "tooltip.btn.no_modify_selected": "未选择更改项目！",
   "tooltip.btn.modify_prevented": "已经应用此项更改，或剩余空间不足",
+  "tooltip.btn.underfund": "资金不足",
   "tooltip.btn.select_modify": "点击以选中此项更改",
   "tooltip.action_res.prevented_by_child": "无法操作，有子配件依赖于此",
   "tooltip.action_res.conflict": "与配件'$id'产生冲突",

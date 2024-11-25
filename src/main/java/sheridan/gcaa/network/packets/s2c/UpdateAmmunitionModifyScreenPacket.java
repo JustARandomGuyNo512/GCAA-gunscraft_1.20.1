@@ -14,13 +14,15 @@ public class UpdateAmmunitionModifyScreenPacket implements IPacket<UpdateAmmunit
     public String modsUUID;
     public int maxModCapability;
     public CompoundTag modsTag;
+    public long balance;
 
     public UpdateAmmunitionModifyScreenPacket() {}
 
-    public UpdateAmmunitionModifyScreenPacket(String modsUUID, int maxModCapability, CompoundTag modsTag) {
+    public UpdateAmmunitionModifyScreenPacket(String modsUUID, int maxModCapability, CompoundTag modsTag, long balance) {
         this.modsUUID = modsUUID;
         this.maxModCapability = maxModCapability;
         this.modsTag = modsTag;
+        this.balance = balance;
     }
 
     @Override
@@ -28,6 +30,7 @@ public class UpdateAmmunitionModifyScreenPacket implements IPacket<UpdateAmmunit
         buffer.writeUtf(message.modsUUID);
         buffer.writeInt(message.maxModCapability);
         buffer.writeNbt(message.modsTag);
+        buffer.writeLong(message.balance);
     }
 
     @Override
@@ -35,7 +38,8 @@ public class UpdateAmmunitionModifyScreenPacket implements IPacket<UpdateAmmunit
         return new UpdateAmmunitionModifyScreenPacket(
                 buffer.readUtf(),
                 buffer.readInt(),
-                buffer.readNbt()
+                buffer.readNbt(),
+                buffer.readLong()
         );
     }
 
@@ -44,7 +48,7 @@ public class UpdateAmmunitionModifyScreenPacket implements IPacket<UpdateAmmunit
         supplier.get().enqueueWork(() -> {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
                     {
-                        Clients.updateAmmunitionModifyScreen(message.modsUUID, message.maxModCapability, message.modsTag);
+                        Clients.updateAmmunitionModifyScreen(message.modsUUID, message.maxModCapability, message.modsTag, message.balance);
                     }
             );
         });

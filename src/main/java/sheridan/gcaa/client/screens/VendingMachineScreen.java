@@ -298,7 +298,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
                     }
                 }
                 if (ProductsRegister.GUN.equals(currentCategory)) {
-                    buyBtn.setPosition(this.leftPos + 185, this.topPos + 86);
+                    buyBtn.setPosition(this.leftPos + 233, this.topPos + 86);
                 } else {
                     buyBtn.setPosition(this.leftPos + 185, this.topPos + 140);
                 }
@@ -321,9 +321,14 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
                     int buyCount = calculateBuyCount(scrollBtn.progress);
                     menu.productDisplaySlot.set(product.getItemStack(buyCount));
                     banScroll = maxBuyCount <= 1;
-                    buyBtn.setPrevented(false);
+                    ItemStack stack = menu.productDisplaySlot.getItem();
+                    if (stack.getItem() != Items.AIR) {
+                        int price = product.getPrice(stack);
+                        buyBtn.setPrevented(balance < price);
+                    }
                 } else {
                     banScroll = true;
+                    buyBtn.setPrevented(true);
                 }
             } else {
                 banScroll = true;
@@ -515,7 +520,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             if (mouseDown && !isPrevented())  {
                 float dis = (float) (pMouseX - xOffset);
                 xOffset = pMouseX;
-                progress = Mth.clamp( progress + dis / len, 0, 1);
+                progress = Mth.clamp( progress + dis / len, 0, 1.05f);
                 this.setX((int) (originalX + len * progress));
             }
         }

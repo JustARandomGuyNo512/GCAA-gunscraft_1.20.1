@@ -40,7 +40,7 @@ public class Explosive extends AmmunitionMod {
 
     public Explosive() {
         super(new ResourceLocation(GCAA.MODID, "explosive"), 3, ICONS_0, new Vector4i(16, 0, 128, 128),
-                "gcaa.ammunition_mod.explosive", new Color(0xe5944e).getRGB());
+                "gcaa.ammunition_mod.explosive", new Color(0xe5944e).getRGB(), 50);
     }
 
     @Override

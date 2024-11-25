@@ -83,9 +83,6 @@ public class VendingMachine extends HorizontalDirectionalBlock implements IForge
             if (player.getMainHandItem().getItem() instanceof TransactionTerminal) {
                 player.openMenu(new VendingMachineMenuProvider(level, blockPos));
                 player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
-
-                //充值：minecraft兑换成金额 交易页1
-                //交易：金额兑换成物品 交易页2
             } else {
                 player.sendSystemMessage(Component.translatable("tooltip.screen_info.need_terminal"));
             }

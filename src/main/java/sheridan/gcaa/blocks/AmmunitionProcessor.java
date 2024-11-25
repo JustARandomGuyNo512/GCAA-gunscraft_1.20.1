@@ -2,6 +2,7 @@ package sheridan.gcaa.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -21,6 +22,7 @@ import net.minecraftforge.common.extensions.IForgeBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.client.screens.containers.providers.AmmunitionMenuProvider;
+import sheridan.gcaa.items.TransactionTerminal;
 
 public class AmmunitionProcessor extends HorizontalDirectionalBlock implements IForgeBlock {
     public static final VoxelShape VOXEL_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
@@ -70,8 +72,12 @@ public class AmmunitionProcessor extends HorizontalDirectionalBlock implements I
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide) {
-            pPlayer.openMenu(new AmmunitionMenuProvider(pLevel, pPos));
-            pPlayer.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
+            if (pPlayer.getMainHandItem().getItem() instanceof TransactionTerminal) {
+                pPlayer.openMenu(new AmmunitionMenuProvider(pLevel, pPos));
+                pPlayer.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
+            } else {
+                pPlayer.sendSystemMessage(Component.translatable("tooltip.screen_info.need_terminal"));
+            }
             return InteractionResult.CONSUME;
         }
         return InteractionResult.SUCCESS;

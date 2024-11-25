@@ -18,4 +18,5 @@ public interface IProduct {
 
     default void writeToNBT(ItemStack itemStack) {}
     default void syncFormNBT(ItemStack itemStack) {}
+    default void onRemoveRegistry() {}
 }

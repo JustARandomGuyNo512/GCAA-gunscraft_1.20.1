@@ -40,7 +40,7 @@ public class Incendiary extends AmmunitionMod {
 
     public Incendiary() {
         super(new ResourceLocation(GCAA.MODID, "incendiary"), 2, ICONS_0, new Vector4i(48, 0, 128, 128),
-                "gcaa.ammunition_mod.incendiary", new Color(0xee2816).getRGB());
+                "gcaa.ammunition_mod.incendiary", new Color(0xee2816).getRGB(), 60);
     }
 
     @Override

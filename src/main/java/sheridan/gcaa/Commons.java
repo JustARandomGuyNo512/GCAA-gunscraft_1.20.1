@@ -7,14 +7,13 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.proxies.AkmAttachmentSlotProxy;
 import sheridan.gcaa.attachmentSys.proxies.Mk47AttachmentSlotProxy;
 import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.replaceableParts.Mk47Handguard;
 import sheridan.gcaa.items.attachments.replaceableParts.RecoilControlPart;
 import sheridan.gcaa.items.attachments.replaceableParts.RecoilLowerPart;
 import sheridan.gcaa.items.attachments.replaceableParts.WeightPart;
 import sheridan.gcaa.service.ProductsRegister;
-import sheridan.gcaa.service.product.AmmunitionProduct;
-import sheridan.gcaa.service.product.CommonProduct;
-import sheridan.gcaa.service.product.GunProduct;
+import sheridan.gcaa.service.product.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -184,44 +183,44 @@ public class Commons {
                 new AmmunitionProduct(ModItems.AMMO_VOG_25.get(), 100));
 
         ProductsRegister.registerProducts(ProductsRegister.ATTACHMENT,
-                new CommonProduct(ModItems.PISTOL_SUPPRESSOR.get(), 50),
-                new CommonProduct(ModItems.AK_SUPPRESSOR.get(), 110),
-                new CommonProduct(ModItems.AR_SUPPRESSOR.get(), 130),
-                new CommonProduct(ModItems.SHOTGUN_SUPPRESSOR.get(), 150),
-                new CommonProduct(ModItems.SNIPER_SUPPRESSOR.get(), 210),
-                new CommonProduct(ModItems.OSPREY_SUPPRESSOR.get(), 150),
-                new CommonProduct(ModItems.AK_COMPENSATOR.get(), 180),
-                new CommonProduct(ModItems.AR_COMPENSATOR.get(), 220),
-                new CommonProduct(ModItems.SMG_COMPENSATOR.get(), 160),
-                new CommonProduct(ModItems.AK_IMPROVED_HANDGUARD.get(), 270),
-                new CommonProduct(ModItems.AK_RAIL_BRACKET.get(), 100),
-                new CommonProduct(ModItems.AK_IMPROVED_DUST_COVER.get(), 100),
-                new CommonProduct(ModItems.AK_TACTICAL_DUST_COVER.get(), 120),
-                new CommonProduct(ModItems.MICRO_RED_DOT.get(), 75),
-                new CommonProduct(ModItems.RED_DOT.get(), 102),
-                new CommonProduct(ModItems.HOLOGRAPHIC.get(), 100),
-                new CommonProduct(ModItems.ACOG.get(), 220),
-                new CommonProduct(ModItems.SCOPE_X10.get(), 400),
-                new CommonProduct(ModItems.VERTICAL_GRIP.get(), 80),
-                new CommonProduct(ModItems.GP_25.get(), 240),
-                new CommonProduct(ModItems.AR_GAS_BLOCK.get(), 30),
-                new CommonProduct(ModItems.AR_STOCK_TUBE.get(), 60),
-                new CommonProduct(ModItems.AR_RAILED_HANDGUARD.get(), 180),
-                new CommonProduct(ModItems.M249_RAILED_HANDGUARD.get(), 100),
-                new CommonProduct(ModItems.AR_EXTEND_MAG.get(), 150),
-                new CommonProduct(ModItems.AK_EXTEND_MAG.get(), 170),
-                new CommonProduct(ModItems.GLOCK_EXTEND_MAG.get(), 70),
-                new CommonProduct(ModItems.VECTOR_45_EXTEND_MAG.get(), 130),
-                new CommonProduct(ModItems.SNIPER_EXTEND_MAG.get(), 50),
-                new CommonProduct(ModItems.SHOTGUN_EXTEND_BAY.get(), 70),
-                new CommonProduct(ModItems.CTR_STOCK.get(), 166),
-                new CommonProduct(ModItems.MICRO_LASER_SIGHT.get(), 30),
-                new CommonProduct(ModItems.LASER_SIGHT.get(), 50),
-                new CommonProduct(ModItems.MICRO_FLASHLIGHT.get(), 50),
-                new CommonProduct(ModItems.FLASHLIGHT.get(), 70),
-                new CommonProduct(ModItems.HORIZONTAL_LASER_SIGHT.get(), 60),
-                new CommonProduct(ModItems.RAIL_PANEL.get(), 15),
-                new CommonProduct(ModItems.RAL_PANEL_SHORT.get(), 10));
+                new AttachmentProduct(ModItems.PISTOL_SUPPRESSOR.get(), 50),
+                new AttachmentProduct(ModItems.AK_SUPPRESSOR.get(), 110),
+                new AttachmentProduct(ModItems.AR_SUPPRESSOR.get(), 130),
+                new AttachmentProduct(ModItems.SHOTGUN_SUPPRESSOR.get(), 150),
+                new AttachmentProduct(ModItems.SNIPER_SUPPRESSOR.get(), 210),
+                new AttachmentProduct(ModItems.OSPREY_SUPPRESSOR.get(), 150),
+                new AttachmentProduct(ModItems.AK_COMPENSATOR.get(), 180),
+                new AttachmentProduct(ModItems.AR_COMPENSATOR.get(), 220),
+                new AttachmentProduct(ModItems.SMG_COMPENSATOR.get(), 160),
+                new AttachmentProduct(ModItems.AK_IMPROVED_HANDGUARD.get(), 270),
+                new AttachmentProduct(ModItems.AK_RAIL_BRACKET.get(), 100),
+                new AttachmentProduct(ModItems.AK_IMPROVED_DUST_COVER.get(), 100),
+                new AttachmentProduct(ModItems.AK_TACTICAL_DUST_COVER.get(), 120),
+                new AttachmentProduct(ModItems.MICRO_RED_DOT.get(), 75),
+                new AttachmentProduct(ModItems.RED_DOT.get(), 102),
+                new AttachmentProduct(ModItems.HOLOGRAPHIC.get(), 100),
+                new AttachmentProduct(ModItems.ACOG.get(), 220),
+                new AttachmentProduct(ModItems.SCOPE_X10.get(), 400),
+                new AttachmentProduct(ModItems.VERTICAL_GRIP.get(), 80),
+                new GrenadeLauncherProduct(ModItems.GP_25.get(), 240),
+                new AttachmentProduct(ModItems.AR_GAS_BLOCK.get(), 30),
+                new AttachmentProduct(ModItems.AR_STOCK_TUBE.get(), 60),
+                new AttachmentProduct(ModItems.AR_RAILED_HANDGUARD.get(), 180),
+                new AttachmentProduct(ModItems.M249_RAILED_HANDGUARD.get(), 100),
+                new AttachmentProduct(ModItems.AR_EXTEND_MAG.get(), 150),
+                new AttachmentProduct(ModItems.AK_EXTEND_MAG.get(), 170),
+                new AttachmentProduct(ModItems.GLOCK_EXTEND_MAG.get(), 70),
+                new AttachmentProduct(ModItems.VECTOR_45_EXTEND_MAG.get(), 130),
+                new AttachmentProduct(ModItems.SNIPER_EXTEND_MAG.get(), 50),
+                new AttachmentProduct(ModItems.SHOTGUN_EXTEND_BAY.get(), 70),
+                new AttachmentProduct(ModItems.CTR_STOCK.get(), 166),
+                new AttachmentProduct(ModItems.MICRO_LASER_SIGHT.get(), 30),
+                new AttachmentProduct(ModItems.LASER_SIGHT.get(), 50),
+                new AttachmentProduct(ModItems.MICRO_FLASHLIGHT.get(), 50),
+                new AttachmentProduct(ModItems.FLASHLIGHT.get(), 70),
+                new AttachmentProduct(ModItems.HORIZONTAL_LASER_SIGHT.get(), 60),
+                new AttachmentProduct(ModItems.RAIL_PANEL.get(), 15),
+                new AttachmentProduct(ModItems.RAL_PANEL_SHORT.get(), 10));
 
         ProductsRegister.registerProducts(ProductsRegister.OTHER,
                 new CommonProduct(Items.IRON_INGOT, 20),

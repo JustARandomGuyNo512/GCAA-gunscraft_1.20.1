@@ -13,7 +13,7 @@ import java.awt.*;
 public class HollowPoint extends AmmunitionMod {
     public HollowPoint() {
         super(new ResourceLocation(GCAA.MODID, "hollow_point"), 10, ICONS_0, new Vector4i(32, 0, 128, 128),
-                "gcaa.ammunition_mod.hollow_point", new Color(0x53bd92).getRGB());
+                "gcaa.ammunition_mod.hollow_point", new Color(0x53bd92).getRGB(), 40);
     }
 
     @Override

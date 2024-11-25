@@ -435,9 +435,9 @@ public class Clients {
         }
     }
 
-    public static void updateAmmunitionModifyScreen(String modsUUID, int maxModCapability, CompoundTag modsTag) {
+    public static void updateAmmunitionModifyScreen(String modsUUID, int maxModCapability, CompoundTag modsTag, long balance) {
         if (Minecraft.getInstance().screen instanceof AmmunitionModifyScreen ammunitionModifyScreen) {
-            ammunitionModifyScreen.updateClient(modsUUID, maxModCapability, modsTag);
+            ammunitionModifyScreen.updateClient(modsUUID, maxModCapability, modsTag, balance);
         }
     }
 

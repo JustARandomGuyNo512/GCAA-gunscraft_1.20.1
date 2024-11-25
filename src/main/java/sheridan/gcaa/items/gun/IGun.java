@@ -4,6 +4,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Commons;
 import sheridan.gcaa.client.IReloadTask;
 import sheridan.gcaa.items.ammunition.IAmmunition;
@@ -56,7 +58,10 @@ public interface IGun {
     void bindAmmunition(ItemStack gunStack, ItemStack ammunitionStack, IAmmunition ammunition);
     void clearAmmo(ItemStack gunStack, Player player);
     boolean isNotUsingSelectedAmmo(ItemStack itemStack);
+    @NotNull
     CompoundTag getAmmunitionData(ItemStack itemStack);
+    @Nullable
+    CompoundTag getUsingAmmunitionData(ItemStack itemStack);
     String getIdentity(ItemStack stack);
 
     default boolean allowShootWhileReloading() {return false;}

@@ -63,8 +63,24 @@ public class ProductsRegister {
         return PRODUCT_TO_ID.get(product);
     }
 
-    public static void syncFrom() {
+    public static List<IProduct> getAllProducts() {
+        return new ArrayList<>(ID_TO_PRODUCT.values());
+    }
 
+    private static void clear() {
+        List<IProduct> allProducts = getAllProducts();
+        for (IProduct product : allProducts) {
+            product.onRemoveRegistry();
+        }
+        ID_TO_PRODUCT.clear();
+        PRODUCT_TO_ID.clear();
+        PRODUCTS.clear();
+        ICON_MAP.clear();
+        nextId = 0;
+    }
+
+    public static void syncFrom() {
+        clear();
     }
 
     public static void writeForSync() {
