@@ -56,5 +56,6 @@ public interface IAmmunition {
 
     String getFullName(ItemStack itemStack);
 
+
     String genModsUUID(List<IAmmunitionMod> mods);
 }

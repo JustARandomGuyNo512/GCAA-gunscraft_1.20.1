@@ -1,8 +1,10 @@
 package sheridan.gcaa.service.product;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
+import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.Gun;
@@ -28,6 +30,7 @@ public class GunProduct extends CommonProduct implements IRecycleProduct{
     public long getRecyclePrice(ItemStack gunStack, List<Component> tooltip) {
         long price = getPrice(gunStack);
         IGun gun = getGun();
+        tooltip.add(Component.translatable(gun.getGun().getDescriptionId()).append(" = " + price));
         List<IAttachment> attachments = AttachmentsHandler.INSTANCE.getAttachments(gunStack, gun);
         for (IAttachment attachment : attachments) {
             AttachmentProduct attachmentProduct = AttachmentProduct.get(attachment.get());
@@ -40,10 +43,14 @@ public class GunProduct extends CommonProduct implements IRecycleProduct{
             IAmmunition ammunition = gun.getGunProperties().caliber.ammunition;
             AmmunitionProduct ammunitionProduct = AmmunitionProduct.get(ammunition.get());
             if (ammunitionProduct != null) {
-
+                price += ammunitionProduct.getRecyclePrice(gunStack, tooltip);
             }
-            //CompoundTag ammunitionData = gun.getUsingAmmunitionData(gunStack);
         }
         return price;
+    }
+
+    @Override
+    public IProduct get() {
+        return this;
     }
 }

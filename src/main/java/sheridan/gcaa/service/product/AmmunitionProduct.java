@@ -1,9 +1,12 @@
 package sheridan.gcaa.service.product;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.ammunition.IAmmunition;
+import sheridan.gcaa.items.ammunition.IAmmunitionMod;
+import sheridan.gcaa.items.gun.IGun;
 
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +63,49 @@ public class AmmunitionProduct extends CommonProduct implements IRecycleProduct{
 
     @Override
     public long getRecyclePrice(ItemStack itemStack, List<Component> tooltip) {
+        if (itemStack.getItem() instanceof IGun gun) {
+            int ammoLeft = gun.getAmmoLeft(itemStack);
+            if (ammoLeft > 0) {
+                double singlePrice = getDefaultPrice() / (double) getMaxBuyCount();
+                long price = (int) (ammoLeft * singlePrice);
+                StringBuilder name = new StringBuilder(Component.translatable(ammunition.get().getDescriptionId()).getString());
+                CompoundTag usingAmmunitionData = gun.getUsingAmmunitionData(itemStack);
+                if (usingAmmunitionData != null && usingAmmunitionData.contains("mods")) {
+                    CompoundTag modTag = usingAmmunitionData.getCompound("mods");
+                    List<IAmmunitionMod> mods = ammunition.getMods(modTag);
+                    long modPrice = 0;
+                    if (mods.size() > 0) {
+                        name.append("-");
+                        for (IAmmunitionMod mod : mods) {
+                            modPrice += mod.getPrice();
+                            name.append(Component.translatable(mod.getDescriptionId()).getString()).append(" ");
+                        }
+                    }
+                    modPrice *= ((double) ammoLeft / ammunition.get().getMaxDamage());
+                    price += modPrice;
+                }
+                tooltip.add(Component.literal(name.toString()).append(" x " + ammoLeft).append(" = " + price));
+                return price;
+            }
+        } else if (itemStack.getItem() instanceof IAmmunition ammunition && ammunition == this.ammunition) {
+            List<IAmmunitionMod> mods = ammunition.getMods(itemStack);
+            int price = getPrice(itemStack);
+            int ammoLeft = ammunition.getAmmoLeft(itemStack);
+            if (!mods.isEmpty() && ammoLeft > 0) {
+                long modPrice = 0;
+                for (IAmmunitionMod mod : mods) {
+                    modPrice += mod.getPrice();
+                }
+                modPrice *= ((double) ammoLeft / ammunition.get().getMaxDamage());
+                price += modPrice;
+            }
+            return price;
+        }
+        return 0;
+    }
 
-        return getPrice(itemStack);
+    @Override
+    public IProduct get() {
+        return this;
     }
 }

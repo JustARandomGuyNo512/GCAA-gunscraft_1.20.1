@@ -85,6 +85,7 @@
   "tooltip.btn.no_modify_selected": "未选择更改项目！",
   "tooltip.btn.modify_prevented": "已经应用此项更改，或剩余空间不足",
   "tooltip.btn.underfund": "资金不足",
+  "tooltip.btn.long_press_to_accept": "长按以接受回收协议",
   "tooltip.btn.select_modify": "点击以选中此项更改",
   "tooltip.action_res.prevented_by_child": "无法操作，有子配件依赖于此",
   "tooltip.action_res.conflict": "与配件'$id'产生冲突",
@@ -129,19 +130,22 @@
   "tooltip.screen_info.need_terminal": "请使用交易终端打开",
   "tooltip.screen_info.balance": "余额：",
   "tooltip.screen_info.worth": "价格：",
+  "tooltip.screen_info.recycle_detail": "回收明细：",
+  "tooltip.screen_info.final_worth": "最终价格：",
 
   "tooltip.category.exchange": "货币兑换",
   "tooltip.category.gun": "枪械",
   "tooltip.category.ammunition": "弹药",
   "tooltip.category.attachment": "配件",
   "tooltip.category.other": "其它",
+  "tooltip.category.recycle": "回收",
 
 
   "gcaa.unit.chunk_pre_second": "区块/秒",
   "gcaa.unit.chunk": "区块",
 
   "label.attachments_screen.suitable": "适用的配件↓",
-  "label.attachments_screen.wait_response": "等待服务端的响应",
+  "label.attachments_screen.wait_response": "等待服务端的响应（若长时间无响应请按ESC）",
   "label.attachments_screen.health": "玩家生命值：",
   "label.client_settings.title": "客户端设置",
 

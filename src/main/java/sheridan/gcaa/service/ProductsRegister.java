@@ -3,6 +3,7 @@ package sheridan.gcaa.service;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import sheridan.gcaa.service.product.IProduct;
+import sheridan.gcaa.service.product.IRecycleProduct;
 
 import java.util.*;
 
@@ -12,6 +13,7 @@ public class ProductsRegister {
     public static final String AMMUNITION = "ammunition";
     public static final String ATTACHMENT = "attachment";
     public static final String OTHER = "other";
+    public static final String RECYCLE = "recycle";
 
     private static final Map<String, Set<IProduct>> PRODUCTS = new HashMap<>();
     private static final Map<String, Item> ICON_MAP = new HashMap<>();
@@ -27,18 +29,24 @@ public class ProductsRegister {
         PRODUCTS.put(AMMUNITION, new LinkedHashSet<>());
         PRODUCTS.put(ATTACHMENT, new LinkedHashSet<>());
         PRODUCTS.put(OTHER, new LinkedHashSet<>());
+        PRODUCTS.put(RECYCLE, new LinkedHashSet<>());
     }
 
     public static Set<IProduct> getProducts(String type) {
         return PRODUCTS.getOrDefault(type, new LinkedHashSet<>());
     }
 
-
     public static void registerProduct(String category, IProduct product) {
+        if (RECYCLE.equals(category)) {
+            return;
+        }
         if (PRODUCTS.get(category).add(product)) {
             ID_TO_PRODUCT.put(nextId, product);
             PRODUCT_TO_ID.put(product, nextId);
             nextId++;
+            if (product instanceof IRecycleProduct) {
+                PRODUCTS.get(RECYCLE).add(product);
+            }
         }
         if (!ICON_MAP.containsKey(category)) {
             ICON_MAP.put(category, product.getItem());
@@ -46,6 +54,9 @@ public class ProductsRegister {
     }
 
     public static void registerProducts(String category, IProduct... products) {
+        if (RECYCLE.equals(category)) {
+            return;
+        }
         for (IProduct product : products) {
             registerProduct(category, product);
         }

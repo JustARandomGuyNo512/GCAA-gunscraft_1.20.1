@@ -23,6 +23,8 @@ public class VendingMachineMenu extends AbstractContainerMenu {
     public final BlockPos blockPos;
     public Inventory playerInventory;
     public SimpleContainer exchange;
+    public SimpleContainer recycle;
+    public RecycleSlot recycleSlot;
     public List<HindSlot> playerInventorySlots;
     public ExchangeSlot exchangeSlot;
     public SimpleContainer products;
@@ -39,6 +41,25 @@ public class VendingMachineMenu extends AbstractContainerMenu {
         @Override
         public boolean mayPlace(ItemStack pStack) {
             Set<IProduct> products = ProductsRegister.getProducts(ProductsRegister.EXCHANGE);
+            return products.contains(IProduct.of(pStack.getItem()));
+        }
+
+        @Override
+        public boolean isActive() {
+            return active;
+        }
+    }
+
+    public static class RecycleSlot extends Slot {
+        public boolean active = true;
+
+        public RecycleSlot(Container pContainer, int pSlot, int pX, int pY) {
+            super(pContainer, pSlot, pX, pY);
+        }
+
+        @Override
+        public boolean mayPlace(ItemStack pStack) {
+            Set<IProduct> products = ProductsRegister.getProducts(ProductsRegister.RECYCLE);
             return products.contains(IProduct.of(pStack.getItem()));
         }
 
@@ -109,6 +130,10 @@ public class VendingMachineMenu extends AbstractContainerMenu {
         exchangeSlot = new ExchangeSlot(exchange, 0, 96, 35);
         this.addSlot(exchangeSlot);
 
+        recycle = new SimpleContainer(1);
+        recycleSlot = new RecycleSlot(recycle, 0, 96, 35);
+        this.addSlot(recycleSlot);
+
         products = new SimpleContainer(35);
         productSlots = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
@@ -140,6 +165,7 @@ public class VendingMachineMenu extends AbstractContainerMenu {
         super.removed(pPlayer);
         this.access.execute((p_39371_, p_39372_) -> {
             this.clearContainer(pPlayer, this.exchange);
+            this.clearContainer(pPlayer, this.recycle);
         });
     }
 }

@@ -84,6 +84,7 @@
   "tooltip.btn.no_modify_selected": "No modification item selected!" ,
   "tooltip.btn.modify_prevented": "The modification has been applied or there is not enough space left ",
   "tooltip.btn.underfund": "Underfund",
+  "tooltip.btn.long_press_to_accept": "Long press to accept the recycle agreement ",
   "tooltip.btn.select_modify": "Click to select this modification",
   "tooltip.action_res.prevented_by_child": "Cannot operate, there are sub-attachments dependent on this",
   "tooltip.action_res.conflict": "Conflict with attachment '$id'",
@@ -127,17 +128,21 @@
   "tooltip.screen_info.need_terminal": "Please use the trading terminal to open",
   "tooltip.screen_info.balance": "Balance: ",
   "tooltip.screen_info.worth": "Worth: ",
+  "tooltip.screen_info.recycle_detail": "Recycle details: ",
+  "tooltip.screen_info.final_worth": "Final price: ",
+
   "tooltip.category.exchange": "Balance Exchange",
   "tooltip.category.gun": "Gun",
   "tooltip.category.ammunition": "Ammunition",
   "tooltip.category.attachment": "Attachment",
   "tooltip.category.other": "Other",
+  "tooltip.category.recycle": "Recycle",
 
   "gcaa.unit.chunk_pre_second": "Chunks/s",
   "gcaa.unit.chunk": "Chunk",
 
   "label.attachments_screen.suitable": "Suitable attachments↓",
-  "label.attachments_screen.wait_response": "Waiting for response from the server",
+  "label.attachments_screen.wait_response": "Wait for a response from the server (press ESC if there is no response for a long time) ",
   "label.attachments_screen.health": "Player health: ",
   "label.client_settings.title": "Client side settings",
 

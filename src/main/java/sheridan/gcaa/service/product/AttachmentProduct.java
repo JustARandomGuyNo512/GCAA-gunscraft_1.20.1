@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AttachmentProduct extends CommonProduct implements IRecycleProduct{
+public class AttachmentProduct extends CommonProduct implements IRecycleProduct {
     private static final Map<Attachment, AttachmentProduct> ATTACHMENT_PRODUCT_MAP = new HashMap<>();
     public IAttachment attachment;
 
@@ -35,6 +35,12 @@ public class AttachmentProduct extends CommonProduct implements IRecycleProduct{
 
     @Override
     public long getRecyclePrice(ItemStack gunStack, List<Component> tooltip) {
+        tooltip.add(Component.translatable(attachment.get().getDescriptionId()).append(" = " + getDefaultPrice()));
         return getDefaultPrice();
+    }
+
+    @Override
+    public IProduct get() {
+        return this;
     }
 }

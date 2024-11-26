@@ -62,6 +62,10 @@ public class OptionalImageButton extends ImageButton {
         mouseDown = false;
     }
 
+    public boolean isMouseDown() {
+        return mouseDown;
+    }
+
     public void setNormalTooltip(String key) {
         normalTooltip = Tooltip.create(Component.translatable(key));
     }

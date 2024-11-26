@@ -6,11 +6,13 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.SimpleContainer;
@@ -38,8 +40,10 @@ import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.BuyProductPacket;
 import sheridan.gcaa.network.packets.c2s.ExchangePacket;
+import sheridan.gcaa.network.packets.c2s.RecycleItemPacket;
 import sheridan.gcaa.service.ProductsRegister;
 import sheridan.gcaa.service.product.IProduct;
+import sheridan.gcaa.service.product.IRecycleProduct;
 import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.*;
@@ -55,11 +59,15 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
     private static final ResourceLocation SELECTED_PRODUCT = new ResourceLocation(GCAA.MODID, "textures/gui/component/selected_slot.png");
     private static final ResourceLocation SUITABLE_SLOT_MARK = new ResourceLocation(GCAA.MODID, "textures/gui/component/suitable_slot_mark.png");
     private static final ResourceLocation BUY = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/buy.png");
+    private static final ResourceLocation RECYCLE = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/recycle_screen.png");
+    private static final ResourceLocation RECYCLE_TAB = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/recycle.png");
+    private static final ResourceLocation RECYCLE_TAB_SELECTED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/recycle_selected.png");
     private String currentCategory = ProductsRegister.EXCHANGE;
     private long balance = 0;
     public SimpleContainer exchange;
     private List<IProduct> currentProducts = new ArrayList<>(ProductsRegister.getProducts(currentCategory));
     private final Map<Item, IProduct> exchangeProductsMap = new HashMap<>();
+    private final Map<Item, IRecycleProduct> recycleProductsMap = new HashMap<>();
     private OptionalImageButton exchangeBtn;
     private boolean needUpdate = false;
     private Category selectedCategory;
@@ -72,6 +80,10 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
     private int maxBuyCount = 1;
     private int minBuyCount = maxBuyCount;
     private Category recycle;
+    private OptionalImageButton recycleBtn;
+    private Button detailBtn;
+    private int recycleTick = 0;
+    private long recyclePrice = 0;
 
     public VendingMachineScreen(VendingMachineMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -92,6 +104,10 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         gridlayout.defaultCellSetting().padding(1, 1, 1, 1);
         exchangeBtn = new OptionalImageButton(this.leftPos + 120, this.topPos + 62, 16, 16, 0, 0, 0, EXCHANGE_BTN, 16, 16,  (btn) -> exchange());
         rowHelper.addChild(exchangeBtn);
+        recycleBtn = new OptionalImageButton(this.leftPos + 120, this.topPos + 55, 16, 16, 0, 0, 0, BUY, 16, 16,  (btn) -> {});
+        rowHelper.addChild(recycleBtn);
+        recycleBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.long_press_to_accept")));
+        recycleBtn.visible = false;
         prevPageBtn = new OptionalImageButton(this.leftPos + 45, this.topPos + 10, 16, 16, 0, 0, 0, NEXT_PAGE, 16, 16,  (btn) -> switchPage(-1));
         rowHelper.addChild(prevPageBtn);
         nextPageBtn = new OptionalImageButton(this.leftPos + 116, this.topPos + 10, 16, 16, 0, 0, 0, PREV_PAGE, 16, 16,  (btn) -> switchPage(1));
@@ -99,11 +115,17 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         scrollBtn = new ScrollBtn(this.leftPos + 140, this.topPos + 106, 15, 12, 90, SCROLL_BTN, 15, 12);
         rowHelper.addChild(scrollBtn);
         scrollBtn.visible = false;
+        detailBtn = Button.builder(Component.literal("?"), (b)->{}).size(16, 16).pos(this.leftPos + 140, this.topPos + 55).build();
+        rowHelper.addChild(detailBtn);
+        detailBtn.visible = false;
         rowHelper.addChild(new Category(this.leftPos + 11, this.topPos + 4, ProductsRegister.EXCHANGE));
         rowHelper.addChild(new Category(this.leftPos + 11, this.topPos + 35, ProductsRegister.GUN));
         rowHelper.addChild(new Category(this.leftPos + 11, this.topPos + 67, ProductsRegister.AMMUNITION));
         rowHelper.addChild(new Category(this.leftPos + 11, this.topPos + 99, ProductsRegister.ATTACHMENT));
         rowHelper.addChild(new Category(this.leftPos + 11, this.topPos + 131, ProductsRegister.OTHER));
+        recycle = new Category(this.leftPos + 213, this.topPos + 131, ProductsRegister.RECYCLE)
+                .overrideTexture(RECYCLE_TAB, RECYCLE_TAB_SELECTED);
+        rowHelper.addChild(recycle);
 
         buyBtn = new OptionalImageButton(this.leftPos + 185, this.topPos + 140, 16, 16, 0, 0, 0, BUY, 16, 16,  (btn) -> buy());
         rowHelper.addChild(buyBtn);
@@ -148,13 +170,21 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             Font font = this.minecraft.font;
             if (ProductsRegister.EXCHANGE.equals(currentCategory)) {
                 renderBalance(pGuiGraphics, font, startX, startY);
-                renderSuitableExchangeMark(pGuiGraphics);
+                renderSuitableItemMark(pGuiGraphics);
             } else {
                 renderPageSign(pGuiGraphics, font);
                 String str = Component.translatable("tooltip.screen_info.balance").getString() + balance;
-                pGuiGraphics.drawString(font, str, this.leftPos + 248 - font.width(str), this.topPos + 4, 0x00ff00);
+                pGuiGraphics.drawString(font, str, this.leftPos +
+                        (ProductsRegister.RECYCLE.equals(currentCategory) ? 211 : 248)
+                        - font.width(str), this.topPos + 4, 0x00ff00);
             }
-            if (selectedProduct != null) {
+            if (ProductsRegister.RECYCLE.equals(currentCategory)) {
+                renderSuitableItemMark(pGuiGraphics);
+                renderRecycleProgress(pGuiGraphics, font);
+                String str2 = Component.translatable("tooltip.screen_info.worth").getString() + recyclePrice;
+                pGuiGraphics.drawString(font, str2, startX + 145, startY + 38, 0x00ff00);
+            }
+            if (selectedProduct != null && !ProductsRegister.RECYCLE.equals(currentCategory)) {
                 pGuiGraphics.blit(SELECTED_PRODUCT, this.leftPos + selectedProduct.x - 3, this.topPos + selectedProduct.y - 3,
                         0,0, 22,22, 22, 22);
                 IProduct product = selectedProduct.product;
@@ -174,6 +204,29 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             }
         }
     }
+
+    private void renderRecycleProgress(GuiGraphics graphics, Font font) {
+        int w1 = font.width(">");
+        int w2 = font.width("_");
+        int startX = this.leftPos + 48;
+        StringBuilder builder1 = new StringBuilder();
+        StringBuilder builder2 = new StringBuilder();
+        float progress = recycleTick / 40f;
+        int count1 = (int) (progress * 161 / w1);
+        int count2 = (int) ((1 - progress) * 161 / w2);
+        builder1.append(">".repeat(Math.max(0, count1)));
+        builder2.append("_".repeat(Math.max(0, count2)));
+        String string = builder1.append(builder2).toString();
+        graphics.drawString(font, string, startX, this.topPos + 70, getColor(progress));
+    }
+
+    private int getColor(float progress) {
+        int red = Math.round(progress * 255);
+        int green = Math.round((1 - progress) * 255);
+        int blue = 0;
+        return (255 << 24) | (red << 16) | (green << 8) | blue;
+    }
+
 
     private void renderGun(GuiGraphics graphics, ItemStack itemStack) {
         if (itemStack.getItem() instanceof IGun gun) {
@@ -220,6 +273,9 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
     }
 
     private void renderPageSign(GuiGraphics pGuiGraphics, Font font) {
+        if (ProductsRegister.RECYCLE.equals(currentCategory)) {
+            return;
+        }
         int pageNum = getPageCount();
         String str = (pageIndex + 1) + " / " + pageNum;
         pGuiGraphics.drawString(font, Component.literal(str), this.leftPos + 89 - font.width(str) / 2, this.topPos + 13, 0xffffff);
@@ -233,6 +289,15 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         exchangeProductsMap.clear();
         for (IProduct product : currentProducts) {
             exchangeProductsMap.put(product.getItem(), product);
+        }
+    }
+
+    private void refineRecycleProducts() {
+        recycleProductsMap.clear();
+        for (IProduct product : currentProducts) {
+            if (product instanceof IRecycleProduct recycleProduct) {
+                recycleProductsMap.put(product.getItem(), recycleProduct);
+            }
         }
     }
 
@@ -275,18 +340,50 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             Player player = this.minecraft.player;
             balance = PlayerStatusProvider.getStatus(player).getBalance();
             boolean isInExchange = ProductsRegister.EXCHANGE.equals(currentCategory);
+            boolean isInRecycle = ProductsRegister.RECYCLE.equals(currentCategory);
+            recycleBtn.visible = isInRecycle;
+            detailBtn.visible = isInRecycle && menu.recycleSlot.getItem() != ItemStack.EMPTY;
+            recycleBtn.setPrevented(menu.recycleSlot.getItem() == ItemStack.EMPTY);
+            if (!recycleBtn.isPrevented() && isInRecycle && recycleBtn.isMouseDown()) {
+                recycleTick = Math.min(40, recycleTick + 1);
+                if (recycleTick == 40) {
+                    recycle();
+                    recycleBtn.mouseReleased(0, 0, 0);
+                }
+            } else {
+                recycleTick = 0;
+            }
+            if (detailBtn.visible) {
+                IRecycleProduct product = recycleProductsMap.get(menu.recycleSlot.getItem().getItem());
+                if (product != null) {
+                    List<Component> tooltips = new ArrayList<>();
+                    long recyclePrice = product.getRecyclePrice(menu.recycleSlot.getItem(), tooltips);
+                    MutableComponent translatable = Component.translatable("tooltip.screen_info.recycle_detail").append("\n");
+                    for (Component component: tooltips) {
+                        translatable.append(component).append("\n");
+                    }
+                    long finalPrice = (long) (recyclePrice * IRecycleProduct.RECYCLE_PRICE_RATE);
+                    translatable.append(Component.translatable("tooltip.screen_info.final_worth").getString()
+                            + " " + recyclePrice + " x " + IRecycleProduct.RECYCLE_PRICE_RATE + " = " + finalPrice);
+                    detailBtn.setTooltip(Tooltip.create(translatable));
+                    this.recyclePrice = finalPrice;
+                }
+            } else {
+                recyclePrice = 0;
+            }
             exchangeBtn.visible = isInExchange;
             exchangeBtn.setPrevented(getExchangeVal() == 0);
             for (VendingMachineMenu.HindSlot slot : menu.playerInventorySlots) {
-                slot.active = isInExchange;
+                slot.active = isInExchange || isInRecycle;
             }
             menu.exchangeSlot.active = isInExchange;
+            menu.recycleSlot.active = isInRecycle;
 
             for (VendingMachineMenu.ProductSlot slot : menu.productSlots) {
-                slot.active = !isInExchange;
+                slot.active = !isInExchange && !isInRecycle;
             }
 
-            if (!isInExchange) {
+            if (!isInExchange && !isInRecycle) {
                 List<IProduct> products = getPageProducts();
                 for (int i = 0; i < 35; i++) {
                     if (i < products.size()) {
@@ -302,13 +399,16 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
                 } else {
                     buyBtn.setPosition(this.leftPos + 185, this.topPos + 140);
                 }
+                recycle.setPosition(this.leftPos + 253, recycle.getY());
+            } else {
+                recycle.setPosition(this.leftPos + 213, recycle.getY());
             }
 
-            nextPageBtn.visible = !isInExchange;
-            prevPageBtn.visible = !isInExchange;
-            buyBtn.visible = !isInExchange;
+            nextPageBtn.visible = !isInExchange && !isInRecycle;
+            prevPageBtn.visible = !isInExchange && !isInRecycle;
+            buyBtn.visible = !isInExchange && !isInRecycle;
 
-            boolean commonPage = !isInExchange && !ProductsRegister.GUN.equals(currentCategory);
+            boolean commonPage = !isInExchange && !ProductsRegister.GUN.equals(currentCategory) && !isInRecycle;
             scrollBtn.visible = commonPage;
             menu.productDisplaySlot.active = commonPage;
 
@@ -368,7 +468,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         pGuiGraphics.drawString(font, str2, sx + 145, sy + 38, 0x00ff00);
     }
 
-    private void renderSuitableExchangeMark(GuiGraphics pGuiGraphics) {
+    private void renderSuitableItemMark(GuiGraphics pGuiGraphics) {
         RenderSystem.enableBlend();
         float alphaTick = (System.currentTimeMillis() % 1000) * 0.001f;
         RenderSystem.setShaderColor(1, 1, 1, 0.25f + alphaTick);
@@ -404,6 +504,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         switch (currentCategory) {
             case ProductsRegister.EXCHANGE -> {return EXCHANGE_PNG;}
             case ProductsRegister.GUN -> {return GUNS;}
+            case ProductsRegister.RECYCLE -> {return RECYCLE;}
             default -> {return COMMON;}
         }
     }
@@ -433,6 +534,8 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         public static final ResourceLocation TAB_SELECTED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/tab_selected.png");
         public boolean isSelected;
         public String name;
+        private ResourceLocation overrideTexture = null;
+        private ResourceLocation overrideTextureSelected = null;
 
         public Category(int pX, int pY, String name) {
             super(pX, pY, 32, 28, 0, 0, 0, TAB_SELECTED, 32,
@@ -453,17 +556,29 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             );
         }
 
+        public Category overrideTexture(ResourceLocation texture, ResourceLocation textureSelected) {
+            this.overrideTexture = texture;
+            this.overrideTextureSelected = textureSelected;
+            return this;
+        }
+
         @Override
         public void renderWidget(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
             if (isSelected) {
-                super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+                if (overrideTextureSelected != null) {
+                    this.renderTexture(pGuiGraphics, overrideTextureSelected, this.getX(), this.getY(), this.xTexStart, this.yTexStart, this.yDiffTex, this.width, this.height, this.textureWidth, this.textureHeight);
+                } else {
+                    super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+                }
             } else {
                 if (isHovered) {
                     pGuiGraphics.setColor(27 / 255f, 161 / 255f, 226 / 255f, 0.6f);
                 } else {
                     pGuiGraphics.setColor(0.5f, 0.5f, 0.5f, 1f);
                 }
-                this.renderTexture(pGuiGraphics, TAB, this.getX(), this.getY(), this.xTexStart, this.yTexStart, this.yDiffTex, this.width, this.height, this.textureWidth, this.textureHeight);
+                this.renderTexture(pGuiGraphics,
+                        overrideTexture == null ? TAB : overrideTexture
+                        , this.getX(), this.getY(), this.xTexStart, this.yTexStart, this.yDiffTex, this.width, this.height, this.textureWidth, this.textureHeight);
             }
             pGuiGraphics.setColor(1, 1, 1, 1);
         }
@@ -484,6 +599,9 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             if (ProductsRegister.EXCHANGE.equals(name)) {
                 refineExchangeProducts();
             }
+            if (ProductsRegister.RECYCLE.equals(name)) {
+                refineRecycleProducts();
+            }
         }
     }
 
@@ -493,6 +611,32 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         if (selectedProduct != null) {
             scrollBtn.mouseMove(pMouseX);
         }
+    }
+
+    private void recycle() {
+        if (needUpdate) {
+            return;
+        }
+        ItemStack itemStack = menu.recycleSlot.getItem();
+        if (recyclePrice == 0 || itemStack == ItemStack.EMPTY) {
+            return;
+        }
+        IRecycleProduct product = recycleProductsMap.get(itemStack.getItem());
+        if (product == null) {
+            return;
+        }
+        PacketHandler.simpleChannel.sendToServer(new RecycleItemPacket(ProductsRegister.getId(product.get())));
+        recyclePrice = 0;
+        menu.recycleSlot.set(ItemStack.EMPTY);
+        needUpdate = true;
+    }
+
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        if (needUpdate) {
+            return false;
+        }
+        return super.mouseClicked(pMouseX, pMouseY, pButton);
     }
 
     private static class ScrollBtn extends OptionalImageButton {
