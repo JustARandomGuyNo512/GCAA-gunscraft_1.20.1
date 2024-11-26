@@ -211,15 +211,12 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         int w1 = font.width(">");
         int w2 = font.width(".");
         int startX = this.leftPos + 48;
-        StringBuilder builder1 = new StringBuilder();
-        StringBuilder builder2 = new StringBuilder();
         float progress = recycleTick / 40f;
         int count1 = (int) (progress * 161 / w1);
         int count2 = (int) ((1 - progress) * 161 / w2);
-        builder1.append(">".repeat(Math.max(0, count1)));
-        builder2.append(".".repeat(Math.max(0, count2)));
-        String string = builder1.append(builder2).toString();
-        graphics.drawString(font, string, startX, this.topPos + 20, getColor(progress));
+        String builder2 = ".".repeat(Math.max(0, count2));
+        graphics.drawString(font, ">".repeat(Math.max(0, count1)), startX, this.topPos + 20, getColor(progress));
+        graphics.drawString(font, builder2, startX + 161 - font.width(builder2), this.topPos + 20, getColor(progress));
     }
 
     private int getColor(float progress) {

@@ -18,12 +18,10 @@ public class GrenadeLauncherProduct extends AttachmentProduct{
     @Override
     public long getRecyclePrice(ItemStack itemStack, List<Component> tooltip) {
         long recyclePrice = super.getRecyclePrice(itemStack, tooltip);
-        if (itemStack.getItem() instanceof IGun gun && GrenadeLauncher.hasGrenade(itemStack, gun)) {
-            IAmmunition ammunition = grenadeLauncher.ammunition;
-            AmmunitionProduct ammunitionProduct = AmmunitionProduct.get(ammunition.get());
-            if (ammunitionProduct != null) {
-
-            }
+        IAmmunition ammunition = grenadeLauncher.ammunition;
+        AmmunitionProduct ammunitionProduct = AmmunitionProduct.get(ammunition.get());
+        if (ammunitionProduct != null) {
+            recyclePrice += ammunitionProduct.getRecyclePrice(itemStack, tooltip);
         }
         return recyclePrice;
     }
