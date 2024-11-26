@@ -91,14 +91,18 @@ public class AmmunitionProduct extends CommonProduct implements IRecycleProduct{
             List<IAmmunitionMod> mods = ammunition.getMods(itemStack);
             int price = getPrice(itemStack);
             int ammoLeft = ammunition.getAmmoLeft(itemStack);
+            StringBuilder name = new StringBuilder(Component.translatable(ammunition.get().getDescriptionId()).getString());
             if (!mods.isEmpty() && ammoLeft > 0) {
                 long modPrice = 0;
+                name.append("-");
                 for (IAmmunitionMod mod : mods) {
                     modPrice += mod.getPrice();
+                    name.append(Component.translatable(mod.getDescriptionId()).getString()).append(" ");
                 }
                 modPrice *= ((double) ammoLeft / ammunition.get().getMaxDamage());
                 price += modPrice;
             }
+            tooltip.add(Component.literal(name.toString()).append(" x " + ammoLeft).append(" = " + price));
             return price;
         }
         return 0;

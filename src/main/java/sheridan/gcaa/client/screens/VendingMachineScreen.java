@@ -104,18 +104,20 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         gridlayout.defaultCellSetting().padding(1, 1, 1, 1);
         exchangeBtn = new OptionalImageButton(this.leftPos + 120, this.topPos + 62, 16, 16, 0, 0, 0, EXCHANGE_BTN, 16, 16,  (btn) -> exchange());
         rowHelper.addChild(exchangeBtn);
-        recycleBtn = new OptionalImageButton(this.leftPos + 120, this.topPos + 55, 16, 16, 0, 0, 0, BUY, 16, 16,  (btn) -> {});
+        recycleBtn = new OptionalImageButton(this.leftPos + 120, this.topPos + 62, 16, 16, 0, 0, 0, BUY, 16, 16,  (btn) -> {});
         rowHelper.addChild(recycleBtn);
         recycleBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.long_press_to_accept")));
         recycleBtn.visible = false;
         prevPageBtn = new OptionalImageButton(this.leftPos + 45, this.topPos + 10, 16, 16, 0, 0, 0, NEXT_PAGE, 16, 16,  (btn) -> switchPage(-1));
         rowHelper.addChild(prevPageBtn);
+        prevPageBtn.visible = false;
         nextPageBtn = new OptionalImageButton(this.leftPos + 116, this.topPos + 10, 16, 16, 0, 0, 0, PREV_PAGE, 16, 16,  (btn) -> switchPage(1));
         rowHelper.addChild(nextPageBtn);
+        nextPageBtn.visible = false;
         scrollBtn = new ScrollBtn(this.leftPos + 140, this.topPos + 106, 15, 12, 90, SCROLL_BTN, 15, 12);
         rowHelper.addChild(scrollBtn);
         scrollBtn.visible = false;
-        detailBtn = Button.builder(Component.literal("?"), (b)->{}).size(16, 16).pos(this.leftPos + 140, this.topPos + 55).build();
+        detailBtn = Button.builder(Component.literal("?"), (b)->{}).size(16, 16).pos(this.leftPos + 140, this.topPos + 62).build();
         rowHelper.addChild(detailBtn);
         detailBtn.visible = false;
         rowHelper.addChild(new Category(this.leftPos + 11, this.topPos + 4, ProductsRegister.EXCHANGE));
@@ -207,7 +209,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
 
     private void renderRecycleProgress(GuiGraphics graphics, Font font) {
         int w1 = font.width(">");
-        int w2 = font.width("_");
+        int w2 = font.width(".");
         int startX = this.leftPos + 48;
         StringBuilder builder1 = new StringBuilder();
         StringBuilder builder2 = new StringBuilder();
@@ -215,9 +217,9 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         int count1 = (int) (progress * 161 / w1);
         int count2 = (int) ((1 - progress) * 161 / w2);
         builder1.append(">".repeat(Math.max(0, count1)));
-        builder2.append("_".repeat(Math.max(0, count2)));
+        builder2.append(".".repeat(Math.max(0, count2)));
         String string = builder1.append(builder2).toString();
-        graphics.drawString(font, string, startX, this.topPos + 70, getColor(progress));
+        graphics.drawString(font, string, startX, this.topPos + 20, getColor(progress));
     }
 
     private int getColor(float progress) {
