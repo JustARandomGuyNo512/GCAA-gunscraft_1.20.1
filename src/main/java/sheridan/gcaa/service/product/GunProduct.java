@@ -1,10 +1,8 @@
 package sheridan.gcaa.service.product;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
-import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.Gun;
