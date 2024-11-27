@@ -13,8 +13,10 @@ import sheridan.gcaa.items.gun.IGun;
 import java.util.List;
 
 public class GunProduct extends CommonProduct implements IRecycleProduct{
+    public final Gun gun;
     public GunProduct(Gun gun, int price) {
         super(gun, price);
+        this.gun = gun;
     }
 
     @Override
@@ -52,5 +54,9 @@ public class GunProduct extends CommonProduct implements IRecycleProduct{
     @Override
     public IProduct get() {
         return this;
+    }
+
+    public String getIntroduction() {
+        return Component.translatable(gun.getDescriptionId() + ".introduction").getString();
     }
 }

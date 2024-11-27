@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;
@@ -14,16 +15,14 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.lwjgl.opengl.GL11;
@@ -42,11 +41,15 @@ import sheridan.gcaa.network.packets.c2s.BuyProductPacket;
 import sheridan.gcaa.network.packets.c2s.ExchangePacket;
 import sheridan.gcaa.network.packets.c2s.RecycleItemPacket;
 import sheridan.gcaa.service.ProductsRegister;
+import sheridan.gcaa.service.product.GunProduct;
 import sheridan.gcaa.service.product.IProduct;
 import sheridan.gcaa.service.product.IRecycleProduct;
 import sheridan.gcaa.sounds.ModSounds;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
+import java.util.function.BiFunction;
 
 public class VendingMachineScreen extends AbstractContainerScreen<VendingMachineMenu> {
     private static final ResourceLocation EXCHANGE_PNG = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/exchange.png");
@@ -169,7 +172,16 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         int startX = (this.width - this.getXSize()) / 2;
         int startY = (this.height - this.getYSize()) / 2;
         if (this.minecraft != null) {
-            Font font = this.minecraft.font;
+            if (ProductsRegister.GUN.equals(currentCategory) && selectedProduct != null) {
+                if (selectedProduct.product instanceof GunProduct gunProduct) {
+                    Font font = this.minecraft.font;
+                    List<FormattedCharSequence> sequences = font.split(Component.literal(gunProduct.getIntroduction()), 112);
+                    int lines = Math.min(sequences.size(), 55 / font.lineHeight);
+                    for (int i = 0; i < lines; i ++) {
+                        pGuiGraphics.drawString(font, sequences.get(i), this.leftPos + 137, this.topPos + 102 + i * font.lineHeight, Color.CYAN.getRGB());
+                    }
+                }
+            }
             if (ProductsRegister.EXCHANGE.equals(currentCategory)) {
                 renderBalance(pGuiGraphics, font, startX, startY);
                 renderSuitableItemMark(pGuiGraphics);
@@ -205,6 +217,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
                 }
             }
         }
+
     }
 
     private void renderRecycleProgress(GuiGraphics graphics, Font font) {
@@ -394,7 +407,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
                     }
                 }
                 if (ProductsRegister.GUN.equals(currentCategory)) {
-                    buyBtn.setPosition(this.leftPos + 233, this.topPos + 86);
+                    buyBtn.setPosition(this.leftPos + 233, this.topPos + 85);
                 } else {
                     buyBtn.setPosition(this.leftPos + 185, this.topPos + 140);
                 }

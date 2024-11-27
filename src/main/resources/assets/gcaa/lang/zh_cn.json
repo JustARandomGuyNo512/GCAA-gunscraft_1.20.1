@@ -3,7 +3,6 @@
   "item.gcaa.python_357": "柯尔特 蟒蛇 .357",
   "item.gcaa.vector_45": "维克托 .45",
   "item.gcaa.akm": "Akm",
-  "item.gcaa.akm": "Akm",
   "item.gcaa.m4a1": "M4a1",
   "item.gcaa.awp": "Awp",
   "item.gcaa.m870": "雷明顿 M870",
@@ -182,5 +181,16 @@
   "gcaa.ammunition_data.min_damage_rate": "末端伤害：",
   "gcaa.ammunition_data.effective_range_rate": "有效射程：",
   "gcaa.ammunition_data.speed_rate": "弹速：",
-  "gcaa.ammunition_data.penetration_rate": "穿深："
+  "gcaa.ammunition_data.penetration_rate": "穿深：",
+
+  "item.gcaa.g19.introduction": "可靠的小伙伴，无论是切磋还是实战，总能陪你度过‘弹尽粮绝’的危机。",
+  "item.gcaa.python_357.introduction": "致命一击的代名词，左轮中的王者，谁用谁知道。",
+  "item.gcaa.vector_45.introduction": "近战之王，火力狂暴，贴脸输出从不含糊。",
+  "item.gcaa.akm.introduction": "经典中的经典，耐用又致命，懂的都懂，不多解释。",
+  "item.gcaa.m4a1.introduction": "射速与精准的完美结合，无论新手还是老鸟，都爱它。",
+  "item.gcaa.awp.introduction": "一枪一个，何必多费子弹？小心‘老六’出没。",
+  "item.gcaa.m870.introduction": "近距离清场利器，听见咔嚓声，敌人就开始瑟瑟发抖了。",
+  "item.gcaa.m249.introduction": "火力压制的代名词，子弹狂喷的感觉让人上头。",
+  "item.gcaa.xm1014.introduction": "半自动霰弹枪，快到你还没按完扳机，敌人已经倒下了。",
+  "item.gcaa.mk47.introduction": "现代突击步枪的典范，威力与颜值并存，打起来倍儿爽。"
 }
