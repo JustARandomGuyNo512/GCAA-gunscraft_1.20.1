@@ -10,6 +10,9 @@ import sheridan.gcaa.items.ammunition.IAmmunition;
 
 import java.awt.*;
 
+/**
+ * 达姆弹-普通子弹改造
+ */
 public class HollowPoint extends AmmunitionMod {
     public HollowPoint() {
         super(new ResourceLocation(GCAA.MODID, "hollow_point"), 10, ICONS_0, new Vector4i(32, 0, 128, 128),

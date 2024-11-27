@@ -26,7 +26,7 @@ public class AttachmentSlot {
     private boolean locked = false;
 
     /**
-     * Create a root slot of an attachment tree.
+     * * Create a root slot of an attachment tree.
      **/
     protected AttachmentSlot() {
         root = true;
@@ -80,7 +80,7 @@ public class AttachmentSlot {
     }
 
     /**
-     * Returns a set of attachment item registry name that this slot accepts.
+     * * Returns a set of attachment item registry name that this slot accepts.
      * */
     public Set<String> getAcceptedAttachments() {
         return acceptedAttachments;

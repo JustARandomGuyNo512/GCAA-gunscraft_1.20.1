@@ -47,7 +47,7 @@ public class AttachmentsRegister {
     }
 
     /**
-     * 通过配件对象获取模型
+     * * 通过配件对象获取模型
      * @param attachment 配件对象
      * @return 返回获取到的模型
      */

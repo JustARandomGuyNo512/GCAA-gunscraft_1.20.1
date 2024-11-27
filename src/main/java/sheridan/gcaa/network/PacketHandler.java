@@ -47,6 +47,8 @@ public class PacketHandler
         registerPacket(RequestDataSyncPacket.class, new RequestDataSyncPacket());
         registerPacket(BuyProductPacket.class, new BuyProductPacket());
         registerPacket(RecycleItemPacket.class, new RecycleItemPacket());
+        registerPacket(TransactionTerminalRequestPacket.class, new TransactionTerminalRequestPacket());
+        registerPacket(UpdateTransactionDataPacket.class, new UpdateTransactionDataPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

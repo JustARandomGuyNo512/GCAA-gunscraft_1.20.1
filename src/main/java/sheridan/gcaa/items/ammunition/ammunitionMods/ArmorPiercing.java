@@ -11,6 +11,9 @@ import sheridan.gcaa.items.ammunition.IAmmunition;
 
 import java.awt.*;
 
+/**
+ * 穿甲弹-普通子弹改造
+ */
 public class ArmorPiercing extends AmmunitionMod {
     public ArmorPiercing() {
         super(new ResourceLocation(GCAA.MODID, "armor_piercing"), 4, ICONS_0, new Vector4i(0, 0, 128, 128)

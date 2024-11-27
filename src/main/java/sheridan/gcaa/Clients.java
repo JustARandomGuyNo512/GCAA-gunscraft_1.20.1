@@ -59,6 +59,7 @@ import sheridan.gcaa.client.render.fx.muzzleFlash.CommonMuzzleFlashes;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
 import sheridan.gcaa.client.screens.AmmunitionModifyScreen;
 import sheridan.gcaa.client.screens.GunModifyScreen;
+import sheridan.gcaa.client.screens.TransactionTerminalScreen;
 import sheridan.gcaa.client.screens.VendingMachineScreen;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.ammunition.AmmunitionModRegister;
@@ -71,6 +72,7 @@ import sheridan.gcaa.sounds.ModSounds;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -426,6 +428,11 @@ public class Clients {
             if (player.getMainHandItem().getItem() instanceof IGun gun) {
                 attachmentsScreen.updateGuiContext(attachmentsTag, gun);
             }
+        }
+    }
+    public static void updateTransactionTerminalScreenData(List<Integer> playerIds) {
+        if (Minecraft.getInstance().screen instanceof TransactionTerminalScreen terminalScreen) {
+            terminalScreen.updateClientDataFromServer(playerIds);
         }
     }
 
