@@ -1,9 +1,16 @@
 package sheridan.gcaa.client.screens;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.components.PlayerFaceRenderer;
+import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -18,7 +25,12 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class TransactionTerminalScreen extends Screen {
     private List<Player> players;
+    private List<Player> searchPlayers = new ArrayList<>();
+    private List<Player> pagePlayers = new ArrayList<>();
     private int time = 0;
+    private EditBox searchBar;
+    private static final int pageSize = 8;
+    private int currentPage = 0;
     private static final ResourceLocation BACKGROUND = new ResourceLocation(GCAA.MODID, "textures/gui/screen/transaction_terminal.png");
 
     public TransactionTerminalScreen() {
@@ -28,7 +40,7 @@ public class TransactionTerminalScreen extends Screen {
     }
 
     /**
-     * @desciption 一坤秒 轮询一次玩家列表
+     * @description 一坤秒 轮询一次玩家列表
      */
     @Override
     public void tick() {
@@ -42,6 +54,7 @@ public class TransactionTerminalScreen extends Screen {
             PacketHandler.simpleChannel.sendToServer(new TransactionTerminalRequestPacket());
             time = 0;
         }
+        updatePlayers();
     }
 
     /**
@@ -64,22 +77,102 @@ public class TransactionTerminalScreen extends Screen {
     @Override
     protected void init() {
         super.init();
+        GridLayout gridlayout = new GridLayout();
+        gridlayout.defaultCellSetting();
+        GridLayout.RowHelper rowHelper = gridlayout.createRowHelper(2);
+        gridlayout.defaultCellSetting().padding(4, 4, 4, 4);
+        int leftPos = (this.width - 256) / 2;
+        int topPos = (this.height - 185) / 2;
+        searchBar = new EditBox(this.font, leftPos + 9, topPos + 5, 107, 12, Component.literal(""));
+        searchBar.setBordered(true);
+        searchBar.setFGColor(0x000000);
+        rowHelper.addChild(searchBar);
+        for (int i = 0; i < pageSize; i++) {
+            rowHelper.addChild(new PlayerButton(leftPos + 15 , topPos + 26 + i * 17, (button) -> ((PlayerButton) button).onClick(), i));
+        }
+        // 上一页按钮
+        Button lastPage = Button.builder(Component.literal("<"), (b) -> pageTurning(false)).size(14, 14).pos(leftPos + 9, topPos + 167).build();
+        rowHelper.addChild(lastPage);
+        // 下一页按钮
+        Button nextPage = Button.builder(Component.literal(">"), (b) -> pageTurning(true)).size(14, 14).pos(leftPos + 102, topPos + 167).build();
+        rowHelper.addChild(nextPage);
+        gridlayout.visitWidgets(this::addRenderableWidget);
     }
-
     /**
      * @description 渲染界面UI
-     * @param pGuiGraphics
-     * @param pMouseX
-     * @param pMouseY
-     * @param pPartialTick
      */
     @Override
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.renderBackground(pGuiGraphics);
         int startX = (this.width - 256) / 2;
         int startY = (this.height - 185) / 2;
+        int pageNum = (int) Math.ceil((double) searchPlayers.size() / pageSize);
         pGuiGraphics.blit(BACKGROUND, startX, startY,  0,0, 256, 185, 256, 185);
+        // 页数
+        pGuiGraphics.drawCenteredString(font, Component.literal((pageNum == 0 ? 0 : currentPage + 1) + "/" + (pageNum)), startX + 60, startY + 170, 0xffffff);
+        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+    }
+    /**
+     * @description 玩家按钮
+     */
+    private class PlayerButton extends ImageButton {
+        public int index;
+        public PlayerButton(int pX, int pY, OnPress pOnPress, int index) {
+            super(pX, pY, 100, 15, 0, 0, BACKGROUND, pOnPress);
+            this.index = index;
+        }
+        // 渲染头像和名字
+        @Override
+        public void renderWidget(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+            AbstractClientPlayer player = getPlayer();
+            if (player == null) return;
+            // 头像
+            ResourceLocation skinTextureLocation = player.getSkinTextureLocation();
+            PlayerFaceRenderer.draw(pGuiGraphics, skinTextureLocation,  getX(), getY(), 14, true, false);
+            // 名字
+            pGuiGraphics.drawString(font, player.getDisplayName().getString(), getX() + 20, getY() + 4, 0xffffff);
+        }
+        public void onClick() {
+            AbstractClientPlayer player = getPlayer();
+            if (player == null) return;
+            // TODO 点击后获取转账对象信息
+            System.out.println(player.getName());
+        }
+        public AbstractClientPlayer getPlayer() {
+            if (index < pagePlayers.size()) {
+                Player player = pagePlayers.get(index);
+                return (AbstractClientPlayer) player;
+            }
+            return null;
+        }
+    }
+    private void updatePlayers() {
+        String value = searchBar.getValue();
+        if (players == null || players.isEmpty()) return;
+        searchPlayers.clear();
+        for (int i = 0; i < 20; i++) {
+            Player player = players.get(0);
+            if (value.isEmpty() || player.getDisplayName().getString().contains(value)) {
+                // 模糊搜索
+                searchPlayers.add(player);
+            }
+        }
+//        for (int i = 0; i < players.size(); i++) {
+//            Player player = players.get(i);
+//            if (value.isEmpty() ||player.getDisplayName().getString().contains(value)) {
+//                // 模糊搜索
+//                searchPlayers.add(player);
+//            }
+//        }
+        pagePlayers = searchPlayers.subList(
+                currentPage * pageSize,
+                Math.min((currentPage + 1) * pageSize, searchPlayers.size())
+        );
+    }
+
+    private void pageTurning(boolean isNextPage) {
+        currentPage = isNextPage ? currentPage + 1 : currentPage - 1;
+        currentPage = Mth.clamp(currentPage, 0, searchPlayers.size() / pageSize);
 
     }
     private boolean checkPlayer() {
