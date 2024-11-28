@@ -17,6 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.TransactionTerminalRequestPacket;
 
@@ -25,12 +26,15 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class TransactionTerminalScreen extends Screen {
     private List<Player> players;
-    private List<Player> searchPlayers = new ArrayList<>();
+    private final List<Player> searchPlayers = new ArrayList<>();
     private List<Player> pagePlayers = new ArrayList<>();
+    private Player selectedPlayer;
     private int time = 0;
     private EditBox searchBar;
+    private EditBox moneyInput;
     private static final int pageSize = 8;
     private int currentPage = 0;
+    private long balance;
     private static final ResourceLocation BACKGROUND = new ResourceLocation(GCAA.MODID, "textures/gui/screen/transaction_terminal.png");
 
     public TransactionTerminalScreen() {
@@ -55,6 +59,11 @@ public class TransactionTerminalScreen extends Screen {
             time = 0;
         }
         updatePlayers();
+       if (checkPlayer()) {
+           Player player = this.minecraft.player;
+           balance = PlayerStatusProvider.getStatus(player).getBalance();
+       }
+        moneyInput.setEditable(checkSelectPlayer());
     }
 
     /**
@@ -96,6 +105,16 @@ public class TransactionTerminalScreen extends Screen {
         // 下一页按钮
         Button nextPage = Button.builder(Component.literal(">"), (b) -> pageTurning(true)).size(14, 14).pos(leftPos + 102, topPos + 167).build();
         rowHelper.addChild(nextPage);
+        // 金额输入框
+        moneyInput = new EditBox(this.font, leftPos + 131, topPos + 75, 110, 12, Component.literal(""));
+        moneyInput.setBordered(true);
+        moneyInput.setFGColor(0x000000);
+        rowHelper.addChild(moneyInput);
+        // 转账按钮
+        Button transferButton = Button.builder(Component.translatable("tooltip.screen_info.transfer_accounts"), (b) -> {
+            System.out.println("转账");
+        }).size(110, 20).pos(leftPos + 131, topPos + 100).build();
+        rowHelper.addChild(transferButton);
         gridlayout.visitWidgets(this::addRenderableWidget);
     }
     /**
@@ -107,9 +126,19 @@ public class TransactionTerminalScreen extends Screen {
         int startX = (this.width - 256) / 2;
         int startY = (this.height - 185) / 2;
         int pageNum = (int) Math.ceil((double) searchPlayers.size() / pageSize);
+        // 界面UI
         pGuiGraphics.blit(BACKGROUND, startX, startY,  0,0, 256, 185, 256, 185);
         // 页数
         pGuiGraphics.drawCenteredString(font, Component.literal((pageNum == 0 ? 0 : currentPage + 1) + "/" + (pageNum)), startX + 60, startY + 170, 0xffffff);
+        // 余额
+        String str = Component.translatable("tooltip.screen_info.balance").getString() + balance;
+        pGuiGraphics.drawString(font, str, startX + 252 - font.width(str), startY + 5, 0x00ff00);
+        // 转账文字
+        String transferText = Component.translatable("tooltip.screen_info.transfer_accounts_to").getString();
+        if (checkSelectPlayer()) {
+            transferText += " " + selectedPlayer.getDisplayName().getString();
+        }
+        pGuiGraphics.drawString(font, transferText, startX + 156, startY + 45, 0xffffff);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
     }
     /**
@@ -135,8 +164,7 @@ public class TransactionTerminalScreen extends Screen {
         public void onClick() {
             AbstractClientPlayer player = getPlayer();
             if (player == null) return;
-            // TODO 点击后获取转账对象信息
-            System.out.println(player.getName());
+            selectedPlayer = player;
         }
         public AbstractClientPlayer getPlayer() {
             if (index < pagePlayers.size()) {
@@ -177,5 +205,8 @@ public class TransactionTerminalScreen extends Screen {
     }
     private boolean checkPlayer() {
         return this.minecraft != null && this.minecraft.player != null;
+    }
+    private boolean checkSelectPlayer() {
+        return this.selectedPlayer != null;
     }
 }
