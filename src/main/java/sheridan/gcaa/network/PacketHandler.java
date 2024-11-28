@@ -49,6 +49,8 @@ public class PacketHandler
         registerPacket(RecycleItemPacket.class, new RecycleItemPacket());
         registerPacket(TransactionTerminalRequestPacket.class, new TransactionTerminalRequestPacket());
         registerPacket(UpdateTransactionDataPacket.class, new UpdateTransactionDataPacket());
+        registerPacket(TransferAccountsPacket.class, new TransferAccountsPacket());
+        registerPacket(UpdateTransferBalancePacket.class, new UpdateTransferBalancePacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {

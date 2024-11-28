@@ -435,7 +435,15 @@ public class Clients {
             terminalScreen.updateClientDataFromServer(playerIds);
         }
     }
-
+    public static void updateTransferBalance(Long balance) {
+        if (Minecraft.getInstance().screen instanceof TransactionTerminalScreen terminalScreen) {
+            terminalScreen.updateBalance(balance);
+        }
+        if (Minecraft.getInstance().player != null) {
+            Player player = Minecraft.getInstance().player;
+            PlayerStatusProvider.getStatus(player).setBalance(balance);
+        }
+    }
     public static void updateVendingMachineScreen(long balance) {
         if (Minecraft.getInstance().screen instanceof VendingMachineScreen vendingMachineScreen) {
             vendingMachineScreen.handleUpdate(balance);

@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.screens;
 
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -20,6 +21,7 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.TransactionTerminalRequestPacket;
+import sheridan.gcaa.network.packets.c2s.TransferAccountsPacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ public class TransactionTerminalScreen extends Screen {
     private static final int pageSize = 8;
     private int currentPage = 0;
     private long balance;
+    private long transferMoney;
     private static final ResourceLocation BACKGROUND = new ResourceLocation(GCAA.MODID, "textures/gui/screen/transaction_terminal.png");
 
     public TransactionTerminalScreen() {
@@ -63,7 +66,28 @@ public class TransactionTerminalScreen extends Screen {
            Player player = this.minecraft.player;
            balance = PlayerStatusProvider.getStatus(player).getBalance();
        }
-        moneyInput.setEditable(checkSelectPlayer());
+       if (checkSelectPlayer()) {
+           moneyInput.setEditable(true);
+           String value = moneyInput.getValue();
+           if (value.matches("^\\d+.*") && !value.contains(".")) {
+               value = value.replaceFirst("^(\\d+).*", "$1");
+               // 不超过16位
+               if (value.length() > 16) {
+                   value = value.substring(0, 16);
+               }
+           } else {
+               value = "";
+           }
+           moneyInput.setValue(value);
+           if (value.isEmpty()) {
+               transferMoney = 0;
+           } else {
+               transferMoney = Long.parseLong(value);
+           }
+       } else {
+           moneyInput.setEditable(false);
+           moneyInput.setValue("");
+       }
     }
 
     /**
@@ -79,7 +103,6 @@ public class TransactionTerminalScreen extends Screen {
                         players.add(player);
                     }
             }
-            System.out.println(players.size());
         }
     }
 
@@ -112,7 +135,7 @@ public class TransactionTerminalScreen extends Screen {
         rowHelper.addChild(moneyInput);
         // 转账按钮
         Button transferButton = Button.builder(Component.translatable("tooltip.screen_info.transfer_accounts"), (b) -> {
-            System.out.println("转账");
+            transfer();
         }).size(110, 20).pos(leftPos + 131, topPos + 100).build();
         rowHelper.addChild(transferButton);
         gridlayout.visitWidgets(this::addRenderableWidget);
@@ -138,8 +161,25 @@ public class TransactionTerminalScreen extends Screen {
         if (checkSelectPlayer()) {
             transferText += " " + selectedPlayer.getDisplayName().getString();
         }
-        pGuiGraphics.drawString(font, transferText, startX + 156, startY + 45, 0xffffff);
+        pGuiGraphics.drawString(font, transferText, startX + 131, startY + 45, 0xffffff);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+    }
+
+    /**
+     * @description 转账
+     */
+    private void transfer() {
+        if (checkSelectPlayer() && transferMoney != 0 && balance >= transferMoney) {
+            PacketHandler.simpleChannel.sendToServer(new TransferAccountsPacket(selectedPlayer.getUUID(), transferMoney));
+            moneyInput.setValue("");
+            transferMoney = 0;
+        }
+    }
+    public void updateBalance(long balance) {
+        this.balance = balance;
+        if (checkPlayer()) {
+            PlayerStatusProvider.getStatus(this.minecraft.player).setBalance(balance);
+        }
     }
     /**
      * @description 玩家按钮
@@ -178,20 +218,12 @@ public class TransactionTerminalScreen extends Screen {
         String value = searchBar.getValue();
         if (players == null || players.isEmpty()) return;
         searchPlayers.clear();
-        for (int i = 0; i < 20; i++) {
-            Player player = players.get(0);
+        for (Player player : players) {
             if (value.isEmpty() || player.getDisplayName().getString().contains(value)) {
                 // 模糊搜索
                 searchPlayers.add(player);
             }
         }
-//        for (int i = 0; i < players.size(); i++) {
-//            Player player = players.get(i);
-//            if (value.isEmpty() ||player.getDisplayName().getString().contains(value)) {
-//                // 模糊搜索
-//                searchPlayers.add(player);
-//            }
-//        }
         pagePlayers = searchPlayers.subList(
                 currentPage * pageSize,
                 Math.min((currentPage + 1) * pageSize, searchPlayers.size())

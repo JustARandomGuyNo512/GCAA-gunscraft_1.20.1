@@ -33,9 +33,9 @@ public class TransactionTerminalRequestPacket implements IPacket<TransactionTerm
                 PlayerList playerList = player.getServer().getPlayerList();
                 ArrayList<Integer> playerIds = new ArrayList<>();
                 playerList.getPlayers().forEach(p -> {
-//                  if (p.getId() != player.getId()) {
+                  if (p.getId() != player.getId()) {
                       playerIds.add(p.getId());
-//                  }
+                  }
                 });
                 PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player),
                         new UpdateTransactionDataPacket(
