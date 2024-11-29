@@ -14,11 +14,8 @@ import java.util.function.Supplier;
 
 public class TransactionTerminalRequestPacket implements IPacket<TransactionTerminalRequestPacket> {
 
-
     @Override
-    public void encode(TransactionTerminalRequestPacket message, FriendlyByteBuf buffer) {
-
-    }
+    public void encode(TransactionTerminalRequestPacket message, FriendlyByteBuf buffer) {}
 
     @Override
     public TransactionTerminalRequestPacket decode(FriendlyByteBuf buffer) {

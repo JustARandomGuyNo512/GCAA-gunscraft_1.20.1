@@ -262,7 +262,7 @@ public class TransactionTerminalScreen extends Screen {
             pGuiGraphics.drawString(font, player.getDisplayName().getString(), getX() + 20, getY() + 4, 0xffffff);
             // 选中高亮
             if (checkSelectPlayer() && selectedPlayer.getId() == player.getId()) {
-                pGuiGraphics.blit(SELECTED_BORDER, getX() - 3, getY() + 1,  0,0, 102, 17, 102, 17);
+                pGuiGraphics.blit(SELECTED_BORDER, getX() - 4, getY() - 1,  0,0, 103, 16, 103, 16);
             }
         }
         public void onClick() {
