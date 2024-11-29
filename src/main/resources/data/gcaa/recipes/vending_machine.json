@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "gcaa",
+  "key": {
+    "#": {
+      "item": "minecraft:glass_pane"
+    },
+    "B": {
+      "item": "minecraft:bell"
+    },
+    "I": {
+      "item": "minecraft:iron_trapdoor"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    }
+  },
+  "pattern": [
+    "#B#",
+    "#I#",
+    "#H#"
+  ],
+  "result": {
+    "count": 1,
+    "item": "gcaa:vending_machine"
+  },
+  "show_notification": true
+}

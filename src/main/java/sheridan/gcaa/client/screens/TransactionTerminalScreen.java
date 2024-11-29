@@ -213,6 +213,9 @@ public class TransactionTerminalScreen extends Screen {
         }
         pGuiGraphics.drawString(font, transferText, startX + 131, startY + 45, 0xffffff);
         renderTransferProgress(pGuiGraphics, font, startX + 131, startY + 90);
+        if (players != null && players.isEmpty()) {
+            pGuiGraphics.drawCenteredString(font, Component.translatable("tooltip.screen_info.no_other_players"), startX + 60, startY + 92, 0xffffff);
+        }
         if (needUpdate) {
             this.renderBackground(pGuiGraphics);
             RenderSystem.enableDepthTest();

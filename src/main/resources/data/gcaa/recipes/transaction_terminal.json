@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "gcaa",
+  "key": {
+    "P": {
+      "item": "minecraft:glass_pane"
+    },
+    "S": {
+      "item": "minecraft:string"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "SRS",
+    "CCC"
+  ],
+  "result": {
+    "count": 1,
+    "item": "gcaa:transaction_terminal"
+  },
+  "show_notification": true
+}

@@ -132,6 +132,7 @@
   "tooltip.screen_info.final_worth": "Final price: ",
   "tooltip.screen_info.transfer_accounts_to": "Transfer Accounts: ",
   "tooltip.screen_info.transfer_accounts": "Transfer Money(Long press)",
+  "tooltip.screen_info.no_other_players": "No other players found...",
 
   "tooltip.category.exchange": "Balance Exchange",
   "tooltip.category.gun": "Gun",

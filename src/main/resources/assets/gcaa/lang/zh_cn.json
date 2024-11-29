@@ -133,6 +133,7 @@
   "tooltip.screen_info.final_worth": "最终价格：",
   "tooltip.screen_info.transfer_accounts_to": "转账给: ",
   "tooltip.screen_info.transfer_accounts": "转账（长按）",
+  "tooltip.screen_info.no_other_players": "没有在线的其它玩家...",
 
   "tooltip.category.exchange": "货币兑换",
   "tooltip.category.gun": "枪械",
