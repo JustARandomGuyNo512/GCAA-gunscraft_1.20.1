@@ -131,7 +131,7 @@
   "tooltip.screen_info.recycle_detail": "Recycle details: ",
   "tooltip.screen_info.final_worth": "Final price: ",
   "tooltip.screen_info.transfer_accounts_to": "Transfer Accounts: ",
-  "tooltip.screen_info.transfer_accounts": "Transfer Accounts",
+  "tooltip.screen_info.transfer_accounts": "Transfer Money(Long press)",
 
   "tooltip.category.exchange": "Balance Exchange",
   "tooltip.category.gun": "Gun",

@@ -1,5 +1,7 @@
 package sheridan.gcaa.client.screens;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -38,7 +40,11 @@ public class TransactionTerminalScreen extends Screen {
     private int currentPage = 0;
     private long balance;
     private long transferMoney;
+    private int transferTick = 0;
+    private boolean transferBtnDown = false;
+    private boolean needUpdate = false;
     private static final ResourceLocation BACKGROUND = new ResourceLocation(GCAA.MODID, "textures/gui/screen/transaction_terminal.png");
+    private static final ResourceLocation SELECTED_BORDER = new ResourceLocation(GCAA.MODID, "textures/gui/screen/selected_border.png");
 
     public TransactionTerminalScreen() {
         super(Component.literal(""));
@@ -52,6 +58,9 @@ public class TransactionTerminalScreen extends Screen {
     @Override
     public void tick() {
         super.tick();
+        if (needUpdate) {
+            return;
+        }
         if (players == null) {
             players = new ArrayList<>();
             PacketHandler.simpleChannel.sendToServer(new TransactionTerminalRequestPacket());
@@ -82,12 +91,46 @@ public class TransactionTerminalScreen extends Screen {
            if (value.isEmpty()) {
                transferMoney = 0;
            } else {
-               transferMoney = Long.parseLong(value);
+               transferMoney = Math.min(Long.parseLong(value), balance);
+               moneyInput.setValue(transferMoney + "");
            }
        } else {
            moneyInput.setEditable(false);
            moneyInput.setValue("");
        }
+       if (transferBtnDown) {
+           transferTick ++;
+           // 一坤秒
+           if (transferTick == 50) {
+               if (checkSelectPlayer() && transferMoney != 0 && balance >= transferMoney) {
+                   PacketHandler.simpleChannel.sendToServer(new TransferAccountsPacket(selectedPlayer.getUUID(), transferMoney));
+                   moneyInput.setValue("");
+                   transferMoney = 0;
+                   needUpdate = true;
+               }
+               transferBtnDown = false;
+               transferTick = 0;
+           }
+       }
+    }
+
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        if (needUpdate) {
+            return false;
+        }
+        return super.mouseClicked(pMouseX, pMouseY, pButton);
+    }
+
+    private void renderTransferProgress(GuiGraphics graphics, Font font, int leftPos, int topPos) {
+        int w1 = font.width(">");
+        int w2 = font.width(".");
+        float progress = transferTick / 50f;
+        int count1 = (int) (progress * 110 / w1);
+        int count2 = (int) ((1 - progress) * 110 / w2);
+        String builder2 = ".".repeat(Math.max(0, count2));
+        graphics.drawString(font, ">".repeat(Math.max(0, count1)), leftPos, topPos, 0x00ff00);
+        graphics.drawString(font, builder2, leftPos + 110 - font.width(builder2), topPos, 0x00ff00);
     }
 
     /**
@@ -98,12 +141,19 @@ public class TransactionTerminalScreen extends Screen {
         if (checkPlayer()) {
             players.clear();
             for (int id : playerIds) {
-                    Entity entity = this.minecraft.player.level().getEntity(id);
-                    if (entity instanceof Player player) {
-                        players.add(player);
-                    }
+                Entity entity = this.minecraft.player.level().getEntity(id);
+                if (entity instanceof Player player) {
+                    players.add(player);
+                }
             }
         }
+    }
+
+    @Override
+    public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+        transferTick = 0;
+        transferBtnDown = false;
+        return super.mouseReleased(pMouseX, pMouseY, pButton);
     }
 
     @Override
@@ -162,6 +212,14 @@ public class TransactionTerminalScreen extends Screen {
             transferText += " " + selectedPlayer.getDisplayName().getString();
         }
         pGuiGraphics.drawString(font, transferText, startX + 131, startY + 45, 0xffffff);
+        renderTransferProgress(pGuiGraphics, font, startX + 131, startY + 90);
+        if (needUpdate) {
+            this.renderBackground(pGuiGraphics);
+            RenderSystem.enableDepthTest();
+            String text = Component.translatable("label.attachments_screen.wait_response").getString();
+            Font font = Minecraft.getInstance().font;
+            pGuiGraphics.drawString(font, text, (width - font.width(text)) / 2, height / 2, -1);
+        }
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
     }
 
@@ -169,10 +227,8 @@ public class TransactionTerminalScreen extends Screen {
      * @description 转账
      */
     private void transfer() {
-        if (checkSelectPlayer() && transferMoney != 0 && balance >= transferMoney) {
-            PacketHandler.simpleChannel.sendToServer(new TransferAccountsPacket(selectedPlayer.getUUID(), transferMoney));
-            moneyInput.setValue("");
-            transferMoney = 0;
+        if (transferMoney != 0 && balance >= transferMoney) {
+            transferBtnDown = !needUpdate;
         }
     }
     public void updateBalance(long balance) {
@@ -180,6 +236,7 @@ public class TransactionTerminalScreen extends Screen {
         if (checkPlayer()) {
             PlayerStatusProvider.getStatus(this.minecraft.player).setBalance(balance);
         }
+        needUpdate = false;
     }
     /**
      * @description 玩家按钮
@@ -200,6 +257,10 @@ public class TransactionTerminalScreen extends Screen {
             PlayerFaceRenderer.draw(pGuiGraphics, skinTextureLocation,  getX(), getY(), 14, true, false);
             // 名字
             pGuiGraphics.drawString(font, player.getDisplayName().getString(), getX() + 20, getY() + 4, 0xffffff);
+            // 选中高亮
+            if (checkSelectPlayer() && selectedPlayer.getId() == player.getId()) {
+                pGuiGraphics.blit(SELECTED_BORDER, getX() - 3, getY() + 1,  0,0, 102, 17, 102, 17);
+            }
         }
         public void onClick() {
             AbstractClientPlayer player = getPlayer();
@@ -209,6 +270,7 @@ public class TransactionTerminalScreen extends Screen {
         public AbstractClientPlayer getPlayer() {
             if (index < pagePlayers.size()) {
                 Player player = pagePlayers.get(index);
+                
                 return (AbstractClientPlayer) player;
             }
             return null;

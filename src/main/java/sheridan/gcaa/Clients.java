@@ -2,6 +2,7 @@ package sheridan.gcaa;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -153,8 +154,6 @@ public class Clients {
     public static boolean isInSprintingTransAdjust = false;
     @OnlyIn(Dist.CLIENT)
     public static RenderLevelStageEvent.Stage currentStage;
-    @OnlyIn(Dist.CLIENT)
-    public static Map<Integer, Integer> playerTimeDistMap = new HashMap<>();
     @OnlyIn(Dist.CLIENT)
     public static long localTimeOffset = 0;
 
@@ -430,20 +429,23 @@ public class Clients {
             }
         }
     }
+
     public static void updateTransactionTerminalScreenData(List<Integer> playerIds) {
         if (Minecraft.getInstance().screen instanceof TransactionTerminalScreen terminalScreen) {
             terminalScreen.updateClientDataFromServer(playerIds);
         }
     }
+
     public static void updateTransferBalance(Long balance) {
         if (Minecraft.getInstance().screen instanceof TransactionTerminalScreen terminalScreen) {
             terminalScreen.updateBalance(balance);
         }
-        if (Minecraft.getInstance().player != null) {
-            Player player = Minecraft.getInstance().player;
-            PlayerStatusProvider.getStatus(player).setBalance(balance);
+        LocalPlayer clientPlayer = Minecraft.getInstance().player;
+        if (clientPlayer != null) {
+            PlayerStatusProvider.getStatus(clientPlayer).setBalance(balance);
         }
     }
+
     public static void updateVendingMachineScreen(long balance) {
         if (Minecraft.getInstance().screen instanceof VendingMachineScreen vendingMachineScreen) {
             vendingMachineScreen.handleUpdate(balance);

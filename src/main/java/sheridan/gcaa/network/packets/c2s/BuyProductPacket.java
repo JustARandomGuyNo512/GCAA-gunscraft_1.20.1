@@ -39,6 +39,7 @@ public class BuyProductPacket implements IPacket<BuyProductPacket> {
         supplier.get().enqueueWork(() -> {
             ServerPlayer player = supplier.get().getSender();
             if (player != null) {
+
                 long balance = ProductTradingHandler.buy(player, message.itemStack, message.productId);
                 PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> player), new UpdateVendingMachineScreenPacket(
                         balance
