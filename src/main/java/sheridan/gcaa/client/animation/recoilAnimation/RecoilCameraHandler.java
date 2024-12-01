@@ -63,8 +63,9 @@ public class RecoilCameraHandler {
             yawSpeed = yawSpeed > 0 ? yawSpeed - yawControl : yawSpeed + yawControl;
             pitchSpeed *= Mth.clamp(1 - pitchControl * 5f, 0.8f, 0.9f);
             yawSpeed *= Mth.clamp(1 - yawControl * 5f, 0.8f, 0.9f);
-            player.setXRot(player.getXRot() - pitchSpeed * 0.2f);
-            player.setYRot(player.getYRot() + yawSpeed * 0.2f);
+            float scale = (Clients.isInAds() ? (1 - Clients.getAdsProgress() * 0.5f) : 1f) * 0.2f;
+            player.setXRot(player.getXRot() - pitchSpeed * scale);
+            player.setYRot(player.getYRot() + yawSpeed * scale);
             if ((pitchSpeed < 0.25f && Math.abs(yawSpeed) < 0.25f) || pitchSpeed < 0) {
                 clear();
             }

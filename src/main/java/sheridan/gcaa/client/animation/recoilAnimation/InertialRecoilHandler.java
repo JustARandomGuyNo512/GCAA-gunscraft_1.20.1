@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import sheridan.gcaa.Clients;
 
 import java.util.Arrays;
@@ -66,7 +67,19 @@ public class InertialRecoilHandler {
             }
             float r0 = (rotate + randomY) * scaleRot * ROTATE_FACTOR;
             float r1 = randomX * scaleRot * ROTATE_FACTOR;
-            poseStack.translate(0, -up * UP_FACTOR * scaleY, back * BACK_FACTOR * scaleZ);
+//            if (data.holdingOffset != 0) {
+//                float yOffset = data.holdingOffset * Mth.sin((float) Math.toRadians(r0)) *
+//                        (
+//                              r0 > 0 ? 0.3f : 0.1f
+//                        );
+//                poseStack.translate(
+//                        data.holdingOffset * Mth.sin((float) Math.toRadians(r1)) * 0.15f,
+//                        - up * UP_FACTOR * scaleY + yOffset,
+//                        back * BACK_FACTOR * scaleZ
+//                );
+//            } else {
+                poseStack.translate(0, - up * UP_FACTOR * scaleY, back * BACK_FACTOR * scaleZ);
+//            }
             poseStack.mulPose(new Quaternionf().rotateXYZ(- r0, r1, 0));
         }
     }
@@ -86,7 +99,7 @@ public class InertialRecoilHandler {
                 rotateSpeed += data.rotate * pRate;
                 upSpeed += data.up;
                 Arrays.fill(finished, false);
-                if (!data.isNoReplacement()) {
+                if (!data.isCanMix()) {
                     this.data.set(data);
                 }
                 enabled.set(true);
@@ -113,7 +126,7 @@ public class InertialRecoilHandler {
 
 
     private boolean shouldClear(float speed, float val) {
-        return Math.abs(speed) <= 0.0001 && Math.abs(val) <= 0.0001;
+        return Math.abs(speed) <= 0.00075 && Math.abs(val) <= 0.00075;
     }
 
     public void update() {

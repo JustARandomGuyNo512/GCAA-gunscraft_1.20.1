@@ -147,6 +147,18 @@ public final class ModelPart {
         z += (to.z - z) * progress;
     }
 
+    public void resetChildLayerName(String name, String newName) {
+        if (children.containsKey(name)) {
+            ModelPart part = children.get(name);
+            children.remove(name);
+            children.put(newName, part);
+        }
+    }
+
+    public void addChild(String name, ModelPart child) {
+        children.put(name, child);
+    }
+
     public boolean hasChild(String childName)  {
         return children.containsKey(childName);
     }

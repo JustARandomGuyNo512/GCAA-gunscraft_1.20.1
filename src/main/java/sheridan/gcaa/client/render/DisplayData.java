@@ -69,14 +69,14 @@ public class DisplayData {
             if (emptyMarks[0][0] || emptyMarks[5][0]) {
                 float x = Mth.lerp(lerpProgress, transforms[0][0], (sightAimPos == null ? transforms[5][0] : - sightAimPos[0]));
                 float y = Mth.lerp(yLerp, transforms[0][1], (sightAimPos == null ? transforms[5][1] : - sightAimPos[1]));
-                float z = getMinDisZ((float) Math.pow(progress, 2.5f));
+                float z = getMinDisZ(lerpProgress);
                 poseStack.translate(x, y, z);
             }
 
             if (emptyMarks[0][1] || emptyMarks[5][1]) {
                 float rx = Mth.lerp(lerpProgress, transforms[0][3], transforms[5][3]);
                 float ry = Mth.lerp(lerpProgress, transforms[0][4], transforms[5][4]);
-                float rz = Mth.lerp(lerpProgress, transforms[0][5], (sightAimPos == null ? transforms[5][5] : -sightAimPos[2]));
+                float rz = Mth.lerp(lerpProgress, transforms[0][5], (sightAimPos == null ? transforms[5][5] : - sightAimPos[2]));
                 poseStack.mulPose(new Quaternionf().rotateXYZ(rx, ry, rz));
             }
 
@@ -102,7 +102,7 @@ public class DisplayData {
     }
 
     protected float getMinDisZ(float progress) {
-        float minZ = lerpMinZ(transforms[0][2]);
+        float minZ = lerpMinZ(transforms[AIMING][2]);
         return Mth.lerp(progress, transforms[0][2], minZ);
     }
 

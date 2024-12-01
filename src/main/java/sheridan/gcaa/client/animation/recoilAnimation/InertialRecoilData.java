@@ -21,20 +21,23 @@ public class InertialRecoilData {
     public float randomX;
     public float randomY;
     public final int id;
-    private boolean noReplacement = false;
+    private boolean canMix = false;
+    public float holdingOffset;
 
-    public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX, float randomY, Vector3f aimingScaleModifier) {
+    public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX, float randomY,
+                              float aimingScaleUp, float aimingBackScale, float aimingRotateScale, float holdingOffset) {
         this.up = up;
         this.upDec = upDec;
         this.back = back;
         this.backDec = backDec;
         this.rotate = rotate;
         this.rotateDec = rotateDec;
-        this.aimingScaleUp = aimingScaleModifier.x;
-        this.aimingBackScale = aimingScaleModifier.y;
-        this.aimingRotateScale = aimingScaleModifier.z;
+        this.aimingScaleUp = aimingScaleUp;
+        this.aimingBackScale = aimingBackScale;
+        this.aimingRotateScale = aimingRotateScale;
         this.randomX = randomX;
         this.randomY = randomY;
+        this.holdingOffset = holdingOffset * 0.0625f;
         this.id = TEMP_ID.getAndIncrement();
     }
 
@@ -51,11 +54,12 @@ public class InertialRecoilData {
         this.randomX = randomX;
         this.randomY = randomY;
         this.id = TEMP_ID.getAndIncrement();
-        this.noReplacement = true;
+        this.holdingOffset = 0;
+        this.canMix = true;
     }
 
-    public boolean isNoReplacement() {
-        return noReplacement;
+    public boolean isCanMix() {
+        return canMix;
     }
 
 }
