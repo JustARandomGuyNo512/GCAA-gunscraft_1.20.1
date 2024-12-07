@@ -61,6 +61,7 @@ public class GCAA {
         ModBlocks.BLOCKS.register(modEventBus);
         ModTabs.MOD_TABS.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
+        ModEntities.BLOCK_ENTITIES.register(modEventBus);
         ModContainers.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
         ModSounds.register(FMLJavaModLoadingContext.get().getModEventBus());
