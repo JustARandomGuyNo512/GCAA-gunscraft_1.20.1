@@ -7,18 +7,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
-import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.gun.LodGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 
 @OnlyIn(Dist.CLIENT)
 public class AkmModel extends LodGunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm.png");
     private final ResourceLocation TEXTURE_LOW = new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm_low.png");
     private ModelPart
-            barrel, rail_set, slide,
-            muzzle, handguard, IS,
+            slide, muzzle, handguard,
             dust_cover, mag, grip,
             safety, body, stock, bullet;
 
@@ -40,12 +39,9 @@ public class AkmModel extends LodGunModel {
 
     @Override
     protected void postInit(ModelPart gun, ModelPart root) {
-        barrel = gun.getChild("barrel").meshing();
-        rail_set = gun.getChild("rail_set").meshing();
         slide = gun.getChild("slide").meshing();
         muzzle = gun.getChild("muzzle").meshing();
         handguard = gun.getChild("handguard").meshing();
-        IS = gun.getChild("IS").meshing();
         dust_cover = gun.getChild("dust_cover").meshing();
         grip = gun.getChild("grip").meshing();
         safety = gun.getChild("safety").meshing();
@@ -78,9 +74,11 @@ public class AkmModel extends LodGunModel {
         context.renderIf(grip, vertexConsumer, context.notHasGrip());
         context.renderIf(stock, vertexConsumer, context.notHasStock());
         context.renderIf(dust_cover, vertexConsumer, !context.has("dust_cover"));
-        context.render(vertexConsumer, barrel, rail_set, slide, IS, safety, body);
-        context.renderArmLong(left_arm,  false);
-        context.renderArmLong(right_arm,  true);
+        context.render(vertexConsumer, slide, safety, body);
+        if (context.isFirstPerson) {
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(right_arm, 1, 1, 1, context.packedLight, context.packedOverlay, true, context.bufferSource, context.poseStack);
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(left_arm, 1, 1, 1, context.packedLight, context.packedOverlay, false, context.bufferSource, context.poseStack);
+        }
     }
 
     @Override
@@ -120,11 +118,10 @@ public class AkmModel extends LodGunModel {
         gun.resetPose();
         root.resetPose();
         slide.resetPose();
-        left_arm.resetPose();
-        right_arm.resetPose();
+        left_arm.resetPoseAll();
+        right_arm.resetPoseAll();
         camera.resetPose();
         mag.resetPose();
         slide_low.resetPose();
     }
-
 }

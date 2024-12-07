@@ -7,7 +7,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
-import org.joml.Vector3f;
 import sheridan.gcaa.Clients;
 
 import java.util.Arrays;
@@ -67,19 +66,7 @@ public class InertialRecoilHandler {
             }
             float r0 = (rotate + randomY) * scaleRot * ROTATE_FACTOR;
             float r1 = randomX * scaleRot * ROTATE_FACTOR;
-//            if (data.holdingOffset != 0) {
-//                float yOffset = data.holdingOffset * Mth.sin((float) Math.toRadians(r0)) *
-//                        (
-//                              r0 > 0 ? 0.3f : 0.1f
-//                        );
-//                poseStack.translate(
-//                        data.holdingOffset * Mth.sin((float) Math.toRadians(r1)) * 0.15f,
-//                        - up * UP_FACTOR * scaleY + yOffset,
-//                        back * BACK_FACTOR * scaleZ
-//                );
-//            } else {
-                poseStack.translate(0, - up * UP_FACTOR * scaleY, back * BACK_FACTOR * scaleZ);
-//            }
+            poseStack.translate(0, - up * UP_FACTOR * scaleY, back * BACK_FACTOR * scaleZ);
             poseStack.mulPose(new Quaternionf().rotateXYZ(- r0, r1, 0));
         }
     }
@@ -166,8 +153,8 @@ public class InertialRecoilHandler {
 
                 if (!finished[2] && (rotate != 0 || rotateSpeed != 0)) {
                     rotateSpeed -= rotate * recoilData.rotateDec;
-                    rotateSpeed *= 0.7f;
-                    rotate += rotateSpeed;
+                    rotateSpeed *= 0.85f;
+                    rotate += rotateSpeed * 0.575f;
                 }
                 if (shouldClear(rotateSpeed, rotate)) {
                     rotateSpeed = rotate = 0;
@@ -177,7 +164,7 @@ public class InertialRecoilHandler {
                 if (!finished[3] && (randomX != 0 || randomXSpeed != 0)) {
                     randomX += randomXSpeed * 0.3f;
                     randomXSpeed *= 0.925f;
-                    randomX *= 0.92f;
+                    randomX *= 0.9f;
                 }
                 if (shouldClear(randomXSpeed, randomX)) {
                     randomXSpeed = randomX = 0;

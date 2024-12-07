@@ -61,7 +61,6 @@ public class AcogModel extends ScopeModel {
     @Override
     protected void renderModel(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         if (context.useLowQuality()) {
-            low.copyFrom(pose);
             context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
         } else {
             boolean active = context.isEffectiveSight(attachmentRenderEntry) && Clients.isInAds() && Clients.getAdsProgress() == 1f;
