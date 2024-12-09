@@ -62,7 +62,7 @@ public class MuzzleFlash {
     public void render(PoseStack stack, MultiBufferSource bufferSource, MuzzleFlashDisplayData displayData, float scale, long startTime, boolean isFirstPerson) {
         if (displayData != null && !textures.isEmpty()) {
             boolean muzzleFlashNotEnded = (System.currentTimeMillis() - startTime) <= displayData.length;
-            boolean hasSmokeEffect = MuzzleSmokeRenderer.INSTANCE.hasTask();
+            boolean hasSmokeEffect = MuzzleSmokeRenderer.INSTANCE.hasTask() && isFirstPerson;
             if (muzzleFlashNotEnded || hasSmokeEffect) {
                 stack.pushPose();
                 displayData.applyTrans(stack, scale);

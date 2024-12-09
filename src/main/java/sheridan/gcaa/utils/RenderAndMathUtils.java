@@ -2,6 +2,7 @@ package sheridan.gcaa.utils;
 
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
@@ -10,6 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -191,5 +193,37 @@ public class RenderAndMathUtils {
     public static float disToCameraSqr(PoseStack poseStack) {
         Vector3f pos = poseStack.last().pose().getTranslation(new Vector3f(0,0,0));
         return pos.x * pos.x + pos.y * pos.y + pos.z * pos.z;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static Vector3f getNDCByPrevProjectionMat(PoseStack poseStack) {
+        Vector3f translation = poseStack.last().pose().getTranslation(new Vector3f(0, 0, 0));
+        Matrix4f m0 = new Matrix4f(RenderSystem.getModelViewMatrix());
+        Matrix4f m1 = new Matrix4f(RenderSystem.getProjectionMatrix());
+        Vector4f vector4f = new Vector4f(translation.x, translation.y, translation.z, 1.0f);
+        Vector4f coord = vector4f.mul(m0).mul(m1);
+        coord.div(coord.w);
+        return new Vector3f(coord.x, coord.y, coord.z);
+    }
+
+
+
+    @OnlyIn(Dist.CLIENT)
+    public static Vector3f getPosByPrevProjectionMat(Vector3f ndcPos) {
+        // 反向构建投影矩阵的逆
+        Matrix4f inverseProjMatrix = new Matrix4f(RenderSystem.getProjectionMatrix());
+        inverseProjMatrix.invert();
+        // 反向构建模型视图矩阵的逆
+        Matrix4f inverseModelViewMatrix = new Matrix4f(RenderSystem.getModelViewMatrix());
+        inverseModelViewMatrix.invert();
+
+        // 从裁剪空间反映射到相机空间
+        Vector4f viewSpaceCoords = new Vector4f(ndcPos.x * 2 - 1, ndcPos.y * 2 - 1, ndcPos.z * 2 - 1, 1.0f).mul(inverseProjMatrix);
+        // 齐次坐标归一化
+        viewSpaceCoords.div(viewSpaceCoords.w);
+        // 从相机空间映射到世界空间
+        Vector4f worldSpaceCoords = viewSpaceCoords.mul(inverseModelViewMatrix);
+        // 返回 Z 轴值（世界空间）
+        return new Vector3f(worldSpaceCoords.x, worldSpaceCoords.y, worldSpaceCoords.z);
     }
 }
