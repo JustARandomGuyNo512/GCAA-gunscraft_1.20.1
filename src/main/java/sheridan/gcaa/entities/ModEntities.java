@@ -11,6 +11,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
@@ -18,6 +19,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.blocks.ModBlocks;
 import sheridan.gcaa.entities.industrial.BulletCraftingBlockEntity;
 import sheridan.gcaa.entities.projectiles.Grenade;
 
@@ -34,10 +36,9 @@ public class ModEntities {
         ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, GCAA.MODID);
         BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, GCAA.MODID);
         GRENADE = registerProjectile("grenade", Grenade::new, 3, 8, 0.5f, 0.5f);
-        // TODO 待修改Blocks.FURNACE
         BULLET_CRAFTING = BLOCK_ENTITIES.register("bullet_crafting", () ->
                 BlockEntityType.Builder.of(BulletCraftingBlockEntity::new,
-                        Blocks.FURNACE).build(null));
+                        ModBlocks.BULLET_CRAFTING.get()).build(null));
     }
 
     private static <T extends Entity> RegistryObject<EntityType<T>> registerProjectile(String id, BiFunction<EntityType<T>, Level, T> function, int updateInterval, int clientTrackingRange, float sizeX, float sizeY) {

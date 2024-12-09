@@ -3,12 +3,16 @@ package sheridan.gcaa.blocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.blocks.industrial.BulletCrafting;
+
+import java.util.function.ToIntFunction;
 
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, GCAA.MODID);
@@ -32,5 +36,18 @@ public class ModBlocks {
                             .explosionResistance(180)
                             .pushReaction(PushReaction.DESTROY)
             ));
-
+    /** 子弹制作台注册 */
+    public static final RegistryObject<Block> BULLET_CRAFTING = BLOCKS.register(
+            "bullet_crafting", () -> new BulletCrafting(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.METAL)
+                            .sound(SoundType.METAL)
+                            .strength(3.0f)
+                            .explosionResistance(180)
+                            .lightLevel(value -> {
+                                System.out.println(value);
+                                return 15;
+                            })
+            )
+    );
 }

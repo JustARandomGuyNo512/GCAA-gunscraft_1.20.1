@@ -6,6 +6,8 @@ import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.proxies.AkmAttachmentSlotProxy;
 import sheridan.gcaa.attachmentSys.proxies.Mk47AttachmentSlotProxy;
+import sheridan.gcaa.industrial.Recipe;
+import sheridan.gcaa.industrial.RecipeRegister;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.replaceableParts.Mk47Handguard;
@@ -231,7 +233,13 @@ public class Commons {
                 new CommonProduct(Items.COOKED_BEEF, 20),
                 new CommonProduct(Items.CARROT, 5),
                 new CommonProduct(Items.APPLE, 5),
-                new CommonProduct(Items.GOLDEN_APPLE, 805));
+                new CommonProduct(Items.GOLDEN_APPLE, 805),
+                // TODO 待合成表价格出来后计算price
+                new CommonProduct(ModItems.BULLET_CRAFTING.get(), 300));
 
+        RecipeRegister.registerAmmo(
+                ModItems.AMMO_9X19MM.get(), new Recipe(ModItems.AMMO_9X19MM.get())
+                        .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.IRON_INGOT), List.of(10, 15, 2))
+                );
     }
 }

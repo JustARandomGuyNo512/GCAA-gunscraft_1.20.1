@@ -32,6 +32,7 @@ import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.events.*;
 import sheridan.gcaa.client.render.entity.GrenadeRenderer;
 import sheridan.gcaa.client.screens.AmmunitionModifyScreen;
+import sheridan.gcaa.client.screens.BulletCraftingScreen;
 import sheridan.gcaa.client.screens.GunModifyScreen;
 import sheridan.gcaa.client.screens.VendingMachineScreen;
 import sheridan.gcaa.client.screens.containers.ModContainers;
@@ -82,6 +83,7 @@ public class GCAA {
         event.enqueueWork(() -> MenuScreens.register(ModContainers.ATTACHMENTS.get(), GunModifyScreen::new));
         event.enqueueWork(() -> MenuScreens.register(ModContainers.AMMUNITION_MODIFY_MENU.get(), AmmunitionModifyScreen::new));
         event.enqueueWork(() -> MenuScreens.register(ModContainers.VENDING_MACHINE_MENU.get(), VendingMachineScreen::new));
+        event.enqueueWork(() -> MenuScreens.register(ModContainers.BULLET_CRAFTING_MENU.get(), BulletCraftingScreen::new));
         Clients.onSetUp(event);
         UnloadTask.init();
     }

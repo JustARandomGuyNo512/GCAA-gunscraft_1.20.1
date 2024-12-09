@@ -63,6 +63,8 @@
   "block.gcaa.ammunition_processor": "Ammunition Processor",
   "block.gcaa.vending_machine": "Vending Machine",
 
+  "item.gcaa.thin_copper_plate": "Thin Copper Plate",
+
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",
   "tooltip.fire_mode.burst": "BURST",

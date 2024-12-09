@@ -63,6 +63,8 @@
   "block.gcaa.ammunition_processor": "弹药加工台",
   "block.gcaa.vending_machine": "自动售货机",
 
+  "item.gcaa.thin_copper_plate": "薄铜板",
+
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",
   "tooltip.fire_mode.burst": "连发",
