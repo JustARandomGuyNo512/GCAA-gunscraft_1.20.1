@@ -23,6 +23,7 @@ import java.util.*;
 public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition{
     private static final int AMMUNITION_MANAGE_DELAY = 1000;
     private static long lastAmmunitionManageTime = 0;
+    private static final List<Ammunition> ammunitionList = new ArrayList<>();
     private final Set<IAmmunitionMod> suitableMods;
     private final int modCapacity;
     public static final String BASE_DAMAGE_RATE = "base_damage_rate";
@@ -41,6 +42,11 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         super(new Properties().defaultDurability(capacity).setNoRepair());
         this.suitableMods = new HashSet<>(suitableMods);
         this.modCapacity = modCapacity;
+        ammunitionList.add(this);
+    }
+
+    public static List<Ammunition> getAll() {
+        return ammunitionList;
     }
 
     @OnlyIn(Dist.CLIENT)

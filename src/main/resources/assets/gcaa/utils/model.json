@@ -7,8 +7,8 @@
 				"texture_width": 256,
 				"texture_height": 256,
 				"visible_bounds_width": 23,
-				"visible_bounds_height": 6,
-				"visible_bounds_offset": [0, 1, 0]
+				"visible_bounds_height": 7,
+				"visible_bounds_offset": [0, 0.5, 0]
 			},
 			"bones": [
 				{
@@ -3701,22 +3701,22 @@
 				{
 					"name": "left_arm",
 					"parent": "gun",
-					"pivot": [20.025, -29.525, -18.95],
+					"pivot": [20.025, -29.425, -16.95],
 					"rotation": [-90.90085, 43.51551, 57.57947]
 				},
 				{
 					"name": "left_arm_slim",
 					"parent": "left_arm",
-					"pivot": [18.025, -77.525, -18.95],
-					"rotation": [1.00061, 1.9997, 2.53492]
+					"pivot": [18.025, -77.225, -16.85],
+					"rotation": [1.08772, 2.95397, 5.05499]
 				},
 				{
 					"name": "LAS",
 					"parent": "left_arm_slim",
-					"pivot": [18.025, -77.525, -18.95],
+					"pivot": [18.025, -77.225, -16.85],
 					"cubes": [
 						{
-							"origin": [12.025, -77.525, -26.95],
+							"origin": [12.025, -77.225, -24.85],
 							"size": [12, 48, 16],
 							"uv": {
 								"north": {"uv": [144, 208], "uv_size": [12, 48]},
@@ -3732,10 +3732,10 @@
 				{
 					"name": "LSS",
 					"parent": "left_arm_slim",
-					"pivot": [18.025, -77.525, -18.95],
+					"pivot": [18.025, -77.225, -16.85],
 					"cubes": [
 						{
-							"origin": [12.025, -77.525, -26.95],
+							"origin": [12.025, -77.225, -24.85],
 							"size": [12, 48, 16],
 							"uv": {
 								"north": {"uv": [176, 144], "uv_size": [12, 48]},
@@ -3751,16 +3751,16 @@
 				{
 					"name": "left_arm_normal",
 					"parent": "left_arm",
-					"pivot": [20.025, -77.525, -18.95],
-					"rotation": [1.00061, 1.9997, 2.53492]
+					"pivot": [20.025, -77.425, -16.95],
+					"rotation": [1.08772, 2.95397, 5.05499]
 				},
 				{
 					"name": "LA",
 					"parent": "left_arm_normal",
-					"pivot": [20.025, -77.525, -18.95],
+					"pivot": [20.025, -77.425, -16.95],
 					"cubes": [
 						{
-							"origin": [12.025, -77.525, -26.95],
+							"origin": [12.025, -77.425, -24.95],
 							"size": [16, 48, 16],
 							"uv": {
 								"north": {"uv": [144, 208], "uv_size": [16, 48]},
@@ -3776,10 +3776,10 @@
 				{
 					"name": "LS",
 					"parent": "left_arm_normal",
-					"pivot": [20.025, -77.525, -18.95],
+					"pivot": [20.025, -77.425, -16.95],
 					"cubes": [
 						{
-							"origin": [12.025, -77.525, -26.95],
+							"origin": [12.025, -77.425, -24.95],
 							"size": [16, 48, 16],
 							"uv": {
 								"north": {"uv": [176, 144], "uv_size": [16, 48]},
@@ -3887,7 +3887,7 @@
 				{
 					"name": "camera",
 					"parent": "root",
-					"pivot": [12.5, 16.7, 32.5]
+					"pivot": [12.25, 16.7, 32.5]
 				}
 			]
 		}
