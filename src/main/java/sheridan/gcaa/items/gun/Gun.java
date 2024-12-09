@@ -33,6 +33,7 @@ import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
+import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.ammunition.AmmunitionHandler;
