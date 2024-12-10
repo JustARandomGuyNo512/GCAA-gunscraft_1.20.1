@@ -25,7 +25,7 @@ public class MuzzleSmoke {
     public MuzzleSmoke(int length, float size, float spread, Vector2f alphaLerp, ResourceLocation texture, int columnNum)  {
         this.length = length;
         this.size = size;
-        this.spread = spread * this.size;
+        this.spread = Math.max(1, spread) * this.size;
         this.alphas = alphaLerp;
         this.texture = texture;
         this.columnNum = Mth.clamp(columnNum, 1, 4);
@@ -40,21 +40,22 @@ public class MuzzleSmoke {
         return randomRotate;
     }
 
-    public void render(long lastShoot, PoseStack poseStack, MultiBufferSource bufferSource) {
+    public void render(long lastShoot, PoseStack poseStack, MultiBufferSource bufferSource, int randomSeed) {
         long timeDist = System.currentTimeMillis() - lastShoot;
         if (timeDist < length) {
             VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderTypes.getMuzzleFlash(texture));
             float progress = (float) timeDist / length;
-            float size = Mth.lerp(progress, this.size, this.spread);
+            float size = Mth.lerp(progress, this.size, this.spread) * (0.833333333333333333f + randomSeed % 50 / 300f);
             float alpha = Mth.lerp(progress, alphas.x, alphas.y);
-            int column = (int) (lastShoot % columnNum);
+            int column = randomSeed % columnNum;
             int index = (int) (progress * 4);
             poseStack.pushPose();
-            poseStack.scale(size, size, 1);
+            poseStack.translate(0, 0, - progress * 0.05f);
             if (randomRotate) {
-                float angle = (lastShoot % 360) * 0.017453292519943295f;
+                float angle = (randomSeed % 360) * 0.017453292519943295f;
                 poseStack.mulPose(new Quaternionf().rotateZ(angle));
             }
+            poseStack.scale(size, size, 1);
             draw(poseStack.last().pose(), vertexConsumer, alpha, column, index);
             poseStack.popPose();
         }

@@ -20,8 +20,6 @@ import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.FontUtils;
 
-import java.util.UUID;
-
 public class Heal extends AmmunitionMod {
     private static final float HEAL_RATE = 0.6f;
     private static final int HEAL_TIME = 3 * 20;
@@ -56,7 +54,7 @@ public class Heal extends AmmunitionMod {
         if (entity instanceof LivingEntity livingEntity) {
             float baseDamage = projectile.damage / cache.baseDamageRate();
             livingEntity.setHealth(livingEntity.getHealth() + baseDamage * HEAL_RATE);
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, HEAL_TIME, 1), projectile.shooter);
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, HEAL_TIME, 2), projectile.shooter);
             if (livingEntity instanceof NeutralMob neutralMob) {
                 neutralMob.forgetCurrentTargetAndRefreshUniversalAnger();
                 neutralMob.setRemainingPersistentAngerTime(0);

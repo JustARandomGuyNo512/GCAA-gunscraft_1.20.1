@@ -10,17 +10,19 @@ public class MuzzleSmokeTask {
     public PoseStack poseStack;
     public long lastShoot;
     public MuzzleSmoke effect;
+    private final int randomSeed;
 
     public MuzzleSmokeTask(PoseStack poseStack, long lastShoot, MuzzleSmoke effect)  {
         this.poseStack = poseStack;
         this.lastShoot = lastShoot;
         this.effect = effect;
+        this.randomSeed = (int) (Math.random() * 1000);
     }
 
     public boolean handleRender(MultiBufferSource bufferSource) {
         boolean finished = isFinished();
         if (!finished) {
-            effect.render(lastShoot, poseStack, bufferSource);
+            effect.render(lastShoot, poseStack, bufferSource, randomSeed);
         }
         return finished;
     }
