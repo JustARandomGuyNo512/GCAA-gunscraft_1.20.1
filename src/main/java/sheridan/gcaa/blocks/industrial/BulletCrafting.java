@@ -9,10 +9,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import sheridan.gcaa.entities.ModEntities;
 import sheridan.gcaa.entities.industrial.BulletCraftingBlockEntity;
 
 
@@ -20,6 +23,12 @@ public class BulletCrafting extends BaseEntityBlock{
 
     public BulletCrafting(Properties pProperties) {
         super(pProperties);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
+        return pLevel.isClientSide() ? null : createTickerHelper(pBlockEntityType, ModEntities.BULLET_CRAFTING.get(), BulletCraftingBlockEntity::tick);
     }
 
     @Override

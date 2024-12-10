@@ -11,10 +11,12 @@ import java.util.Set;
 public class Recipe {
     public final Ammunition ammunition;
     public final Map<Item, Integer> ingredients;
+    public final int craftingTicks;
 
-    public Recipe(Ammunition ammunition) {
+    public Recipe(Ammunition ammunition, int craftingTicks) {
         this.ammunition = ammunition;
         this.ingredients = new HashMap<>();
+        this.craftingTicks = craftingTicks;
     }
 
     public Map<Item, Integer> getIngredients() {
@@ -26,6 +28,9 @@ public class Recipe {
         for (Item item: listItem) {
            int amount = i < listAmount.size() ? listAmount.get(i) : 1;
            ingredients.put(item, amount);
+           if (i == 16) {
+               break;
+           }
            i++;
         }
         return this;

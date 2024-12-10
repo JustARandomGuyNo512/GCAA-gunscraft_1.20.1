@@ -90,6 +90,9 @@
   "tooltip.btn.select_modify": "点击以选中此项更改",
   "tooltip.action_res.prevented_by_child": "无法操作，有子配件依赖于此",
   "tooltip.action_res.conflict": "与配件'$id'产生冲突",
+  "tooltip.bullet_crafting.detail": "点击选中要制造的子弹",
+  "tooltip.bullet_crafting.stop": "停止制造",
+  "tooltip.bullet_crafting.crafting": "正在制造中：",
 
   "tooltip.item.useless": "没什么用，扔了吧",
   "tooltip.item.unknown_attachment_1": "无法识别此id: $id对应的配件",

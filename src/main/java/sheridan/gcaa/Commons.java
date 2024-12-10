@@ -9,6 +9,7 @@ import sheridan.gcaa.attachmentSys.proxies.Mk47AttachmentSlotProxy;
 import sheridan.gcaa.industrial.Recipe;
 import sheridan.gcaa.industrial.RecipeRegister;
 import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.replaceableParts.Mk47Handguard;
 import sheridan.gcaa.items.attachments.replaceableParts.RecoilControlPart;
@@ -234,12 +235,19 @@ public class Commons {
                 new CommonProduct(Items.CARROT, 5),
                 new CommonProduct(Items.APPLE, 5),
                 new CommonProduct(Items.GOLDEN_APPLE, 805),
-                // TODO 待合成表价格出来后计算price
-                new CommonProduct(ModItems.BULLET_CRAFTING.get(), 300));
+                new CommonProduct(ModItems.BULLET_CRAFTING.get(), 200));
 
-        RecipeRegister.registerAmmo(
-                ModItems.AMMO_9X19MM.get(), new Recipe(ModItems.AMMO_9X19MM.get())
-                        .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.IRON_INGOT), List.of(10, 15, 2))
-                );
+        RecipeRegister.registerAmmunition(List.of(
+                ModItems.AMMO_9X19MM.get(),
+                ModItems.AMMO_5_56X45MM.get()
+        ), List.of (
+                // TODO 每种子弹材料数量、制造时间和配方待定
+                new Recipe(ModItems.AMMO_9X19MM.get(), 5000)
+                        .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.IRON_INGOT),
+                                List.of(10, 15, 2)),
+                new Recipe(ModItems.AMMO_5_56X45MM.get(), 5000)
+                        .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.IRON_INGOT),
+                                List.of(10, 15, 2))
+        ));
     }
 }

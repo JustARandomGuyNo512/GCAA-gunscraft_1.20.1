@@ -9,12 +9,16 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BulletCraftingMenu extends AbstractContainerMenu {
     private BlockPos blockPos = new BlockPos(0, 0, 0);
     public Inventory playerInventory;
-    private final ContainerData data;
+    public final ContainerData data;
     public Container container;
     public SimpleContainer displaySlots = new SimpleContainer(21);
+    public List<DisplaySlot> displaySlotList = new ArrayList<>();
     /** 右侧展示Slot */
     public static class DisplaySlot extends Slot {
         public DisplaySlot(Container pContainer, int pSlot, int pX, int pY) {
@@ -33,7 +37,7 @@ public class BulletCraftingMenu extends AbstractContainerMenu {
     public BulletCraftingMenu(int i, Inventory inventory) {
         super(ModContainers.BULLET_CRAFTING_MENU.get(), i);
         playerInventory = inventory;
-        this.data = new SimpleContainerData(4);
+        this.data = new SimpleContainerData(16);
         this.addDataSlots(this.data);
         this.container = new SimpleContainer(17);
         initContainer(this.container);
@@ -47,6 +51,7 @@ public class BulletCraftingMenu extends AbstractContainerMenu {
         initContainer(this.container);
         this.addDataSlots(this.data);
     }
+
     /**
      * @description 初始化物品栏-添加物品进入界面UI格子
      */
@@ -67,7 +72,9 @@ public class BulletCraftingMenu extends AbstractContainerMenu {
         this.addSlot(new Slot(container, 16, 152, 36));
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 3; j++) {
-               this.addSlot(new DisplaySlot(displaySlots, i * 3 + j, 186 + j * 22, 24 + i * 17));
+                DisplaySlot displaySlot = new DisplaySlot(displaySlots, i * 3 + j, 186 + j * 22, 24 + i * 17);
+                this.addSlot(displaySlot);
+                displaySlotList.add(displaySlot);
             }
         }
     }

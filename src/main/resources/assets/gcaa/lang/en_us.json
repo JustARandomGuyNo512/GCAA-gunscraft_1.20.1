@@ -90,6 +90,9 @@
   "tooltip.btn.select_modify": "Click to select this modification",
   "tooltip.action_res.prevented_by_child": "Cannot operate, there are sub-attachments dependent on this",
   "tooltip.action_res.conflict": "Conflict with attachment '$id'",
+  "tooltip.bullet_crafting.detail": "Click to select the bullet to be manufactured",
+  "tooltip.bullet_crafting.stop": "Stop manufacturing",
+  "tooltip.bullet_crafting.crafting": "Under manufacturing: ",
 
   "tooltip.item.useless": "It's no use. Why don't you throw it away",
   "tooltip.item.unknown_attachment_1": "The attachment for this id: $id could not be recognized",
