@@ -196,34 +196,11 @@ public class RenderAndMathUtils {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static Vector3f getNDCByPrevProjectionMat(PoseStack poseStack) {
+    public static float getDepthByProjectionMat(PoseStack poseStack, Matrix4f projectionMatrix)  {
         Vector3f translation = poseStack.last().pose().getTranslation(new Vector3f(0, 0, 0));
-        Matrix4f m0 = new Matrix4f(RenderSystem.getModelViewMatrix());
-        Matrix4f m1 = new Matrix4f(RenderSystem.getProjectionMatrix());
         Vector4f vector4f = new Vector4f(translation.x, translation.y, translation.z, 1.0f);
-        Vector4f coord = vector4f.mul(m0).mul(m1);
-        coord.div(coord.w);
-        return new Vector3f(coord.x, coord.y, coord.z);
+        Vector4f coord = vector4f.mul(RenderSystem.getModelViewMatrix()).mul(projectionMatrix);
+        return (coord.z / coord.w) / 2f + 0.5f;
     }
 
-
-
-    @OnlyIn(Dist.CLIENT)
-    public static Vector3f getPosByPrevProjectionMat(Vector3f ndcPos) {
-        // 反向构建投影矩阵的逆
-        Matrix4f inverseProjMatrix = new Matrix4f(RenderSystem.getProjectionMatrix());
-        inverseProjMatrix.invert();
-        // 反向构建模型视图矩阵的逆
-        Matrix4f inverseModelViewMatrix = new Matrix4f(RenderSystem.getModelViewMatrix());
-        inverseModelViewMatrix.invert();
-
-        // 从裁剪空间反映射到相机空间
-        Vector4f viewSpaceCoords = new Vector4f(ndcPos.x * 2 - 1, ndcPos.y * 2 - 1, ndcPos.z * 2 - 1, 1.0f).mul(inverseProjMatrix);
-        // 齐次坐标归一化
-        viewSpaceCoords.div(viewSpaceCoords.w);
-        // 从相机空间映射到世界空间
-        Vector4f worldSpaceCoords = viewSpaceCoords.mul(inverseModelViewMatrix);
-        // 返回 Z 轴值（世界空间）
-        return new Vector3f(worldSpaceCoords.x, worldSpaceCoords.y, worldSpaceCoords.z);
-    }
 }

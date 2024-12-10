@@ -10,7 +10,8 @@ public class Ammo762x51mm extends Ammunition {
         super(200, 15, Set.of(
                 AmmunitionMods.AP,
                 AmmunitionMods.EXPLOSIVE,
-                AmmunitionMods.INCENDIARY
+                AmmunitionMods.INCENDIARY,
+                AmmunitionMods.HEAL
         ));
     }
 }

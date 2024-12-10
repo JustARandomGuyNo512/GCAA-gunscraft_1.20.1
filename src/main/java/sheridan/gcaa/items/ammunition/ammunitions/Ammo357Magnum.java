@@ -9,7 +9,8 @@ public class Ammo357Magnum extends Ammunition {
     public Ammo357Magnum() {
         super(350, 10, Set.of(
                 AmmunitionMods.AP,
-                AmmunitionMods.HOLLOW_POINT
+                AmmunitionMods.HOLLOW_POINT,
+                AmmunitionMods.HEAL
         ));
     }
 }
