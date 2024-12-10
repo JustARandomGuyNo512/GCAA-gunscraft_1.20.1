@@ -12,7 +12,8 @@ public class Ammo45ACP extends Ammunition {
                 AmmunitionMods.AP,
                 AmmunitionMods.HOLLOW_POINT,
                 AmmunitionMods.EXPLOSIVE,
-                AmmunitionMods.INCENDIARY
+                AmmunitionMods.INCENDIARY,
+                AmmunitionMods.HEAL
         ));
     }
 }

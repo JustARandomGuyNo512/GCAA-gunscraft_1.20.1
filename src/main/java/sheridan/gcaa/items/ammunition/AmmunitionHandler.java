@@ -164,6 +164,7 @@ public class AmmunitionHandler {
         }
         exceptedReloadNum = Math.min(exceptedReloadNum, gun.getMagSize(gunStack) - gun.getAmmoLeft(gunStack));
         int findCount = 0;
+        int exceptedReloadLeft = exceptedReloadNum;
         boolean isAmmunitionBind = gun.getGun().isAmmunitionBind(gunStack);
         NonNullList<ItemStack> items = player.getInventory().items;
         IAmmunition gunAmmunition = gun.getGunProperties().caliber.ammunition;
@@ -179,18 +180,17 @@ public class AmmunitionHandler {
                 }
                 if (Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeUUID(gunStack))) {
                     int ammoLeft = ammunition.getAmmoLeft(stack);
-                    exceptedReloadNum -= findCount;
-                    if (ammoLeft >= exceptedReloadNum) {
-                        findCount = exceptedReloadNum;
-                        if (ammoLeft - exceptedReloadNum == 0) {
+                    if (ammoLeft >= exceptedReloadLeft) {
+                        findCount += exceptedReloadLeft;
+                        if (ammoLeft - exceptedReloadLeft == 0) {
                             items.set(i, new ItemStack(Items.AIR));
                         } else {
-                            ammunition.setAmmoLeft(stack, ammoLeft - exceptedReloadNum);
+                            ammunition.setAmmoLeft(stack, ammoLeft - exceptedReloadLeft);
                         }
                         break;
                     } else {
                         findCount += ammoLeft;
-                        exceptedReloadNum -= ammoLeft;
+                        exceptedReloadLeft -= ammoLeft;
                         items.set(i, new ItemStack(Items.AIR));
                     }
                 }
@@ -199,10 +199,8 @@ public class AmmunitionHandler {
         if (findCount != 0) {
             gun.setAmmoLeft(gunStack, gun.getAmmoLeft(gunStack) + findCount);
             CompoundTag ammunitionData = gun.getAmmunitionData(gunStack);
-            if (ammunitionData != null) {
-                CompoundTag selected = ammunitionData.getCompound("selected");
-                ammunitionData.put("using", selected.copy());
-            }
+            CompoundTag selected = ammunitionData.getCompound("selected");
+            ammunitionData.put("using", selected.copy());
         }
     }
 

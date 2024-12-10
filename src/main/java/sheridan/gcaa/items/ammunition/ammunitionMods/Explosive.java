@@ -1,19 +1,14 @@
 package sheridan.gcaa.items.ammunition.ammunitionMods;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -51,9 +46,9 @@ public class Explosive extends AmmunitionMod {
     }
 
     @Override
-    public net.minecraft.network.chat.Component getSpecialDescription() {
-        String str = net.minecraft.network.chat.Component.translatable("gcaa.ammunition_mod.explosive_special").getString().replace("$rate", FontUtils.toPercentageStr(explosiveDamageRate));
-        return net.minecraft.network.chat.Component.empty().append(Component.literal(str));
+    public Component getSpecialDescription() {
+        String str = Component.translatable("gcaa.ammunition_mod.explosive_special").getString().replace("$rate", FontUtils.toPercentageStr(explosiveDamageRate));
+        return Component.empty().append(Component.literal(str));
     }
 
     public float getExplosiveDamageRate() {

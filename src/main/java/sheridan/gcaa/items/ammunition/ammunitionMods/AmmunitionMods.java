@@ -5,4 +5,5 @@ public class AmmunitionMods {
     public static final Incendiary INCENDIARY = new Incendiary();
     public static final Explosive EXPLOSIVE = new Explosive();
     public static final HollowPoint HOLLOW_POINT = new HollowPoint();
+    public static final Heal HEAL = new Heal();
 }

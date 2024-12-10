@@ -3,6 +3,7 @@ package sheridan.gcaa.client.render.fx.muzzleSmoke;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexSorting;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -22,6 +23,7 @@ import java.util.Deque;
 public class MuzzleSmokeRenderer {
     private static final BufferBuilder DELAYED_TASK_BUFFER = new BufferBuilder(1024);
     private static final Deque<MuzzleSmokeTask> tasks = new ArrayDeque<>();
+    private static Matrix4f tempProjectionMatrix = null;
     public static final int MAX_DELAYED_TASKS = 5;
     public static final MuzzleSmokeRenderer INSTANCE = new MuzzleSmokeRenderer();
     private boolean isTaskQueueOpen = false;
@@ -48,7 +50,11 @@ public class MuzzleSmokeRenderer {
             }
             if (tasks.size() < MAX_DELAYED_TASKS) {
                 PoseStack poseStack1 = RenderAndMathUtils.copyPoseStack(poseStack);
-                poseStack1.translate(0, 0, -0.005f);
+                if (renderImmediate) {
+                    poseStack1.translate(0, 0, -0.005f);
+                } else {
+                    tempProjectionMatrix = new Matrix4f(RenderSystem.getProjectionMatrix());
+                }
                 tasks.offerFirst(new MuzzleSmokeTask(poseStack1, lastShoot, effect));
             }
             isTaskQueueOpen = false;
@@ -70,9 +76,16 @@ public class MuzzleSmokeRenderer {
     public static void onRenderLevelStage(RenderLevelStageEvent event) {
         if (!INSTANCE.renderImmediate && !tasks.isEmpty() &&
                 event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL) {
+            if (tempProjectionMatrix != null) {
+                RenderSystem.backupProjectionMatrix();
+                RenderSystem.setProjectionMatrix(tempProjectionMatrix, VertexSorting.DISTANCE_TO_ORIGIN);
+            }
             MultiBufferSource.BufferSource bufferSource = MultiBufferSource.immediate(DELAYED_TASK_BUFFER);
             tasks.removeIf((task) -> task.handleRender(bufferSource));
             bufferSource.endBatch();
+            if (tempProjectionMatrix != null) {
+                RenderSystem.restoreProjectionMatrix();
+            }
         }
     }
 

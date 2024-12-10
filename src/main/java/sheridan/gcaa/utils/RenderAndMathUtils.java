@@ -2,6 +2,7 @@ package sheridan.gcaa.utils;
 
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
@@ -10,6 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -192,4 +194,13 @@ public class RenderAndMathUtils {
         Vector3f pos = poseStack.last().pose().getTranslation(new Vector3f(0,0,0));
         return pos.x * pos.x + pos.y * pos.y + pos.z * pos.z;
     }
+
+    @OnlyIn(Dist.CLIENT)
+    public static float getDepthByProjectionMat(PoseStack poseStack, Matrix4f projectionMatrix)  {
+        Vector3f translation = poseStack.last().pose().getTranslation(new Vector3f(0, 0, 0));
+        Vector4f vector4f = new Vector4f(translation.x, translation.y, translation.z, 1.0f);
+        Vector4f coord = vector4f.mul(RenderSystem.getModelViewMatrix()).mul(projectionMatrix);
+        return (coord.z / coord.w) / 2f + 0.5f;
+    }
+
 }
