@@ -82,9 +82,7 @@ public class BulletCraftingScreen extends AbstractContainerScreen<BulletCrafting
         Button nextPage = Button.builder(Component.literal(">"), (b) -> pageTurning(true)).size(14, 14).pos(leftPos + 240, topPos + 150).build();
         rowHelper.addChild(nextPage);
         //  停止制造按钮
-        stopBtn = new OptionalImageButton(this.leftPos + 107, this.topPos + 66, 16, 16, 0, 0, 0, STOP_BULLET_CRAFTING_BTN, 16, 16,  (btn) -> {
-            isStopBtnDown = true;
-        });
+        stopBtn = new OptionalImageButton(this.leftPos + 107, this.topPos + 66, 16, 16, 0, 0, 0, STOP_BULLET_CRAFTING_BTN, 16, 16,  (btn) -> isStopBtnDown = true);
         stopBtn.visible = false;
         stopBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.bullet_crafting.stop")));
         rowHelper.addChild(stopBtn);
@@ -120,8 +118,11 @@ public class BulletCraftingScreen extends AbstractContainerScreen<BulletCrafting
         int i = this.menu.data.get(BulletCraftingBlockEntity.IS_CRAFTING);
         isCrafting = i == 1;
         stopBtn.visible = isCrafting;
-        if (isCrafting && selectedSlot == null) {
-            int id = this.menu.data.get(BulletCraftingBlockEntity.CRAFTING_BULLET_ID);
+        int id = this.menu.data.get(BulletCraftingBlockEntity.CRAFTING_BULLET_ID);
+        if (id == -123456789) {
+            selectedSlot = null;
+            selectedAmmo = null;
+        } else {
             Item item = Item.byId(id);
             if (item instanceof Ammunition ammunition) {
                 selectedAmmo = ammunition;

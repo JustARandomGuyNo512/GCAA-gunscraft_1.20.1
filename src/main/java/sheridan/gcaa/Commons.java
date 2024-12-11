@@ -242,10 +242,10 @@ public class Commons {
                 ModItems.AMMO_5_56X45MM.get()
         ), List.of (
                 // TODO 每种子弹材料数量、制造时间和配方待定
-                new Recipe(ModItems.AMMO_9X19MM.get(), 5000)
+                new Recipe(ModItems.AMMO_9X19MM.get(), 50)
                         .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.IRON_INGOT),
                                 List.of(10, 15, 2)),
-                new Recipe(ModItems.AMMO_5_56X45MM.get(), 5000)
+                new Recipe(ModItems.AMMO_5_56X45MM.get(), 50)
                         .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.IRON_INGOT),
                                 List.of(10, 15, 2))
         ));

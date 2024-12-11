@@ -1,6 +1,7 @@
 package sheridan.gcaa.industrial;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.items.ammunition.Ammunition;
 
 import java.util.HashMap;
@@ -17,6 +18,12 @@ public class Recipe {
         this.ammunition = ammunition;
         this.ingredients = new HashMap<>();
         this.craftingTicks = craftingTicks;
+    }
+
+    public ItemStack getResult() {
+        ItemStack stack = new ItemStack(ammunition);
+        ammunition.checkAndGet(stack);
+        return stack;
     }
 
     public Map<Item, Integer> getIngredients() {

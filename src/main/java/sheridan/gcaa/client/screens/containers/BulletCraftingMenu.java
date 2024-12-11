@@ -6,11 +6,18 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.CraftingTableBlock;
 import org.jetbrains.annotations.NotNull;
+import sheridan.gcaa.entities.industrial.BulletCraftingBlockEntity;
+import sheridan.gcaa.industrial.Recipe;
+import sheridan.gcaa.industrial.RecipeRegister;
+import sheridan.gcaa.items.ammunition.Ammunition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BulletCraftingMenu extends AbstractContainerMenu {
     private BlockPos blockPos = new BlockPos(0, 0, 0);
@@ -33,6 +40,44 @@ public class BulletCraftingMenu extends AbstractContainerMenu {
             return false;
         }
     }
+    /** 工作区Slot*/
+    public static class CraftingSlot extends Slot {
+        private final ContainerData containerData;
+        public CraftingSlot(Container pContainer, int pSlot, int pX, int pY, ContainerData containerData) {
+            super(pContainer, pSlot, pX, pY);
+            this.containerData = containerData;
+        }
+        @Override
+        public boolean mayPlace(@NotNull ItemStack pStack) {
+            // 只能加材料
+            int id = this.containerData.get(BulletCraftingBlockEntity.CRAFTING_BULLET_ID);
+            if (id == -123456789) {
+                return false;
+            } else {
+                Item item = Item.byId(id);
+                if (item instanceof Ammunition ammunition) {
+                    Recipe recipe = RecipeRegister.getRecipe(ammunition);
+                    if (recipe != null) {
+                       return recipe.getIngredients().containsKey(pStack.getItem());
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            return super.mayPlace(pStack);
+        }
+    }
+    /** 生成结果区Slot*/
+    public static class ResultSlot extends Slot {
+        public ResultSlot(Container pContainer, int pSlot, int pX, int pY) {
+            super(pContainer, pSlot, pX, pY);
+        }
+        @Override
+        public boolean mayPlace(@NotNull ItemStack pStack) {
+            return false;
+        }
+    }
+
     // 客户端调用的
     public BulletCraftingMenu(int i, Inventory inventory) {
         super(ModContainers.BULLET_CRAFTING_MENU.get(), i);
@@ -66,10 +111,10 @@ public class BulletCraftingMenu extends AbstractContainerMenu {
         }
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                this.addSlot(new Slot(container, i * 4 + j, 8 + j * 18, 10 + i * 18));
+                this.addSlot(new CraftingSlot(container, i * 4 + j, 8 + j * 18, 10 + i * 18, this.data));
             }
         }
-        this.addSlot(new Slot(container, 16, 152, 36));
+        this.addSlot(new ResultSlot(container, 16, 152, 36));
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 3; j++) {
                 DisplaySlot displaySlot = new DisplaySlot(displaySlots, i * 3 + j, 186 + j * 22, 24 + i * 17);

@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
@@ -17,8 +18,8 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -30,9 +31,7 @@ import sheridan.gcaa.industrial.RecipeRegister;
 import sheridan.gcaa.items.ammunition.Ammunition;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, StackedContentsCompatible {
     private final BlockPos pos;
@@ -53,7 +52,7 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
     public int prevTick;
     public int totalTick;
 
-    public BulletCraftingBlockEntity( BlockPos pPos, BlockState pBlockState) {
+    public BulletCraftingBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModEntities.BULLET_CRAFTING.get(), pPos, pBlockState);
         this.pos = pPos;
         this.items = NonNullList.withSize(17, ItemStack.EMPTY);
@@ -95,14 +94,11 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
         };
     }
     public static void tick(Level level, BlockPos blockPos, BlockState blockState, BulletCraftingBlockEntity bulletCraftingBlockEntity) {
-        // TODO 进度条监听 -
         if (bulletCraftingBlockEntity.isCrafting == 1) {
             bulletCraftingBlockEntity.prevTick++;
             if (bulletCraftingBlockEntity.prevTick >= bulletCraftingBlockEntity.totalTick) {
-                bulletCraftingBlockEntity.prevTick = 0;
-                bulletCraftingBlockEntity.isCrafting = 0;
-                // TODO: 完成制造, 生成物品
-                System.out.println("aaa");
+                // 完成制造, 生成物品
+                bulletCraftingBlockEntity.onFinished();
             }
         }
     }
@@ -116,13 +112,15 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
         }
     }
     private int getCraftingBulletId() {
-        if (currentAmmunition == null) return -1;
+        if (currentAmmunition == null) return -123456789;
         return Item.getId(currentAmmunition);
     }
     /** 能否开始制造工作 */
     private boolean canStartCrafting(Ammunition ammunition) {
         // 判断弹药是否为空
         if (ammunition == null) return false;
+        // 如果生成栏已经有了也不能制造
+        if (!this.items.get(16).isEmpty()) return false;
         // 获取弹药对应的配方
         Recipe recipe = RecipeRegister.getRecipe(ammunition);
         // 判断配方是否为空
@@ -173,18 +171,125 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
         isCrafting = 1;
         Recipe recipe = RecipeRegister.getRecipe(currentAmmunition);
         totalTick = recipe.craftingTicks;
-        // TODO 开始的工作 -
-        System.out.println("start");
+        // 扣除材料
+        consumeMaterials(recipe);
     }
     /** 停止制造 */
     public void stopBulletCrafting() {
         if (isCrafting == 0) return;
         isCrafting = 0;
+        returnMaterials();
         currentAmmunition = null;
         totalTick = 0;
         prevTick = 0;
     }
-
+    /** 消费材料 */
+    private void consumeMaterials(Recipe recipe) {
+        Map<Item, ItemStack> materials = new HashMap<>();
+        for (ItemStack itemStack : this.items) {
+            Item item = itemStack.getItem();
+            if (recipe.ingredients.containsKey(item)) {
+                int haveCount = 0;
+                if (materials.containsKey(item)) {
+                    haveCount = materials.get(item).getCount();
+                }
+                if (haveCount == 0) {
+                    int prevCount = itemStack.getCount();
+                    int needCount = recipe.ingredients.get(item);
+                    if (prevCount >= needCount) {
+                        materials.put(item, new ItemStack(item, needCount));
+                        itemStack.setCount(prevCount - needCount);
+                    } else {
+                        materials.put(item, new ItemStack(item, prevCount));
+                        itemStack.setCount(0);
+                    }
+                } else {
+                    int prevCount = itemStack.getCount();
+                    int needCount = recipe.ingredients.get(item) - haveCount;
+                    ItemStack found = materials.get(item);
+                    if (prevCount >= needCount) {
+                        materials.put(item, new ItemStack(item, needCount));
+                        itemStack.setCount(prevCount - needCount);
+                    } else {
+                        materials.put(item, new ItemStack(item, found.getCount() + prevCount));
+                        itemStack.setCount(0);
+                    }
+                }
+            }
+        }
+    }
+    /** 返还材料 */
+    private void returnMaterials() {
+        Recipe recipe = RecipeRegister.getRecipe(currentAmmunition);
+        if (recipe != null) {
+            Map<Item, Integer> ingredients = recipe.getIngredients();
+            for (Map.Entry<Item, Integer> entry : ingredients.entrySet()) {
+                Item key = entry.getKey();
+                int value = entry.getValue();
+                ItemStack itemStack = new ItemStack(key, value);
+                boolean add = addItemStack(itemStack);
+                if (this.level != null && !add && !this.level.isClientSide) {
+                    ItemEntity itemEntity = new ItemEntity(this.level,
+                            this.getBlockPos().getX(),
+                            this.getBlockPos().getY(),
+                            this.getBlockPos().getZ(),
+                            itemStack);
+                    this.level.addFreshEntity(itemEntity);
+                }
+            }
+        }
+    }
+    /** 生成物品 */
+    public void onFinished() {
+        Recipe recipe = RecipeRegister.getRecipe(currentAmmunition);
+        if (recipe != null) {
+            ItemStack itemStack = recipe.getResult();
+            this.items.set(16, itemStack);
+        }
+        isCrafting = 0;
+        totalTick = 0;
+        prevTick = 0;
+    }
+    /** 添加物品 */
+    private boolean addItemStack(ItemStack itemStack) {
+        for (int i = 0; i < items.size() - 1; i++) {
+            ItemStack itemStack1 = items.get(i);
+            if (itemStack1.isEmpty()) {
+                items.set(i, itemStack);
+                return true;
+            } else if (itemStack1.getItem() == itemStack.getItem() && itemStack1.getCount() < itemStack1.getMaxStackSize()) {
+                int i1 = Math.min(itemStack.getCount(), itemStack1.getMaxStackSize() - itemStack1.getCount());
+                itemStack1.grow(i1);
+                itemStack.shrink(i1);
+                if (itemStack.isEmpty()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    /** 打掉方块-正制造需要返还配方材料 */
+    public void onRemove(Level level, BlockPos pos) {
+        if (isCrafting == 1) {
+            Recipe recipe = RecipeRegister.getRecipe(currentAmmunition);
+            if (recipe != null) {
+                Map<Item, Integer> ingredients = recipe.getIngredients();
+                for (Map.Entry<Item, Integer> entry : ingredients.entrySet()) {
+                    Item key = entry.getKey();
+                    int value = entry.getValue();
+                    ItemStack itemStack = new ItemStack(key, value);
+                    if (level != null && !level.isClientSide) {
+                        ItemEntity itemEntity = new ItemEntity(level,
+                                pos.getX(),
+                                pos.getY(),
+                                pos.getZ(),
+                                itemStack);
+                        level.addFreshEntity(itemEntity);
+                    }
+                }
+            }
+        }
+    }
     @Override
     protected @NotNull Component getDefaultName() {
         return Component.literal("Bullet_Crafting");
@@ -224,27 +329,46 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
     }
     @Override
     public int getContainerSize() {
+        System.out.println("getContainerSize");
         return items.size();
     }
 
     public int @NotNull [] getSlotsForFace(@NotNull Direction pSide) {
+        System.out.println("face: " + pSide);
         if (pSide == Direction.DOWN) {
             return SLOTS_FOR_DOWN;
         } else {
             return pSide == Direction.UP ? SLOTS_FOR_UP : SLOTS_FOR_SIDES;
         }
     }
+    @Override
+    public boolean canPlaceItem(int pIndex, @NotNull ItemStack pStack) {
+        if (pIndex == 16) return false;
+        if (currentAmmunition == null) return false;
+        Recipe recipe = RecipeRegister.getRecipe(currentAmmunition);
+        if (recipe != null) {
+            return recipe.getIngredients().containsKey(pStack.getItem());
+        } else {
+            return false;
+        }
+    }
+    // TODO 漏斗漏出结果只能是第16个即子弹产品
+
+
+    @Override
+    public boolean canTakeItem(@NotNull Container pTarget, int pIndex, @NotNull ItemStack pStack) {
+        System.out.println("canTakeItem" + pIndex);
+        return super.canTakeItem(pTarget, pIndex, pStack);
+    }
 
     public boolean canPlaceItemThroughFace(int pIndex, @NotNull ItemStack pItemStack, @Nullable Direction pDirection) {
+        System.out.println("canPlace" + pDirection);
         return this.canPlaceItem(pIndex, pItemStack);
     }
 
     public boolean canTakeItemThroughFace(int pIndex, @NotNull ItemStack pStack, @NotNull Direction pDirection) {
-        if (pDirection == Direction.DOWN && pIndex == 1) {
-            return pStack.is(Items.WATER_BUCKET) || pStack.is(Items.BUCKET);
-        } else {
-            return true;
-        }
+        System.out.println("canTake" + pDirection);
+        return true;
     }
 
     public void fillStackedContents(@NotNull StackedContents pHelper) {
@@ -269,7 +393,15 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
     }
 
     public @NotNull ItemStack removeItem(int pIndex, int pCount) {
-        return ContainerHelper.removeItem(this.items, pIndex, pCount);
+        ItemStack itemStack1 = ContainerHelper.removeItem(this.items, pIndex, pCount);
+        if (pIndex == 16) {
+            ItemStack itemStack = this.items.get(16);
+            if (itemStack.isEmpty() && canStartCrafting(currentAmmunition)) {
+                // 自动化继续制造
+                startBulletCrafting();
+            }
+        }
+        return itemStack1;
     }
 
     public @NotNull ItemStack removeItemNoUpdate(int pIndex) {
