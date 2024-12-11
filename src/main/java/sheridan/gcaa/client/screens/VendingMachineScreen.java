@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;
@@ -49,7 +48,6 @@ import sheridan.gcaa.sounds.ModSounds;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.function.BiFunction;
 
 public class VendingMachineScreen extends AbstractContainerScreen<VendingMachineMenu> {
     private static final ResourceLocation EXCHANGE_PNG = new ResourceLocation(GCAA.MODID, "textures/gui/screen/vending_machine/exchange.png");
@@ -227,6 +225,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
         float progress = recycleTick / 40f;
         int count1 = (int) (progress * 161 / w1);
         int count2 = (int) ((1 - progress) * 161 / w2);
+
         String builder2 = ".".repeat(Math.max(0, count2));
         graphics.drawString(font, ">".repeat(Math.max(0, count1)), startX, this.topPos + 20, getColor(progress));
         graphics.drawString(font, builder2, startX + 161 - font.width(builder2), this.topPos + 20, getColor(progress));
