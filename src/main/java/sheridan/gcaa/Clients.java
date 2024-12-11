@@ -198,7 +198,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AKM.get(), new AkmModel(), new DisplayData()
-                .setFirstPersonMain(-12f,16.7f,-32.6f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
+                .setFirstPersonMain(-11.5f,15.7f,-31f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -208,7 +208,7 @@ public class Clients {
                 .setInertialRecoilData(
                         new InertialRecoilData(0.03f, 0.01f, 0.6f,
                                 0.05f, 0.55f,  0.04f,
-                                0.45f, 0.55f, 0.3f,
+                                0.5f, 0.53f, 0.3f,
                                 0.6f, 0.2f, 0f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.9f, -99f).setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))

@@ -185,7 +185,7 @@
 
   "gcaa.ammunition_mod.incendiary_special": "给予额外 $rate 的火焰伤害，点燃目标，点燃TNT",
   "gcaa.ammunition_mod.explosive_special": "给予额外 $rate 的爆炸伤害，点燃TNT",
-  "gcaa.ammunition_mod.heal_special": "无条件给予基础伤害 $rate 的生命值恢复，给予 $time 秒的 $effect 效果",
+  "gcaa.ammunition_mod.heal_special": "无条件给予子弹伤害 $rate 的生命值恢复，给予 $time 秒的 $effect 效果",
 
   "gcaa.ammunition_data.base_damage_rate": "基础伤害：",
   "gcaa.ammunition_data.min_damage_rate": "末端伤害：",

@@ -81,7 +81,15 @@ public class InertialRecoilHandler {
                 if (randomYSpeed < 0) {
                     randomYSpeed *= 0.5f;
                 }
-                randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f) * yRate;
+                lastBackOld = lastBack;
+                lastBack = back;
+                float unstableFactor = Mth.lerp(
+                        Mth.clamp((1 - (lastBack - lastBackOld)) *
+                                        Math.min(back, 1 + (Math.min(0, back - 1) * ((data.back / data.backDec) * 0.158f))),
+                                0, 1.016f),
+                        0.385f, 1.025f);
+                yRate *= unstableFactor;
+                randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f) * yRate * unstableFactor;
                 backSpeed += data.back * pRate;
                 rotateSpeed += data.rotate * pRate;
                 upSpeed += data.up;
@@ -106,6 +114,8 @@ public class InertialRecoilHandler {
         rotate = rotateSpeed = 0;
         randomX = randomXSpeed = 0;
         randomY = randomYSpeed = 0;
+        lastBack = 0;
+        lastBackOld = 0;
         Arrays.fill(finished, false);
         this.data.set(null);
         this.enabled.set(!disable);
@@ -113,9 +123,11 @@ public class InertialRecoilHandler {
 
 
     private boolean shouldClear(float speed, float val) {
-        return Math.abs(speed) <= 0.00075 && Math.abs(val) <= 0.00075;
+        return Math.abs(speed) <= 0.001 && Math.abs(val) <= 0.00075;
     }
 
+    private float lastBack;
+    private float lastBackOld;
     public void update() {
         if (enabled.get() && this.data.get() != null) {
             try {
@@ -129,7 +141,9 @@ public class InertialRecoilHandler {
                             backSpeed *= 0.58f;
                         }
                     } else {
-                        backSpeed -= backSpeed > 0 ? back * recoilData.backDec * 1.6f : back * recoilData.backDec * 0.65f;
+                        backSpeed -= backSpeed > 0 ?
+                                back * recoilData.backDec * 1.6f :
+                                back * recoilData.backDec * 0.65f;
                         if (backSpeed < 0) {
                             backSpeed *= 0.35f;
                         }
@@ -139,6 +153,8 @@ public class InertialRecoilHandler {
                 if (shouldClear(backSpeed, back)) {
                     back = backSpeed = 0;
                     finished[0] = true;
+                    lastBack = 0;
+                    lastBackOld = 0;
                 }
 
                 if (!finished[1] && (up != 0 || upSpeed != 0)) {

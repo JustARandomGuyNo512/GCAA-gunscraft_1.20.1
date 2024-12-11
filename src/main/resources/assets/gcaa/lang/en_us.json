@@ -184,7 +184,7 @@
 
   "gcaa.ammunition_mod.incendiary_special": "Grant extra $rate of fire damage, ignite target, ignite TNT",
   "gcaa.ammunition_mod.explosive_special": "Give an additional $rate of explosive damage, ignite TNT",
-  "gcaa.ammunition_mod.heal_special": "Unconditionally grants base damage $rate health recovery, grants $time seconds $effect",
+  "gcaa.ammunition_mod.heal_special": "Unconditionally grants bullet damage $rate health recovery, grants $time seconds $effect",
 
   "gcaa.ammunition_data.base_damage_rate": "Base Damage: ",
   "gcaa.ammunition_data.min_damage_rate": "End Damage: ",
