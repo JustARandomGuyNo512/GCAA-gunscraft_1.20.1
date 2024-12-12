@@ -38,7 +38,7 @@ public class ModBlocks {
             ));
     /** 子弹制作台注册 */
     public static final RegistryObject<Block> BULLET_CRAFTING = BLOCKS.register(
-            "bullet_crafting", () -> new BulletCrafting(
+            "bullet_crafting_table", () -> new BulletCrafting(
                     BlockBehaviour.Properties.of()
                             .mapColor(MapColor.METAL)
                             .sound(SoundType.METAL)
