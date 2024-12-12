@@ -45,4 +45,11 @@ public class ModBlocks {
                             .lightLevel(value -> 10)
             )
     );
+    public static final RegistryObject<Block> ORE_LEAD = BLOCKS.register(
+            "ore_lead", () -> new Block(
+                    BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .sound(SoundType.METAL).strength(2.0F, 3.0F)
+            )
+    );
 }
