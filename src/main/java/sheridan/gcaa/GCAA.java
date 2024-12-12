@@ -2,6 +2,9 @@ package sheridan.gcaa;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -36,6 +39,8 @@ import sheridan.gcaa.client.screens.BulletCraftingScreen;
 import sheridan.gcaa.client.screens.GunModifyScreen;
 import sheridan.gcaa.client.screens.VendingMachineScreen;
 import sheridan.gcaa.client.screens.containers.ModContainers;
+import sheridan.gcaa.data.gun.GunPropertiesHandler;
+import sheridan.gcaa.data.gun.GunPropertiesProvider;
 import sheridan.gcaa.entities.ModEntities;
 import sheridan.gcaa.common.events.CommonEvents;
 import sheridan.gcaa.common.events.TestEvents;
@@ -45,6 +50,8 @@ import sheridan.gcaa.common.config.CommonConfig;
 import sheridan.gcaa.common.server.projetile.PlayerPosCacheHandler;
 import sheridan.gcaa.common.server.projetile.ProjectileHandler;
 import sheridan.gcaa.sounds.ModSounds;
+
+import java.util.concurrent.CompletableFuture;
 
 @Mod(GCAA.MODID)
 public class GCAA {
@@ -64,14 +71,20 @@ public class GCAA {
         ModEntities.ENTITIES.register(modEventBus);
         ModEntities.BLOCK_ENTITIES.register(modEventBus);
         ModContainers.REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
         ModSounds.register(FMLJavaModLoadingContext.get().getModEventBus());
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(GunPropertiesHandler.class);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
     }
 
-    private void gatherDataEvent(GatherDataEvent event) {}
+    private void gatherDataEvent(GatherDataEvent event) {
+        DataGenerator generator = event.getGenerator();
+        PackOutput output = generator.getPackOutput();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        generator.addProvider(event.includeServer(), new GunPropertiesProvider(output, lookupProvider));
+    }
 
     @OnlyIn(Dist.CLIENT)
     private void onClientSetup(final FMLClientSetupEvent event) {

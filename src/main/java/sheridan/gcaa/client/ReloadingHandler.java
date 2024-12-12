@@ -80,7 +80,6 @@ public class ReloadingHandler {
 
     public void cancelTask() {
         if (reloadingTask != null && !reloadingTask.isCompleted()) {
-            System.out.println("Canceling reload task");
             reloadingTask.onCancel();
         }
         clearTask();
