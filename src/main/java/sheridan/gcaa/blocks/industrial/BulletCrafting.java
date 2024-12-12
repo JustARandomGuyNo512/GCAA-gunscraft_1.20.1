@@ -51,7 +51,6 @@ public class BulletCrafting extends BaseEntityBlock implements IForgeBlock {
         BlockEntity entity = pLevel.getBlockEntity(pPos);
         if (entity instanceof BulletCraftingBlockEntity) {
             pPlayer.openMenu((MenuProvider) entity);
-//            pPlayer.awardStat(Stats.INTERACT_WITH_FURNACE);
         }
     }
     @Nullable
@@ -93,10 +92,7 @@ public class BulletCrafting extends BaseEntityBlock implements IForgeBlock {
     }
     @Override
     public boolean hidesNeighborFace(BlockGetter level, BlockPos pos, BlockState state, BlockState neighborState, Direction dir) {
-        if (dir == Direction.UP) {
-            return false;
-        }
-        return super.hidesNeighborFace(level, pos, state, neighborState, dir);
+        return dir == Direction.DOWN;
     }
 
     @Override

@@ -19,9 +19,13 @@ import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.client.screens.containers.BulletCraftingMenu;
@@ -37,9 +41,8 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
     private final BlockPos pos;
     protected NonNullList<ItemStack> items;
     protected final ContainerData dataAccess;
-    private static final int[] SLOTS_FOR_UP = new int[]{0};
-    private static final int[] SLOTS_FOR_DOWN = new int[]{2, 1};
-    private static final int[] SLOTS_FOR_SIDES = new int[]{1};
+    private static final int[] SLOTS_FOR_UP = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+    private static final int[] SLOTS_FOR_DOWN = new int[]{16};
     public static final int IS_CRAFTING = 0;
     private int isCrafting = 0;
     public static final int POS_X = 1;
@@ -51,6 +54,7 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
     public static final int TOTAL_TICK = 6;
     public int prevTick;
     public int totalTick;
+    LazyOptional<? extends IItemHandler>[] handlers;
 
     public BulletCraftingBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModEntities.BULLET_CRAFTING.get(), pPos, pBlockState);
@@ -92,6 +96,7 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
                 return 16;
             }
         };
+        this.handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
     }
     public static void tick(Level level, BlockPos blockPos, BlockState blockState, BulletCraftingBlockEntity bulletCraftingBlockEntity) {
         if (bulletCraftingBlockEntity.isCrafting == 1) {
@@ -329,16 +334,16 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
     }
     @Override
     public int getContainerSize() {
-        System.out.println("getContainerSize");
         return items.size();
     }
 
     public int @NotNull [] getSlotsForFace(@NotNull Direction pSide) {
-        System.out.println("face: " + pSide);
-        if (pSide == Direction.DOWN) {
+        if (pSide == Direction.UP) {
+            return SLOTS_FOR_UP;
+        } else if (pSide == Direction.DOWN){
             return SLOTS_FOR_DOWN;
         } else {
-            return pSide == Direction.UP ? SLOTS_FOR_UP : SLOTS_FOR_SIDES;
+            return SLOTS_FOR_UP;
         }
     }
     @Override
@@ -352,22 +357,16 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
             return false;
         }
     }
-    // TODO 漏斗漏出结果只能是第16个即子弹产品
-
-
     @Override
     public boolean canTakeItem(@NotNull Container pTarget, int pIndex, @NotNull ItemStack pStack) {
-        System.out.println("canTakeItem" + pIndex);
         return super.canTakeItem(pTarget, pIndex, pStack);
     }
 
     public boolean canPlaceItemThroughFace(int pIndex, @NotNull ItemStack pItemStack, @Nullable Direction pDirection) {
-        System.out.println("canPlace" + pDirection);
         return this.canPlaceItem(pIndex, pItemStack);
     }
 
     public boolean canTakeItemThroughFace(int pIndex, @NotNull ItemStack pStack, @NotNull Direction pDirection) {
-        System.out.println("canTake" + pDirection);
         return true;
     }
 
@@ -376,16 +375,33 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
             pHelper.accountStack(itemstack);
         }
     }
-    public boolean isEmpty() {
-        Iterator<ItemStack> var1 = this.items.iterator();
-        ItemStack itemstack;
-        do {
-            if (!var1.hasNext()) {
-                return true;
+
+    public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
+        if (!this.remove && facing != null && capability == ForgeCapabilities.ITEM_HANDLER) {
+            if (facing == Direction.UP) {
+                return this.handlers[0].cast();
+            } else {
+                return facing == Direction.DOWN ? this.handlers[1].cast() : this.handlers[2].cast();
             }
-            itemstack = var1.next();
-        } while(itemstack.isEmpty());
-        return false;
+        } else {
+            return super.getCapability(capability, facing);
+        }
+    }
+
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        for (LazyOptional<? extends IItemHandler> handler : this.handlers) {
+            handler.invalidate();
+        }
+    }
+
+    public void reviveCaps() {
+        super.reviveCaps();
+        this.handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
+    }
+    @Override
+    public boolean isEmpty() {
+        return items.stream().allMatch(ItemStack::isEmpty);
     }
 
     public @NotNull ItemStack getItem(int pIndex) {
