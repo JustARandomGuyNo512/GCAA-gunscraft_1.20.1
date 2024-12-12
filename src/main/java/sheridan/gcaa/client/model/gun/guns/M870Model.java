@@ -1,6 +1,5 @@
 package sheridan.gcaa.client.model.gun.guns;
 
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
@@ -14,6 +13,7 @@ import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 
 @OnlyIn(Dist.CLIENT)
 public class M870Model extends GunModel {
@@ -37,6 +37,8 @@ public class M870Model extends GunModel {
         body = gun.getChild("body").meshing();
         reloading_arm = gun.getChild("reloading_arm");
         shell = reloading_arm.getChild("shell").meshing();
+        this.reloading_arm.resetChildLayerName("left_arm_slim2", "left_arm_slim");
+        this.reloading_arm.resetChildLayerName("left_arm_normal2", "left_arm_normal");
     }
 
     @Override
@@ -49,8 +51,10 @@ public class M870Model extends GunModel {
             context.pushPose().translateTo(reloading_arm).render(shell, vertexConsumer);
             context.popPose();
         }
-        context.renderArmLong(leftArm, false);
-        context.renderArmLong(right_arm, true);
+        if (context.isFirstPerson) {
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(right_arm, 1, 1, 1, context.packedLight, context.packedOverlay, true, context.bufferSource, context.poseStack);
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(leftArm, 1, 1, 1, context.packedLight, context.packedOverlay, false, context.bufferSource, context.poseStack);
+        }
     }
 
     @Override
@@ -99,9 +103,9 @@ public class M870Model extends GunModel {
         gun.resetPose();
         camera.resetPose();
         slide.resetPose();
-        reloading_arm.resetPose();
-        left_arm.resetPose();
-        right_arm.resetPose();
+        reloading_arm.resetPoseAll();
+        left_arm.resetPoseAll();
+        right_arm.resetPoseAll();
         shell.resetPose();
         handguard.resetPose();
     }
