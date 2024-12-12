@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
@@ -13,11 +14,12 @@ import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 
 @OnlyIn(Dist.CLIENT)
 public class Xm1014Model extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/xm1014/xm1014.png");
-    private final AnimationDefinition recoil;
+    private final AnimationDefinition recoil, recoil_ads;
     private final AnimationDefinition shoot;
 
     private ModelPart IS, handguard, stock, barrel, mag, body, slide, ammo_track, reloading_arm, shell;
@@ -27,6 +29,7 @@ public class Xm1014Model extends GunModel {
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/xm1014/xm1014.animation.json"));
         recoil = animations.get("recoil");
         shoot = animations.get("shoot");
+        recoil_ads = animations.get("recoil_ads");
     }
 
     @Override
@@ -41,6 +44,10 @@ public class Xm1014Model extends GunModel {
         this.ammo_track = gun.getChild("ammo_track").meshing();
         this.reloading_arm = gun.getChild("reloading_arm").meshing();
         this.shell = reloading_arm.getChild("shell").meshing();
+        this.reloading_arm.resetChildLayerName("right_arm_slim2", "right_arm_slim");
+        this.reloading_arm.addChild("left_arm_slim", this.reloading_arm.getChild("right_arm_slim"));
+        this.reloading_arm.resetChildLayerName("right_arm_normal2", "right_arm_normal");
+        this.reloading_arm.addChild("left_arm_normal", this.reloading_arm.getChild("right_arm_normal"));
     }
 
     @Override
@@ -53,8 +60,10 @@ public class Xm1014Model extends GunModel {
             context.popPose();
         }
         context.render(vertexConsumer, IS, handguard, stock, barrel, mag, body, slide, ammo_track);
-        context.renderArmLong(leftArm, false);
-        context.renderArmLong(rightArm, true);
+        if (context.isFirstPerson) {
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(rightArm, 1, 1, 1, context.packedLight, context.packedOverlay, true, context.bufferSource, context.poseStack);
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(leftArm, 1, 1, 1, context.packedLight, context.packedOverlay, false, context.bufferSource, context.poseStack);
+        }
     }
 
     @Override
@@ -81,15 +90,15 @@ public class Xm1014Model extends GunModel {
 
     @Override
     public AnimationDefinition getRecoil() {
-        return recoil;
+        return Clients.getAdsProgress() > 0.5 ? recoil_ads : recoil;
     }
 
     @Override
     protected void afterRender(GunRenderContext context) {
         gun.resetPose();
         slide.resetPose();
-        left_arm.resetPose();
-        right_arm.resetPose();
+        left_arm.resetPoseAll();
+        right_arm.resetPoseAll();
         reloading_arm.resetPoseAll();
         camera.resetPose();
     }

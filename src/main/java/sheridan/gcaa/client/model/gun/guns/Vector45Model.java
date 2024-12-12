@@ -10,6 +10,7 @@ import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 
 @OnlyIn(Dist.CLIENT)
 public class Vector45Model extends GunModel {
@@ -52,8 +53,10 @@ public class Vector45Model extends GunModel {
         context.renderIf(IS, vertexConsumer, context.notHasScope());
         context.renderIf(muzzle, vertexConsumer, context.notHasMuzzle());
         context.render(vertexConsumer, safety, safety2, handle, slide, mag, body, barrel);
-        context.renderArmLong(left_arm, false);
-        context.renderArmLong(right_arm, true);
+        if (context.isFirstPerson) {
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(right_arm, 1, 1, 1, context.packedLight, context.packedOverlay, true, context.bufferSource, context.poseStack);
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(left_arm, 1, 1, 1, context.packedLight, context.packedOverlay, false, context.bufferSource, context.poseStack);
+        }
     }
 
     @Override
@@ -75,8 +78,8 @@ public class Vector45Model extends GunModel {
     @Override
     protected void afterRender(GunRenderContext context) {
         gun.resetPose();
-        left_arm.resetPose();
-        right_arm.resetPose();
+        left_arm.resetPoseAll();
+        right_arm.resetPoseAll();
         mag.resetPoseAll();
         handle.resetPoseAll();
         camera.resetPoseAll();

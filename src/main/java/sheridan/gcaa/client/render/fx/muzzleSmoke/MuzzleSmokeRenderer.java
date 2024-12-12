@@ -72,7 +72,7 @@ public class MuzzleSmokeRenderer {
         return !tasks.isEmpty();
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void onRenderLevelStage(RenderLevelStageEvent event) {
         if (!INSTANCE.renderImmediate && !tasks.isEmpty() &&
                 event.getStage() == RenderLevelStageEvent.Stage.AFTER_LEVEL) {

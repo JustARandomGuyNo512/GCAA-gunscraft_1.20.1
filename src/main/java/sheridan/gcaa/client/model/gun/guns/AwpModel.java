@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
@@ -15,6 +14,7 @@ import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 
 @OnlyIn(Dist.CLIENT)
 public class AwpModel extends GunModel {
@@ -59,8 +59,10 @@ public class AwpModel extends GunModel {
         context.renderIfOrElse(exp_mag, mag, !context.notHasMag(), vertexConsumer);
         context.renderIf(muzzle, vertexConsumer, context.notHasMuzzle());
         context.render(vertexConsumer, barrel, bolt, bolt_back_part, body, pin);
-        context.renderArmLong(left_arm, false);
-        context.renderArmLong(right_arm, true);
+        if (context.isFirstPerson) {
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(right_arm, 1, 1, 1, context.packedLight, context.packedOverlay, true, context.bufferSource, context.poseStack);
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(left_arm, 1, 1, 1, context.packedLight, context.packedOverlay, false, context.bufferSource, context.poseStack);
+        }
     }
 
     @Override
@@ -99,8 +101,8 @@ public class AwpModel extends GunModel {
     protected void afterRender(GunRenderContext gunRenderContext) {
         root.resetPose();
         gun.resetPose();
-        left_arm.resetPose();
-        right_arm.resetPose();
+        left_arm.resetPoseAll();
+        right_arm.resetPoseAll();
         bolt.resetPose();
         bolt_back_part.resetPose();
         pin.resetPose();

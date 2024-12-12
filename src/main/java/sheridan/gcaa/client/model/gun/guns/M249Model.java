@@ -16,6 +16,7 @@ import sheridan.gcaa.client.model.gun.BulletChainHandler;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 
 @OnlyIn(Dist.CLIENT)
 public class M249Model extends GunModel {
@@ -61,8 +62,10 @@ public class M249Model extends GunModel {
         context.renderIf(muzzle, bodyVertex, context.notHasMuzzle());
         bodyVertex = context.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
         context.render(cover, bodyVertex);
-        context.renderArmLong(left_arm, false);
-        context.renderArmLong(right_arm, true);
+        if (context.isFirstPerson) {
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(right_arm, 1, 1, 1, context.packedLight, context.packedOverlay, true, context.bufferSource, context.poseStack);
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(left_arm, 1, 1, 1, context.packedLight, context.packedOverlay, false, context.bufferSource, context.poseStack);
+        }
     }
 
     @Override
@@ -111,8 +114,8 @@ public class M249Model extends GunModel {
         camera.resetPose();
         handle.resetPose();
         mag.resetPoseAll();
-        left_arm.resetPose();
-        right_arm.resetPose();
+        left_arm.resetPoseAll();
+        right_arm.resetPoseAll();
         cover.resetPose();
         charge.resetPose();
     }

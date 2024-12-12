@@ -73,6 +73,7 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.M870.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:shotgun_suppressor")))
                 .addChild(new AttachmentSlot(STOCK, Set.of()))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:shotgun_extend_bay")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of()))
         );

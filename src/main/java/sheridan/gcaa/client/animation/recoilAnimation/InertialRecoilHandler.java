@@ -79,7 +79,7 @@ public class InertialRecoilHandler {
                 lock.lock();
                 randomYSpeed += data.randomY * randomDirectionY ;
                 if (randomYSpeed < 0) {
-                    randomYSpeed *= 0.5f;
+                    randomYSpeed *= 0.55f;
                 }
                 lastBackOld = lastBack;
                 lastBack = back;
@@ -89,9 +89,9 @@ public class InertialRecoilHandler {
                                 0, 1.016f),
                         0.385f, 1.025f);
                 yRate *= unstableFactor;
-                randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f) * yRate * unstableFactor;
+                randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f) * yRate;
                 backSpeed += data.back * pRate;
-                rotateSpeed += data.rotate * pRate;
+                rotateSpeed += data.rotate * pRate * unstableFactor;
                 upSpeed += data.up;
                 Arrays.fill(finished, false);
                 if (!data.isCanMix()) {

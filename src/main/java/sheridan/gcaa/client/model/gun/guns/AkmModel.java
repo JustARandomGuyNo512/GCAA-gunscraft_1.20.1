@@ -95,8 +95,12 @@ public class AkmModel extends LodGunModel {
 
     @Override
     public void renderAttachmentsModel(GunRenderContext context) {
-        context.renderMagAttachmentIf(mag, !context.notHasMag());
-        context.renderAllAttachmentsLeft(gun);
+        if (context.useLowQuality()) {
+            context.renderAllAttachmentsLeft(lowQualityGun);
+        } else {
+            context.renderMagAttachmentIf(mag, !context.notHasMag());
+            context.renderAllAttachmentsLeft(gun);
+        }
     }
 
     @Override

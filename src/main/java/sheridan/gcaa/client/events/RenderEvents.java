@@ -135,7 +135,7 @@ public class RenderEvents {
         lightFov += luminance / 1.5f;
         doFlashlightEffect = true;
     }
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void renderFlashLight(RenderLevelStageEvent event) {
         Clients.currentStage = event.getStage();
         if (canNotCallFlashlight() || !doFlashlightEffect) {
@@ -459,7 +459,7 @@ public class RenderEvents {
             } else {
                 if (AttachmentsRegister.getModel(scope) instanceof ScopeModel scopeModel) {
                     if (scopeModel.useModelFovModifyWhenAds()) {
-                        double newFov = Mth.lerp(Math.pow(adsProgress, 4f), prevFov, scopeModel.modelFovModifyWhenAds());
+                        double newFov = Mth.lerp(Math.pow(RenderAndMathUtils.sLerp(adsProgress), 3), prevFov, scopeModel.modelFovModifyWhenAds());
                         Clients.gunModelFovModify = (float) newFov;
                     }
                     return;

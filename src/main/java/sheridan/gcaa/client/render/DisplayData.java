@@ -103,7 +103,7 @@ public class DisplayData {
 
     protected float getMinDisZ(float progress) {
         float minZ = lerpMinZ(transforms[AIMING][2]);
-        return Mth.lerp(progress, transforms[0][2], minZ);
+        return (float) Mth.lerp(Math.pow(progress, 3), transforms[0][2], minZ);
     }
 
     protected float getGunModelFovRatio() {
