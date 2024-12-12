@@ -11,6 +11,7 @@ import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 import sheridan.gcaa.client.render.RenderTypes;
 
 @OnlyIn(Dist.CLIENT)
@@ -84,8 +85,10 @@ public class Mk47Model extends GunModel {
             vertexConsumer = context.getBuffer(RenderTypes.getCutOutNoCullMipmap(TEXTURE));
             context.render(vertexConsumer, handguard);
         }
-        context.renderArmLong(left_arm, false);
-        context.renderArmLong(right_arm, true);
+        if (context.isFirstPerson) {
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(right_arm, 1, 1, 1, context.packedLight, context.packedOverlay, true, context.bufferSource, context.poseStack);
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(left_arm, 1, 1, 1, context.packedLight, context.packedOverlay, false, context.bufferSource, context.poseStack);
+        }
     }
 
     private void handleRailsVisible(GunRenderContext context) {
@@ -134,8 +137,8 @@ public class Mk47Model extends GunModel {
         gun.resetPose();
         root.resetPose();
         slide.resetPose();
-        left_arm.resetPose();
-        right_arm.resetPose();
+        left_arm.resetPoseAll();
+        right_arm.resetPoseAll();
         camera.resetPose();
         mag.resetPose();
         charge.resetPose();

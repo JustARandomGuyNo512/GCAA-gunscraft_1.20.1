@@ -334,7 +334,7 @@ public class Clients {
                 .setSprintingTrans(11.5f, 10.5f, 2, 28, -45, 36)
         );
 
-        ArsenalLib.registerGunModel(ModItems.MK47.get(), new NewMk47Model(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.MK47.get(), new Mk47Model(), new DisplayData()
                 .setFirstPersonMain(-11f,15.2f,-32.8f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.6f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)

@@ -135,7 +135,7 @@ public class RenderEvents {
         lightFov += luminance / 1.5f;
         doFlashlightEffect = true;
     }
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void renderFlashLight(RenderLevelStageEvent event) {
         Clients.currentStage = event.getStage();
         if (canNotCallFlashlight() || !doFlashlightEffect) {
