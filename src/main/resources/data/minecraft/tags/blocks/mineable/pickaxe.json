@@ -1,5 +1,7 @@
 {
   "values": [
-    "gcaa:ore_lead"
+    "gcaa:ore_lead",
+    "gcaa:lead_block",
+    "gcaa:ore_asphalt"
   ]
 }
