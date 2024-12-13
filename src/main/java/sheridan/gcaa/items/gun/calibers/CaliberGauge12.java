@@ -1,5 +1,6 @@
 package sheridan.gcaa.items.gun.calibers;
 
+import com.google.gson.JsonObject;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -28,6 +29,20 @@ public class CaliberGauge12 extends Caliber {
     public CaliberGauge12 modifySpread(float baseSpread) {
         this.baseSpread = baseSpread;
         return this;
+    }
+
+    @Override
+    public void writeData(JsonObject jsonObject) {
+        super.writeData(jsonObject);
+        jsonObject.addProperty("projectileNum", projectileNum);
+        jsonObject.addProperty("baseSpread", baseSpread);
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+        super.loadData(jsonObject);
+        projectileNum = jsonObject.get("projectileNum").getAsInt();
+        baseSpread = jsonObject.get("baseSpread").getAsFloat();
     }
 
     @Override

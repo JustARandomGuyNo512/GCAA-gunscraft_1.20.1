@@ -79,7 +79,7 @@ public class InertialRecoilHandler {
                 lock.lock();
                 randomYSpeed += data.randomY * randomDirectionY ;
                 if (randomYSpeed < 0) {
-                    randomYSpeed *= 0.55f;
+                    randomYSpeed *= 0.5f;
                 }
                 lastBackOld = lastBack;
                 lastBack = back;
