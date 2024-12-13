@@ -99,5 +99,6 @@ public class ModItems {
     public static final RegistryObject<Item> BULLET_CRAFTING = ITEMS.register("bullet_crafting_table", () -> new BlockItem(ModBlocks.BULLET_CRAFTING.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> THIN_COPPER_PLATE = ITEMS.register("thin_copper_plate", BaseItem::new);
+    public static final RegistryObject<Item> ORE_LEAD = ITEMS.register("ore_lead", () -> new BlockItem(ModBlocks.ORE_LEAD.get(), new Item.Properties()));
 
 }

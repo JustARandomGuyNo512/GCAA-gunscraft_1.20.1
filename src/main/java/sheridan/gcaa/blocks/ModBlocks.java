@@ -1,8 +1,10 @@
 package sheridan.gcaa.blocks;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.registries.DeferredRegister;
@@ -40,16 +42,13 @@ public class ModBlocks {
                     BlockBehaviour.Properties.of()
                             .mapColor(MapColor.METAL)
                             .sound(SoundType.METAL)
-                            .strength(3.0f)
+                            .strength(1.0f)
                             .explosionResistance(180)
                             .lightLevel(value -> 10)
             )
     );
     public static final RegistryObject<Block> ORE_LEAD = BLOCKS.register(
             "ore_lead", () -> new Block(
-                    BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.METAL)
-                    .sound(SoundType.METAL).strength(2.0F, 3.0F)
-            )
+                    BlockBehaviour.Properties.copy(Blocks.IRON_ORE))
     );
 }

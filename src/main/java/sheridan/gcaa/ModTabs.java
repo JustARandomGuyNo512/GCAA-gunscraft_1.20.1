@@ -97,7 +97,7 @@ public class ModTabs {
                     tab.accept(ModItems.TRANSACTION_TERMINAL.get());
                     tab.accept(ModItems.BULLET_CRAFTING.get());
                     tab.accept(ModItems.THIN_COPPER_PLATE.get());
+                    tab.accept(ModItems.ORE_LEAD.get());
                 }).build());
     }
-
 }
