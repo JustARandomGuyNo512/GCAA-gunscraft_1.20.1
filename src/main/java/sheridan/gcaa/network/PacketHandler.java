@@ -53,6 +53,7 @@ public class PacketHandler
         registerPacket(UpdateTransferBalancePacket.class, new UpdateTransferBalancePacket());
         registerPacket(SelectBulletCraftingPacket.class, new SelectBulletCraftingPacket());
         registerPacket(StopBulletCraftingPacket.class, new StopBulletCraftingPacket());
+        registerPacket(UpdateGunPropertiesPacket.class, new UpdateGunPropertiesPacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {
