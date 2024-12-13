@@ -98,6 +98,11 @@ public class ModTabs {
                     tab.accept(ModItems.BULLET_CRAFTING.get());
                     tab.accept(ModItems.THIN_COPPER_PLATE.get());
                     tab.accept(ModItems.ORE_LEAD.get());
+                    tab.accept(ModItems.LEAD_INGOT.get());
+                    tab.accept(ModItems.LEAD_BLOCK.get());
+                    tab.accept(ModItems.LEAD_NUGGET.get());
+                    tab.accept(ModItems.ORE_ASPHALT.get());
+                    tab.accept(ModItems.PLASTIC.get());
                 }).build());
     }
 }

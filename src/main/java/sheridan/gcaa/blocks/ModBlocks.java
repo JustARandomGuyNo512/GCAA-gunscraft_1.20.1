@@ -51,4 +51,14 @@ public class ModBlocks {
             "ore_lead", () -> new Block(
                     BlockBehaviour.Properties.copy(Blocks.IRON_ORE))
     );
+    public static final RegistryObject<Block> LEAD_BLOCK = BLOCKS.register(
+            "lead_block", () -> new Block(
+                    BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+            )
+    );
+    public static final RegistryObject<Block> ORE_ASPHALT = BLOCKS.register(
+            "ore_asphalt", () -> new Block(
+                    BlockBehaviour.Properties.copy(Blocks.COAL_ORE)
+            )
+    );
 }
