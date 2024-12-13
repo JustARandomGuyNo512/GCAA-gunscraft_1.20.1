@@ -298,7 +298,6 @@ public class TransactionTerminalScreen extends Screen {
     private void pageTurning(boolean isNextPage) {
         currentPage = isNextPage ? currentPage + 1 : currentPage - 1;
         currentPage = Mth.clamp(currentPage, 0, searchPlayers.size() / pageSize);
-
     }
     private boolean checkPlayer() {
         return this.minecraft != null && this.minecraft.player != null;

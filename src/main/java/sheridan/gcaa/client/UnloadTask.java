@@ -16,6 +16,10 @@ import sheridan.gcaa.network.packets.c2s.PlayerSoundPacket;
 import sheridan.gcaa.sounds.ModSounds;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
+/**
+ * @deprecated 已弃用
+ */
+@Deprecated
 @OnlyIn(Dist.CLIENT)
 public class UnloadTask implements IReloadTask{
     public static UnloadData RIFLE = null;

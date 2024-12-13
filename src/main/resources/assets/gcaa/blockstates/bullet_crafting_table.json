@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "gcaa:block/bullet_crafting_table",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "gcaa:block/bullet_crafting_table",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "gcaa:block/bullet_crafting_table",
+      "y": 0
+    },
+    "facing=west": {
+      "model": "gcaa:block/bullet_crafting_table",
+      "y": 90
+    }
+  }
+}

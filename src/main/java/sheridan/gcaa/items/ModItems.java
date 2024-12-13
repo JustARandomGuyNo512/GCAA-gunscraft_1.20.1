@@ -96,4 +96,13 @@ public class ModItems {
     public static final RegistryObject<Item> AMMUNITION_PROCESSOR = ITEMS.register("ammunition_processor", () -> new BlockItem(ModBlocks.AMMUNITION_PROCESSOR.get(), new Item.Properties()));
     public static final RegistryObject<Item> VENDING_MACHINE = ITEMS.register("vending_machine", () -> new BlockItem(ModBlocks.VENDING_MACHINE.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> BULLET_CRAFTING = ITEMS.register("bullet_crafting_table", () -> new BlockItem(ModBlocks.BULLET_CRAFTING.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> THIN_COPPER_PLATE = ITEMS.register("thin_copper_plate", BaseItem::new);
+    public static final RegistryObject<Item> ORE_LEAD = ITEMS.register("ore_lead", () -> new BlockItem(ModBlocks.ORE_LEAD.get(), new Item.Properties()));
+    public static final RegistryObject<Item> LEAD_INGOT = ITEMS.register("lead_ingot", BaseItem::new);
+    public static final RegistryObject<Item> LEAD_BLOCK = ITEMS.register("lead_block", () -> new BlockItem(ModBlocks.LEAD_BLOCK.get(), new Item.Properties()));
+    public static final RegistryObject<Item> LEAD_NUGGET = ITEMS.register("lead_nugget", BaseItem::new);
+    public static final RegistryObject<Item> ORE_ASPHALT = ITEMS.register("ore_asphalt", () -> new BlockItem(ModBlocks.ORE_ASPHALT.get(), new Item.Properties()));
+    public static final RegistryObject<Item> PLASTIC = ITEMS.register("plastic", BaseItem::new);
 }

@@ -51,6 +51,8 @@ public class PacketHandler
         registerPacket(UpdateTransactionDataPacket.class, new UpdateTransactionDataPacket());
         registerPacket(TransferAccountsPacket.class, new TransferAccountsPacket());
         registerPacket(UpdateTransferBalancePacket.class, new UpdateTransferBalancePacket());
+        registerPacket(SelectBulletCraftingPacket.class, new SelectBulletCraftingPacket());
+        registerPacket(StopBulletCraftingPacket.class, new StopBulletCraftingPacket());
         registerPacket(UpdateGunPropertiesPacket.class, new UpdateGunPropertiesPacket());
     }
 

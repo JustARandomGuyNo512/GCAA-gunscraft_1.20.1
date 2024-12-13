@@ -13,6 +13,7 @@ public class ModTabs {
     public static final RegistryObject<CreativeModeTab> GUNS_TAB;
     public static final RegistryObject<CreativeModeTab> ATTACHMENTS_TAB;
     public static final RegistryObject<CreativeModeTab> AMMUNITION_TAB;
+    /** 杂项物品注册 */
     public static final RegistryObject<CreativeModeTab> OTHER_TAB;
     static {
         MOD_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, GCAA.MODID);
@@ -94,7 +95,14 @@ public class ModTabs {
                     tab.accept(ModItems.AMMUNITION_PROCESSOR.get());
                     tab.accept(ModItems.VENDING_MACHINE.get());
                     tab.accept(ModItems.TRANSACTION_TERMINAL.get());
+                    tab.accept(ModItems.BULLET_CRAFTING.get());
+                    tab.accept(ModItems.THIN_COPPER_PLATE.get());
+                    tab.accept(ModItems.ORE_LEAD.get());
+                    tab.accept(ModItems.LEAD_INGOT.get());
+                    tab.accept(ModItems.LEAD_BLOCK.get());
+                    tab.accept(ModItems.LEAD_NUGGET.get());
+                    tab.accept(ModItems.ORE_ASPHALT.get());
+                    tab.accept(ModItems.PLASTIC.get());
                 }).build());
     }
-
 }
