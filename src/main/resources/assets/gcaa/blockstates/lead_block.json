@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "gcaa:block/lead_block"
+      }
+    ]
+  }
+}
