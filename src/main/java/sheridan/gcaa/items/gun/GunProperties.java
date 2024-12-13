@@ -1,10 +1,12 @@
 package sheridan.gcaa.items.gun;
 
+import com.google.gson.JsonObject;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
+import sheridan.gcaa.data.IDataPacketGen;
 import sheridan.gcaa.items.gun.calibers.Caliber;
 
 import java.util.HashMap;
@@ -12,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GunProperties{
+public class GunProperties implements IDataPacketGen {
     public static final String ADS_SPEED = "ads_speed";
     public static final String MIN_SPREAD = "min_spread";
     public static final String MAX_SPREAD = "max_spread";
@@ -30,29 +32,29 @@ public class GunProperties{
     public final static float MIN_WEIGHT = 5f;
     public final static float MAX_WEIGHT = 40f;
 
-    public final float adsSpeed;
-    public final float minSpread;
-    public final float maxSpread;
-    public final float shootSpread;
-    public final float spreadRecover;
-    public final float fireSoundVol;
-    public final int fireDelay;
-    public final int reloadLength;
-    public final int fullReloadLength;
-    public final int magSize;
-    public final float recoilPitch;
-    public final float recoilYaw;
-    public final float recoilPitchControl;
-    public final float recoilYawControl;
-    public final float weight;
-    public final float agility;
-    public final float walkingSpreadFactor = 1.3f;
-    public final float sprintingSpreadFactor = 1.6f;
-    public final List<IGunFireMode> fireModes;
-    public final RegistryObject<SoundEvent> fireSound;
-    public final RegistryObject<SoundEvent> suppressedSound;
-    public final Caliber caliber;
-    public final Map<String, PropertyExtension> extensions = new HashMap<>();
+    public float adsSpeed;
+    public float minSpread;
+    public float maxSpread;
+    public float shootSpread;
+    public float spreadRecover;
+    public float fireSoundVol;
+    public int fireDelay;
+    public int reloadLength;
+    public int fullReloadLength;
+    public int magSize;
+    public float recoilPitch;
+    public float recoilYaw;
+    public float recoilPitchControl;
+    public float recoilYawControl;
+    public float weight;
+    public float agility;
+    public float walkingSpreadFactor = 1.3f;
+    public float sprintingSpreadFactor = 1.6f;
+    public List<IGunFireMode> fireModes;
+    public RegistryObject<SoundEvent> fireSound;
+    public RegistryObject<SoundEvent> suppressedSound;
+    public Caliber caliber;
+    public Map<String, PropertyExtension> extensions = new HashMap<>();
 
     public GunProperties(float adsSpeed, float minSpread, float maxSpread, float shootSpread, float spreadRecover, float fireSoundVol, int fireDelay, int reloadLength, int fullReloadLength,
                          int magSize, float recoilPitch, float recoilYaw, float recoilPitchControl, float recoilYawControl, float weight, List<IGunFireMode> fireModes,
@@ -133,7 +135,7 @@ public class GunProperties{
         tag.putFloat(FIRE_SOUND_VOL, 1.0f);
         tag.putFloat(AGILITY, 1.0f);
         for (PropertyExtension extension : extensions.values()) {
-            CompoundTag extensionTag = extension.getExtendInitialData(tag);
+            CompoundTag extensionTag = extension.putExtendInitialData(tag);
             if (extensionTag != null) {
                 tag.put(extension.getName(), extensionTag);
             }
@@ -145,6 +147,76 @@ public class GunProperties{
         float prevRate = getPropertyRate(propertyName, propertiesTag);
         if (prevRate != -1) {
             propertiesTag.putFloat(propertyName, rateSetter.getRate(prevRate));
+        }
+    }
+
+    @Override
+    public void writeData(JsonObject jsonObject) {
+        jsonObject.addProperty(ADS_SPEED, adsSpeed);
+        jsonObject.addProperty(MIN_SPREAD, minSpread);
+        jsonObject.addProperty(MAX_SPREAD, maxSpread);
+        jsonObject.addProperty(SHOOT_SPREAD, shootSpread);
+        jsonObject.addProperty(SPREAD_RECOVER, spreadRecover);
+        jsonObject.addProperty("fire_delay", fireDelay);
+        jsonObject.addProperty("reload_length", reloadLength);
+        jsonObject.addProperty("full_reload_length", fullReloadLength);
+        jsonObject.addProperty("mag_size", magSize);
+        jsonObject.addProperty(RECOIL_PITCH, recoilPitch);
+        jsonObject.addProperty(RECOIL_YAW, recoilYaw);
+        jsonObject.addProperty(RECOIL_PITCH_CONTROL, recoilPitchControl);
+        jsonObject.addProperty(RECOIL_YAW_CONTROL, recoilYawControl);
+        jsonObject.addProperty("weight", weight);
+        jsonObject.addProperty(WALKING_SPREAD_FACTOR, walkingSpreadFactor);
+        jsonObject.addProperty(SPRINTING_SPREAD_FACTOR, sprintingSpreadFactor);
+        jsonObject.addProperty(FIRE_SOUND_VOL, fireSoundVol);
+        jsonObject.addProperty(AGILITY, agility);
+        if (!extensions.isEmpty()) {
+            JsonObject extensionObject = new JsonObject();
+            for (PropertyExtension extension : extensions.values()) {
+                JsonObject extensionJson = new JsonObject();
+                extension.writeData(extensionJson);
+                extensionObject.add(extension.getName(), extensionJson);
+            }
+            jsonObject.add("extensions", extensionObject);
+        }
+        if (caliber != null) {
+            JsonObject caliberObject = new JsonObject();
+            caliber.writeData(caliberObject);
+            jsonObject.add("caliber", caliberObject);
+        }
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+        adsSpeed = jsonObject.get(ADS_SPEED).getAsFloat();
+        minSpread = jsonObject.get(MIN_SPREAD).getAsFloat();
+        maxSpread = jsonObject.get(MAX_SPREAD).getAsFloat();
+        shootSpread = jsonObject.get(SHOOT_SPREAD).getAsFloat();
+        spreadRecover = jsonObject.get(SPREAD_RECOVER).getAsFloat();
+        fireDelay = jsonObject.get("fire_delay").getAsInt();
+        reloadLength = jsonObject.get("reload_length").getAsInt();
+        fullReloadLength = jsonObject.get("full_reload_length").getAsInt();
+        magSize = jsonObject.get("mag_size").getAsInt();
+        recoilPitch = jsonObject.get(RECOIL_PITCH).getAsFloat();
+        recoilYaw = jsonObject.get(RECOIL_YAW).getAsFloat();
+        recoilPitchControl = jsonObject.get(RECOIL_PITCH_CONTROL).getAsFloat();
+        recoilYawControl = jsonObject.get(RECOIL_YAW_CONTROL).getAsFloat();
+        weight = jsonObject.get("weight").getAsFloat();
+        walkingSpreadFactor = jsonObject.get(WALKING_SPREAD_FACTOR).getAsFloat();
+        sprintingSpreadFactor = jsonObject.get(SPRINTING_SPREAD_FACTOR).getAsFloat();
+        fireSoundVol = jsonObject.get(FIRE_SOUND_VOL).getAsFloat();
+        agility = jsonObject.get(AGILITY).getAsFloat();
+        if (!extensions.isEmpty() && jsonObject.has("extensions")) {
+            JsonObject extensionObject = jsonObject.get("extensions").getAsJsonObject();
+             for (PropertyExtension extension : extensions.values()) {
+                 if (extensionObject.has(extension.getName())) {
+                     extension.loadData(extensionObject.get(extension.getName()).getAsJsonObject());
+                 }
+             }
+        }
+        if (caliber != null && jsonObject.has("caliber")) {
+            JsonObject caliberObject = jsonObject.get("caliber").getAsJsonObject();
+            caliber.loadData(caliberObject);
         }
     }
 

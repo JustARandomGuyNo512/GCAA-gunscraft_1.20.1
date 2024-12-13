@@ -56,6 +56,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     public static final String MUZZLE_STATE_NORMAL = "normal";
     public static final String MUZZLE_STATE_SUPPRESSOR = "suppressor";
     public static final String MUZZLE_STATE_COMPENSATOR = "compensator";
+    protected static final List<Gun> ALL_INSTANCES = new ArrayList<>();
     private final GunProperties gunProperties;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
@@ -64,6 +65,11 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         this.gunProperties = gunProperties;
         defaultModifiers = ArrayListMultimap.create();
         defaultModifiers.put(Attributes.ATTACK_SPEED, new EditableAttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", 0, AttributeModifier.Operation.ADDITION));
+        ALL_INSTANCES.add(this);
+    }
+
+    public static List<Gun> getAllInstances() {
+        return ALL_INSTANCES;
     }
 
     @Override

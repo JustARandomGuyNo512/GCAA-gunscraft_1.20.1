@@ -140,6 +140,32 @@
 						},
 						"0.38": [0.1, 1.2, -2.8]
 					}
+				},
+				"left_arm": {
+					"rotation": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.37": {
+							"post": [-11.26051, -14.03787, -41.53065],
+							"lerp_mode": "catmullrom"
+						}
+					},
+					"position": {
+						"0.0": {
+							"post": [0, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"0.36": {
+							"post": [-2, -55, 40],
+							"lerp_mode": "catmullrom"
+						}
+					},
+					"scale": {
+						"0.31": [1, 1, 1],
+						"0.37": [0, 0, 0]
+					}
 				}
 			}
 		},

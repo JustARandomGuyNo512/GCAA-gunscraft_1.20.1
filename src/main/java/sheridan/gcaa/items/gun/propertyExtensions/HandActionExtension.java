@@ -1,5 +1,6 @@
 package sheridan.gcaa.items.gun.propertyExtensions;
 
+import com.google.gson.JsonObject;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import sheridan.gcaa.GCAA;
@@ -28,12 +29,32 @@ public class HandActionExtension extends PropertyExtension {
     }
 
     @Override
+    public void writeData(JsonObject jsonObject) {
+        jsonObject.addProperty("hand_action_animation_name", handActionAnimationName);
+        jsonObject.addProperty("ads_hand_action_animation_name", adsHandActionAnimationName);
+        jsonObject.addProperty(START_DELAY, startDelay);
+        jsonObject.addProperty(LENGTH, length);
+        jsonObject.addProperty(THROW_BULLET_SHELL_DELAY, throwBulletShellDelay);
+        jsonObject.addProperty("allow_ads", allowAds);
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+        handActionAnimationName = jsonObject.get("hand_action_animation_name").getAsString();
+        adsHandActionAnimationName = jsonObject.get("ads_hand_action_animation_name").getAsString();
+        startDelay = jsonObject.get(START_DELAY).getAsInt();
+        length = jsonObject.get(LENGTH).getAsInt();
+        throwBulletShellDelay = jsonObject.get(THROW_BULLET_SHELL_DELAY).getAsInt();
+        allowAds = jsonObject.get("allow_ads").getAsBoolean();
+    }
+
+    @Override
     public String getName() {
         return NAME;
     }
 
     @Override
-    public CompoundTag getExtendInitialData(CompoundTag prevDataTag) {
+    public CompoundTag putExtendInitialData(CompoundTag prevDataTag) {
         CompoundTag extensionData = new CompoundTag();
         extensionData.putInt(START_DELAY, startDelay);
         extensionData.putInt(LENGTH, length);
