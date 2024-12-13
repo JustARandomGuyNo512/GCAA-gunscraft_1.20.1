@@ -26,7 +26,7 @@ import sheridan.gcaa.entities.industrial.BulletCraftingBlockEntity;
 
 public class BulletCrafting extends BaseEntityBlock implements IForgeBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-    public static final VoxelShape VOXEL_SHAPE = Block.box(0, 0, 0, 16, 16, 16);
+    public static final VoxelShape VOXEL_SHAPE = Block.box(0.01, 0.01, 0.01, 15.99, 15.99, 15.99);
 
     public BulletCrafting(Properties pProperties) {
         super(pProperties);
@@ -92,7 +92,7 @@ public class BulletCrafting extends BaseEntityBlock implements IForgeBlock {
     }
     @Override
     public boolean hidesNeighborFace(BlockGetter level, BlockPos pos, BlockState state, BlockState neighborState, Direction dir) {
-        return dir == Direction.DOWN;
+        return false;
     }
 
     @Override
