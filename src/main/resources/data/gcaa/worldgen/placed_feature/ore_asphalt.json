@@ -1,0 +1,44 @@
+{
+  "feature": {
+    "config": {
+      "targets": [
+        {
+          "target": {
+            "predicate_type": "minecraft:block_match",
+            "block": "minecraft:stone"
+          },
+          "state": {
+            "Name": "gcaa:ore_asphalt"
+          }
+        }
+      ],
+      "size": 5,
+      "discard_chance_on_air_exposure": 0.3
+    },
+    "type": "minecraft:ore"
+  },
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 25
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": {
+          "absolute": -20
+        },
+        "max_inclusive": {
+          "absolute": 64
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    },
+    {
+      "type": "minecraft:in_square"
+    }
+  ]
+}
