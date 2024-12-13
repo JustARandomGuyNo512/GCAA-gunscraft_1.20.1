@@ -64,8 +64,13 @@
   "block.gcaa.vending_machine": "自动售货机",
   "block.gcaa.bullet_crafting_table": "弹药制造台",
   "block.gcaa.ore_lead": "铅矿石",
+  "block.gcaa.lead_block": "铅块",
+  "block.gcaa.ore_asphalt": "沥青矿石",
 
   "item.gcaa.thin_copper_plate": "薄铜板",
+  "item.gcaa.lead_ingot": "铅锭",
+  "item.gcaa.lead_nugget": "铅粒",
+  "item.gcaa.plastic": "塑料",
 
   "tooltip.fire_mode.auto": "全自动",
   "tooltip.fire_mode.semi": "单发",

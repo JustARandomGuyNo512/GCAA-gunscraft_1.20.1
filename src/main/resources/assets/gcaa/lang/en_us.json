@@ -64,8 +64,13 @@
   "block.gcaa.vending_machine": "Vending Machine",
   "block.gcaa.bullet_crafting_table": "Bullet Crafting Table",
   "block.gcaa.ore_lead": "Lead Ore",
+  "block.gcaa.lead_block": "Lead Block",
+  "block.gcaa.ore_asphalt": "Asphalt Ore",
 
   "item.gcaa.thin_copper_plate": "Thin Copper Plate",
+  "item.gcaa.lead_ingot": "Lead Ingot",
+  "item.gcaa.lead_nugget": "Lead Nugget",
+  "item.gcaa.plastic": "Plastic",
 
   "tooltip.fire_mode.auto": "AUTO",
   "tooltip.fire_mode.semi": "SEMI",
