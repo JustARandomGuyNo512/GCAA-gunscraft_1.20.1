@@ -14,10 +14,10 @@ public class Recipe {
     public final Map<Item, Integer> ingredients;
     public final int craftingTicks;
 
-    public Recipe(Ammunition ammunition, int craftingTicks) {
+    public Recipe(Ammunition ammunition, int ms) {
         this.ammunition = ammunition;
         this.ingredients = new HashMap<>();
-        this.craftingTicks = craftingTicks;
+        this.craftingTicks = Math.max((ms / 50), 1);
     }
 
     public ItemStack getResult() {
