@@ -43,7 +43,7 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
         this.root = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/functional/gp_25.geo.json"))
                 .bakeRoot().getChild("root");
         left_arm = root.getChild("left_arm");
-        left_arm_new = root.getChild("left_arm_long");
+        left_arm_new = root.getChild("left_arm_new");
         body = root.getChild("body").meshing();
         grenade = root.getChild("grenade").meshing();
         grenade_reloading = root.getChild("grenade_reloading").meshing();
