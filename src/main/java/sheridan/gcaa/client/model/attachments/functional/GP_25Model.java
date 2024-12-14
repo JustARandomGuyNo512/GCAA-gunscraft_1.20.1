@@ -11,7 +11,6 @@ import sheridan.gcaa.client.GrenadeLauncherReloadTask;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
-import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.model.attachments.ArmRendererModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.attachments.IDirectionalModel;
@@ -32,7 +31,7 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
     public static final String RELOAD_ANIMATION_KEY = "gp_25_reload";
     private static final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/functional/gp_25.png");
     private final ModelPart root;
-    private final ModelPart left_arm, left_arm_long, body, grenade, grenade_reloading, muzzle;
+    private final ModelPart left_arm, left_arm_new, body, grenade, grenade_reloading, muzzle;
     private final AnimationDefinition reload;
     private final AnimationDefinition rifle_ak_reload;
     private final ModelPart low;
@@ -44,7 +43,7 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
         this.root = ArsenalLib.loadBedRockGunModel(new ResourceLocation(GCAA.MODID, "model_assets/attachments/functional/gp_25.geo.json"))
                 .bakeRoot().getChild("root");
         left_arm = root.getChild("left_arm");
-        left_arm_long = root.getChild("left_arm_long");
+        left_arm_new = root.getChild("left_arm_long");
         body = root.getChild("body").meshing();
         grenade = root.getChild("grenade").meshing();
         grenade_reloading = root.getChild("grenade_reloading").meshing();
@@ -66,7 +65,7 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
 
     @Override
     protected ModelPart getLeftArm(GunRenderContext context) {
-        return context.renderLongArm ? left_arm_long : left_arm;
+        return context.renderArmNew ? left_arm_new : left_arm;
     }
 
     @Override
@@ -115,7 +114,7 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
 
         if (showAnimation) {
             left_arm.resetPose();
-            left_arm_long.resetPose();
+            left_arm_new.resetPoseAll();
             grenade_reloading.resetPose();
         }
     }

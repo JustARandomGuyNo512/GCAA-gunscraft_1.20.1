@@ -52,8 +52,8 @@ public class M870Model extends GunModel {
             context.popPose();
         }
         if (context.isFirstPerson) {
-            NewPlayerArmRenderer.INSTANCE.renderByLayer(right_arm, 1, 1, 1, context.packedLight, context.packedOverlay, true, context.bufferSource, context.poseStack);
-            NewPlayerArmRenderer.INSTANCE.renderByLayer(leftArm, 1, 1, 1, context.packedLight, context.packedOverlay, false, context.bufferSource, context.poseStack);
+            context.renderArm(right_arm, true);
+            context.renderArm(leftArm, false);
         }
     }
 

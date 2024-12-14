@@ -52,7 +52,7 @@ public class GunRenderContext {
     public Map<String, Object> localRenderStorage;
     public int ammoLeft;
 
-    public boolean renderLongArm = false;
+    public boolean renderArmNew = false;
     public boolean inAttachmentScreen = false;
 
     private static String lastAttachmentContextUUID = "none";
@@ -117,10 +117,6 @@ public class GunRenderContext {
         lastReload = ReloadingHandler.INSTANCE.getLastStartReload();
     }
 
-    public boolean reloading() {
-        return ReloadingHandler.INSTANCE.reloading();
-    }
-
     public float getFireProgress() {
         if (lastShoot == 0) {
             return 0;
@@ -170,54 +166,46 @@ public class GunRenderContext {
         }
     }
 
-    public void renderArmLong(ModelPart pose, float scale, boolean mainHand) {
+    public void renderArm(ModelPart poseLayer, boolean mainHand) {
         if (isFirstPerson) {
-            if (!shouldRenderArmImmediately(mainHand, pose)) {
-                renderLongArm = true;
+            if (!shouldRenderArmImmediately(mainHand, poseLayer, true)) {
+                renderArmNew = true;
                 return;
             }
-            PlayerArmRenderer.INSTANCE.renderLong(pose, scale, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
+            NewPlayerArmRenderer.INSTANCE.renderByLayer(poseLayer, 1, 1, 1, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
         }
     }
 
-    public void renderArmLong(ModelPart pose, boolean mainHand) {
-        if (isFirstPerson) {
-            if (!shouldRenderArmImmediately(mainHand, pose)) {
-                renderLongArm = true;
-                return;
-            }
-            PlayerArmRenderer.INSTANCE.renderLong(pose, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
-        }
-    }
-
-    public void renderArm(ModelPart pose, boolean mainHand) {
-        if (isFirstPerson && shouldRenderArmImmediately(mainHand, pose)) {
-            PlayerArmRenderer.INSTANCE.render(pose, packedLight, packedOverlay, mainHand, bufferSource, poseStack);
+    public void renderArmOldStylePistol(ModelPart pose, boolean mainHand) {
+        if (isFirstPerson && shouldRenderArmImmediately(mainHand, pose, false)) {
+            NewPlayerArmRenderer.INSTANCE.renderOldStylePistolByLayer(pose, mainHand, packedLight, packedOverlay, bufferSource, poseStack, true);
         }
     }
 
 
-    private boolean shouldRenderArmImmediately(boolean mainHand, ModelPart pose) {
+    private boolean shouldRenderArmImmediately(boolean mainHand, ModelPart poseLayer, boolean newArmRenderer) {
         AttachmentSlot armReplace = mainHand ? Clients.MAIN_HAND_STATUS.getRightArmReplace() : Clients.MAIN_HAND_STATUS.getLeftArmReplace();
         if (armReplace != null) {
             String key = mainHand ? RIGHT_ARM_RENDER_REPLACE : LEFT_ARM_RENDER_REPLACE;
             PoseStack poseStack = RenderAndMathUtils.copyPoseStack(this.poseStack);
-            pose.translateAndRotate(poseStack);
+            poseLayer.translateAndRotate(poseStack);
+            if (newArmRenderer) {
+                boolean isSlim = NewPlayerArmRenderer.isSlim();
+                if (mainHand) {
+                    poseLayer.getChild(isSlim ? "right_arm_slim" : "right_arm_normal").translateAndRotate(poseStack);
+                } else {
+                    poseLayer.getChild(isSlim ? "left_arm_slim" : "left_arm_normal").translateAndRotate(poseStack);
+                }
+            }
             saveInLocal(key, poseStack);
             return false;
         }
         return true;
     }
 
-    public void renderArmLong(PoseStack poseStack, boolean mainHand) {
-        if (isFirstPerson) {
-            PlayerArmRenderer.INSTANCE.renderLong(packedLight, packedOverlay, mainHand, bufferSource, poseStack);
-        }
-    }
-
     public void renderArm(PoseStack poseStack, boolean mainHand) {
         if (isFirstPerson) {
-            PlayerArmRenderer.INSTANCE.render(packedLight, packedOverlay, mainHand, bufferSource, poseStack);
+            PlayerArmRenderer.INSTANCE.renderLong(packedLight, packedOverlay, mainHand, bufferSource, poseStack);
         }
     }
 

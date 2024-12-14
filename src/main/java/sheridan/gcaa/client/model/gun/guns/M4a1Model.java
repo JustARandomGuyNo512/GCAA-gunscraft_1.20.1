@@ -57,8 +57,8 @@ public class M4a1Model extends GunModel {
         context.renderIf(stock, vertexConsumer, context.notHasStock());
         context.render(vertexConsumer, barrel, charge, body, safety, bolt, grip, ring);
         if (context.isFirstPerson) {
-            NewPlayerArmRenderer.INSTANCE.renderByLayer(right_arm, 1, 1, 1, context.packedLight, context.packedOverlay, true, context.bufferSource, context.poseStack);
-            NewPlayerArmRenderer.INSTANCE.renderByLayer(left_arm, 1, 1, 1, context.packedLight, context.packedOverlay, false, context.bufferSource, context.poseStack);
+            context.renderArm(right_arm, true);
+            context.renderArm(left_arm, false);
         }
     }
 

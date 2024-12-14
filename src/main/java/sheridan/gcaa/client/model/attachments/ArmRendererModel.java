@@ -12,6 +12,7 @@ import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 import sheridan.gcaa.client.render.PlayerArmRenderer;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
@@ -29,17 +30,30 @@ public abstract class ArmRendererModel extends HierarchicalModel<Entity> {
         if (!shouldRenderArm(mainHand, context, entry)) {
             return;
         }
+        System.out.println("should render");
         ModelPart arm = mainHand ? getRightArm(context) : getLeftArm(context);
         if (arm == null) {
             return;
         }
+        System.out.println("rendering arm");
         arm.translateAndRotate(poseStack);
+        if (context.renderArmNew) {
+            boolean isSlim = NewPlayerArmRenderer.isSlim();
+            if (mainHand) {
+                arm.getChild(isSlim ? "right_arm_slim" : "right_arm_normal").translateAndRotate(poseStack);
+            } else {
+                arm.getChild(isSlim ? "left_arm_slim" : "left_arm_normal").translateAndRotate(poseStack);
+            }
+        }
         PoseStack renderPose = lerpArmPose(mainHand, poseStack, context);
-        if (context.renderLongArm) {
-            PlayerArmRenderer.INSTANCE.renderLong(context.packedLight, context.packedOverlay, false, context.bufferSource, renderPose);
+        if (context.renderArmNew) {
+            System.out.println("rendering new arm");
+            NewPlayerArmRenderer.INSTANCE.renderByPose(context.packedLight, context.packedOverlay, mainHand, context.bufferSource, renderPose);
             return;
         }
-        PlayerArmRenderer.INSTANCE.render(context.packedLight, context.packedOverlay, false, context.bufferSource, renderPose);
+        System.out.println("rendering old arm");
+        NewPlayerArmRenderer.INSTANCE.renderOldStylePistolByLayer(
+                ModelPart.EMPTY, mainHand, context.packedLight, context.packedOverlay, context.bufferSource, renderPose, false);
     }
 
     protected boolean defaultShouldRenderArm(boolean mainHand, GunRenderContext context, AttachmentRenderEntry entry) {

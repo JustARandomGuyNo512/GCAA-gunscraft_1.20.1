@@ -60,8 +60,8 @@ public class AwpModel extends GunModel {
         context.renderIf(muzzle, vertexConsumer, context.notHasMuzzle());
         context.render(vertexConsumer, barrel, bolt, bolt_back_part, body, pin);
         if (context.isFirstPerson) {
-            NewPlayerArmRenderer.INSTANCE.renderByLayer(right_arm, 1, 1, 1, context.packedLight, context.packedOverlay, true, context.bufferSource, context.poseStack);
-            NewPlayerArmRenderer.INSTANCE.renderByLayer(left_arm, 1, 1, 1, context.packedLight, context.packedOverlay, false, context.bufferSource, context.poseStack);
+            context.renderArm(right_arm, true);
+            context.renderArm(left_arm, false);
         }
     }
 

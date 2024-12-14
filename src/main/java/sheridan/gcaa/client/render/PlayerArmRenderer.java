@@ -96,9 +96,6 @@ public class PlayerArmRenderer {
             if (models != null) {
                 ModelPart arm = models[0];
                 ModelPart sleeve = models[1];
-                if (!isPlayerModelSlim && ClientConfig.alwaysSlimArm.get()) {
-                    sx *= 0.75f;
-                }
                 if (arm != null && sleeve != null) {
                     VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(playerTexture));
                     if (usePose) {

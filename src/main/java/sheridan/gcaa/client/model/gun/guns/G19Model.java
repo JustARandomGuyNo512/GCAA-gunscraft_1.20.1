@@ -6,14 +6,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.client.ReloadingHandler;
-import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
-import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
-import sheridan.gcaa.client.animation.AnimationHandler;
-import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.gun.LodGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -63,9 +57,9 @@ public class G19Model extends LodGunModel {
         context.renderIf(mag, vertexConsumer, context.notHasMag());
         context.render(vertexConsumer, barrel, slide, body);
         if (context.shouldShowLeftArm()) {
-            context.renderArm(left_arm, false);
+            context.renderArmOldStylePistol(left_arm, false);
         }
-        context.renderArm(right_arm, true);
+        context.renderArmOldStylePistol(right_arm, true);
     }
 
     @Override

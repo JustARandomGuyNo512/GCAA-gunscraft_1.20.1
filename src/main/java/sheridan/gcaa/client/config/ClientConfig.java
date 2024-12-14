@@ -13,7 +13,7 @@ public class ClientConfig {
     public static ForgeConfigSpec.BooleanValue renderVanillaModelInGuiView;
     public static ForgeConfigSpec.BooleanValue renderVanillaModelInGroundView;
     public static ForgeConfigSpec.BooleanValue useDynamicWeaponLighting;
-    public static ForgeConfigSpec.BooleanValue alwaysSlimArm;
+    //public static ForgeConfigSpec.BooleanValue alwaysSlimArm;
     public static ForgeConfigSpec.BooleanValue enableMuzzleFlashScaleModifyOnUsingScope;
     public static ForgeConfigSpec.BooleanValue renderLowQualityModelInTPView;
     public static ForgeConfigSpec.BooleanValue renderLowQualityModelInGroundView;
@@ -35,9 +35,9 @@ public class ClientConfig {
         BUILDER.comment("\n");
         BUILDER.comment("渲染枪械模型时使用随枪口火焰变化地动态亮度\nUse dynamic brightness that varies with the muzzle flame when rendering a gun model");
         useDynamicWeaponLighting = BUILDER.define("use_dynamic_weapon_lighting", true);
-        BUILDER.comment("\n");
-        BUILDER.comment("渲染手臂时使用女性玩家模型的手臂尺寸，这是GCAA在开发时的配置，更改为true可获得更好视觉体验\nThe arm is rendered using the arm size of the female player model, which was configured by GCAA at the time of development. Change to true for a better visual experience");
-        alwaysSlimArm = BUILDER.define("always_slim_arm", false);
+//        BUILDER.comment("\n");
+//        BUILDER.comment("渲染手臂时使用女性玩家模型的手臂尺寸，这是GCAA在开发时的配置，更改为true可获得更好视觉体验\nThe arm is rendered using the arm size of the female player model, which was configured by GCAA at the time of development. Change to true for a better visual experience");
+//        alwaysSlimArm = BUILDER.define("always_slim_arm", false);
         BUILDER.comment("\n");
         BUILDER.comment("渲染第一人称开镜视野时缩放枪口火焰尺寸以免遮挡视野\nZoom the muzzle flame size when rendering the first-person view to avoid blocking the view");
         enableMuzzleFlashScaleModifyOnUsingScope = BUILDER.define("enable_muzzle_flash_scale_modify_on_using_scope", true);

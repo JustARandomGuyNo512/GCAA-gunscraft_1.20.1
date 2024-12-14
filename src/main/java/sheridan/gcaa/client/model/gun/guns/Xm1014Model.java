@@ -61,8 +61,8 @@ public class Xm1014Model extends GunModel {
         }
         context.render(vertexConsumer, IS, handguard, stock, barrel, mag, body, slide, ammo_track);
         if (context.isFirstPerson) {
-            NewPlayerArmRenderer.INSTANCE.renderByLayer(rightArm, 1, 1, 1, context.packedLight, context.packedOverlay, true, context.bufferSource, context.poseStack);
-            NewPlayerArmRenderer.INSTANCE.renderByLayer(leftArm, 1, 1, 1, context.packedLight, context.packedOverlay, false, context.bufferSource, context.poseStack);
+            context.renderArm(rightArm, true);
+            context.renderArm(leftArm, false);
         }
     }
 

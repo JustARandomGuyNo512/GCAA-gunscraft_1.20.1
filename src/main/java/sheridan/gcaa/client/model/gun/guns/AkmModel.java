@@ -76,8 +76,8 @@ public class AkmModel extends LodGunModel {
         context.renderIf(dust_cover, vertexConsumer, !context.has("dust_cover"));
         context.render(vertexConsumer, slide, safety, body);
         if (context.isFirstPerson) {
-            NewPlayerArmRenderer.INSTANCE.renderByLayer(right_arm, 1, 1, 1, context.packedLight, context.packedOverlay, true, context.bufferSource, context.poseStack);
-            NewPlayerArmRenderer.INSTANCE.renderByLayer(left_arm, 1, 1, 1, context.packedLight, context.packedOverlay, false, context.bufferSource, context.poseStack);
+            context.renderArm(right_arm, true);
+            context.renderArm(left_arm, false);
         }
     }
 

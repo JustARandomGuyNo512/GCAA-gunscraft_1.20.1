@@ -87,9 +87,9 @@ public class Python357Model extends LodGunModel {
         }
         ModelPart leftArm = left_arm.xScale == 0 ? reloading_arm : left_arm;
         if (context.shouldShowLeftArm()) {
-            context.renderArm(leftArm, false);
+            context.renderArmOldStylePistol(leftArm, false);
         }
-        context.renderArm(right_arm, true);
+        context.renderArmOldStylePistol(right_arm, true);
     }
 
     @Override

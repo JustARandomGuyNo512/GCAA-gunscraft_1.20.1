@@ -1,7 +1,6 @@
 package sheridan.gcaa.client.model.attachments.grip;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -55,7 +54,7 @@ public class VerticalGripModel extends ArmRendererModel implements IAttachmentMo
 
     @Override
     protected ModelPart getLeftArm(GunRenderContext context) {
-        return context.renderLongArm ? left_arm_long : left_arm;
+        return context.renderArmNew ? left_arm_long : left_arm;
     }
 
     @Override
