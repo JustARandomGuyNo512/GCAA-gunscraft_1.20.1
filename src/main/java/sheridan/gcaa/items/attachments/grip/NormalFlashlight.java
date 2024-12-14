@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.attachments.grips;
+package sheridan.gcaa.items.attachments.grip;
 
 public class NormalFlashlight extends Flashlight{
     public NormalFlashlight() {

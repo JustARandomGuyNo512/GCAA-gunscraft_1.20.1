@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.attachments.grips;
+package sheridan.gcaa.items.attachments.grip;
 
 public class HorizontalLaserSight extends LaserSight{
     public HorizontalLaserSight() {

@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.attachments.grips;
+package sheridan.gcaa.items.attachments.grip;
 
 import sheridan.gcaa.items.attachments.Grip;
 

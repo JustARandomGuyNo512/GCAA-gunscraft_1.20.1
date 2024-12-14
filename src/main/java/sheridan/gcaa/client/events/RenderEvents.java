@@ -48,7 +48,7 @@ import sheridan.gcaa.client.screens.GunModifyScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
-import sheridan.gcaa.items.attachments.grips.Flashlight;
+import sheridan.gcaa.items.attachments.grip.Flashlight;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;

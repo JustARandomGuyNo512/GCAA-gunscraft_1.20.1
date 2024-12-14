@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.model.attachments.stocks;
+package sheridan.gcaa.client.model.attachments.stock;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;

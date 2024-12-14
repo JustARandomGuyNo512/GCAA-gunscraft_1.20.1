@@ -8,7 +8,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.attachments.SightModel;
 import sheridan.gcaa.client.model.attachments.SightViewRenderer;
-import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;

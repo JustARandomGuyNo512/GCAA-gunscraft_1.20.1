@@ -10,7 +10,7 @@ import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
-import sheridan.gcaa.items.attachments.grips.Flashlight;
+import sheridan.gcaa.items.attachments.grip.Flashlight;
 
 @OnlyIn(Dist.CLIENT)
 public class FlashlightModel implements IAttachmentModel, IDirectionalModel {

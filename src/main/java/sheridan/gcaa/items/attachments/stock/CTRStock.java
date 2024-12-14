@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.attachments.stocks;
+package sheridan.gcaa.items.attachments.stock;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;

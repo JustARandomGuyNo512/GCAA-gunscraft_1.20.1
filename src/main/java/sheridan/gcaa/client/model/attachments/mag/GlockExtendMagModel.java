@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.model.attachments.mags;
+package sheridan.gcaa.client.model.attachments.mag;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;

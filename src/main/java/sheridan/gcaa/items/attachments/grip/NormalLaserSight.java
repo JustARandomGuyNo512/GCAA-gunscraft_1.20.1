@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.attachments.grips;
+package sheridan.gcaa.items.attachments.grip;
 
 public class NormalLaserSight extends LaserSight{
     public NormalLaserSight() {

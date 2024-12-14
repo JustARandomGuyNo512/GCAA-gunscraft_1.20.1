@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.attachments.mags;
+package sheridan.gcaa.items.attachments.mag;
 
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.attachments.Mag;

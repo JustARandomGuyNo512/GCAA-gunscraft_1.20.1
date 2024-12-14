@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
-import sheridan.gcaa.items.attachments.grips.Flashlight;
+import sheridan.gcaa.items.attachments.grip.Flashlight;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.IPacket;
 

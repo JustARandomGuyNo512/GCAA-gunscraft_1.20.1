@@ -24,7 +24,7 @@ import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.attachments.IInteractive;
 import sheridan.gcaa.items.attachments.Scope;
-import sheridan.gcaa.items.attachments.grips.Flashlight;
+import sheridan.gcaa.items.attachments.grip.Flashlight;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.OpenGunModifyScreenPacket;

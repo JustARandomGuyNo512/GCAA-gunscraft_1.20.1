@@ -13,16 +13,16 @@ import sheridan.gcaa.items.attachments.akStuff.AKRailBracket;
 import sheridan.gcaa.items.attachments.arStuff.ARGasBlock;
 import sheridan.gcaa.items.attachments.arStuff.ARStockTube;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
-import sheridan.gcaa.items.attachments.grips.*;
+import sheridan.gcaa.items.attachments.grip.*;
 import sheridan.gcaa.items.attachments.handguard.AKImprovedHandguard;
 import sheridan.gcaa.items.attachments.handguard.ARRailedHandguard;
 import sheridan.gcaa.items.attachments.handguard.M249RailedHandguard;
-import sheridan.gcaa.items.attachments.mags.*;
+import sheridan.gcaa.items.attachments.mag.*;
 import sheridan.gcaa.items.attachments.muzzle.*;
 import sheridan.gcaa.items.attachments.scope.Acog;
 import sheridan.gcaa.items.attachments.scope.ScopeX10;
 import sheridan.gcaa.items.attachments.sight.*;
-import sheridan.gcaa.items.attachments.stocks.CTRStock;
+import sheridan.gcaa.items.attachments.stock.CTRStock;
 import sheridan.gcaa.items.gun.guns.*;
 
 public class ModItems {

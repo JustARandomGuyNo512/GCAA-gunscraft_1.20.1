@@ -1,4 +1,4 @@
-package sheridan.gcaa.items.attachments.grips;
+package sheridan.gcaa.items.attachments.grip;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
