@@ -18,6 +18,7 @@ public class ARRailedHandguard extends Handguard {
                     "gcaa:red_dot",
                     "gcaa:holographic",
                     "gcaa:acog",
+                    "gcaa:okp7_b",
                     "gcaa:flashlight",
                     "gcaa:horizontal_laser_sight",
                     "gcaa:rail_panel",

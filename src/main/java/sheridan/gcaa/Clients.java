@@ -48,9 +48,7 @@ import sheridan.gcaa.client.model.attachments.mags.ShotgunExtendBayModel;
 import sheridan.gcaa.client.model.attachments.muzzle.*;
 import sheridan.gcaa.client.model.attachments.scope.AcogModel;
 import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
-import sheridan.gcaa.client.model.attachments.sight.HolographicModel;
-import sheridan.gcaa.client.model.attachments.sight.MicroRedDotModel;
-import sheridan.gcaa.client.model.attachments.sight.RedDotModel;
+import sheridan.gcaa.client.model.attachments.sight.*;
 import sheridan.gcaa.client.model.attachments.stocks.CTRStockModel;
 import sheridan.gcaa.client.model.gun.guns.*;
 import sheridan.gcaa.client.render.DisplayData;
@@ -391,6 +389,8 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.M249_RAILED_HANDGUARD.get(), IAttachmentModel.EMPTY);
         ArsenalLib.registerAttachmentModel(ModItems.MICRO_FLASHLIGHT.get(), new MicroFlashlightModel());
         ArsenalLib.registerAttachmentModel(ModItems.FLASHLIGHT.get(), new FlashlightModel());
+        ArsenalLib.registerAttachmentModel(ModItems.OKP_7_A.get(), new Okp7AModel());
+        ArsenalLib.registerAttachmentModel(ModItems.OKP_7_B.get(), new Okp7BModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

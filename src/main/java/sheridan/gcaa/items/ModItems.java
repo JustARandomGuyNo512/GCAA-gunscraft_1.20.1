@@ -21,9 +21,7 @@ import sheridan.gcaa.items.attachments.mags.*;
 import sheridan.gcaa.items.attachments.muzzle.*;
 import sheridan.gcaa.items.attachments.scope.Acog;
 import sheridan.gcaa.items.attachments.scope.ScopeX10;
-import sheridan.gcaa.items.attachments.sight.Holographic;
-import sheridan.gcaa.items.attachments.sight.MicroRedDot;
-import sheridan.gcaa.items.attachments.sight.RedDot;
+import sheridan.gcaa.items.attachments.sight.*;
 import sheridan.gcaa.items.attachments.stocks.CTRStock;
 import sheridan.gcaa.items.gun.guns.*;
 
@@ -88,6 +86,8 @@ public class ModItems {
     public static final RegistryObject<RailPanelShort> RAL_PANEL_SHORT = ITEMS.register("rail_panel_short", RailPanelShort::new);
     public static final RegistryObject<MicroFlashLight> MICRO_FLASHLIGHT = ITEMS.register("micro_flashlight", MicroFlashLight::new);
     public static final RegistryObject<NormalFlashlight> FLASHLIGHT = ITEMS.register("flashlight", NormalFlashlight::new);
+    public static final RegistryObject<Okp7A> OKP_7_A = ITEMS.register("okp7_a", Okp7A::new);
+    public static final RegistryObject<Okp7B> OKP_7_B = ITEMS.register("okp7_b", Okp7B::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 
