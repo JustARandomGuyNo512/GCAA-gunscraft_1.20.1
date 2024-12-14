@@ -36,7 +36,7 @@ public class RedDotModel extends SightModel{
 
     @Override
     protected void renderModel(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        SightViewRenderer.renderRedDot(context.isEffectiveSight(attachmentRenderEntry), 0.035f, context, texture, StatisticModel.RED_DOT_CROSSHAIR, crosshair, body);
+        SightViewRenderer.renderRedDot(context.isEffectiveSight(attachmentRenderEntry), 0.0315f, context, texture, StatisticModel.RED_DOT_CROSSHAIR, crosshair, body);
     }
 
     @Override
