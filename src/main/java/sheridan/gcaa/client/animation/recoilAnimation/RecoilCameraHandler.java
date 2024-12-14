@@ -63,7 +63,7 @@ public class RecoilCameraHandler {
             yawSpeed = yawSpeed > 0 ? yawSpeed - yawControl : yawSpeed + yawControl;
             pitchSpeed *= Mth.clamp(1 - pitchControl * 5f, 0.8f, 0.9f);
             yawSpeed *= Mth.clamp(1 - yawControl * 5f, 0.8f, 0.9f);
-            float scale = (Clients.isInAds() ? (1 - Clients.getAdsProgress() * 0.5f) : 1f) * 0.2f;
+            float scale = (Clients.isInAds() ? (1 - Clients.getAdsProgress() * 0.25f) : 1f) * 0.2f;
             player.setXRot(player.getXRot() - pitchSpeed * scale);
             player.setYRot(player.getYRot() + yawSpeed * scale);
             if ((pitchSpeed < 0.25f && Math.abs(yawSpeed) < 0.25f) || pitchSpeed < 0) {
@@ -103,10 +103,10 @@ public class RecoilCameraHandler {
         private static final AnimationDefinition RECOIL_SHAKE = AnimationDefinition.Builder.withLength(0.3333F)
                 .addAnimation("root", new AnimationChannel(AnimationChannel.Targets.ROTATION,
                         new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
-                        new Keyframe(0.0333F, KeyframeAnimations.degreeVec(-0.5F, 0.0F, 0.5F), AnimationChannel.Interpolations.CATMULLROM),
-                        new Keyframe(0.0833F, KeyframeAnimations.degreeVec(0.3F, 0.0F, -0.3F), AnimationChannel.Interpolations.CATMULLROM),
-                        new Keyframe(0.1583F, KeyframeAnimations.degreeVec(-0.2F, 0.0F, 0.2F), AnimationChannel.Interpolations.CATMULLROM),
-                        new Keyframe(0.2333F, KeyframeAnimations.degreeVec(0.1F, 0.0F, -0.1F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(0.0333F, KeyframeAnimations.degreeVec(-0.8F, 0.0F, 0.7F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(0.0833F, KeyframeAnimations.degreeVec(0.5F, 0.0F, -0.5F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(0.1583F, KeyframeAnimations.degreeVec(-0.3F, 0.0F, 0.3F), AnimationChannel.Interpolations.CATMULLROM),
+                        new Keyframe(0.2333F, KeyframeAnimations.degreeVec(0.1F, 0.0F, -0.2F), AnimationChannel.Interpolations.CATMULLROM),
                         new Keyframe(0.3333F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
                 ))
                 .build();

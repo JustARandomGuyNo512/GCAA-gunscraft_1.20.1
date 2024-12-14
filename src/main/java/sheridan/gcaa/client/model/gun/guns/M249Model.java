@@ -16,19 +16,18 @@ import sheridan.gcaa.client.model.gun.BulletChainHandler;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
-import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 
 @OnlyIn(Dist.CLIENT)
 public class M249Model extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/m249/m249.png");
-    private final AnimationDefinition recoil;
+    private final AnimationDefinition shoot;
     private ModelPart muzzle, barrel, railed_handguard, handguard, body, stock, charge, cover, mag, grip, handle;
     private ModelPart s_scope;
     private ModelPart[] bullets;
     public M249Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/m249/m249.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/m249/m249.animation.json"));
-        recoil = animations.get("recoil");
+        shoot = animations.get("shoot");
     }
 
     @Override
@@ -85,7 +84,7 @@ public class M249Model extends GunModel {
     @Override
     protected void animationGlobal(GunRenderContext gunRenderContext) {
         if (gunRenderContext.isFirstPerson) {
-            KeyframeAnimations.animate(this, recoil, Clients.lastShootMain(),1);
+            KeyframeAnimations.animate(this, shoot, Clients.lastShootMain(),1);
             AnimationHandler.INSTANCE.applyReload(this);
             CameraAnimationHandler.INSTANCE.mix(camera);
         }
