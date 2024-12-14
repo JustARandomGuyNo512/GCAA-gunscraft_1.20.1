@@ -24,8 +24,8 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.screens.components.OptionalImageButton;
 import sheridan.gcaa.client.screens.containers.BulletCraftingMenu;
 import sheridan.gcaa.entities.industrial.BulletCraftingBlockEntity;
-import sheridan.gcaa.industrial.Recipe;
-import sheridan.gcaa.industrial.RecipeRegister;
+import sheridan.gcaa.industrial.AmmunitionRecipe;
+import sheridan.gcaa.industrial.AmmunitionRecipeRegister;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.SelectBulletCraftingPacket;
@@ -214,7 +214,7 @@ public class BulletCraftingScreen extends AbstractContainerScreen<BulletCrafting
         if (pStack.getItem() instanceof Ammunition ammunition) {
             ArrayList<Component> list = new ArrayList<>();
             list.add(Component.translatable(ammunition.getDescriptionId()));
-            Recipe recipe = RecipeRegister.getRecipe(ammunition);
+            AmmunitionRecipe recipe = AmmunitionRecipeRegister.getRecipe(ammunition);
             for (Map.Entry<Item, Integer> entry : recipe.getIngredients().entrySet()) {
                 String name = Component.translatable(entry.getKey().getDescriptionId()).getString();
                 list.add(Component.literal(name + " x" + entry.getValue()));
@@ -239,7 +239,7 @@ public class BulletCraftingScreen extends AbstractContainerScreen<BulletCrafting
         searchAmmo.clear();
         List<Ammunition> ammunitionList = Ammunition.getAll();
         for (Ammunition ammunition : ammunitionList) {
-            if (RecipeRegister.getRecipe(ammunition) != null &&
+            if (AmmunitionRecipeRegister.getRecipe(ammunition) != null &&
                (value.isEmpty() ||
                Component.translatable(ammunition.getDescriptionId()).getString().contains(value))) {
                 // 模糊搜索

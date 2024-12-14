@@ -19,5 +19,4 @@ public class AKImprovedDustCover extends SubSlotProvider {
         parent.addChild(this.root.getChild("dust_cover_scope").copy());
     }
 
-
 }

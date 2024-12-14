@@ -6,8 +6,8 @@ import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.proxies.AkmAttachmentSlotProxy;
 import sheridan.gcaa.attachmentSys.proxies.Mk47AttachmentSlotProxy;
-import sheridan.gcaa.industrial.Recipe;
-import sheridan.gcaa.industrial.RecipeRegister;
+import sheridan.gcaa.industrial.AmmunitionRecipe;
+import sheridan.gcaa.industrial.AmmunitionRecipeRegister;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.attachments.replaceableParts.Mk47Handguard;
 import sheridan.gcaa.items.attachments.replaceableParts.RecoilControlPart;
@@ -39,7 +39,7 @@ public class Commons {
                 .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")).setReplaceableGunPart(new WeightPart(1)))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1, 0.1f, 0.1f)))
-                .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover", "gcaa:ak_tactical_dust_cover"))),
+                .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover"))),
                  AkmAttachmentSlotProxy::new
         );
 
@@ -197,7 +197,6 @@ public class Commons {
                 new AttachmentProduct(ModItems.AK_IMPROVED_HANDGUARD.get(), 270),
                 new AttachmentProduct(ModItems.AK_RAIL_BRACKET.get(), 100),
                 new AttachmentProduct(ModItems.AK_IMPROVED_DUST_COVER.get(), 100),
-                new AttachmentProduct(ModItems.AK_TACTICAL_DUST_COVER.get(), 120),
                 new AttachmentProduct(ModItems.MICRO_RED_DOT.get(), 75),
                 new AttachmentProduct(ModItems.RED_DOT.get(), 102),
                 new AttachmentProduct(ModItems.HOLOGRAPHIC.get(), 100),
@@ -236,7 +235,7 @@ public class Commons {
                 new CommonProduct(Items.GOLDEN_APPLE, 805),
                 new CommonProduct(ModItems.BULLET_CRAFTING.get(), 200));
 
-        RecipeRegister.registerAmmunition(List.of(
+        AmmunitionRecipeRegister.registerAmmunition(List.of(
                 ModItems.AMMO_9X19MM.get(),
                 ModItems.AMMO_45ACP.get(),
                 ModItems.AMMO_5_56X45MM.get(),
@@ -247,28 +246,28 @@ public class Commons {
                 ModItems.AMMO_VOG_25.get()
         ), List.of (
                 // TODO 每种子弹材料数量、制造时间和配方待定 - 火药数量待确认
-                new Recipe(ModItems.AMMO_9X19MM.get(), 25 * 1000)
+                new AmmunitionRecipe(ModItems.AMMO_9X19MM.get(), 25 * 1000)
                         .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
-                                List.of(15, 12, 25)),
-                new Recipe(ModItems.AMMO_45ACP.get(), 30 * 1000)
+                                List.of(15, 10, 25)),
+                new AmmunitionRecipe(ModItems.AMMO_45ACP.get(), 30 * 1000)
                         .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
-                                List.of(20, 15, 30)),
-                new Recipe(ModItems.AMMO_5_56X45MM.get(), 40 * 1000)
+                                List.of(20, 10, 30)),
+                new AmmunitionRecipe(ModItems.AMMO_5_56X45MM.get(), 40 * 1000)
                         .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
-                                List.of(25, 25, 15)),
-                new Recipe(ModItems.AMMO_7_62X39MM.get(), 42 * 1000)
+                                List.of(25, 18, 15)),
+                new AmmunitionRecipe(ModItems.AMMO_7_62X39MM.get(), 42 * 1000)
                         .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get(), Items.IRON_INGOT),
-                                List.of(10, 30, 18, 3)),
-                new Recipe(ModItems.AMMO_7_62X51MM.get(), 45 * 1000)
+                                List.of(10, 22, 18, 3)),
+                new AmmunitionRecipe(ModItems.AMMO_7_62X51MM.get(), 45 * 1000)
                         .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
-                                List.of(30, 35, 25)),
-                new Recipe(ModItems.AMMO_12GAUGE.get(), 30 * 1000)
+                                List.of(30, 28, 25)),
+                new AmmunitionRecipe(ModItems.AMMO_12GAUGE.get(), 30 * 1000)
                         .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get(), ModItems.PLASTIC.get()),
-                                List.of(6, 20, 40, 10)),
-                new Recipe(ModItems.AMMO_357MAGNUM.get(), 28 * 1000)
+                                List.of(6, 16, 40, 10)),
+                new AmmunitionRecipe(ModItems.AMMO_357MAGNUM.get(), 28 * 1000)
                         .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
-                                List.of(20, 15, 15)),
-                new Recipe(ModItems.AMMO_VOG_25.get(), 50 * 1000)
+                                List.of(20, 12, 15)),
+                new AmmunitionRecipe(ModItems.AMMO_VOG_25.get(), 50 * 1000)
                         .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.TNT),
                                 List.of(30, 10, 5))
         ));

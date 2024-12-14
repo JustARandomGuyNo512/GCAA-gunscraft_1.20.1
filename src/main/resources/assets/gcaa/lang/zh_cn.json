@@ -22,7 +22,6 @@
   "item.gcaa.ak_improved_handguard": "AK 改进型护木",
   "item.gcaa.ak_rail_bracket": "AK导轨支架",
   "item.gcaa.ak_improved_dust_cover": "AK 改进型防尘盖",
-  "item.gcaa.ak_tactical_dust_cover": "AK 战术防尘盖",
   "item.gcaa.micro_red_dot": "微型红点瞄准器",
   "item.gcaa.red_dot": "红点瞄准器",
   "item.gcaa.holographic": "全息瞄准器",
@@ -65,7 +64,7 @@
   "block.gcaa.bullet_crafting_table": "弹药制造台",
   "block.gcaa.ore_lead": "铅矿石",
   "block.gcaa.lead_block": "铅块",
-  "block.gcaa.ore_asphalt": "沥青矿石",
+  "block.gcaa.ore_asphalt": "沥青",
 
   "item.gcaa.thin_copper_plate": "薄铜板",
   "item.gcaa.lead_ingot": "铅锭",

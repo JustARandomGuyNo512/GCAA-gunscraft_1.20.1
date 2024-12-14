@@ -30,12 +30,10 @@ public abstract class ArmRendererModel extends HierarchicalModel<Entity> {
         if (!shouldRenderArm(mainHand, context, entry)) {
             return;
         }
-        System.out.println("should render");
         ModelPart arm = mainHand ? getRightArm(context) : getLeftArm(context);
         if (arm == null) {
             return;
         }
-        System.out.println("rendering arm");
         arm.translateAndRotate(poseStack);
         if (context.renderArmNew) {
             boolean isSlim = NewPlayerArmRenderer.isSlim();
@@ -47,11 +45,9 @@ public abstract class ArmRendererModel extends HierarchicalModel<Entity> {
         }
         PoseStack renderPose = lerpArmPose(mainHand, poseStack, context);
         if (context.renderArmNew) {
-            System.out.println("rendering new arm");
             NewPlayerArmRenderer.INSTANCE.renderByPose(context.packedLight, context.packedOverlay, mainHand, context.bufferSource, renderPose);
             return;
         }
-        System.out.println("rendering old arm");
         NewPlayerArmRenderer.INSTANCE.renderOldStylePistolByLayer(
                 ModelPart.EMPTY, mainHand, context.packedLight, context.packedOverlay, context.bufferSource, renderPose, false);
     }

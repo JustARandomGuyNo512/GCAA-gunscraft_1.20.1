@@ -1,9 +1,11 @@
 package sheridan.gcaa.service.product;
 
+import com.google.gson.JsonObject;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import sheridan.gcaa.data.IDataPacketGen;
 
-public interface IProduct {
+public interface IProduct extends IDataPacketGen {
     int getPrice(ItemStack itemStack);
     int getDefaultPrice();
     Item getItem();
@@ -19,4 +21,5 @@ public interface IProduct {
     default void writeToNBT(ItemStack itemStack) {}
     default void syncFormNBT(ItemStack itemStack) {}
     default void onRemoveRegistry() {}
+
 }

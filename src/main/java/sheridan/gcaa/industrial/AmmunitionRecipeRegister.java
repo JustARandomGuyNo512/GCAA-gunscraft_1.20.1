@@ -6,19 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecipeRegister {
-    private static final Map<Ammunition, Recipe> AMMUNITION_RECIPE_MAP = new HashMap<>();
+public class AmmunitionRecipeRegister {
+    private static final Map<Ammunition, AmmunitionRecipe> AMMUNITION_RECIPE_MAP = new HashMap<>();
 
-    public static void registerAmmo(Ammunition ammo, Recipe recipe) {
+    public static void registerAmmo(Ammunition ammo, AmmunitionRecipe recipe) {
         AMMUNITION_RECIPE_MAP.put(ammo, recipe);
     }
 
-    public static void registerAmmunition(List<Ammunition> ammoList, List<Recipe> recipes) {
+    public static void registerAmmunition(List<Ammunition> ammoList, List<AmmunitionRecipe> recipes) {
         for (int i = 0; i < ammoList.size(); i++) {
             registerAmmo(ammoList.get(i), recipes.get(i));
         }
     }
-    public static Recipe getRecipe(Ammunition ammo) {
+    public static AmmunitionRecipe getRecipe(Ammunition ammo) {
         return AMMUNITION_RECIPE_MAP.get(ammo);
     }
 

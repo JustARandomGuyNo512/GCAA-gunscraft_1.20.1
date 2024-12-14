@@ -1,5 +1,6 @@
 package sheridan.gcaa.service.product;
 
+import com.google.gson.JsonObject;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -58,5 +59,15 @@ public class CommonProduct implements IProduct{
             return product.getItem() == item;
         }
         return false;
+    }
+
+    @Override
+    public void writeData(JsonObject jsonObject) {
+
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+
     }
 }

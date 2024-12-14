@@ -8,16 +8,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.CraftingTableBlock;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.entities.industrial.BulletCraftingBlockEntity;
-import sheridan.gcaa.industrial.Recipe;
-import sheridan.gcaa.industrial.RecipeRegister;
+import sheridan.gcaa.industrial.AmmunitionRecipe;
+import sheridan.gcaa.industrial.AmmunitionRecipeRegister;
 import sheridan.gcaa.items.ammunition.Ammunition;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class BulletCraftingMenu extends AbstractContainerMenu {
     private BlockPos blockPos = new BlockPos(0, 0, 0);
@@ -56,7 +54,7 @@ public class BulletCraftingMenu extends AbstractContainerMenu {
             } else {
                 Item item = Item.byId(id);
                 if (item instanceof Ammunition ammunition) {
-                    Recipe recipe = RecipeRegister.getRecipe(ammunition);
+                    AmmunitionRecipe recipe = AmmunitionRecipeRegister.getRecipe(ammunition);
                     if (recipe != null) {
                        return recipe.getIngredients().containsKey(pStack.getItem());
                     } else {

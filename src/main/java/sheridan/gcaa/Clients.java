@@ -35,7 +35,6 @@ import sheridan.gcaa.client.model.BulletShellModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.attachments.akStuff.AKImprovedDustCoverModel;
 import sheridan.gcaa.client.model.attachments.akStuff.AKRailBracketModel;
-import sheridan.gcaa.client.model.attachments.akStuff.AKTacticalDustCoverModel;
 import sheridan.gcaa.client.model.attachments.arStuff.ARGasBlockModel;
 import sheridan.gcaa.client.model.attachments.arStuff.ARStockTubeModel;
 import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
@@ -380,7 +379,6 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.GLOCK_EXTEND_MAG.get(), new GlockExtendMagModel());
         ArsenalLib.registerAttachmentModel(ModItems.SHOTGUN_EXTEND_BAY.get(), new ShotgunExtendBayModel());
         ArsenalLib.registerAttachmentModel(ModItems.SNIPER_EXTEND_MAG.get(), IAttachmentModel.EMPTY);
-        ArsenalLib.registerAttachmentModel(ModItems.AK_TACTICAL_DUST_COVER.get(), new AKTacticalDustCoverModel());
         ArsenalLib.registerAttachmentModel(ModItems.CTR_STOCK.get(), new CTRStockModel());
         ArsenalLib.registerAttachmentModel(ModItems.VECTOR_45_EXTEND_MAG.get(), IAttachmentModel.EMPTY);
         ArsenalLib.registerAttachmentModel(ModItems.AR_COMPENSATOR.get(), new ARCompensatorModel());
