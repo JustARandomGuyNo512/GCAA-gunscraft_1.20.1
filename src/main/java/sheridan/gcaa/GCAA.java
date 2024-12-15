@@ -41,6 +41,8 @@ import sheridan.gcaa.client.screens.VendingMachineScreen;
 import sheridan.gcaa.client.screens.containers.ModContainers;
 import sheridan.gcaa.data.gun.GunPropertiesHandler;
 import sheridan.gcaa.data.gun.GunPropertiesProvider;
+import sheridan.gcaa.data.vendingMachineProducts.VendingMachineProductsHandler;
+import sheridan.gcaa.data.vendingMachineProducts.VendingMachineProductsProvider;
 import sheridan.gcaa.entities.ModEntities;
 import sheridan.gcaa.common.events.CommonEvents;
 import sheridan.gcaa.common.events.TestEvents;
@@ -74,6 +76,7 @@ public class GCAA {
         ModSounds.register(FMLJavaModLoadingContext.get().getModEventBus());
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(GunPropertiesHandler.class);
+        MinecraftForge.EVENT_BUS.register(VendingMachineProductsHandler.class);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
@@ -84,6 +87,7 @@ public class GCAA {
         PackOutput output = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         generator.addProvider(event.includeServer(), new GunPropertiesProvider(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new VendingMachineProductsProvider(output, lookupProvider));
     }
 
     @OnlyIn(Dist.CLIENT)

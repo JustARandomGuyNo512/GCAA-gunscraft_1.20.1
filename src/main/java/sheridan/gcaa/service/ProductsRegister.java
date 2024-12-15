@@ -78,23 +78,21 @@ public class ProductsRegister {
         return new ArrayList<>(ID_TO_PRODUCT.values());
     }
 
-    private static void clear() {
+    public static void clear() {
         List<IProduct> allProducts = getAllProducts();
         for (IProduct product : allProducts) {
             product.onRemoveRegistry();
         }
         ID_TO_PRODUCT.clear();
         PRODUCT_TO_ID.clear();
-        PRODUCTS.clear();
+        for (Map.Entry<String, Set<IProduct>> entry : PRODUCTS.entrySet()) {
+            entry.getValue().clear();
+        }
         ICON_MAP.clear();
         nextId = 0;
     }
 
-    public static void syncFrom() {
-        clear();
-    }
-
-    public static void writeForSync() {
-
+    public static Set<String> getAllCategories() {
+        return Set.of(EXCHANGE, GUN, AMMUNITION, ATTACHMENT, OTHER);
     }
 }

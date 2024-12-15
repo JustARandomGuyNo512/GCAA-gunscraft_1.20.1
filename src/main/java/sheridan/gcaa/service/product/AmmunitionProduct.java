@@ -1,5 +1,6 @@
 package sheridan.gcaa.service.product;
 
+import com.google.gson.JsonObject;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -111,5 +112,14 @@ public class AmmunitionProduct extends CommonProduct implements IRecycleProduct{
     @Override
     public IProduct get() {
         return this;
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+        super.loadData(jsonObject);
+        if (item instanceof Ammunition ammunition) {
+            this.ammunition = ammunition;
+            AMMUNITION_PRODUCT_MAP.put(ammunition, this);
+        }
     }
 }

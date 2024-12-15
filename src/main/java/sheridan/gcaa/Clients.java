@@ -195,7 +195,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AKM.get(), new AkmModel(), new DisplayData()
-                .setFirstPersonMain(-11.5f,15.7f,-31f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
+                .setFirstPersonMain(-12f,15.2f,-30.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -332,7 +332,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.MK47.get(), new Mk47Model(), new DisplayData()
-                .setFirstPersonMain(-11f,15.2f,-32.8f, POS)
+                .setFirstPersonMain(-11.3f,15.2f,-32.8f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.6f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)

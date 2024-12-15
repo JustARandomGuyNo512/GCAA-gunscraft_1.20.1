@@ -11,47 +11,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class AmmunitionRecipe implements IDataPacketGen {
+public class AmmunitionRecipe extends Recipe{
     public final Ammunition ammunition;
-    public final Map<Item, Integer> ingredients;
-    public final int craftingTicks;
 
     public AmmunitionRecipe(Ammunition ammunition, int ms) {
+        super(ammunition, ms);
         this.ammunition = ammunition;
-        this.ingredients = new HashMap<>();
-        this.craftingTicks = Math.max((ms / 50), 1);
     }
 
+    @Override
     public ItemStack getResult() {
         ItemStack stack = new ItemStack(ammunition);
         ammunition.checkAndGet(stack);
         return stack;
     }
 
-    public Map<Item, Integer> getIngredients() {
-        return ingredients;
-    }
-
+    @Override
     public AmmunitionRecipe addIngredients(Set<Item> listItem, List<Integer> listAmount) {
-        int i = 0;
-        for (Item item: listItem) {
-           int amount = i < listAmount.size() ? listAmount.get(i) : 1;
-           ingredients.put(item, amount);
-           if (i == 16) {
-               break;
-           }
-           i++;
-        }
         return this;
-    }
-
-    @Override
-    public void writeData(JsonObject jsonObject) {
-
-    }
-
-    @Override
-    public void loadData(JsonObject jsonObject) {
-
     }
 }

@@ -1,7 +1,9 @@
 package sheridan.gcaa.service.product;
 
+import com.google.gson.JsonObject;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.gun.IGun;

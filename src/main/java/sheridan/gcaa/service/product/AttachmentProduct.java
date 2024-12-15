@@ -1,5 +1,6 @@
 package sheridan.gcaa.service.product;
 
+import com.google.gson.JsonObject;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.items.attachments.Attachment;
@@ -42,5 +43,14 @@ public class AttachmentProduct extends CommonProduct implements IRecycleProduct 
     @Override
     public IProduct get() {
         return this;
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+        super.loadData(jsonObject);
+        if (item instanceof Attachment attachment) {
+            this.attachment = attachment;
+            ATTACHMENT_PRODUCT_MAP.put(attachment, this);
+        }
     }
 }

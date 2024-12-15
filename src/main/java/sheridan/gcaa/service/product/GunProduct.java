@@ -1,5 +1,6 @@
 package sheridan.gcaa.service.product;
 
+import com.google.gson.JsonObject;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
@@ -11,7 +12,7 @@ import sheridan.gcaa.items.gun.IGun;
 import java.util.List;
 
 public class GunProduct extends CommonProduct implements IRecycleProduct{
-    public final Gun gun;
+    public Gun gun;
     public GunProduct(Gun gun, int price) {
         super(gun, price);
         this.gun = gun;
@@ -56,5 +57,13 @@ public class GunProduct extends CommonProduct implements IRecycleProduct{
 
     public String getIntroduction() {
         return Component.translatable(gun.getDescriptionId() + ".introduction").getString();
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+        super.loadData(jsonObject);
+        if (this.item instanceof Gun gun) {
+            this.gun = gun;
+        }
     }
 }

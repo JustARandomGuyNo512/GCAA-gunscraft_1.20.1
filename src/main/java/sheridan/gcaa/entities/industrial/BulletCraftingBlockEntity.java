@@ -31,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.client.screens.containers.BulletCraftingMenu;
 import sheridan.gcaa.entities.ModEntities;
 import sheridan.gcaa.industrial.AmmunitionRecipe;
-import sheridan.gcaa.industrial.AmmunitionRecipeRegister;
+import sheridan.gcaa.industrial.RecipeRegister;
 import sheridan.gcaa.items.ammunition.Ammunition;
 
 import javax.annotation.Nullable;
@@ -127,7 +127,7 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
         // 如果生成栏已经有了也不能制造
         if (!this.items.get(16).isEmpty()) return false;
         // 获取弹药对应的配方
-        AmmunitionRecipe recipe = AmmunitionRecipeRegister.getRecipe(ammunition);
+        AmmunitionRecipe recipe = RecipeRegister.getRecipe(ammunition);
         // 判断配方是否为空
         if (recipe == null || recipe.ingredients.isEmpty()) return false;
         // 获取配方所需的材料
@@ -174,7 +174,7 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
     /** 开始制造 */
     private void startBulletCrafting() {
         isCrafting = 1;
-        AmmunitionRecipe recipe = AmmunitionRecipeRegister.getRecipe(currentAmmunition);
+        AmmunitionRecipe recipe = RecipeRegister.getRecipe(currentAmmunition);
         totalTick = recipe.craftingTicks;
         // 扣除材料
         consumeMaterials(recipe);
@@ -225,7 +225,7 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
     }
     /** 返还材料 */
     private void returnMaterials() {
-        AmmunitionRecipe recipe = AmmunitionRecipeRegister.getRecipe(currentAmmunition);
+        AmmunitionRecipe recipe = RecipeRegister.getRecipe(currentAmmunition);
         if (recipe != null) {
             Map<Item, Integer> ingredients = recipe.getIngredients();
             for (Map.Entry<Item, Integer> entry : ingredients.entrySet()) {
@@ -246,7 +246,7 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
     }
     /** 生成物品 */
     public void onFinished() {
-        AmmunitionRecipe recipe = AmmunitionRecipeRegister.getRecipe(currentAmmunition);
+        AmmunitionRecipe recipe = RecipeRegister.getRecipe(currentAmmunition);
         if (recipe != null) {
             ItemStack itemStack = recipe.getResult();
             this.items.set(16, itemStack);
@@ -276,7 +276,7 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
     /** 打掉方块-正制造需要返还配方材料 */
     public void onRemove(Level level, BlockPos pos) {
         if (isCrafting == 1) {
-            AmmunitionRecipe recipe = AmmunitionRecipeRegister.getRecipe(currentAmmunition);
+            AmmunitionRecipe recipe = RecipeRegister.getRecipe(currentAmmunition);
             if (recipe != null) {
                 Map<Item, Integer> ingredients = recipe.getIngredients();
                 for (Map.Entry<Item, Integer> entry : ingredients.entrySet()) {
@@ -350,7 +350,7 @@ public class BulletCraftingBlockEntity extends BaseContainerBlockEntity implemen
     public boolean canPlaceItem(int pIndex, @NotNull ItemStack pStack) {
         if (pIndex == 16) return false;
         if (currentAmmunition == null) return false;
-        AmmunitionRecipe recipe = AmmunitionRecipeRegister.getRecipe(currentAmmunition);
+        AmmunitionRecipe recipe = RecipeRegister.getRecipe(currentAmmunition);
         if (recipe != null) {
             return recipe.getIngredients().containsKey(pStack.getItem());
         } else {
