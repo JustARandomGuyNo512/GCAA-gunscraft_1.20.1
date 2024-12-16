@@ -28,6 +28,7 @@ public class AmmunitionRecipe extends Recipe{
 
     @Override
     public AmmunitionRecipe addIngredients(Set<Item> listItem, List<Integer> listAmount) {
+        super.addIngredients(listItem, listAmount);
         return this;
     }
 }

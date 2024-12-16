@@ -87,7 +87,7 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         boolean showAnimation = context.isFirstPerson;
-        long lastFire = (showAnimation || context.isThirdPerson()) ? GrenadeLauncher.getLastFire(context.itemStack, context.gun) : 0;
+        long lastFire = showAnimation ? GrenadeLauncher.getLastFire(context.itemStack, context.gun) : 0;
         showAnimation = showAnimation && ReloadingHandler.INSTANCE.getCustomPayload(false) == GrenadeLauncherReloadTask.CUSTOM_PAYLOAD;
         if (showAnimation) {
             AnimationHandler.INSTANCE.apply(this, RELOAD_ANIMATION_KEY);
