@@ -18,8 +18,7 @@ import sheridan.gcaa.utils.RenderAndMathUtils;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-@OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(Dist.CLIENT)
 public class MuzzleSmokeRenderer {
     private static final BufferBuilder DELAYED_TASK_BUFFER = new BufferBuilder(1024);
     private static final Deque<MuzzleSmokeTask> tasks = new ArrayDeque<>();

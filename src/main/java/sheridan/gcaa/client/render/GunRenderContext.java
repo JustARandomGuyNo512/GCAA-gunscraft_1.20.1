@@ -203,12 +203,6 @@ public class GunRenderContext {
         return true;
     }
 
-    public void renderArm(PoseStack poseStack, boolean mainHand) {
-        if (isFirstPerson) {
-            PlayerArmRenderer.INSTANCE.renderLong(packedLight, packedOverlay, mainHand, bufferSource, poseStack);
-        }
-    }
-
     public GunRenderContext pushPose() {
         poseStack.pushPose();
         return this;

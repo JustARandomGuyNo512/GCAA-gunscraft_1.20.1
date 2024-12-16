@@ -18,7 +18,7 @@ import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.SprintingHandler;
-import sheridan.gcaa.client.render.JumpBobbingHandler;
+import sheridan.gcaa.client.render.InertialBobbingHandler;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
@@ -72,7 +72,7 @@ public class ClientPlayerEvents {
             SprintingHandler.INSTANCE.tick((LocalPlayer) player);
         }
         if (event.phase == TickEvent.Phase.END)  {
-            JumpBobbingHandler jumpBobbingHandler = JumpBobbingHandler.getInstance();
+            InertialBobbingHandler jumpBobbingHandler = InertialBobbingHandler.getInstance();
             if (jumpBobbingHandler != null) {
                 jumpBobbingHandler.handle((LocalPlayer) player);
             }

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "gcaa",
+  "key": {
+    "#": {
+      "item": "minecraft:iron_ingot"
+    },
+    "B": {
+      "item": "minecraft:chest"
+    },
+    "I": {
+      "item": "minecraft:crafting_table"
+    },
+    "H": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "#B#",
+    "#I#",
+    "#H#"
+  ],
+  "result": {
+    "count": 1,
+    "item": "gcaa:bullet_crafting_table"
+  },
+  "show_notification": true
+}

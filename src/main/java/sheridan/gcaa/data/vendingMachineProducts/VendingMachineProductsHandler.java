@@ -128,12 +128,13 @@ public class VendingMachineProductsHandler extends SimplePreparableReloadListene
     }
 
     public static void syncFromServer(String strData, byte[] byteData) {
-        String data = null;
+        String data = strData;
         if (byteData != null) {
             try {
                 data = Utils.decompress(byteData);
             } catch (Exception e) {
                 data = strData;
+                e.printStackTrace();
             }
         }
         if (data == null) {
@@ -141,8 +142,13 @@ public class VendingMachineProductsHandler extends SimplePreparableReloadListene
         }
         ProductsRegister.clear();
         String[] split = data.split("`");
+        List<IndexedProductRegistry> registryList = new ArrayList<>();
         for (String string : split) {
             IndexedProductRegistry registry = IndexedProductRegistry.fromString(string);
+            registryList.add(registry);
+        }
+        registryList.sort(Comparator.comparingInt(IndexedProductRegistry::id));
+        for (IndexedProductRegistry registry : registryList) {
             IProduct product = registry.getProduct();
             if (product != null) {
                 ProductsRegister.registerProduct(registry.category, registry.getProduct());
