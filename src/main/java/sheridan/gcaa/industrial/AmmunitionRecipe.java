@@ -25,10 +25,4 @@ public class AmmunitionRecipe extends Recipe{
         ammunition.checkAndGet(stack);
         return stack;
     }
-
-    @Override
-    public AmmunitionRecipe addIngredients(Set<Item> listItem, List<Integer> listAmount) {
-        super.addIngredients(listItem, listAmount);
-        return this;
-    }
 }

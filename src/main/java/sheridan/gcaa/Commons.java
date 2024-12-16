@@ -1,6 +1,7 @@
 package sheridan.gcaa;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
@@ -19,6 +20,7 @@ import sheridan.gcaa.service.product.*;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static sheridan.gcaa.items.attachments.Attachment.MUZZLE;
@@ -165,31 +167,22 @@ public class Commons {
                 ModItems.AMMO_357MAGNUM.get(),
                 ModItems.AMMO_VOG_25.get()
         ), List.of (
-                // TODO 每种子弹材料数量、制造时间和配方待定 - 火药数量待确认
-                new AmmunitionRecipe(ModItems.AMMO_9X19MM.get(), 25 * 1000)
-                        .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
-                                List.of(15, 10, 25)),
-                new AmmunitionRecipe(ModItems.AMMO_45ACP.get(), 30 * 1000)
-                        .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
-                                List.of(20, 10, 30)),
-                new AmmunitionRecipe(ModItems.AMMO_5_56X45MM.get(), 40 * 1000)
-                        .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
-                                List.of(25, 18, 15)),
-                new AmmunitionRecipe(ModItems.AMMO_7_62X39MM.get(), 42 * 1000)
-                        .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get(), Items.IRON_INGOT),
-                                List.of(10, 22, 18, 3)),
-                new AmmunitionRecipe(ModItems.AMMO_7_62X51MM.get(), 45 * 1000)
-                        .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
-                                List.of(30, 28, 25)),
-                new AmmunitionRecipe(ModItems.AMMO_12GAUGE.get(), 30 * 1000)
-                        .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get(), ModItems.PLASTIC.get()),
-                                List.of(6, 16, 40, 10)),
-                new AmmunitionRecipe(ModItems.AMMO_357MAGNUM.get(), 28 * 1000)
-                        .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
-                                List.of(20, 12, 15)),
-                new AmmunitionRecipe(ModItems.AMMO_VOG_25.get(), 50 * 1000)
-                        .addIngredients(Set.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.TNT),
-                                List.of(30, 10, 5))
+                addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
+                        List.of(15, 10, 25), new AmmunitionRecipe(ModItems.AMMO_9X19MM.get(), 20 * 1000)),
+                addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
+                        List.of(20, 10, 30), new AmmunitionRecipe(ModItems.AMMO_45ACP.get(), 30 * 1000)),
+                addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
+                        List.of(25, 18, 15), new AmmunitionRecipe(ModItems.AMMO_5_56X45MM.get(), 40 * 1000)),
+                addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get(), Items.IRON_INGOT),
+                        List.of(10, 22, 18, 3), new AmmunitionRecipe(ModItems.AMMO_7_62X39MM.get(), 42 * 1000)),
+                addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
+                        List.of(30, 28, 25),  new AmmunitionRecipe(ModItems.AMMO_7_62X51MM.get(), 45 * 1000)),
+                addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get(), ModItems.PLASTIC.get()),
+                        List.of(6, 16, 40, 10), new AmmunitionRecipe(ModItems.AMMO_12GAUGE.get(), 30 * 1000)),
+                addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
+                        List.of(20, 12, 15),new AmmunitionRecipe(ModItems.AMMO_357MAGNUM.get(), 28 * 1000)),
+                addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.TNT),
+                        List.of(30, 10, 5), new AmmunitionRecipe(ModItems.AMMO_VOG_25.get(), 50 * 1000))
         ));
     }
 
@@ -282,5 +275,18 @@ public class Commons {
                 new CommonProduct(Items.GOLDEN_APPLE, 805),
                 new CommonProduct(ModItems.BULLET_CRAFTING.get(), 200),
                 new NBTAttachedProduct(Items.POTION, 100, potionTag));
+    }
+    private static AmmunitionRecipe addIngredients(List<Item> listItem, List<Integer> listAmount, AmmunitionRecipe recipe) {
+        int i = 0;
+        for (Item item: listItem) {
+            int amount = i < listAmount.size() ? listAmount.get(i) : 1;
+            Map<Item, Integer> ingredients = recipe.getIngredients();
+            ingredients.put(item, amount);
+            if (i == 16) {
+                break;
+            }
+            i++;
+        }
+        return recipe;
     }
 }

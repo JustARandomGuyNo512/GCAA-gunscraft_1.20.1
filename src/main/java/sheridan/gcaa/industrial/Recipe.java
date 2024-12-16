@@ -29,26 +29,11 @@ public class Recipe implements IDataPacketGen {
         return ingredients;
     }
 
-    public Recipe addIngredients(Set<Item> listItem, List<Integer> listAmount) {
-        int i = 0;
-        for (Item item: listItem) {
-            int amount = i < listAmount.size() ? listAmount.get(i) : 1;
-            ingredients.put(item, amount);
-            if (i == 16) {
-                break;
-            }
-            i++;
-        }
-        return this;
-    }
-
     @Override
     public void writeData(JsonObject jsonObject) {
-
     }
 
     @Override
     public void loadData(JsonObject jsonObject) {
-
     }
 }
