@@ -34,11 +34,4 @@ public class ProjectileDamage extends DamageSource {
         return Component.literal(msg);
     }
 
-    @Override
-    public boolean is(TagKey<DamageType> pDamageTypeKey) {
-        if (!CommonConfig.enableKnockBack.get() && pDamageTypeKey == DamageTypeTags.IS_EXPLOSION) {
-            return true;
-        }
-        return super.is(pDamageTypeKey);
-    }
 }

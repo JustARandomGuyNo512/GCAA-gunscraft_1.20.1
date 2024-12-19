@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.joml.Vector3f;
@@ -224,7 +225,7 @@ public class Clients {
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0.03f, 0.01f, 0.3f,
-                                0.04f, 0.45f, 0.045f,
+                                0.04f, 0.45f, 0.05f,
                                 0.375f, 0.32f, 0.5f,
                                 0.4f, 0.25f, 0f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 3.725f, -88f).setScale(1.8f))
@@ -298,13 +299,13 @@ public class Clients {
                 .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,15.35f,-19f, POS)
+                .setAds(0,15.35f,-20f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0f, 0f, 0.35f,
                                 0.035f, 0.3f,  0.03f,
                                 0.45f, 0.3f,0.55f,
-                                0.65f, 0.15f, 0f))
+                                0.55f, 0.15f, 0f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.8f, -57.6f).setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AR_COMPENSATOR, new MuzzleFlashDisplayData().setScale(2.3f).setLength(25))
@@ -351,6 +352,25 @@ public class Clients {
                 .setSprintingTrans(11, 12.5f, -2, 18, -49, 41)
         );
 
+        ArsenalLib.registerGunModel(ModItems.HK_G28.get(), new HkG28Model(), new DisplayData()
+                .setFirstPersonMain(-11.75f,15.6f,-32.5f, POS)
+                .setThirdPersonRight(0.0f,-0.7f,0.6f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
+                .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
+                .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
+                .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
+                .setAds(0,14.3f,-22f, POS)
+                .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
+                .setInertialRecoilData(
+                        new InertialRecoilData(0.03f, 0.01f, 0.65f,
+                                0.044f, 1.15f,  0.05f,
+                                0.8f, 0.24f,0.4f,
+                                0.5f, 0.3f, 0f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 3.6824f, -115.9f).setScale(3.8f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(3.2f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AR_COMPENSATOR, new MuzzleFlashDisplayData().setScale(4.5f))
+                .setBulletShellDisplayData(new BulletShellDisplayData(1.6f, 4f, -17f, new Vector3f(3.5f, 1.2f, 0.8f), BulletShellModel.RIFLE).setRandomRate(0.35f).setScale(1.2f))
+                .setSprintingTrans(11, 12.5f, -2, 18, -49, 41)
+        );
         //attachment models register
         ArsenalLib.registerAttachmentModel(ModItems.PISTOL_SUPPRESSOR.get(), new PistolSuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_SUPPRESSOR.get(), new AKSuppressorModel());

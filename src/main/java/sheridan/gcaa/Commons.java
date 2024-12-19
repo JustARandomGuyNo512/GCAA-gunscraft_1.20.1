@@ -276,6 +276,7 @@ public class Commons {
                 new CommonProduct(ModItems.BULLET_CRAFTING.get(), 200),
                 new NBTAttachedProduct(Items.POTION, 100, potionTag));
     }
+
     private static AmmunitionRecipe addIngredients(List<Item> listItem, List<Integer> listAmount, AmmunitionRecipe recipe) {
         int i = 0;
         for (Item item: listItem) {

@@ -76,6 +76,7 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> XM1014_FIRE_SUPPRESSED = registerSound("xm1014_fire_suppressed", "item.xm1014.fire_suppressed");
     public static RegistryObject<SoundEvent> XM1014_INSERT_SHELL = registerSound("xm1014_insert_shell", "item.xm1014.insert_shell");
     public static RegistryObject<SoundEvent> MK47_FIRE = registerSound("mk47_fire", "item.mk47.fire");
+    public static RegistryObject<SoundEvent> HK_G28_FIRE = registerSound("hk_g28", "item.hk_g28.fire");
 
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");

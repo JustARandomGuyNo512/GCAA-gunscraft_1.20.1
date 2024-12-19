@@ -58,6 +58,7 @@
   "item.xm1014.fire_suppressed": { "subtitle": "item.xm1014.fire_suppressed", "sounds": [{ "name": "gcaa:xm1014/xm1014_fire_suppressed" }]},
   "item.xm1014.insert_shell": { "subtitle": "item.xm1014.insert_shell", "sounds": [{ "name": "gcaa:xm1014/xm1014_insert_shell" }]},
   "item.mk47.fire": { "subtitle": "item.mk47.fire", "sounds": [{ "name": "gcaa:mk47/mk47_fire" }]},
+  "item.hk_g28.fire": { "subtitle": "item.hk_g28.fire", "sounds": [{ "name": "gcaa:hk_g28/hk_g28_fire" }]},
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},
   "effect.headshot.2": { "subtitle": "effect.headshot.2", "sounds": [{ "name": "gcaa:generic/headshot_2" }]},

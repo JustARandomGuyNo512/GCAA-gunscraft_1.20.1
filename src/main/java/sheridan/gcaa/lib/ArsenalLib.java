@@ -4,6 +4,7 @@ package sheridan.gcaa.lib;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
@@ -65,7 +66,7 @@ public class ArsenalLib {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void registerAttachmentModel(IAttachment attachment, IAttachmentModel model) {
+    public static void registerAttachmentModel(@NotNull IAttachment attachment, @NotNull IAttachmentModel model) {
         AttachmentsRegister.registerModel(attachment, model);
     }
 
@@ -73,7 +74,7 @@ public class ArsenalLib {
      * Register a gun attachment slot, only in client side, you should better call this method in FMLClientSetupEvent stage
      * */
     @OnlyIn(Dist.CLIENT)
-    public static void registerGunAttachments(IGun gun, AttachmentSlot slot) {
+    public static void registerGunAttachments(@NotNull IGun gun,@NotNull AttachmentSlot slot) {
         AttachmentsRegister.registerAttachmentSlot(gun, slot);
     }
 

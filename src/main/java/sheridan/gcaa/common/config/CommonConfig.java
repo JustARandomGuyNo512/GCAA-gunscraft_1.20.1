@@ -25,7 +25,8 @@ public class CommonConfig {
     public static ForgeConfigSpec.IntValue maxLagCompensationMilliseconds;
     public static ForgeConfigSpec.IntValue initialBulletPoolSize;
     public static ForgeConfigSpec.IntValue maxBulletLivingTime;
-    public static ForgeConfigSpec.BooleanValue enableKnockBack;
+    public static ForgeConfigSpec.BooleanValue enableKnockBackToEntity;
+    public static ForgeConfigSpec.BooleanValue enableKnockBackToPlayer;
     public static ForgeConfigSpec.DoubleValue globalBulletSpeedModify;
     public static ForgeConfigSpec.DoubleValue globalBulletDamageModify;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> headshotModify;
@@ -73,9 +74,14 @@ public class CommonConfig {
         maxBulletLivingTime = BUILDER.defineInRange("max_bullet_living_time", 5000, MIN_MAX_BULLET_LIVING_TIME, MAX_MAX_BULLET_LIVING_TIME);
         BUILDER.comment("""
                 
-                Enable bullet knock back
-                开启子弹击退""");
-        enableKnockBack = BUILDER.define("enable_knock_back", true);
+                Enable bullet knock back to all entities except players
+                开启子弹对于除玩家外的所有实体击退""");
+        enableKnockBackToEntity = BUILDER.define("enable_knock_back_to_entity", true);
+        BUILDER.comment("""
+                
+                Enable bullet knock back to player
+                开启子弹对于玩家击退""");
+        enableKnockBackToPlayer = BUILDER.define("enable_knock_back_to_player", true);
         BUILDER.comment("""
                 
                 Global bullet speed modify, this only effects on bullets, like grenades, rockets, etc are not affected.

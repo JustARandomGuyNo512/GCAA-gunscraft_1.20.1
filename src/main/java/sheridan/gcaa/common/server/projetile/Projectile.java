@@ -15,14 +15,10 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
 import net.minecraftforge.network.PacketDistributor;
-import org.joml.Vector3f;
 import sheridan.gcaa.common.HeadBox;
 import sheridan.gcaa.common.damageTypes.DamageTypes;
 import sheridan.gcaa.common.damageTypes.ProjectileDamage;
 import sheridan.gcaa.entities.projectiles.Grenade;
-import sheridan.gcaa.items.ammunition.Ammunition;
-import sheridan.gcaa.items.ammunition.AmmunitionMod;
-import sheridan.gcaa.items.ammunition.AmmunitionModRegister;
 import sheridan.gcaa.items.ammunition.IAmmunitionMod;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.network.PacketHandler;
@@ -31,7 +27,6 @@ import sheridan.gcaa.common.config.CommonConfig;
 import sheridan.gcaa.network.packets.s2c.HeadShotFeedBackPacket;
 import sheridan.gcaa.sounds.ModSounds;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -217,7 +212,7 @@ public class Projectile {
         }
         entity.invulnerableTime = 0;
         ProjectileDamage damageSource =
-                (ProjectileDamage) DamageTypes.getDamageSource(level, DamageTypes.GENERIC_PROJECTILE, null, this.shooter);
+                (ProjectileDamage) DamageTypes.getDamageSource(level, DamageTypes.GENERIC_PROJECTILE, this.shooter, this.shooter);
         damageSource.shooter = this.shooter;
         damageSource.gun = gun;
         damageSource.penetration = this.penetration;

@@ -21,7 +21,7 @@ public class Xm1014 extends AutoShotgun {
     public Xm1014() {
         super(new GunProperties(3.8f, 1.6f, 3.7f, 1.1f, 0.2f,
                 4.5f, GunProperties.toRPM(300), 0, 0, 7,
-                3.3f, 1.5f, 0.2f, 0.15f, 14,
+                4.2f, 1.5f, 0.2f, 0.15f, 14,
                 List.of(Semi.SEMI), ModSounds.XM1014_FIRE, ModSounds.XM1014_FIRE_SUPPRESSED, caliber),
                 new AutoShotgunExtension(getTicks(0.4f), getTicks(1), getTicks(0.8f),
                         getTicks(0.75f), getTicks(0.4f), 1, getTicks(0.35f)));
