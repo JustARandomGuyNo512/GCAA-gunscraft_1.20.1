@@ -102,6 +102,7 @@ public class ControllerEvents {
                         Clients.MAIN_HAND_STATUS.buttonDown.set(Clients.allowFireBtnDown(stack, gun, player));
                     } else if (event.getAction() == 0) {
                         Clients.MAIN_HAND_STATUS.buttonDown.set(false);
+                        Clients.MAIN_HAND_STATUS.fireCount = 0;
                     }
                     event.setCanceled(true);
                 } else if (event.getButton() == 1) {

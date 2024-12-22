@@ -4,6 +4,7 @@ import com.ibm.icu.impl.Pair;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,6 +18,7 @@ import sheridan.gcaa.attachmentSys.AttachmentSlotProxy;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.model.ISlotProviderModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
+import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.ISubSlotProvider;
 import sheridan.gcaa.items.gun.IGun;
@@ -64,16 +66,17 @@ public class AttachmentsGuiContext {
         }
     }
 
-    public void renderIcons(GuiGraphics guiGraphics) {
+    public void renderIcons(GuiGraphics guiGraphics, Font font) {
         for (Map.Entry<AttachmentSlot, Vector3f> entry : guiPosMap.entrySet()) {
             if (entry.getKey().isLocked()) {
                 continue;
             }
             ResourceLocation texture = chooseTexture(entry.getKey());
             Vector3f pos = entry.getValue();
-            if (OUT_SCREEN == pos) {
+            if (pos.z < 0.05f)  {
                 continue;
             }
+            proxy.preSlotIconRender(entry.getKey(), pos, guiGraphics, font, this);
             int scale = entry.getKey() == selected ? 6 : 4;
             guiGraphics.blit(texture, (int) pos.x - scale / 2, (int) pos.y - scale / 2,  0,0, scale, scale, scale, scale);
         }
@@ -124,10 +127,10 @@ public class AttachmentsGuiContext {
             Matrix4f m2 = new Matrix4f(matrix4f);
             Vector4f vector4f = m2.transform(new Vector4f(0, 0, 0, 1.0F));
             Vector4f v = vector4f.mul(m0).mul(m1);
-            if (Math.abs((v.x / v.w)) > 1 || Math.abs((v.y / v.w)) > 1 || v.z < 0.05) {
-                guiPosMap.put(slot, OUT_SCREEN);
-                return;
-            }
+//            if (Math.abs((v.x / v.w)) > 1 || Math.abs((v.y / v.w)) > 1 || v.z < 0.05) {
+//                guiPosMap.put(slot, OUT_SCREEN);
+//                return;
+//            }
             float w = Minecraft.getInstance().getWindow().getGuiScaledWidth();
             float h = Minecraft.getInstance().getWindow().getGuiScaledHeight();
             float screenX = ((v.x / v.w) * w + w) * 0.5f;

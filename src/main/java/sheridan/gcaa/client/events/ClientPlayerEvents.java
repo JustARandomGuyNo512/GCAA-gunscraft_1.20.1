@@ -50,9 +50,11 @@ public class ClientPlayerEvents {
                 Clients.MAIN_HAND_STATUS.attachmentsStatus.checkAndUpdate(stackMain, gunMain, player);
                 Clients.MAIN_HAND_STATUS.identity = gunMain.getIdentity(stackMain);
                 Clients.MAIN_HAND_STATUS.weapon.set(stackMain);
+                Clients.MAIN_HAND_STATUS.fireMode = gunMain.getFireMode(stackMain);
             } else {
                 Clients.MAIN_HAND_STATUS.weapon.set(ItemStack.EMPTY);
                 Clients.MAIN_HAND_STATUS.identity = "";
+                Clients.MAIN_HAND_STATUS.fireMode = null;
             }
             if (!Objects.equals(itemIdentity, Clients.MAIN_HAND_STATUS.identity) && (lastTickHoldingGun || gunMain != null)) {
                 if (gunMain != null) {

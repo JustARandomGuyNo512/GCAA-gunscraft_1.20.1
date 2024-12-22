@@ -9,6 +9,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.model.ISlotProviderModel;
 import sheridan.gcaa.client.model.attachments.ScopeModel;
 import sheridan.gcaa.client.model.attachments.SightViewRenderer;
 import sheridan.gcaa.client.model.attachments.StatisticModel;
@@ -19,7 +20,7 @@ import sheridan.gcaa.lib.ArsenalLib;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class AcogModel extends ScopeModel {
+public class AcogModel extends ScopeModel implements ISlotProviderModel {
     private final ModelPart root;
     private final ModelPart crosshair;
     private final ModelPart back_glass;
@@ -28,6 +29,8 @@ public class AcogModel extends ScopeModel {
     private final ModelPart back_ground;
     private final ModelPart min_z_dis;
     private final ModelPart low;
+    private final ModelPart sub_scope_adapter;
+    private final ModelPart sub_scope;
     private static final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/scopes/acog/acog.png");
     private static final ResourceLocation CROSSHAIR_TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/attachments/scopes/acog/acog_crosshair.png");
 
@@ -37,6 +40,8 @@ public class AcogModel extends ScopeModel {
         back_glass = root.getChild("back_glass").meshing();
         body = root.getChild("body").meshing();
         glass_shape = root.getChild("glass_shape").meshing();
+        sub_scope_adapter = root.getChild("sub_scope_adapter").meshing();
+        sub_scope = root.getChild("s_sub_scope");
         back_ground = root.getChild("back_ground");
         min_z_dis = root.getChild("min_z_dis");
         low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("acogX4").meshing();
@@ -63,9 +68,12 @@ public class AcogModel extends ScopeModel {
         if (context.useLowQuality()) {
             context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
         } else {
+            AttachmentRenderEntry subScope = attachmentRenderEntry.getChild("s_sub_scope");
+            sub_scope_adapter.visible = subScope != null;
             boolean active = context.isEffectiveSight(attachmentRenderEntry) && Clients.isInAds() && Clients.getAdsProgress() == 1f;
             SightViewRenderer.renderScope(active, false, 0.35f, 0.5f, context,
-                    CROSSHAIR_TEXTURE, TEXTURE, crosshair, glass_shape, back_glass, back_ground, body);
+                    CROSSHAIR_TEXTURE, TEXTURE, crosshair, glass_shape, back_glass, back_ground, body, sub_scope_adapter);
+            context.renderEntry(subScope, sub_scope);
         }
     }
 
@@ -74,4 +82,15 @@ public class AcogModel extends ScopeModel {
         return defaultHandleMinZTranslation(poseStack, back_glass, min_z_dis);
     }
 
+    @Override
+    public void handleSlotTranslate(PoseStack poseStack, String modelSlotName) {
+        if (root.hasChild(modelSlotName)) {
+            root.getChild(modelSlotName).translateAndRotate(poseStack);
+        }
+    }
+
+    @Override
+    public boolean hasSlot(String modelSlotName) {
+        return "s_sub_scope".equals(modelSlotName);
+    }
 }

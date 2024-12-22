@@ -5,12 +5,14 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.LodGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.client.render.NewPlayerArmRenderer;
+import sheridan.gcaa.items.gun.fireModes.Auto;
 
 @OnlyIn(Dist.CLIENT)
 public class AkmModel extends LodGunModel {
@@ -67,6 +69,11 @@ public class AkmModel extends LodGunModel {
     @Override
     protected void renderGunNormal(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        if (context.isFirstPerson) {
+            safety.xRot = Clients.MAIN_HAND_STATUS.fireMode == Auto.AUTO ? 0.2181661564992911875f : 0.436332312998582375f;
+        } else {
+            safety.xRot = 0;
+        }
         bullet.visible = context.shouldBulletRender();
         context.renderIf(muzzle, vertexConsumer, context.notHasMuzzle());
         context.renderIf(mag, vertexConsumer, context.notHasMag());

@@ -11,16 +11,20 @@ public abstract class SubSlotProvider extends Attachment implements ISubSlotProv
         super(weight);
     }
 
-    @Override
-    public AttachResult canDetach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
-        AttachResult res = super.canDetach(stack, gun, root, prevSlot);
-        if (res.isPassed()) {
+    public static AttachResult checkForChild(AttachResult prevRes, AttachmentSlot prevSlot) {
+        if (prevRes.isPassed()) {
             for (AttachmentSlot child : prevSlot.getChildren().values()) {
                 if (!child.isEmpty()) {
                     return new AttachResult(false, () -> Component.translatable("tooltip.action_res.prevented_by_child").getString());
                 }
             }
         }
-        return res;
+        return prevRes;
+    }
+
+    @Override
+    public AttachResult canDetach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
+        AttachResult res = super.canDetach(stack, gun, root, prevSlot);
+        return checkForChild(res, prevSlot);
     }
 }

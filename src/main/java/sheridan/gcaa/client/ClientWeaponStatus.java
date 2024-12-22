@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
@@ -17,6 +18,7 @@ import sheridan.gcaa.items.attachments.IArmReplace;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.items.gun.IGunFireMode;
 import sheridan.gcaa.items.gun.fireModes.Charge;
 
 import java.util.ArrayList;
@@ -48,6 +50,8 @@ public class ClientWeaponStatus {
     public float spread = 0;
     public float lastRecoilDirection = 1;
     public List<IAmmunitionMod> ammunitionMods;
+    @Nullable
+    public IGunFireMode fireMode;
     private String ammunitionModsUUID = "none";
     private static boolean switchSightTooltipShowed = false;
 

@@ -1,9 +1,11 @@
 package sheridan.gcaa.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.ParticleStatus;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.SandBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
@@ -69,9 +71,6 @@ public class ClientAttachmentsStatus {
             slot = AttachmentsHandler.INSTANCE.getAttachmentSlots(itemStack);
             sights.clear();
             slotFlatDir.clear();
-            if (effectiveSight != null && AttachmentsRegister.get(effectiveSight.getAttachmentId()) instanceof Scope scope) {
-                scope.onLoseEffective();
-            }
             leftArmReplace = null;
             rightArmReplace = null;
             effectiveSight = null;
@@ -234,6 +233,9 @@ public class ClientAttachmentsStatus {
     public void onSwitchEffectiveSight() {
         if (sights.size() > 1) {
             effectiveSightIndex = (effectiveSightIndex + 1) % sights.size();
+            if (effectiveSight != null && AttachmentsRegister.get(effectiveSight.getAttachmentId()) instanceof Scope scope) {
+                scope.onLoseEffective();
+            }
             effectiveSight = sights.get(effectiveSightIndex);
             sightSwitchingProgress = 0f;
             tempSightSwitchingProgress = 0;

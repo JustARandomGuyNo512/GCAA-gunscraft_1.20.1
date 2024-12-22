@@ -8,13 +8,12 @@ import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.gun.IGun;
 
-public class Mk47AttachmentSlotProxy extends AttachmentSlotProxy {
+public class HkG28AttachmentProxy extends AttachmentSlotProxy {
     private final BinaryMutuallyExclusiveProxy binaryMutuallyExclusiveProxy;
-    public Mk47AttachmentSlotProxy(AttachmentSlot root) {
+    public HkG28AttachmentProxy(AttachmentSlot root) {
         super(root);
-        binaryMutuallyExclusiveProxy = new BinaryMutuallyExclusiveProxy(root, "handguard_lower", "handguard_grip");
+        binaryMutuallyExclusiveProxy = new BinaryMutuallyExclusiveProxy(root, "grip", "handguard_front");
         binaryMutuallyExclusiveProxy.setExclusive((prevSlot, other, prevAttachment, otherAttachment) -> prevAttachment instanceof GrenadeLauncher || otherAttachment instanceof GrenadeLauncher);
-
     }
 
     @Override
@@ -26,5 +25,4 @@ public class Mk47AttachmentSlotProxy extends AttachmentSlotProxy {
     public IAttachment.AttachResult onCanDetach(IAttachment attachment, ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
         return attachment.canDetach(stack, gun, root, prevSlot);
     }
-
 }

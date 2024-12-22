@@ -193,6 +193,23 @@ public final class ModelPart {
         }
     }
 
+    public boolean collisionNoRot(ModelPart other) {
+        if (this == other) {
+            return false;
+        }
+        List<Cube> cubes = other.getCubes();
+        if (!cubes.isEmpty()) {
+            for (Cube cube : this.cubes) {
+                for (Cube cube2 : cubes) {
+                    if (cube.collisionNoRot(cube2)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public ModelPart getChildNoThrow(String childName) {
         return this.children.get(childName);
     }
@@ -479,6 +496,9 @@ public final class ModelPart {
             }
         }
 
+        /**
+         * For minecraft hardcode java edition entity model...
+         * */
         public Cube(int u, int v, float originX, float originY, float originZ, float xLen, float yLen, float zLen, float xGrow, float yGrow, float zGrow, boolean mirror, float textureWidth, float textureHeight, Set<Direction> directions) {
             this.minX = originX;
             this.minY = originY;
@@ -565,6 +585,12 @@ public final class ModelPart {
                 }
             }
 
+        }
+
+        public boolean collisionNoRot(Cube other)  {
+            return this.maxX >= other.minX && this.minX <= other.maxX &&
+                    this.maxY >= other.minY && this.minY <= other.maxY &&
+                    this.maxZ >= other.minZ && this.minZ <= other.maxZ;
         }
 
        public void polygons(List<Polygon> polygons) {

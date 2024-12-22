@@ -43,7 +43,7 @@ public class MicroRedDotModel extends SightModel{
             context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
             return;
         }
-        SightViewRenderer.renderRedDot(context.isEffectiveSight(attachmentRenderEntry), 0.025f, context, texture, StatisticModel.RED_DOT_CROSSHAIR, crosshair, body);
+        SightViewRenderer.renderRedDot(context.isEffectiveSight(attachmentRenderEntry), 0.018f, context, texture, StatisticModel.RED_DOT_CROSSHAIR, crosshair, body);
     }
 
     @Override

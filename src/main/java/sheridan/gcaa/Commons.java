@@ -7,6 +7,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.attachmentSys.proxies.AkmAttachmentSlotProxy;
+import sheridan.gcaa.attachmentSys.proxies.HkG28AttachmentProxy;
 import sheridan.gcaa.attachmentSys.proxies.Mk47AttachmentSlotProxy;
 import sheridan.gcaa.industrial.AmmunitionRecipe;
 import sheridan.gcaa.industrial.RecipeRegister;
@@ -86,6 +87,13 @@ public class Commons {
                 "gcaa:rail_panel_short",
                 "gcaa:flashlight"));
 
+        Set<String> hkg28HandguardFrontSlot = new HashSet<>(List.of(
+                "gcaa:laser_sight",
+                "gcaa:horizontal_laser_sight",
+                "gcaa:flashlight",
+                "gcaa:rail_panel_short"
+        ));
+
         AttachmentsRegister.registerAttachmentSlot(ModItems.M249.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
@@ -139,11 +147,7 @@ public class Commons {
                 .addChild(new AttachmentSlot("handguard_left_rear", mk47HandguardSlot).lower())
                 .addChild(new AttachmentSlot("handguard_right", mk47HandguardSlot).lower())
                 .addChild(new AttachmentSlot("handguard_right_rear", mk47HandguardSlot).lower())
-                .addChild(new AttachmentSlot("handguard_lower", Set.of(
-                        "gcaa:laser_sight",
-                        "gcaa:horizontal_laser_sight",
-                        "gcaa:flashlight",
-                        "gcaa:rail_panel_short")).lower())
+                .addChild(new AttachmentSlot("handguard_lower", hkg28HandguardFrontSlot).lower())
                 .addChild(new AttachmentSlot("handguard_grip", Set.of(
                         "gcaa:laser_sight",
                         "gcaa:horizontal_laser_sight",
@@ -153,6 +157,29 @@ public class Commons {
                         "gcaa:vertical_grip",
                         "gcaa:gp_25")).lower()),
                 Mk47AttachmentSlotProxy::new
+        );
+
+        AttachmentsRegister.registerAttachmentSlot(ModItems.HK_G28.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10", "gcaa:acog", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor")))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")))
+                .addChild(new AttachmentSlot("handguard_scope", Set.of(
+                        "gcaa:red_dot", "gcaa:holographic", "gcaa:horizontal_laser_sight","gcaa:scope_x10", "gcaa:acog", "gcaa:okp7_b", "gcaa:rail_panel", "gcaa:rail_panel_short")).upper())
+                .addChild(new AttachmentSlot("handguard_left", mk47HandguardSlot).lower())
+                .addChild(new AttachmentSlot("handguard_right", mk47HandguardSlot).lower())
+                .addChild(new AttachmentSlot("handguard_front", hkg28HandguardFrontSlot).lower())
+                .addChild(new AttachmentSlot("handguard_front_left", hkg28HandguardFrontSlot).lower())
+                .addChild(new AttachmentSlot("handguard_front_right", hkg28HandguardFrontSlot).lower())
+                .addChild(new AttachmentSlot(GRIP, Set.of(
+                        "gcaa:laser_sight",
+                        "gcaa:horizontal_laser_sight",
+                        "gcaa:flashlight",
+                        "gcaa:rail_panel",
+                        "gcaa:rail_panel_short",
+                        "gcaa:vertical_grip",
+                        "gcaa:gp_25")).lower())
+                .addChild(new AttachmentSlot(MAG, Set.of())),
+                HkG28AttachmentProxy::new
         );
 
         registerVendingMachineProducts();

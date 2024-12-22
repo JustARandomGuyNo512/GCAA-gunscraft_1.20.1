@@ -1,9 +1,11 @@
 package sheridan.gcaa.client.model.gun.guns;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -11,11 +13,16 @@ import sheridan.gcaa.client.render.RenderTypes;
 
 public class HkG28Model extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/hk_g28/hk_g28.png");
-    private ModelPart barrel, IS_front, handguard, muzzle, stock, charge, body, safety, bolt, IS, grip, mag, bullet;
+    private ModelPart barrel, IS_front, handguard, muzzle, stock, charge, body, safety, bolt, IS, grip, mag, bullet,
+    sub_rail_left, sub_rail_right, sub_rail_down;
+    private final AnimationDefinition shoot;
+
 
 
     public HkG28Model() {
-        super(new ResourceLocation(GCAA.MODID, "model_assets/guns/hk_g28/hk_g28.geo.json"), new ResourceLocation(""));
+        super(new ResourceLocation(GCAA.MODID, "model_assets/guns/hk_g28/hk_g28.geo.json"),
+                new ResourceLocation(GCAA.MODID, "model_assets/guns/hk_g28/hk_g28.animation.json"));
+        shoot = animations.get("shoot");
     }
 
     @Override
@@ -23,6 +30,9 @@ public class HkG28Model extends GunModel {
         barrel = gun.getChild("barrel").meshing();
         handguard = gun.getChild("handguard").meshing();
         IS_front = handguard.getChild("IS_front").meshing();
+        sub_rail_left = handguard.getChild("sub_rail_left").meshing();
+        sub_rail_right = handguard.getChild("sub_rail_right").meshing();
+        sub_rail_down = handguard.getChild("sub_rail_down").meshing();
         muzzle = gun.getChild("muzzle").meshing();
         stock = gun.getChild("stock").meshing();
         charge = gun.getChild("charge").meshing();
@@ -44,6 +54,10 @@ public class HkG28Model extends GunModel {
         context.renderIf(mag, vertexConsumer, context.notHasMag());
         context.renderIf(stock, vertexConsumer, context.notHasStock());
         context.render(vertexConsumer, barrel, charge, body, safety, bolt, grip);
+        sub_rail_left.visible = context.has("handguard_front_left");
+        sub_rail_right.visible = context.has("handguard_front_right");
+        sub_rail_down.visible = context.has("handguard_front");
+        IS_front.xRot = context.notContainsScope() ? 0 : 1.57079632679489655f;
         vertexConsumer = context.getBuffer(RenderTypes.getCutOutNoCullMipmap(TEXTURE));
         context.render(vertexConsumer, handguard);
         if (context.isFirstPerson) {
@@ -65,12 +79,33 @@ public class HkG28Model extends GunModel {
     }
 
     @Override
-    protected void animationGlobal(GunRenderContext context) {
+    public boolean hasSlot(String modelSlotName) {
+        return "s_mag".equals(modelSlotName) || super.hasSlot(modelSlotName);
+    }
 
+    @Override
+    public void handleSlotTranslate(PoseStack poseStack, String name) {
+        if (name.equals("s_mag")) {
+            handleGunTranslate(poseStack);
+            mag.translateAndRotate(poseStack);
+            return;
+        }
+        super.handleSlotTranslate(poseStack, name);
+    }
+
+    @Override
+    protected void animationGlobal(GunRenderContext context) {
+        defaultAssaultRifleAnimation(context, null, shoot);
     }
 
     @Override
     protected void afterRender(GunRenderContext context) {
-
+        gun.resetPose();
+        root.resetPose();
+        left_arm.resetPoseAll();
+        right_arm.resetPoseAll();
+        mag.resetPose();
+        bolt.resetPose();
+        camera.resetPose();
     }
 }

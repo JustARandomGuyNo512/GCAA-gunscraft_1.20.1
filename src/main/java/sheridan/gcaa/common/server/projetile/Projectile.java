@@ -145,6 +145,15 @@ public class Projectile {
                         boxHit = aabb;
                     }
                 }
+            } else if (dis == 0) {
+                Vec3 hitPos = intersect(pStartVec, pEndVec, aabb);
+                if (hitPos != null && pStartVec.distanceToSqr(pEndVec) >= pStartVec.distanceToSqr(hitPos)) {
+                    double d1 = pStartVec.distanceToSqr(hitPos);
+                    if (d1 < minDis) {
+                        target = entity;
+                        minDis = d1;
+                    }
+                }
             }
         }
         return target == null ? null : new ProjectileEntityHitResult(target, boxHit);
@@ -298,5 +307,46 @@ public class Projectile {
     protected void finalize() throws Throwable {
         super.finalize();
         TOTAL_NUM --;
+        modsUUID = null;
+    }
+
+    public static Vec3 intersect(Vec3 startPos, Vec3 endPos, AABB box) {
+        double dx = endPos.x - startPos.x;
+        double dy = endPos.y - startPos.y;
+        double dz = endPos.z - startPos.z;
+
+        double txMin = (box.minX - startPos.x) / dx;
+        double txMax = (box.maxX - startPos.x) / dx;
+
+        double tyMin = (box.minY - startPos.y) / dy;
+        double tyMax = (box.maxY - startPos.y) / dy;
+
+        double tzMin = (box.minZ - startPos.z) / dz;
+        double tzMax = (box.maxZ - startPos.z) / dz;
+
+        double tMin = Math.max(
+                Math.max(
+                        Math.min(txMin, txMax), Math.min(tyMin, tyMax)
+                ),
+                Math.min(tzMin, tzMax)
+        );
+
+        double tMax = Math.min(Math.min(Math.max(txMin, txMax), Math.max(tyMin, tyMax)), Math.max(tzMin, tzMax));
+
+        if (tMin > tMax || tMax < 0) {
+            return null;
+        }
+
+        double x = startPos.x + tMin * dx;
+        double y = startPos.y + tMin * dy;
+        double z = startPos.z + tMin * dz;
+
+        if (x >= box.minX && x <= box.maxX &&
+                y >= box.minY && y <= box.maxY &&
+                z >= box.minZ && z <= box.maxZ) {
+            return new Vec3(x, y, z);
+        } else {
+            return null;
+        }
     }
 }

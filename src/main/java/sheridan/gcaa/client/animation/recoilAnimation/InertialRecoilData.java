@@ -25,7 +25,7 @@ public class InertialRecoilData {
     public float holdingOffset;
 
     public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX, float randomY,
-                              float aimingScaleUp, float aimingBackScale, float aimingRotateScale, float holdingOffset) {
+                              float aimingScaleUp, float aimingBackScale, float aimingRotateScale) {
         this.up = up;
         this.upDec = upDec;
         this.back = back;

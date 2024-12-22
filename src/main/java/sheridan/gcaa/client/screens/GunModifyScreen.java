@@ -364,7 +364,7 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         if (context != null) {
-            context.renderIcons(pGuiGraphics);
+            context.renderIcons(pGuiGraphics, this.font);
         }
         renderTooltip(pGuiGraphics, pMouseX, pMouseY);
         float alphaTick = (System.currentTimeMillis() % 1000) * 0.001f;
