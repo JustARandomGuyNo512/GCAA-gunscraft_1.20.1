@@ -1,12 +1,14 @@
 package sheridan.gcaa.items.attachments;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.antlr.v4.misc.Utils;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.items.gun.IGun;
 
+import java.util.List;
 import java.util.function.Function;
 
 public interface IAttachment {
@@ -20,6 +22,8 @@ public interface IAttachment {
     AttachResult canDetach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot);
 
     void onDetach(Player player, ItemStack stack, IGun gun, CompoundTag data);
+
+    List<Component> getEffectsInGunModifyScreen();
 
     Attachment get();
 

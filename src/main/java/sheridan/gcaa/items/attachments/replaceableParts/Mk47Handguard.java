@@ -7,6 +7,7 @@ import sheridan.gcaa.items.attachments.ReplaceableGunPart;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Mk47Handguard extends ReplaceableGunPart {
@@ -32,4 +33,5 @@ public class Mk47Handguard extends ReplaceableGunPart {
         }
         return super.canReplace(stack, gun, root, prevSlot);
     }
+
 }

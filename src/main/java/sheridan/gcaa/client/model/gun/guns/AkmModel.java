@@ -28,14 +28,12 @@ public class AkmModel extends LodGunModel {
             dust_cover_low, mag_low, grip_low,
             safety_low, body_low, stock_low;
 
-    private final AnimationDefinition recoil;
     private final AnimationDefinition shoot;
 
     public AkmModel() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm_low.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/akm/akm.animation.json"));
-        recoil = animations.get("recoil");
         shoot = animations.get("shoot");
     }
 
@@ -118,7 +116,7 @@ public class AkmModel extends LodGunModel {
 
     @Override
     protected void animationGlobal(GunRenderContext gunRenderContext) {
-        defaultAssaultRifleAnimation(gunRenderContext, recoil, shoot);
+        defaultAssaultRifleAnimation(gunRenderContext, shoot);
         if (gunRenderContext.useLowQuality()) {
             slide_low.copyFrom(slide);
         }

@@ -59,6 +59,11 @@
   "item.xm1014.insert_shell": { "subtitle": "item.xm1014.insert_shell", "sounds": [{ "name": "gcaa:xm1014/xm1014_insert_shell" }]},
   "item.mk47.fire": { "subtitle": "item.mk47.fire", "sounds": [{ "name": "gcaa:mk47/mk47_fire" }]},
   "item.hk_g28.fire": { "subtitle": "item.hk_g28.fire", "sounds": [{ "name": "gcaa:hk_g28/hk_g28_fire" }]},
+  "item.ak12.fire": { "subtitle": "item.ak12.fire", "sounds": [{ "name": "gcaa:ak12/ak12_fire" }]},
+  "item.beretta_686.open": { "subtitle": "item.beretta_686.open", "sounds": [{ "name": "gcaa:beretta_686/open" }]},
+  "item.beretta_686.close": { "subtitle": "item.beretta_686.close", "sounds": [{ "name": "gcaa:beretta_686/close" }]},
+  "item.beretta_686.fire": { "subtitle": "item.beretta_686.fire", "sounds": [{ "name": "gcaa:beretta_686/beretta_686_fire" }]},
+  "item.beretta_686.fire_volley": { "subtitle": "item.beretta_686.fire_volley", "sounds": [{ "name": "gcaa:beretta_686/beretta_686_fire_volley" }]},
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},
   "effect.headshot.2": { "subtitle": "effect.headshot.2", "sounds": [{ "name": "gcaa:generic/headshot_2" }]},

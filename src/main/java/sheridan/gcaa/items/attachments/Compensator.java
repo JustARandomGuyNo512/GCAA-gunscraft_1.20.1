@@ -1,11 +1,14 @@
 package sheridan.gcaa.items.attachments;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
+
+import java.util.List;
 
 public class Compensator extends Attachment{
     private final float pitchRecoilLowerRate;
@@ -41,5 +44,10 @@ public class Compensator extends Attachment{
         properties.setPropertyRateIfHas(GunProperties.RECOIL_PITCH_CONTROL, data, (prevRate) -> prevRate - pitchRecoilControlIncRate);
         properties.setPropertyRateIfHas(GunProperties.RECOIL_YAW_CONTROL, data, (prevRate) -> prevRate - yawRecoilControlIncRate);
         super.onDetach(player, stack, gun, data);
+    }
+
+    @Override
+    public List<Component> getEffectsInGunModifyScreen() {
+        return super.getEffectsInGunModifyScreen();
     }
 }

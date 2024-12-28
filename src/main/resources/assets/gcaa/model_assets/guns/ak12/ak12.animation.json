@@ -1,0 +1,21 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"shoot": {
+			"animation_length": 0.1,
+			"bones": {
+				"slide": {
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.04": {
+							"pre": [0, 0, 20],
+							"post": [0, 0, 20],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

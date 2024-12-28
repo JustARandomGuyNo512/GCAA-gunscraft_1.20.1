@@ -94,7 +94,7 @@ public class M870Model extends GunModel {
     }
 
     @Override
-    public AnimationDefinition getRecoil() {
+    public AnimationDefinition getRecoil(GunRenderContext context) {
         return recoil;
     }
 

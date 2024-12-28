@@ -19,6 +19,7 @@ import org.lwjgl.opengl.GL43;
 
 import java.nio.IntBuffer;
 import java.util.Random;
+import java.util.SplittableRandom;
 
 import static org.lwjgl.opengl.GL11C.glGenTextures;
 import static org.lwjgl.opengl.GL11C.glGetIntegerv;
@@ -26,6 +27,8 @@ import static org.lwjgl.opengl.GL30C.*;
 
 public class RenderAndMathUtils {
     public static final Random RANDOM = new Random();
+    private static int lastRandomIndex = (int) randomIndex();
+    private static final SplittableRandom INDEX_RANDOM = new SplittableRandom();
 
     public static float sLerp(float progress) {
         float f1 = progress * progress;
@@ -127,7 +130,18 @@ public class RenderAndMathUtils {
     }
 
     public static float randomIndex() {
-        return Math.random() <= 0.5 ? 1 : -1;
+        return RANDOM.nextBoolean() ? 1 : -1;
+    }
+
+    public static float randomIndex(float changeFrequency) {
+        if (INDEX_RANDOM.nextDouble() < changeFrequency) {
+            lastRandomIndex *= -1;
+        }
+        return lastRandomIndex;
+    }
+
+    public static void flushRandomIndex() {
+        lastRandomIndex = INDEX_RANDOM.nextBoolean() ? 1 : -1;
     }
 
     public static int secondsToTicks(float seconds) {

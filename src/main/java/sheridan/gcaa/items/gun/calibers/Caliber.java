@@ -22,6 +22,7 @@ import java.util.Set;
 public class Caliber implements IDataPacketGen {
     public static final ResourceLocation CALIBER_762X39MM = new ResourceLocation(GCAA.MODID, "7.62x39mm");
     public static final ResourceLocation CALIBER_556X45MM = new ResourceLocation(GCAA.MODID, "5.56x45mm");
+    public static final ResourceLocation CALIBER_545X39MM = new ResourceLocation(GCAA.MODID, "5.45x39mm");
     public static final ResourceLocation CALIBER_9MM = new ResourceLocation(GCAA.MODID, "9mm");
     public static final ResourceLocation CALIBER_762X51MM = new ResourceLocation(GCAA.MODID, "7.62x51mm");
     public static final ResourceLocation CALIBER_357_MAGNUM = new ResourceLocation(GCAA.MODID, ".357_magnum");

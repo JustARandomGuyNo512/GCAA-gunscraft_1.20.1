@@ -128,7 +128,7 @@ public class G19Model extends LodGunModel {
     }
 
     @Override
-    public AnimationDefinition getRecoil() {
+    public AnimationDefinition getRecoil(GunRenderContext context) {
         return recoil;
     }
 

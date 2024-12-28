@@ -16,13 +16,11 @@ import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 public class Vector45Model extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/vector_45/vector_45.png");
     private ModelPart safety, safety2, stock, front_IS, IS, handle, slide, mag, bullet0, exp_part, body, barrel, muzzle;
-    private final AnimationDefinition recoil;
     private final AnimationDefinition shoot;
 
     public Vector45Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/vector_45/vector_45.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/vector_45/vector_45.animation.json"));
-        recoil = animations.get("recoil");
         shoot = animations.get("shoot");
     }
 
@@ -72,7 +70,7 @@ public class Vector45Model extends GunModel {
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
-        defaultAssaultRifleAnimation(context, recoil, shoot);
+        defaultAssaultRifleAnimation(context, shoot);
     }
 
     @Override

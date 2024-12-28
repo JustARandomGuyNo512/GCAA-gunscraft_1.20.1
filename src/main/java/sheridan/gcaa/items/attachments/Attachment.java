@@ -2,6 +2,7 @@ package sheridan.gcaa.items.attachments;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -17,6 +18,8 @@ import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -81,5 +84,15 @@ public abstract class Attachment extends NoRepairNoEnchantmentItem implements IA
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         pTooltipComponents.add(Component.translatable("tooltip.gun_info.weight").append("" + weight));
+    }
+
+    @Override
+    public List<Component> getEffectsInGunModifyScreen() {
+        List<Component> list = new ArrayList<>();
+        list.add(Component.translatable(getDescriptionId()));
+        if (this.weight > 0) {
+            list.add(Component.translatable("tooltip.gun_info.weight").append(Component.literal("+ " + weight).withStyle(Style.EMPTY.withColor(Color.RED.getRGB()))));
+        }
+        return list;
     }
 }

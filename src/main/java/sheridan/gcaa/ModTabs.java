@@ -69,6 +69,7 @@ public class ModTabs {
                     tab.accept(ModItems.AMMO_45ACP.get());
                     tab.accept(ModItems.AMMO_5_56X45MM.get());
                     tab.accept(ModItems.AMMO_7_62X39MM.get());
+                    tab.accept(ModItems.AMMO_5_45X39MM.get());
                     tab.accept(ModItems.AMMO_7_62X51MM.get());
                     tab.accept(ModItems.AMMO_12GAUGE.get());
                     tab.accept(ModItems.AMMO_357MAGNUM.get());
@@ -82,11 +83,13 @@ public class ModTabs {
                     tab.accept(ModItems.PYTHON_357.get());
                     tab.accept(ModItems.VECTOR_45.get());
                     tab.accept(ModItems.AKM.get());
+                    tab.accept(ModItems.AK12.get());
                     tab.accept(ModItems.M4A1.get());
                     tab.accept(ModItems.MK47.get());
                     tab.accept(ModItems.AWP.get());
                     tab.accept(ModItems.HK_G28.get());
                     tab.accept(ModItems.M870.get());
+                    tab.accept(ModItems.BERETTA_686.get());
                     tab.accept(ModItems.XM1014.get());
                     tab.accept(ModItems.M249.get());
                 }).build());

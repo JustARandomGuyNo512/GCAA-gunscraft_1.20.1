@@ -17,13 +17,11 @@ import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 public class M4a1Model extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/m4a1/m4a1.png");
     private ModelPart barrel, front_IS, handguard, muzzle, stock, charge, body, safety, bolt, IS, grip, ring, mag, bullet;
-    private final AnimationDefinition recoil;
     private final AnimationDefinition shoot;
 
     public M4a1Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/m4a1/m4a1.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/m4a1/m4a1.animation.json"));
-        recoil = animations.get("recoil");
         shoot = animations.get("shoot");
     }
 
@@ -76,7 +74,7 @@ public class M4a1Model extends GunModel {
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
-        defaultAssaultRifleAnimation(context, recoil, shoot);
+        defaultAssaultRifleAnimation(context, shoot);
     }
 
     @Override

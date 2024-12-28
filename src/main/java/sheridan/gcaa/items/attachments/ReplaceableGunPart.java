@@ -1,15 +1,17 @@
 package sheridan.gcaa.items.attachments;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 public abstract class ReplaceableGunPart implements IAttachment{
     private static final Map<String, Map.Entry<String, ReplaceableGunPart>> REGISTRY = new HashMap<>();
@@ -83,4 +85,14 @@ public abstract class ReplaceableGunPart implements IAttachment{
 
     @Override
     public Attachment get() {return null;}
+
+    @Override
+    public List<Component> getEffectsInGunModifyScreen() {
+        List<Component> list = new ArrayList<>();
+        list.add(Component.translatable("tooltip.gcaa.replaceable_part"));
+        if (this.weight > 0) {
+            list.add(Component.translatable("tooltip.gun_info.weight").append("" + weight));
+        }
+        return list;
+    }
 }

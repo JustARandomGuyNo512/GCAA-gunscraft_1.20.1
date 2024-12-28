@@ -1,4 +1,4 @@
-package sheridan.gcaa.client.model.gun.textObjGunModel;
+package sheridan.gcaa.client.model.gun.testObjGunModel;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.obj.ObjLoader;

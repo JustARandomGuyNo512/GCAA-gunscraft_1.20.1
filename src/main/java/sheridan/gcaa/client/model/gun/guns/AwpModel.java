@@ -87,7 +87,7 @@ public class AwpModel extends GunModel {
     }
 
     @Override
-    public AnimationDefinition getRecoil() {
+    public AnimationDefinition getRecoil(GunRenderContext context) {
         return (Clients.isInAds() && Clients.getAdsProgress() > 0.5f) ? recoil_ads : recoil;
     }
 

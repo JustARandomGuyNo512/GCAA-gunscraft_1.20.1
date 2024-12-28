@@ -31,6 +31,7 @@ public class ModItems {
     public static final RegistryObject<Ammo9x19mm> AMMO_9X19MM = ITEMS.register("ammo9x19mm", Ammo9x19mm::new);
     public static final RegistryObject<Ammo556x45mm> AMMO_5_56X45MM = ITEMS.register("ammo5_56x45mm", Ammo556x45mm::new);
     public static final RegistryObject<Ammo762x51mm> AMMO_7_62X51MM = ITEMS.register("ammo7_62x51mm", Ammo762x51mm::new);
+    public static final RegistryObject<Ammo545x39mm> AMMO_5_45X39MM = ITEMS.register("ammo5_45x39mm", Ammo545x39mm::new);
     public static final RegistryObject<Ammo12Gauge> AMMO_12GAUGE = ITEMS.register("ammo12gauge", Ammo12Gauge::new);
     public static final RegistryObject<Ammo762x39mm> AMMO_7_62X39MM = ITEMS.register("ammo7_62x39mm", Ammo762x39mm::new);
     public static final RegistryObject<Ammo45ACP> AMMO_45ACP = ITEMS.register("ammo_45acp", Ammo45ACP::new);
@@ -48,6 +49,8 @@ public class ModItems {
     public static final RegistryObject<M249> M249 = ITEMS.register("m249", M249::new);
     public static final RegistryObject<Mk47> MK47 = ITEMS.register("mk47", Mk47::new);
     public static final RegistryObject<HkG28> HK_G28 = ITEMS.register("hk_g28", HkG28::new);
+    public static final RegistryObject<Ak12> AK12 = ITEMS.register("ak12", Ak12::new);
+    public static final RegistryObject<Beretta686> BERETTA_686 = ITEMS.register("beretta_686", Beretta686::new);
 
     public static final RegistryObject<UnknownAttachment> UNKNOWN_ATTACHMENT = ITEMS.register("unknown_attachment", UnknownAttachment::new);
     public static final RegistryObject<AKSuppressor> AK_SUPPRESSOR = ITEMS.register("ak_suppressor", AKSuppressor::new);

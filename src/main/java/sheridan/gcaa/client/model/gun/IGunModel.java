@@ -11,7 +11,7 @@ import sheridan.gcaa.client.render.GunRenderContext;
 public interface IGunModel extends ISlotProviderModel {
     void render(GunRenderContext gunRenderContext);
     void handleGunTranslate(PoseStack poseStack);
-    AnimationDefinition getRecoil();
+    AnimationDefinition getRecoil(GunRenderContext context);
     AnimationDefinition getReload();
     AnimationDefinition getFullReload();
     AnimationDefinition get(String name);

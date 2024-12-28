@@ -2,7 +2,6 @@ package sheridan.gcaa.client.animation.recoilAnimation;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Vector3f;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,10 +21,11 @@ public class InertialRecoilData {
     public float randomY;
     public final int id;
     private boolean canMix = false;
-    public float holdingOffset;
+    public float randomXChangeRate = 0.5f;
+    public float randomYChangeRate = 0.5f;
 
-    public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX, float randomY,
-                              float aimingScaleUp, float aimingBackScale, float aimingRotateScale) {
+    public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX, float randomXChangeRate,
+                              float randomY, float randomYChangeRate, float aimingScaleUp, float aimingBackScale, float aimingRotateScale) {
         this.up = up;
         this.upDec = upDec;
         this.back = back;
@@ -37,7 +37,24 @@ public class InertialRecoilData {
         this.aimingRotateScale = aimingRotateScale;
         this.randomX = randomX;
         this.randomY = randomY;
-        this.holdingOffset = holdingOffset * 0.0625f;
+        this.randomXChangeRate = randomXChangeRate;
+        this.randomYChangeRate = randomYChangeRate;
+        this.id = TEMP_ID.getAndIncrement();
+    }
+
+    public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX,
+                              float randomY, float aimingScaleUp, float aimingBackScale, float aimingRotateScale) {
+        this.up = up;
+        this.upDec = upDec;
+        this.back = back;
+        this.backDec = backDec;
+        this.rotate = rotate;
+        this.rotateDec = rotateDec;
+        this.aimingScaleUp = aimingScaleUp;
+        this.aimingBackScale = aimingBackScale;
+        this.aimingRotateScale = aimingRotateScale;
+        this.randomX = randomX;
+        this.randomY = randomY;
         this.id = TEMP_ID.getAndIncrement();
     }
 
@@ -54,7 +71,7 @@ public class InertialRecoilData {
         this.randomX = randomX;
         this.randomY = randomY;
         this.id = TEMP_ID.getAndIncrement();
-        this.holdingOffset = 0;
+        this.randomXChangeRate = 0;
         this.canMix = true;
     }
 

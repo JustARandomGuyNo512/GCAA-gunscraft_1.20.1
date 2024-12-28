@@ -35,13 +35,11 @@ public class Mk47Model extends GunModel {
     private ModelPart rail_left, rail_left_rear, rail_right,
             rail_right_rear, rail_lower, rail_lower_rear;
 
-    private final AnimationDefinition recoil;
     private final AnimationDefinition shoot;
 
     public Mk47Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/mk47/mk47.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/mk47/mk47.animation.json"));
-        recoil = animations.get("recoil");
         shoot = animations.get("shoot");
     }
 
@@ -129,7 +127,7 @@ public class Mk47Model extends GunModel {
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
-        defaultAssaultRifleAnimation(context, recoil, shoot);
+        defaultAssaultRifleAnimation(context, shoot);
     }
 
     @Override

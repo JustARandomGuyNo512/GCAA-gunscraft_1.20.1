@@ -117,7 +117,11 @@ public class Python357Model extends LodGunModel {
 
     private static final float R_45 = (float) Math.toRadians(45);
     private static final float R_60 = (float) Math.toRadians(60);
+
     private void handleChargeAnimation(GunRenderContext context) {
+        if (ReloadingHandler.isReloading()) {
+            return;
+        }
         float chargeProgress = Clients.MAIN_HAND_STATUS.getLerpedChargeTick(Minecraft.getInstance().getPartialTick());
         int ammoLeft = context.ammoLeft;
         if (chargeProgress != 0) {
@@ -147,7 +151,7 @@ public class Python357Model extends LodGunModel {
     }
 
     @Override
-    public AnimationDefinition getRecoil() {
+    public AnimationDefinition getRecoil(GunRenderContext context) {
         return recoil;
     }
 

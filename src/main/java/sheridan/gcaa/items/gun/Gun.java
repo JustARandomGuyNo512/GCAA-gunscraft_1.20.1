@@ -29,6 +29,7 @@ import sheridan.gcaa.client.*;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.capability.PlayerStatusProvider;
+import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilHandler;
 import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
@@ -107,12 +108,15 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         PlayerStatusProvider.updateLocalTimeOffset(player);
         PacketHandler.simpleChannel.sendToServer(new GunFirePacket(Clients.getSpread(this, player, stack)));
         DisplayData data = GunModelRegister.getDisplayData(this);
+        InertialRecoilData inertialRecoilData = data == null ? null : data.getInertialRecoilData();
+        boolean hasInertialRecoil = inertialRecoilData != null;
         IArmReplace leftArmReplace = Clients.MAIN_HAND_STATUS.getLeftArmReplaceAttachment();
         IArmReplace rightArmReplace = Clients.MAIN_HAND_STATUS.getRightArmReplaceAttachment();
         CompoundTag tag = getPropertiesTag(stack);
-        float directionY = RenderAndMathUtils.randomIndex();
-        float pControl = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH_CONTROL, tag);
-        float yControl = gunProperties.getPropertyRate(GunProperties.RECOIL_YAW_CONTROL, tag);
+        float directionX = InertialRecoilHandler.randomIndexX(hasInertialRecoil ? inertialRecoilData.randomXChangeRate : 0.5f);
+        Clients.MAIN_HAND_STATUS.lastRecoilDirection = directionX;
+        float pControl = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH_CONTROL, tag, 0);
+        float yControl = gunProperties.getPropertyRate(GunProperties.RECOIL_YAW_CONTROL, tag, 0);
         float pControlIncRate = 0;
         float yControlIncRate = 0;
         if (leftArmReplace != null) {
@@ -125,19 +129,17 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         }
         pControl *= Mth.clamp(1 + pControlIncRate, 0, 99999);
         yControl *= Mth.clamp(1 + yControlIncRate, 0, 99999);
-        if (data != null) {
-            InertialRecoilData inertialRecoilData = data.getInertialRecoilData();
-            if (inertialRecoilData != null) {
-                float directionX = RenderAndMathUtils.randomIndex();
-                Clients.MAIN_HAND_STATUS.lastRecoilDirection = directionX;
-                float pRate = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH, tag);
-                float yRate = gunProperties.getPropertyRate(GunProperties.RECOIL_YAW, tag);
-                AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY,
-                        Mth.clamp((pRate - Math.max(0, pControl - 1) * 0.3f), 0.5f, 1f),
-                        Mth.clamp((yRate - Math.max(0, yControl - 1) * 0.3f), 0.5f, 1f));
-            }
+
+        if (hasInertialRecoil) {
+            float directionY = InertialRecoilHandler.randomIndexY(inertialRecoilData.randomYChangeRate);
+            float pRate = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH, tag, 1);
+            float yRate = gunProperties.getPropertyRate(GunProperties.RECOIL_YAW, tag, 1);
+            AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY,
+                    Mth.clamp((pRate - Math.max(0, pControl - 1) * 0.3f), 0.5f, 1f),
+                    Mth.clamp((yRate - Math.max(0, yControl - 1) * 0.3f), 0.5f, 1f));
         }
-        RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionY, player,
+
+        RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionX, player,
                 Math.max(1, 1 + pControlIncRate),
                 Math.max(1, 1 + yControlIncRate));
         handleFireSoundClient(stack, player);
@@ -488,6 +490,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             CompoundTag usingDataRate = Ammunition.getWhiteDataTag();
             using.put("data_rate", usingDataRate);
             ammunitionData.put("using", using);
+            InertialRecoilHandler.flushRandomIndex();
         }
     }
 
@@ -664,6 +667,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             Clients.MAIN_HAND_STATUS.ads = false;
             Clients.setEquipDelay(3);
             player.resetAttackStrengthTicker();
+            //RenderAndMathUtils.flushRandomIndex();
         }
         return Clients.getEquipDelay() > 0;
     }

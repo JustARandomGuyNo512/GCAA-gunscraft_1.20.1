@@ -4,8 +4,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -16,13 +19,14 @@ public class HkG28Model extends GunModel {
     private ModelPart barrel, IS_front, handguard, muzzle, stock, charge, body, safety, bolt, IS, grip, mag, bullet,
     sub_rail_left, sub_rail_right, sub_rail_down;
     private final AnimationDefinition shoot;
-
+    private final AnimationDefinition recoil;
 
 
     public HkG28Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/hk_g28/hk_g28.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/hk_g28/hk_g28.animation.json"));
         shoot = animations.get("shoot");
+        recoil = animations.get("recoil");
     }
 
     @Override
@@ -95,7 +99,9 @@ public class HkG28Model extends GunModel {
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
-        defaultAssaultRifleAnimation(context, null, shoot);
+        float scale = Mth.lerp(Clients.getAdsProgress(), 1f, 0.35f);
+        KeyframeAnimations.animate(this, recoil, context.lastShoot, scale);
+        defaultAssaultRifleAnimation(context, shoot);
     }
 
     @Override

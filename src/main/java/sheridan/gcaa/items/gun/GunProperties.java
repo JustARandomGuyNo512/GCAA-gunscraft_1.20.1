@@ -145,8 +145,12 @@ public class GunProperties implements IDataPacketGen {
 
     public void setPropertyRateIfHas(String propertyName, CompoundTag propertiesTag, RateSetter rateSetter) {
         float prevRate = getPropertyRate(propertyName, propertiesTag);
-        if (prevRate != -1) {
-            propertiesTag.putFloat(propertyName, rateSetter.getRate(prevRate));
+        if (Float.isNaN(prevRate)) {
+            return;
+        }
+        float res = rateSetter.getRate(prevRate);
+        if (!Float.isNaN(res)) {
+            propertiesTag.putFloat(propertyName, res);
         }
     }
 
@@ -224,7 +228,19 @@ public class GunProperties implements IDataPacketGen {
         float getRate(float prevRate);
     }
 
+    /**
+     * Get property rate from properties tag.
+     * If the property is not found, return Float.NaN.
+     * */
     public float getPropertyRate(String propertyName, CompoundTag propertiesTag) {
+        return getPropertyRate(propertyName, propertiesTag, Float.NaN);
+    }
+
+    /**
+     * Get property rate from properties tag.
+     * If the property is not found, return the default value.
+     * */
+    public float getPropertyRate(String propertyName, CompoundTag propertiesTag, float ifNotHas) {
         if (propertiesTag != null) {
              if (isOriginalRateProperty(propertyName)) {
                  return propertiesTag.getFloat(propertyName);
@@ -235,7 +251,7 @@ public class GunProperties implements IDataPacketGen {
                  return tag.getFloat(propertyName);
              }
         }
-        return -1;
+        return ifNotHas;
     }
 
     public boolean isRateProperty(String propertyName) {

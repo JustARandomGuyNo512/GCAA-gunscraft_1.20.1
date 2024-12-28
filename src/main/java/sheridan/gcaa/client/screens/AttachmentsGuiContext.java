@@ -18,13 +18,14 @@ import sheridan.gcaa.attachmentSys.AttachmentSlotProxy;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.model.ISlotProviderModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
-import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.ISubSlotProvider;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
@@ -67,18 +68,22 @@ public class AttachmentsGuiContext {
     }
 
     public void renderIcons(GuiGraphics guiGraphics, Font font) {
+        List<Map.Entry<AttachmentSlot, Vector3f>> rendered = new ArrayList<>();
         for (Map.Entry<AttachmentSlot, Vector3f> entry : guiPosMap.entrySet()) {
             if (entry.getKey().isLocked()) {
                 continue;
             }
             ResourceLocation texture = chooseTexture(entry.getKey());
             Vector3f pos = entry.getValue();
-            if (pos.z < 0.05f)  {
+            if (OUT_SCREEN == pos)  {
                 continue;
             }
-            proxy.preSlotIconRender(entry.getKey(), pos, guiGraphics, font, this);
             int scale = entry.getKey() == selected ? 6 : 4;
             guiGraphics.blit(texture, (int) pos.x - scale / 2, (int) pos.y - scale / 2,  0,0, scale, scale, scale, scale);
+            rendered.add(entry);
+        }
+        for (Map.Entry<AttachmentSlot, Vector3f> entry : rendered) {
+            proxy.afterSlotIconRender(entry.getKey(), entry.getValue(), guiGraphics, font, this);
         }
     }
 
@@ -127,17 +132,17 @@ public class AttachmentsGuiContext {
             Matrix4f m2 = new Matrix4f(matrix4f);
             Vector4f vector4f = m2.transform(new Vector4f(0, 0, 0, 1.0F));
             Vector4f v = vector4f.mul(m0).mul(m1);
-//            if (Math.abs((v.x / v.w)) > 1 || Math.abs((v.y / v.w)) > 1 || v.z < 0.05) {
-//                guiPosMap.put(slot, OUT_SCREEN);
-//                return;
-//            }
-            float w = Minecraft.getInstance().getWindow().getGuiScaledWidth();
-            float h = Minecraft.getInstance().getWindow().getGuiScaledHeight();
-            float screenX = ((v.x / v.w) * w + w) * 0.5f;
-            float screenY = (-(v.y / v.w) * h + h) * 0.5f;
-            float screenDepth = v.z;
-            Vector3f pos = new Vector3f(screenX, screenY, screenDepth);
-            guiPosMap.put(slot, pos);
+            if (Math.abs((v.x / v.w)) > 1 || Math.abs((v.y / v.w)) > 1 || v.z < 0.05) {
+                guiPosMap.put(slot, OUT_SCREEN);
+            } else {
+                float w = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+                float h = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+                float screenX = ((v.x / v.w) * w + w) * 0.5f;
+                float screenY = (-(v.y / v.w) * h + h) * 0.5f;
+                float screenDepth = v.z;
+                Vector3f pos = new Vector3f(screenX, screenY, screenDepth);
+                guiPosMap.put(slot, pos);
+            }
         }
     }
 
@@ -148,6 +153,15 @@ public class AttachmentsGuiContext {
     }
 
     public boolean onClick(int mx, int my) {
+        AttachmentSlot oldSelected = selected;
+        boolean b = _onClick(mx, my);
+        if (b && selected != null && selected == oldSelected) {
+            selected = null;
+        }
+        return b;
+    }
+
+    private boolean _onClick(int mx, int my) {
         float minDis = Float.MAX_VALUE;
         boolean hasSelected = false;
         for (Map.Entry<AttachmentSlot, Vector3f> entry : guiPosMap.entrySet()) {

@@ -10,6 +10,7 @@ import org.joml.Quaternionf;
 import sheridan.gcaa.Clients;
 
 import java.util.Arrays;
+import java.util.SplittableRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
@@ -23,6 +24,10 @@ public class InertialRecoilHandler {
     private static final float UP_FACTOR = 0.09f;
     private static final float BACK_FACTOR = 0.18f;
     private static final float ROTATE_FACTOR = 0.025f;
+
+    private static SplittableRandom SPLITTABLE_RANDOM = new SplittableRandom();
+    private static int randomIndexX = SPLITTABLE_RANDOM.nextBoolean() ? 1 : -1;
+    private static int randomIndexY = SPLITTABLE_RANDOM.nextBoolean() ? 1 : -1;
 
     private float up;
     private float back;
@@ -77,10 +82,6 @@ public class InertialRecoilHandler {
         } else {
             try {
                 lock.lock();
-                randomYSpeed += data.randomY * randomDirectionY ;
-                if (randomYSpeed < 0) {
-                    randomYSpeed *= 0.5f;
-                }
                 lastBackOld = lastBack;
                 lastBack = back;
                 float unstableFactor = Mth.lerp(
@@ -88,6 +89,10 @@ public class InertialRecoilHandler {
                                         Math.min(back, 1 + (Math.min(0, back - 1) * ((data.back / data.backDec) * 0.158f))),
                                 0, 1.016f),
                         0.385f, 1.025f);
+                randomYSpeed += (data.randomY * Mth.clamp(unstableFactor, 0.385f, 1f)) * randomDirectionY ;
+                if (randomYSpeed < 0) {
+                    randomYSpeed *= 0.5f;
+                }
                 yRate *= unstableFactor;
                 randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f) * yRate;
                 backSpeed += data.back * pRate;
@@ -211,5 +216,24 @@ public class InertialRecoilHandler {
                 lock.unlock();
             }
         }
+    }
+
+    public static int randomIndexX(float changeFrequency) {
+        if (SPLITTABLE_RANDOM.nextDouble() < changeFrequency) {
+            randomIndexX *= -1;
+        }
+        return randomIndexX;
+    }
+
+    public static int randomIndexY(float changeFrequency) {
+        if (SPLITTABLE_RANDOM.nextDouble() < changeFrequency) {
+            randomIndexY *= -1;
+        }
+        return randomIndexY;
+    }
+
+    public static void flushRandomIndex() {
+        randomIndexX = SPLITTABLE_RANDOM.nextBoolean() ? 1 : -1;
+        randomIndexY = SPLITTABLE_RANDOM.nextBoolean() ? 1 : -1;
     }
 }

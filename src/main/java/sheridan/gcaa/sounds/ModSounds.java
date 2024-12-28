@@ -77,6 +77,11 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> XM1014_INSERT_SHELL = registerSound("xm1014_insert_shell", "item.xm1014.insert_shell");
     public static RegistryObject<SoundEvent> MK47_FIRE = registerSound("mk47_fire", "item.mk47.fire");
     public static RegistryObject<SoundEvent> HK_G28_FIRE = registerSound("hk_g28", "item.hk_g28.fire");
+    public static RegistryObject<SoundEvent> AK12_FIRE = registerSound("ak12_fire", "item.ak12.fire");
+    public static RegistryObject<SoundEvent> BERETTA_686_OPEN = registerSound("open", "item.beretta_686.open");
+    public static RegistryObject<SoundEvent> BERETTA_686_CLOSE = registerSound("close", "item.beretta_686.close");
+    public static RegistryObject<SoundEvent> BERETTA_686_FIRE = registerSound("beretta_fire", "item.beretta_686.fire");
+    public static RegistryObject<SoundEvent> BERETTA_686_FIRE_VOLLEY = registerSound("beretta_fire_volley", "item.beretta_686.fire_volley");
 
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");

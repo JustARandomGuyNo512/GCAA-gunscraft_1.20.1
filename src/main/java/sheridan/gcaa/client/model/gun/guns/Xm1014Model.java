@@ -89,7 +89,7 @@ public class Xm1014Model extends GunModel {
     }
 
     @Override
-    public AnimationDefinition getRecoil() {
+    public AnimationDefinition getRecoil(GunRenderContext context) {
         return Clients.getAdsProgress() > 0.5 ? recoil_ads : recoil;
     }
 

@@ -81,12 +81,10 @@ public class GunRenderer{
                     GlobalWeaponBobbing.INSTANCE.handleTranslation(poseStack);
                 }
                 InertialRecoilData inertialRecoilData = displayData.getInertialRecoilData();
+                boolean newShoot = false;
                 if (tempLastFire != Clients.lastShootMain()) {
                     tempLastFire = Clients.lastShootMain();
-                    AnimationDefinition recoil = model.getRecoil();
-                    if (recoil != null) {
-                        AnimationHandler.INSTANCE.pushRecoil(recoil, tempLastFire);
-                    }
+                    newShoot = true;
                     if (gun.shootCreateBulletShell()) {
                         BulletShellDisplayData bulletShellDisplayData = displayData.getBulletShellDisplayData();
                         if (bulletShellDisplayData != null) {
@@ -111,6 +109,12 @@ public class GunRenderer{
                     }
                 }
                 GunRenderContext context = GunRenderContext.getClientMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn);
+                if (newShoot) {
+                    AnimationDefinition recoil = model.getRecoil(context);
+                    if (recoil != null) {
+                        AnimationHandler.INSTANCE.pushRecoil(recoil, tempLastFire);
+                    }
+                }
                 if (context.isFirstPerson) {
                     PoseStack original = RenderAndMathUtils.copyPoseStack(poseStack);
                     context.saveInLocal(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP, original);
