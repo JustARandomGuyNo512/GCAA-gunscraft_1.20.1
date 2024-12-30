@@ -402,8 +402,8 @@ public class Clients {
                 .setAds(0,7.6296f,-32f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
-                        new InertialRecoilData(0.00f, 0.0f, 1.2f,
-                                0.038f, 0.3f,  0.03f,
+                        new InertialRecoilData(0.00f, 0.0f, 1f,
+                                0.05f, 0.3f,  0.03f,
                                 1.5f, 0.2f, 0.2f,
                                 0.2f, 0.1f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.0296f, -137.6134f).setScale(3f))

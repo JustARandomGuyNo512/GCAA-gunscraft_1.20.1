@@ -52,7 +52,7 @@ public class Xm1014Model extends GunModel {
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        VertexConsumer vertexConsumer = context.solid(TEXTURE);
         ModelPart leftArm = left_arm.xScale > 0 ? left_arm : reloading_arm;
         ModelPart rightArm = right_arm.xScale > 0 ? right_arm : reloading_arm;
         if (context.isFirstPerson && (leftArm == reloading_arm ||rightArm == reloading_arm)) {

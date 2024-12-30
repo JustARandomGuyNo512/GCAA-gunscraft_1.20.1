@@ -17,12 +17,11 @@ public class Ak12Model extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/ak12/ak12.png");
     private ModelPart barrel, mag, stock, body, dust_cover, handguard, grip, muzzle, slide, safety, IS, bullet;
     private ModelPart rail;
-    private final AnimationDefinition shoot;
+    private AnimationDefinition shoot;
 
     public Ak12Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/ak12/ak12.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/ak12/ak12.animation.json"));
-        shoot = animations.get("shoot");
     }
 
     @Override
@@ -40,11 +39,12 @@ public class Ak12Model extends GunModel {
         IS = gun.getChild("IS").meshing();
         bullet = mag.getChild("bullet").meshing();
         rail = handguard.getChild("rail").meshing();
+        shoot = animations.get("shoot");
     }
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        VertexConsumer vertexConsumer = context.solid(TEXTURE);
         bullet.visible = context.shouldBulletRender();
         context.renderIf(IS, vertexConsumer, context.notContainsScope());
         context.renderIf(muzzle, vertexConsumer, context.notHasMuzzle());

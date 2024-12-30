@@ -36,7 +36,7 @@ public class GunPropertiesProvider implements DataProvider {
         }
         JsonObject object = new JsonObject();
         genProtocol(object);
-        list.add(DataProvider.saveStable(pOutput, object, pathProvider.file(new ResourceLocation(GCAA.MODID, "README"), "txt")));
+        list.add(DataProvider.saveStable(pOutput, object, pathProvider.file(new ResourceLocation(GCAA.MODID, "readme"), "txt")));
         return CompletableFuture.allOf(list.toArray(CompletableFuture[]::new));
     }
 

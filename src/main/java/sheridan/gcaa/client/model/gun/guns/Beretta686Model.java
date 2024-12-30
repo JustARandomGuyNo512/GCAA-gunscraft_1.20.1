@@ -45,7 +45,7 @@ public class Beretta686Model extends GunModel {
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        VertexConsumer vertexConsumer = context.solid(TEXTURE);
         context.render(vertexConsumer, grip, body, stock);
         if (context.isFirstPerson) {
             context.renderArm(right_arm, true);
@@ -58,7 +58,13 @@ public class Beretta686Model extends GunModel {
 
     @Override
     protected void renderPostEffect(GunRenderContext context) {
-        context.renderMuzzleFlash(1.0f);
+        float scale = 1;
+        if (context.isFirstPerson && System.currentTimeMillis() - context.lastShoot < 100) {
+            if (Clients.MAIN_HAND_STATUS.fireMode instanceof Beretta686.Volley && context.ammoLeft >= 1) {
+                scale *= 1.8f;
+            }
+        }
+        context.renderMuzzleFlash(scale);
     }
 
     @Override

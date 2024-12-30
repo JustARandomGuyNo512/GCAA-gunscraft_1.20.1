@@ -43,7 +43,7 @@ public class Vector45Model extends GunModel {
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        VertexConsumer vertexConsumer = context.solid(TEXTURE);
         bullet0.visible = context.shouldBulletRender();
         exp_part.visible = !context.notHasMag();
         context.renderIf(stock, vertexConsumer, context.notHasStock());

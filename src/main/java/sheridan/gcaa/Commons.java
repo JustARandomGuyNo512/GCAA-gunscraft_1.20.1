@@ -19,10 +19,8 @@ import sheridan.gcaa.items.attachments.replaceableParts.WeightPart;
 import sheridan.gcaa.service.ProductsRegister;
 import sheridan.gcaa.service.product.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static sheridan.gcaa.items.attachments.Attachment.MUZZLE;
 import static sheridan.gcaa.items.attachments.Attachment.STOCK;
@@ -94,6 +92,26 @@ public class Commons {
                 "gcaa:rail_panel_short"
         ));
 
+        Set<String> mk47HandguardScopeSlot = Set.of(
+                "gcaa:red_dot",
+                "gcaa:holographic",
+                "gcaa:acog",
+                "gcaa:horizontal_laser_sight",
+                "gcaa:rail_panel",
+                "gcaa:okp7_b",
+                "gcaa:rail_panel_short"
+        );
+
+        Set<String> mk47HandguardGrip = Set.of(
+                "gcaa:laser_sight",
+                "gcaa:horizontal_laser_sight",
+                "gcaa:flashlight",
+                "gcaa:rail_panel",
+                "gcaa:rail_panel_short",
+                "gcaa:vertical_grip",
+                "gcaa:gp_25"
+        );
+
         AttachmentsRegister.registerAttachmentSlot(ModItems.M249.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
@@ -101,14 +119,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1.2f, 0.1f, 0.08f)))
                 .addChild(new AttachmentSlot(MAG, Set.of()).setReplaceableGunPart(new WeightPart(3f)))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:m249_railed_handguard")).setReplaceableGunPart(new WeightPart(0.5f)))
-                .addChild(new AttachmentSlot("handguard_grip", Set.of(
-                        "gcaa:laser_sight",
-                        "gcaa:flashlight",
-                        "gcaa:horizontal_laser_sight",
-                        "gcaa:rail_panel",
-                        "gcaa:rail_panel_short",
-                        "gcaa:vertical_grip"
-                )).lower().lock())
+                .addChild(new AttachmentSlot("handguard_grip", mk47HandguardGrip.stream().filter(s -> !s.equals("gcaa:gp_25")).collect(Collectors.toSet())).lower().lock())
                 .addChild(new AttachmentSlot("handguard_left", mk47HandguardSlot).lower().lock())
                 .addChild(new AttachmentSlot("handguard_right", mk47HandguardSlot).lower().lock())
         );
@@ -135,27 +146,13 @@ public class Commons {
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak_compensator", "gcaa:ak_suppressor")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
-                .addChild(new AttachmentSlot("handguard_scope", Set.of(
-                        "gcaa:red_dot",
-                        "gcaa:holographic",
-                        "gcaa:acog",
-                        "gcaa:horizontal_laser_sight",
-                        "gcaa:rail_panel",
-                        "gcaa:okp7_b",
-                        "gcaa:rail_panel_short")).upper())
+                .addChild(new AttachmentSlot("handguard_scope", mk47HandguardScopeSlot).upper())
                 .addChild(new AttachmentSlot("handguard_left", mk47HandguardSlot).lower())
                 .addChild(new AttachmentSlot("handguard_left_rear", mk47HandguardSlot).lower())
                 .addChild(new AttachmentSlot("handguard_right", mk47HandguardSlot).lower())
                 .addChild(new AttachmentSlot("handguard_right_rear", mk47HandguardSlot).lower())
                 .addChild(new AttachmentSlot("handguard_lower", hkg28HandguardFrontSlot).lower())
-                .addChild(new AttachmentSlot("handguard_grip", Set.of(
-                        "gcaa:laser_sight",
-                        "gcaa:horizontal_laser_sight",
-                        "gcaa:flashlight",
-                        "gcaa:rail_panel",
-                        "gcaa:rail_panel_short",
-                        "gcaa:vertical_grip",
-                        "gcaa:gp_25")).lower()),
+                .addChild(new AttachmentSlot("handguard_grip", mk47HandguardGrip).lower()),
                 Mk47AttachmentSlotProxy::new
         );
 
@@ -164,20 +161,21 @@ public class Commons {
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")))
                 .addChild(new AttachmentSlot("handguard_scope", Set.of(
-                        "gcaa:red_dot", "gcaa:holographic", "gcaa:horizontal_laser_sight","gcaa:scope_x10", "gcaa:acog", "gcaa:okp7_b", "gcaa:rail_panel", "gcaa:rail_panel_short")).upper())
+                        "gcaa:red_dot",
+                        "gcaa:holographic",
+                        "gcaa:horizontal_laser_sight",
+                        "gcaa:scope_x10",
+                        "gcaa:acog",
+                        "gcaa:okp7_b",
+                        "gcaa:rail_panel",
+                        "gcaa:rail_panel_short"
+                )).upper())
                 .addChild(new AttachmentSlot("handguard_left", mk47HandguardSlot).lower())
                 .addChild(new AttachmentSlot("handguard_right", mk47HandguardSlot).lower())
                 .addChild(new AttachmentSlot("handguard_front", hkg28HandguardFrontSlot).lower())
                 .addChild(new AttachmentSlot("handguard_front_left", hkg28HandguardFrontSlot).lower())
                 .addChild(new AttachmentSlot("handguard_front_right", hkg28HandguardFrontSlot).lower())
-                .addChild(new AttachmentSlot(GRIP, Set.of(
-                        "gcaa:laser_sight",
-                        "gcaa:horizontal_laser_sight",
-                        "gcaa:flashlight",
-                        "gcaa:rail_panel",
-                        "gcaa:rail_panel_short",
-                        "gcaa:vertical_grip",
-                        "gcaa:gp_25")).lower())
+                .addChild(new AttachmentSlot(GRIP, mk47HandguardGrip).lower())
                 .addChild(new AttachmentSlot(MAG, Set.of())),
                 HkG28AttachmentProxy::new
         );
@@ -185,14 +183,14 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.BERETTA_686.get(), AttachmentSlot.EMPTY);
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.AK12.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot(MUZZLE, Set.of()))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of()).setReplaceableGunPart(new RecoilLowerPart(0, 0.15f, 0.15f)))
                 .addChild(new AttachmentSlot(MAG, Set.of()))
-                .addChild(new AttachmentSlot(STOCK, Set.of()))
-                .addChild(new AttachmentSlot(SCOPE, Set.of()))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1, 0.12f, 0.12f)))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot("handguard_grip", Set.of()).lower())
                 .addChild(new AttachmentSlot("handguard_left", Set.of()).lower())
                 .addChild(new AttachmentSlot("handguard_right", Set.of()).lower())
-                .addChild(new AttachmentSlot("handguard_scope", Set.of()).upper())
+                .addChild(new AttachmentSlot("handguard_scope", mk47HandguardScopeSlot).upper())
         );
 
         registerVendingMachineProducts();

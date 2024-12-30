@@ -112,6 +112,7 @@ public class Beretta686 extends Gun {
         public Component getTooltipName() {
             return Component.translatable("tooltip.fire_mode.volley");
         }
+
     }
 
     @Override

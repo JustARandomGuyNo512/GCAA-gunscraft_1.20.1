@@ -31,4 +31,7 @@ public interface IGunFireMode {
     void shoot(Player player, ItemStack itemStack, IGun gun, float spread);
 
     Component getTooltipName();
+
+    default void onSwitchOff(IGun gun, ItemStack stack) {}
+    default void onSwitchOn(IGun gun, ItemStack stack) {}
 }

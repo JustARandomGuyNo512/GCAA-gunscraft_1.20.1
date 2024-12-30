@@ -3,6 +3,7 @@ package sheridan.gcaa.items.gun;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -50,6 +51,7 @@ import sheridan.gcaa.utils.FontUtils;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.awt.*;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.List;
 
@@ -242,8 +244,13 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public void switchFireMode(ItemStack stack) {
         CompoundTag tag = checkAndGet(stack);
-        int index = (tag.getInt("fire_mode_index") + 1) % gunProperties.fireModes.size();
+        int index = tag.getInt("fire_mode_index") % gunProperties.fireModes.size();
+        IGunFireMode oldMode = gunProperties.fireModes.get(index);
+        oldMode.onSwitchOff(this, stack);
+        index = (index + 1) % gunProperties.fireModes.size();
         tag.putInt("fire_mode_index", index);
+        IGunFireMode newMode = gunProperties.fireModes.get(index);
+        newMode.onSwitchOn(this, stack);
     }
 
     @Override

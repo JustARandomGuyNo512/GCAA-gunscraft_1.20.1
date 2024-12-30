@@ -70,7 +70,7 @@ public class Mk47Model extends GunModel {
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        VertexConsumer vertexConsumer = context.solid(TEXTURE);
         bullet.visible = context.shouldBulletRender();
         context.renderIf(muzzle, vertexConsumer, context.notHasMuzzle());
         context.renderIf(mag, vertexConsumer, context.notHasMag());
@@ -80,7 +80,7 @@ public class Mk47Model extends GunModel {
         context.render(vertexConsumer, barrel, charge, body, safety, slide);
         if (context.notHasHandguard()) {
             handleRailsVisible(context);
-            vertexConsumer = context.getBuffer(RenderTypes.getCutOutNoCullMipmap(TEXTURE));
+            vertexConsumer = context.solidNoCullMipMap(TEXTURE);
             context.render(vertexConsumer, handguard);
         }
         if (context.isFirstPerson) {

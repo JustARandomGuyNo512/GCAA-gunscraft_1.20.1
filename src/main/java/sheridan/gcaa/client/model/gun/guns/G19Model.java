@@ -52,7 +52,7 @@ public class G19Model extends LodGunModel {
 
     @Override
     protected void renderGunNormal(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        VertexConsumer vertexConsumer = context.solid(TEXTURE);
         bullet.visible = context.shouldBulletRender();
         context.renderIf(mag, vertexConsumer, context.notHasMag());
         context.render(vertexConsumer, barrel, slide, body);

@@ -51,7 +51,7 @@ public class HkG28Model extends GunModel {
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        VertexConsumer vertexConsumer = context.solid(TEXTURE);
         bullet.visible = context.shouldBulletRender();
         context.renderIf(IS, vertexConsumer, context.notContainsScope());
         context.renderIf(muzzle, vertexConsumer, context.notHasMuzzle());
@@ -62,7 +62,7 @@ public class HkG28Model extends GunModel {
         sub_rail_right.visible = context.has("handguard_front_right");
         sub_rail_down.visible = context.has("handguard_front");
         IS_front.xRot = context.notContainsScope() ? 0 : 1.57079632679489655f;
-        vertexConsumer = context.getBuffer(RenderTypes.getCutOutNoCullMipmap(TEXTURE));
+        vertexConsumer = context.solidMipMap(TEXTURE);
         context.render(vertexConsumer, handguard);
         if (context.isFirstPerson) {
             context.renderArm(right_arm, true);

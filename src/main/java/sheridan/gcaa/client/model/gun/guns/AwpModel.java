@@ -47,7 +47,7 @@ public class AwpModel extends GunModel {
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        VertexConsumer vertexConsumer = context.solid(TEXTURE);
         if (!context.notHasMag()) {
             bullet.visible = false;
             exp_mag_bullet.visible = context.shouldBulletRender();

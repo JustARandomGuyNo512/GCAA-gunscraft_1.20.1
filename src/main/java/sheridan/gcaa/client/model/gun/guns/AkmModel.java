@@ -66,7 +66,7 @@ public class AkmModel extends LodGunModel {
 
     @Override
     protected void renderGunNormal(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        VertexConsumer vertexConsumer = context.solid(TEXTURE);
         if (context.isFirstPerson) {
             safety.xRot = Clients.MAIN_HAND_STATUS.fireMode == Auto.AUTO ? 0.2181661564992911875f : 0.436332312998582375f;
         } else {

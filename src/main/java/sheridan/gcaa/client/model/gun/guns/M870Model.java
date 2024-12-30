@@ -43,7 +43,7 @@ public class M870Model extends GunModel {
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        VertexConsumer vertexConsumer = context.solid(TEXTURE);
         context.renderIf(mag, vertexConsumer, context.notHasMag());
         context.render(vertexConsumer, slide, handguard, stock, barrel, body);
         ModelPart leftArm = left_arm.xScale > 0 ? left_arm : reloading_arm;

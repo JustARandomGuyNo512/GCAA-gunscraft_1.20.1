@@ -75,7 +75,7 @@ public class Python357Model extends LodGunModel {
 
     @Override
     protected void renderGunNormal(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(TEXTURE));
+        VertexConsumer vertexConsumer = context.solid(TEXTURE);
         if (context.isFirstPerson) {
             handleBulletsVisible(context);
             handleChargeAnimation(context);

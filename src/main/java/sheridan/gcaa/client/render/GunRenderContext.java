@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -136,6 +137,26 @@ public class GunRenderContext {
 
     public VertexConsumer getBuffer(RenderType renderType) {
         return bufferSource.getBuffer(renderType);
+    }
+
+    public VertexConsumer muzzleFlash(ResourceLocation texture)  {
+        return bufferSource.getBuffer(RenderTypes.getMuzzleFlash(texture));
+    }
+
+    public VertexConsumer solid(ResourceLocation texture) {
+        return bufferSource.getBuffer(RenderType.entityCutout(texture));
+    }
+
+    public VertexConsumer solidMipMap(ResourceLocation texture) {
+        return bufferSource.getBuffer(RenderType.entityCutout(texture));
+    }
+
+    public VertexConsumer solidNoCull(ResourceLocation texture) {
+        return bufferSource.getBuffer(RenderType.entityCutoutNoCull(texture));
+    }
+
+    public VertexConsumer solidNoCullMipMap(ResourceLocation texture) {
+        return bufferSource.getBuffer(RenderTypes.getCutOutNoCullMipmap(texture));
     }
 
     public void render(VertexConsumer vertexConsumer, ModelPart... parts) {

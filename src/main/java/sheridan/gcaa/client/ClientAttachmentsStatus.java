@@ -238,7 +238,7 @@ public class ClientAttachmentsStatus {
             }
             effectiveSight = sights.get(effectiveSightIndex);
             sightSwitchingProgress = 0f;
-            tempSightSwitchingProgress = 0;
+            tempSightSwitchingProgress = 0f;
             tempSightAimPos = null;
             PacketHandler.simpleChannel.sendToServer(new SetEffectiveSightPacket(effectiveSight.getId()));
         } else if (sights.size() == 1) {

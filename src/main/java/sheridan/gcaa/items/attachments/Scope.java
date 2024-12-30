@@ -49,9 +49,7 @@ public abstract class Scope extends Sight {
     }
 
     public void onLoseEffective() {
-        System.out.println("Lose effective");
         if (tempMouseSensitivity != -1) {
-            System.out.println("Resetting mouse sensitivity: " + tempMouseSensitivity);
             Minecraft.getInstance().options.sensitivity().set(tempMouseSensitivity);
         }
         tempMouseSensitivity = -1;
