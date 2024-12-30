@@ -118,8 +118,11 @@
   "tooltip.gun_info.caliber": "Caliber: ",
   "tooltip.gun_info.mag_size": "Magazine Size: ",
   "tooltip.gun_info.rpm": "RPM: ",
-  "tooltip.gun_info.recoil": "(vertical-horizontal) Recoil: ",
-  "tooltip.gun_info.recoil_control": "(vertical-horizontal) Recoil Control: ",
+  "tooltip.gun_info.recoil_pitch": "Vertical Recoil: ",
+  "tooltip.gun_info.recoil_horizontal": "Horizontal Recoil: ",
+  "tooltip.gun_info.recoil_control_pitch": "Vertical Recoil Control: ",
+  "tooltip.gun_info.recoil_control_horizontal": "Horizontal Recoil Control: ",
+  "tooltip.gun_info.agility": "Agility: ",
   "tooltip.gun_info.spread_factor": "(walk-sprint) Spread Penalty: ",
   "tooltip.gun_info.spread": "Bullet Spread: ",
   "tooltip.gun_info.spread_recover": "Spread Recovery: ",
@@ -134,6 +137,7 @@
   "tooltip.gcaa.turn_flashlight": "Press $key turn on / off flashlight or lighting mode",
   "tooltip.gcaa.manage_ammunition": "Right-click to merge this type of loose ammo",
   "tooltip.gcaa.replaceable_part": "Replaceable default part",
+  "tooltip.gcaa.grip_effective": "It takes effect when held",
 
   "tooltip.ammunition_info.ammo_left": "Ammo Left：",
 

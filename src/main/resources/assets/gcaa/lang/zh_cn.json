@@ -118,8 +118,11 @@
   "tooltip.gun_info.caliber": "口径：",
   "tooltip.gun_info.mag_size": "载弹量：",
   "tooltip.gun_info.rpm": "RPM：",
-  "tooltip.gun_info.recoil": "垂直-水平 后座：",
-  "tooltip.gun_info.recoil_control": "垂直-水平 后座控制：",
+  "tooltip.gun_info.recoil_pitch": "垂直后座：",
+  "tooltip.gun_info.recoil_horizontal": "水平后座：",
+  "tooltip.gun_info.recoil_control_pitch": "垂直后座控制：",
+  "tooltip.gun_info.recoil_control_horizontal": "水平后座控制：",
+  "tooltip.gun_info.agility": "敏捷度：",
   "tooltip.gun_info.spread_factor": "行走-冲刺 散布惩罚：",
   "tooltip.gun_info.spread": "子弹散布：",
   "tooltip.gun_info.spread_recover": "子弹散布恢复：",
@@ -135,6 +138,7 @@
   "tooltip.gcaa.manage_ammunition": "右键鼠标以合并此种类的零散弹药",
   "tooltip.gcaa.modify_magnification": "瞄准状态下使用鼠标滚轮调整倍率",
   "tooltip.gcaa.replaceable_part": "可替换的默认部件",
+  "tooltip.gcaa.grip_effective": "握持时生效",
 
   "tooltip.ammunition_info.ammo_left": "子弹剩余：",
 

@@ -2,12 +2,15 @@ package sheridan.gcaa.items.attachments;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.utils.FontUtils;
 
+import java.awt.*;
 import java.util.List;
 
 public class Compensator extends Attachment{
@@ -48,6 +51,11 @@ public class Compensator extends Attachment{
 
     @Override
     public List<Component> getEffectsInGunModifyScreen() {
-        return super.getEffectsInGunModifyScreen();
+        List<Component> effectsInGunModifyScreen = super.getEffectsInGunModifyScreen();
+        if (pitchRecoilLowerRate != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("recoil_pitch", -pitchRecoilLowerRate, pitchRecoilLowerRate > 0));
+        if (yawRecoilLowerRate != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("recoil_horizontal", -yawRecoilLowerRate, yawRecoilLowerRate > 0));
+        if (pitchRecoilControlIncRate != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("recoil_control_pitch", pitchRecoilControlIncRate, pitchRecoilControlIncRate > 0));
+        if (yawRecoilControlIncRate != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("recoil_control_horizontal", yawRecoilControlIncRate, yawRecoilControlIncRate > 0));
+        return effectsInGunModifyScreen;
     }
 }

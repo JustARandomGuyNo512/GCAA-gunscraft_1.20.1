@@ -26,6 +26,12 @@ public class FontUtils {
         return (red << 16) | (green << 8);
     }
 
+    public static Component effectTip(String key, float rate, boolean good) {
+        return Component.translatable("tooltip.gun_info." + key)
+                .append(Component.literal((rate > 0 ? "+" : "") + toPercentageStr(rate))
+                        .withStyle(Style.EMPTY.withColor(good ? Color.GREEN.getRGB() : Color.RED.getRGB())));
+    }
+
     public static MutableComponent dataTip(String key, float value, float good, float bad)  {
         return Component.translatable(key).append(Component.literal(value + "").withStyle(Style.EMPTY.withColor(getColor(value, good, bad))));
     }

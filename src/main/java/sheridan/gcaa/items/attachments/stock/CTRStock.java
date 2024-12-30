@@ -38,4 +38,6 @@ public class CTRStock extends Attachment {
         properties.setPropertyRateIfHas(GunProperties.AGILITY, data, (prevRate) -> prevRate - 0.05f);
         super.onAttach(player, stack, gun, data);
     }
+
+
 }

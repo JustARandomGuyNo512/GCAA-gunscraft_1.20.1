@@ -113,4 +113,10 @@ public class Beretta686 extends Gun {
             return Component.translatable("tooltip.fire_mode.volley");
         }
     }
+
+    @Override
+    public int getCrosshairType() {
+        return 1;
+    }
+
 }

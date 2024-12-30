@@ -1,12 +1,15 @@
 package sheridan.gcaa.items.attachments;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.utils.FontUtils;
 
+import java.util.List;
 import java.util.Map;
 
 public class Handguard extends SubSlotProvider{
@@ -44,4 +47,11 @@ public class Handguard extends SubSlotProvider{
         }
     }
 
+    @Override
+    public List<Component> getEffectsInGunModifyScreen() {
+        List<Component> effectsInGunModifyScreen = super.getEffectsInGunModifyScreen();
+        if (recoilPitchControlIncRate != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("recoil_control_pitch", recoilPitchControlIncRate, recoilPitchControlIncRate > 0));
+        if (yawPitchControlIncRate != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("recoil_control_horizontal", yawPitchControlIncRate, yawPitchControlIncRate > 0));
+        return effectsInGunModifyScreen;
+    }
 }

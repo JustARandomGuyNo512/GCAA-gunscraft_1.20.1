@@ -243,7 +243,7 @@ public class Clients {
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,12.2f,-15f, POS)
+                .setAds(0,12.2f,-18f, POS)
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0f, 0f, 0.1f,
@@ -375,7 +375,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AK12.get(), new Ak12Model(), new DisplayData()
-                .setFirstPersonMain(-13.65f,15.9f,-34.7f, POS)
+                .setFirstPersonMain(-13.65f,16f,-34.7f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -384,7 +384,7 @@ public class Clients {
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0.03f, 0.01f, 0.4f,
-                                0.05f, 0.45f, 0.05f,
+                                0.05f, 0.4f, 0.06f,
                                 0.35f, 0.3f, 0.5f,
                                 0.4f, 0.25f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.4561f, -102f).setScale(2.8f))
@@ -394,7 +394,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.BERETTA_686.get(), new Beretta686Model(), new DisplayData()
-                .setFirstPersonMain(-10.5f,13.5f,-35f, POS)
+                .setFirstPersonMain(-10.5f,13.8f,-35f, POS)
                 .setThirdPersonRight(0.0f,-0.2f,-0.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)

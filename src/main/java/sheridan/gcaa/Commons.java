@@ -182,6 +182,19 @@ public class Commons {
                 HkG28AttachmentProxy::new
         );
 
+        AttachmentsRegister.registerAttachmentSlot(ModItems.BERETTA_686.get(), AttachmentSlot.EMPTY);
+
+        AttachmentsRegister.registerAttachmentSlot(ModItems.AK12.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(MUZZLE, Set.of()))
+                .addChild(new AttachmentSlot(MAG, Set.of()))
+                .addChild(new AttachmentSlot(STOCK, Set.of()))
+                .addChild(new AttachmentSlot(SCOPE, Set.of()))
+                .addChild(new AttachmentSlot("handguard_grip", Set.of()).lower())
+                .addChild(new AttachmentSlot("handguard_left", Set.of()).lower())
+                .addChild(new AttachmentSlot("handguard_right", Set.of()).lower())
+                .addChild(new AttachmentSlot("handguard_scope", Set.of()).upper())
+        );
+
         registerVendingMachineProducts();
 
         RecipeRegister.registerAmmunition(List.of(
@@ -192,7 +205,8 @@ public class Commons {
                 ModItems.AMMO_7_62X51MM.get(),
                 ModItems.AMMO_12GAUGE.get(),
                 ModItems.AMMO_357MAGNUM.get(),
-                ModItems.AMMO_VOG_25.get()
+                ModItems.AMMO_VOG_25.get(),
+                ModItems.AMMO_5_45X39MM.get()
         ), List.of (
                 addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
                         List.of(15, 10, 25), new AmmunitionRecipe(ModItems.AMMO_9X19MM.get(), 20 * 1000)),
@@ -209,7 +223,9 @@ public class Commons {
                 addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
                         List.of(20, 12, 15),new AmmunitionRecipe(ModItems.AMMO_357MAGNUM.get(), 28 * 1000)),
                 addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.TNT),
-                        List.of(30, 10, 5), new AmmunitionRecipe(ModItems.AMMO_VOG_25.get(), 50 * 1000))
+                        List.of(30, 10, 5), new AmmunitionRecipe(ModItems.AMMO_VOG_25.get(), 50 * 1000)),
+                addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
+                        List.of(20, 16, 14), new AmmunitionRecipe(ModItems.AMMO_5_45X39MM.get(), 40 * 1000))
         ));
     }
 
