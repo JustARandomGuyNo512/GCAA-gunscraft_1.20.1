@@ -187,7 +187,9 @@ public class Commons {
                 .addChild(new AttachmentSlot(MAG, Set.of()))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1, 0.12f, 0.12f)))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
-                .addChild(new AttachmentSlot("handguard_grip", Set.of()).lower())
+                .addChild(new AttachmentSlot("handguard_grip", Set.of(
+                        "gcaa:vertical_grip", "gcaa:gp_25", "gcaa:laser_sight", "gcaa:flashlight"
+                )).lower())
                 .addChild(new AttachmentSlot("handguard_left", Set.of()).lower())
                 .addChild(new AttachmentSlot("handguard_right", Set.of()).lower())
                 .addChild(new AttachmentSlot("handguard_scope", mk47HandguardScopeSlot).upper())

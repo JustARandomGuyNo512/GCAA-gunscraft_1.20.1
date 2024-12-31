@@ -100,6 +100,12 @@ public class GunProperties implements IDataPacketGen {
         return (int) (ms / 5);
     }
 
+    public GunProperties setMoveSpreadFactor(float walkingSpreadFactor, float sprintingSpreadFactor) {
+        this.walkingSpreadFactor = walkingSpreadFactor;
+        this.sprintingSpreadFactor = sprintingSpreadFactor;
+        return this;
+    }
+
     public int getRPM() {
         return 60000 / (fireDelay * 5);
     }

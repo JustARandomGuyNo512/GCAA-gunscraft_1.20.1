@@ -20,8 +20,8 @@ public class Awp extends Sniper {
         super(new GunProperties(3f, 0.25f, 3f, 1.8f, 0.1f,
                         5f, GunProperties.toRPM(45), getTicks(2.25f), getTicks(3.35f),
                         10, 4.8f, 1f, 0.1f, 0.1f, 22,
-                        List.of(HandAction.HAND_ACTION),
-                        ModSounds.AWP_FIRE, ModSounds.AWP_FIRE_SUPPRESSED, caliber),
+                        List.of(HandAction.HAND_ACTION), ModSounds.AWP_FIRE, ModSounds.AWP_FIRE_SUPPRESSED, caliber)
+                        .setMoveSpreadFactor(2.5f, 4f),
                 new HandActionExtension("bolt_action_ads","bolt_action",
                         getTicks(0.5f), getTicks(1.25f), 8, true));
     }
