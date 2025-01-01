@@ -214,9 +214,7 @@ public class RenderEvents {
             ClientWeaponStatus status = Clients.MAIN_HAND_STATUS;
             status.equipProgress = event.getEquipProgress();
             if (Clients.MAIN_HAND_STATUS.holdingGun.get()) {
-                if (Minecraft.getInstance().options.bobView().get()) {
-                    GlobalWeaponBobbing.INSTANCE.update(event.getPartialTick(), status.equipProgress);
-                }
+                GlobalWeaponBobbing.INSTANCE.update(event.getPartialTick(), status.equipProgress);
             }
         }
     }
