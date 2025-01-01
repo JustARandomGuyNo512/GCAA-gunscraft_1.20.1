@@ -92,6 +92,8 @@ public class ModItems {
     public static final RegistryObject<NormalFlashlight> FLASHLIGHT = ITEMS.register("flashlight", NormalFlashlight::new);
     public static final RegistryObject<Okp7A> OKP_7_A = ITEMS.register("okp7_a", Okp7A::new);
     public static final RegistryObject<Okp7B> OKP_7_B = ITEMS.register("okp7_b", Okp7B::new);
+    public static final RegistryObject<ExpMag5_45x39> EXP_MAG5_45X39 = ITEMS.register("exp_mag5_45x39", ExpMag5_45x39::new);
+    public static final RegistryObject<ExpMag7_62x51> EXP_MAG7_62X51 = ITEMS.register("exp_mag7_62x51", ExpMag7_62x51::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

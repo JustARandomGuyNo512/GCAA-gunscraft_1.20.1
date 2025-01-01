@@ -8,6 +8,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.model.gun.AutoMagPositionModel;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -15,7 +16,7 @@ import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 import sheridan.gcaa.client.render.RenderTypes;
 
 @OnlyIn(Dist.CLIENT)
-public class Mk47Model extends GunModel {
+public class Mk47Model extends AutoMagPositionModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/mk47/mk47.png");
 
     private ModelPart barrel;
@@ -111,18 +112,8 @@ public class Mk47Model extends GunModel {
     }
 
     @Override
-    public boolean hasSlot(String modelSlotName) {
-        return "s_mag".equals(modelSlotName) || super.hasSlot(modelSlotName);
-    }
-
-    @Override
-    public void handleSlotTranslate(PoseStack poseStack, String name) {
-        if (name.equals("s_mag")) {
-            handleGunTranslate(poseStack);
-            mag.translateAndRotate(poseStack);
-            return;
-        }
-        super.handleSlotTranslate(poseStack, name);
+    protected ModelPart getMag() {
+        return mag;
     }
 
     @Override

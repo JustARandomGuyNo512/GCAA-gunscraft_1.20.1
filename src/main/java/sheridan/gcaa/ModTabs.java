@@ -48,6 +48,8 @@ public class ModTabs {
                     tab.accept(ModItems.M249_RAILED_HANDGUARD.get());
                     tab.accept(ModItems.AR_EXTEND_MAG.get());
                     tab.accept(ModItems.AK_EXTEND_MAG.get());
+                    tab.accept(ModItems.EXP_MAG5_45X39.get());
+                    tab.accept(ModItems.EXP_MAG7_62X51.get());
                     tab.accept(ModItems.GLOCK_EXTEND_MAG.get());
                     tab.accept(ModItems.VECTOR_45_EXTEND_MAG.get());
                     tab.accept(ModItems.SNIPER_EXTEND_MAG.get());

@@ -9,12 +9,13 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
+import sheridan.gcaa.client.model.gun.AutoMagPositionModel;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.client.render.RenderTypes;
 
-public class HkG28Model extends GunModel {
+public class HkG28Model extends AutoMagPositionModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/hk_g28/hk_g28.png");
     private ModelPart barrel, IS_front, handguard, muzzle, stock, charge, body, safety, bolt, IS, grip, mag, bullet,
     sub_rail_left, sub_rail_right, sub_rail_down;
@@ -83,18 +84,8 @@ public class HkG28Model extends GunModel {
     }
 
     @Override
-    public boolean hasSlot(String modelSlotName) {
-        return "s_mag".equals(modelSlotName) || super.hasSlot(modelSlotName);
-    }
-
-    @Override
-    public void handleSlotTranslate(PoseStack poseStack, String name) {
-        if (name.equals("s_mag")) {
-            handleGunTranslate(poseStack);
-            mag.translateAndRotate(poseStack);
-            return;
-        }
-        super.handleSlotTranslate(poseStack, name);
+    protected ModelPart getMag() {
+        return mag;
     }
 
     @Override

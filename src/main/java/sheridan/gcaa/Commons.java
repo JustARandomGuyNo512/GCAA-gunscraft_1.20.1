@@ -176,7 +176,7 @@ public class Commons {
                 .addChild(new AttachmentSlot("handguard_front_left", hkg28HandguardFrontSlot).lower())
                 .addChild(new AttachmentSlot("handguard_front_right", hkg28HandguardFrontSlot).lower())
                 .addChild(new AttachmentSlot(GRIP, mk47HandguardGrip).lower())
-                .addChild(new AttachmentSlot(MAG, Set.of())),
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag7_62x51"))),
                 HkG28AttachmentProxy::new
         );
 
@@ -184,7 +184,7 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.AK12.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of()).setReplaceableGunPart(new RecoilLowerPart(0, 0.15f, 0.15f)))
-                .addChild(new AttachmentSlot(MAG, Set.of()))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag5_45x39")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1, 0.12f, 0.12f)))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot("handguard_grip", Set.of(
@@ -294,6 +294,8 @@ public class Commons {
                 new AttachmentProduct(ModItems.M249_RAILED_HANDGUARD.get(), 100),
                 new AttachmentProduct(ModItems.AR_EXTEND_MAG.get(), 150),
                 new AttachmentProduct(ModItems.AK_EXTEND_MAG.get(), 170),
+                new AttachmentProduct(ModItems.EXP_MAG5_45X39.get(), 160),
+                new AttachmentProduct(ModItems.EXP_MAG7_62X51.get(), 200),
                 new AttachmentProduct(ModItems.GLOCK_EXTEND_MAG.get(), 70),
                 new AttachmentProduct(ModItems.VECTOR_45_EXTEND_MAG.get(), 130),
                 new AttachmentProduct(ModItems.SNIPER_EXTEND_MAG.get(), 50),

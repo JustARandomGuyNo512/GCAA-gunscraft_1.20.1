@@ -39,6 +39,10 @@ public class StatisticModel {
             new ResourceLocation(GCAA.MODID, "model_assets/attachments/mags/mags1.png"),
             new ResourceLocation(GCAA.MODID, "model_assets/attachments/mags/mag_collection1.geo.json"));
 
+    public static StatisticModel MAG_COLLECTION2 = new StatisticModel(
+            new ResourceLocation(GCAA.MODID, "model_assets/attachments/mags/mags2.png"),
+            new ResourceLocation(GCAA.MODID, "model_assets/attachments/mags/mag_collection2.geo.json"));
+
     public static StatisticModel MUZZLE_COLLECTION1 = new StatisticModel(
             new ResourceLocation(GCAA.MODID, "model_assets/attachments/muzzles/muzzles1.png"),
             new ResourceLocation(GCAA.MODID, "model_assets/attachments/muzzles/muzzle_collection1.geo.json"));

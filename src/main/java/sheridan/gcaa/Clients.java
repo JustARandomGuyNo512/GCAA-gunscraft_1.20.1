@@ -43,10 +43,7 @@ import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
 import sheridan.gcaa.client.model.attachments.grip.*;
 import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel;
 import sheridan.gcaa.client.model.attachments.handguard.ARRailedHandguardModel;
-import sheridan.gcaa.client.model.attachments.mag.AKExtendMagModel;
-import sheridan.gcaa.client.model.attachments.mag.ARExtendMagModel;
-import sheridan.gcaa.client.model.attachments.mag.GlockExtendMagModel;
-import sheridan.gcaa.client.model.attachments.mag.ShotgunExtendBayModel;
+import sheridan.gcaa.client.model.attachments.mag.*;
 import sheridan.gcaa.client.model.attachments.muzzle.*;
 import sheridan.gcaa.client.model.attachments.scope.AcogModel;
 import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
@@ -445,6 +442,8 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.FLASHLIGHT.get(), new FlashlightModel());
         ArsenalLib.registerAttachmentModel(ModItems.OKP_7_A.get(), new Okp7AModel());
         ArsenalLib.registerAttachmentModel(ModItems.OKP_7_B.get(), new Okp7BModel());
+        ArsenalLib.registerAttachmentModel(ModItems.EXP_MAG5_45X39.get(), new ExpMag5_45x39Model());
+        ArsenalLib.registerAttachmentModel(ModItems.EXP_MAG7_62X51.get(), new ExpMag7_62x51Model());
 
     }
 

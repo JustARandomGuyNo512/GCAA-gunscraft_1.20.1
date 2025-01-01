@@ -38,6 +38,8 @@
   "item.gcaa.m249_railed_handguard": "M249 导轨护木",
   "item.gcaa.ar_extend_mag": "AR 扩容弹匣",
   "item.gcaa.ak_extend_mag": "AK 扩容弹匣",
+  "item.gcaa.exp_mag5_45x39": "5.45x39mm 标准扩容弹匣",
+  "item.gcaa.exp_mag7_62x51": "7.62x51mm 标准扩容弹匣",
   "item.gcaa.glock_extend_mag": "格洛克扩容弹匣",
   "item.gcaa.vector_45_extend_mag": "维克托扩容弹匣 .45",
   "item.gcaa.shotgun_extend_bay": "霰弹枪扩容弹舱",
@@ -139,6 +141,7 @@
   "tooltip.gcaa.modify_magnification": "瞄准状态下使用鼠标滚轮调整倍率",
   "tooltip.gcaa.replaceable_part": "可替换的默认部件",
   "tooltip.gcaa.grip_effective": "握持时生效",
+  "tooltip.gcaa.exp_mag": "将载弹量扩容至$min ~ $max发",
 
   "tooltip.ammunition_info.ammo_left": "子弹剩余：",
 

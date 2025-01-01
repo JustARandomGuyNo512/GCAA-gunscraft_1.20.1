@@ -246,6 +246,7 @@ public class RenderEvents {
                                 System.currentTimeMillis() - TEMP_TIMERS.get(SHOT) < 100, System.currentTimeMillis() - TEMP_TIMERS.get(HEADSHOT) < 100);
                     }
                     event.setCanceled(true);
+                    return;
                 }
                 if (Clients.MAIN_HAND_STATUS.ads || Clients.shouldHideFPRender || SprintingHandler.INSTANCE.isSprinting()) {
                     event.setCanceled(true);

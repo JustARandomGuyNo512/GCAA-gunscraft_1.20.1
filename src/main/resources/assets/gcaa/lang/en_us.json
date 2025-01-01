@@ -39,6 +39,8 @@
   "item.gcaa.ar_extend_mag": "AR Extended Mag",
   "item.gcaa.ak_extend_mag": "AK Extended Mag",
   "item.gcaa.glock_extend_mag": "Glock Extended Mag",
+  "item.gcaa.exp_mag5_45x39": "5.45x39mm Standard Extended Mag",
+  "item.gcaa.exp_mag7_62x51": "7.62x51mm Standard Extended Mag",
   "item.gcaa.vector_45_extend_mag": "Vector Extend Mag .45",
   "item.gcaa.shotgun_extend_bay": "Shotgun Extended Bay",
   "item.gcaa.sniper_extend_mag": "Sniper Extended Bay",
@@ -138,6 +140,7 @@
   "tooltip.gcaa.manage_ammunition": "Right-click to merge this type of loose ammo",
   "tooltip.gcaa.replaceable_part": "Replaceable default part",
   "tooltip.gcaa.grip_effective": "It takes effect when held",
+  "tooltip.gcaa.exp_mag": "Expand the ammo count to $min ~ $max ",
 
   "tooltip.ammunition_info.ammo_left": "Ammo Left：",
 
