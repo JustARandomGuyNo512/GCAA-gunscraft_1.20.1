@@ -7,6 +7,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.ReloadingHandler;
+import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.LodGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
@@ -55,6 +57,9 @@ public class G19Model extends LodGunModel {
         VertexConsumer vertexConsumer = context.solid(TEXTURE);
         bullet.visible = context.shouldBulletRender();
         context.renderIf(mag, vertexConsumer, context.notHasMag());
+        if (context.isFirstPerson && context.ammoLeft == 0 && !ReloadingHandler.isReloading()) {
+            slide.z += 5;
+        }
         context.render(vertexConsumer, barrel, slide, body);
         if (context.shouldShowLeftArm()) {
             context.renderArmOldStylePistol(left_arm, false);
@@ -119,6 +124,7 @@ public class G19Model extends LodGunModel {
         barrel.resetPose();
         gun.resetPose();
         left_arm.resetPose();
+        right_arm.resetPose();
         mag.resetPose();
         camera.resetPose();
         if (getShouldRenderLowQuality(gunRenderContext)) {

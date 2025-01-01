@@ -16,7 +16,7 @@ public class G19 extends Pistol {
 
     public G19() {
         super(new GunProperties(4.4f, 0.5f, 1.8f, 0.5f, 0.2f,
-                2.5f, GunProperties.toRPM(1000), getTicks(2.1f), getTicks(2.9f),
+                2.5f, GunProperties.toRPM(1000), getTicks(2f), getTicks(2.15f),
                 15, 1f, 1f, 0.1f, 0.1f, 5,
                 List.of(Semi.SEMI), ModSounds.G19_FIRE, null, caliber));
     }

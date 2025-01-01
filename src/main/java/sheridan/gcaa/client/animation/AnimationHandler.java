@@ -134,6 +134,24 @@ public class AnimationHandler {
         }
     }
 
+
+    public boolean has(String name) {
+        AnimationSequence sequence = animations.get(name);
+        if (sequence == null) {
+            return false;
+        }
+        return !sequence.isAnimationFinished();
+    }
+
+    public boolean hasReload() {
+        return has(RELOAD);
+    }
+
+    public boolean haHandAction() {
+        return has(HAND_ACTION);
+    }
+
+
     public void clearReload() {
         clearAnimation(RELOAD);
     }

@@ -95,4 +95,8 @@ public class AnimationSequence {
         }
         return now - startTime > (long) (this.length * 1000) + 1;
     }
+
+    public boolean isAnimationFinished() {
+        return System.currentTimeMillis() - startTime > (long) (this.length * 1000);
+    }
 }
