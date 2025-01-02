@@ -13,17 +13,25 @@ import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.LodGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.attachments.Attachment;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @OnlyIn(Dist.CLIENT)
 public class G19Model extends LodGunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.png");
     private final ResourceLocation TEXTURE_LOW = new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19_low.png");
     private ModelPart body, slide, mag, barrel, bullet;
-    private ModelPart slot_scope;
+    private ModelPart slot_scope, slot_muzzle;
 
     private ModelPart body_low, slide_low, mag_low, barrel_low;
 
     private AnimationDefinition recoil;
     private AnimationDefinition shoot;
+
+    private final Set<String> innerSlots = new HashSet<>(List.of("s_muzzle", "s_mag", "s_scope"));
 
     public G19Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.geo.json"),
@@ -39,6 +47,7 @@ public class G19Model extends LodGunModel {
         mag = gun.getChild("mag").meshing();
         bullet = mag.getChild("bullet").meshing();
         slot_scope = slide.getChild("s_scope");
+        slot_muzzle = barrel.getChild("s_muzzle");
 
         recoil = animations.get("recoil");
         shoot = animations.get("shoot");
@@ -59,6 +68,9 @@ public class G19Model extends LodGunModel {
         context.renderIf(mag, vertexConsumer, context.notHasMag());
         if (context.isFirstPerson && context.ammoLeft == 0 && !ReloadingHandler.isReloading()) {
             slide.z += 5;
+            barrel.z += 0.4f;
+            barrel.y += 0.25f;
+            barrel.xRot -= 0.03490658503988659f;
         }
         context.render(vertexConsumer, barrel, slide, body);
         if (context.shouldShowLeftArm()) {
@@ -81,6 +93,11 @@ public class G19Model extends LodGunModel {
         if (!context.notHasScope()) {
             context.pushPose().translateTo(slide).renderScopeAttachment(slot_scope).popPose();
         }
+        if (!context.notHasMuzzle()) {
+            context.pushPose().translateTo(barrel);
+            context.renderAttachmentEntry(Attachment.MUZZLE, slot_muzzle);
+            context.popPose();
+        }
         context.renderMagAttachmentIf(mag, !context.notHasMag());
         context.renderAllAttachmentsLeft(gun);
     }
@@ -98,7 +115,7 @@ public class G19Model extends LodGunModel {
 
     @Override
     public boolean hasSlot(String modelSlotName) {
-        return ("s_mag".equals(modelSlotName) || "s_scope".equals(modelSlotName)) || super.hasSlot(modelSlotName);
+        return innerSlots.contains(modelSlotName) || super.hasSlot(modelSlotName);
     }
 
     @Override
@@ -112,6 +129,12 @@ public class G19Model extends LodGunModel {
             handleGunTranslate(poseStack);
             slide.translateAndRotate(poseStack);
             slot_scope.translateAndRotate(poseStack);
+            return;
+        }
+        if (name.equals("s_muzzle")) {
+            handleGunTranslate(poseStack);
+            barrel.translateAndRotate(poseStack);
+            slot_muzzle.translateAndRotate(poseStack);
             return;
         }
         super.handleSlotTranslate(poseStack, name);

@@ -444,6 +444,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.OKP_7_B.get(), new Okp7BModel());
         ArsenalLib.registerAttachmentModel(ModItems.EXP_MAG5_45X39.get(), new ExpMag5_45x39Model());
         ArsenalLib.registerAttachmentModel(ModItems.EXP_MAG7_62X51.get(), new ExpMag7_62x51Model());
+        ArsenalLib.registerAttachmentModel(ModItems.SLANT_GRIP.get(), new SlantGripModel());
 
     }
 

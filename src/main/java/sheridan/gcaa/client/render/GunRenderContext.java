@@ -343,6 +343,13 @@ public class GunRenderContext {
         return this;
     }
 
+    public GunRenderContext renderMuzzleAttachment(ModelPart pose) {
+        if (attachmentsRenderContext != null) {
+            renderEntry(attachmentsRenderContext.slotLayer.get(Attachment.MUZZLE), pose);
+        }
+        return this;
+    }
+
     public void renderMagAttachmentIf(ModelPart pose, boolean condition) {
         if (attachmentsRenderContext != null && condition) {
             renderMagAttachment(pose);
@@ -366,6 +373,11 @@ public class GunRenderContext {
             entry.render(this, pose);
         }
     }
+
+    public void renderAttachmentEntry(String slotName, ModelPart pose) {
+        renderEntry(attachmentsRenderContext.slotLayer.get(slotName), pose);
+    }
+
 
     public boolean isEffectiveSight(AttachmentRenderEntry entry) {
         return isFirstPerson && Clients.MAIN_HAND_STATUS.adsProgress > 0.7f && Objects.equals(entry.slotUUID, Clients.getEffectiveSightUUID());

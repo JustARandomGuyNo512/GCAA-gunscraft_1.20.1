@@ -67,7 +67,7 @@ public abstract class ArmRendererModel extends HierarchicalModel<Entity> {
                 AnimationHandler.RELOAD,
                 poseStack,
                 (PoseStack) context.getLocalSaved(mainHand ? RIGHT_ARM_RENDER_REPLACE : LEFT_ARM_RENDER_REPLACE),
-                0.1f, 0.9f, 0.2f, 0.2f);
+                0.1f, 0.8f, 0.2f, 0.3f);
     }
 
     protected PoseStack LerpAnimationPose(String channel, PoseStack origin, PoseStack to, float enterLerp,

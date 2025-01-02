@@ -41,6 +41,7 @@ public class ModTabs {
                     tab.accept(ModItems.ACOG.get());
                     tab.accept(ModItems.SCOPE_X10.get());
                     tab.accept(ModItems.VERTICAL_GRIP.get());
+                    tab.accept(ModItems.SLANT_GRIP.get());
                     tab.accept(ModItems.GP_25.get());
                     tab.accept(ModItems.AR_GAS_BLOCK.get());
                     tab.accept(ModItems.AR_STOCK_TUBE.get());

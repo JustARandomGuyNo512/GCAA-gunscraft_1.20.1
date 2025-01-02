@@ -13,6 +13,7 @@ public class ARRailedHandguard extends Handguard {
                     "gcaa:laser_sight",
                     "gcaa:rail_panel",
                     "gcaa:flashlight",
+                    "gcaa:slant_grip",
                     "gcaa:rail_panel_short")).lower())
             .addChild(new AttachmentSlot("handguard_scope", Set.of(
                     "gcaa:red_dot",
