@@ -2,9 +2,11 @@ package sheridan.gcaa.service;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import sheridan.gcaa.capability.PlayerStatus;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.screens.containers.VendingMachineMenu;
+import sheridan.gcaa.lib.events.server.VendingMachineTradeEvent;
 import sheridan.gcaa.service.product.IProduct;
 import sheridan.gcaa.service.product.IRecycleProduct;
 
@@ -31,13 +33,16 @@ public class ProductTradingHandler {
             IProduct product = ProductsRegister.getProductById(productId);
             if (product != null) {
                 int price = product.getPrice(itemStack);
+                boolean success = false;
                 if (status.getBalance() >= price) {
                     status.serverSetBalance(status.getBalance() - price);
                     if (!player.addItem(itemStack)) {
                         player.drop(itemStack, false);
                     }
-                    return status.getBalance();
+                    success = true;
                 }
+                MinecraftForge.EVENT_BUS.post(new VendingMachineTradeEvent(player, product, price, itemStack, success));
+                return status.getBalance();
             }
             return status.getBalance();
         }

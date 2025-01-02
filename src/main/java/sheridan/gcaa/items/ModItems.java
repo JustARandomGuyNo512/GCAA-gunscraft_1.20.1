@@ -51,6 +51,7 @@ public class ModItems {
     public static final RegistryObject<HkG28> HK_G28 = ITEMS.register("hk_g28", HkG28::new);
     public static final RegistryObject<Ak12> AK12 = ITEMS.register("ak12", Ak12::new);
     public static final RegistryObject<Beretta686> BERETTA_686 = ITEMS.register("beretta_686", Beretta686::new);
+    public static final RegistryObject<Annihilator> ANNIHILATOR = ITEMS.register("annihilator", Annihilator::new);
 
     public static final RegistryObject<UnknownAttachment> UNKNOWN_ATTACHMENT = ITEMS.register("unknown_attachment", UnknownAttachment::new);
     public static final RegistryObject<AKSuppressor> AK_SUPPRESSOR = ITEMS.register("ak_suppressor", AKSuppressor::new);

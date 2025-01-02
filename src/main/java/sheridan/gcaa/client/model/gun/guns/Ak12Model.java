@@ -51,7 +51,7 @@ public class Ak12Model extends AutoMagPositionModel {
         context.renderIf(muzzle, vertexConsumer, context.notHasMuzzle());
         context.renderIf(mag, vertexConsumer, context.notHasMag());
         context.renderIf(stock, vertexConsumer, context.notHasStock());
-        rail.visible = false;
+        rail.visible = context.has("handguard_left") || context.has("handguard_right");
         context.render(vertexConsumer, barrel, handguard, body, safety, grip, slide, dust_cover);
         if (context.isFirstPerson) {
             context.renderArm(right_arm, true);

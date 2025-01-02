@@ -33,7 +33,7 @@ public class FontUtils {
     }
 
     public static MutableComponent dataTip(String key, float value, float good, float bad)  {
-        return Component.translatable(key).append(Component.literal(value + "").withStyle(Style.EMPTY.withColor(getColor(value, good, bad))));
+        return Component.translatable(key).append(Component.literal(roundToString(value, 2)).withStyle(Style.EMPTY.withColor(getColor(value, good, bad))));
     }
 
     public static MutableComponent dataTip(String key, String value, int color)  {
@@ -63,5 +63,14 @@ public class FontUtils {
 
     public static String toPercentageStr(float val) {
         return String.format("%.2f%%", val * 100);
+    }
+
+    public static String roundToString(float number, int decimal) {
+        if (decimal < 0) {
+            throw new IllegalArgumentException("小数位数不能为负数");
+        }
+        double factor = Math.pow(10, decimal);
+        double rounded = Math.round(number * factor) / factor;
+        return String.format("%." + decimal + "f", rounded);
     }
 }

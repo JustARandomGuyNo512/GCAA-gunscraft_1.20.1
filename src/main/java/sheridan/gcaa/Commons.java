@@ -191,14 +191,16 @@ public class Commons {
                 .addChild(new AttachmentSlot("handguard_grip", Set.of(
                         "gcaa:vertical_grip", "gcaa:gp_25", "gcaa:laser_sight", "gcaa:flashlight", "gcaa:slant_grip"
                 )).lower())
-                .addChild(new AttachmentSlot("handguard_left", Set.of()).lower(
-
-                ))
-                .addChild(new AttachmentSlot("handguard_right", Set.of()).lower(
-
-                ))
+                .addChild(new AttachmentSlot("handguard_left", Set.of(
+                        "gcaa:laser_sight", "gcaa:flashlight"
+                )).lower())
+                .addChild(new AttachmentSlot("handguard_right", Set.of(
+                        "gcaa:laser_sight", "gcaa:flashlight"
+                )).lower())
                 .addChild(new AttachmentSlot("handguard_scope", mk47HandguardScopeSlot).upper())
         );
+
+        AttachmentsRegister.registerAttachmentSlot(ModItems.ANNIHILATOR.get(), AttachmentSlot.EMPTY);
 
         registerVendingMachineProducts();
 

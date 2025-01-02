@@ -1,6 +1,7 @@
 package sheridan.gcaa.common.events;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,13 +21,17 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.common.config.CommonConfig;
 import sheridan.gcaa.common.damageTypes.ProjectileDamage;
 import sheridan.gcaa.items.AutoRegister;
+import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.items.UnknownAttachment;
 import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.items.gun.guns.Annihilator;
+import sheridan.gcaa.lib.events.server.VendingMachineTradeEvent;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.WeakHashMap;
 
 @Mod.EventBusSubscriber
@@ -98,6 +103,20 @@ public class CommonEvents {
     public static void onKnockBack(LivingKnockBackEvent event) {
         if (!KNOCK_BACK_HANDLER.checkShouldKnockBackAndRemove(event.getEntity())) {
             event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void  onVendingMachineTrade(VendingMachineTradeEvent tradeEvent) {
+        if (tradeEvent.isSuccess() && tradeEvent.getPrice() >= 200) {
+            double f = Math.random();
+            if (f < (2.5f / 100)) {
+                Annihilator annihilator = ModItems.ANNIHILATOR.get();
+                ItemStack stack = new ItemStack(annihilator, 1);
+                annihilator.checkAndGet(stack);
+                tradeEvent.getPlayer().drop(stack, false);
+                tradeEvent.getPlayer().sendSystemMessage(Component.literal("vending machines sometimes work precariously..."));
+            }
         }
     }
 
