@@ -30,6 +30,7 @@ public class ModTabs {
                     tab.accept(ModItems.AK_COMPENSATOR.get());
                     tab.accept(ModItems.AR_COMPENSATOR.get());
                     tab.accept(ModItems.SMG_COMPENSATOR.get());
+                    tab.accept(ModItems.DMR_COMPENSATOR.get());
                     tab.accept(ModItems.AK_IMPROVED_HANDGUARD.get());
                     tab.accept(ModItems.AK_RAIL_BRACKET.get());
                     tab.accept(ModItems.AK_IMPROVED_DUST_COVER.get());

@@ -84,6 +84,10 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> BERETTA_686_CLOSE = registerSound("close", "item.beretta_686.close");
     public static RegistryObject<SoundEvent> BERETTA_686_FIRE = registerSound("beretta_fire", "item.beretta_686.fire");
     public static RegistryObject<SoundEvent> BERETTA_686_FIRE_VOLLEY = registerSound("beretta_fire_volley", "item.beretta_686.fire_volley");
+    public static RegistryObject<SoundEvent> ANNIHILATOR_FIRE = registerSound("annihilator_fire", "item.annihilator.fire");
+    public static RegistryObject<SoundEvent> ANNIHILATOR_CHARGE = registerSound("annihilator_charge", "item.annihilator.annihilator_charge");
+    public static RegistryObject<SoundEvent> ANNIHILATOR_MAG_OFF = registerSound("annihilator_mag_off", "item.annihilator.annihilator_mag_off");
+    public static RegistryObject<SoundEvent> ANNIHILATOR_MAG_ATTACH = registerSound("annihilator_mag_attach", "item.annihilator.annihilator_mag_attach");
 
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");

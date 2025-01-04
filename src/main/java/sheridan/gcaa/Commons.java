@@ -159,7 +159,7 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.HK_G28.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10", "gcaa:acog", "gcaa:okp7_b")))
-                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor")))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor", "gcaa:dmr_compensator")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")))
                 .addChild(new AttachmentSlot("handguard_scope", Set.of(
                         "gcaa:red_dot",
@@ -268,7 +268,7 @@ public class Commons {
                 new AmmunitionProduct(ModItems.AMMO_45ACP.get(), 180),
                 new AmmunitionProduct(ModItems.AMMO_7_62X39MM.get(), 300),
                 new AmmunitionProduct(ModItems.AMMO_5_56X45MM.get(), 280),
-                new AmmunitionProduct(ModItems.AMMO_5_45X39MM.get(), 220),
+                new AmmunitionProduct(ModItems.AMMO_5_45X39MM.get(), 240),
                 new AmmunitionProduct(ModItems.AMMO_7_62X51MM.get(), 400),
                 new AmmunitionProduct(ModItems.AMMO_12GAUGE.get(), 200),
                 new GrenadeProduct(ModItems.AMMO_VOG_25.get(), 140));
@@ -283,6 +283,7 @@ public class Commons {
                 new AttachmentProduct(ModItems.AK_COMPENSATOR.get(), 180),
                 new AttachmentProduct(ModItems.AR_COMPENSATOR.get(), 220),
                 new AttachmentProduct(ModItems.SMG_COMPENSATOR.get(), 160),
+                new AttachmentProduct(ModItems.DMR_COMPENSATOR.get(), 200),
                 new AttachmentProduct(ModItems.AK_IMPROVED_HANDGUARD.get(), 270),
                 new AttachmentProduct(ModItems.AK_RAIL_BRACKET.get(), 100),
                 new AttachmentProduct(ModItems.AK_IMPROVED_DUST_COVER.get(), 100),

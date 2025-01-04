@@ -20,7 +20,7 @@ public class ARSuppressorModel extends MuzzleFlashRendererModel implements IAtta
     private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION1.texture;
 
     public ARSuppressorModel() {
-        model = StatisticModel.MUZZLE_COLLECTION1.get("ar_suppressor");
+        model = StatisticModel.MUZZLE_COLLECTION1.get("ar_suppressor").meshing();
         muzzle = model.getChild("ar_suppressor_muzzle");
     }
 

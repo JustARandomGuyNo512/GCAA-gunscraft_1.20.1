@@ -91,7 +91,9 @@ public class HkG28Model extends AutoMagPositionModel {
     @Override
     protected void animationGlobal(GunRenderContext context) {
         float scale = Mth.lerp(Clients.getAdsProgress(), 1f, 0.35f);
-        KeyframeAnimations.animate(this, recoil, context.lastShoot, scale);
+        if (context.isFirstPerson) {
+            KeyframeAnimations.animate(this, recoil, context.lastShoot, scale);
+        }
         defaultAssaultRifleAnimation(context, shoot);
     }
 

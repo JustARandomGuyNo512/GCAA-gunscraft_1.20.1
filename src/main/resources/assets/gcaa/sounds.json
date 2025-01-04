@@ -66,6 +66,10 @@
   "item.beretta_686.close": { "subtitle": "item.beretta_686.close", "sounds": [{ "name": "gcaa:beretta_686/close" }]},
   "item.beretta_686.fire": { "subtitle": "item.beretta_686.fire", "sounds": [{ "name": "gcaa:beretta_686/beretta_686_fire" }]},
   "item.beretta_686.fire_volley": { "subtitle": "item.beretta_686.fire_volley", "sounds": [{ "name": "gcaa:beretta_686/beretta_686_fire_volley" }]},
+  "item.annihilator.fire": { "subtitle": "item.annihilator.fire", "sounds": [{ "name": "gcaa:annihilator/annihilator_fire" }]},
+  "item.annihilator.annihilator_charge": { "subtitle": "item.annihilator.annihilator_charge", "sounds": [{ "name": "gcaa:annihilator/annihilator_charge" }]},
+  "item.annihilator.annihilator_mag_off": { "subtitle": "item.annihilator.annihilator_mag_off", "sounds": [{ "name": "gcaa:annihilator/annihilator_mag_off" }]},
+  "item.annihilator.annihilator_mag_attach": { "subtitle": "item.annihilator.annihilator_mag_attach", "sounds": [{ "name": "gcaa:annihilator/annihilator_mag_attach" }]},
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},
   "effect.headshot.2": { "subtitle": "effect.headshot.2", "sounds": [{ "name": "gcaa:generic/headshot_2" }]},

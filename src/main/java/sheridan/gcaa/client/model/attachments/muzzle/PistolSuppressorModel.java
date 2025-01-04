@@ -17,7 +17,7 @@ public class PistolSuppressorModel extends MuzzleFlashRendererModel implements I
     private final ModelPart low;
 
     public PistolSuppressorModel() {
-        model = StatisticModel.MUZZLE_COLLECTION1.get("pistol_suppressor");
+        model = StatisticModel.MUZZLE_COLLECTION1.get("pistol_suppressor").meshing();
         muzzle = model.getChild("pistol_suppressor_muzzle");
         low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("muzzle_collection").getChild("pistol_suppressor");
     }

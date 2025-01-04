@@ -19,7 +19,7 @@ public class SMGCompensatorModel extends MuzzleFlashRendererModel implements IAt
     private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION1.texture;
 
     public SMGCompensatorModel() {
-        model = StatisticModel.MUZZLE_COLLECTION1.get("smg_compensator");
+        model = StatisticModel.MUZZLE_COLLECTION1.get("smg_compensator").meshing();
         muzzle = model.getChild("smg_compensator_muzzle");
     }
 

@@ -17,7 +17,7 @@ public class Mk47 extends Gun {
 
     public Mk47() {
         super(new GunProperties(3.7f, 0.85f, 2.5f, 0.8f, 0.16f,
-                3.5f, GunProperties.toRPM(700), getTicks(2.85f), getTicks(3.55f), 30,
+                3.5f, GunProperties.toRPM(700), getTicks(2.4f), getTicks(3f), 30,
                 2f, 0.85f, 0.1f, 0.1f, 14, Arrays.asList(Semi.SEMI, Auto.AUTO),
                 ModSounds.MK47_FIRE, null, caliber));
     }

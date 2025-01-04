@@ -21,7 +21,7 @@ public class OspreySuppressorModel extends MuzzleFlashRendererModel implements I
     private final ModelPart low;
 
     public OspreySuppressorModel() {
-        model = StatisticModel.MUZZLE_COLLECTION2.get("osprey_suppressor");
+        model = StatisticModel.MUZZLE_COLLECTION2.get("osprey_suppressor").meshing();
         muzzle = model.getChild("osprey_suppressor_muzzle");
         low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("muzzle_collection2").getChild("osprey_suppressor").meshing();
     }

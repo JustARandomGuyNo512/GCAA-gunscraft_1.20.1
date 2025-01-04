@@ -16,8 +16,8 @@ public class Annihilator extends Gun {
 
     public Annihilator() {
         super(new GunProperties(3.8f, 0.8f, 3f, 0.8f, 0.15f,
-                3.4f, GunProperties.toRPM(750), getTicks(2.55f), getTicks(3.3f), 20,
+                3.4f, GunProperties.toRPM(800), getTicks(2.55f), getTicks(3.3f), 20,
                 1.6f, 0.5f, 0.15f, 0.12f, 12, List.of(Auto.AUTO),
-                ModSounds.VECTOR_45_FIRE, null, caliber));
+                ModSounds.ANNIHILATOR_FIRE, null, caliber));
     }
 }

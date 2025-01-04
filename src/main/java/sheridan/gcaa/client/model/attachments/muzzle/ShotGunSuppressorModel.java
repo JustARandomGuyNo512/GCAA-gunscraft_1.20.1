@@ -20,7 +20,7 @@ public class ShotGunSuppressorModel extends MuzzleFlashRendererModel implements 
     private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION2.texture;
 
     public ShotGunSuppressorModel() {
-        model = StatisticModel.MUZZLE_COLLECTION2.get("shotgun_suppressor");
+        model = StatisticModel.MUZZLE_COLLECTION2.get("shotgun_suppressor").meshing();
         muzzle = model.getChild("shotgun_suppressor_muzzle");
     }
 

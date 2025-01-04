@@ -276,8 +276,8 @@ public class Clients {
                 .setAds(0,13.65f,-30f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
-                        new InertialRecoilData(0.01f, 0.005f, 0.46f,
-                                0.06f, 0.325f,  0.07f,
+                        new InertialRecoilData(0.01f, 0.005f, 0.5f,
+                                0.065f, 0.325f,  0.07f,
                                 0.32f, 0.7f, 0.3f, 0.7f, 0.5f,
                                 0.5f, 0.3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 5.7f, -113.1f).setScale(2.1f))
@@ -403,7 +403,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.ANNIHILATOR.get(), new AnnihilatorModel(), new DisplayData()
-                .setFirstPersonMain(-12f,14.5f,-53.5f, POS)
+                .setFirstPersonMain(-12.7f,14.5f,-53.5f, POS)
                 .setThirdPersonRight(0.0f,-0.2f,-0.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -458,7 +458,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.EXP_MAG5_45X39.get(), new ExpMag5_45x39Model());
         ArsenalLib.registerAttachmentModel(ModItems.EXP_MAG7_62X51.get(), new ExpMag7_62x51Model());
         ArsenalLib.registerAttachmentModel(ModItems.SLANT_GRIP.get(), new SlantGripModel());
-
+        ArsenalLib.registerAttachmentModel(ModItems.DMR_COMPENSATOR.get(), new DMRCompensatorModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

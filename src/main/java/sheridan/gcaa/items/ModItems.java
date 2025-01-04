@@ -96,6 +96,7 @@ public class ModItems {
     public static final RegistryObject<ExpMag5_45x39> EXP_MAG5_45X39 = ITEMS.register("exp_mag5_45x39", ExpMag5_45x39::new);
     public static final RegistryObject<ExpMag7_62x51> EXP_MAG7_62X51 = ITEMS.register("exp_mag7_62x51", ExpMag7_62x51::new);
     public static final RegistryObject<SlantGrip> SLANT_GRIP = ITEMS.register("slant_grip", SlantGrip::new);
+    public static final RegistryObject<DMRCompensator> DMR_COMPENSATOR = ITEMS.register("dmr_compensator", DMRCompensator::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

@@ -19,7 +19,7 @@ public class ARCompensatorModel extends MuzzleFlashRendererModel implements IAtt
     private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION1.texture;
 
     public ARCompensatorModel() {
-        model = StatisticModel.MUZZLE_COLLECTION1.get("ar_compensator");
+        model = StatisticModel.MUZZLE_COLLECTION1.get("ar_compensator").meshing();
         muzzle = model.getChild("ar_compensator_muzzle");
     }
 
