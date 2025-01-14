@@ -40,7 +40,7 @@ public class GunRenderer{
             poseStack.mulPose(Axis.ZP.rotationDegrees(180));
             displayData.applyAttachmentScreenTransform(poseStack, x, y, rx, ry, scale);
             poseStack.pushPose();
-            GunRenderContext gunRenderContext = GunRenderContext.getClientMainHand(bufferSource, poseStack, itemStack, gun, FIXED, null, 15728880, 655360);
+            GunRenderContext gunRenderContext = GunRenderContext.getClientMainHand(bufferSource, poseStack, itemStack, gun, FIXED, null, 15728880, 15728880, 655360);
             gunRenderContext.inAttachmentScreen = true;
             model.render(gunRenderContext);
             poseStack.popPose();
@@ -98,17 +98,18 @@ public class GunRenderer{
                 if (Clients.shouldHideFPRender) {
                     return;
                 }
+                int envLight = combinedLightIn;
                 if (ClientConfig.useDynamicWeaponLighting.get()) {
                     long dis = (System.currentTimeMillis() - tempLastFire);
-                    if (dis < 25) {
+                    if (dis < 30) {
                         float particleTick = Minecraft.getInstance().getPartialTick();
                         int blockLight = entityIn.isOnFire() ? 15 :
                                 entityIn.level().getBrightness(LightLayer.BLOCK, BlockPos.containing(entityIn.getEyePosition(particleTick)));
-                        combinedLightIn = LightTexture.pack((int) Math.min(15, blockLight + Math.min(3, dis)), entityIn.level().getBrightness(LightLayer.SKY,
+                        combinedLightIn = LightTexture.pack((int) Math.min(15, blockLight + Math.min(4, dis)), entityIn.level().getBrightness(LightLayer.SKY,
                                 BlockPos.containing(entityIn.getEyePosition(particleTick))));
                     }
                 }
-                GunRenderContext context = GunRenderContext.getClientMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn);
+                GunRenderContext context = GunRenderContext.getClientMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, envLight, combinedOverlayIn);
                 if (newShoot) {
                     AnimationDefinition recoil = model.getRecoil(context);
                     if (recoil != null) {
@@ -129,12 +130,12 @@ public class GunRenderer{
                     displayData.applyTransform(type, stackIn);
                     boolean isLocalPlayer = entityIn.getId() == Clients.clientPlayerId;
                     if (isLocalPlayer) {
-                        model.render(GunRenderContext.getClientMainHand(bufferIn, stackIn, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedOverlayIn));
+                        model.render(GunRenderContext.getClientMainHand(bufferIn, stackIn, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedLightIn, combinedOverlayIn));
                     } else {
                         PlayerStatus status = PlayerStatusProvider.getStatus(player);
                         long timeDist = status.getLocalTimeOffset() - Clients.localTimeOffset;
                         long currentLastShoot = status.getLastShoot() - timeDist + status.getLatency() + Clients.getLocalLatency() + 50L;
-                        model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, muzzleFlashEntry, currentLastShoot, true));
+                        model.render(new GunRenderContext(bufferIn, stackIn, itemStackIn, gun, type, combinedLightIn, combinedOverlayIn, combinedLightIn, muzzleFlashEntry, currentLastShoot, true));
                     }
                 }
             }

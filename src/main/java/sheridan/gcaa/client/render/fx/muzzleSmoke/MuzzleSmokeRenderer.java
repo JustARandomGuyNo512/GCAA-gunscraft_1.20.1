@@ -38,7 +38,7 @@ public class MuzzleSmokeRenderer {
     /**
      * Only call this method on render thread!!!
      * */
-    public void renderOrPushEffect(MultiBufferSource bufferSource, MuzzleSmoke effect, PoseStack poseStack, long lastShoot)  {
+    public void renderOrPushEffect(MultiBufferSource bufferSource, MuzzleSmoke effect, PoseStack poseStack, long lastShoot, int light)  {
         if (effect == null) {
             return;
         }
@@ -54,7 +54,7 @@ public class MuzzleSmokeRenderer {
                 } else {
                     tempProjectionMatrix = new Matrix4f(RenderSystem.getProjectionMatrix());
                 }
-                tasks.offerFirst(new MuzzleSmokeTask(poseStack1, lastShoot, effect));
+                tasks.offerFirst(new MuzzleSmokeTask(poseStack1, lastShoot, effect, light));
             }
             isTaskQueueOpen = false;
         }

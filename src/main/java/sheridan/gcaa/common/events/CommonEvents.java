@@ -129,7 +129,7 @@ public class CommonEvents {
                     knockBackMap.put(entity, null);
                 }
             } else {
-                if (CommonConfig.enableKnockBackToEntity.get()) {
+                if (!CommonConfig.enableKnockBackToEntity.get()) {
                     knockBackMap.put(entity, null);
                 }
             }

@@ -26,6 +26,10 @@ public class CaliberGauge12 extends Caliber {
         this.projectileNum = projectileNum;
     }
 
+    public CaliberGauge12() {
+        super();
+    }
+
     public CaliberGauge12 modifySpread(float baseSpread) {
         this.baseSpread = baseSpread;
         return this;

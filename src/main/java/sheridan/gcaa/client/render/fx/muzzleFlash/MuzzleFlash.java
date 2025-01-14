@@ -59,14 +59,14 @@ public class MuzzleFlash {
         return muzzleSmoke;
     }
 
-    public void render(PoseStack stack, MultiBufferSource bufferSource, MuzzleFlashDisplayData displayData, float scale, long startTime, boolean isFirstPerson) {
+    public void render(PoseStack stack, MultiBufferSource bufferSource, MuzzleFlashDisplayData displayData, float scale, long startTime, boolean isFirstPerson, int light) {
         if (displayData != null && !textures.isEmpty()) {
             boolean muzzleFlashNotEnded = (System.currentTimeMillis() - startTime) <= displayData.length;
             boolean hasSmokeEffect = MuzzleSmokeRenderer.INSTANCE.hasTask() && isFirstPerson;
             if (muzzleFlashNotEnded || hasSmokeEffect) {
                 stack.pushPose();
                 displayData.applyTrans(stack, scale);
-                MuzzleSmokeRenderer.INSTANCE.renderOrPushEffect(bufferSource, muzzleSmoke, stack, startTime);
+                MuzzleSmokeRenderer.INSTANCE.renderOrPushEffect(bufferSource, muzzleSmoke, stack, startTime, light);
                 if (muzzleFlashNotEnded) {
                     int texNum = textures.size();
                     int texIndex = texNum > 1 ? RANDOM.nextInt(texNum) : 0;

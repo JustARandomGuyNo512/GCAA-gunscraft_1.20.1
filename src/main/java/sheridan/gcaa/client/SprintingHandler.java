@@ -54,7 +54,7 @@ public class SprintingHandler {
     }
 
     private float getAgility(IGun gun, ItemStack stack) {
-        float agility = gun.getAgility(stack);
+        float agility = gun.getAgility(stack) * 0.5f;
         IArmReplace left = Clients.MAIN_HAND_STATUS.getLeftArmReplaceAttachment();
         if (left != null) {
             agility += left.getAgilityIncRate();

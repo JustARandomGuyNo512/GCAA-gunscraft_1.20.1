@@ -234,6 +234,8 @@ public final class ModelPart {
         render(pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha, true);
     }
 
+    private final Vector3f normal = new Vector3f();
+    private final Vector4f vec = new Vector4f();
     public void render(PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha, boolean usePose) {
         if (this.visible) {
             if (!this.cubes.isEmpty() || !this.children.isEmpty() || this.polygons != null) {
@@ -246,18 +248,18 @@ public final class ModelPart {
                         Matrix4f matrix4f = pPoseStack.last().pose();
                         Matrix3f matrix3f = pPoseStack.last().normal();
                         for(Polygon polygon : this.polygons) {
-                            Vector3f vector3f = matrix3f.transform(new Vector3f(polygon.normal));
+                            Vector3f vector3f = matrix3f.transform(normal.set(polygon.normal.x, polygon.normal.y, polygon.normal.z));
                             for(Vertex vertex : polygon.vertices) {
                                 float f3 = vertex.pos.x() * 0.0625F;
                                 float f4 = vertex.pos.y() * 0.0625F;
                                 float f5 = vertex.pos.z() * 0.0625F;
-                                Vector4f vector4f = matrix4f.transform(new Vector4f(f3, f4, f5, 1.0F));
+                                Vector4f vector4f = matrix4f.transform(vec.set(f3, f4, f5, 1.0F));
                                 pVertexConsumer.vertex(
-                                        vector4f.x(), vector4f.y(), vector4f.z(),
+                                        vector4f.x, vector4f.y, vector4f.z,
                                         pRed, pGreen, pBlue, pAlpha,
                                         vertex.u, vertex.v,
                                         pPackedOverlay, pPackedLight,
-                                        vector3f.x(), vector3f.y(), vector3f.z());
+                                        vector3f.x, vector3f.y, vector3f.z);
                             }
                         }
                     } else {

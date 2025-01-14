@@ -40,7 +40,7 @@ public class MuzzleSmoke {
         return randomRotate;
     }
 
-    public void render(long lastShoot, PoseStack poseStack, MultiBufferSource bufferSource, int randomSeed) {
+    public void render(long lastShoot, PoseStack poseStack, MultiBufferSource bufferSource, int randomSeed, int light) {
         long timeDist = System.currentTimeMillis() - lastShoot;
         if (timeDist < length) {
             VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderTypes.getMuzzleFlash(texture));
@@ -56,19 +56,20 @@ public class MuzzleSmoke {
                 poseStack.mulPose(new Quaternionf().rotateZ(angle));
             }
             poseStack.scale(size, size, 1);
-            draw(poseStack.last().pose(), vertexConsumer, alpha, column, index);
+            float adjustedAlpha = Mth.lerp(Mth.clamp(Math.max(light, 10485760) / 15728641f, 0.25f, 1), alpha * 0.6f, alpha);
+            draw(poseStack.last().pose(), vertexConsumer, adjustedAlpha, column, index, light);
             poseStack.popPose();
         }
     }
 
-    protected void draw(Matrix4f matrix, VertexConsumer vertexConsumer, float alpha, int column, int index) {
+    protected void draw(Matrix4f matrix, VertexConsumer vertexConsumer, float alpha, int column, int index, int light) {
         float u1 = index * 0.25f;
         float u2 = u1 + 0.25f;
         float v1 = column * 0.25f;
         float v2 = v1 + 0.25f;
-        vertexConsumer.vertex(matrix, -0.5f, 0.5f, 0.0F).color(1.0F, 1.0F, 1.0F, alpha).uv(u1, v1).uv2(157288880).overlayCoords(655360).endVertex();
-        vertexConsumer.vertex(matrix, 0.5f, 0.5f, 0.0F).color(1.0F, 1.0F, 1.0F, alpha).uv(u2, v1).uv2(157288880).overlayCoords(655360).endVertex();
-        vertexConsumer.vertex(matrix, 0.5f, -0.5f, 0.0F).color(1.0F, 1.0F, 1.0F, alpha).uv(u2, v2).uv2(157288880).overlayCoords(655360).endVertex();
-        vertexConsumer.vertex(matrix, -0.5f, -0.5f, 0.0F).color(1.0F, 1.0F, 1.0F, alpha).uv(u1, v2).uv2(157288880).overlayCoords(655360).endVertex();
+        vertexConsumer.vertex(matrix, -0.5f, 0.5f, 0.0F).color(1.0F, 1.0F, 1.0F, alpha).uv(u1, v1).uv2(light).overlayCoords(655360).endVertex();
+        vertexConsumer.vertex(matrix, 0.5f, 0.5f, 0.0F).color(1.0F, 1.0F, 1.0F, alpha).uv(u2, v1).uv2(light).overlayCoords(655360).endVertex();
+        vertexConsumer.vertex(matrix, 0.5f, -0.5f, 0.0F).color(1.0F, 1.0F, 1.0F, alpha).uv(u2, v2).uv2(light).overlayCoords(655360).endVertex();
+        vertexConsumer.vertex(matrix, -0.5f, -0.5f, 0.0F).color(1.0F, 1.0F, 1.0F, alpha).uv(u1, v2).uv2(light).overlayCoords(655360).endVertex();
     }
 }

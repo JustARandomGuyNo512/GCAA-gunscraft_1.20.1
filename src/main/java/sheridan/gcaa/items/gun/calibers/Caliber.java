@@ -45,6 +45,8 @@ public class Caliber implements IDataPacketGen {
         this.speed = speed;
     }
 
+    public Caliber() {}
+
     public Caliber setPenetration(float penetration) {
         this.penetration = Math.max(0, penetration);
         return this;

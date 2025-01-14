@@ -32,6 +32,8 @@ public class ProductsRegister {
         PRODUCTS.put(RECYCLE, new LinkedHashSet<>());
     }
 
+
+
     public static Set<IProduct> getProducts(String type) {
         return PRODUCTS.getOrDefault(type, new LinkedHashSet<>());
     }
@@ -90,6 +92,13 @@ public class ProductsRegister {
         }
         ICON_MAP.clear();
         nextId = 0;
+    }
+
+    public static void syncFromServer(int id, String category, IProduct product) {
+        if (PRODUCTS.get(category).add(product)) {
+            ID_TO_PRODUCT.put(id, product);
+            PRODUCT_TO_ID.put(product, id);
+        }
     }
 
     public static Set<String> getAllCategories() {

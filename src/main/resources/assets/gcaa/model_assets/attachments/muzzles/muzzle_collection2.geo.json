@@ -542,7 +542,7 @@
 				{
 					"name": "dmr_compensator_muzzle",
 					"parent": "dmr_compensator",
-					"pivot": [0, 0, -10.164]
+					"pivot": [0, 0, -19.164]
 				},
 				{
 					"name": "cal_50_suppressor",

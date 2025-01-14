@@ -19,6 +19,8 @@ import sheridan.gcaa.lib.ArsenalLib;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.lwjgl.opengl.GL43C.*;
+
 @OnlyIn(Dist.CLIENT)
 public abstract class GunModel extends HierarchicalModel<Entity> implements IGunModel {
     public final ModelPart root;

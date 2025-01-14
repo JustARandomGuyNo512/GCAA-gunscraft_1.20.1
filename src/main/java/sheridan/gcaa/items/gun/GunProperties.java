@@ -9,10 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.data.IDataPacketGen;
 import sheridan.gcaa.items.gun.calibers.Caliber;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class GunProperties implements IDataPacketGen {
     public static final String ADS_SPEED = "ads_speed";
@@ -80,6 +77,8 @@ public class GunProperties implements IDataPacketGen {
         this.weight = Mth.clamp(weight, MIN_WEIGHT, MAX_WEIGHT);
         this.agility = 1f;
     }
+
+    public GunProperties() {}
 
     public GunProperties addExtension(PropertyExtension extension) {
         if (extension != null && !extensions.containsKey(extension.getName())) {
@@ -158,6 +157,10 @@ public class GunProperties implements IDataPacketGen {
         if (!Float.isNaN(res)) {
             propertiesTag.putFloat(propertyName, res);
         }
+    }
+
+    public static GunProperties createInstance() {
+        return new GunProperties();
     }
 
     @Override

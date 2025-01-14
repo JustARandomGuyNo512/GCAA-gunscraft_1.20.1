@@ -245,7 +245,8 @@ public class Commons {
                 new CommonProduct(Items.IRON_INGOT, 20),
                 new CommonProduct(Items.IRON_BLOCK, 180),
                 new CommonProduct(Items.COPPER_INGOT, 30),
-                new CommonProduct(Items.COPPER_BLOCK, 270));
+                new CommonProduct(Items.COPPER_BLOCK, 270),
+                new CommonProduct(ModItems.ANNIHILATOR.get(), 500));
 
         ProductsRegister.registerProducts(ProductsRegister.GUN,
                 new GunProduct(ModItems.G19.get(), 800),

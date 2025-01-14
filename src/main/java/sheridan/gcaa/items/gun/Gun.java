@@ -3,7 +3,6 @@ package sheridan.gcaa.items.gun;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -340,7 +339,8 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public float getAgility(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("agility") ? Mth.clamp(properties.getFloat("a"), 0.5f, 2f) : 1f;
+        return properties.contains("agility") ? Mth.clamp(properties.getFloat("agility"), 0.5f, 2.5f)
+                * gunProperties.agility : gunProperties.agility;
     }
 
     @Override
@@ -497,7 +497,6 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             CompoundTag usingDataRate = Ammunition.getWhiteDataTag();
             using.put("data_rate", usingDataRate);
             ammunitionData.put("using", using);
-            InertialRecoilHandler.flushRandomIndex();
         }
     }
 
@@ -674,7 +673,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             Clients.MAIN_HAND_STATUS.ads = false;
             Clients.setEquipDelay(3);
             player.resetAttackStrengthTicker();
-            //RenderAndMathUtils.flushRandomIndex();
+            InertialRecoilHandler.flushRandomIndex();
         }
         return Clients.getEquipDelay() > 0;
     }

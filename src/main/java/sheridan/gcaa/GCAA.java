@@ -15,6 +15,7 @@ import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,7 +26,9 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLLoader;
 import org.slf4j.Logger;
+import sheridan.gcaa.addon.AddonHandler;
 import sheridan.gcaa.blocks.ModBlocks;
 import sheridan.gcaa.capability.PlayerStatusEvents;
 import sheridan.gcaa.capability.PlayerStatusProvider;
@@ -61,12 +64,16 @@ public class GCAA {
 
     public static final String MODID = "gcaa";
     public static final Logger LOGGER = LogUtils.getLogger();
+    public static boolean ALLOW_DEBUG_SCREEN = false;
 
     public GCAA() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::onClientSetup));
         modEventBus.addListener(this::commonSetup);
+
+        //AddonHandler.INSTANCE.readAddonPack(FMLLoader.getDist());
+        //AddonHandler.INSTANCE.handleRegister(FMLLoader.getDist());
 
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
@@ -81,6 +88,10 @@ public class GCAA {
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
+
+        //modEventBus.addListener(this::registerAddonFinder);
+
+        ALLOW_DEBUG_SCREEN = !FMLLoader.isProduction();
     }
 
     private void gatherDataEvent(GatherDataEvent event) {
@@ -125,6 +136,10 @@ public class GCAA {
                 event.addCapability(new ResourceLocation(MODID, "player_status"), new PlayerStatusProvider());
             }
         }
+    }
+
+    private void registerAddonFinder(AddPackFindersEvent event) {
+        event.addRepositorySource(AddonHandler.INSTANCE.getRepositorySource());
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)

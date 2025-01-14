@@ -16,12 +16,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
+import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.model.gun.LodGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.items.attachments.Attachment;
+import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
@@ -52,14 +54,15 @@ public class GunRenderContext {
     public AttachmentsRenderContext attachmentsRenderContext;
     public Map<String, Object> localRenderStorage;
     public int ammoLeft;
+    public int envLight;
 
     public boolean renderArmNew = false;
     public boolean inAttachmentScreen = false;
 
     private static String lastAttachmentContextUUID = "none";
     private static AttachmentsRenderContext tempAttachmentContext = null;
-    public static GunRenderContext getClientMainHand(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, DisplayData.MuzzleFlashEntry muzzleFlashEntry, int packedLight, int packedOverlay) {
-        GunRenderContext context = new GunRenderContext(bufferSource, poseStack, itemStack, gun, transformType, packedLight, packedOverlay, muzzleFlashEntry, Clients.lastShootMain() + 10L, false);
+    public static GunRenderContext getClientMainHand(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, DisplayData.MuzzleFlashEntry muzzleFlashEntry, int packedLight, int envLight, int packedOverlay) {
+        GunRenderContext context = new GunRenderContext(bufferSource, poseStack, itemStack, gun, transformType, packedLight, packedOverlay, envLight, muzzleFlashEntry, Clients.lastShootMain() + 10L, false);
         String uuid = gun.getAttachmentsModifiedUUID(itemStack);
         if (!lastAttachmentContextUUID.equals(uuid)) {
             lastAttachmentContextUUID = uuid;
@@ -102,7 +105,7 @@ public class GunRenderContext {
         lastReload = ReloadingHandler.INSTANCE.getLastStartReload();
     }
 
-    public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, int packedLight, int packedOverlay, DisplayData.MuzzleFlashEntry muzzleFlashEntry, long lastShoot, boolean useAttachmentContext) {
+    public GunRenderContext(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, int packedLight, int packedOverlay, int envLight, DisplayData.MuzzleFlashEntry muzzleFlashEntry, long lastShoot, boolean useAttachmentContext) {
         this.bufferSource = bufferSource;
         this.poseStack = poseStack;
         this.itemStack = itemStack;
@@ -113,6 +116,7 @@ public class GunRenderContext {
         this.isFirstPerson = transformType.firstPerson();
         this.muzzleFlashEntry = muzzleFlashEntry;
         this.lastShoot = lastShoot;
+        this.envLight = envLight;
         ammoLeft = gun.getAmmoLeft(itemStack);
         attachmentsRenderContext = useAttachmentContext ? AttachmentsHandler.INSTANCE.getRenderContext(itemStack, gun) : null;
         lastReload = ReloadingHandler.INSTANCE.getLastStartReload();
@@ -148,7 +152,7 @@ public class GunRenderContext {
     }
 
     public VertexConsumer solidMipMap(ResourceLocation texture) {
-        return bufferSource.getBuffer(RenderType.entityCutout(texture));
+        return bufferSource.getBuffer(RenderTypes.getCutOutMipmap(texture));
     }
 
     public VertexConsumer solidNoCull(ResourceLocation texture) {
@@ -171,7 +175,23 @@ public class GunRenderContext {
         }
     }
 
-    public void renderIfOrElse(ModelPart ifTrue, ModelPart orElse,  boolean condition, VertexConsumer vertexConsumer)  {
+    public boolean attachmentIs(String slotName, IAttachment attachment) {
+        AttachmentRenderEntry attachmentRenderEntry = getAttachmentRenderEntry(slotName);
+        if (attachmentRenderEntry != null) {
+            return attachmentRenderEntry.attachment == attachment;
+        }
+        return  false;
+    }
+
+    public boolean attachmentIs(String slotName, String attachmentId) {
+        AttachmentRenderEntry attachmentRenderEntry = getAttachmentRenderEntry(slotName);
+        if (attachmentRenderEntry != null) {
+            return attachmentId.equals(AttachmentsRegister.getStrKey(attachmentRenderEntry.attachment));
+        }
+        return  false;
+    }
+
+   public void renderIfOrElse(ModelPart ifTrue, ModelPart orElse,  boolean condition, VertexConsumer vertexConsumer)  {
         if (condition) {
             ifTrue.render(poseStack, vertexConsumer, packedLight, packedOverlay, r, g, b, a, true);
         } else {
@@ -271,7 +291,7 @@ public class GunRenderContext {
             if (ClientConfig.enableMuzzleFlashScaleModifyOnUsingScope.get() && isFirstPerson) {
                 scale *= Float.isNaN(Clients.gunModelFovModify) ? 1 : Mth.clamp(Clients.gunModelFovModify / 70f, 0.5f, 1f);
             }
-            muzzleFlashEntry.muzzleFlash.render(poseStack, bufferSource, muzzleFlashEntry.displayData, scale, lastShoot, isFirstPerson);
+            muzzleFlashEntry.muzzleFlash.render(poseStack, bufferSource, muzzleFlashEntry.displayData, scale, lastShoot, isFirstPerson, envLight);
         }
     }
 
@@ -279,7 +299,7 @@ public class GunRenderContext {
         if (ClientConfig.enableMuzzleFlashScaleModifyOnUsingScope.get() && isFirstPerson) {
             scale *= Float.isNaN(Clients.gunModelFovModify) ? 1 : Mth.clamp(Clients.gunModelFovModify / 70f, 0.5f, 1f);
         }
-        muzzleFlashEntry.muzzleFlash.render(poseStack, bufferSource, muzzleFlashEntry.displayData, scale, lastShoot, isFirstPerson);
+        muzzleFlashEntry.muzzleFlash.render(poseStack, bufferSource, muzzleFlashEntry.displayData, scale, lastShoot, isFirstPerson, envLight);
     }
 
     public void clearMuzzleFlashEntry() {

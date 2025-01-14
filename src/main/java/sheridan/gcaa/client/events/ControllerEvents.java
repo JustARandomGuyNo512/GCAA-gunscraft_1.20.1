@@ -15,6 +15,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.KeyBinds;
@@ -146,7 +147,7 @@ public class ControllerEvents {
         if(Minecraft.getInstance().player != null) {
             Player player = Minecraft.getInstance().player;
             ItemStack stackMain = player.getMainHandItem();
-            if (KeyBinds.OPEN_DEBUG_SCREEN.isDown() && event.getAction() == 1) {
+            if (GCAA.ALLOW_DEBUG_SCREEN && KeyBinds.OPEN_DEBUG_SCREEN.isDown() && event.getAction() == 1) {
                 if (stackMain.getItem() instanceof IGun) {
                     Minecraft.getInstance().setScreen(new GunDebugAdjustScreen());
                 }
