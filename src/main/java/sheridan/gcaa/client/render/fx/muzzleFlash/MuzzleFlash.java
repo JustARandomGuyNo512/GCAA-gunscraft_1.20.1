@@ -66,7 +66,7 @@ public class MuzzleFlash {
             if (muzzleFlashNotEnded || hasSmokeEffect) {
                 stack.pushPose();
                 displayData.applyTrans(stack, scale);
-                MuzzleSmokeRenderer.INSTANCE.renderOrPushEffect(bufferSource, muzzleSmoke, stack, startTime, light);
+                MuzzleSmokeRenderer.INSTANCE.renderOrPushEffect(muzzleSmoke, stack, startTime, light);
                 if (muzzleFlashNotEnded) {
                     int texNum = textures.size();
                     int texIndex = texNum > 1 ? RANDOM.nextInt(texNum) : 0;

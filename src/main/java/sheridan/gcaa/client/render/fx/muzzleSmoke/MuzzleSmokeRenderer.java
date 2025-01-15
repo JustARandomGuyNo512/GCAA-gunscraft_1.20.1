@@ -5,9 +5,12 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexSorting;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -27,6 +30,7 @@ public class MuzzleSmokeRenderer {
     public static final MuzzleSmokeRenderer INSTANCE = new MuzzleSmokeRenderer();
     private boolean isTaskQueueOpen = false;
     private boolean renderImmediate = true;
+    public static boolean depthMask = true;
 
     /**
      * Only call this method on render thread!!!
@@ -38,7 +42,7 @@ public class MuzzleSmokeRenderer {
     /**
      * Only call this method on render thread!!!
      * */
-    public void renderOrPushEffect(MultiBufferSource bufferSource, MuzzleSmoke effect, PoseStack poseStack, long lastShoot, int light)  {
+    public void renderOrPushEffect(MuzzleSmoke effect, PoseStack poseStack, long lastShoot, int light)  {
         if (effect == null) {
             return;
         }
@@ -58,9 +62,9 @@ public class MuzzleSmokeRenderer {
             }
             isTaskQueueOpen = false;
         }
-        if (renderImmediate) {
-            tasks.removeIf((task) -> task.handleRender(bufferSource));
-        }
+//        if (renderImmediate) {
+//            tasks.removeIf((task) -> task.handleRender(bufferSource));
+//        }
     }
 
     public void clearEffects() {
@@ -79,6 +83,7 @@ public class MuzzleSmokeRenderer {
                 RenderSystem.backupProjectionMatrix();
                 RenderSystem.setProjectionMatrix(tempProjectionMatrix, VertexSorting.DISTANCE_TO_ORIGIN);
             }
+            depthMask = true;
             MultiBufferSource.BufferSource bufferSource = MultiBufferSource.immediate(DELAYED_TASK_BUFFER);
             tasks.removeIf((task) -> task.handleRender(bufferSource));
             bufferSource.endBatch();
@@ -88,4 +93,14 @@ public class MuzzleSmokeRenderer {
         }
     }
 
+    @SubscribeEvent
+    public static void onRenderHandLast(RenderHandEvent event) {
+        if (INSTANCE.renderImmediate && event.getHand() == InteractionHand.OFF_HAND) {
+            depthMask = false;
+            MultiBufferSource.BufferSource bufferSource = MultiBufferSource.immediate(DELAYED_TASK_BUFFER);
+            tasks.removeIf((task) -> task.handleRender(bufferSource));
+            bufferSource.endBatch();
+            depthMask = true;
+        }
+    }
 }

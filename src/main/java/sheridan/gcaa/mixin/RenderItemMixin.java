@@ -19,6 +19,7 @@ import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.GunRenderer;
+import sheridan.gcaa.client.render.fx.muzzleSmoke.MuzzleSmokeRenderer;
 import sheridan.gcaa.items.gun.IGun;
 
 @Mixin(ItemRenderer.class)

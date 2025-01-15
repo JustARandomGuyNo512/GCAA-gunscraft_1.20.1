@@ -39,6 +39,16 @@ public class RenderTypes extends RenderType {
                         .setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL).setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(false));
 
     }
+    public static RenderType getMuzzleFlashNotWriteDepth(ResourceLocation texture) {
+        return RenderType.create("muzzle_flash_not_write_depth", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
+                VertexFormat.Mode.QUADS, 256, true, true,
+                CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
+                        .setTextureState(new TextureStateShard(texture, false, false))
+                        .setLightmapState(LightmapStateShard.LIGHTMAP)
+                        .setWriteMaskState(new WriteMaskStateShard(true, false))
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL).setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(false));
+
+    }
 
     public static RenderType getAttachmentOverlayDepth(ResourceLocation texture) {
         String baseKey = texture.toString() + ":" + "attachment_overlay_depth";
