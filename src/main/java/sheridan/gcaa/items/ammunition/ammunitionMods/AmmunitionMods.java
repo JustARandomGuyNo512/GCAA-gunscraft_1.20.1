@@ -6,4 +6,5 @@ public class AmmunitionMods {
     public static final Explosive EXPLOSIVE = new Explosive();
     public static final HollowPoint HOLLOW_POINT = new HollowPoint();
     public static final Heal HEAL = new Heal();
+    public static final EfficientPropellant EFFICIENT_PROPELLANT = new EfficientPropellant();
 }

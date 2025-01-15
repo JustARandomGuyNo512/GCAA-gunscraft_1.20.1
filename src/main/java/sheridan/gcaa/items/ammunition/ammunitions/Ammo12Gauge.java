@@ -8,7 +8,8 @@ import java.util.Set;
 public class Ammo12Gauge extends Ammunition {
     public Ammo12Gauge() {
         super(100, 5, Set.of(
-                AmmunitionMods.HEAL
+                AmmunitionMods.HEAL,
+                AmmunitionMods.EFFICIENT_PROPELLANT
         ));
     }
 }

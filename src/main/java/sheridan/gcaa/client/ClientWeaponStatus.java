@@ -50,6 +50,7 @@ public class ClientWeaponStatus {
     public float spread = 0;
     public float lastRecoilDirection = 1;
     public List<IAmmunitionMod> ammunitionMods;
+    public boolean shootCreateMuzzleSmoke = true;
     @Nullable
     public IGunFireMode fireMode;
     private String ammunitionModsUUID = "none";
@@ -122,6 +123,7 @@ public class ClientWeaponStatus {
         if (gun == null) {
             ammunitionModsUUID = "none";
             ammunitionMods.clear();
+            resetAmmunitionModsOptions();
             return;
         }
         CompoundTag ammunitionData = gun.getGun().getAmmunitionData(stack);
@@ -133,12 +135,25 @@ public class ClientWeaponStatus {
                     ammunitionModsUUID = modsUUID;
                     CompoundTag mods = using.getCompound("mods");
                     ammunitionMods = gun.getGunProperties().caliber.ammunition.getMods(mods);
+                    resetAmmunitionModsOptions();
+                    handleAmmunitionModHooks();
                 }
                 return;
             }
         }
         ammunitionModsUUID = "none";
         ammunitionMods.clear();
+        resetAmmunitionModsOptions();
+    }
+
+    private void resetAmmunitionModsOptions() {
+        shootCreateMuzzleSmoke = true;
+    }
+
+    private void handleAmmunitionModHooks() {
+        for (IAmmunitionMod mod : ammunitionMods) {
+            mod.onEquippedClient();
+        }
     }
 
     public void updateChargeTick(ItemStack stack, IGun gun) {

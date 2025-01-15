@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.render.fx.muzzleSmoke.CommonMuzzleSmokeEffects;
 import sheridan.gcaa.client.render.fx.muzzleSmoke.MuzzleSmoke;
 import sheridan.gcaa.client.render.fx.muzzleSmoke.MuzzleSmokeRenderer;
@@ -66,7 +67,9 @@ public class MuzzleFlash {
             if (muzzleFlashNotEnded || hasSmokeEffect) {
                 stack.pushPose();
                 displayData.applyTrans(stack, scale);
-                MuzzleSmokeRenderer.INSTANCE.renderOrPushEffect(muzzleSmoke, stack, startTime, light);
+                if (Clients.MAIN_HAND_STATUS.shootCreateMuzzleSmoke) {
+                    MuzzleSmokeRenderer.INSTANCE.renderOrPushEffect(muzzleSmoke, stack, startTime, light);
+                }
                 if (muzzleFlashNotEnded) {
                     int texNum = textures.size();
                     int texIndex = texNum > 1 ? RANDOM.nextInt(texNum) : 0;

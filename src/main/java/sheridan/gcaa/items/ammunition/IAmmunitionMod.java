@@ -45,6 +45,8 @@ public interface IAmmunitionMod {
     default void onShootInOwnClient(IGun gun, Player shooter) {}
     @OnlyIn(Dist.CLIENT)
     default void onHitBlockClient(BlockPos pos, Vector3f hitVec, Direction direction, Vector3f normalVec, Player player) {}
+    @OnlyIn(Dist.CLIENT)
+    default void onEquippedClient() {}
 
     default boolean syncClientHooks() {
         return false;

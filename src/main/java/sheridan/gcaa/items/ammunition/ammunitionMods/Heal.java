@@ -25,7 +25,8 @@ public class Heal extends AmmunitionMod {
     private static final int HEAL_TIME = 3 * 20;
 
     public Heal() {
-        super(new ResourceLocation(GCAA.MODID, "heal"), 10, ICONS_0, new Vector4i(64, 0, 128, 128), "gcaa.ammunition_mod.heal", 0x00ff00, 100);
+        super(new ResourceLocation(GCAA.MODID, "heal"), 10, ICONS_0, new Vector4i(64, 0, 128, 128),
+                "gcaa.ammunition_mod.heal", 0x00ff00, 100);
     }
 
     @Override

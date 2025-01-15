@@ -11,7 +11,8 @@ public class Ammo556x45mm extends Ammunition {
                 AmmunitionMods.AP,
                 AmmunitionMods.EXPLOSIVE,
                 AmmunitionMods.INCENDIARY,
-                AmmunitionMods.HEAL
+                AmmunitionMods.HEAL,
+                AmmunitionMods.EFFICIENT_PROPELLANT
         ));
     }
 }

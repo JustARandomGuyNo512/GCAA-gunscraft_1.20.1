@@ -58,8 +58,7 @@ public class MuzzleSmoke {
                 poseStack.mulPose(new Quaternionf().rotateZ(angle));
             }
             poseStack.scale(size, size, 1);
-            float adjustedAlpha = Mth.lerp(Mth.clamp(Math.max(light, 10485760) / 15728641f, 0.25f, 1), alpha * 0.6f, alpha);
-            draw(poseStack.last().pose(), vertexConsumer, adjustedAlpha, column, index, light);
+            draw(poseStack.last().pose(), vertexConsumer, alpha, column, index, light);
             poseStack.popPose();
         }
     }
