@@ -63,7 +63,7 @@ public class M4a1Model extends AutoMagPositionModel {
 
     @Override
     protected void renderAttachmentsModel(GunRenderContext context) {
-        context.renderMagAttachmentIf(mag, !context.notHasMag());
+        super.renderAttachmentsModel(context);
         context.renderAllAttachmentsLeft(gun);
     }
 

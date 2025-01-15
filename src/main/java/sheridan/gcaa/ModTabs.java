@@ -86,6 +86,7 @@ public class ModTabs {
                     tab.accept(ModItems.G19.get());
                     tab.accept(ModItems.PYTHON_357.get());
                     tab.accept(ModItems.VECTOR_45.get());
+                    tab.accept(ModItems.MP5.get());
                     tab.accept(ModItems.AKM.get());
                     tab.accept(ModItems.AK12.get());
                     tab.accept(ModItems.M4A1.get());

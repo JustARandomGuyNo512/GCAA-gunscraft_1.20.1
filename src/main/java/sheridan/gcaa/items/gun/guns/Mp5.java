@@ -11,15 +11,15 @@ import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.Arrays;
 
-public class Vector45 extends Gun {
+public class Mp5 extends Gun {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_45_ACP,7f, 4.5f, 4f, 5f, 0.55f)
-                    .setAmmunition(ModItems.AMMO_45ACP.get());
+            new Caliber(Caliber.CALIBER_9MM,6f, 4.5f, 4.5f, 5.5f, 0.6f)
+                    .setAmmunition(ModItems.AMMO_9X19MM.get());
 
-    public Vector45() {
-        super(new GunProperties(4f, 0.6f, 2.6f, 0.75f, 0.16f,
-                3.2f, GunProperties.toRPM(1000), getTicks(2.45f), getTicks(3.05f), 13,
-                1.6f, 0.65f, 0.13f, 0.1f, 10, Arrays.asList(Semi.SEMI, new Burst(2), Auto.AUTO),
+    public Mp5() {
+        super(new GunProperties(3.8f, 0.55f, 2.9f, 0.6f, 0.15f,
+                3f, GunProperties.toRPM(800), getTicks(2.45f), getTicks(3.05f), 30,
+                1.5f, 0.4f, 0.15f, 0.12f, 11.3f, Arrays.asList(Semi.SEMI, new Burst(3), Auto.AUTO),
                 ModSounds.VECTOR_45_FIRE, null, caliber));
     }
 }
