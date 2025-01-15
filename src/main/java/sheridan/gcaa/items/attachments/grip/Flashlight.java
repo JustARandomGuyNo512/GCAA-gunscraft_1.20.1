@@ -78,7 +78,6 @@ public class Flashlight extends Attachment {
     public void onDetach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         super.onDetach(player, stack, gun, data);
         CompoundTag nbt = gun.getGun().checkAndGet(stack);
-        System.out.println(getFlashlightNum(stack, gun));
         if (nbt.contains("flashlight_mode") && getFlashlightNum(stack, gun) <= 1) {
             nbt.putInt("flashlight_mode", OFF);
         }

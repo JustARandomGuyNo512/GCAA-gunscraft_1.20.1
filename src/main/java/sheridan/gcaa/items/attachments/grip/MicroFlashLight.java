@@ -2,6 +2,6 @@ package sheridan.gcaa.items.attachments.grip;
 
 public class MicroFlashLight extends Flashlight{
     public MicroFlashLight() {
-        super(0.2f, 1.5f);
+        super(0.2f, 1.8f);
     }
 }

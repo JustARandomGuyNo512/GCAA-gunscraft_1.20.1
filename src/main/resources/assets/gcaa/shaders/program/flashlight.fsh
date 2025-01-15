@@ -18,6 +18,7 @@ uniform int Mode;
 in vec2 texCoord;
 out vec4 fragColor;
 
+float standardBrightness = 0.3;
 vec3 From = vec3(0.0, 0.0, 0.0);
 
 vec3 getFragWorldPos(vec2 coord) {
@@ -44,16 +45,23 @@ void main(){
     float intensity = 0.0;
     if (Mode == 1) {
         float disToCenter = sqrt(1.0 - angleCos * angleCos);
-        intensity = clamp(exp( - disToCenter * 15) * Luminance / (dist * 0.015) * (Range - dist) / Range, 0.0, 1.8);
+        intensity = clamp(exp( - disToCenter * 15) * Luminance / (dist * 0.015) * (Range - dist) / Range, 0.0, 2.5);
     } else if (Mode == 2) {
         float cutoffCos = cos(Angle);
         if (angleCos > cutoffCos) {
-            intensity = smoothstep(cutoffCos, 1.0, angleCos) * (1.0 - dist / Range) * clamp(Luminance, 0.0, 5);
-            intensity = mix(0, intensity * 3, 1 - pow(dist / Range, 2.0));
+            intensity = smoothstep(cutoffCos, 1.0, angleCos) * (1.0 - dist / Range) * clamp(Luminance, 0.0, 2.75);
+            intensity = mix(0, intensity * 1.6, 1 - pow(dist / Range, 2.0));
         }
     }
     float brightness = dot(diffuseColor.rgb, vec3(0.299, 0.587, 0.114));
-    float adjustedIntensity = intensity * (1.0 - pow(brightness, 3.0));
+    float adjustedIntensity;
+    if (brightness <= standardBrightness) {
+        float factor = 1 - (brightness / standardBrightness);
+        adjustedIntensity = intensity * (1.0 + pow(factor, 3.5) * 2);
+    } else {
+        float factor = 1.0 - (brightness - standardBrightness) / (1.0 - standardBrightness);
+        adjustedIntensity = intensity * max(factor, 0.0);
+    }
     vec3 adjustedColor = diffuseColor.rgb * (1.0 + adjustedIntensity);
     fragColor = vec4(adjustedColor.rgb, 1.0);
 }

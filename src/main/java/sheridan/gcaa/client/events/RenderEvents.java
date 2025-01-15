@@ -187,8 +187,8 @@ public class RenderEvents {
                         lightFov *= 1.1f;
                         range *= 0.9f;
                     } else if (mode == Flashlight.SEARCHLIGHT) {
-                        lightFov *= 0.8f;
-                        range *= 1.5f;
+                        lightFov *= 0.85f;
+                        range *= 2f;
                         Luminance *= 1.6f;
                     }
                     for (PostPass pass : passes) {
@@ -196,7 +196,7 @@ public class RenderEvents {
                         pass.getEffect().safeGetUniform("InverseModelViewMat").set(inverseModelViewMat);
                         pass.getEffect().safeGetUniform("To").set(To);
                         pass.getEffect().safeGetUniform("Angle").set((float) Math.toRadians(Mth.clamp(lightFov, 1, 20)));
-                        pass.getEffect().safeGetUniform("Range").set(Mth.clamp(range, 10, mode == Flashlight.SEARCHLIGHT ? 180 : 95));
+                        pass.getEffect().safeGetUniform("Range").set(Mth.clamp(range, 10, mode == Flashlight.SEARCHLIGHT ? 200 : 95));
                         pass.getEffect().safeGetUniform("Luminance").set(Mth.clamp(Luminance, 0.1f,  mode == Flashlight.SEARCHLIGHT ? 20f : 13f));
                         pass.getEffect().safeGetUniform("MinZ").set(MinZ);
                         pass.getEffect().safeGetUniform("Mode").set(mode);
