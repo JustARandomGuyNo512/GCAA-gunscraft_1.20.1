@@ -2933,34 +2933,34 @@
 				{
 					"name": "left_arm_slim",
 					"parent": "left_arm",
-					"pivot": [26, -78.7, -11.3],
+					"pivot": [26, -78.7, -11.1],
 					"rotation": [0, 0, -2.5]
 				},
 				{
 					"name": "LAS",
 					"parent": "left_arm_slim",
-					"pivot": [26, -78.7, -11.3]
+					"pivot": [26, -78.7, -11.1]
 				},
 				{
 					"name": "LSS",
 					"parent": "left_arm_slim",
-					"pivot": [26, -78.7, -11.3]
+					"pivot": [26, -78.7, -11.1]
 				},
 				{
 					"name": "left_arm_normal",
 					"parent": "left_arm",
-					"pivot": [28, -78.7, -11.3],
+					"pivot": [28, -78.7, -11.1],
 					"rotation": [0, 0, -2.5]
 				},
 				{
 					"name": "LA",
 					"parent": "left_arm_normal",
-					"pivot": [28, -78.7, -11.3]
+					"pivot": [28, -78.7, -11.1]
 				},
 				{
 					"name": "LS",
 					"parent": "left_arm_normal",
-					"pivot": [28, -78.7, -11.3]
+					"pivot": [28, -78.7, -11.1]
 				},
 				{
 					"name": "right_arm",

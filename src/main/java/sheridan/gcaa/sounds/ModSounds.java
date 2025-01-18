@@ -88,7 +88,13 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> ANNIHILATOR_CHARGE = registerSound("annihilator_charge", "item.annihilator.annihilator_charge");
     public static RegistryObject<SoundEvent> ANNIHILATOR_MAG_OFF = registerSound("annihilator_mag_off", "item.annihilator.annihilator_mag_off");
     public static RegistryObject<SoundEvent> ANNIHILATOR_MAG_ATTACH = registerSound("annihilator_mag_attach", "item.annihilator.annihilator_mag_attach");
-
+    public static RegistryObject<SoundEvent> FN_BALLISTA_FIRE = registerSound("fn_ballista_fire", "item.fn_ballista.fire");
+    public static RegistryObject<SoundEvent> FN_BALLISTA_FIRE_SUPPRESSED = registerSound("fn_ballista_fire_suppressed", "item.fn_ballista.fire_suppressed");
+    public static RegistryObject<SoundEvent> FN_BALLISTA_BOLT_BACK = registerSound("fn_ballista_bolt_back", "item.fn_ballista.fn_ballista_bolt_back");
+    public static RegistryObject<SoundEvent> FN_BALLISTA_BOLT_FORWARD = registerSound("fn_ballista_bolt_forward", "item.fn_ballista.fn_ballista_bolt_forward");
+    public static RegistryObject<SoundEvent> FN_BALLISTA_MAG_OFF = registerSound("fn_ballista_mag_off", "item.fn_ballista.fn_ballista_mag_off");
+    public static RegistryObject<SoundEvent> FN_BALLISTA_MAG_ATTACH = registerSound("fn_ballista_mag_attach", "item.fn_ballista.fn_ballista_mag_attach");
+    public static RegistryObject<SoundEvent> MP5_FIRE = registerSound("mp5_fire", "item.mp5.fire");
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");
     public static RegistryObject<SoundEvent> HEADSHOT_2 = registerSound("headshot_2", "effect.headshot.2");

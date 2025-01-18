@@ -271,7 +271,15 @@ public class RenderEvents {
     @SubscribeEvent
     public static void handleCameraAnimation(ViewportEvent.ComputeCameraAngles event) {
         CameraAnimationHandler.INSTANCE.apply(event);
-        CameraAnimationHandler.INSTANCE.clear();
+    }
+
+    @SubscribeEvent
+    public static void onRenderLast(TickEvent.RenderTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {
+            if (CameraAnimationHandler.INSTANCE.isDirty()) {
+                //CameraAnimationHandler.INSTANCE.clear();
+            }
+        }
     }
 
     public static void renderScopeMagnificationTip(Scope scope, float rate, int color) {

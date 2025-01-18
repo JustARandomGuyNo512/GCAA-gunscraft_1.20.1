@@ -104,9 +104,9 @@ public class ClientWeaponStatus {
 
     private void exitAds() {
         float speed = adsSpeed == 0 ? 0.005f : adsSpeed;
-        speed = Math.min(speed * 1.5f, 0.25f);
+        speed = Math.min(speed * 1.3f, 0.25f);
         lastAdsProgress = adsProgress;
-        adsProgress = Math.max(adsProgress - speed * 1.5f, 0);
+        adsProgress = Math.max(adsProgress - speed, 0);
     }
 
     public float getLerpedChargeTick(float particleTick) {

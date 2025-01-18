@@ -37,6 +37,7 @@ public class ModItems {
     public static final RegistryObject<Ammo45ACP> AMMO_45ACP = ITEMS.register("ammo_45acp", Ammo45ACP::new);
     public static final RegistryObject<Ammo357Magnum> AMMO_357MAGNUM = ITEMS.register("ammo_357magnum", Ammo357Magnum::new);
     public static final RegistryObject<AmmoVOG25> AMMO_VOG_25 = ITEMS.register("ammo_vog_25", AmmoVOG25::new);
+    public static final RegistryObject<AmmoLapuaMagnum> AMMO_338_LAPUA_MAGNUM = ITEMS.register("ammo_338_lapua_magnum", AmmoLapuaMagnum::new);
 
     public static final RegistryObject<G19> G19 = ITEMS.register("g19", G19::new);
     public static final RegistryObject<Python357> PYTHON_357 = ITEMS.register("python_357", Python357::new);
@@ -53,6 +54,7 @@ public class ModItems {
     public static final RegistryObject<Beretta686> BERETTA_686 = ITEMS.register("beretta_686", Beretta686::new);
     public static final RegistryObject<Annihilator> ANNIHILATOR = ITEMS.register("annihilator", Annihilator::new);
     public static final RegistryObject<Mp5> MP5 = ITEMS.register("mp5", Mp5::new);
+    public static final RegistryObject<FnBallista> FN_BALLISTA = ITEMS.register("fn_ballista", FnBallista::new);
 
     public static final RegistryObject<UnknownAttachment> UNKNOWN_ATTACHMENT = ITEMS.register("unknown_attachment", UnknownAttachment::new);
     public static final RegistryObject<AKSuppressor> AK_SUPPRESSOR = ITEMS.register("ak_suppressor", AKSuppressor::new);

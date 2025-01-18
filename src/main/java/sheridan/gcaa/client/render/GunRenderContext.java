@@ -418,4 +418,8 @@ public class GunRenderContext {
     public boolean shouldBulletRender() {
         return isFirstPerson && ReloadingHandler.isReloading() && (ammoLeft > 0 || ReloadingHandler.disFromLastReload(1000)) && !useLowQuality();
     }
+
+    public boolean shouldBulletRender(int bulletShowDelay) {
+        return isFirstPerson && ReloadingHandler.isReloading() && (ammoLeft > 0 || ReloadingHandler.disFromLastReload(bulletShowDelay)) && !useLowQuality();
+    }
 }

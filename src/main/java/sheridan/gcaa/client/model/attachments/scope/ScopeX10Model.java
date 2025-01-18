@@ -50,7 +50,7 @@ public class ScopeX10Model extends ScopeModel implements ISlotProviderModel {
         boolean active = context.isEffectiveSight(attachmentRenderEntry) && Clients.isInAds() && Clients.getAdsProgress() == 1f;
         AttachmentRenderEntry subScope = attachmentRenderEntry.getChild("s_sub_scope");
         sub_scope_adapter.visible = subScope != null;
-        SightViewRenderer.renderScope(active, false, 0.75f, 0.95f, context,
+        SightViewRenderer.renderScope(active, false, 0.75f, 0.8f, context,
                 CROSSHAIR_TEXTURE, TEXTURE, crosshair, glass_shape, back_glass, back_ground, body, sub_scope_adapter);
         context.renderEntry(subScope, sub_scope);
     }

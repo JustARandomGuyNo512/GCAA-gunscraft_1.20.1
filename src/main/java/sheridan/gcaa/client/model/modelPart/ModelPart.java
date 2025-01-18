@@ -238,13 +238,13 @@ public final class ModelPart {
     private final Vector4f vec = new Vector4f();
     public void render(PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha, boolean usePose) {
         if (this.visible) {
-            if (!this.cubes.isEmpty() || !this.children.isEmpty() || this.polygons != null) {
+            if (!this.cubes.isEmpty() || !this.children.isEmpty()) {
                 pPoseStack.pushPose();
                 if (usePose) {
                     this.translateAndRotate(pPoseStack);
                 }
                 if (!this.skipDraw) {
-                    if (meshed) {
+                    if (meshed && this.polygons != null) {
                         Matrix4f matrix4f = pPoseStack.last().pose();
                         Matrix3f matrix3f = pPoseStack.last().normal();
                         for(Polygon polygon : this.polygons) {

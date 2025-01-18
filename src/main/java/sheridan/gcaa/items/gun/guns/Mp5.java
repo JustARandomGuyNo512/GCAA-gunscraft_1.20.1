@@ -20,6 +20,6 @@ public class Mp5 extends Gun {
         super(new GunProperties(3.8f, 0.55f, 2.9f, 0.6f, 0.15f,
                 3f, GunProperties.toRPM(800), getTicks(2.45f), getTicks(3.05f), 30,
                 1.5f, 0.4f, 0.15f, 0.12f, 11.3f, Arrays.asList(Semi.SEMI, new Burst(3), Auto.AUTO),
-                ModSounds.VECTOR_45_FIRE, null, caliber));
+                ModSounds.MP5_FIRE, null, caliber));
     }
 }

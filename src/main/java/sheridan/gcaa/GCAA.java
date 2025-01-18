@@ -8,6 +8,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.lighting.BlockLightEngine;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -90,7 +91,6 @@ public class GCAA {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
 
         //modEventBus.addListener(this::registerAddonFinder);
-
         ALLOW_DEBUG_SCREEN = !FMLLoader.isProduction();
     }
 

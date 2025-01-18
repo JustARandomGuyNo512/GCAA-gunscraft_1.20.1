@@ -1,8 +1,11 @@
 package sheridan.gcaa.client.animation;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ViewportEvent;
+import org.joml.Quaternionf;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 
 @OnlyIn(Dist.CLIENT)
@@ -37,6 +40,16 @@ public class CameraAnimationHandler {
             event.setPitch((float) Math.toDegrees(pitch) + event.getPitch());
             event.setRoll((float) Math.toDegrees(roll) + event.getRoll());
         }
+    }
+
+    public void applyToPose(PoseStack poseStack) {
+        if (dirty) {
+            poseStack.mulPose(new Quaternionf().rotateXYZ(pitch, yaw, roll));
+        }
+    }
+
+    public boolean isDirty() {
+        return dirty;
     }
 
     public void clear() {

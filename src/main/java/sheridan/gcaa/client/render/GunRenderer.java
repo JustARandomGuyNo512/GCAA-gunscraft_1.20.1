@@ -16,6 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.capability.PlayerStatus;
 import sheridan.gcaa.capability.PlayerStatusProvider;
+import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.AnimationHandler;
@@ -75,11 +76,13 @@ public class GunRenderer{
             DisplayData.MuzzleFlashEntry muzzleFlashEntry = displayData.getMuzzleFlashEntry(muzzleFlash);
             if (isFirstPerson) {
                 PoseStack poseStack = new PoseStack();
+                CameraAnimationHandler.INSTANCE.applyToPose(poseStack);
                 poseStack.mulPose(Axis.ZP.rotationDegrees(180));
                 displayData.applyTransform(type, poseStack);
                 if (Clients.handleWeaponBobbing) {
                     GlobalWeaponBobbing.INSTANCE.handleTranslation(poseStack);
                 }
+                CameraAnimationHandler.INSTANCE.clear();
                 InertialRecoilData inertialRecoilData = displayData.getInertialRecoilData();
                 boolean newShoot = false;
                 if (tempLastFire != Clients.lastShootMain()) {

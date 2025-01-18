@@ -70,6 +70,13 @@
   "item.annihilator.annihilator_charge": { "subtitle": "item.annihilator.annihilator_charge", "sounds": [{ "name": "gcaa:annihilator/annihilator_charge" }]},
   "item.annihilator.annihilator_mag_off": { "subtitle": "item.annihilator.annihilator_mag_off", "sounds": [{ "name": "gcaa:annihilator/annihilator_mag_off" }]},
   "item.annihilator.annihilator_mag_attach": { "subtitle": "item.annihilator.annihilator_mag_attach", "sounds": [{ "name": "gcaa:annihilator/annihilator_mag_attach" }]},
+  "item.fn_ballista.fire": { "subtitle": "item.fn_ballista.fire", "sounds": [{ "name": "gcaa:fn_ballista/fn_ballista_fire" }]},
+  "item.fn_ballista.fire_suppressed": { "subtitle": "item.fn_ballista.fire_suppressed", "sounds": [{ "name": "gcaa:fn_ballista/fn_ballista_fire_suppressed" }]},
+  "item.fn_ballista.fn_ballista_bolt_back": { "subtitle": "item.fn_ballista.fn_ballista_bolt_back", "sounds": [{ "name": "gcaa:fn_ballista/fn_ballista_bolt_back" }]},
+  "item.fn_ballista.fn_ballista_bolt_forward": { "subtitle": "item.fn_ballista.fn_ballista_bolt_forward", "sounds": [{ "name": "gcaa:fn_ballista/fn_ballista_bolt_forward" }]},
+  "item.fn_ballista.fn_ballista_mag_off": { "subtitle": "item.fn_ballista.fn_ballista_mag_off", "sounds": [{ "name": "gcaa:fn_ballista/fn_ballista_mag_off" }]},
+  "item.fn_ballista.fn_ballista_mag_attach": { "subtitle": "item.fn_ballista.fn_ballista_mag_attach", "sounds": [{ "name": "gcaa:fn_ballista/fn_ballista_mag_attach" }]},
+  "item.mp5.fire": { "subtitle": "item.mp5.fire", "sounds": [{ "name": "gcaa:mp5/mp5_fire" }]},
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},
   "effect.headshot.2": { "subtitle": "effect.headshot.2", "sounds": [{ "name": "gcaa:generic/headshot_2" }]},
