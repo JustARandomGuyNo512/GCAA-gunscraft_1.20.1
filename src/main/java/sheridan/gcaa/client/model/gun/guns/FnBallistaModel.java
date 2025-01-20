@@ -47,7 +47,7 @@ public class FnBallistaModel extends GunModel {
         VertexConsumer vertexConsumer = context.solid(TEXTURE);
         bullet.visible = context.shouldBulletRender(1500);
         exp_mag_bullet.visible = bullet.visible;
-        IS.visible = context.notHasScope();
+        IS.visible = context.notContainsScope();
         muzzle.visible = context.notHasMuzzle();
         mag.visible = context.notHasMag();
         mag_exp.visible = !mag.visible;

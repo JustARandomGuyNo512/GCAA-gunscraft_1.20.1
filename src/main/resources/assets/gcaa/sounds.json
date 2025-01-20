@@ -77,6 +77,11 @@
   "item.fn_ballista.fn_ballista_mag_off": { "subtitle": "item.fn_ballista.fn_ballista_mag_off", "sounds": [{ "name": "gcaa:fn_ballista/fn_ballista_mag_off" }]},
   "item.fn_ballista.fn_ballista_mag_attach": { "subtitle": "item.fn_ballista.fn_ballista_mag_attach", "sounds": [{ "name": "gcaa:fn_ballista/fn_ballista_mag_attach" }]},
   "item.mp5.fire": { "subtitle": "item.mp5.fire", "sounds": [{ "name": "gcaa:mp5/mp5_fire" }]},
+  "item.mp5.mp5_charge_back": { "subtitle": "item.mp5.mp5_charge_back", "sounds": [{ "name": "gcaa:mp5/mp5_charge_back" }]},
+  "item.mp5.mp5_charge_forward": { "subtitle": "item.mp5.mp5_charge_forward", "sounds": [{ "name": "gcaa:mp5/mp5_charge_forward" }]},
+  "item.mp5.mp5_mag_attach": { "subtitle": "item.mp5.mp5_mag_attach", "sounds": [{ "name": "gcaa:mp5/mp5_mag_attach" }]},
+  "item.mp5.mp5_mag_off": { "subtitle": "item.mp5.mp5_mag_off", "sounds": [{ "name": "gcaa:mp5/mp5_mag_off" }]},
+
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},
   "effect.headshot.2": { "subtitle": "effect.headshot.2", "sounds": [{ "name": "gcaa:generic/headshot_2" }]},

@@ -95,6 +95,11 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> FN_BALLISTA_MAG_OFF = registerSound("fn_ballista_mag_off", "item.fn_ballista.fn_ballista_mag_off");
     public static RegistryObject<SoundEvent> FN_BALLISTA_MAG_ATTACH = registerSound("fn_ballista_mag_attach", "item.fn_ballista.fn_ballista_mag_attach");
     public static RegistryObject<SoundEvent> MP5_FIRE = registerSound("mp5_fire", "item.mp5.fire");
+    public static RegistryObject<SoundEvent> MP5_CHARGE_BACK = registerSound("mp5_charge_back", "item.mp5.mp5_charge_back");
+    public static RegistryObject<SoundEvent> MP5_CHARGE_FORWARD = registerSound("mp5_charge_forward", "item.mp5.mp5_charge_forward");
+    public static RegistryObject<SoundEvent> MP5_MAG_ATTACH = registerSound("mp5_mag_attach", "item.mp5.mp5_mag_attach");
+    public static RegistryObject<SoundEvent> MP5_MAG_OFF = registerSound("mp5_mag_off", "item.mp5.mp5_mag_off");
+
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");
     public static RegistryObject<SoundEvent> HEADSHOT_2 = registerSound("headshot_2", "effect.headshot.2");

@@ -1779,7 +1779,7 @@
 				"0.4625": {
 					"effect": "fn_ballista_bolt_back"
 				},
-				"0.8": {
+				"0.85": {
 					"effect": "fn_ballista_bolt_forward"
 				}
 			}

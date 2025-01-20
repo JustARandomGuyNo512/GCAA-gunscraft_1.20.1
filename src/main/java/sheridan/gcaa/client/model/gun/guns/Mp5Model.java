@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.AutoMagPositionModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -14,6 +15,7 @@ import sheridan.gcaa.items.ModItems;
 public class Mp5Model extends AutoMagPositionModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/mp5/mp5.png");
     private ModelPart charge, body, stock, stock_ar, handguard, handguard_rail, mag, slide, safety, bullet;
+    private AnimationDefinition shoot;
 
     public Mp5Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/mp5/mp5.geo.json"),
@@ -32,6 +34,7 @@ public class Mp5Model extends AutoMagPositionModel {
         stock_ar = gun.getChild("stock_ar").meshing();
         charge = gun.getChild("charge").meshing();
         bullet = mag.getChild("bullet").meshing();
+        shoot = animations.get("shoot");
     }
 
     @Override
@@ -67,7 +70,7 @@ public class Mp5Model extends AutoMagPositionModel {
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
-
+        defaultAssaultRifleAnimation(context, shoot);
     }
 
     @Override
