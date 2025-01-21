@@ -8,6 +8,7 @@ import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class ARExtendMagModel implements IAttachmentModel {
@@ -28,7 +29,7 @@ public class ARExtendMagModel implements IAttachmentModel {
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return ar_exp_mag;
     }
 }

@@ -83,4 +83,9 @@ public class AutoShotgun extends HandActionGun {
     public IReloadTask getUnloadingTask(ItemStack stack, Player player) {
         return new UnloadTask(this, stack, UnloadTask.SHOTGUN);
     }
+
+    @Override
+    public GunType getGunType() {
+        return GunType.SHOTGUN;
+    }
 }

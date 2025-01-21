@@ -590,6 +590,11 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         return nbt.contains("identity_temp") ? nbt.getString("identity_temp") : "";
     }
 
+    @Override
+    public GunType getGunType() {
+        return GunType.ASSAULT_RIFLE;
+    }
+
     public boolean isAmmunitionBind(ItemStack stack) {
         return checkAndGet(stack).contains("ammunition_data");
     }

@@ -41,7 +41,7 @@ public class Handguard extends SubSlotProvider{
     }
 
     @Override
-    public void appendSlots(AttachmentSlot parent, AttachmentSlot root) {
+    public void appendSlots(AttachmentSlot parent, AttachmentSlot root, IGun gun) {
         for (Map.Entry<String, AttachmentSlot> entry : this.root.getChildren().entrySet()) {
             parent.addChild(AttachmentSlot.copyAll(entry.getValue()));
         }

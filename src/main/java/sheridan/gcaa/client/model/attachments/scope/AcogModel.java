@@ -16,6 +16,7 @@ import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.lib.ArsenalLib;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
@@ -48,7 +49,7 @@ public class AcogModel extends ScopeModel implements ISlotProviderModel {
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return root;
     }
 
@@ -83,7 +84,7 @@ public class AcogModel extends ScopeModel implements ISlotProviderModel {
     }
 
     @Override
-    public void handleSlotTranslate(PoseStack poseStack, String modelSlotName) {
+    public void handleSlotTranslate(PoseStack poseStack, String modelSlotName, IGun gun) {
         if (root.hasChild(modelSlotName)) {
             root.getChild(modelSlotName).translateAndRotate(poseStack);
         }

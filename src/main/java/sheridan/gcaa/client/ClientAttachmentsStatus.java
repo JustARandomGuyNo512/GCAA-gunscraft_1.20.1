@@ -205,11 +205,11 @@ public class ClientAttachmentsStatus {
         while (!stack.isEmpty()) {
             slot = stack.pop();
             if (gunModel.hasSlot(slot.modelSlotName)) {
-                gunModel.handleSlotTranslate(poseStack, slot.modelSlotName);
+                gunModel.handleSlotTranslate(poseStack, slot.modelSlotName, gun);
             } else {
                 IAttachmentModel model = AttachmentsRegister.getModel(slot.getParent().getAttachmentId());
                 if (model instanceof ISlotProviderModel slotProviderModel && slotProviderModel.hasSlot(slot.modelSlotName)) {
-                    slotProviderModel.handleSlotTranslate(poseStack, slot.modelSlotName);
+                    slotProviderModel.handleSlotTranslate(poseStack, slot.modelSlotName, gun);
                 }
             }
         }

@@ -9,6 +9,7 @@ import sheridan.gcaa.client.model.attachments.SightViewRenderer;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.lib.ArsenalLib;
 
 public class Okp7BModel extends SightModel {
@@ -28,7 +29,7 @@ public class Okp7BModel extends SightModel {
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return root;
     }
 

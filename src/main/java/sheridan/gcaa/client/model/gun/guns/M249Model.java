@@ -16,6 +16,7 @@ import sheridan.gcaa.client.model.gun.BulletChainHandler;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class M249Model extends GunModel {
@@ -96,14 +97,14 @@ public class M249Model extends GunModel {
     }
 
     @Override
-    public void handleSlotTranslate(PoseStack poseStack, String name) {
+    public void handleSlotTranslate(PoseStack poseStack, String name, IGun gun) {
         if (name.equals("s_scope")) {
             handleGunTranslate(poseStack);
             cover.translateAndRotate(poseStack);
             s_scope.translateAndRotate(poseStack);
             return;
         }
-        super.handleSlotTranslate(poseStack, name);
+        super.handleSlotTranslate(poseStack, name, gun);
     }
 
     @Override

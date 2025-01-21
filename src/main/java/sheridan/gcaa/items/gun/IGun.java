@@ -63,6 +63,15 @@ public interface IGun {
     @Nullable
     CompoundTag getUsingAmmunitionData(ItemStack itemStack);
     String getIdentity(ItemStack stack);
+    GunType getGunType();
+    enum GunType {
+        PISTOL,
+        RIFLE,
+        ASSAULT_RIFLE,
+        SHOTGUN,
+        SMG,
+        SNIPER
+    }
 
     default boolean allowShootWhileReloading() {return false;}
     default boolean shouldHandleAds(ItemStack stack) {return true;}

@@ -31,4 +31,9 @@ public class Sniper extends HandActionGun{
     public boolean shootCreateBulletShell() {
         return false;
     }
+
+    @Override
+    public GunType getGunType() {
+        return GunType.SNIPER;
+    }
 }

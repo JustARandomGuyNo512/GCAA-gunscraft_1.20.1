@@ -17,7 +17,7 @@ public class ARStockTube extends SubSlotProvider {
     }
 
     @Override
-    public void appendSlots(AttachmentSlot parent, AttachmentSlot root) {
+    public void appendSlots(AttachmentSlot parent, AttachmentSlot root, IGun gun) {
         parent.addChild(this.root.getChild("stock_tube").copy());
     }
 }

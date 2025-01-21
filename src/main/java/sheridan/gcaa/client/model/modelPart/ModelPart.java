@@ -193,6 +193,10 @@ public final class ModelPart {
         }
     }
 
+    public ModelPart getUniqueChild() {
+        return children.values().iterator().next();
+    }
+
     public boolean collisionNoRot(ModelPart other) {
         if (this == other) {
             return false;

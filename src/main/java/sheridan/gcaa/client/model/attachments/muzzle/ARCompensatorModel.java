@@ -11,6 +11,7 @@ import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class ARCompensatorModel extends MuzzleFlashRendererModel implements IAttachmentModel {
@@ -34,7 +35,7 @@ public class ARCompensatorModel extends MuzzleFlashRendererModel implements IAtt
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return model;
     }
 

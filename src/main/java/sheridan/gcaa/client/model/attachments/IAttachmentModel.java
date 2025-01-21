@@ -5,6 +5,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public interface IAttachmentModel {
@@ -13,10 +14,10 @@ public interface IAttachmentModel {
         public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {}
 
         @Override
-        public ModelPart getRoot() {
+        public ModelPart getRoot(IGun gun)  {
             return ModelPart.EMPTY;
         }
     };
     void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose);
-    ModelPart getRoot();
+    ModelPart getRoot(IGun gun);
 }

@@ -11,6 +11,10 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class StatisticModel {
+    public static StatisticModel RAIL_CLAMP = new StatisticModel(
+            new ResourceLocation(GCAA.MODID, "model_assets/attachments/others/rail_clamp.png"),
+            new ResourceLocation(GCAA.MODID, "model_assets/attachments/others/rail_clamp.geo.json"));
+
     public static StatisticModel AR_STUFF1_LOW = new StatisticModel(
             new ResourceLocation(GCAA.MODID, "model_assets/attachments/ar_stuff/gas_block_stock_tube_low.png"),
             new ResourceLocation(GCAA.MODID, "model_assets/attachments/ar_stuff/gas_block_stock_tube_low.geo.json"));

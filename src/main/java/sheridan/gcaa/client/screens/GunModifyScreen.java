@@ -119,9 +119,10 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
         if (this.minecraft != null && this.minecraft.player != null) {
             Player player = this.minecraft.player;
             ItemStack stack = player.getMainHandItem();
-            if (stack.getItem() instanceof IGun) {
+            if (stack.getItem() instanceof IGun gun) {
                 AttachmentSlot slot = AttachmentsHandler.INSTANCE.getAttachmentSlots(stack);
                 this.context = new AttachmentsGuiContext(gun, slot);
+                this.gun = gun;
             }
         }
     }
@@ -210,8 +211,8 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
                 if (!needUpdate) {
                     if (gun != this.gun) {
                         AttachmentSlot slot = AttachmentsHandler.INSTANCE.getAttachmentSlots(stack);
-                        this.context = new AttachmentsGuiContext(gun, slot);
                         this.gun = gun;
+                        this.context = new AttachmentsGuiContext(gun, slot);
                     }
                     if (context != null) {
                         AttachmentSlot selected = context.getSelected();

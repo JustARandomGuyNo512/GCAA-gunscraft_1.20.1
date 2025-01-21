@@ -45,6 +45,7 @@ import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel
 import sheridan.gcaa.client.model.attachments.handguard.ARRailedHandguardModel;
 import sheridan.gcaa.client.model.attachments.mag.*;
 import sheridan.gcaa.client.model.attachments.muzzle.*;
+import sheridan.gcaa.client.model.attachments.other.RailClampModel;
 import sheridan.gcaa.client.model.attachments.scope.AcogModel;
 import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
 import sheridan.gcaa.client.model.attachments.sight.*;
@@ -425,13 +426,13 @@ public class Clients {
                 .setAttachmentScreen(1f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0.012f, 0.02f, 0.45f,
-                                0.06f, 0.42f,  0.055f,
-                                0.3f, 0.7f, 0.25f, 0.7f, 0.5f,
+                                0.055f, 0.44f,  0.055f,
+                                0.3f, 0.7f, 0.3f, 0.7f, 0.5f,
                                 0.6f, 0.15f))
-                .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.8f, -57.6f).setScale(1.8f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 5.4f, -57.6f).setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(1.8f))
-                .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AR_COMPENSATOR, new MuzzleFlashDisplayData().setScale(2.3f).setLength(25))
-                .setBulletShellDisplayData(new BulletShellDisplayData(1f, 8f, -11f, new Vector3f(3f, 1.7f, -0.6f), BulletShellModel.PISTOL).setScale(1f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AR_COMPENSATOR, new MuzzleFlashDisplayData().setScale(2.3f))
+                .setBulletShellDisplayData(new BulletShellDisplayData(2f, 8f, -10f, new Vector3f(3f, 1.7f, -0.6f), BulletShellModel.PISTOL).setScale(1f))
                 .setSprintingTrans(18.1f, 11.5f, 0, 20, -53, 45)
         );
 
@@ -493,6 +494,8 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.EXP_MAG7_62X51.get(), new ExpMag7_62x51Model());
         ArsenalLib.registerAttachmentModel(ModItems.SLANT_GRIP.get(), new SlantGripModel());
         ArsenalLib.registerAttachmentModel(ModItems.DMR_COMPENSATOR.get(), new DMRCompensatorModel());
+        ArsenalLib.registerAttachmentModel(ModItems.MP5_RAIL_HANDGUARD.get(), IAttachmentModel.EMPTY);
+        ArsenalLib.registerAttachmentModel(ModItems.RAIL_CLAMP.get(), new RailClampModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

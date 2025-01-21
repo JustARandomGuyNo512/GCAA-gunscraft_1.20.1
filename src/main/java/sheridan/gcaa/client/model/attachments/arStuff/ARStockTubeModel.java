@@ -12,6 +12,7 @@ import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class ARStockTubeModel implements IAttachmentModel, ISlotProviderModel {
@@ -29,7 +30,7 @@ public class ARStockTubeModel implements IAttachmentModel, ISlotProviderModel {
     }
 
     @Override
-    public void handleSlotTranslate(PoseStack poseStack, String modelSlotName) {
+    public void handleSlotTranslate(PoseStack poseStack, String modelSlotName, IGun gun) {
         if (hasSlot(modelSlotName)) {
             stock_tube.translateAndRotate(poseStack);
             s_stock_tube.translateAndRotate(poseStack);
@@ -56,7 +57,7 @@ public class ARStockTubeModel implements IAttachmentModel, ISlotProviderModel {
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return stock_tube;
     }
 }

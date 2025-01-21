@@ -24,4 +24,9 @@ public class Pistol extends Gun{
     public IReloadTask getUnloadingTask(ItemStack stack, Player player) {
         return new UnloadTask(this, stack, UnloadTask.PISTOL);
     }
+
+    @Override
+    public GunType getGunType() {
+        return GunType.PISTOL;
+    }
 }

@@ -11,6 +11,7 @@ import sheridan.gcaa.client.model.attachments.IDirectionalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 @OnlyIn(Dist.CLIENT)
@@ -45,7 +46,7 @@ public class CommonGripModel extends ArmRendererModel implements IAttachmentMode
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return root;
     }
 
@@ -76,6 +77,6 @@ public class CommonGripModel extends ArmRendererModel implements IAttachmentMode
 
     @Override
     public ModelPart root() {
-        return getRoot();
+        return root;
     }
 }

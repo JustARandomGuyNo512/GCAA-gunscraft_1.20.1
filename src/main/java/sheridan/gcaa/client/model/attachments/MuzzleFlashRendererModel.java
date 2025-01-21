@@ -13,7 +13,7 @@ public abstract class MuzzleFlashRendererModel implements IAttachmentModel{
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
         context.pushPose();
-        ModelPart root = getRoot();
+        ModelPart root = getRoot(context.gun);
         root.copyFrom(pose);
         renderModel(context, attachmentRenderEntry, root);
         root.translateAndRotate(context.poseStack);

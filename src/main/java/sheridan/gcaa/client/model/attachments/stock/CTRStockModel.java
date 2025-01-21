@@ -11,6 +11,7 @@ import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.lib.ArsenalLib;
 
 @OnlyIn(Dist.CLIENT)
@@ -41,7 +42,7 @@ public class CTRStockModel implements IAttachmentModel {
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return root;
     }
 }

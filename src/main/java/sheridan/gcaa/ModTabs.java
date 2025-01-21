@@ -33,6 +33,7 @@ public class ModTabs {
                     tab.accept(ModItems.DMR_COMPENSATOR.get());
                     tab.accept(ModItems.AK_IMPROVED_HANDGUARD.get());
                     tab.accept(ModItems.AK_RAIL_BRACKET.get());
+                    tab.accept(ModItems.RAIL_CLAMP.get());
                     tab.accept(ModItems.AK_IMPROVED_DUST_COVER.get());
                     tab.accept(ModItems.MICRO_RED_DOT.get());
                     tab.accept(ModItems.RED_DOT.get());
@@ -47,6 +48,7 @@ public class ModTabs {
                     tab.accept(ModItems.AR_GAS_BLOCK.get());
                     tab.accept(ModItems.AR_STOCK_TUBE.get());
                     tab.accept(ModItems.AR_RAILED_HANDGUARD.get());
+                    tab.accept(ModItems.MP5_RAIL_HANDGUARD.get());
                     tab.accept(ModItems.M249_RAILED_HANDGUARD.get());
                     tab.accept(ModItems.AR_EXTEND_MAG.get());
                     tab.accept(ModItems.AK_EXTEND_MAG.get());

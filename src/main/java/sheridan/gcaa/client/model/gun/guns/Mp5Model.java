@@ -41,15 +41,14 @@ public class Mp5Model extends AutoMagPositionModel {
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.solid(TEXTURE);
         bullet.visible = context.shouldBulletRender();
-        boolean stockIsArTube = context.attachmentIs("stock", ModItems.AR_STOCK_TUBE.get());
+        boolean stockIsArTube = context.attachmentIs("s_stock", ModItems.AR_STOCK_TUBE.get());
         if (stockIsArTube) {
             context.render(stock_ar, vertexConsumer);
         } else {
             context.renderIf(this.stock, vertexConsumer, context.notHasStock());
         }
-        handguard_rail.visible = context.has("handguard");
-        handguard.visible = !handguard_rail.visible;
-        context.render(vertexConsumer, safety, charge, body, handguard, handguard_rail, mag, slide);
+        context.renderIfOrElse(handguard, handguard_rail, context.notHasHandguard(), vertexConsumer);
+        context.render(vertexConsumer, safety, charge, body, mag, slide);
         if (context.isFirstPerson) {
             context.renderArm(right_arm, true);
             context.renderArm(left_arm, false);

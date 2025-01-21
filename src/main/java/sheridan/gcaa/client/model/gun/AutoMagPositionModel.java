@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 
 public abstract class AutoMagPositionModel extends GunModel{
     public AutoMagPositionModel(ResourceLocation modelPath, ResourceLocation animationPath) {
@@ -16,13 +17,13 @@ public abstract class AutoMagPositionModel extends GunModel{
     }
 
     @Override
-    public void handleSlotTranslate(PoseStack poseStack, String name) {
+    public void handleSlotTranslate(PoseStack poseStack, String name, IGun gun)  {
         if (name.equals("s_mag")) {
             handleGunTranslate(poseStack);
             getMag().translateAndRotate(poseStack);
             return;
         }
-        super.handleSlotTranslate(poseStack, name);
+        super.handleSlotTranslate(poseStack, name, gun);
     }
 
     @Override

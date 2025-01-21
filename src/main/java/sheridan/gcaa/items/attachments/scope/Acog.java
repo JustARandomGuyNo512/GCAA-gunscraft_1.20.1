@@ -19,7 +19,7 @@ public class Acog extends Scope implements ISubSlotProvider {
     }
 
     @Override
-    public void appendSlots(AttachmentSlot parent, AttachmentSlot root) {
+    public void appendSlots(AttachmentSlot parent, AttachmentSlot root, IGun gun) {
         parent.addChild(AttachmentSlot.copyAll(Acog.root.getChild("sub_scope")));
     }
 

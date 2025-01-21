@@ -14,4 +14,9 @@ public class SMG extends Gun{
     public IReloadTask getUnloadingTask(ItemStack stack, Player player) {
         return new UnloadTask(this, stack, UnloadTask.SMG);
     }
+
+    @Override
+    public GunType getGunType() {
+        return GunType.SMG;
+    }
 }

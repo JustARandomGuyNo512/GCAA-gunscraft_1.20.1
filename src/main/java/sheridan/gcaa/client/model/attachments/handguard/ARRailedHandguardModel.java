@@ -12,6 +12,7 @@ import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.client.render.RenderTypes;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.lib.ArsenalLib;
 
 @OnlyIn(Dist.CLIENT)
@@ -30,7 +31,7 @@ public class ARRailedHandguardModel implements IAttachmentModel, ISlotProviderMo
     }
 
     @Override
-    public void handleSlotTranslate(PoseStack poseStack, String modelSlotName) {
+    public void handleSlotTranslate(PoseStack poseStack, String modelSlotName, IGun gun) {
         if (root.hasChild(modelSlotName)) {
             root.getChild(modelSlotName).translateAndRotate(poseStack);
         }
@@ -55,7 +56,7 @@ public class ARRailedHandguardModel implements IAttachmentModel, ISlotProviderMo
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return root;
     }
 }

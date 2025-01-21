@@ -63,11 +63,11 @@ public class AttachmentsHandler {
                             }
                             if (attachment instanceof ISubSlotProvider provider) {
                                 //执行子配件槽扩展
-                                provider.appendSlots(prevSlot, root);
+                                provider.appendSlots(prevSlot, root, gun);
                             }
                             if (attachment instanceof ISubSlotActivator activator) {
                                 //执行子配件槽解锁
-                                activator.unlockOrLockSlots(prevSlot, root);
+                                activator.unlockOrLockSlots(prevSlot, root, gun);
                             }
                             newAttachments.add(tag);
                         } else {
@@ -245,10 +245,10 @@ public class AttachmentsHandler {
                             replaceableGunPart.doSlotOperation(gun, slot, prevSlot);
                         }
                         if (attachment instanceof ISubSlotProvider provider) {
-                            provider.appendSlots(prevSlot, slot);
+                            provider.appendSlots(prevSlot, slot, gun);
                         }
                         if (attachment instanceof ISubSlotActivator activator) {
-                            activator.unlockOrLockSlots(prevSlot, slot);
+                            activator.unlockOrLockSlots(prevSlot, slot, gun);
                         }
                         prevSlot.setAttachmentId(id);
                         prevSlot.setId(slotTag.getString("uuid"));

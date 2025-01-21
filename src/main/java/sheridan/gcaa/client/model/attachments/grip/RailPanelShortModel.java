@@ -9,6 +9,7 @@ import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.client.render.RenderTypes;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class RailPanelShortModel implements IAttachmentModel, IDirectionalModel {
@@ -27,7 +28,7 @@ public class RailPanelShortModel implements IAttachmentModel, IDirectionalModel 
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return panel;
     }
 

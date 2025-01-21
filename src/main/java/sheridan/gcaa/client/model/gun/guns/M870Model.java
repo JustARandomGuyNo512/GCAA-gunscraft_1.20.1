@@ -14,6 +14,7 @@ import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.client.render.NewPlayerArmRenderer;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class M870Model extends GunModel {
@@ -59,13 +60,13 @@ public class M870Model extends GunModel {
     }
 
     @Override
-    public void handleSlotTranslate(PoseStack poseStack, String name) {
+    public void handleSlotTranslate(PoseStack poseStack, String name, IGun gun) {
         if ("s_handguard".equals(name)) {
             handleGunTranslate(poseStack);
             handguard.translateAndRotate(poseStack);
             return;
         }
-        super.handleSlotTranslate(poseStack, name);
+        super.handleSlotTranslate(poseStack, name, gun);
     }
 
     @Override

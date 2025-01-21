@@ -9,6 +9,7 @@ import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 
 public class PistolSuppressorModel extends MuzzleFlashRendererModel implements IAttachmentModel {
     private final ModelPart model;
@@ -39,7 +40,7 @@ public class PistolSuppressorModel extends MuzzleFlashRendererModel implements I
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return model;
     }
 

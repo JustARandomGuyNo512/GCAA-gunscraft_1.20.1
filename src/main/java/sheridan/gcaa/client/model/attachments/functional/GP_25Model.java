@@ -22,6 +22,7 @@ import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.client.render.fx.muzzleFlash.CommonMuzzleFlashes;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.lib.ArsenalLib;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
@@ -54,6 +55,11 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/generic/gp_25_reload_ak_rifle.animation.json")).get("reload");
         INSTANCE = this;
         low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("gp_25").meshing();
+    }
+
+    @Override
+    public ModelPart root() {
+        return root;
     }
 
     public AnimationDefinition getGunReload() {
@@ -120,7 +126,7 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return root;
     }
 
@@ -129,8 +135,4 @@ public class GP_25Model extends ArmRendererModel implements IAttachmentModel, ID
         return LOWER;
     }
 
-    @Override
-    public ModelPart root() {
-        return getRoot();
-    }
 }

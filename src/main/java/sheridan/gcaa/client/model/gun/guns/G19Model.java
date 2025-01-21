@@ -14,6 +14,7 @@ import sheridan.gcaa.client.model.gun.LodGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.items.attachments.Attachment;
+import sheridan.gcaa.items.gun.IGun;
 
 import java.util.HashSet;
 import java.util.List;
@@ -119,7 +120,7 @@ public class G19Model extends LodGunModel {
     }
 
     @Override
-    public void handleSlotTranslate(PoseStack poseStack, String name) {
+    public void handleSlotTranslate(PoseStack poseStack, String name, IGun gun) {
         if (name.equals("s_mag")) {
             handleGunTranslate(poseStack);
             mag.translateAndRotate(poseStack);
@@ -137,7 +138,7 @@ public class G19Model extends LodGunModel {
             slot_muzzle.translateAndRotate(poseStack);
             return;
         }
-        super.handleSlotTranslate(poseStack, name);
+        super.handleSlotTranslate(poseStack, name, gun);
     }
 
     @Override

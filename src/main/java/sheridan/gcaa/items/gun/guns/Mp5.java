@@ -3,6 +3,7 @@ package sheridan.gcaa.items.gun.guns;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
+import sheridan.gcaa.items.gun.SMG;
 import sheridan.gcaa.items.gun.calibers.Caliber;
 import sheridan.gcaa.items.gun.fireModes.Auto;
 import sheridan.gcaa.items.gun.fireModes.Burst;
@@ -11,7 +12,7 @@ import sheridan.gcaa.sounds.ModSounds;
 
 import java.util.Arrays;
 
-public class Mp5 extends Gun {
+public class Mp5 extends SMG {
     private static final Caliber caliber =
             new Caliber(Caliber.CALIBER_9MM,6f, 4.5f, 4.5f, 5.5f, 0.6f)
                     .setAmmunition(ModItems.AMMO_9X19MM.get());

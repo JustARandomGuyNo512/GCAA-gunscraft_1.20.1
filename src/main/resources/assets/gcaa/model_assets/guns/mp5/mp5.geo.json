@@ -3077,7 +3077,7 @@
 				{
 					"name": "s_muzzle",
 					"parent": "gun",
-					"pivot": [0, 5.4, -57.3]
+					"pivot": [0, 5.4, -55.8]
 				},
 				{
 					"name": "s_handguard",
@@ -3085,7 +3085,7 @@
 					"pivot": [0, 6, -36]
 				},
 				{
-					"name": "s_haundguard_grip",
+					"name": "s_handguard_grip",
 					"parent": "gun",
 					"pivot": [0, 0.62828, -31.9]
 				},
@@ -3096,7 +3096,7 @@
 					"rotation": [0, 0, -90]
 				},
 				{
-					"name": "s_huandguard_right",
+					"name": "s_handguard_right",
 					"parent": "gun",
 					"pivot": [-4.8218, 5.3675, -31.9],
 					"rotation": [0, 0, 90]
@@ -3109,7 +3109,7 @@
 				{
 					"name": "s_rail_clamp",
 					"parent": "gun",
-					"pivot": [0, 9.75716, -4.696]
+					"pivot": [0, 9.2, -10.7]
 				},
 				{
 					"name": "s_stock",

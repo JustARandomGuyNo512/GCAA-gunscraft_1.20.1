@@ -17,7 +17,7 @@ public interface IDirectionalModel extends IAttachmentModel{
     byte getDirection();
 
     default void initTranslation(AttachmentRenderEntry attachmentRenderEntry, GunRenderContext context, ModelPart pose) {
-        ModelPart root = getRoot();
+        ModelPart root = getRoot(context.gun);
         root.copyFrom(pose);
         byte slotDirection = attachmentRenderEntry.direction;
         if (slotDirection != NO_DIRECTION) {

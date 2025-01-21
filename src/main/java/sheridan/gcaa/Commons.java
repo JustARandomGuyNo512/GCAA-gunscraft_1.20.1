@@ -41,7 +41,7 @@ public class Commons {
                 .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket", "gcaa:okp7_a")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")).setReplaceableGunPart(new WeightPart(1)))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1, 0.1f, 0.1f)))
-                .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover"))),
+                .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover")).setReplaceableGunPart(new WeightPart(0.3f))),
                  AkmAttachmentSlotProxy::new
         );
 
@@ -183,7 +183,8 @@ public class Commons {
                 HkG28AttachmentProxy::new
         );
 
-        AttachmentsRegister.registerAttachmentSlot(ModItems.BERETTA_686.get(), AttachmentSlot.EMPTY);
+        AttachmentsRegister.registerAttachmentSlot(ModItems.BERETTA_686.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot("rail_clamp", Set.of("gcaa:rail_clamp"))));
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.AK12.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of()).setReplaceableGunPart(new RecoilLowerPart(0, 0.15f, 0.15f)))
@@ -210,6 +211,17 @@ public class Commons {
                 .addChild(new AttachmentSlot(MAG, "mag", Set.of("gcaa:sniper_extend_mag")))
                 .addChild(new AttachmentSlot("rail_scope", hkg28HandguardScope).upper())
                 .addChild(new AttachmentSlot("rail_lower", hkg28HandguardFrontSlot).lower())
+        );
+
+        AttachmentsRegister.registerAttachmentSlot(ModItems.MP5.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_suppressor","gcaa:pistol_suppressor", "gcaa:smg_compensator")))
+                .addChild(new AttachmentSlot(MAG, Set.of("")))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:mp5_rail_handguard")))
+                .addChild(new AttachmentSlot("handguard_left", Set.of()).lower().lock())
+                .addChild(new AttachmentSlot("handguard_right", Set.of()).lower().lock())
+                .addChild(new AttachmentSlot("handguard_grip", Set.of()).lower().lock())
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1, 0.12f, 0.12f)))
+                .addChild(new AttachmentSlot("rail_clamp", Set.of("gcaa:rail_clamp")))
         );
 
         registerVendingMachineProducts();
@@ -317,6 +329,7 @@ public class Commons {
                 new AttachmentProduct(ModItems.AR_GAS_BLOCK.get(), 30),
                 new AttachmentProduct(ModItems.AR_STOCK_TUBE.get(), 60),
                 new AttachmentProduct(ModItems.AR_RAILED_HANDGUARD.get(), 180),
+                new AttachmentProduct(ModItems.MP5_RAIL_HANDGUARD.get(), 150),
                 new AttachmentProduct(ModItems.M249_RAILED_HANDGUARD.get(), 100),
                 new AttachmentProduct(ModItems.AR_EXTEND_MAG.get(), 150),
                 new AttachmentProduct(ModItems.AK_EXTEND_MAG.get(), 170),

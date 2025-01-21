@@ -38,10 +38,12 @@ public class AttachmentsGuiContext {
     private final AttachmentSlotProxy proxy;
     private final AttachmentSlot root;
     private AttachmentSlot selected;
+    private final IGun gun;
     private final Map<AttachmentSlot, Vector3f> guiPosMap = new HashMap<>();
 
     public AttachmentsGuiContext(IGun gun, AttachmentSlot root) {
         this.root = root;
+        this.gun = gun;
         this.proxy = AttachmentsRegister.getProxiedAttachmentSlot(gun, root);
         initPosMap(this.root);
     }
@@ -107,7 +109,7 @@ public class AttachmentsGuiContext {
             AttachmentSlot child = entry.getValue();
             poseStack.pushPose();
             if (model.hasSlot(child.modelSlotName)) {
-                model.handleSlotTranslate(poseStack, child.getModelSlotName());
+                model.handleSlotTranslate(poseStack, child.getModelSlotName(), gun);
                 updateScreenPosWhenRender(poseStack.last().pose(), child);
                 IAttachment attachment = AttachmentsRegister.get(child.getAttachmentId());
                 if (attachment instanceof ISubSlotProvider) {

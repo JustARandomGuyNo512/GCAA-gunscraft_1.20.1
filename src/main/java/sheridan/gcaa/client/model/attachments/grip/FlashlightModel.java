@@ -11,6 +11,7 @@ import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.items.attachments.grip.Flashlight;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class FlashlightModel implements IAttachmentModel, IDirectionalModel {
@@ -49,7 +50,7 @@ public class FlashlightModel implements IAttachmentModel, IDirectionalModel {
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return body;
     }
 

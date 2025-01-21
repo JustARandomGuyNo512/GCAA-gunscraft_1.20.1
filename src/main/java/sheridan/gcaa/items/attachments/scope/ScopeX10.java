@@ -17,7 +17,7 @@ public class ScopeX10 extends Scope implements ISubSlotProvider {
     }
 
     @Override
-    public void appendSlots(AttachmentSlot parent, AttachmentSlot root) {
+    public void appendSlots(AttachmentSlot parent, AttachmentSlot root, IGun gun) {
         parent.addChild(AttachmentSlot.copyAll(ScopeX10.root.getChild("sub_scope")));
     }
 

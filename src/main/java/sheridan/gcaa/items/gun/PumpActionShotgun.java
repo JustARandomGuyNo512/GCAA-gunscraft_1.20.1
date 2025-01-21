@@ -54,4 +54,9 @@ public class PumpActionShotgun extends HandActionGun{
     public boolean allowShootWhileReloading() {
         return true;
     }
+
+    @Override
+    public GunType getGunType() {
+        return GunType.SHOTGUN;
+    }
 }

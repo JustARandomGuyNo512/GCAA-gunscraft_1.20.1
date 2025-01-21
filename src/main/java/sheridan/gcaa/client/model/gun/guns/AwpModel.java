@@ -15,6 +15,7 @@ import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.client.render.NewPlayerArmRenderer;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class AwpModel extends GunModel {
@@ -89,12 +90,6 @@ public class AwpModel extends GunModel {
     @Override
     public AnimationDefinition getRecoil(GunRenderContext context) {
         return (Clients.isInAds() && Clients.getAdsProgress() > 0.5f) ? recoil_ads : recoil;
-    }
-
-
-    @Override
-    public void handleSlotTranslate(PoseStack poseStack, String name) {
-        super.handleSlotTranslate(poseStack, name);
     }
 
     @Override

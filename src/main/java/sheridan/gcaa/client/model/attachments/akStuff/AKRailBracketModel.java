@@ -11,6 +11,7 @@ import sheridan.gcaa.client.model.attachments.StatisticModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class AKRailBracketModel implements IAttachmentModel, ISlotProviderModel {
@@ -26,7 +27,7 @@ public class AKRailBracketModel implements IAttachmentModel, ISlotProviderModel 
     }
 
     @Override
-    public void handleSlotTranslate(PoseStack poseStack, String modelSlotName) {
+    public void handleSlotTranslate(PoseStack poseStack, String modelSlotName, IGun gun) {
         if ("s_rail_bracket_scope".equals(modelSlotName)) {
             slot_scope.translateAndRotate(poseStack);
         }
@@ -52,7 +53,7 @@ public class AKRailBracketModel implements IAttachmentModel, ISlotProviderModel 
     }
 
     @Override
-    public ModelPart getRoot() {
+    public ModelPart getRoot(IGun gun) {
         return rail;
     }
 }

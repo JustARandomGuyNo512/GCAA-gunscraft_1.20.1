@@ -14,6 +14,7 @@ import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.lib.ArsenalLib;
 
 import java.util.Map;
@@ -81,7 +82,7 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     }
 
     @Override
-    public void handleSlotTranslate(PoseStack poseStack, String name) {
+    public void handleSlotTranslate(PoseStack poseStack, String name, IGun iGunInstance) {
         ModelPart slot = gun.getChild(name);
         handleGunTranslate(poseStack);
         slot.translateAndRotate(poseStack);

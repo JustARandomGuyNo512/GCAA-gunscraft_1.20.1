@@ -2,6 +2,7 @@ package sheridan.gcaa.items.attachments.akStuff;
 
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.items.attachments.SubSlotProvider;
+import sheridan.gcaa.items.gun.IGun;
 
 import java.util.Set;
 
@@ -14,7 +15,7 @@ public class AKRailBracket extends SubSlotProvider {
     }
 
     @Override
-    public void appendSlots(AttachmentSlot parent, AttachmentSlot root) {
+    public void appendSlots(AttachmentSlot parent, AttachmentSlot root, IGun gun) {
         parent.addChild(this.root.getChild("rail_bracket_scope").copy());
     }
 }
