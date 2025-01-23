@@ -32,7 +32,7 @@ public class RailClamp extends SubSlotProvider {
             parent.addChild(rifleSlot.copy());
         } else if (gun.getGunType() == IGun.GunType.SMG) {
             parent.addChild(commonSlot.copy());
-        } else if (gun == ModItems.BERETTA_686.get()) {
+        } else if (gun.getGun() == ModItems.BERETTA_686.get()) {
             parent.addChild(commonSlot.copy());
         }
     }

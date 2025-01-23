@@ -322,6 +322,13 @@ public final class ModelPart {
         return this;
     }
 
+    public void meshingAll() {
+        meshing();
+        for (ModelPart modelPart : children.values()) {
+            modelPart.meshingAll();
+        }
+    }
+
     public Cube getCube(int index) {
         return cubes.get(index);
     }

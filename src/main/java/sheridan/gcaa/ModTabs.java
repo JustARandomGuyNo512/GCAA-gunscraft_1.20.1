@@ -48,6 +48,7 @@ public class ModTabs {
                     tab.accept(ModItems.AR_GAS_BLOCK.get());
                     tab.accept(ModItems.AR_STOCK_TUBE.get());
                     tab.accept(ModItems.AR_RAILED_HANDGUARD.get());
+                    tab.accept(ModItems.AR_LIGHT_HANDGUARD_SHORT.get());
                     tab.accept(ModItems.MP5_RAIL_HANDGUARD.get());
                     tab.accept(ModItems.M249_RAILED_HANDGUARD.get());
                     tab.accept(ModItems.AR_EXTEND_MAG.get());

@@ -49,7 +49,10 @@ public class Commons {
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor", "gcaa:ar_compensator")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ar_extend_mag")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
-                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_railed_handguard")).setReplaceableGunPart(new RecoilControlPart(0.8f, 0.05f, 0.05f)))
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of(
+                        "gcaa:ar_railed_handguard",
+                        "gcaa:ar_light_handguard_short"
+                )).setReplaceableGunPart(new RecoilControlPart(0.8f, 0.05f, 0.05f)))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")).setReplaceableGunPart(new WeightPart(1)))
                 .addChild(new AttachmentSlot("gas_block", Set.of("gcaa:ar_gas_block")))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")).setReplaceableGunPart(new WeightPart(0.5f)))
@@ -329,6 +332,7 @@ public class Commons {
                 new AttachmentProduct(ModItems.AR_GAS_BLOCK.get(), 30),
                 new AttachmentProduct(ModItems.AR_STOCK_TUBE.get(), 60),
                 new AttachmentProduct(ModItems.AR_RAILED_HANDGUARD.get(), 180),
+                new AttachmentProduct(ModItems.AR_LIGHT_HANDGUARD_SHORT.get(), 210),
                 new AttachmentProduct(ModItems.MP5_RAIL_HANDGUARD.get(), 150),
                 new AttachmentProduct(ModItems.M249_RAILED_HANDGUARD.get(), 100),
                 new AttachmentProduct(ModItems.AR_EXTEND_MAG.get(), 150),

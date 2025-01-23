@@ -15,7 +15,7 @@ public class AKExtendMagModel implements IAttachmentModel {
     private final ModelPart ak_exp_mag, ak_bullet;
 
     public AKExtendMagModel() {
-        ak_exp_mag = StatisticModel.MAG_COLLECTION1.get("ak_exp_mag");
+        ak_exp_mag = StatisticModel.MAG_COLLECTION1.get("ak_exp_mag").meshing();
         ak_bullet = ak_exp_mag.getChild("ak_bullet").meshing();
     }
 

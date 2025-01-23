@@ -17,7 +17,7 @@ import sheridan.gcaa.client.render.NewPlayerArmRenderer;
 @OnlyIn(Dist.CLIENT)
 public class M4a1Model extends AutoMagPositionModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/m4a1/m4a1.png");
-    private ModelPart barrel, front_IS, handguard, muzzle, stock, charge, body, safety, bolt, IS, grip, ring, mag, bullet;
+    private ModelPart barrel, front_IS, handguard, muzzle, stock, charge, body, safety, bolt, IS, grip, mag, bullet;
     private final AnimationDefinition shoot;
 
     public M4a1Model() {
@@ -39,7 +39,6 @@ public class M4a1Model extends AutoMagPositionModel {
         bolt = gun.getChild("bolt").meshing();
         IS = gun.getChild("IS").meshing();
         grip = gun.getChild("grip").meshing();
-        ring = gun.getChild("ring").meshing();
         mag = gun.getChild("mag").meshing();
         bullet = mag.getChild("bullet").meshing();
     }
@@ -54,7 +53,7 @@ public class M4a1Model extends AutoMagPositionModel {
         context.renderIf(handguard, vertexConsumer, context.notHasHandguard());
         context.renderIf(mag, vertexConsumer, context.notHasMag());
         context.renderIf(stock, vertexConsumer, context.notHasStock());
-        context.render(vertexConsumer, barrel, charge, body, safety, bolt, grip, ring);
+        context.render(vertexConsumer, barrel, charge, body, safety, bolt, grip);
         if (context.isFirstPerson) {
             context.renderArm(right_arm, true);
             context.renderArm(left_arm, false);

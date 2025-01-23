@@ -147,7 +147,7 @@ public class ControllerEvents {
         if(Minecraft.getInstance().player != null) {
             Player player = Minecraft.getInstance().player;
             ItemStack stackMain = player.getMainHandItem();
-            if (GCAA.ALLOW_DEBUG_SCREEN && KeyBinds.OPEN_DEBUG_SCREEN.isDown() && event.getAction() == 1) {
+            if (GCAA.ALLOW_DEBUG && KeyBinds.OPEN_DEBUG_SCREEN.isDown() && event.getAction() == 1) {
                 if (stackMain.getItem() instanceof IGun) {
                     Minecraft.getInstance().setScreen(new GunDebugAdjustScreen());
                 }

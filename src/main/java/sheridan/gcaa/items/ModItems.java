@@ -14,10 +14,7 @@ import sheridan.gcaa.items.attachments.arStuff.ARGasBlock;
 import sheridan.gcaa.items.attachments.arStuff.ARStockTube;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.attachments.grip.*;
-import sheridan.gcaa.items.attachments.handguard.AKImprovedHandguard;
-import sheridan.gcaa.items.attachments.handguard.ARRailedHandguard;
-import sheridan.gcaa.items.attachments.handguard.M249RailedHandguard;
-import sheridan.gcaa.items.attachments.handguard.Mp5RailHandguard;
+import sheridan.gcaa.items.attachments.handguard.*;
 import sheridan.gcaa.items.attachments.mag.*;
 import sheridan.gcaa.items.attachments.muzzle.*;
 import sheridan.gcaa.items.attachments.other.RailClamp;
@@ -104,6 +101,7 @@ public class ModItems {
     public static final RegistryObject<DMRCompensator> DMR_COMPENSATOR = ITEMS.register("dmr_compensator", DMRCompensator::new);
     public static final RegistryObject<Mp5RailHandguard> MP5_RAIL_HANDGUARD = ITEMS.register("mp5_rail_handguard", Mp5RailHandguard::new);
     public static final RegistryObject<RailClamp> RAIL_CLAMP = ITEMS.register("rail_clamp", RailClamp::new);
+    public static final RegistryObject<ARLightHandguardShort> AR_LIGHT_HANDGUARD_SHORT = ITEMS.register("ar_light_handguard_short", ARLightHandguardShort::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

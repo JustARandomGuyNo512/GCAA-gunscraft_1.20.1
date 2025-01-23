@@ -35,7 +35,7 @@ public class RailClampModel implements IAttachmentModel, ISlotProviderModel {
 
     @Override
     public void handleSlotTranslate(PoseStack poseStack, String modelSlotName, IGun gun) {
-        if (gun == ModItems.BERETTA_686.get()) {
+        if (gun.getGun() == ModItems.BERETTA_686.get()) {
             beretta_686.translateAndRotate(poseStack);
             beretta_scope.translateAndRotate(poseStack);
         } else if (gun.getGunType() == IGun.GunType.SMG){
@@ -54,6 +54,7 @@ public class RailClampModel implements IAttachmentModel, ISlotProviderModel {
 
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
+        System.out.println("rendering rail clamp");
         IGun gun = context.gun;
         ModelPart model = getRoot(gun);
         model.copyFrom(pose);
@@ -65,7 +66,7 @@ public class RailClampModel implements IAttachmentModel, ISlotProviderModel {
 
     @Override
     public ModelPart getRoot(IGun gun) {
-        if (gun == ModItems.BERETTA_686.get()) {
+        if (gun.getGun() == ModItems.BERETTA_686.get()) {
             return beretta_686;
         } else if (gun.getGunType() == IGun.GunType.SMG){
             return mp5;

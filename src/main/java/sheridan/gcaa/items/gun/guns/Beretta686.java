@@ -120,4 +120,8 @@ public class Beretta686 extends Gun {
         return 1;
     }
 
+    @Override
+    public GunType getGunType() {
+        return GunType.SHOTGUN;
+    }
 }

@@ -36,7 +36,7 @@ public class CTRStock extends Attachment {
         properties.setPropertyRateIfHas(GunProperties.SPRINTING_SPREAD_FACTOR, data, (prevRate) -> prevRate + 0.05f);
         properties.setPropertyRateIfHas(GunProperties.WALKING_SPREAD_FACTOR, data, (prevRate) -> prevRate + 0.05f);
         properties.setPropertyRateIfHas(GunProperties.AGILITY, data, (prevRate) -> prevRate - 0.05f);
-        super.onAttach(player, stack, gun, data);
+        super.onDetach(player, stack, gun, data);
     }
 
 

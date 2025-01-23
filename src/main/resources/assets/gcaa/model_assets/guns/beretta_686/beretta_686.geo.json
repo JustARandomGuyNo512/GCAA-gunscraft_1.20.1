@@ -1246,6 +1246,11 @@
 					]
 				},
 				{
+					"name": "s_rail_clamp",
+					"parent": "grip",
+					"pivot": [0, 5.8, -10.8]
+				},
+				{
 					"name": "body",
 					"parent": "gun",
 					"pivot": [0, -1.29257, -53.53276],
@@ -2347,11 +2352,6 @@
 							}
 						}
 					]
-				},
-				{
-					"name": "s_rail_clamp",
-					"parent": "gun",
-					"pivot": [0, 5.8, -10.8]
 				},
 				{
 					"name": "camera",

@@ -78,7 +78,6 @@ public abstract class LodGunModel extends GunModel{
         switch (transformType) {
             case THIRD_PERSON_LEFT_HAND, THIRD_PERSON_RIGHT_HAND -> {return ClientConfig.renderLowQualityModelInTPView.get();}
             case GROUND -> {return ClientConfig.renderLowQualityModelInGroundView.get();}
-            case GUI -> {return ClientConfig.renderLowQualityModelInGuiView.get();}
             default -> {return ClientConfig.renderLowQualityModelInOtherView.get();}
         }
     }

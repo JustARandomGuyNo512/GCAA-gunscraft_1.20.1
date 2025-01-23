@@ -24,12 +24,8 @@ public class Test {
     static boolean firstTick = true;
     @SubscribeEvent
     public static void init(TickEvent.ClientTickEvent event) throws IOException {
-//        if (!firstTick) {
-//            return;
-//        }
-//        if (event.phase == TickEvent.Phase.END) {
-//            testShader = new ShaderInstance(Minecraft.getInstance().getResourceManager(), new ResourceLocation(GCAA.MODID, "rendertype_test"), DefaultVertexFormat.NEW_ENTITY);
-//            firstTick = false;
+//        if (event.phase == TickEvent.Phase.END && Minecraft.getInstance().screen != null) {
+//            System.out.println(Minecraft.getInstance().screen + " " + Minecraft.getInstance().screen.getClass().getName());
 //        }
     }
 

@@ -19,7 +19,7 @@ public class LaserSightModel implements IAttachmentModel, IDirectionalModel {
     private final ModelPart low;
 
     public LaserSightModel() {
-        this.sight = StatisticModel.LASER_SIGHTS.get("normal");
+        this.sight = StatisticModel.LASER_SIGHTS.get("normal").meshing();
         this.laser = sight.getChild("laser");
         this.low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("laser_sights").getChild("normal3").meshing();
     }

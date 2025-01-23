@@ -29,13 +29,10 @@ public class RenderItemMixin {
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
     public void Other(ItemStack itemStackIn, ItemDisplayContext transformTypeIn, boolean leftHand, PoseStack poseStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, BakedModel p_115151_, CallbackInfo ci) {
         if (itemStackIn != null && itemStackIn.getItem() instanceof IGun gun) {
-            boolean overrideRender = true;
-            if (transformTypeIn == ItemDisplayContext.GUI && ClientConfig.renderVanillaModelInGuiView.get()) {
-                overrideRender = false;
+            if (transformTypeIn == ItemDisplayContext.GUI) {
+                return;
             }
-            if (transformTypeIn == ItemDisplayContext.GROUND && ClientConfig.renderVanillaModelInGroundView.get()) {
-                overrideRender = false;
-            }
+            boolean overrideRender = transformTypeIn != ItemDisplayContext.GROUND || !ClientConfig.renderVanillaModelInGroundView.get();
             if (overrideRender) {
                 ci.cancel();
             } else {

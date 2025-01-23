@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.model.gun.guns;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -12,13 +13,15 @@ import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
+import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.guns.Beretta686;
 
 @OnlyIn(Dist.CLIENT)
 public class Beretta686Model extends GunModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/beretta_686/beretta_686.png");
-    private ModelPart grip, body, stock;
+    private ModelPart grip, body, stock, s_rail_clamp;
 
     private final AnimationDefinition recoil;
     private final AnimationDefinition recoil_volley;
@@ -32,15 +35,17 @@ public class Beretta686Model extends GunModel {
 
     @Override
     protected void postInit(ModelPart gun, ModelPart root) {
-        grip = gun.getChild("grip").meshing();
-        ModelPart barrel = grip.getChild("barrel_main").meshing();
+        gun.meshingAll();
+        grip = gun.getChild("grip");
+        ModelPart barrel = grip.getChild("barrel_main");
         ModelPart bullets = barrel.getChild("bullets");
-        bullets.getChild("shells_1").getChild("shell_1").meshing();
-        bullets.getChild("shells_1").getChild("shell_1_fired").meshing();
-        bullets.getChild("shells_2").getChild("shell_2").meshing();
-        bullets.getChild("shells_2").getChild("shell_2_fired").meshing();
-        body = gun.getChild("body").meshing();
-        stock = gun.getChild("stock").meshing();
+        bullets.getChild("shells_1").getChild("shell_1");
+        bullets.getChild("shells_1").getChild("shell_1_fired");
+        bullets.getChild("shells_2").getChild("shell_2");
+        bullets.getChild("shells_2").getChild("shell_2_fired");
+        body = gun.getChild("body");
+        stock = gun.getChild("stock");
+        s_rail_clamp = grip.getChild("s_rail_clamp");
     }
 
     @Override
@@ -54,7 +59,25 @@ public class Beretta686Model extends GunModel {
     }
 
     @Override
-    protected void renderAttachmentsModel(GunRenderContext context) {}
+    protected void renderAttachmentsModel(GunRenderContext context) {
+        AttachmentRenderEntry rail_clamp = context.getAttachmentRenderEntry("s_rail_clamp");
+        if (rail_clamp != null) {
+            context.pushPose().translateTo(grip).renderEntry(rail_clamp, s_rail_clamp);
+            context.popPose();
+        }
+    }
+
+    @Override
+    public boolean hasSlot(String modelSlotName) {
+        return "s_rail_clamp".equals(modelSlotName);
+    }
+
+    @Override
+    public void handleSlotTranslate(PoseStack poseStack, String name, IGun iGunInstance) {
+        handleGunTranslate(poseStack);
+        grip.translateAndRotate(poseStack);
+        s_rail_clamp.translateAndRotate(poseStack);
+    }
 
     @Override
     protected void renderPostEffect(GunRenderContext context) {

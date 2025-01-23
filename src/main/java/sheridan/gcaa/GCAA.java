@@ -8,7 +8,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.lighting.BlockLightEngine;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -65,11 +64,11 @@ public class GCAA {
 
     public static final String MODID = "gcaa";
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static boolean ALLOW_DEBUG_SCREEN = false;
+    public static boolean ALLOW_DEBUG = false;
 
     public GCAA() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
+        ALLOW_DEBUG = !FMLLoader.isProduction();
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::onClientSetup));
         modEventBus.addListener(this::commonSetup);
 
@@ -91,7 +90,6 @@ public class GCAA {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
 
         //modEventBus.addListener(this::registerAddonFinder);
-        ALLOW_DEBUG_SCREEN = !FMLLoader.isProduction();
     }
 
     private void gatherDataEvent(GatherDataEvent event) {

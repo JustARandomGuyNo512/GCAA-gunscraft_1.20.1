@@ -61,6 +61,8 @@
   "item.gcaa.slant_grip": "Slant Grip",
   "item.gcaa.mp5_rail_handguard": "MP5 Railed Handguard",
   "item.gcaa.rail_clamp": "Rail Clamp",
+  "item.gcaa.ar_light_handguard": "AR Light Handguard",
+  "item.gcaa.ar_light_handguard": "AR Light Handguard Short",
 
   "item.gcaa.ammo9x19mm": "Parabellum 9mm Pistol Rounds",
   "item.gcaa.ammo5_56x45mm": "5.56x45mm Assault Rifle Rounds",
@@ -140,7 +142,7 @@
   "tooltip.gun_info.ads_speed": "ADS Speed: ",
   "tooltip.gun_info.fire_sound_vol": "Fire Sound Range: ",
   "tooltip.gun_info.reload_length": "Reload Time: ",
-  "tooltip.gun_info.ammunition": "Ammunition Used: ",
+  "tooltip.gun_info.ammunition": "Ammunition: ",
   "tooltip.gun_info.penetration": "Penetration: ",
   "tooltip.gcaa.show_full_gun_info": "Press $key to display details",
   "tooltip.gcaa.excellent_worse": "Excellent: Worse:",

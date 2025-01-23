@@ -28,7 +28,7 @@ public class AKImprovedHandguardModel implements IAttachmentModel, ISlotProvider
     private final Set<String> slotNames = new HashSet<>();
 
     public AKImprovedHandguardModel() {
-        handguard = StatisticModel.AK_STUFF1.get("handguard");
+        handguard = StatisticModel.AK_STUFF1.get("handguard").meshing();
         slotNames.add("s_handguard_grip");
         slotNames.add("s_handguard_sight");
         slotNames.add("s_handguard_left");
