@@ -146,6 +146,7 @@
   "tooltip.gun_info.reload_length": "Reload Time: ",
   "tooltip.gun_info.ammunition": "Ammunition: ",
   "tooltip.gun_info.penetration": "Penetration: ",
+  "tooltip.gun_info.annihilator": "Here is Easter eggs!",
   "tooltip.gcaa.show_full_gun_info": "Press $key to display details",
   "tooltip.gcaa.excellent_worse": "Excellent: Worse:",
   "tooltip.gcaa.turn_flashlight": "Press $key turn on / off flashlight or lighting mode",

@@ -146,6 +146,7 @@
   "tooltip.gun_info.reload_length": "换弹时间：",
   "tooltip.gun_info.ammunition": "使用弹药：",
   "tooltip.gun_info.penetration": "穿透：",
+  "tooltip.gun_info.annihilator": "哎呦, 你干嘛!",
   "tooltip.gcaa.show_full_gun_info": "按 $key 显示详细信息",
   "tooltip.gcaa.excellent_worse": "很棒： 差劲：",
   "tooltip.gcaa.turn_flashlight": "按 $key 开启/关闭 手电筒或者切换照明模式",
