@@ -62,7 +62,7 @@
   "item.gcaa.mp5_rail_handguard": "MP5 Railed Handguard",
   "item.gcaa.rail_clamp": "Rail Clamp",
   "item.gcaa.ar_light_handguard": "AR Light Handguard",
-  "item.gcaa.ar_light_handguard": "AR Light Handguard Short",
+  "item.gcaa.ar_light_handguard_short": "AR Light Handguard Short",
 
   "item.gcaa.ammo9x19mm": "Parabellum 9mm Pistol Rounds",
   "item.gcaa.ammo5_56x45mm": "5.56x45mm Assault Rifle Rounds",
@@ -118,6 +118,8 @@
   "tooltip.bullet_crafting.detail": "Click to select the bullet to be manufactured",
   "tooltip.bullet_crafting.stop": "Stop manufacturing",
   "tooltip.bullet_crafting.crafting": "Under manufacturing: ",
+  "tooltip.action_res.require_attach": "Requires '$name' or its equivalent to be installed first ",
+  "tooltip.action_res.require_detach": "Need to uninstall '$name' first ",
 
   "tooltip.item.useless": "It's no use. Why don't you throw it away",
   "tooltip.item.unknown_attachment_1": "The attachment for this id: $id could not be recognized",

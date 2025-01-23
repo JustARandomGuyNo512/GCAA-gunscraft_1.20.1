@@ -56,10 +56,10 @@ public abstract class ReplaceableGunPart implements IAttachment{
 
 
     protected AttachResult canReplace(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
-        return IAttachment.PASSED;
+        return IAttachment.passed();
     }
 
-    public void doSlotOperation(IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {}
+    public void doSlotOperation(IGun gun, AttachmentSlot root, AttachmentSlot prevSlot, IAttachment attachment) {}
 
     public void onOccupied(ItemStack stack, IGun gun, CompoundTag data) {
         GunProperties properties = gun.getGunProperties();
@@ -78,10 +78,10 @@ public abstract class ReplaceableGunPart implements IAttachment{
     public final void onDetach(Player player, ItemStack stack, IGun gun, CompoundTag data) {}
 
     @Override
-    public final AttachResult canAttach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {return PASSED;}
+    public final AttachResult canAttach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {return IAttachment.passed();}
 
     @Override
-    public final AttachResult canDetach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {return PASSED;}
+    public final AttachResult canDetach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {return IAttachment.passed();}
 
     @Override
     public Attachment get() {return null;}

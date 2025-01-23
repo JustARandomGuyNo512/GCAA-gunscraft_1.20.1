@@ -52,7 +52,9 @@ public class AttachmentsHandler {
                     if (attachment != null) {
                         String slotName = tag.getString("slot_name");
                         AttachmentSlot prevSlot = root.searchChild(slotName);
-                        if (!prevSlot.isLocked() && proxy.onCanAttach(attachment, itemStack, gun, root, prevSlot).isPassed()) {
+                        IAttachment.AttachResult result = proxy.onCanAttach(attachment, itemStack, gun, root, prevSlot);
+                        if (!prevSlot.isLocked() && result.isPassed()) {
+                            System.out.println("accepted: " + slotName);
                             //如果当前配件可以安装
                             attachment.onAttach(player, itemStack, gun, properties);
                             //如果当前配件有可替换的枪械部件
@@ -60,6 +62,7 @@ public class AttachmentsHandler {
                             if (replaceableGunPart != null) {
                                 //执行枪械部件替换
                                 replaceableGunPart.onOccupied(itemStack, gun, properties);
+                                replaceableGunPart.doSlotOperation(gun, root, prevSlot, attachment);
                             }
                             if (attachment instanceof ISubSlotProvider provider) {
                                 //执行子配件槽扩展
@@ -69,8 +72,11 @@ public class AttachmentsHandler {
                                 //执行子配件槽解锁
                                 activator.unlockOrLockSlots(prevSlot, root, gun);
                             }
+                            prevSlot.setAttachmentId(id);
+                            prevSlot.setId(tag.getString("uuid"));
                             newAttachments.add(tag);
                         } else {
+                            System.out.println("rejected: " + slotName + " res: " + result);
                             unSupportedAttachments.add(attachment.get());
                         }
                     } else {
@@ -242,7 +248,7 @@ public class AttachmentsHandler {
                     ReplaceableGunPart replaceableGunPart = prevSlot.getReplaceableGunPart();
                     if (attachment != null) {
                         if (replaceableGunPart != null) {
-                            replaceableGunPart.doSlotOperation(gun, slot, prevSlot);
+                            replaceableGunPart.doSlotOperation(gun, slot, prevSlot, attachment);
                         }
                         if (attachment instanceof ISubSlotProvider provider) {
                             provider.appendSlots(prevSlot, slot, gun);

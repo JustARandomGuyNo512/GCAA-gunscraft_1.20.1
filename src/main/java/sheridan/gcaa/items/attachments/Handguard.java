@@ -16,12 +16,18 @@ public class Handguard extends SubSlotProvider{
     private final AttachmentSlot root;
     private final float recoilPitchControlIncRate;
     private final float yawPitchControlIncRate;
+    private final boolean isLongHandguard;
 
-    public Handguard(AttachmentSlot root, float recoilPitchControlIncRate, float yawPitchControlIncRate, float weight)    {
+    public Handguard(AttachmentSlot root, float recoilPitchControlIncRate, float yawPitchControlIncRate, float weight, boolean isLongHandguard) {
         super(weight);
         this.root = root;
         this.recoilPitchControlIncRate = recoilPitchControlIncRate;
         this.yawPitchControlIncRate = yawPitchControlIncRate;
+        this.isLongHandguard = isLongHandguard;
+    }
+
+    public Handguard(AttachmentSlot root, float recoilPitchControlIncRate, float yawPitchControlIncRate, float weight) {
+        this(root, recoilPitchControlIncRate, yawPitchControlIncRate, weight, false);
     }
 
     @Override
@@ -53,5 +59,9 @@ public class Handguard extends SubSlotProvider{
         if (recoilPitchControlIncRate != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("recoil_control_pitch", recoilPitchControlIncRate, recoilPitchControlIncRate > 0));
         if (yawPitchControlIncRate != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("recoil_control_horizontal", yawPitchControlIncRate, yawPitchControlIncRate > 0));
         return effectsInGunModifyScreen;
+    }
+
+    public boolean isLongHandguard() {
+        return isLongHandguard;
     }
 }

@@ -62,7 +62,7 @@
   "item.gcaa.mp5_rail_handguard": "MP5 导轨护木",
   "item.gcaa.rail_clamp": "导轨夹具",
   "item.gcaa.ar_light_handguard": "AR 轻型护木",
-  "item.gcaa.ar_light_handguard": "AR 轻型护木（短）",
+  "item.gcaa.ar_light_handguard_short": "AR 轻型护木（短）",
 
   "item.gcaa.ammo9x19mm": "帕拉贝鲁姆9毫米手枪弹",
   "item.gcaa.ammo5_56x45mm": "5.56x45毫米突击步枪弹",
@@ -118,6 +118,8 @@
   "tooltip.bullet_crafting.detail": "点击选中要制造的子弹",
   "tooltip.bullet_crafting.stop": "停止制造",
   "tooltip.bullet_crafting.crafting": "正在制造中：",
+  "tooltip.action_res.require_attach": "需要先安装'$name'或其等价配件",
+  "tooltip.action_res.require_detach": "需要先卸载'$name'",
 
   "tooltip.item.useless": "没什么用，扔了吧",
   "tooltip.item.unknown_attachment_1": "无法识别此id: $id对应的配件",

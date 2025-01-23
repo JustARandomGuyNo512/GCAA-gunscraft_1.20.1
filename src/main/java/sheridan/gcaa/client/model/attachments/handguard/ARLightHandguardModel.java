@@ -13,19 +13,18 @@ import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
-public class ARLightHandguardShortModel implements IAttachmentModel, ISlotProviderModel {
+public class ARLightHandguardModel implements IAttachmentModel, ISlotProviderModel {
     private final ResourceLocation TEXTURE = StatisticModel.AR_LIGHT_HANDGUARD.texture;
-    private final ModelPart model, rail_front_right, rail_front_left, rail_grip;
+    private final ModelPart model, rail_grip, rail_front, rail_front_left, rail_front_right, rail_front_left_front, rail_front_right_front;
 
-    public ARLightHandguardShortModel() {
-        model = StatisticModel.AR_LIGHT_HANDGUARD.get("short").meshing();
-        model.resetChildLayerName("s_handguard_right2", "s_handguard_right");
-        model.resetChildLayerName("s_handguard_left2", "s_handguard_left");
-        model.resetChildLayerName("s_handguard_grip2", "s_handguard_grip");
-        model.resetChildLayerName("s_handguard_scope2", "s_handguard_scope");
-        rail_front_right = model.getChild("rail_front_right2").meshing();
-        rail_front_left = model.getChild("rail_front_left2").meshing();
-        rail_grip = model.getChild("rail_grip2").meshing();
+    public ARLightHandguardModel() {
+        model = StatisticModel.AR_LIGHT_HANDGUARD.get("long").meshing();
+        rail_grip = model.getChild("rail_grip").meshing();
+        rail_front = model.getChild("rail_front").meshing();
+        rail_front_left = model.getChild("rail_front_left").meshing();
+        rail_front_right = model.getChild("rail_front_right").meshing();
+        rail_front_left_front = model.getChild("rail_front_left_front").meshing();
+        rail_front_right_front = model.getChild("rail_front_right_front").meshing();
     }
 
     @Override
@@ -46,15 +45,24 @@ public class ARLightHandguardShortModel implements IAttachmentModel, ISlotProvid
         AttachmentRenderEntry s_handguard_left = attachmentRenderEntry.getChild("s_handguard_left");
         AttachmentRenderEntry s_handguard_right = attachmentRenderEntry.getChild("s_handguard_right");
         AttachmentRenderEntry s_handguard_grip = attachmentRenderEntry.getChild("s_handguard_grip");
+        AttachmentRenderEntry s_handguard_front = attachmentRenderEntry.getChild("s_handguard_front");
+        AttachmentRenderEntry s_handguard_left_front = attachmentRenderEntry.getChild("s_handguard_left_front");
+        AttachmentRenderEntry s_handguard_right_front = attachmentRenderEntry.getChild("s_handguard_right_front");
         rail_front_right.visible = s_handguard_right != null;
         rail_front_left.visible = s_handguard_left != null;
         rail_grip.visible = s_handguard_grip != null;
-        context.render(model, context.solidNoCull(TEXTURE));
+        rail_front.visible = s_handguard_front != null;
+        rail_front_left_front.visible = s_handguard_left_front != null;
+        rail_front_right_front.visible = s_handguard_right_front != null;
+        context.render(model, context.solidNoCullMipMap(TEXTURE));
         context.pushPose().translateTo(model);
         context.renderEntry(attachmentRenderEntry.getChild("s_handguard_scope"), model.getChild("s_handguard_scope"));
         context.renderEntry(s_handguard_left, model.getChild("s_handguard_left"));
         context.renderEntry(s_handguard_right, model.getChild("s_handguard_right"));
         context.renderEntry(s_handguard_grip, model.getChild("s_handguard_grip"));
+        context.renderEntry(s_handguard_front, model.getChild("s_handguard_front"));
+        context.renderEntry(s_handguard_left_front, model.getChild("s_handguard_left_front"));
+        context.renderEntry(s_handguard_right_front, model.getChild("s_handguard_right_front"));
         context.popPose();
         model.resetPose();
     }

@@ -102,6 +102,7 @@ public class ModItems {
     public static final RegistryObject<Mp5RailHandguard> MP5_RAIL_HANDGUARD = ITEMS.register("mp5_rail_handguard", Mp5RailHandguard::new);
     public static final RegistryObject<RailClamp> RAIL_CLAMP = ITEMS.register("rail_clamp", RailClamp::new);
     public static final RegistryObject<ARLightHandguardShort> AR_LIGHT_HANDGUARD_SHORT = ITEMS.register("ar_light_handguard_short", ARLightHandguardShort::new);
+    public static final RegistryObject<ARLightHandguard> AR_LIGHT_HANDGUARD = ITEMS.register("ar_light_handguard", ARLightHandguard::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

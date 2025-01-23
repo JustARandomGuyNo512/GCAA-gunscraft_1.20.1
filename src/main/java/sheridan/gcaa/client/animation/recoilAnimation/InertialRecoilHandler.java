@@ -91,7 +91,7 @@ public class InertialRecoilHandler {
                         0.385f, 1.025f);
                 randomYSpeed += (data.randomY * Mth.clamp(unstableFactor, 0.385f, 1f)) * randomDirectionY ;
                 if (randomYSpeed < 0) {
-                    randomYSpeed *= 0.5f;
+                    randomYSpeed *= 0.6f;
                 }
                 yRate *= unstableFactor;
                 randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f) * yRate;

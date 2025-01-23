@@ -8,6 +8,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -36,7 +37,8 @@ public class Projectile {
     private static int ACTIVE_NUM = 0;
     private static int TOTAL_NUM = 0;
     private static final int DISABLE_LATENCY = -1;
-    private static final Predicate<Entity> GENERIC_TARGETS = (input) -> input instanceof Grenade || (input instanceof LivingEntity && !input.isSpectator() && input.isAlive());
+    private static final Predicate<Entity> GENERIC_TARGETS = (input) -> input instanceof Grenade ||
+            (input instanceof LivingEntity && !input.isSpectator() && input.isAlive()) || input instanceof EndCrystal;
     public static final float CHUNK_TO_METER = 1.6f;
     public static final float BASE_SPREAD_INDEX = 0.0125F;
     public static final Random RANDOM = new Random();

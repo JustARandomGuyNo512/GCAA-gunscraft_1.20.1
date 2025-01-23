@@ -1,6 +1,7 @@
 package sheridan.gcaa.items.attachments.handguard;
 
 import sheridan.gcaa.items.attachments.Handguard;
+import sheridan.gcaa.items.attachments.handguard.data.ARHandguardSlots;
 
 public class ARRailedHandguard extends Handguard {
     public ARRailedHandguard() {

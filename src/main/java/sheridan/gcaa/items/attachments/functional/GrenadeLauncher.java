@@ -29,10 +29,7 @@ import sheridan.gcaa.entities.projectiles.Grenade;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.ammunition.IAmmunition;
-import sheridan.gcaa.items.attachments.Attachment;
-import sheridan.gcaa.items.attachments.IArmReplace;
-import sheridan.gcaa.items.attachments.IAttachment;
-import sheridan.gcaa.items.attachments.IInteractive;
+import sheridan.gcaa.items.attachments.*;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.fireModes.Auto;
 import sheridan.gcaa.network.PacketHandler;
@@ -43,7 +40,7 @@ import sheridan.gcaa.utils.RenderAndMathUtils;
 import java.util.List;
 import java.util.Objects;
 
-public class GrenadeLauncher extends Attachment implements IArmReplace, IInteractive {
+public class GrenadeLauncher extends Attachment implements IArmReplace, IInteractive, ForwardSlotBlocker {
     public static final String KEY_AMMO = "grenade_ammo";
     @OnlyIn(Dist.CLIENT)
     private Object recoilData;

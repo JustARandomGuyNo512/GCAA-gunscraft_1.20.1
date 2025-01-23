@@ -106,6 +106,17 @@ public class AttachmentSlot {
         return parent;
     }
 
+    public Stack<AttachmentSlot> getAncestors() {
+        Stack<AttachmentSlot> ancestors = new Stack<>();
+        if (!hasParent()) {
+            return ancestors;
+        }
+        for (AttachmentSlot parent = this.getParent(); parent != EMPTY; parent = parent.getParent()) {
+            ancestors.push(parent);
+        }
+        return ancestors;
+    }
+
     public AttachmentSlot setParent(AttachmentSlot parent) {
         if (!isRoot() && this != EMPTY) {
             this.parent = parent;
@@ -325,5 +336,20 @@ public class AttachmentSlot {
                 child.onTravel(visitor);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "AttachmentSlot{" +
+                "slotName='" + slotName + '\'' +
+                ", modelSlotName='" + modelSlotName + '\'' +
+                ", attachmentId='" + attachmentId + '\'' +
+                ", id='" + id + '\'' +
+                ", direction=" + direction +
+                ", replaceableGunPart=" + replaceableGunPart +
+                ", acceptedAttachments=" + acceptedAttachments +
+                ", root=" + root +
+                ", locked=" + locked +
+                '}';
     }
 }

@@ -22,6 +22,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 public abstract class Attachment extends NoRepairNoEnchantmentItem implements IAttachment, AutoRegister {
     public static final String MUZZLE = "muzzle";
@@ -45,12 +46,32 @@ public abstract class Attachment extends NoRepairNoEnchantmentItem implements IA
                 return result;
             }
         }
-        return prevSlot.isEmpty() && prevSlot.acceptsAttachment(AttachmentsRegister.getStrKey(this)) ? PASSED : REJECTED;
+        AttachResult result = prevSlot.isEmpty() && prevSlot.acceptsAttachment(AttachmentsRegister.getStrKey(this)) ?
+                IAttachment.passed() :
+                IAttachment.rejected();
+        Stack<AttachmentSlot> ancestors = prevSlot.getAncestors();
+        for (AttachmentSlot ancestor : ancestors) {
+            String attachmentId = ancestor.getAttachmentId();
+            IAttachment attachment = AttachmentsRegister.get(attachmentId);
+            if (attachment != null) {
+                attachment.childTryAttach(stack, gun, this, prevSlot, ancestors, result);
+            }
+        }
+        return result;
     }
 
     @Override
     public AttachResult canDetach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
-        return PASSED;
+        AttachResult result = IAttachment.passed();
+        Stack<AttachmentSlot> ancestors = prevSlot.getAncestors();
+        for (AttachmentSlot ancestor : ancestors) {
+            String attachmentId = ancestor.getAttachmentId();
+            IAttachment attachment = AttachmentsRegister.get(attachmentId);
+            if (attachment != null) {
+                attachment.childTryDetach(stack, gun, this, prevSlot, ancestors, result);
+            }
+        }
+        return result;
     }
 
     @Override
