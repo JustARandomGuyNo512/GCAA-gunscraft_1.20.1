@@ -236,7 +236,10 @@ public class Commons {
         );
 
         registerVendingMachineProducts();
+        registerAmmunitionRecipes();
+    }
 
+    public static void registerAmmunitionRecipes() {
         RecipeRegister.registerAmmunition(List.of(
                 ModItems.AMMO_9X19MM.get(),
                 ModItems.AMMO_45ACP.get(),

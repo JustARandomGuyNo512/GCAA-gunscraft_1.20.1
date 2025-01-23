@@ -55,6 +55,7 @@ public class PacketHandler
         registerPacket(StopBulletCraftingPacket.class, new StopBulletCraftingPacket());
         registerPacket(UpdateGunPropertiesPacket.class, new UpdateGunPropertiesPacket());
         registerPacket(UpdateVendingMachineProductsPacket.class, new UpdateVendingMachineProductsPacket());
+        registerPacket(UpdateBulletCraftingRecipePacket.class, new UpdateBulletCraftingRecipePacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {
