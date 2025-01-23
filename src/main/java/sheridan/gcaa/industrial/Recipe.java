@@ -1,19 +1,25 @@
 package sheridan.gcaa.industrial;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import sheridan.gcaa.data.IDataPacketGen;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class Recipe implements IDataPacketGen {
-    public final Item item;
-    public final Map<Item, Integer> ingredients;
-    public final int craftingTicks;
+    public Item item;
+    public Map<Item, Integer> ingredients;
+    public int craftingTicks;
+
+    public Recipe() {
+        ingredients = new HashMap<>();
+    }
 
     public Recipe(Item item, int ms) {
         this.item = item;
@@ -31,9 +37,29 @@ public class Recipe implements IDataPacketGen {
 
     @Override
     public void writeData(JsonObject jsonObject) {
+        ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
+        if (key == null) return;
+        jsonObject.addProperty("item", key.toString());
+        JsonObject newJsonObject = new JsonObject();
+        for (Map.Entry<Item, Integer> entry : ingredients.entrySet()) {
+            ResourceLocation itemsKey = ForgeRegistries.ITEMS.getKey(entry.getKey());
+            if (itemsKey == null) continue;
+            newJsonObject.addProperty(itemsKey.toString(), entry.getValue());
+        }
+        jsonObject.add("ingredients", newJsonObject);
+        jsonObject.addProperty("craftingTicks", craftingTicks);
     }
 
     @Override
     public void loadData(JsonObject jsonObject) {
+        craftingTicks = jsonObject.get("craftingTicks").getAsInt();
+        item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(jsonObject.get("item").getAsString()));
+        JsonObject ingredientsJson = jsonObject.get("ingredients").getAsJsonObject();
+        Set<Map.Entry<String, JsonElement>> entries = ingredientsJson.entrySet();
+        for (Map.Entry<String, JsonElement> entry : entries) {
+            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(entry.getKey()));
+            if (item == null) continue;
+            ingredients.put(item, entry.getValue().getAsInt());
+        }
     }
 }
