@@ -37,7 +37,7 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.AKM.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak_suppressor", "gcaa:ak_compensator")))
-                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ak_extend_mag")))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ak_extend_mag", "gcaa:drum_ak")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket", "gcaa:okp7_a")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")).setReplaceableGunPart(new WeightPart(1)))
@@ -48,7 +48,7 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.M4A1.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor", "gcaa:ar_compensator")))
-                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ar_extend_mag")))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ar_extend_mag", "gcaa:mag_sure_fire_60")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of(
                         "gcaa:ar_railed_handguard",
@@ -151,7 +151,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_suppressor"," gcaa:pistol_suppressor", "gcaa:smg_compensator")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(0.7f, 0.05f, 0.06f)))
-                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:vector_45_extend_mag")))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:vector_45_extend_mag", "gcaa:exp_mag_45_straight", "gcaa:drum_45_straight")))
                 .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:vertical_grip", "gcaa:rail_panel_short", "gcaa:laser_sight", "gcaa:flashlight", "gcaa:slant_grip")))
                 .addChild(new AttachmentSlot("left",  Set.of("gcaa:laser_sight", "gcaa:flashlight", "gcaa:micro_flashlight")))
                 .addChild(new AttachmentSlot("right", Set.of("gcaa:laser_sight", "gcaa:rail_panel_short", "gcaa:flashlight")))
@@ -165,7 +165,7 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.MK47.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_light_handguard")).setReplaceableGunPart(new Mk47Handguard()))
-                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ak_extend_mag")))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ak_extend_mag", "gcaa:drum_ak")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak_compensator", "gcaa:ak_suppressor")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
@@ -190,7 +190,7 @@ public class Commons {
                 .addChild(new AttachmentSlot("handguard_front_left", hkg28HandguardFrontSlot).lower())
                 .addChild(new AttachmentSlot("handguard_front_right", hkg28HandguardFrontSlot).lower())
                 .addChild(new AttachmentSlot(GRIP, mk47HandguardGrip).lower())
-                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag7_62x51"))),
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag7_62x51", "gcaa:drum_762x51"))),
                 HkG28AttachmentProxy::new
         );
 
@@ -226,7 +226,7 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.MP5.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_suppressor","gcaa:pistol_suppressor", "gcaa:smg_compensator")))
-                .addChild(new AttachmentSlot(MAG, Set.of("")))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag9x19", "gcaa:drum_9x19")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:mp5_rail_handguard")))
                 .addChild(new AttachmentSlot("handguard_left", Set.of()).lower().lock())
                 .addChild(new AttachmentSlot("handguard_right", Set.of()).lower().lock())

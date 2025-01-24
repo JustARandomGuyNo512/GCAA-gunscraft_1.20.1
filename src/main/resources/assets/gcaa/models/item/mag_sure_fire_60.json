@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gcaa:item/mag_sure_fire_60"
+  }
+}

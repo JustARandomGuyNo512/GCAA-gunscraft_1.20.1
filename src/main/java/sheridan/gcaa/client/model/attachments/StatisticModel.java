@@ -11,6 +11,11 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class StatisticModel {
+
+    public static StatisticModel MAG_COLLECTION3 = new StatisticModel(
+            new ResourceLocation(GCAA.MODID, "model_assets/attachments/mags/mags3.png"),
+            new ResourceLocation(GCAA.MODID, "model_assets/attachments/mags/mag_collection3.geo.json"));
+
     public static StatisticModel AR_LIGHT_HANDGUARD = new StatisticModel(
             new ResourceLocation(GCAA.MODID, "model_assets/attachments/ar_stuff/ar_light_handguard.png"),
             new ResourceLocation(GCAA.MODID, "model_assets/attachments/ar_stuff/ar_light_handguard.geo.json"));

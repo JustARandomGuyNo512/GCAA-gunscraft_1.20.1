@@ -103,6 +103,13 @@ public class ModItems {
     public static final RegistryObject<RailClamp> RAIL_CLAMP = ITEMS.register("rail_clamp", RailClamp::new);
     public static final RegistryObject<ARLightHandguardShort> AR_LIGHT_HANDGUARD_SHORT = ITEMS.register("ar_light_handguard_short", ARLightHandguardShort::new);
     public static final RegistryObject<ARLightHandguard> AR_LIGHT_HANDGUARD = ITEMS.register("ar_light_handguard", ARLightHandguard::new);
+    public static final RegistryObject<ExpMag45Straight> EXP_MAG_45_STRAIGHT = ITEMS.register("exp_mag_45_straight", ExpMag45Straight::new);
+    public static final RegistryObject<ExpMag9x19> EXP_MAG9X19 = ITEMS.register("exp_mag9x19", ExpMag9x19::new);
+    public static final RegistryObject<Drum9mmArc> DRUM_9X19_ARC = ITEMS.register("drum_9x19", Drum9mmArc::new);
+    public static final RegistryObject<DrumAk> DRUM_AK = ITEMS.register("drum_ak", DrumAk::new);
+    public static final RegistryObject<MagSureFire60> MAG_SURE_FIRE_60 = ITEMS.register("mag_sure_fire_60", MagSureFire60::new);
+    public static final RegistryObject<Drum45Straight> DRUM_45_STRAIGHT = ITEMS.register("drum_45_straight", Drum45Straight::new);
+    public static final RegistryObject<Drum7_62x51> DRUM7_62X51= ITEMS.register("drum_762x51", Drum7_62x51::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

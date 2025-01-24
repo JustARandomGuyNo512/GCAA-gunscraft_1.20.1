@@ -240,8 +240,9 @@ public class Projectile {
         if (this.shooter instanceof Player && !shooter.level().isClientSide) {
             PacketHandler.simpleChannel.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) this.shooter), new HeadShotFeedBackPacket(isHeadShot));
         }
+        System.out.println(progress + "  " + minDamage + " " + damage + " " + Mth.lerp((1 - (float) Math.pow(progress, 1.5f)), minDamage, damage));
         entity.hurt(damageSource,
-                Mth.lerp((1 - progress * progress), minDamage, damage) * CommonConfig.globalBulletDamageModify.get().floatValue());
+                Mth.lerp((1 - (float) Math.pow(progress, 1.5f)), minDamage, damage) * CommonConfig.globalBulletDamageModify.get().floatValue());
         if (this.mods != null) {
             for (IAmmunitionMod mod : mods) {
                 try {

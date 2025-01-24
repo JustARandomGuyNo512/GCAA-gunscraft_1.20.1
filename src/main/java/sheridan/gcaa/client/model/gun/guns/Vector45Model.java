@@ -7,13 +7,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
+import sheridan.gcaa.client.model.gun.AutoMagPositionModel;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.client.render.NewPlayerArmRenderer;
+import sheridan.gcaa.items.ModItems;
 
 @OnlyIn(Dist.CLIENT)
-public class Vector45Model extends GunModel {
+public class Vector45Model extends AutoMagPositionModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/vector_45/vector_45.png");
     private ModelPart safety, safety2, stock, front_IS, IS, handle, slide, mag, bullet0, exp_part, body, barrel, muzzle;
     private final AnimationDefinition shoot;
@@ -44,8 +46,15 @@ public class Vector45Model extends GunModel {
     @Override
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.solid(TEXTURE);
-        bullet0.visible = context.shouldBulletRender();
-        exp_part.visible = !context.notHasMag();
+        boolean noMag = context.notHasMag();
+        boolean showExp = context.attachmentIs("s_mag", ModItems.VECTOR_45_EXTEND_MAG.get());
+        if (noMag || showExp) {
+            mag.visible = true;
+            bullet0.visible = context.shouldBulletRender();
+            exp_part.visible = showExp;
+        } else {
+            mag.visible = false;
+        }
         context.renderIf(stock, vertexConsumer, context.notHasStock());
         context.renderIf(front_IS, vertexConsumer, context.notHasScope());
         context.renderIf(IS, vertexConsumer, context.notHasScope());
@@ -59,7 +68,13 @@ public class Vector45Model extends GunModel {
 
     @Override
     protected void renderAttachmentsModel(GunRenderContext context) {
+        super.renderAttachmentsModel(context);
         context.renderAllAttachmentsLeft(gun);
+    }
+
+    @Override
+    protected ModelPart getMag() {
+        return mag;
     }
 
     @Override

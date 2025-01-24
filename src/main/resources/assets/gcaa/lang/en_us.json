@@ -63,6 +63,13 @@
   "item.gcaa.rail_clamp": "Rail Clamp",
   "item.gcaa.ar_light_handguard": "AR Light Handguard",
   "item.gcaa.ar_light_handguard_short": "AR Light Handguard Short",
+  "item.gcaa.exp_mag_45_straight": ".45 Standard Extended Magazine (Straight Insert)",
+  "item.gcaa.exp_mag9x19": "9x19mm Standard Extended Mag",
+  "item.gcaa.drum_9x19": "9x19mm Drum Mag",
+  "item.gcaa.drum_ak": "AK Drum Mag",
+  "item.gcaa.mag_sure_fire_60": "SureFire 60 Rounds Mag",
+  "item.gcaa.drum_45_straight": ".45 Drum Mag (Straight Insert)",
+  "item.gcaa.drum_762x51": "7.62x51mm Drum Mag",
 
   "item.gcaa.ammo9x19mm": "Parabellum 9mm Pistol Rounds",
   "item.gcaa.ammo5_56x45mm": "5.56x45mm Assault Rifle Rounds",

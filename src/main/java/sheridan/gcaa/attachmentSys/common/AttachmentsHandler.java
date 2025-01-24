@@ -50,11 +50,9 @@ public class AttachmentsHandler {
                     IAttachment attachment = AttachmentsRegister.get(id);
                     //如果当前配件存在
                     if (attachment != null) {
-                        String slotName = tag.getString("slot_name");
-                        AttachmentSlot prevSlot = root.searchChild(slotName);
+                        AttachmentSlot prevSlot = root.searchChild(tag.getString("slot_name"));
                         IAttachment.AttachResult result = proxy.onCanAttach(attachment, itemStack, gun, root, prevSlot);
-                        if (!prevSlot.isLocked() && result.isPassed()) {
-                            System.out.println("accepted: " + slotName);
+                        if (prevSlot != null && !prevSlot.isLocked() && result.isPassed()) {
                             //如果当前配件可以安装
                             attachment.onAttach(player, itemStack, gun, properties);
                             //如果当前配件有可替换的枪械部件
@@ -76,7 +74,6 @@ public class AttachmentsHandler {
                             prevSlot.setId(tag.getString("uuid"));
                             newAttachments.add(tag);
                         } else {
-                            System.out.println("rejected: " + slotName + " res: " + result);
                             unSupportedAttachments.add(attachment.get());
                         }
                     } else {

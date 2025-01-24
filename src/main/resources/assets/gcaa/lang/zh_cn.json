@@ -63,6 +63,13 @@
   "item.gcaa.rail_clamp": "导轨夹具",
   "item.gcaa.ar_light_handguard": "AR 轻型护木",
   "item.gcaa.ar_light_handguard_short": "AR 轻型护木（短）",
+  "item.gcaa.exp_mag_45_straight": ".45 标准扩容弹匣（直插）",
+  "item.gcaa.exp_mag9x19": "9x19mm 标准扩容弹匣",
+  "item.gcaa.drum_9x19": "9x19mm 弹鼓",
+  "item.gcaa.drum_ak": "AK 弹鼓",
+  "item.gcaa.mag_sure_fire_60": "SureFire 60发弹匣",
+  "item.gcaa.drum_45_straight": ".45 弹鼓（直插）",
+  "item.gcaa.drum_762x51": "7.62x51mm 弹鼓",
 
   "item.gcaa.ammo9x19mm": "帕拉贝鲁姆9毫米手枪弹",
   "item.gcaa.ammo5_56x45mm": "5.56x45毫米突击步枪弹",
