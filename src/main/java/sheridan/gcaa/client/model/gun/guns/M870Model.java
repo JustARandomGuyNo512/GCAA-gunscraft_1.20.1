@@ -47,7 +47,7 @@ public class M870Model extends GunModel {
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.solidMipMap(TEXTURE);
         context.renderIf(mag, vertexConsumer, context.notHasMag());
-        context.render(vertexConsumer, slide, handguard, stock, barrel, body, barrel_cap);
+        context.render(vertexConsumer, slide, handguard, stock, barrel, body);
         ModelPart leftArm = left_arm.xScale > 0 ? left_arm : reloading_arm;
         if (leftArm == reloading_arm && context.isFirstPerson) {
             context.pushPose().translateTo(reloading_arm).render(shell, vertexConsumer);

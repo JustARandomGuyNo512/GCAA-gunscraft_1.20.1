@@ -133,6 +133,10 @@
   "tooltip.bullet_crafting.crafting": "Under manufacturing: ",
   "tooltip.action_res.require_attach": "Requires '$name' or its equivalent to be installed first ",
   "tooltip.action_res.require_detach": "Need to uninstall '$name' first ",
+  "tooltip.attachment_icon_render_mode.render_all": "Attachment slot icon: All Visible",
+  "tooltip.attachment_icon_render_mode.render_children": "Attachment slot icon: Top Layer",
+  "tooltip.attachment_icon_render_mode.render_empty": "Attachment slot icon: Empty",
+  "tooltip.attachment_icon_render_mode.render_empty": "Attachment slot icon: Occupied",
 
   "tooltip.item.useless": "It's no use. Why don't you throw it away",
   "tooltip.item.unknown_attachment_1": "The attachment for this id: $id could not be recognized",

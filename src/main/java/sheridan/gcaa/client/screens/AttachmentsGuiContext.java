@@ -51,10 +51,14 @@ public class AttachmentsGuiContext {
         this.gun = gun;
         this.proxy = AttachmentsRegister.getProxiedAttachmentSlot(gun, root);
         initPosMap(this.root);
+        renderMode = RENDER_ALL;
     }
 
     public void setRenderMode(int mode) {
         renderMode = mode % 4;
+        if (selected != null && !canBeClicked(selected)) {
+            selected = null;
+        }
     }
 
     public static int getRenderMode() {
@@ -85,21 +89,22 @@ public class AttachmentsGuiContext {
     public void renderIcons(GuiGraphics guiGraphics, Font font) {
         List<Map.Entry<AttachmentSlot, Vector3f>> rendered = new ArrayList<>();
         for (Map.Entry<AttachmentSlot, Vector3f> entry : guiPosMap.entrySet()) {
-            if (entry.getKey().isLocked()) {
+            AttachmentSlot slot = entry.getKey();
+            if (slot.isLocked()) {
                 continue;
             }
-            ResourceLocation texture = chooseTexture(entry.getKey());
+            ResourceLocation texture = chooseTexture(slot);
             Vector3f pos = entry.getValue();
             if (OUT_SCREEN == pos)  {
                 continue;
             }
-            if (renderMode == RENDER_CHILDREN && entry.getKey().hasChildren()) {
+            if (renderMode == RENDER_CHILDREN && (slot.hasChildren() || slot.isAsSlotProvider())) {
                 continue;
             }
-            if (renderMode == RENDER_EMPTY && !entry.getKey().isEmpty()) {
+            if (renderMode == RENDER_EMPTY && !slot.isEmpty()) {
                 continue;
             }
-            if (renderMode == RENDER_OCCUPIED && entry.getKey().isEmpty()) {
+            if (renderMode == RENDER_OCCUPIED && slot.isEmpty()) {
                 continue;
             }
             int scale = entry.getKey() == selected ? 6 : 4;
@@ -199,7 +204,7 @@ public class AttachmentsGuiContext {
             float dx = (int)(pos.x) - mx;
             float dy = (int)(pos.y) - my;
             float dis = (dx * dx + dy * dy);
-            if (dis < (entry.getKey() == selected ? 10 : 5)) {
+            if (dis < (entry.getKey() == selected ? 10 : 5) && canBeClicked(entry.getKey())) {
                 if (dis < minDis) {
                     minDis = dis;
                     selected = entry.getKey();
@@ -210,4 +215,13 @@ public class AttachmentsGuiContext {
         return hasSelected;
     }
 
+    public boolean canBeClicked(AttachmentSlot slot) {
+        if (renderMode == RENDER_CHILDREN && (slot.hasChildren() || slot.isAsSlotProvider())) {
+            return false;
+        }
+        if (renderMode == RENDER_EMPTY && !slot.isEmpty()) {
+            return false;
+        }
+        return renderMode != RENDER_OCCUPIED || !slot.isEmpty();
+    }
 }

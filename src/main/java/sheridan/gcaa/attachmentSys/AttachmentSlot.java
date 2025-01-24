@@ -24,6 +24,7 @@ public class AttachmentSlot {
     private AttachmentSlot parent = EMPTY;
     private boolean root = false;
     private boolean locked = false;
+    private boolean asSlotProvider = false;
 
     /**
      * * Create a root slot of an attachment tree.
@@ -72,6 +73,15 @@ public class AttachmentSlot {
     public AttachmentSlot setReplaceableGunPart(ReplaceableGunPart replaceableGunPart) {
         this.replaceableGunPart = replaceableGunPart;
         return this;
+    }
+
+    public AttachmentSlot asSlotProvider() {
+        this.asSlotProvider = true;
+        return this;
+    }
+
+    public boolean isAsSlotProvider() {
+        return asSlotProvider;
     }
 
     @Nullable
@@ -274,8 +284,12 @@ public class AttachmentSlot {
     }
 
     public AttachmentSlot copy() {
-        return new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY, this.id, this.direction)
+        AttachmentSlot slot = new AttachmentSlot(this.slotName, this.modelSlotName, this.acceptedAttachments, this.attachmentId, EMPTY, this.id, this.direction)
                 .setReplaceableGunPart(this.replaceableGunPart).setLocked(this.isLocked());
+        if (this.asSlotProvider) {
+            slot.asSlotProvider();
+        }
+        return slot;
     }
 
     public static AttachmentSlot copyAll(AttachmentSlot original) {

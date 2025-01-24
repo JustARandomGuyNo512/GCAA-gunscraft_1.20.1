@@ -508,6 +508,16 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
         public RenderModeBtn(int pX, int pY, int pWidth, int pHeight, int pTextureWidth, int pTextureHeight) {
             super(pX, pY, pWidth, pHeight, 0, 0, 0, new ResourceLocation(""), pTextureWidth, pTextureHeight, (btn) -> ((RenderModeBtn) btn).onClick());
             mode = AttachmentsGuiContext.getRenderMode();
+            updateTooltip();
+        }
+
+        private void updateTooltip() {
+            switch (mode) {
+                case (AttachmentsGuiContext.RENDER_ALL) -> setTooltip(Tooltip.create(Component.translatable("tooltip.attachment_icon_render_mode.render_all")));
+                case (AttachmentsGuiContext.RENDER_CHILDREN) -> setTooltip(Tooltip.create(Component.translatable("tooltip.attachment_icon_render_mode.render_children")));
+                case (AttachmentsGuiContext.RENDER_EMPTY) -> setTooltip(Tooltip.create(Component.translatable("tooltip.attachment_icon_render_mode.render_empty")));
+                case (AttachmentsGuiContext.RENDER_OCCUPIED) -> setTooltip(Tooltip.create(Component.translatable("tooltip.attachment_icon_render_mode.render_occupied")));
+            }
         }
 
         @Override
@@ -520,6 +530,7 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
             if (context != null) {
                 context.setRenderMode(mode);
             }
+            updateTooltip();
         }
     }
 }

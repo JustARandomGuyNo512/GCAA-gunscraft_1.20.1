@@ -133,6 +133,10 @@
   "tooltip.bullet_crafting.crafting": "正在制造中：",
   "tooltip.action_res.require_attach": "需要先安装'$name'或其等价配件",
   "tooltip.action_res.require_detach": "需要先卸载'$name'",
+  "tooltip.attachment_icon_render_mode.render_all": "配件槽图标：全部",
+  "tooltip.attachment_icon_render_mode.render_children": "配件槽图标：表层节点",
+  "tooltip.attachment_icon_render_mode.render_empty": "配件槽图标：空位",
+  "tooltip.attachment_icon_render_mode.render_occupied": "配件槽图标：已占用",
 
   "tooltip.item.useless": "没什么用，扔了吧",
   "tooltip.item.unknown_attachment_1": "无法识别此id: $id对应的配件",
