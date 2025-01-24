@@ -319,7 +319,7 @@ public class Clients {
                 .setAds(0,8.4f,-17, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
-                        new InertialRecoilData(0.00f, 0.0f, 0.2f,
+                        new InertialRecoilData(-0.05f, 0.02f, 0.2f,
                                 0.06f, 0.6f,  0.055f,
                                 0.35f, 0.3f,
                                 0.2f, 0.6f, 0.2f))
