@@ -22,11 +22,13 @@ public class ModTabs {
                 .icon(() ->new ItemStack(ModItems.AK_SUPPRESSOR.get()))
                 .displayItems((parameters, tab) -> {
                     tab.accept(ModItems.PISTOL_SUPPRESSOR.get());
+                    tab.accept(ModItems.SMG_SUPPRESSOR.get());
                     tab.accept(ModItems.AK_SUPPRESSOR.get());
                     tab.accept(ModItems.AR_SUPPRESSOR.get());
                     tab.accept(ModItems.SHOTGUN_SUPPRESSOR.get());
                     tab.accept(ModItems.SNIPER_SUPPRESSOR.get());
                     tab.accept(ModItems.OSPREY_SUPPRESSOR.get());
+                    tab.accept(ModItems.OSPREY_SMG_SUPPRESSOR.get());
                     tab.accept(ModItems.AK_COMPENSATOR.get());
                     tab.accept(ModItems.AR_COMPENSATOR.get());
                     tab.accept(ModItems.SMG_COMPENSATOR.get());

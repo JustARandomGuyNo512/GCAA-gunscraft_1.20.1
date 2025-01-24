@@ -14,27 +14,19 @@ import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
-public class PistolSuppressorModel extends MuzzleFlashRendererModel implements IAttachmentModel {
+public class OspreySMGSuppressorModel extends MuzzleFlashRendererModel implements IAttachmentModel {
     private final ModelPart model;
     private final ModelPart muzzle;
-    private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION1.texture;
-    private final ModelPart low;
+    private final ResourceLocation texture = StatisticModel.MUZZLE_COLLECTION2.texture;
 
-    public PistolSuppressorModel() {
-        model = StatisticModel.MUZZLE_COLLECTION1.get("pistol_suppressor").meshing();
-        muzzle = model.getChild("pistol_suppressor_muzzle");
-        low = StatisticModel.ATTACHMENTS_LOW_COLLECTION1.get("muzzle_collection").getChild("pistol_suppressor");
+    public OspreySMGSuppressorModel() {
+        model = StatisticModel.MUZZLE_COLLECTION2.get("osprey_suppressor_smg").meshing();
+        muzzle = model.getChild("osprey_suppressor_smg_muzzle");
     }
 
     @Override
     public void renderModel(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        if (context.useLowQuality()) {
-            low.copyFrom(pose);
-            context.render(low, context.getBuffer(RenderType.entityCutout(StatisticModel.ATTACHMENTS_LOW_COLLECTION1.texture)));
-            low.resetPose();
-        } else {
-            context.render(model, context.getBuffer(RenderType.entityCutout(texture)));
-        }
+        context.render(model, context.getBuffer(RenderType.entityCutout(texture)));
     }
 
     @Override

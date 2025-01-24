@@ -281,7 +281,7 @@ public class Clients {
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(-0.125f, 0.05f, 0.4f,
-                                0.065f, -0.186f,  0.07f,
+                                0.065f, -0.18f,  0.07f,
                                 0.3f, 0.7f, 0.34f, 0.7f,
                                 0.1f, 0.6f, 0.25f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 5.7f, -113.1f).setScale(2.1f))
@@ -428,8 +428,8 @@ public class Clients {
                 .setAds(0,14.6f,-24.2f, POS)
                 .setAttachmentScreen(1f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
-                        new InertialRecoilData(0.012f, 0.02f, 0.47f,
-                                0.06f, 0.25f,  0.06f,
+                        new InertialRecoilData(0.012f, 0.02f, 0.45f,
+                                0.065f, 0.25f,  0.06f,
                                 0.3f, 0.7f, 0.35f, 0.7f,
                                 0.5f, 0.6f, 0.15f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 5.4f, -57.6f).setScale(1.8f))
@@ -515,6 +515,8 @@ public class Clients {
                 new StatisticMagModel(StatisticModel.MAG_COLLECTION3, "_45_straight_drum", "_45_straight_drum_bullet"));
         ArsenalLib.registerAttachmentModel(ModItems.DRUM7_62X51.get(),
                 new StatisticMagModel(StatisticModel.MAG_COLLECTION3, "dmr_308_drum", "dmr_308_drum_bullet"));
+        ArsenalLib.registerAttachmentModel(ModItems.SMG_SUPPRESSOR.get(), new SMGSuppressorModel());
+        ArsenalLib.registerAttachmentModel(ModItems.OSPREY_SMG_SUPPRESSOR.get(), new OspreySMGSuppressorModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

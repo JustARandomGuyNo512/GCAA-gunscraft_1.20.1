@@ -110,6 +110,8 @@ public class ModItems {
     public static final RegistryObject<MagSureFire60> MAG_SURE_FIRE_60 = ITEMS.register("mag_sure_fire_60", MagSureFire60::new);
     public static final RegistryObject<Drum45Straight> DRUM_45_STRAIGHT = ITEMS.register("drum_45_straight", Drum45Straight::new);
     public static final RegistryObject<Drum7_62x51> DRUM7_62X51= ITEMS.register("drum_762x51", Drum7_62x51::new);
+    public static final RegistryObject<SMGSuppressor> SMG_SUPPRESSOR = ITEMS.register("smg_suppressor", SMGSuppressor::new);
+    public static final RegistryObject<OspreySmgSuppressor> OSPREY_SMG_SUPPRESSOR = ITEMS.register("osprey_smg_suppressor", OspreySmgSuppressor::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

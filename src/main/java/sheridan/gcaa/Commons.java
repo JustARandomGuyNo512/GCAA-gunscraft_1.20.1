@@ -149,7 +149,7 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.VECTOR_45.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
-                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_suppressor"," gcaa:pistol_suppressor", "gcaa:smg_compensator")))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_smg_suppressor"," gcaa:smg_suppressor", "gcaa:smg_compensator")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(0.7f, 0.05f, 0.06f)))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:vector_45_extend_mag", "gcaa:exp_mag_45_straight", "gcaa:drum_45_straight")))
                 .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:vertical_grip", "gcaa:rail_panel_short", "gcaa:laser_sight", "gcaa:flashlight", "gcaa:slant_grip")))
@@ -225,7 +225,7 @@ public class Commons {
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.MP5.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_suppressor","gcaa:pistol_suppressor", "gcaa:smg_compensator")))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_smg_suppressor","gcaa:smg_suppressor", "gcaa:smg_compensator")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag9x19", "gcaa:drum_9x19")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:mp5_rail_handguard")))
                 .addChild(new AttachmentSlot("handguard_left", Set.of()).lower().lock())

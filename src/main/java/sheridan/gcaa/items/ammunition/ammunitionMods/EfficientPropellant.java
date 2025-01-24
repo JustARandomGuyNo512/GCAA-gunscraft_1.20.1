@@ -16,8 +16,8 @@ import java.awt.*;
 
 public class EfficientPropellant extends AmmunitionMod {
     public EfficientPropellant() {
-        super(new ResourceLocation(GCAA.MODID, "efficient_propellant"), 3, ICONS_0, new Vector4i(80, 0, 128, 128)
-                ,"gcaa.ammunition_mod.efficient_propellant", new Color(0x4a52c5).getRGB(), 100);
+        super(new ResourceLocation(GCAA.MODID, "efficient_propellant"), 4, ICONS_0, new Vector4i(80, 0, 128, 128)
+                ,"gcaa.ammunition_mod.efficient_propellant", new Color(0x4a52c5).getRGB(), 140);
     }
 
     @Override

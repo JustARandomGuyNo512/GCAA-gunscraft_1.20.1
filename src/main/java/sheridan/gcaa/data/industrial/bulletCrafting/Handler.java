@@ -41,7 +41,7 @@ public class Handler extends SimplePreparableReloadListener<Map<String, JsonObje
         for (Map.Entry<Ammunition, AmmunitionRecipe> entry : ammunitionRecipeMap.entrySet()) {
             String fileName = entry.getKey().getDescriptionId().split("\\.")[2];
             String forgeKey = String.valueOf(ForgeRegistries.ITEMS.getKey(entry.getKey()));
-            String name = "bullet_crafting_recipe/" + fileName + ".json";
+            String name = "bullet_crafting_recipes/" + fileName + ".json";
             ResourceLocation location = new ResourceLocation(GCAA.MODID, name);
             resourceManager.getResource(location).ifPresent(res -> {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(res.open(), StandardCharsets.UTF_8))) {

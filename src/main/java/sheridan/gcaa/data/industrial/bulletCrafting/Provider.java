@@ -23,7 +23,7 @@ public class Provider implements DataProvider {
     protected final PackOutput.PathProvider pathProvider;
 
     public Provider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        this.pathProvider = output.createPathProvider(PackOutput.Target.DATA_PACK, "bullet_crafting_recipe");
+        this.pathProvider = output.createPathProvider(PackOutput.Target.DATA_PACK, "bullet_crafting_recipes");
     }
     @Override
     public @NotNull CompletableFuture<?> run(@NotNull CachedOutput cachedOutput) {
@@ -43,7 +43,7 @@ public class Provider implements DataProvider {
     }
 
     public @NotNull String getName() {
-        return GCAA.MODID + ": bullet_crafting_recipe";
+        return GCAA.MODID + ": bullet_crafting_recipes";
     }
 
 }
