@@ -25,6 +25,7 @@ public class ModTabs {
                     tab.accept(ModItems.SMG_SUPPRESSOR.get());
                     tab.accept(ModItems.AK_SUPPRESSOR.get());
                     tab.accept(ModItems.AR_SUPPRESSOR.get());
+                    tab.accept(ModItems.AK12_SUPPRESSOR.get());
                     tab.accept(ModItems.SHOTGUN_SUPPRESSOR.get());
                     tab.accept(ModItems.SNIPER_SUPPRESSOR.get());
                     tab.accept(ModItems.OSPREY_SUPPRESSOR.get());
@@ -67,8 +68,9 @@ public class ModTabs {
                     tab.accept(ModItems.SHOTGUN_EXTEND_BAY.get());
                     tab.accept(ModItems.DRUM_9X19_ARC.get());
                     tab.accept(ModItems.DRUM_45_STRAIGHT.get());
+                    tab.accept(ModItems.DRUM_5_45X39.get());
                     tab.accept(ModItems.DRUM_AK.get());
-                    tab.accept(ModItems.DRUM7_62X51.get());
+                    tab.accept(ModItems.DRUM_7_62X51.get());
                     tab.accept(ModItems.CTR_STOCK.get());
                     tab.accept(ModItems.MICRO_LASER_SIGHT.get());
                     tab.accept(ModItems.LASER_SIGHT.get());

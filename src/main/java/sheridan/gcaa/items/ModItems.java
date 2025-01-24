@@ -109,9 +109,11 @@ public class ModItems {
     public static final RegistryObject<DrumAk> DRUM_AK = ITEMS.register("drum_ak", DrumAk::new);
     public static final RegistryObject<MagSureFire60> MAG_SURE_FIRE_60 = ITEMS.register("mag_sure_fire_60", MagSureFire60::new);
     public static final RegistryObject<Drum45Straight> DRUM_45_STRAIGHT = ITEMS.register("drum_45_straight", Drum45Straight::new);
-    public static final RegistryObject<Drum7_62x51> DRUM7_62X51= ITEMS.register("drum_762x51", Drum7_62x51::new);
+    public static final RegistryObject<Drum7_62x51> DRUM_7_62X51 = ITEMS.register("drum_762x51", Drum7_62x51::new);
     public static final RegistryObject<SMGSuppressor> SMG_SUPPRESSOR = ITEMS.register("smg_suppressor", SMGSuppressor::new);
     public static final RegistryObject<OspreySmgSuppressor> OSPREY_SMG_SUPPRESSOR = ITEMS.register("osprey_smg_suppressor", OspreySmgSuppressor::new);
+    public static final RegistryObject<Drum5_45x39> DRUM_5_45X39 = ITEMS.register("drum_545x39", Drum5_45x39::new);
+    public static final RegistryObject<AK12Suppressor> AK12_SUPPRESSOR = ITEMS.register("ak12_suppressor", AK12Suppressor::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

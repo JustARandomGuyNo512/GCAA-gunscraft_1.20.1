@@ -198,8 +198,8 @@ public class Commons {
                 .addChild(new AttachmentSlot("rail_clamp", Set.of("gcaa:rail_clamp"))));
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.AK12.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot(MUZZLE, Set.of()).setReplaceableGunPart(new RecoilLowerPart(0, 0.15f, 0.15f)))
-                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag5_45x39")))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak12_suppressor")).setReplaceableGunPart(new RecoilLowerPart(0, 0.15f, 0.15f)))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag5_45x39", "gcaa:drum_545x39")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1, 0.12f, 0.12f)))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot("handguard_grip", Set.of(

@@ -22,8 +22,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.joml.Vector3f;
@@ -76,7 +74,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Stream;
 
 import static sheridan.gcaa.client.render.DisplayData.DataType.POS;
 import static sheridan.gcaa.client.render.DisplayData.DataType.ROT;
@@ -513,10 +510,12 @@ public class Clients {
                 new StatisticMagModel(StatisticModel.MAG_COLLECTION3, "SF_60", "SF_60_bullet"));
         ArsenalLib.registerAttachmentModel(ModItems.DRUM_45_STRAIGHT.get(),
                 new StatisticMagModel(StatisticModel.MAG_COLLECTION3, "_45_straight_drum", "_45_straight_drum_bullet"));
-        ArsenalLib.registerAttachmentModel(ModItems.DRUM7_62X51.get(),
+        ArsenalLib.registerAttachmentModel(ModItems.DRUM_7_62X51.get(),
                 new StatisticMagModel(StatisticModel.MAG_COLLECTION3, "dmr_308_drum", "dmr_308_drum_bullet"));
         ArsenalLib.registerAttachmentModel(ModItems.SMG_SUPPRESSOR.get(), new SMGSuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.OSPREY_SMG_SUPPRESSOR.get(), new OspreySMGSuppressorModel());
+        ArsenalLib.registerAttachmentModel(ModItems.DRUM_5_45X39.get(), new Drum5_45x39Model());
+        ArsenalLib.registerAttachmentModel(ModItems.AK12_SUPPRESSOR.get(), new AK12SuppressorModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

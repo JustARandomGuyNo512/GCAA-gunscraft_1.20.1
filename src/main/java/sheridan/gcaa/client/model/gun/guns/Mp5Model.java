@@ -48,6 +48,7 @@ public class Mp5Model extends AutoMagPositionModel {
             context.renderIf(this.stock, vertexConsumer, context.notHasStock());
         }
         context.renderIfOrElse(handguard, handguard_rail, context.notHasHandguard(), vertexConsumer);
+        mag.visible = context.notHasMag();
         context.render(vertexConsumer, safety, charge, body, mag, slide);
         if (context.isFirstPerson) {
             context.renderArm(right_arm, true);
