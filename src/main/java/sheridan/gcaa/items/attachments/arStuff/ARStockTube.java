@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class ARStockTube extends SubSlotProvider {
     private final AttachmentSlot root = AttachmentSlot.root()
-            .addChild(new AttachmentSlot("stock_tube", Set.of("gcaa:ctr_stock")));
+            .addChild(new AttachmentSlot("stock_tube", Set.of("gcaa:ctr_stock", "gcaa:ubr_stock")));
 
     public ARStockTube() {
         super(0.75f);

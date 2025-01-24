@@ -351,8 +351,11 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public float getAdsSpeed(ItemStack stack) {
         CompoundTag properties = getPropertiesTag(stack);
-        return properties.contains("ads_speed") ?
+        float rawSpeed = properties.contains("ads_speed") ?
                 Math.max(0, properties.getFloat("ads_speed") * gunProperties.adsSpeed) : 0;
+        float weightDist = getWeight(stack) - gunProperties.weight;
+        rawSpeed = Mth.clamp(rawSpeed - weightDist * 0.1f, rawSpeed * 0.4f, rawSpeed * 1.4f);
+        return rawSpeed;
     }
 
     @Override
@@ -720,14 +723,13 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         tooltip.add(FontUtils.dataTip("tooltip.gun_info.weight", getWeight(stack), 5, 40));
         tooltip.add(FontUtils.dataTip("tooltip.gun_info.penetration", gunProperties.caliber.penetration, 1.25f, 0.3f));
         gunProperties.caliber.handleTooltip(stack, this, levelIn, tooltip, flagIn, false);
-        if (gunProperties.caliber.ammunition != null) {
-            String ammo = Component.translatable("tooltip.gun_info.ammunition").getString();
-            String name = getFullAmmunitionUsedName(stack);
-            tooltip.add(Component.literal(ammo + name));
-        }
+        String ammo = Component.translatable("tooltip.gun_info.ammunition").getString();
+        String name = getFullAmmunitionUsedName(stack);
+        tooltip.add(Component.literal(ammo + name));
     }
 
     protected void gunDetailInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.ads_speed", getAdsSpeed(stack), 5, 0));
         gunProperties.caliber.handleTooltip(stack, this, levelIn, tooltip, flagIn, true);
         tooltip.add(FontUtils.getExcellentWorse());
     }

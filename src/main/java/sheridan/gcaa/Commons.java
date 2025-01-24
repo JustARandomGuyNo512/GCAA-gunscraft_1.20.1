@@ -55,7 +55,7 @@ public class Commons {
                         "gcaa:ar_light_handguard_short",
                         "gcaa:ar_light_handguard"
                 )).setReplaceableGunPart(new RecoilControlPart(0.8f, 0.05f, 0.05f)))
-                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")).setReplaceableGunPart(new WeightPart(1)))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock", "gcaa:ubr_stock")).setReplaceableGunPart(new WeightPart(1)))
                 .addChild(new AttachmentSlot("gas_block", Set.of("gcaa:ar_gas_block")))
                 .addChild(new AttachmentSlot(SCOPE, Set.of(
                         "gcaa:red_dot",
@@ -166,7 +166,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_light_handguard")).setReplaceableGunPart(new Mk47Handguard()))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ak_extend_mag", "gcaa:drum_ak")))
-                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock", "gcaa:ubr_stock")))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak_compensator", "gcaa:ak_suppressor")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot("hand_guard_scope", mk47HandguardScopeSlot).upper())
@@ -182,7 +182,7 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.HK_G28.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor", "gcaa:dmr_compensator")))
-                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock")))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock", "gcaa:ubr_stock")))
                 .addChild(new AttachmentSlot("handguard_scope", hkg28HandguardScope).upper())
                 .addChild(new AttachmentSlot("handguard_left", mk47HandguardSlot).lower())
                 .addChild(new AttachmentSlot("handguard_right", mk47HandguardSlot).lower())

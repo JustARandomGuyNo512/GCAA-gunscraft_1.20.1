@@ -4,6 +4,6 @@ import sheridan.gcaa.items.attachments.Mag;
 
 public class Drum45Straight extends Mag {
     public Drum45Straight() {
-        super(50, 7f);
+        super(50, 8.8f);
     }
 }

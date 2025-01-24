@@ -51,6 +51,7 @@ import sheridan.gcaa.client.model.attachments.scope.AcogModel;
 import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
 import sheridan.gcaa.client.model.attachments.sight.*;
 import sheridan.gcaa.client.model.attachments.stock.CTRStockModel;
+import sheridan.gcaa.client.model.attachments.stock.UBRStockModel;
 import sheridan.gcaa.client.model.gun.guns.*;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
@@ -258,8 +259,8 @@ public class Clients {
                 .setAds(0,10.1155f,-16f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
-                        new InertialRecoilData(0.00f, 0.0f, 1.2f,
-                                0.06f, 1.2f,  0.06f,
+                        new InertialRecoilData(0.06f, 0.03f, 1.2f,
+                                0.06f, 0.5f,  0.06f,
                                 0.5f, 0.2f,
                                 0.6f, 0.5f, 0.3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.575f, -110.1f).setScale(3f))
@@ -318,7 +319,7 @@ public class Clients {
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0.00f, 0.0f, 0.45f,
-                                0.05f, 0.42f,  0.05f,
+                                0.05f, 0.6f,  0.055f,
                                 0.35f, 0.3f,
                                 0.2f, 0.6f, 0.2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4f, -101.5f).setScale(3f))
@@ -516,6 +517,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.OSPREY_SMG_SUPPRESSOR.get(), new OspreySMGSuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.DRUM_5_45X39.get(), new Drum5_45x39Model());
         ArsenalLib.registerAttachmentModel(ModItems.AK12_SUPPRESSOR.get(), new AK12SuppressorModel());
+        ArsenalLib.registerAttachmentModel(ModItems.UBR_STOCK.get(), new UBRStockModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

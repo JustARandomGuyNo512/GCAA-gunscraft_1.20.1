@@ -4,6 +4,6 @@ import sheridan.gcaa.items.attachments.Mag;
 
 public class DrumAk extends Mag {
     public DrumAk() {
-        super(75, 9.5f);
+        super(75, 11.5f);
     }
 }

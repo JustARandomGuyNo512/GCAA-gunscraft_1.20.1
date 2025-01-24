@@ -72,6 +72,7 @@ public class ModTabs {
                     tab.accept(ModItems.DRUM_AK.get());
                     tab.accept(ModItems.DRUM_7_62X51.get());
                     tab.accept(ModItems.CTR_STOCK.get());
+                    tab.accept(ModItems.UBR_STOCK.get());
                     tab.accept(ModItems.MICRO_LASER_SIGHT.get());
                     tab.accept(ModItems.LASER_SIGHT.get());
                     tab.accept(ModItems.MICRO_FLASHLIGHT.get());
