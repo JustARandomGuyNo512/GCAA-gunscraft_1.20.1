@@ -91,7 +91,6 @@ public class GCAA {
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
-
         //modEventBus.addListener(this::registerAddonFinder);
     }
 
@@ -130,7 +129,6 @@ public class GCAA {
         PacketHandler.register();
         Commons.onCommonSetUp(event);
     }
-
 
     public void attachCapabilityEvent(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player player) {

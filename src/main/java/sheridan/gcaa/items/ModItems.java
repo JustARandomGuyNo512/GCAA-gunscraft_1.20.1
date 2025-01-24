@@ -21,6 +21,7 @@ import sheridan.gcaa.items.attachments.other.RailClamp;
 import sheridan.gcaa.items.attachments.scope.Acog;
 import sheridan.gcaa.items.attachments.scope.ScopeX10;
 import sheridan.gcaa.items.attachments.sight.*;
+import sheridan.gcaa.items.attachments.stock.AKTacticalStock;
 import sheridan.gcaa.items.attachments.stock.CTRStock;
 import sheridan.gcaa.items.attachments.stock.UBRStock;
 import sheridan.gcaa.items.gun.guns.*;
@@ -116,6 +117,7 @@ public class ModItems {
     public static final RegistryObject<Drum5_45x39> DRUM_5_45X39 = ITEMS.register("drum_545x39", Drum5_45x39::new);
     public static final RegistryObject<AK12Suppressor> AK12_SUPPRESSOR = ITEMS.register("ak12_suppressor", AK12Suppressor::new);
     public static final RegistryObject<UBRStock> UBR_STOCK = ITEMS.register("ubr_stock", UBRStock::new);
+    public static final RegistryObject<AKTacticalStock> AK_TACTICAL_STOCK = ITEMS.register("ak_tactical_stock", AKTacticalStock::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

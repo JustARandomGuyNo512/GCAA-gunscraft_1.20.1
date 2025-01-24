@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import sheridan.gcaa.items.ammunition.AmmunitionHandler;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
 
@@ -43,8 +44,7 @@ public class Mag extends Attachment{
     public void onDetach(Player player, ItemStack stack, IGun gun, CompoundTag data) {
         gun.getGunProperties().resetMagSize(data);
         super.onDetach(player, stack, gun, data);
-        int ammoLeft = gun.getAmmoLeft(stack);
-        gun.setAmmoLeft(stack, Math.min(ammoLeft, gun.getMagSize(stack)));
+        AmmunitionHandler.clearGun(player, gun, stack);
     }
 
     @Override

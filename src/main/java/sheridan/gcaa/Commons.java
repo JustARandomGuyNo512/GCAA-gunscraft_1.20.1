@@ -13,10 +13,14 @@ import sheridan.gcaa.attachmentSys.proxies.Mk47AttachmentProxy;
 import sheridan.gcaa.industrial.AmmunitionRecipe;
 import sheridan.gcaa.industrial.RecipeRegister;
 import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.items.ammunition.Ammunition;
+import sheridan.gcaa.items.attachments.Attachment;
+import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.replaceableParts.Mk47Handguard;
 import sheridan.gcaa.items.attachments.replaceableParts.RecoilControlPart;
 import sheridan.gcaa.items.attachments.replaceableParts.RecoilLowerPart;
 import sheridan.gcaa.items.attachments.replaceableParts.WeightPart;
+import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.service.ProductsRegister;
 import sheridan.gcaa.service.product.*;
 
@@ -41,7 +45,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket", "gcaa:okp7_a")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")).setReplaceableGunPart(new WeightPart(1)))
-                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1, 0.1f, 0.1f)))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube", "gcaa:ak_tactical_stock")).setReplaceableGunPart(new RecoilControlPart(1, 0.1f, 0.1f)))
                 .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover")).setReplaceableGunPart(new WeightPart(0.3f))),
                  AkmAttachmentProxy::new
         );
@@ -200,7 +204,7 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.AK12.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak12_suppressor")).setReplaceableGunPart(new RecoilLowerPart(0, 0.15f, 0.15f)))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag5_45x39", "gcaa:drum_545x39")))
-                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1, 0.12f, 0.12f)))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube", "gcaa:ak_tactical_stock")).setReplaceableGunPart(new RecoilControlPart(1, 0.12f, 0.12f)))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot("handguard_grip", Set.of(
                         "gcaa:vertical_grip", "gcaa:gp_25", "gcaa:laser_sight", "gcaa:flashlight", "gcaa:slant_grip"
@@ -237,6 +241,34 @@ public class Commons {
 
         registerVendingMachineProducts();
         registerAmmunitionRecipes();
+        checkVendingMachineProductsRegistry();
+    }
+
+    public static void checkVendingMachineProductsRegistry() {
+        if (GCAA.ALLOW_DEBUG) {
+            System.out.println("Esperance: Checking vending machine products registry...");
+            List<Ammunition> allAmmo = Ammunition.getAll();
+            Set<IProduct> ammunition = ProductsRegister.getProducts(ProductsRegister.AMMUNITION);
+            for (Ammunition ammo : allAmmo) {
+                if (!ammunition.contains(IProduct.of(ammo))) {
+                    GCAA.LOGGER.error("Vending machine does not contain product for ammunition: " + ammo);
+                }
+            }
+            Set<IProduct> attachments = ProductsRegister.getProducts(ProductsRegister.ATTACHMENT);
+            List<Attachment> all = Attachment.getAllInstances();
+            for (Attachment attachment : all) {
+                if (!attachments.contains(IProduct.of(attachment))) {
+                    GCAA.LOGGER.error("Vending machine does not contain product for attachment: " + attachment);
+                }
+            }
+            Set<IProduct> guns = ProductsRegister.getProducts(ProductsRegister.GUN);
+            List<Gun> allInstances = Gun.getAllInstances();
+            for (Gun gun : allInstances) {
+                if (!guns.contains(IProduct.of(gun))) {
+                    GCAA.LOGGER.error("Vending machine does not contain product for gun: " + gun);
+                }
+            }
+        }
     }
 
     public static void registerAmmunitionRecipes() {
@@ -312,23 +344,27 @@ public class Commons {
                 new AmmunitionProduct(ModItems.AMMO_5_56X45MM.get(), 280),
                 new AmmunitionProduct(ModItems.AMMO_5_45X39MM.get(), 240),
                 new AmmunitionProduct(ModItems.AMMO_7_62X51MM.get(), 400),
-                new AmmunitionProduct(ModItems.AMMO_338_LAPUA_MAGNUM.get(), 700),
+                new AmmunitionProduct(ModItems.AMMO_338_LAPUA_MAGNUM.get(), 600),
                 new AmmunitionProduct(ModItems.AMMO_12GAUGE.get(), 200),
                 new GrenadeProduct(ModItems.AMMO_VOG_25.get(), 140));
 
         ProductsRegister.registerProducts(ProductsRegister.ATTACHMENT,
                 new AttachmentProduct(ModItems.PISTOL_SUPPRESSOR.get(), 50),
+                new AttachmentProduct(ModItems.SMG_SUPPRESSOR.get(), 80),
                 new AttachmentProduct(ModItems.AK_SUPPRESSOR.get(), 110),
                 new AttachmentProduct(ModItems.AR_SUPPRESSOR.get(), 130),
+                new AttachmentProduct(ModItems.AK12_SUPPRESSOR.get(), 120),
                 new AttachmentProduct(ModItems.SHOTGUN_SUPPRESSOR.get(), 150),
                 new AttachmentProduct(ModItems.SNIPER_SUPPRESSOR.get(), 210),
                 new AttachmentProduct(ModItems.OSPREY_SUPPRESSOR.get(), 150),
+                new AttachmentProduct(ModItems.OSPREY_SMG_SUPPRESSOR.get(), 180),
                 new AttachmentProduct(ModItems.AK_COMPENSATOR.get(), 180),
                 new AttachmentProduct(ModItems.AR_COMPENSATOR.get(), 220),
                 new AttachmentProduct(ModItems.SMG_COMPENSATOR.get(), 160),
                 new AttachmentProduct(ModItems.DMR_COMPENSATOR.get(), 200),
                 new AttachmentProduct(ModItems.AK_IMPROVED_HANDGUARD.get(), 270),
                 new AttachmentProduct(ModItems.AK_RAIL_BRACKET.get(), 100),
+                new AttachmentProduct(ModItems.RAIL_CLAMP.get(), 100),
                 new AttachmentProduct(ModItems.AK_IMPROVED_DUST_COVER.get(), 100),
                 new AttachmentProduct(ModItems.MICRO_RED_DOT.get(), 75),
                 new AttachmentProduct(ModItems.RED_DOT.get(), 102),
@@ -347,15 +383,25 @@ public class Commons {
                 new AttachmentProduct(ModItems.AR_LIGHT_HANDGUARD.get(), 300),
                 new AttachmentProduct(ModItems.MP5_RAIL_HANDGUARD.get(), 150),
                 new AttachmentProduct(ModItems.M249_RAILED_HANDGUARD.get(), 100),
+                new AttachmentProduct(ModItems.EXP_MAG_45_STRAIGHT.get(), 160),
+                new AttachmentProduct(ModItems.DRUM_45_STRAIGHT.get(), 280),
+                new AttachmentProduct(ModItems.EXP_MAG9X19.get(), 150),
+                new AttachmentProduct(ModItems.DRUM_9X19_ARC.get(), 300),
                 new AttachmentProduct(ModItems.AR_EXTEND_MAG.get(), 150),
+                new AttachmentProduct(ModItems.MAG_SURE_FIRE_60.get(), 450),
                 new AttachmentProduct(ModItems.AK_EXTEND_MAG.get(), 170),
+                new AttachmentProduct(ModItems.DRUM_AK.get(), 400),
                 new AttachmentProduct(ModItems.EXP_MAG5_45X39.get(), 160),
+                new AttachmentProduct(ModItems.DRUM_5_45X39.get(), 380),
                 new AttachmentProduct(ModItems.EXP_MAG7_62X51.get(), 200),
+                new AttachmentProduct(ModItems.DRUM_7_62X51.get(), 500),
                 new AttachmentProduct(ModItems.GLOCK_EXTEND_MAG.get(), 70),
                 new AttachmentProduct(ModItems.VECTOR_45_EXTEND_MAG.get(), 130),
                 new AttachmentProduct(ModItems.SNIPER_EXTEND_MAG.get(), 50),
                 new AttachmentProduct(ModItems.SHOTGUN_EXTEND_BAY.get(), 70),
-                new AttachmentProduct(ModItems.CTR_STOCK.get(), 166),
+                new AttachmentProduct(ModItems.CTR_STOCK.get(), 170),
+                new AttachmentProduct(ModItems.UBR_STOCK.get(), 150),
+                new AttachmentProduct(ModItems.AK_TACTICAL_STOCK.get(), 200),
                 new AttachmentProduct(ModItems.MICRO_LASER_SIGHT.get(), 30),
                 new AttachmentProduct(ModItems.LASER_SIGHT.get(), 50),
                 new AttachmentProduct(ModItems.MICRO_FLASHLIGHT.get(), 50),

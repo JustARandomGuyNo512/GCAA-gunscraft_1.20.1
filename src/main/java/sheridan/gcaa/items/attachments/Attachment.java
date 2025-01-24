@@ -31,10 +31,16 @@ public abstract class Attachment extends NoRepairNoEnchantmentItem implements IA
     public static final String STOCK = "stock";
     public static final String GRIP = "grip";
     public static final String SCOPE = "scope";
+    private static final List<Attachment> ALL_INSTANCES = new ArrayList<>();
     public float weight;
     public Attachment(float weight) {
         super(new Properties().stacksTo(1));
         this.weight = weight;
+        ALL_INSTANCES.add(this);
+    }
+
+    public static List<Attachment> getAllInstances() {
+        return ALL_INSTANCES;
     }
 
     @Override

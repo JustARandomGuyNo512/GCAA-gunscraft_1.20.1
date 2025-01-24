@@ -30,6 +30,11 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class AttachmentsGuiContext {
+    public static final int RENDER_ALL = 0;
+    public static final int RENDER_CHILDREN = 1;
+    public static final int RENDER_EMPTY = 2;
+    public static final int RENDER_OCCUPIED = 3;
+    private static int renderMode = RENDER_ALL;
     private static final ResourceLocation EMPTY = new ResourceLocation(GCAA.MODID, "textures/gui/screen/empty.png");
     private static final ResourceLocation OCCUPIED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/occupied.png");
     private static final ResourceLocation EMPTY_SELECTED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/empty_selected.png");
@@ -46,6 +51,14 @@ public class AttachmentsGuiContext {
         this.gun = gun;
         this.proxy = AttachmentsRegister.getProxiedAttachmentSlot(gun, root);
         initPosMap(this.root);
+    }
+
+    public void setRenderMode(int mode) {
+        renderMode = mode % 4;
+    }
+
+    public static int getRenderMode() {
+        return renderMode;
     }
 
     public AttachmentSlot getRoot() {
@@ -78,6 +91,15 @@ public class AttachmentsGuiContext {
             ResourceLocation texture = chooseTexture(entry.getKey());
             Vector3f pos = entry.getValue();
             if (OUT_SCREEN == pos)  {
+                continue;
+            }
+            if (renderMode == RENDER_CHILDREN && entry.getKey().hasChildren()) {
+                continue;
+            }
+            if (renderMode == RENDER_EMPTY && !entry.getKey().isEmpty()) {
+                continue;
+            }
+            if (renderMode == RENDER_OCCUPIED && entry.getKey().isEmpty()) {
                 continue;
             }
             int scale = entry.getKey() == selected ? 6 : 4;

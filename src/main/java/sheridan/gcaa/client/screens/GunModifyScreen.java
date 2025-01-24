@@ -53,6 +53,7 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
     private static final ResourceLocation SELECTED_SLOT = new ResourceLocation(GCAA.MODID, "textures/gui/component/selected_slot.png");
     private static final ResourceLocation SUITABLE_SLOT_MARK = new ResourceLocation(GCAA.MODID, "textures/gui/component/suitable_slot_mark.png");
     private static final ResourceLocation AMMO_SELECT_BTN = new ResourceLocation(GCAA.MODID, "textures/gui/component/ammo_select_btn.png");
+    private static final ResourceLocation RENDER_MODE = new ResourceLocation(GCAA.MODID, "textures/gui/component/attachment_slot_render_modes.png");
 
     private AttachmentsGuiContext context;
     private final GunModifyMenu menu;
@@ -74,6 +75,7 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
     private float tempModelRY;
     private float dragStartX;
     private float dragStartY;
+    private RenderModeBtn renderModeBtn;
 
     public GunModifyScreen(GunModifyMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -104,6 +106,8 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
         ImageButton zoomBtn = new ImageButton(this.leftPos + 244, this.topPos + 60, 16, 16, 0, 0, 0, ZOOM_BTN, 16, 16,  (btn) -> {});
         zoomBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.zoom")));
         rowHelper.addChild(zoomBtn);
+        renderModeBtn = new RenderModeBtn(this.leftPos + 244, this.topPos + 80, 16, 16, 64, 16);
+        rowHelper.addChild(renderModeBtn);
         installBtn = new OptionalImageButton(this.leftPos + 180, this.topPos + 144, 16, 16, 0, 0, 0, INSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> installAttachment(true));
         uninstallBtn = new OptionalImageButton(this.leftPos + 180, this.topPos + 144, 16, 16, 0, 0, 0, UNINSTALL_ATTACHMENT_BTN, 16, 16,  (btn) -> uninstallAttachment(true));
         ammoSelectBtn = new OptionalImageButton(this.leftPos + 232, this.topPos + 141, 16, 16, 0, 0, 0, AMMO_SELECT_BTN, 16, 16,  (btn) -> selectAmmo());
@@ -496,5 +500,26 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
         isDraggingModel = false;
         isRollingModel = false;
         RenderEvents.resetAttachmentScreenModelState();
+    }
+
+    private class RenderModeBtn extends ImageButton {
+        int mode;
+
+        public RenderModeBtn(int pX, int pY, int pWidth, int pHeight, int pTextureWidth, int pTextureHeight) {
+            super(pX, pY, pWidth, pHeight, 0, 0, 0, new ResourceLocation(""), pTextureWidth, pTextureHeight, (btn) -> ((RenderModeBtn) btn).onClick());
+            mode = AttachmentsGuiContext.getRenderMode();
+        }
+
+        @Override
+        public void renderWidget(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+            this.renderTexture(pGuiGraphics, RENDER_MODE, this.getX(), this.getY(), this.xTexStart + mode * 16, this.yTexStart, this.yDiffTex, this.width, this.height, this.textureWidth, this.textureHeight);
+        }
+
+        private void onClick() {
+            mode = (mode + 1) % 4;
+            if (context != null) {
+                context.setRenderMode(mode);
+            }
+        }
     }
 }

@@ -1,11 +1,15 @@
 package sheridan.gcaa.items.attachments.stock;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.gun.GunProperties;
 import sheridan.gcaa.items.gun.IGun;
+import sheridan.gcaa.utils.FontUtils;
+
+import java.util.List;
 
 public class Stock extends Attachment {
     private final float recoilPitchControlInc;
@@ -53,5 +57,16 @@ public class Stock extends Attachment {
         super.onDetach(player, stack, gun, data);
     }
 
-
+    @Override
+    public List<Component> getEffectsInGunModifyScreen() {
+        List<Component> effectsInGunModifyScreen = super.getEffectsInGunModifyScreen();
+        if (recoilPitchControlInc != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("recoil_control_pitch", recoilPitchControlInc, recoilPitchControlInc > 0));
+        if (recoilYawControlInc != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("recoil_control_horizontal", recoilYawControlInc, recoilYawControlInc > 0));
+        if (adsSpeedInc != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("ads_speed", adsSpeedInc, adsSpeedInc > 0));
+        if (spreadRecoverInc != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("spread_recover", spreadRecoverInc, spreadRecoverInc > 0));
+        if (sprintingSpreadFactorDec != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("sprinting_spread_factor", - sprintingSpreadFactorDec, sprintingSpreadFactorDec > 0));
+        if (walkingSpreadFactorDec != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("walking_spread_factor", - walkingSpreadFactorDec, walkingSpreadFactorDec > 0));
+        if (agilityInc != 0) effectsInGunModifyScreen.add(FontUtils.effectTip("agility", agilityInc, agilityInc > 0));
+        return effectsInGunModifyScreen;
+    }
 }

@@ -13,6 +13,8 @@ import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -127,5 +129,9 @@ public class AttachmentsRegister {
      */
     public static AttachmentSlot getAttachmentSlot(IGun gun) {
         return ATTACHMENT_SLOTS.getOrDefault(gun, AttachmentSlot.EMPTY);
+    }
+
+    public static List<IAttachment> getAll() {
+        return new ArrayList<>(ATTACHMENTS.values());
     }
 }

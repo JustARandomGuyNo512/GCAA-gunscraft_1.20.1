@@ -141,7 +141,12 @@ public class InertialRecoilHandler {
                 if (!finished[0] && (back != 0 || backSpeed != 0)) {
                     back += backSpeed;
                     if (back > 0) {
-                        backSpeed -= back * recoilData.backDec;
+                        if (Clients.isInAds()) {
+                            float adsFactor = Clients.getAdsProgress();
+                            backSpeed -= back * (recoilData.backDec * (1 + Mth.clamp(adsFactor * adsFactor, 0, 0.85f)));
+                        } else {
+                            backSpeed -= back * recoilData.backDec;
+                        }
                         if (backSpeed < 0) {
                             backSpeed *= 0.66f;
                         }

@@ -110,7 +110,7 @@ public class CommonEvents {
     public static void  onVendingMachineTrade(VendingMachineTradeEvent tradeEvent) {
         if (tradeEvent.isSuccess() && tradeEvent.getPrice() >= 200) {
             double f = Math.random();
-            if (f < (2.5f / 100)) {
+            if (f < (1f / 100)) {
                 Annihilator annihilator = ModItems.ANNIHILATOR.get();
                 ItemStack stack = new ItemStack(annihilator, 1);
                 annihilator.checkAndGet(stack);
