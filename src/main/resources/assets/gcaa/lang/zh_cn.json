@@ -181,7 +181,7 @@
   "tooltip.screen_info.spread_mode": "切换到散射模式",
   "tooltip.screen_info.searchlight_mode": "切换到探照灯模式",
   "tooltip.screen_info.ammunition_manage_cool_down": "弹药整理功能冷却中",
-  "tooltip.screen_info.no_ammo": "未携带 @ammo 或此种弹药已耗尽",
+  "tooltip.screen_info.no_ammo": "需要：@ammo",
   "tooltip.screen_info.unmodified": "（未改装）",
   "tooltip.screen_info.need_terminal": "请使用交易终端打开",
   "tooltip.screen_info.balance": "余额：",
@@ -259,5 +259,7 @@
   "item.gcaa.mk47.introduction": "高模块化步枪，适配多种配件，你可同时玩到AK和AR，战术优选。",
   "item.gcaa.ak12.introduction": "帅气的现代模块化突击步枪，自带枪口制退器和战术枪托，确定不买一把吗？",
   "item.gcaa.beretta_686.introduction": "优雅实用的双管霰弹枪，齐射可提供瞬间高爆发，绝对能把敌人崩死，如果没崩死就。。。",
-  "item.gcaa.hk_g28.introduction": "高模块化精确射手步枪，威力强劲，精准覆盖中远程目标，适应性极强。"
+  "item.gcaa.hk_g28.introduction": "高模块化精确射手步枪，威力强劲，精准覆盖中远程目标，适应性极强。",
+  "item.gcaa.mp5.introduction": "十分经典的冲锋枪，性能可靠，适合快速突袭与防守。",
+  "item.gcaa.fn_ballista.introduction": "使用.338弹药的狙击枪，威力十分强大，每一发都足以击杀敌人，但射速较慢。"
 }

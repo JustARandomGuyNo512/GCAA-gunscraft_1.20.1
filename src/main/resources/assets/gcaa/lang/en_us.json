@@ -180,7 +180,7 @@
   "tooltip.screen_info.spread_mode": "Switch to spread mode",
   "tooltip.screen_info.searchlight_mode": "Switch to lighting mode",
   "tooltip.screen_info.ammunition_manage_cool_down": "Ammunition manage function cooling",
-  "tooltip.screen_info.no_ammo": "No @ammo carried or this type of ammunition is depleted" ,
+  "tooltip.screen_info.no_ammo": "Need: @ammo" ,
   "tooltip.screen_info.unmodified": "(unmodified)",
   "tooltip.screen_info.need_terminal": "Please use the trading terminal to open",
   "tooltip.screen_info.balance": "Balance: ",
@@ -258,6 +258,7 @@
   "item.gcaa.mk47.introduction": "A highly modular rifle compatible with a variety of attachments. Experience the best of both AK and AR worlds—a tactical must-have.",
   "item.gcaa.ak12.introduction": "A sleek and modern modular assault rifle equipped with a muzzle brake and tactical stock. Are you sure you don’t want to buy one?",
   "item.gcaa.beretta_686.introduction": "An elegant and practical double-barrel shotgun. Its volley-fire mode delivers devastating damage—if it doesn’t finish the job, well...",
-  "item.gcaa.hk_g28.introduction": "A highly modular designated marksman rifle with powerful precision, covering medium to long-range targets with exceptional adaptability."
-
+  "item.gcaa.hk_g28.introduction": "A highly modular designated marksman rifle with powerful precision, covering medium to long-range targets with exceptional adaptability.",
+  "item.gcaa.mp5.introduction": "A highly classic submachine gun with reliable performance, ideal for quick assaults and defense.",
+  "item.gcaa.fn_ballista.introduction": "A sniper rifle chambered in .338 ammo, offering immense power with each shot capable of taking down an enemy, but with a relatively slow rate of fire."
 }

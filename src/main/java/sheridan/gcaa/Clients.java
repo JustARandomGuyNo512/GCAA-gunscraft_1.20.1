@@ -262,7 +262,7 @@ public class Clients {
                 .setInertialRecoilData(
                         new InertialRecoilData(-0.06f, 0.03f, 1f,
                                 0.05f, 0.3f,  0.04f,
-                                0.5f, 0.2f,
+                                0.5f, 0.8f,
                                 0.6f, 0.5f, 0.3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.575f, -110.1f).setScale(3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
@@ -321,7 +321,7 @@ public class Clients {
                 .setInertialRecoilData(
                         new InertialRecoilData(-0.05f, 0.02f, 0.2f,
                                 0.06f, 0.6f,  0.055f,
-                                0.35f, 0.3f,
+                                0.35f, 1f,
                                 0.2f, 0.6f, 0.2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4f, -101.5f).setScale(3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
