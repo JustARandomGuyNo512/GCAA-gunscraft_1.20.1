@@ -13,14 +13,16 @@ import java.util.List;
 
 public class BinaryExclusiveProxy extends AttachmentSlotProxy {
     private static final Exclusive DEFAULT_EXCLUSIVE = (prevSlot, other, prevAttachment, otherAttachment) -> true;
-    private final AttachmentSlot A;
-    private final AttachmentSlot B;
+    private AttachmentSlot A;
+    private AttachmentSlot B;
     private final List<Exclusive> exclusives = new ArrayList<>();
 
     public BinaryExclusiveProxy(AttachmentSlot root, String AName, String BName) {
         super(root);
         A = root.searchChild(AName);
         B = root.searchChild(BName);
+        B = B == null ? AttachmentSlot.EMPTY : B;
+        A = A == null ? AttachmentSlot.EMPTY : A;
     }
 
     public BinaryExclusiveProxy addExclusive(Exclusive exclusive) {

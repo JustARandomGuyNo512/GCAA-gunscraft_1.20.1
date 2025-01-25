@@ -385,15 +385,14 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
                     return true;
                 } else {
                     String ammunitionName = getFullAmmunitionUsedName(stack);
-                    String[] split = Component.translatable("tooltip.screen_info.no_ammo").getString().split("@ammo");
+                    String message = Component.translatable("tooltip.screen_info.no_ammo").getString().replace("@ammo", "");
                     Minecraft.getInstance().gui.setOverlayMessage(
-                            Component.literal(split[0])
+                            Component.literal(message)
                                     .append(Component.literal(ammunitionName)
                                             .withStyle(Style.EMPTY
                                                     .withColor(new Color(0xe84015).getRGB())
                                                     .withItalic(true)
                                                     .withBold(true)))
-                                    .append(Component.literal(split[1]))
                             , false);
                     return false;
                 }

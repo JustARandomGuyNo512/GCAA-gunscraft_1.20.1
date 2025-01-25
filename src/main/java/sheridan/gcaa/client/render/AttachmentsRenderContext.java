@@ -89,7 +89,10 @@ public class AttachmentsRenderContext {
     public void renderAll(GunRenderContext context, ModelPart layer) {
         for (AttachmentRenderEntry entry : modelSlotLayer.values()) {
             if (!entry.rendered) {
-                entry.render(context, layer.getChild(entry.modelSlotName));
+                ModelPart childNoThrow = layer.getChildNoThrow(entry.modelSlotName);
+                if (childNoThrow != null) {
+                    entry.render(context, childNoThrow);
+                }
             }
         }
     }

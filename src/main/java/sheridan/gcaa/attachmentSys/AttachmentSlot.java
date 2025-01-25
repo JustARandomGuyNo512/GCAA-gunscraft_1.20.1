@@ -121,7 +121,7 @@ public class AttachmentSlot {
         if (!hasParent()) {
             return ancestors;
         }
-        for (AttachmentSlot parent = this.getParent(); parent != EMPTY; parent = parent.getParent()) {
+        for (AttachmentSlot parent = this.getParent(); parent != null; parent = parent.getParent()) {
             ancestors.push(parent);
         }
         return ancestors;
