@@ -57,7 +57,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
     private final float velocity;
     private final float pInaccuracy;
     private final float explodeRadius;
-    private int safeTicks;
+    private final int safeTicks;
 
     public GrenadeLauncher(IAmmunition ammunition, InertialRecoilData recoilData, float recoilPitch, float recoilYaw,
                            RegistryObject<SoundEvent> fireSound, int reloadTicks, float velocity, float pInaccuracy, float explodeRadius, int safeTicks)  {

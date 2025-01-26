@@ -1,6 +1,5 @@
 package sheridan.gcaa.entities.projectiles;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -16,7 +15,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -66,6 +64,7 @@ public class Grenade extends Entity{
         this.shooter = pShooter;
         Vec3 shooterPos = new Vec3(shooter.getX(), shooter.getY() + shooter.getEyeHeight(shooter.getPose()), shooter.getZ());
         this.setPos(shooterPos.x, shooterPos.y, shooterPos.z);
+        this.safeTicks = safeTicks;
     }
 
     @Override
@@ -167,16 +166,19 @@ public class Grenade extends Entity{
 
     public void explode() {
         if (!this.level().isClientSide) {
-            this.level().explode(this, this.getX(), this.getY() + 0.0625f, this.getZ(), 3.0f, false, Level.ExplosionInteraction.NONE);
+            this.level().explode(this, this.getX(), this.getY() + 0.0625f, this.getZ(), explodeRadius, false, Level.ExplosionInteraction.NONE);
         }
         this.discard();
     }
 
     private void onHitEntity(Entity entity) {
         entity.invulnerableTime = 0;
-        ProjectileDamage damageSource = (ProjectileDamage) DamageTypes.getDamageSource(this.level(), DamageTypes.GENERIC_PROJECTILE, this, this.shooter);
-        damageSource.shooter = this.shooter;
-        entity.hurt(damageSource, Math.max(3, 5 - bounced));
+        float length = (float) this.getDeltaMovement().length();
+        if (length > 0.5f) {
+            ProjectileDamage damageSource = (ProjectileDamage) DamageTypes.getDamageSource(this.level(), DamageTypes.GENERIC_PROJECTILE, this, this.shooter);
+            damageSource.shooter = this.shooter;
+            entity.hurt(damageSource, length * 2f);
+        }
         explode();
     }
 
