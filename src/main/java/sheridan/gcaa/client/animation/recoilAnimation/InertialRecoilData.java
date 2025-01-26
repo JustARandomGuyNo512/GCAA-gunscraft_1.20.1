@@ -5,7 +5,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-@OnlyIn(Dist.CLIENT)
 public class InertialRecoilData {
     private static final AtomicInteger TEMP_ID = new AtomicInteger(0);
     public float up;

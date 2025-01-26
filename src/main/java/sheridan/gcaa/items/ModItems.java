@@ -12,7 +12,9 @@ import sheridan.gcaa.items.attachments.akStuff.AKImprovedDustCover;
 import sheridan.gcaa.items.attachments.akStuff.AKRailBracket;
 import sheridan.gcaa.items.attachments.arStuff.ARGasBlock;
 import sheridan.gcaa.items.attachments.arStuff.ARStockTube;
+import sheridan.gcaa.items.attachments.functional.GP25;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
+import sheridan.gcaa.items.attachments.functional.M203;
 import sheridan.gcaa.items.attachments.grip.*;
 import sheridan.gcaa.items.attachments.handguard.*;
 import sheridan.gcaa.items.attachments.mag.*;
@@ -39,6 +41,7 @@ public class ModItems {
     public static final RegistryObject<Ammo357Magnum> AMMO_357MAGNUM = ITEMS.register("ammo_357magnum", Ammo357Magnum::new);
     public static final RegistryObject<AmmoVOG25> AMMO_VOG_25 = ITEMS.register("ammo_vog_25", AmmoVOG25::new);
     public static final RegistryObject<AmmoLapuaMagnum> AMMO_338_LAPUA_MAGNUM = ITEMS.register("ammo_338_lapua_magnum", AmmoLapuaMagnum::new);
+    public static final RegistryObject<AmmoM433> AMMO_M433 = ITEMS.register("ammo_m433", AmmoM433::new);
 
     public static final RegistryObject<G19> G19 = ITEMS.register("g19", G19::new);
     public static final RegistryObject<Python357> PYTHON_357 = ITEMS.register("python_357", Python357::new);
@@ -73,7 +76,7 @@ public class ModItems {
     public static final RegistryObject<Holographic> HOLOGRAPHIC = ITEMS.register("holographic", Holographic::new);
     public static final RegistryObject<ScopeX10> SCOPE_X10 = ITEMS.register("scope_x10", ScopeX10::new);
     public static final RegistryObject<VerticalGrip> VERTICAL_GRIP = ITEMS.register("vertical_grip", VerticalGrip::new);
-    public static final RegistryObject<GrenadeLauncher> GP_25 = ITEMS.register("gp_25", GrenadeLauncher::new);
+    public static final RegistryObject<GP25> GP_25 = ITEMS.register("gp_25", GP25::new);
     public static final RegistryObject<Acog> ACOG = ITEMS.register("acog", Acog::new);
     public static final RegistryObject<ARGasBlock> AR_GAS_BLOCK = ITEMS.register("ar_gas_block", ARGasBlock::new);
     public static final RegistryObject<ARStockTube> AR_STOCK_TUBE = ITEMS.register("ar_stock_tube", ARStockTube::new);
@@ -118,6 +121,7 @@ public class ModItems {
     public static final RegistryObject<AK12Suppressor> AK12_SUPPRESSOR = ITEMS.register("ak12_suppressor", AK12Suppressor::new);
     public static final RegistryObject<UBRStock> UBR_STOCK = ITEMS.register("ubr_stock", UBRStock::new);
     public static final RegistryObject<AKTacticalStock> AK_TACTICAL_STOCK = ITEMS.register("ak_tactical_stock", AKTacticalStock::new);
+    public static final RegistryObject<M203> M203 = ITEMS.register("m203", M203::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

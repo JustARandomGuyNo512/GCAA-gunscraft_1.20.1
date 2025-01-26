@@ -48,6 +48,7 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> DEAL = registerSound("deal", "item.generic.deal");
     public static RegistryObject<SoundEvent> AK12_MAG_OFF = registerSound("ak12_mag_off", "item.generic.ak12_mag_off");
     public static RegistryObject<SoundEvent> AK12_MAG_ATTACH = registerSound("ak12_mag_attach", "item.generic.ak12_mag_attach");
+    public static RegistryObject<SoundEvent> PYTHON_357_MAG_ROTATE = registerSound("python_357_mag_rotate", "item.python_357.python_357_mag_rotate");
 
 
     public static RegistryObject<SoundEvent> MG_UNLOAD = registerSound("mg_unload", "item.generic.mg_unload");
@@ -99,6 +100,11 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> MP5_CHARGE_FORWARD = registerSound("mp5_charge_forward", "item.mp5.mp5_charge_forward");
     public static RegistryObject<SoundEvent> MP5_MAG_ATTACH = registerSound("mp5_mag_attach", "item.mp5.mp5_mag_attach");
     public static RegistryObject<SoundEvent> MP5_MAG_OFF = registerSound("mp5_mag_off", "item.mp5.mp5_mag_off");
+    public static RegistryObject<SoundEvent> M203_OPEN = registerSound("m203_open", "item.m203.m203_open");
+    public static RegistryObject<SoundEvent> M203_CLOSE = registerSound("m203_close", "item.m203.m203_close");
+    public static RegistryObject<SoundEvent> M203_SHELL_INSERT = registerSound("m203_shell_insert", "item.m203.m203_shell_insert");
+    public static RegistryObject<SoundEvent> M203_SHELL_OUT = registerSound("m203_shell_out", "item.m203.m203_shell_out");
+    public static RegistryObject<SoundEvent> M203_FIRE = registerSound("m203_fire", "item.m203.m203_fire");
 
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");

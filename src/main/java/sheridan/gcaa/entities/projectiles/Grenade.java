@@ -38,6 +38,7 @@ public class Grenade extends Entity{
     public LivingEntity shooter;
     int bounced = 0;
     float explodeRadius;
+    int safeTicks = 0;
 
     public Grenade(EntityType<? extends Entity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -57,7 +58,7 @@ public class Grenade extends Entity{
         this.explodeRadius = explodeRadius;
     }
 
-    public void shootFromRotation(LivingEntity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy, float explodeRadius) {
+    public void shootFromRotation(LivingEntity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy, float explodeRadius, int safeTicks) {
         float f = -Mth.sin(pY * ((float)Math.PI / 180F)) * Mth.cos(pX * ((float)Math.PI / 180F));
         float f1 = -Mth.sin((pX + pZ) * ((float)Math.PI / 180F));
         float f2 = Mth.cos(pY * ((float)Math.PI / 180F)) * Mth.cos(pX * ((float)Math.PI / 180F));
@@ -74,7 +75,7 @@ public class Grenade extends Entity{
             explode();
         }
         Vec3 deltaMovement = this.getDeltaMovement();
-        if (this.level().isClientSide && this.tickCount >= 8) {
+        if (this.level().isClientSide && this.tickCount >= safeTicks) {
             SimpleParticleType type = this.isInWater() ? ParticleTypes.BUBBLE : ParticleTypes.CRIT;
             for(int i = 0; i < 4; ++i) {
                 this.level().addParticle(type,
@@ -97,8 +98,8 @@ public class Grenade extends Entity{
                     return;
                 }
             }
-            if (this.tickCount <= 8 || bounced <= 3) {
-                if( this.tickCount > 8 && getHitDeg(deltaMovement, hitResult.getDirection()) < 65) {
+            if (this.tickCount <= safeTicks || bounced <= 3) {
+                if( this.tickCount > safeTicks && getHitDeg(deltaMovement, hitResult.getDirection()) < 65) {
                     explode();
                     return;
                 }

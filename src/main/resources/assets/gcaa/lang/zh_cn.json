@@ -76,6 +76,7 @@
   "item.gcaa.ak12_suppressor": "AK12 消音器",
   "item.gcaa.ubr_stock": "UBR 后托",
   "item.gcaa.ak_tactical_stock": "AK 战术后托",
+  "item.gcaa.m203": "M203 榴弹发射器",
 
   "item.gcaa.ammo9x19mm": "帕拉贝鲁姆9毫米手枪弹",
   "item.gcaa.ammo5_56x45mm": "5.56x45毫米突击步枪弹",
@@ -86,7 +87,8 @@
   "item.gcaa.ammo_45acp": ".45ACP手枪弹",
   "item.gcaa.ammo_357magnum": ".357马格南子弹",
   "item.gcaa.ammo_vog_25": "VOG-25榴弹",
-  "item.gcaa.ammo_338_lapua_magnum": ".338 拉普马格南",
+  "item.gcaa.ammo_338_lapua_magnum": ".338拉普马格南子弹",
+  "item.gcaa.ammo_m433": "M433榴弹",
 
   "item.gcaa.transaction_terminal": "交易终端",
 

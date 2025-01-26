@@ -51,7 +51,6 @@ public class AttachmentsGuiContext {
         this.gun = gun;
         this.proxy = AttachmentsRegister.getProxiedAttachmentSlot(gun, root);
         initPosMap(this.root);
-        renderMode = RENDER_ALL;
     }
 
     public void setRenderMode(int mode) {

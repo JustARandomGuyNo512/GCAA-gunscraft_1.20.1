@@ -4,13 +4,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
@@ -21,6 +26,7 @@ import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.client.animation.AnimationHandler;
+import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
@@ -42,13 +48,30 @@ import java.util.Objects;
 
 public class GrenadeLauncher extends Attachment implements IArmReplace, IInteractive, ForwardSlotBlocker {
     public static final String KEY_AMMO = "grenade_ammo";
-    @OnlyIn(Dist.CLIENT)
-    private Object recoilData;
+    private final InertialRecoilData recoilData;
     public final IAmmunition ammunition;
+    private final float recoilPitch;
+    private final float recoilYaw;
+    private final RegistryObject<SoundEvent> fireSound;
+    private final int reloadTicks;
+    private final float velocity;
+    private final float pInaccuracy;
+    private final float explodeRadius;
+    private int safeTicks;
 
-    public GrenadeLauncher() {
+    public GrenadeLauncher(IAmmunition ammunition, InertialRecoilData recoilData, float recoilPitch, float recoilYaw,
+                           RegistryObject<SoundEvent> fireSound, int reloadTicks, float velocity, float pInaccuracy, float explodeRadius, int safeTicks)  {
         super(2.5f);
-        this.ammunition = ModItems.AMMO_VOG_25.get();
+        this.ammunition = ammunition;
+        this.recoilData = recoilData;
+        this.recoilPitch = recoilPitch;
+        this.recoilYaw = recoilYaw;
+        this.fireSound = fireSound;
+        this.reloadTicks = reloadTicks;
+        this.velocity = velocity;
+        this.pInaccuracy = pInaccuracy;
+        this.explodeRadius = explodeRadius;
+        this.safeTicks = safeTicks;
     }
 
     public static boolean hasGrenade(ItemStack stack, IGun gun) {
@@ -100,13 +123,13 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
         }
     }
 
-    public static void shoot(ItemStack stack, IGun gun, Player player, long lastFire) {
+    public static void shoot(ItemStack stack, IGun gun, Player player, long lastFire, GrenadeLauncher launcher) {
         if (hasGrenade(stack, gun)) {
             setLastFire(stack, gun, lastFire);
             setHasGrenade(stack, gun, false);
             if (!player.level().isClientSide) {
                 Grenade grenade = new Grenade(ModEntities.GRENADE.get(), player.level());
-                grenade.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F, 3f);
+                grenade.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, launcher.velocity, launcher.pInaccuracy, launcher.explodeRadius, launcher.safeTicks);
                 player.level().addFreshEntity(grenade);
             }
         }
@@ -152,20 +175,15 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected void handleClientShoot(ItemStack stack, IGun gun, Player player) {
-        if (recoilData == null) {
-            recoilData = new InertialRecoilData(
-                    0, 0, 0.9f, 0.08f, 1f,  0.06f, 0.3f, 0);
-        }
-        AnimationHandler.INSTANCE.pushRecoil(
-                (InertialRecoilData) recoilData, RenderAndMathUtils.randomIndex(), RenderAndMathUtils.randomIndex(), 1, 1);
+    protected void handleClientShoot(ItemStack stack, IGun gun, Player player, GrenadeLauncher launcher) {
+        AnimationHandler.INSTANCE.pushRecoil(recoilData, RenderAndMathUtils.randomIndex(), RenderAndMathUtils.randomIndex(), 1, 1);
         RecoilCameraHandler.INSTANCE.onShoot(
-                4f, (float) ((Math.random() - 0.5) * 2.5f),
+                recoilPitch, (float) ((Math.random() - 0.5) * recoilYaw),
                 gun.getRecoilPitchControl(stack) * 0.2f, gun.getRecoilYawControl(stack) * 0.2f);
-        ModSounds.sound(1, 1f, player, ModSounds.GP_25_FIRE.get());
+        ModSounds.sound(1, 1f, player, fireSound.get());
         long now = System.currentTimeMillis();
         setLastFire(stack, gun, now);
-        PacketHandler.simpleChannel.sendToServer(new FireGrenadeLauncherPacket(now));
+        PacketHandler.simpleChannel.sendToServer(new FireGrenadeLauncherPacket(now, Item.getId(launcher)));
         setHasGrenade(stack, gun, false);
     }
 
@@ -179,7 +197,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
             }
             if (hasGrenade(stack, gun)) {
                 if (!ReloadingHandler.INSTANCE.reloading()) {
-                    handleClientShoot(stack, gun, player);
+                    handleClientShoot(stack, gun, player, this);
                 }
             } else {
                 if (!ReloadingHandler.INSTANCE.reloading()) {
@@ -194,11 +212,10 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
                         Minecraft.getInstance().gui.setOverlayMessage(Component.literal(str.replace("@ammo", ammunitionName)), false);
                         return;
                     }
+
                     ReloadingHandler.INSTANCE.setTask(new GrenadeLauncherReloadTask(
                             AttachmentsRegister.getStrKey(this),
-                            RenderAndMathUtils.secondsToTicks(2.1f),
-                            GP_25Model.INSTANCE.getGunReload(),
-                            GP_25Model.INSTANCE.getAttachmentReload(),
+                            reloadTicks,
                             gun, stack));
                     PlayerStatusProvider.setReloading(player, true);
                     Clients.MAIN_HAND_STATUS.buttonDown.set(false);
@@ -206,6 +223,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
             }
         }
     }
+
 
     @Override
     @OnlyIn(Dist.CLIENT)

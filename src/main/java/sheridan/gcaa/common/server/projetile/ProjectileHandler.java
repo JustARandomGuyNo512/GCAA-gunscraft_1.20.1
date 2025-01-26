@@ -90,7 +90,7 @@ public class ProjectileHandler {
         if (!init) {
             return;
         }
-        if (event.phase == TickEvent.Phase.END) {
+        if (event.phase == TickEvent.Phase.START) {
             if (lastUpdate != 0) {
                 update(RenderAndMathUtils.secondsFromNow(lastUpdate));
             }

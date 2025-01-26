@@ -125,6 +125,7 @@ public class Commons {
                 "gcaa:rail_panel_short",
                 "gcaa:vertical_grip",
                 "gcaa:gp_25",
+                "gcaa:m203",
                 "gcaa:slant_grip"
         );
 
@@ -146,7 +147,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1.2f, 0.1f, 0.08f)))
                 .addChild(new AttachmentSlot(MAG, Set.of()).setReplaceableGunPart(new WeightPart(3f)))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:m249_railed_handguard")).setReplaceableGunPart(new WeightPart(0.5f)).asSlotProvider())
-                .addChild(new AttachmentSlot("handguard_grip", mk47HandguardGrip.stream().filter(s -> !s.equals("gcaa:gp_25")).collect(Collectors.toSet())).lower().lock())
+                .addChild(new AttachmentSlot("handguard_grip", mk47HandguardGrip.stream().filter(s -> !s.equals("gcaa:gp_25") && !s.equals("gcaa:m203")).collect(Collectors.toSet())).lower().lock())
                 .addChild(new AttachmentSlot("handguard_left", mk47HandguardSlot).lower().lock())
                 .addChild(new AttachmentSlot("handguard_right", mk47HandguardSlot).lower().lock())
         );
@@ -231,10 +232,18 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.MP5.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_smg_suppressor","gcaa:smg_suppressor", "gcaa:smg_compensator")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag9x19", "gcaa:drum_9x19")))
-                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:mp5_rail_handguard")).asSlotProvider())
-                .addChild(new AttachmentSlot("handguard_left", Set.of()).lower().lock())
-                .addChild(new AttachmentSlot("handguard_right", Set.of()).lower().lock())
-                .addChild(new AttachmentSlot("handguard_grip", Set.of()).lower().lock())
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:mp5_rail_handguard")).setReplaceableGunPart(new WeightPart(0.6f)).asSlotProvider())
+                .addChild(new AttachmentSlot("handguard_left", mk47HandguardSlot).lower().lock())
+                .addChild(new AttachmentSlot("handguard_right", mk47HandguardSlot).lower().lock())
+                .addChild(new AttachmentSlot("handguard_grip", Set.of(
+                        "gcaa:laser_sight",
+                        "gcaa:horizontal_laser_sight",
+                        "gcaa:flashlight",
+                        "gcaa:rail_panel",
+                        "gcaa:rail_panel_short",
+                        "gcaa:vertical_grip",
+                        "gcaa:slant_grip"
+                )).lower().lock())
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1, 0.12f, 0.12f)))
                 .addChild(new AttachmentSlot("rail_clamp", Set.of("gcaa:rail_clamp")))
         );
@@ -281,6 +290,7 @@ public class Commons {
                 ModItems.AMMO_12GAUGE.get(),
                 ModItems.AMMO_357MAGNUM.get(),
                 ModItems.AMMO_VOG_25.get(),
+                ModItems.AMMO_M433.get(),
                 ModItems.AMMO_5_45X39MM.get(),
                 ModItems.AMMO_338_LAPUA_MAGNUM.get()
         ), List.of (
@@ -300,6 +310,8 @@ public class Commons {
                         List.of(20, 12, 15),new AmmunitionRecipe(ModItems.AMMO_357MAGNUM.get(), 28 * 1000)),
                 addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.TNT),
                         List.of(30, 10, 5), new AmmunitionRecipe(ModItems.AMMO_VOG_25.get(), 50 * 1000)),
+                addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.TNT),
+                        List.of(25, 15, 7), new AmmunitionRecipe(ModItems.AMMO_M433.get(), 40 * 1000)),
                 addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
                         List.of(20, 16, 14), new AmmunitionRecipe(ModItems.AMMO_5_45X39MM.get(), 40 * 1000)),
                 addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
@@ -346,7 +358,8 @@ public class Commons {
                 new AmmunitionProduct(ModItems.AMMO_7_62X51MM.get(), 400),
                 new AmmunitionProduct(ModItems.AMMO_338_LAPUA_MAGNUM.get(), 600),
                 new AmmunitionProduct(ModItems.AMMO_12GAUGE.get(), 200),
-                new GrenadeProduct(ModItems.AMMO_VOG_25.get(), 140));
+                new GrenadeProduct(ModItems.AMMO_VOG_25.get(), 140),
+                new GrenadeProduct(ModItems.AMMO_M433.get(), 180));
 
         ProductsRegister.registerProducts(ProductsRegister.ATTACHMENT,
                 new AttachmentProduct(ModItems.PISTOL_SUPPRESSOR.get(), 50),

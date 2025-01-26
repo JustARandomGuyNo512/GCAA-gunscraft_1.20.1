@@ -12,7 +12,7 @@ public class Mk47AttachmentProxy extends AttachmentSlotProxy {
     private final BinaryExclusiveProxy binaryMutuallyExclusiveProxy;
     public Mk47AttachmentProxy(AttachmentSlot root) {
         super(root);
-        binaryMutuallyExclusiveProxy = new BinaryExclusiveProxy(root, "handguard_lower", "handguard_grip");
+        binaryMutuallyExclusiveProxy = new BinaryExclusiveProxy(root, "hand_guard_lower", "hand_guard_grip");
         binaryMutuallyExclusiveProxy.addExclusive((prevSlot, other, prevAttachment, otherAttachment) -> prevAttachment instanceof GrenadeLauncher || otherAttachment instanceof GrenadeLauncher);
 
     }

@@ -1,6 +1,6 @@
 {
   "item.gcaa.g19": "Glock 19",
-  "item.gcaa.python_357": "Clot Python .357",
+  "item.gcaa.python_357": "Colt Python .357",
   "item.gcaa.vector_45": "Vector .45",
   "item.gcaa.akm": "AKM",
   "item.gcaa.m4a1": "M4A1",
@@ -13,7 +13,7 @@
   "item.gcaa.ak12": "AK-12",
   "item.gcaa.fn_ballista": "FN Ballista",
   "item.gcaa.beretta_686": "Beretta 686",
-   "item.gcaa.mp5": "Mp5",
+  "item.gcaa.mp5": "Mp5",
   "item.gcaa.annihilator": "Object Annihilator",
   "item.gcaa.unknown_attachment": "Unknown Attachment",
   "item.gcaa.ak_suppressor": "AK Suppressor",
@@ -76,6 +76,7 @@
   "item.gcaa.ak12_suppressor": "AK12 Suppressor",
   "item.gcaa.ubr_stock": "UBR Stock",
   "item.gcaa.ak_tactical_stock": "AK Tactical Stock",
+  "item.gcaa.m203": "M203 Grenade Launcher",
 
   "item.gcaa.ammo9x19mm": "Parabellum 9mm Pistol Rounds",
   "item.gcaa.ammo5_56x45mm": "5.56x45mm Assault Rifle Rounds",
@@ -86,7 +87,8 @@
   "item.gcaa.ammo_45acp": ".45 ACP Pistol Rounds",
   "item.gcaa.ammo_357magnum": ".357 Magnum Rounds",
   "item.gcaa.ammo_vog_25": "VOG-25 Grenade",
-   "item.gcaa.ammo_338_lapua_magnum": ".338 Lapua Magnum",
+  "item.gcaa.ammo_338_lapua_magnum": ".338 Lapua Magnum",
+  "item.gcaa.ammo_m433": "M433 Grenade",
 
   "item.gcaa.transaction_terminal": "Transaction Terminal",
 

@@ -511,6 +511,9 @@
 				},
 				"1.69": {
 					"effect": "smg_mag_attach"
+				},
+				"2.14": {
+					"effect": "ar_bolt_release"
 				}
 			}
 		},

@@ -33,6 +33,7 @@
   "item.generic.ak12_mag_off": { "subtitle": "item.generic.ak12_mag_off", "sounds": [{ "name": "gcaa:generic/ak12_mag_off" }]},
   "item.generic.ak12_mag_attach": { "subtitle": "item.generic.ak12_mag_attach", "sounds": [{ "name": "gcaa:generic/ak12_mag_attach" }]},
 
+
   "item.generic.mg_unload": { "subtitle": "item.generic.mg_unload", "sounds": [{ "name": "gcaa:generic/mg_unload" }]},
   "item.generic.pistol_unload": { "subtitle": "item.generic.pistol_unload", "sounds": [{ "name": "gcaa:generic/pistol_unload" }]},
   "item.generic.shotgun_unload": { "subtitle": "item.generic.shotgun_unload", "sounds": [{ "name": "gcaa:generic/shotgun_unload" }]},
@@ -81,6 +82,12 @@
   "item.mp5.mp5_charge_forward": { "subtitle": "item.mp5.mp5_charge_forward", "sounds": [{ "name": "gcaa:mp5/mp5_charge_forward" }]},
   "item.mp5.mp5_mag_attach": { "subtitle": "item.mp5.mp5_mag_attach", "sounds": [{ "name": "gcaa:mp5/mp5_mag_attach" }]},
   "item.mp5.mp5_mag_off": { "subtitle": "item.mp5.mp5_mag_off", "sounds": [{ "name": "gcaa:mp5/mp5_mag_off" }]},
+  "item.python_357.python_357_mag_rotate": { "subtitle": "item.python_357.python_357_mag_rotate", "sounds": [{ "name": "gcaa:python_357/python_357_mag_rotate" }]},
+  "item.m203.m203_open": { "subtitle": "item.m203.m203_open", "sounds": [{ "name": "gcaa:m203/m203_open" }]},
+  "item.m203.m203_close": { "subtitle": "item.m203.m203_close", "sounds": [{ "name": "gcaa:m203/m203_close" }]},
+  "item.m203.m203_shell_insert": { "subtitle": "item.m203.m203_shell_insert", "sounds": [{ "name": "gcaa:m203/m203_shell_insert" }]},
+  "item.m203.m203_shell_out": { "subtitle": "item.m203.m203_shell_out", "sounds": [{ "name": "gcaa:m203/m203_shell_out" }]},
+  "item.m203.m203_fire": { "subtitle": "item.m203.m203_fire", "sounds": [{ "name": "gcaa:m203/m203_fire" }]},
 
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},

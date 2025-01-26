@@ -3092,13 +3092,13 @@
 				{
 					"name": "s_handguard_left",
 					"parent": "gun",
-					"pivot": [4.82184, 5.3675, -31.9],
+					"pivot": [4.82184, 5.3675, -32],
 					"rotation": [0, 0, -90]
 				},
 				{
 					"name": "s_handguard_right",
 					"parent": "gun",
-					"pivot": [-4.8218, 5.3675, -31.9],
+					"pivot": [-4.8218, 5.3675, -32],
 					"rotation": [0, 0, 90]
 				},
 				{

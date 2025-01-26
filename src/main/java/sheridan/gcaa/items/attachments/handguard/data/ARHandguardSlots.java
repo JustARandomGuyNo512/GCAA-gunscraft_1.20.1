@@ -9,6 +9,7 @@ public class ARHandguardSlots {
             .addChild(new AttachmentSlot("handguard_grip", Set.of(
                     "gcaa:vertical_grip",
                     "gcaa:gp_25",
+                    "gcaa:m203",
                     "gcaa:laser_sight",
                     "gcaa:rail_panel",
                     "gcaa:flashlight",
@@ -40,6 +41,7 @@ public class ARHandguardSlots {
             .addChild(new AttachmentSlot("handguard_grip", Set.of(
                     "gcaa:vertical_grip",
                     "gcaa:gp_25",
+                    "gcaa:m203",
                     "gcaa:laser_sight",
                     "gcaa:rail_panel",
                     "gcaa:flashlight",

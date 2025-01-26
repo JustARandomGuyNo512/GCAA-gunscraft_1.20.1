@@ -39,6 +39,7 @@ import sheridan.gcaa.client.model.attachments.akStuff.AKRailBracketModel;
 import sheridan.gcaa.client.model.attachments.arStuff.ARGasBlockModel;
 import sheridan.gcaa.client.model.attachments.arStuff.ARStockTubeModel;
 import sheridan.gcaa.client.model.attachments.functional.GP_25Model;
+import sheridan.gcaa.client.model.attachments.functional.M203Model;
 import sheridan.gcaa.client.model.attachments.grip.*;
 import sheridan.gcaa.client.model.attachments.handguard.AKImprovedHandguardModel;
 import sheridan.gcaa.client.model.attachments.handguard.ARLightHandguardModel;
@@ -172,7 +173,7 @@ public class Clients {
                 .setInertialRecoilData(
                         new InertialRecoilData(0.3f,0.05f,0.2f,
                                 0.08f,1.5f,0.15f,
-                                0.75f, 0.5f,
+                                1f, 0.5f,
                                 0.5f, 0.5f, 0.5f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 3.65f, -21.2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(1.5f))
@@ -191,7 +192,7 @@ public class Clients {
                 .setInertialRecoilData(
                         new InertialRecoilData(0.3f,0.05f,0.8f,
                                 0.075f,3f,0.1f,
-                                0.6f, 0.6f,
+                                1f, 0.6f,
                                 0.4f, 0.4f, 0.4f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.55f, -26.475f).setScale(1.5f))
                 .usePistolDefaultSprintingTrans()
@@ -319,8 +320,8 @@ public class Clients {
                 .setAds(0,8.4f,-17, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
-                        new InertialRecoilData(-0.05f, 0.02f, 0.2f,
-                                0.06f, 0.6f,  0.055f,
+                        new InertialRecoilData(0.06f, 0.03f, 0.4f,
+                                0.06f, 0.5f,  0.07f,
                                 0.35f, 1f,
                                 0.2f, 0.6f, 0.2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4f, -101.5f).setScale(3f))
@@ -379,7 +380,7 @@ public class Clients {
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0.05f, 0.03f, 0.45f,
-                                0.055f, 0.35f, 0.06f,
+                                0.055f, 0.3f, 0.06f,
                                 0.3f, 0.7f, 0.3f, 0.5f,
                                 0.5f, 0.6f, 0.25f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.4561f, -102f).setScale(2.8f))
@@ -428,8 +429,8 @@ public class Clients {
                 .setAttachmentScreen(1f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0.012f, 0.02f, 0.45f,
-                                0.065f, 0.25f,  0.06f,
-                                0.3f, 0.7f, 0.35f, 0.7f,
+                                0.06f, 0.25f,  0.06f,
+                                0.3f, 0.7f, 0.35f                                                                                                                                                       , 0.7f,
                                 0.5f, 0.7f, 0.15f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 5.4f, -57.6f).setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(1.8f))
@@ -520,6 +521,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.AK12_SUPPRESSOR.get(), new AK12SuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.UBR_STOCK.get(), new UBRStockModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_TACTICAL_STOCK.get(), new AKTacticalStockModel());
+        ArsenalLib.registerAttachmentModel(ModItems.M203.get(), new M203Model());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

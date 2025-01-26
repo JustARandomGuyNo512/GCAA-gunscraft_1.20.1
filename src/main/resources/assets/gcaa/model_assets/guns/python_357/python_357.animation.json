@@ -390,6 +390,9 @@
 				"1.78": {
 					"effect": "bullets_in"
 				},
+				"2.36": {
+					"effect": "python_357_mag_rotate"
+				},
 				"2.83": {
 					"effect": "mag_close"
 				}
