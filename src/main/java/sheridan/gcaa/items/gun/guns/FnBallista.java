@@ -16,11 +16,10 @@ public class FnBallista extends Sniper {
                     .setAmmunition(ModItems.AMMO_338_LAPUA_MAGNUM.get());
 
     public FnBallista() {
-        super(new GunProperties(2.8f, 0.2f, 3.6f, 2.5f, 0.1f,
+        super(new GunProperties(2.8f, 0.2f, 4.4f, 3f, 0.1f,
                         6f, GunProperties.toRPM(40), getTicks(2.45f), getTicks(3.2f),
                         5, 6.8f, 1.5f, 0.1f, 0.1f, 25,
-                        List.of(HandAction.HAND_ACTION), ModSounds.FN_BALLISTA_FIRE, ModSounds.FN_BALLISTA_FIRE_SUPPRESSED, caliber)
-                        .setMoveSpreadFactor(4f, 6f),
+                        List.of(HandAction.HAND_ACTION), ModSounds.FN_BALLISTA_FIRE, ModSounds.FN_BALLISTA_FIRE_SUPPRESSED, caliber),
                 new HandActionExtension("bolt_action","bolt_action",
                         getTicks(0.4f), getTicks(1.4f), getTicks(0.6f), false));
     }

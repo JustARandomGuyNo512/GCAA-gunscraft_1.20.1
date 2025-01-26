@@ -60,8 +60,9 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
     private final int safeTicks;
 
     public GrenadeLauncher(IAmmunition ammunition, InertialRecoilData recoilData, float recoilPitch, float recoilYaw,
-                           RegistryObject<SoundEvent> fireSound, int reloadTicks, float velocity, float pInaccuracy, float explodeRadius, int safeTicks)  {
-        super(2.5f);
+                           RegistryObject<SoundEvent> fireSound, int reloadTicks, float velocity, float pInaccuracy,
+                           float explodeRadius, int safeTicks, float weight)  {
+        super(weight);
         this.ammunition = ammunition;
         this.recoilData = recoilData;
         this.recoilPitch = recoilPitch;

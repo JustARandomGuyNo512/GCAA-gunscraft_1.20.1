@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -69,6 +70,7 @@ import sheridan.gcaa.items.ammunition.IAmmunitionMod;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
+import sheridan.gcaa.items.gun.Sniper;
 import sheridan.gcaa.lib.ArsenalLib;
 import sheridan.gcaa.sounds.ModSounds;
 import sheridan.gcaa.utils.RenderAndMathUtils;
@@ -261,9 +263,9 @@ public class Clients {
                 .setAds(0,10.1155f,-16f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
-                        new InertialRecoilData(-0.06f, 0.03f, 1f,
+                        new InertialRecoilData(-0.06f, 0.03f, 0.5f,
                                 0.05f, 0.3f,  0.04f,
-                                0.5f, 0.8f,
+                                0.7f, 0.8f,
                                 0.6f, 0.5f, 0.3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.575f, -110.1f).setScale(3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
@@ -670,6 +672,9 @@ public class Clients {
             if (gun.isSniper()) {
                 spread *= 0.2f;
             }
+        }
+        if (MAIN_HAND_STATUS.adsProgress < 0.75f && gun instanceof Sniper) {
+            spread = Mth.lerp(MAIN_HAND_STATUS.adsProgress / 0.75f, MAIN_HAND_STATUS.maxSpread, spread);
         }
         if (player.isCrouching()) {
             spread *= 0.9f;

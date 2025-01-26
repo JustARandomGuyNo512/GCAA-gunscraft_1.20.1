@@ -389,6 +389,7 @@ public class Commons {
                 new AttachmentProduct(ModItems.VERTICAL_GRIP.get(), 80),
                 new AttachmentProduct(ModItems.SLANT_GRIP.get(), 100),
                 new GrenadeLauncherProduct(ModItems.GP_25.get(), 240),
+                new GrenadeLauncherProduct(ModItems.M203.get(), 300),
                 new AttachmentProduct(ModItems.AR_GAS_BLOCK.get(), 30),
                 new AttachmentProduct(ModItems.AR_STOCK_TUBE.get(), 60),
                 new AttachmentProduct(ModItems.AR_RAILED_HANDGUARD.get(), 180),

@@ -36,4 +36,5 @@ public class Sniper extends HandActionGun{
     public GunType getGunType() {
         return GunType.SNIPER;
     }
+
 }

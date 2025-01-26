@@ -19,6 +19,7 @@ import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.Scope;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
+import sheridan.gcaa.items.gun.Sniper;
 import sheridan.gcaa.items.gun.fireModes.Charge;
 
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class ClientWeaponStatus {
     public long lastShoot = 0;
     public int equipDelay = 0;
     public float spread = 0;
+    public float minSpread = 0;
+    public float maxSpread = 0;
     public float lastRecoilDirection = 1;
     public List<IAmmunitionMod> ammunitionMods;
     public boolean shootCreateMuzzleSmoke = true;
@@ -173,8 +176,8 @@ public class ClientWeaponStatus {
     public void updatePlayerSpread(ItemStack stack, IGun gun, Player player) {
         if (gun != null) {
             float[] spread = gun.getSpread(stack);
-            float minSpread = spread[0];
-            float maxSpread = spread[1];
+            minSpread = spread[0];
+            maxSpread = spread[1];
             if (player.isCrouching()) {
                 minSpread *= 0.75f;
                 maxSpread *= 0.75f;
