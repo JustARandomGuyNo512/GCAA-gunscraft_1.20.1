@@ -310,11 +310,10 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
         return rateTag;
     }
 
-    public static CompoundTag processDataRateByGivenMods(CompoundTag rateTag, List<IAmmunitionMod> mods, IAmmunition ammunition) {
+    public static void processDataRateByGivenMods(CompoundTag rateTag, List<IAmmunitionMod> mods, IAmmunition ammunition) {
         for (IAmmunitionMod mod : mods) {
             mod.onModifyAmmunition(ammunition,  rateTag);
         }
-        return rateTag;
     }
 
     protected void refineDataRate(ItemStack itemStack) {

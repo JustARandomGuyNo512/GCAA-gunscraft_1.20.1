@@ -16,9 +16,7 @@ import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.common.server.projetile.ProjectileHandler;
 import sheridan.gcaa.utils.FontUtils;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 public class Caliber implements IDataPacketGen {
