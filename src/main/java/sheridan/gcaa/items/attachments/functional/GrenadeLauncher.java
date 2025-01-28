@@ -235,6 +235,9 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         String ammo = Component.translatable("tooltip.gun_info.ammunition").getString();
         String name = Component.translatable(ammunition.get().getDescriptionId()).getString();
+        String string = Component.translatable("tooltip.gcaa.use_grenade_launcher").getString();
+        string = string.replace("$key", KeyBinds.USE_GRENADE_LAUNCHER.getTranslatedKeyMessage().getString());
         pTooltipComponents.add(Component.literal(ammo + name));
+        pTooltipComponents.add(Component.literal(string));
     }
 }

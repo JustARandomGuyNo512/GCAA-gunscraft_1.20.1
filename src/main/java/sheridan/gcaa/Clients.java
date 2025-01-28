@@ -241,7 +241,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AWP.get(), new AwpModel(), new DisplayData()
-                .setFirstPersonMain(-9.7f,12.6f,-31.3f, POS)
+                .setFirstPersonMain(-10.7f,12.6f,-31.8f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,-1.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -279,11 +279,11 @@ public class Clients {
                 .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,13.65f,-29f, POS)
+                .setAds(0,13.65f,-28f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(-0.125f, 0.05f, 0.4f,
-                                0.065f, -0.18f,  0.07f,
+                                0.065f, -0.14f,  0.07f,
                                 0.3f, 0.7f, 0.34f, 0.7f,
                                 0.1f, 0.7f, 0.25f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 5.7f, -113.1f).setScale(2.1f))
@@ -422,7 +422,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.MP5.get(), new Mp5Model(), new DisplayData()
-                .setFirstPersonMain(-11.7f,18.7f,-38.3f, POS)
+                .setFirstPersonMain(-11.7f,18.7f,-38f, POS)
                 .setThirdPersonRight(0.0f,-0.8f,0.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)

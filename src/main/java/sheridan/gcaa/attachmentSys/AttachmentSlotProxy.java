@@ -40,7 +40,7 @@ public abstract class AttachmentSlotProxy {
 
     @OnlyIn(Dist.CLIENT)
     public void afterSlotIconRender(AttachmentSlot slot, Vector3f pos, GuiGraphics guiGraphics, Font font, AttachmentsGuiContext guiContext) {
-        if (slot == guiContext.getSelected()) {
+        if (slot == guiContext.getSelected() && AttachmentsGuiContext.showInfoTip) {
             if (!slot.isEmpty()) {
                 String attachmentId = slot.getAttachmentId();
                 IAttachment attachment = AttachmentsRegister.get(attachmentId);

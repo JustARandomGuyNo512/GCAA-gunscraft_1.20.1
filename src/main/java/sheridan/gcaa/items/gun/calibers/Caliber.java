@@ -1,6 +1,7 @@
 package sheridan.gcaa.items.gun.calibers;
 
 import com.google.gson.JsonObject;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -9,6 +10,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.data.IDataPacketGen;
+import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.common.server.projetile.ProjectileHandler;
@@ -73,11 +75,12 @@ public class Caliber implements IDataPacketGen {
     }
 
     public void handleTooltip(ItemStack stack, IGun gun, Level levelIn, List<Component> tooltip, TooltipFlag flagIn, boolean detail) {
+        CompoundTag rate = gun.getUsingAmmunitionDataRate(stack, false);
         if (detail) {
-            tooltip.add(FontUtils.dataTip("tooltip.gun_info.effective_range", effectiveRange, 10, 1, "gcaa.unit.chunk"));
-            tooltip.add(FontUtils.dataTip("tooltip.gun_info.bullet_speed", speed, 12, 1, "gcaa.unit.chunk_pre_second"));
+            tooltip.add(FontUtils.dataTip("tooltip.gun_info.effective_range", effectiveRange * rate.getFloat(Ammunition.EFFECTIVE_RANGE_RATE), 10, 1, "gcaa.unit.chunk"));
+            tooltip.add(FontUtils.dataTip("tooltip.gun_info.bullet_speed", speed * rate.getFloat(Ammunition.SPEED_RATE), 12, 1, "gcaa.unit.chunk_pre_second"));
         } else {
-            tooltip.add(FontUtils.dataTip("tooltip.gun_info.damage", baseDamage, 35, 1));
+            tooltip.add(FontUtils.dataTip("tooltip.gun_info.damage", baseDamage * rate.getFloat(Ammunition.BASE_DAMAGE_RATE), 35, 1));
         }
     }
 

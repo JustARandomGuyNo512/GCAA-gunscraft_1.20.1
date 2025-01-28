@@ -19,7 +19,7 @@ public class FontUtils {
 
     public static int getColor(float value, float good, float bad) {
         float ratio;
-        ratio = Math.abs((value - good)) / Math.abs((bad - good));
+        ratio = Mth.clamp(Math.abs((value - good)) / Math.abs((bad - good)), 0, 1);
         ratio = Mth.clamp(1 - ratio, 0, 1);
         int red = (int) (255 * Math.cos(ratio * Math.PI / 2));
         int green = (int) (255 * Math.sin(ratio * Math.PI / 2));

@@ -1,12 +1,9 @@
 package sheridan.gcaa.client.model.attachments.scope;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.joml.Vector3f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.ISlotProviderModel;
@@ -17,7 +14,6 @@ import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.lib.ArsenalLib;
-import sheridan.gcaa.utils.RenderAndMathUtils;
 
 @OnlyIn(Dist.CLIENT)
 public class ScopeX10Model extends ScopeModel implements ISlotProviderModel {

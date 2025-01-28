@@ -75,8 +75,9 @@ public class SightViewRenderer {
     public static void renderScope(boolean active, boolean glowingCrosshair, float crosshairScale, float backgroundScale, GunRenderContext context, ResourceLocation crosshairTexture,
                                    ResourceLocation bodyTexture, ResourceLocation backgroundTexture, ModelPart crosshair, ModelPart glassShape, ModelPart backGlass, ModelPart back_ground, ModelPart ...body) {
         RenderAndMathUtils.setUpStencil();
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
         if (!active) {
-            VertexConsumer vertexConsumer = context.getBuffer(RenderType.entityCutout(bodyTexture));
+            VertexConsumer vertexConsumer = context.solid(bodyTexture);
             context.render(backGlass, vertexConsumer);
             for (ModelPart part : body) {
                 context.render(part, vertexConsumer);
@@ -127,6 +128,7 @@ public class SightViewRenderer {
         bufferSource.endBatch();
         GlStateManager._stencilMask(0x00);
         GL11.glDisable(GL11.GL_STENCIL_TEST);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
         poseStack.popPose();
         SCOPE_VIEW_BUFFER.clear();
     }

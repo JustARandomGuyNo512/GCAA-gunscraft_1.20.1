@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;
@@ -116,6 +117,13 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
         ammoSelectBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.ammo_select")));
         installBtn.enableIf(false);
         uninstallBtn.enableIf(false);
+        Button info = Button.builder(Component.literal("INFO"),
+                (btn) -> {
+                    AttachmentsGuiContext.showInfoTip = !AttachmentsGuiContext.showInfoTip;
+                    btn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.attachment_icon_info").append(AttachmentsGuiContext.showInfoTip ? "ON" : "OFF")));
+                }).tooltip(Tooltip.create(Component.translatable("tooltip.btn.attachment_icon_info").append(AttachmentsGuiContext.showInfoTip ? "ON" : "OFF")))
+                .size(25, 16).pos(this.leftPos + 102, this.topPos + 20).build();
+        rowHelper.addChild(info);
         rowHelper.addChild(installBtn);
         rowHelper.addChild(uninstallBtn);
         rowHelper.addChild(ammoSelectBtn);

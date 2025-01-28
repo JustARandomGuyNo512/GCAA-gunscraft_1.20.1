@@ -37,6 +37,7 @@ public class Ammunition extends NoRepairNoEnchantmentItem implements IAmmunition
     public static final float MIN_EFFECTIVE_RANGE_RATE = 0.01f;
     public static final float MIN_SPEED_RATE = 0.01f;
     public static final float MIN_PENETRATION_RATE = 0.01f;
+    public static final CompoundTag TEMPLATE_WHITE_TAG = getWhiteDataTag();
 
     public Ammunition(int capacity, int modCapacity, Set<IAmmunitionMod> suitableMods)  {
         super(new Properties().defaultDurability(capacity).setNoRepair());

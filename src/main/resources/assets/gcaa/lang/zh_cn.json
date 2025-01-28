@@ -139,6 +139,7 @@
   "tooltip.attachment_icon_render_mode.render_children": "配件槽图标：表层节点",
   "tooltip.attachment_icon_render_mode.render_empty": "配件槽图标：空位",
   "tooltip.attachment_icon_render_mode.render_occupied": "配件槽图标：已占用",
+  "tooltip.btn.attachment_icon_info": "显示配件数据Tip：",
 
   "tooltip.item.useless": "没什么用，扔了吧",
   "tooltip.item.unknown_attachment_1": "无法识别此id: $id对应的配件",
@@ -175,6 +176,7 @@
   "tooltip.gcaa.replaceable_part": "可替换的默认部件",
   "tooltip.gcaa.grip_effective": "握持时生效",
   "tooltip.gcaa.exp_mag": "将载弹量扩容至$min ~ $max发",
+  "tooltip.gcaa.use_grenade_launcher": "按 $key 发射 / 装填榴弹",
 
   "tooltip.ammunition_info.ammo_left": "子弹剩余：",
 
@@ -219,7 +221,7 @@
   "key.gcaa.open_client_settings_screen": "打开客户端设置界面",
   "key.gcaa.switch_effective_sight": "切换瞄具",
   "key.gcaa.use_grenade_launcher": "发射 / 装填榴弹",
-  "key.gcaa.turn_flashlight": "开/关 手电筒或者切换照明模式",
+  "key.gcaa.turn_flashlight": "开 / 关 手电筒或者切换照明模式",
   "key.gcaa.unload_gun": "卸掉弹药",
 
   "itemGroup.guns": "枪械",

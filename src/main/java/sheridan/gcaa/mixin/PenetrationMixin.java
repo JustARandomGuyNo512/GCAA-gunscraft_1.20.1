@@ -37,14 +37,12 @@ public class PenetrationMixin {
                     finalDamage *= Mth.lerp(penetration / 0.2f, 0.75f, 0.1f);
                 }
             } else {
-                finalDamage = Mth.lerp(sigmoid((float) (dis * 4f * (2f - Math.pow(absorbRate, 1.6f)))) , damage, pDamageAmount);
+                float upperLimit = (float) Math.min(damage + damageAbsorbed * Math.pow(absorbRate, 0.7f), pDamageAmount);
+                float pRate = (float) (1 - Math.exp(- dis * 1.4f));
+                finalDamage = Mth.lerp(pRate , damage, upperLimit);
             }
             cir.cancel();
             cir.setReturnValue(finalDamage);
         }
-    }
-
-    private float sigmoid(float x) {
-        return (float) (1f / (1 + Math.exp(-x))) * 2 - 1;
     }
 }

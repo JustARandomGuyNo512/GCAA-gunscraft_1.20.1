@@ -62,6 +62,7 @@ public interface IGun {
     CompoundTag getAmmunitionData(ItemStack itemStack);
     @Nullable
     CompoundTag getUsingAmmunitionData(ItemStack itemStack);
+    CompoundTag getUsingAmmunitionDataRate(ItemStack itemStack, boolean createNew);
     String getIdentity(ItemStack stack);
     GunType getGunType();
     enum GunType {

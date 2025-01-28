@@ -662,6 +662,12 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         return ammunitionData.getCompound("using");
     }
 
+    @Override
+    public CompoundTag getUsingAmmunitionDataRate(ItemStack itemStack, boolean createNew) {
+        CompoundTag usingAmmunitionData = getUsingAmmunitionData(itemStack);
+        return usingAmmunitionData == null ? (createNew ? Ammunition.getWhiteDataTag() : Ammunition.TEMPLATE_WHITE_TAG) : usingAmmunitionData.getCompound("data_rate");
+    }
+
 
     @OnlyIn(Dist.CLIENT)
     @Override
@@ -720,7 +726,8 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         tooltip.add(FontUtils.dataTip("tooltip.gun_info.mag_size", getMagSize(stack), 100, 0));
         tooltip.add(FontUtils.dataTip("tooltip.gun_info.rpm", gunProperties.getRPM(), 1200, 200));
         tooltip.add(FontUtils.dataTip("tooltip.gun_info.weight", getWeight(stack), 5, 40));
-        tooltip.add(FontUtils.dataTip("tooltip.gun_info.penetration", gunProperties.caliber.penetration, 1.25f, 0.3f));
+        CompoundTag ammunitionData = getUsingAmmunitionDataRate(stack, false);
+        tooltip.add(FontUtils.dataTip("tooltip.gun_info.penetration", gunProperties.caliber.penetration * ammunitionData.getFloat("penetration_rate"), 3f, 0.3f));
         gunProperties.caliber.handleTooltip(stack, this, levelIn, tooltip, flagIn, false);
         String ammo = Component.translatable("tooltip.gun_info.ammunition").getString();
         String name = getFullAmmunitionUsedName(stack);

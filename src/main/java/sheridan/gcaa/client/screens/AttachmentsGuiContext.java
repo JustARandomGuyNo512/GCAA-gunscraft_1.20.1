@@ -34,6 +34,7 @@ public class AttachmentsGuiContext {
     public static final int RENDER_CHILDREN = 1;
     public static final int RENDER_EMPTY = 2;
     public static final int RENDER_OCCUPIED = 3;
+    public static boolean showInfoTip = true;
     private static int renderMode = RENDER_ALL;
     private static final ResourceLocation EMPTY = new ResourceLocation(GCAA.MODID, "textures/gui/screen/empty.png");
     private static final ResourceLocation OCCUPIED = new ResourceLocation(GCAA.MODID, "textures/gui/screen/occupied.png");

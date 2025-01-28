@@ -139,6 +139,7 @@
   "tooltip.attachment_icon_render_mode.render_children": "Attachment slot icon: Top Layer",
   "tooltip.attachment_icon_render_mode.render_empty": "Attachment slot icon: Empty",
   "tooltip.attachment_icon_render_mode.render_empty": "Attachment slot icon: Occupied",
+  "tooltip.btn.attachment_icon_info": "Show attachment info tip: ",
 
   "tooltip.item.useless": "It's no use. Why don't you throw it away",
   "tooltip.item.unknown_attachment_1": "The attachment for this id: $id could not be recognized",
@@ -174,6 +175,7 @@
   "tooltip.gcaa.replaceable_part": "Replaceable default part",
   "tooltip.gcaa.grip_effective": "It takes effect when held",
   "tooltip.gcaa.exp_mag": "Expand the ammo count to $min ~ $max ",
+  "tooltip.gcaa.use_grenade_launcher": "Press $key launch / reload grenade",
 
   "tooltip.ammunition_info.ammo_left": "Ammo Left：",
 

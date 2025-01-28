@@ -22,8 +22,8 @@ public class ArmorPiercing extends AmmunitionMod {
 
     @Override
     public void onModifyAmmunition(IAmmunition ammunition, CompoundTag dataRateTag) {
-        dataRateTag.putFloat(Ammunition.BASE_DAMAGE_RATE, dataRateTag.getFloat(Ammunition.BASE_DAMAGE_RATE) - 0.12f);
-        dataRateTag.putFloat(Ammunition.MIN_DAMAGE_RATE, dataRateTag.getFloat(Ammunition.MIN_DAMAGE_RATE) - 0.12f);
+        dataRateTag.putFloat(Ammunition.BASE_DAMAGE_RATE, dataRateTag.getFloat(Ammunition.BASE_DAMAGE_RATE) - 0.1f);
+        dataRateTag.putFloat(Ammunition.MIN_DAMAGE_RATE, dataRateTag.getFloat(Ammunition.MIN_DAMAGE_RATE) - 0.1f);
         dataRateTag.putFloat(Ammunition.PENETRATION_RATE, dataRateTag.getFloat(Ammunition.PENETRATION_RATE) + 1f);
         dataRateTag.putFloat(Ammunition.EFFECTIVE_RANGE_RATE, dataRateTag.getFloat(Ammunition.EFFECTIVE_RANGE_RATE) + 0.2f);
         dataRateTag.putFloat(Ammunition.SPEED_RATE, dataRateTag.getFloat(Ammunition.SPEED_RATE) + 0.1f);
