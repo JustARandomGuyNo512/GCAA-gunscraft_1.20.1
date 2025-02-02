@@ -105,6 +105,7 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> M203_SHELL_INSERT = registerSound("m203_shell_insert", "item.m203.m203_shell_insert");
     public static RegistryObject<SoundEvent> M203_SHELL_OUT = registerSound("m203_shell_out", "item.m203.m203_shell_out");
     public static RegistryObject<SoundEvent> M203_FIRE = registerSound("m203_fire", "item.m203.m203_fire");
+    public static RegistryObject<SoundEvent> M60E4_FIRE = registerSound("m60e4_fire", "item.m60e4.fire");
 
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");

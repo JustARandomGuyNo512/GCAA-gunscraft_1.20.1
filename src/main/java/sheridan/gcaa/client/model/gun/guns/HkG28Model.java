@@ -1,8 +1,6 @@
 package sheridan.gcaa.client.model.gun.guns;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import sheridan.gcaa.Clients;
@@ -10,10 +8,8 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.model.gun.AutoMagPositionModel;
-import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
-import sheridan.gcaa.client.render.RenderTypes;
 
 public class HkG28Model extends AutoMagPositionModel {
     private final ResourceLocation TEXTURE = new ResourceLocation(GCAA.MODID, "model_assets/guns/hk_g28/hk_g28.png");

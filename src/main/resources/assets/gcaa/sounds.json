@@ -88,6 +88,7 @@
   "item.m203.m203_shell_insert": { "subtitle": "item.m203.m203_shell_insert", "sounds": [{ "name": "gcaa:m203/m203_shell_insert" }]},
   "item.m203.m203_shell_out": { "subtitle": "item.m203.m203_shell_out", "sounds": [{ "name": "gcaa:m203/m203_shell_out" }]},
   "item.m203.m203_fire": { "subtitle": "item.m203.m203_fire", "sounds": [{ "name": "gcaa:m203/m203_fire" }]},
+  "item.m60e4.fire": { "subtitle": "item.m60e4.fire", "sounds": [{ "name": "gcaa:m60e4/m60e4_fire" }]},
 
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},

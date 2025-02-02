@@ -13,7 +13,6 @@ import sheridan.gcaa.items.attachments.akStuff.AKRailBracket;
 import sheridan.gcaa.items.attachments.arStuff.ARGasBlock;
 import sheridan.gcaa.items.attachments.arStuff.ARStockTube;
 import sheridan.gcaa.items.attachments.functional.GP25;
-import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.attachments.functional.M203;
 import sheridan.gcaa.items.attachments.grip.*;
 import sheridan.gcaa.items.attachments.handguard.*;
@@ -59,6 +58,7 @@ public class ModItems {
     public static final RegistryObject<Annihilator> ANNIHILATOR = ITEMS.register("annihilator", Annihilator::new);
     public static final RegistryObject<Mp5> MP5 = ITEMS.register("mp5", Mp5::new);
     public static final RegistryObject<FnBallista> FN_BALLISTA = ITEMS.register("fn_ballista", FnBallista::new);
+    public static final RegistryObject<M60E4> M60E4 = ITEMS.register("m60e4", M60E4::new);
 
     public static final RegistryObject<UnknownAttachment> UNKNOWN_ATTACHMENT = ITEMS.register("unknown_attachment", UnknownAttachment::new);
     public static final RegistryObject<AKSuppressor> AK_SUPPRESSOR = ITEMS.register("ak_suppressor", AKSuppressor::new);

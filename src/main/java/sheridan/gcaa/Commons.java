@@ -248,6 +248,20 @@ public class Commons {
                 .addChild(new AttachmentSlot("rail_clamp", Set.of("gcaa:rail_clamp")))
         );
 
+        AttachmentsRegister.registerAttachmentSlot(ModItems.M60E4.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor", "gcaa:dmr_compensator")))
+                .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:laser_sight",
+                        "gcaa:horizontal_laser_sight",
+                        "gcaa:flashlight",
+                        "gcaa:rail_panel",
+                        "gcaa:rail_panel_short",
+                        "gcaa:vertical_grip",
+                        "gcaa:slant_grip")))
+                .addChild(new AttachmentSlot("handguard_left", mk47HandguardSlot).lower())
+                .addChild(new AttachmentSlot("handguard_right", mk47HandguardSlot).lower())
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
+        );
+
         registerVendingMachineProducts();
         registerAmmunitionRecipes();
         checkVendingMachineProductsRegistry();

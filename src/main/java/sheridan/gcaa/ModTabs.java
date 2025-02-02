@@ -118,6 +118,7 @@ public class ModTabs {
                     tab.accept(ModItems.BERETTA_686.get());
                     tab.accept(ModItems.XM1014.get());
                     tab.accept(ModItems.M249.get());
+                    tab.accept(ModItems.M60E4.get());
                 }).build());
 
         OTHER_TAB = MOD_TABS.register("other", () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.other"))
