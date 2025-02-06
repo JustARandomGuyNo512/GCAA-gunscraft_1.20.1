@@ -3,7 +3,6 @@ package sheridan.gcaa.items.gun;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -19,9 +18,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LightBlock;
-import net.minecraft.world.level.block.TorchBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +34,6 @@ import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
-import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.ammunition.AmmunitionHandler;
@@ -54,7 +49,6 @@ import sheridan.gcaa.utils.FontUtils;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.awt.*;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.List;
 
@@ -163,7 +157,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
                 mod.onShootInOwnClient(this, player);
             }
         }
-
+        //MuzzleFlashLightHandler.onClientShoot(this, stack, player);
     }
 
     @OnlyIn(Dist.CLIENT)

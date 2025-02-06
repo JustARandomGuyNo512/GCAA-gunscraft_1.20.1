@@ -201,7 +201,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AKM.get(), new AkmModel(), new DisplayData()
-                .setFirstPersonMain(-11.95f,15.66f,-31.65f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
+                .setFirstPersonMain(-12.4f,15.66f,-31.2f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -221,7 +221,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.M4A1.get(), new M4a1Model(), new DisplayData()
-                .setFirstPersonMain(-11.3f,15.2f,-31.8f, POS)
+                .setFirstPersonMain(-12f,15.1f,-31.3f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -241,7 +241,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AWP.get(), new AwpModel(), new DisplayData()
-                .setFirstPersonMain(-10.7f,12.6f,-31.8f, POS)
+                .setFirstPersonMain(-10.9f,12.7f,-31.3f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,-1.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -255,7 +255,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.M870.get(), new M870Model(), new DisplayData()
-                .setFirstPersonMain(-10.3f,15.1f,-22.9f, POS)
+                .setFirstPersonMain(-10.5f,14.5f,-22.9f, POS)
                 .setThirdPersonRight(0.0f,-0.2f,-0.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -274,7 +274,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.M249.get(), new M249Model(), new DisplayData()
-                .setFirstPersonMain(-8.72f,17.65f,-32.1f, POS)
+                .setFirstPersonMain(-9.3f,18f,-31.3f, POS)
                 .setThirdPersonRight(0.0f,-0.5f,-0.8f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -314,7 +314,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.XM1014.get(), new Xm1014Model(), new DisplayData()
-                .setFirstPersonMain(-10.9f,11.8f,-26.5f, POS)
+                .setFirstPersonMain(-11.2f,11.9f,-26.2f, POS)
                 .setThirdPersonRight(0.0f,-0.4f,-0.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -333,7 +333,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.MK47.get(), new Mk47Model(), new DisplayData()
-                .setFirstPersonMain(-11.6f,14.8f,-31.8f, POS)
+                .setFirstPersonMain(-11.9f,14.6f,-31f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.6f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -353,7 +353,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.HK_G28.get(), new HkG28Model(), new DisplayData()
-                .setFirstPersonMain(-12.05f,14.6f,-31.5f, POS)
+                .setFirstPersonMain(-12.65f,14.7f,-29.1f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.6f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -373,7 +373,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AK12.get(), new Ak12Model(), new DisplayData()
-                .setFirstPersonMain(-13.65f,16f,-34.7f, POS)
+                .setFirstPersonMain(-14.1f,15.8f,-33.9f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -392,7 +392,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.BERETTA_686.get(), new Beretta686Model(), new DisplayData()
-                .setFirstPersonMain(-10.5f,13.3f,-35f, POS)
+                .setFirstPersonMain(-10.9f,13.1f,-33.8f, POS)
                 .setThirdPersonRight(0.0f,-0.2f,-0.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -442,7 +442,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.FN_BALLISTA.get(), new FnBallistaModel(), new DisplayData()
-                .setFirstPersonMain(-11.15f,13.8f,-33.15f, POS)
+                .setFirstPersonMain(-11.5f,13.9f,-32.5f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,-1.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -456,7 +456,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.M60E4.get(), new M60E4Model(), new DisplayData()
-                .setFirstPersonMain(-10.8f,17.4f,-36f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
+                .setFirstPersonMain(-11f,17.5f,-35.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
                 .setThirdPersonRight(0.0f,-0.1f,1.2f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -464,15 +464,15 @@ public class Clients {
                 .setAds(0,14.7f,-29.5f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
-                        new InertialRecoilData(0f, 0f, 0.5f,
-                                0.048f, 0.4f,  0.03f,
+                        new InertialRecoilData(-0.01f, 0.02f, 0.5f,
+                                0.048f, 0.4f,  0.035f,
                                 0.32f,  0.3f,
                                 0.1f, 0.7f, 0.3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.4f, -96.6f).setScale(2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AR_COMPENSATOR, new MuzzleFlashDisplayData().setScale(3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(3.5f))
                 .setBulletShellDisplayData(new BulletShellDisplayData(2f, 2.4f, -1.6f, new Vector3f(1.35f, 0.2f, 0.1f), BulletShellModel.RIFLE).setScale(1.25f))
-                .setSprintingTrans(10.5f,11.5f,6, 18.5f, -38.5f, 19.5f)
+                .setSprintingTrans(8.5f,15.5f,0, -11.5f, -60.5f, 6.5f)
         );
 
         //attachment models register

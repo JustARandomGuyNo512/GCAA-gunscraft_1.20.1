@@ -182,12 +182,13 @@ public class ControllerEvents {
                 PacketHandler.simpleChannel.sendToServer(new OpenGunModifyScreenPacket());
                 ReloadingHandler.INSTANCE.breakTask();
                 HandActionHandler.INSTANCE.breakTask();
-            } else if (KeyBinds.OPEN_CLIENT_SETTINGS_SCREEN.isDown() && event.getAction() == 1) {
-                Minecraft.getInstance().setScreen(new ClientSettingsScreen());
-            } else if (KeyBinds.SWITCH_EFFECTIVE_SIGHT.isDown() && event.getAction() == 1) {
+            }
+//            else if (KeyBinds.OPEN_CLIENT_SETTINGS_SCREEN.isDown() && event.getAction() == 1) {
+//                Minecraft.getInstance().setScreen(new ClientSettingsScreen());
+//            }
+            else if (KeyBinds.SWITCH_EFFECTIVE_SIGHT.isDown() && event.getAction() == 1) {
                 Clients.MAIN_HAND_STATUS.attachmentsStatus.onSwitchEffectiveSight();
             }
-            //45
             if (event.getAction() == 1 && stackMain.getItem() instanceof IGun gun) {
                 AttachmentsHandler.INSTANCE.getAttachments(stackMain, gun).forEach((attachment) -> {
                     if (attachment instanceof IInteractive iInteractive) {

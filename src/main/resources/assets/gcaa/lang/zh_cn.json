@@ -159,7 +159,7 @@
   "tooltip.gun_info.recoil_control_horizontal": "水平后座控制：",
   "tooltip.gun_info.agility": "敏捷度：",
   "tooltip.gun_info.sprinting_spread_factor": "冲刺散布：",
-  "tooltip.gun_info.walking_spread_factor": "冲刺散布：",
+  "tooltip.gun_info.walking_spread_factor": "行走散布：",
   "tooltip.gun_info.spread": "子弹散布：",
   "tooltip.gun_info.spread_recover": "子弹散布恢复：",
   "tooltip.gun_info.weight": "重量：",

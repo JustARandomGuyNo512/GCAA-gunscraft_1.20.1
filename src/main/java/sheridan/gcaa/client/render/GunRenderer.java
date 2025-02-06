@@ -101,7 +101,6 @@ public class GunRenderer{
                 if (Clients.shouldHideFPRender) {
                     return;
                 }
-                int envLight = combinedLightIn;
                 if (ClientConfig.useDynamicWeaponLighting.get()) {
                     long dis = (System.currentTimeMillis() - tempLastFire);
                     if (dis < 30) {
@@ -112,7 +111,7 @@ public class GunRenderer{
                                 BlockPos.containing(entityIn.getEyePosition(particleTick))));
                     }
                 }
-                GunRenderContext context = GunRenderContext.getClientMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, envLight, combinedOverlayIn);
+                GunRenderContext context = GunRenderContext.getClientMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedLightIn, combinedOverlayIn);
                 if (newShoot) {
                     AnimationDefinition recoil = model.getRecoil(context);
                     if (recoil != null) {
