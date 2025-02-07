@@ -6,7 +6,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
-import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
@@ -20,8 +19,7 @@ import sheridan.gcaa.lib.ArsenalLib;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.lwjgl.opengl.GL43C.*;
-
+@Deprecated
 @OnlyIn(Dist.CLIENT)
 public abstract class GunModel extends HierarchicalModel<Entity> implements IGunModel {
     public final ModelPart root;
@@ -90,7 +88,7 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
 
     @Override
     public boolean hasSlot(String modelSlotName) {
-        return gun.hasChildRecursive(modelSlotName);
+        return gun.containsChild(modelSlotName);
     }
 
     @Override

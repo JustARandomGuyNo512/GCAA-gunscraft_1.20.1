@@ -382,6 +382,7 @@ public class GunRenderContext {
         }
     }
 
+    @Deprecated
     public void renderAllAttachmentsLeft(ModelPart layer) {
         if (attachmentsRenderContext != null) {
             attachmentsRenderContext.renderAll(this, layer);

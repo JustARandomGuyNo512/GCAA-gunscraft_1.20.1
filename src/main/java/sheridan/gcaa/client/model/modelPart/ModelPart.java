@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 @OnlyIn(Dist.CLIENT)
 public final class ModelPart {
     public static final ModelPart EMPTY = new ModelPart(List.of(), Map.of());
+    public ModelPart parent;
     public float x;
     public float y;
     public float z;
@@ -37,6 +38,9 @@ public final class ModelPart {
     public ModelPart(List<Cube> cubes, Map<String, ModelPart> children) {
         this.cubes = cubes;
         this.children = children;
+        for (ModelPart modelPart : children.values()) {
+            modelPart.parent = this;
+        }
     }
 
     public PartPose storePose() {
@@ -157,13 +161,14 @@ public final class ModelPart {
 
     public void addChild(String name, ModelPart child) {
         children.put(name, child);
+        child.parent = this;
     }
 
     public boolean hasChild(String childName)  {
         return children.containsKey(childName);
     }
 
-    public boolean hasChildRecursive(String childName)  {
+    public boolean containsChild(String childName)  {
         if (children.containsKey(childName)) {
             return true;
         } else {
@@ -332,7 +337,6 @@ public final class ModelPart {
     public Cube getCube(int index) {
         return cubes.get(index);
     }
-
 
     public void visit(PoseStack pPoseStack, Visitor pVisitor) {
         this.visit(pPoseStack, pVisitor, "");

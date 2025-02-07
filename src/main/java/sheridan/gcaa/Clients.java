@@ -164,7 +164,7 @@ public class Clients {
         CLIENT_WEAPON_LOOPER_TIMER.scheduleAtFixedRate(new ClientWeaponLooper(), 0, 5L);
 
         //gun models register
-        ArsenalLib.registerGunModel(ModItems.G19.get(), new G19Model(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.G19.get(), PistolModels.G19_MODEL, new DisplayData()
                 .setFirstPersonMain(-0.65f,3.1f,-7.3f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.245f, SCALE)
                 .setThirdPersonRight(0f, 0f, 0.5f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 1.2f, POS).set(DisplayData.GROUND, 0.15f, SCALE)

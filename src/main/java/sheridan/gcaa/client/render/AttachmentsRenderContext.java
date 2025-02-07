@@ -86,6 +86,7 @@ public class AttachmentsRenderContext {
         }
     }
 
+    @Deprecated
     public void renderAll(GunRenderContext context, ModelPart layer) {
         for (AttachmentRenderEntry entry : modelSlotLayer.values()) {
             if (!entry.rendered) {
