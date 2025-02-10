@@ -89,6 +89,14 @@
   "item.m203.m203_shell_out": { "subtitle": "item.m203.m203_shell_out", "sounds": [{ "name": "gcaa:m203/m203_shell_out" }]},
   "item.m203.m203_fire": { "subtitle": "item.m203.m203_fire", "sounds": [{ "name": "gcaa:m203/m203_fire" }]},
   "item.m60e4.fire": { "subtitle": "item.m60e4.fire", "sounds": [{ "name": "gcaa:m60e4/m60e4_fire" }]},
+  "item.m60e4.m60e4_cap_back": { "subtitle": "item.m60e4.m60e4_cap_back", "sounds": [{ "name": "gcaa:m60e4/m60e4_cap_back" }]},
+  "item.m60e4.m60e4_chain": { "subtitle": "item.m60e4.m60e4_chain", "sounds": [{ "name": "gcaa:m60e4/m60e4_chain" }]},
+  "item.m60e4.m60e4_charge_back": { "subtitle": "item.m60e4.m60e4_charge_back", "sounds": [{ "name": "gcaa:m60e4/m60e4_charge_back" }]},
+  "item.m60e4.m60e4_charge_forward": { "subtitle": "item.m60e4.m60e4_charge_forward", "sounds": [{ "name": "gcaa:m60e4/m60e4_charge_forward" }]},
+  "item.m60e4.m60e4_cover_off": { "subtitle": "item.m60e4.m60e4_cover_off", "sounds": [{ "name": "gcaa:m60e4/m60e4_cover_off" }]},
+  "item.m60e4.m60e4_cover_open": { "subtitle": "item.m60e4.m60e4_cover_open", "sounds": [{ "name": "gcaa:m60e4/m60e4_cover_open" }]},
+  "item.m60e4.m60e4_mag_attach": { "subtitle": "item.m60e4.m60e4_mag_attach", "sounds": [{ "name": "gcaa:m60e4/m60e4_mag_attach" }]},
+  "item.m60e4.m60e4_mag_off": { "subtitle": "item.m60e4.m60e4_mag_off", "sounds": [{ "name": "gcaa:m60e4/m60e4_mag_off" }]},
 
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},

@@ -198,6 +198,8 @@ public final class ModelPart {
         }
     }
 
+
+
     public ModelPart getUniqueChild() {
         return children.values().iterator().next();
     }

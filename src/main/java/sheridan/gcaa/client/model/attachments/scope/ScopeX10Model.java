@@ -44,7 +44,7 @@ public class ScopeX10Model extends ScopeModel implements ISlotProviderModel {
 
     @Override
     protected void renderModel(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        boolean active = context.isEffectiveSight(attachmentRenderEntry) && Clients.isInAds() && Clients.getAdsProgress() == 1f;
+        boolean active = context.isEffectiveSight(attachmentRenderEntry) && Clients.isInAds() && Clients.getAdsProgress() > 0.95f;
         AttachmentRenderEntry subScope = attachmentRenderEntry.getChild("s_sub_scope");
         sub_scope_adapter.visible = subScope != null;
         SightViewRenderer.renderScope(active, false, 0.75f, 0.8f, context,

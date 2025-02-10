@@ -34,6 +34,15 @@ public class CameraAnimationHandler {
         }
     }
 
+    public void mix(float yaw, float pitch, float roll) {
+        this.yaw += yaw;
+        this.pitch += pitch;
+        this.roll += roll;
+        if (yaw != 0 || pitch != 0 || roll != 0) {
+            dirty = true;
+        }
+    }
+
     public void apply(ViewportEvent.ComputeCameraAngles event) {
         if (dirty) {
             event.setYaw((float) Math.toDegrees(yaw) + event.getYaw());

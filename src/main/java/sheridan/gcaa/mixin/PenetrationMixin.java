@@ -36,7 +36,6 @@ public class PenetrationMixin {
                 if (penetration < 0.2f && absorbRate > 0.12f) {
                     finalDamage *= Mth.lerp(penetration / 0.2f, 0.75f, 0.1f);
                 }
-                System.out.println(finalDamage);
             } else {
                 float pRate = (float) (1 - Math.exp(- dis * 1.5f * (1 - absorbRate * absorbRate)));
                 finalDamage = Mth.lerp(pRate , damage, pDamageAmount);

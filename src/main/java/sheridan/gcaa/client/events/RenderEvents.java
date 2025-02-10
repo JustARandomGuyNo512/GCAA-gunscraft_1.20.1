@@ -31,6 +31,7 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.SprintingHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
+import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.model.attachments.ScopeModel;
 import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
@@ -264,20 +265,6 @@ public class RenderEvents {
             Minecraft minecraft = Minecraft.getInstance();
             if (minecraft.screen instanceof GunModifyScreen) {
                 event.setCanceled(true);
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void handleCameraAnimation(ViewportEvent.ComputeCameraAngles event) {
-        CameraAnimationHandler.INSTANCE.apply(event);
-    }
-
-    @SubscribeEvent
-    public static void onRenderLast(TickEvent.RenderTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) {
-            if (CameraAnimationHandler.INSTANCE.isDirty()) {
-                //CameraAnimationHandler.INSTANCE.clear();
             }
         }
     }

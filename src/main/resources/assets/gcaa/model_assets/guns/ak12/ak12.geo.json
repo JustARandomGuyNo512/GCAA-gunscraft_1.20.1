@@ -3707,38 +3707,38 @@
 				{
 					"name": "right_arm",
 					"parent": "gun",
-					"pivot": [-6.7, -15.3, 43],
+					"pivot": [-6.7, -14.8, 43],
 					"rotation": [-95.70021, -5.56048, 6.4325]
 				},
 				{
 					"name": "right_arm_slim",
 					"parent": "right_arm",
-					"pivot": [-6.7, -63.3, 43]
+					"pivot": [-6.7, -62.8, 43]
 				},
 				{
 					"name": "RAS",
 					"parent": "right_arm_slim",
-					"pivot": [-6.7, -63.3, 43]
+					"pivot": [-6.7, -62.8, 43]
 				},
 				{
 					"name": "RSS",
 					"parent": "right_arm_slim",
-					"pivot": [-6.7, -63.3, 43]
+					"pivot": [-6.7, -62.8, 43]
 				},
 				{
 					"name": "right_arm_normal",
 					"parent": "right_arm",
-					"pivot": [-8.7, -63.3, 43]
+					"pivot": [-8.7, -62.8, 43]
 				},
 				{
 					"name": "RA",
 					"parent": "right_arm_normal",
-					"pivot": [-8.7, -63.3, 43]
+					"pivot": [-8.7, -62.8, 43]
 				},
 				{
 					"name": "RS",
 					"parent": "right_arm_normal",
-					"pivot": [-8.7, -63.3, 43]
+					"pivot": [-8.7, -62.8, 43]
 				},
 				{
 					"name": "left_arm",
@@ -3750,7 +3750,7 @@
 					"name": "left_arm_slim",
 					"parent": "left_arm",
 					"pivot": [22.8, -81.4, -20.1],
-					"rotation": [0, 0, -1]
+					"rotation": [0, -0.75, -1]
 				},
 				{
 					"name": "LAS",
@@ -3766,7 +3766,7 @@
 					"name": "left_arm_normal",
 					"parent": "left_arm",
 					"pivot": [24.8, -81.4, -20.1],
-					"rotation": [0, 0, -1]
+					"rotation": [0, -0.75, -1]
 				},
 				{
 					"name": "LA",

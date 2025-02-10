@@ -241,4 +241,14 @@ public abstract class NewGunModel extends HierarchicalModel<Entity> implements I
             KeyframeAnimations.animate(this, shoot, Clients.lastShootMain(), 1);
         }
     }
+
+    protected void defaultAssaultRifleAnimation(GunRenderContext gunRenderContext, AnimationDefinition shoot)  {
+        if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
+            KeyframeAnimations.animate(this, shoot, gunRenderContext.lastShoot,1);
+            if (gunRenderContext.isFirstPerson) {
+                AnimationHandler.INSTANCE.applyReload(this);
+                CameraAnimationHandler.INSTANCE.mix(camera);
+            }
+        }
+    }
 }

@@ -47,8 +47,9 @@ public class AKRailBracketModel implements IAttachmentModel, ISlotProviderModel 
         } else {
             context.render(rail, context.getBuffer(RenderType.entityCutout(texture)));
         }
-        context.translateTo(rail);
+        context.pushPose().translateTo(rail);
         context.renderEntry(attachmentRenderEntry.getChild("s_rail_bracket_scope"), slot_scope);
+        context.popPose();
         rail.resetPose();
     }
 

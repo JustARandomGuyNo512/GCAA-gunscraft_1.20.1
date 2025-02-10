@@ -16,7 +16,7 @@ public class M249 extends MG {
 
     public M249() {
         super(new GunProperties(2.5f, 1.1f, 2.9f, 0.85f, 0.14f,
-                3.5f, GunProperties.toRPM(750), getTicks(5.25f), getTicks(6.6f), 150,
+                3.5f, GunProperties.toRPM(700), getTicks(5.25f), getTicks(6.6f), 150,
                 1.6f, 0.6f, 0.1f, 0.1f, 30, List.of(Auto.AUTO),
                 ModSounds.M249_FIRE, null, caliber));
     }

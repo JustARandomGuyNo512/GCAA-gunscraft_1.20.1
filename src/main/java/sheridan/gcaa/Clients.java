@@ -221,7 +221,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.M4A1.get(), new M4a1Model(), new DisplayData()
-                .setFirstPersonMain(-12f,15.1f,-31.3f, POS)
+                .setFirstPersonMain(-12.3f,15.1f,-31.3f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -282,8 +282,8 @@ public class Clients {
                 .setAds(0,13.65f,-28f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
-                        new InertialRecoilData(-0.125f, 0.05f, 0.4f,
-                                0.065f, -0.14f,  0.07f,
+                        new InertialRecoilData(-0.05f, 0.08f, 0.4f,
+                                0.065f, 0.15f,  0.07f,
                                 0.3f, 0.7f, 0.34f, 0.7f,
                                 0.1f, 0.7f, 0.25f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 5.7f, -113.1f).setScale(2.1f))
@@ -333,7 +333,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.MK47.get(), new Mk47Model(), new DisplayData()
-                .setFirstPersonMain(-11.9f,14.6f,-31f, POS)
+                .setFirstPersonMain(-12.5f,14.7f,-31.1f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.6f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -373,7 +373,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AK12.get(), new Ak12Model(), new DisplayData()
-                .setFirstPersonMain(-14.1f,15.8f,-33.9f, POS)
+                .setFirstPersonMain(-14.5f,15.6f,-34.4f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -392,7 +392,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.BERETTA_686.get(), new Beretta686Model(), new DisplayData()
-                .setFirstPersonMain(-10.9f,13.1f,-33.8f, POS)
+                .setFirstPersonMain(-11f,13.1f,-33.3f, POS)
                 .setThirdPersonRight(0.0f,-0.2f,-0.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -442,7 +442,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.FN_BALLISTA.get(), new FnBallistaModel(), new DisplayData()
-                .setFirstPersonMain(-11.5f,13.9f,-32.5f, POS)
+                .setFirstPersonMain(-11.8f,13.7f,-32.4f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,-1.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -456,12 +456,12 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.M60E4.get(), new M60E4Model(), new DisplayData()
-                .setFirstPersonMain(-11f,17.5f,-35.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
+                .setFirstPersonMain(-12f,15.5f,-37.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
                 .setThirdPersonRight(0.0f,-0.1f,1.2f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,14.7f,-29.5f, POS)
+                .setAds(0,14.7f,-31f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(-0.01f, 0.02f, 0.5f,

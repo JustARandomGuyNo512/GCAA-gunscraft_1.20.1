@@ -15,6 +15,6 @@ public class PistolModels {
             new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19.png"),
             new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19_low.geo.json"),
             new ResourceLocation(GCAA.MODID, "model_assets/guns/g19/g19_low.png"),
-            5, 0.4f, 0.25f, 5f);
+            5, 0.4f, 0.28f, 4.5f);
 
 }

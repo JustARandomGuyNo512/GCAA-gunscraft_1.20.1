@@ -106,6 +106,14 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> M203_SHELL_OUT = registerSound("m203_shell_out", "item.m203.m203_shell_out");
     public static RegistryObject<SoundEvent> M203_FIRE = registerSound("m203_fire", "item.m203.m203_fire");
     public static RegistryObject<SoundEvent> M60E4_FIRE = registerSound("m60e4_fire", "item.m60e4.fire");
+    public static RegistryObject<SoundEvent> M60E4_CAP_BACK = registerSound("m60e4_cap_back", "item.m60e4.m60e4_cap_back");
+    public static RegistryObject<SoundEvent> M60E4_CHAIN = registerSound("m60e4_chain", "item.m60e4.m60e4_chain");
+    public static RegistryObject<SoundEvent> M60E4_CHARGE_BACK = registerSound("m60e4_charge_back", "item.m60e4.m60e4_charge_back");
+    public static RegistryObject<SoundEvent> M60E4_CHARGE_FORWARD = registerSound("m60e4_charge_forward", "item.m60e4.m60e4_charge_forward");
+    public static RegistryObject<SoundEvent> M60E4_COVER_OFF = registerSound("m60e4_cover_off", "item.m60e4.m60e4_cover_off");
+    public static RegistryObject<SoundEvent> M60E4_COVER_OPEN = registerSound("m60e4_cover_open", "item.m60e4.m60e4_cover_open");
+    public static RegistryObject<SoundEvent> M60E4_MAG_ATTACH = registerSound("m60e4_mag_attach", "item.m60e4.m60e4_mag_attach");
+    public static RegistryObject<SoundEvent> M60E4_MAG_OFF = registerSound("m60e4_mag_off", "item.m60e4.m60e4_mag_off");
 
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");

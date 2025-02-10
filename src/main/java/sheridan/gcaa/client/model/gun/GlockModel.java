@@ -27,6 +27,11 @@ public class GlockModel extends NewAutoMagPositionModel{
         this.chargeBarrelRot = (float) Math.toRadians(chargeBarrelRot);
     }
 
+    public GlockModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture,
+                      float chargeSlideBack, float chargeBarrelBack, float chargeBarrelDown, float chargeBarrelRot) {
+        this(modelPath, animationPath, texture, null, null, chargeSlideBack, chargeBarrelBack, chargeBarrelDown, chargeBarrelRot);
+    }
+
     @Override
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {
         super.postInit(main, gun, root);
