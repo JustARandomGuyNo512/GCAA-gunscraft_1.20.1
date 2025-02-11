@@ -4,6 +4,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -59,6 +60,11 @@ public class ModBlocks {
     public static final RegistryObject<Block> ORE_ASPHALT = BLOCKS.register(
             "ore_asphalt", () -> new Block(
                     BlockBehaviour.Properties.copy(Blocks.COAL_ORE)
+            )
+    );
+    public static final RegistryObject<Block> AIR_LIGHT_BLOCK = BLOCKS.register(
+            "air_light_block", () -> new AirLightBlock(
+                    BlockBehaviour.Properties.of().replaceable().noCollission().noLootTable().air().lightLevel((x) -> 10)
             )
     );
 }

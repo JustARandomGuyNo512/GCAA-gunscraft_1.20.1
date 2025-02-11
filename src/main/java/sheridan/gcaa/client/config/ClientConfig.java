@@ -16,6 +16,7 @@ public class ClientConfig {
     public static ForgeConfigSpec.BooleanValue renderLowQualityModelInTPView;
     public static ForgeConfigSpec.BooleanValue renderLowQualityModelInGroundView;
     public static ForgeConfigSpec.BooleanValue renderLowQualityModelInOtherView;
+    public static ForgeConfigSpec.BooleanValue enableMuzzleFlashLighting;
 
     static {
         BUILDER.comment("在渲染GUI中的枪械模型时是否要渲染配件，此项设置为false可降低性能消耗\nWhether to renderByModelSlotName attachments when rendering a gun model in the GUI. Setting this to false reduces performance costs");
@@ -41,6 +42,9 @@ public class ClientConfig {
         BUILDER.comment("\n");
         BUILDER.comment("在第一人称渲染已经以上配置之外的情景下渲染低质量模型（如果模型支持），可以提升性能\nRendering low-quality models (if the model supports it) in situations where first-person rendering is already beyond the above configuration can improve performance");
         renderLowQualityModelInOtherView = BUILDER.define("render_low_quality_model_other", false);
+        BUILDER.comment("\n");
+        BUILDER.comment("在第一人称下开枪对环境的光照效果，实验性选项可能不稳定\nThe lighting effect on the environment when shooting in first person, experimental options can be unstable");
+        enableMuzzleFlashLighting = BUILDER.define("enable_muzzle_flash_lighting", true);
         SPEC = BUILDER.build();
     }
 
