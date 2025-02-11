@@ -222,6 +222,11 @@ public class RenderEvents {
     }
 
     @SubscribeEvent
+    public static void handleCameraAnimation(ViewportEvent.ComputeCameraAngles event) {
+        CameraAnimationHandler.INSTANCE.apply(event);
+    }
+
+    @SubscribeEvent
     public static void onRenderTick(TickEvent.RenderTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             if (Clients.MAIN_HAND_STATUS.isHoldingGun()) {
