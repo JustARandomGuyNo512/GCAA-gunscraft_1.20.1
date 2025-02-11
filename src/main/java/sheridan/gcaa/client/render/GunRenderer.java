@@ -101,7 +101,7 @@ public class GunRenderer{
                 if (Clients.shouldHideFPRender) {
                     return;
                 }
-                if (ClientConfig.useDynamicWeaponLighting.get()) {
+                if (ClientConfig.useDynamicWeaponLighting.get() && !ClientConfig.enableMuzzleFlashLighting.get()) {
                     long dis = (System.currentTimeMillis() - tempLastFire);
                     if (dis < 30) {
                         float particleTick = Minecraft.getInstance().getPartialTick();

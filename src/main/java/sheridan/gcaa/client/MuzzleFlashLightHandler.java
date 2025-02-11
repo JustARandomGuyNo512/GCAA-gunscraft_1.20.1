@@ -13,45 +13,53 @@ import sheridan.gcaa.blocks.ModBlocks;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.IGun;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber
 public class MuzzleFlashLightHandler {
     private static Level level;
-    private static final Map<BlockPos, BlockState> temp = new ConcurrentHashMap<>();
-    private static final AtomicBoolean hasWork = new AtomicBoolean();
+    private static Player player;
+    private static final Map<BlockPos, BlockState> temp = new HashMap<>();
+    private static final AtomicInteger work = new AtomicInteger(0);
+    private static long timeStamp = 0;
 
     public static void onClientShoot(ItemStack itemStack, IGun gun, Player player) {
         if (Gun.MUZZLE_STATE_SUPPRESSOR.equals(gun.getMuzzleFlash(itemStack))) {
             return;
         }
-        Minecraft.getInstance().execute(() -> {
-            if (Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
-                level = player.level();
+        work.set(1);
+        level = player.level();
+        MuzzleFlashLightHandler.player = player;
+    }
+
+    @SubscribeEvent
+    public static void onRenderTick(TickEvent.RenderTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {
+            if (player == null || level == null) {
+                return;
+            }
+            if (work.get() == 1) {
                 BlockPos above = player.getOnPos().above((int) player.getEyeHeight());
                 BlockState blockState = player.level().getBlockState(above);
                 if (blockState.isAir() && level.getLightEmission(above) < 10) {
-                    temp.put(above, blockState);
+                    if (!temp.containsKey(above)) {
+                        temp.put(above, blockState);
+                    }
                     level.setBlock(above, ModBlocks.AIR_LIGHT_BLOCK.get().defaultBlockState(), 1);
-                    hasWork.set(true);
+                    level.getLightEngine().checkBlock(above);
+                    timeStamp = System.currentTimeMillis();
                 }
+                work.set(0);
+            } else if (timeStamp != 0 && System.currentTimeMillis() - timeStamp > 30) {
+                for (Map.Entry<BlockPos, BlockState> entry : temp.entrySet()) {
+                    level.setBlock(entry.getKey(), entry.getValue(), 1);
+                    level.getLightEngine().checkBlock(entry.getKey());
+                }
+                temp.clear();
+                timeStamp = 0;
             }
-        });
-    }
-    @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (hasWork.get() && event.phase == TickEvent.Phase.END && level != null) {
-            Set<BlockPos> remove = new HashSet<>();
-            for (Map.Entry<BlockPos, BlockState> entry : temp.entrySet()) {
-                level.setBlock(entry.getKey(), entry.getValue(), 1);
-                remove.add(entry.getKey());
-            }
-            temp.keySet().removeAll(remove);
-            hasWork.set(false);
         }
     }
 
