@@ -51,6 +51,7 @@ public class AKImprovedDustCoverModel implements IAttachmentModel, ISlotProvider
         root.copyFrom(pose);
         low.visible = context.useLowQuality();
         dust_cover.visible = !low.visible;
+        System.out.println(low.visible);
         context.render(root, context.getBuffer(RenderType.entityCutout(texture)));
         context.pushPose().translateTo(root, dust_cover).renderEntry(attachmentRenderEntry.getChild("s_dust_cover_scope"), slot_scope);
         context.popPose();

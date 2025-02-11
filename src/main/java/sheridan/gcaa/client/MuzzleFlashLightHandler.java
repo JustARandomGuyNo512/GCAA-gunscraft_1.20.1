@@ -16,7 +16,6 @@ import sheridan.gcaa.items.gun.IGun;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber
 public class MuzzleFlashLightHandler {

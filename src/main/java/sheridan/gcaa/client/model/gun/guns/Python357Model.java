@@ -125,9 +125,9 @@ public class Python357Model extends LodGunModel {
         float chargeProgress = Clients.MAIN_HAND_STATUS.getLerpedChargeTick(Minecraft.getInstance().getPartialTick());
         int ammoLeft = context.ammoLeft;
         if (chargeProgress != 0) {
-            hammer.xRot = -Mth.lerp(chargeProgress, 0, R_45);
+            hammer.addxRot(-Mth.lerp(chargeProgress, 0, R_45));
         }
-        drum.zRot = -Mth.lerp(chargeProgress, (6 - ammoLeft) * R_60, (6 - ammoLeft + 1) * R_60);
+        drum.addzRot(-Mth.lerp(chargeProgress, (6 - ammoLeft) * R_60, (6 - ammoLeft + 1) * R_60));
     }
 
     private void handleBulletsVisible(GunRenderContext context) {

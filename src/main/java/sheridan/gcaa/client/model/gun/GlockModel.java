@@ -48,14 +48,14 @@ public class GlockModel extends NewAutoMagPositionModel{
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
-        VertexConsumer vertexConsumer = context.solid(texture);
+        VertexConsumer vertexConsumer = getDefaultVertex(context);
         bullet.visible = context.shouldBulletRender();
         mag.visible = context.notHasMag();
         if (context.isFirstPerson && context.ammoLeft == 0 && !ReloadingHandler.isReloading()) {
-            slide.z += chargeSlideBack;
-            barrel.z += chargeBarrelBack;
-            barrel.y += chargeBarrelDown;
-            barrel.xRot -= chargeBarrelRot;
+            slide.addZ(chargeSlideBack);
+            barrel.addZ(chargeBarrelBack);
+            barrel.addY(chargeBarrelDown);
+            barrel.addxRot(-chargeBarrelRot);
         }
         context.render(vertexConsumer, main);
         if (context.shouldShowLeftArm()) {
@@ -73,7 +73,7 @@ public class GlockModel extends NewAutoMagPositionModel{
     protected void renderGunModelLowQuality(GunRenderContext context) {
         slide_low_quality.copyFrom(slide);
         barrel_low_quality.copyFrom(barrel);
-        VertexConsumer vertexConsumer = context.solid(lowQualityTexture);
+        VertexConsumer vertexConsumer = getDefaultVertexLow(context);
         mag_low_quality.visible = context.notHasMag();
         context.render(vertexConsumer, lowQualityMain);
     }
@@ -81,8 +81,6 @@ public class GlockModel extends NewAutoMagPositionModel{
     @Override
     protected void afterRender(GunRenderContext context) {
         super.afterRender(context);
-        slide.resetPose();
-        barrel.resetPose();
         if (getShouldRenderLowQuality(context)) {
             slide_low_quality.resetPose();
             barrel_low_quality.resetPose();

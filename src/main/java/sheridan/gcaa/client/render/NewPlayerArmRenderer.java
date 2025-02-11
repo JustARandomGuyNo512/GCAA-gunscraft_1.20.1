@@ -145,7 +145,7 @@ public class NewPlayerArmRenderer {
                     copyPoseRightNormal(poseLayer, sx, sy, sz);
                 }
                 right_arm.render(poseStack, vertexConsumer, light, overlay, 1, 1, 1, 1, true);
-                right_arm.resetPoseAll();
+                right_arm.forceResetPoseAll();
             } else {
                 if (isPlayerModelSlim) {
                     copyPoseLeftSlim(poseLayer, sx, sy, sz);
@@ -153,7 +153,7 @@ public class NewPlayerArmRenderer {
                     copyPoseLeftNormal(poseLayer, sx, sy, sz);
                 }
                 left_arm.render(poseStack, vertexConsumer, light, overlay, 1, 1, 1, 1, true);
-                left_arm.resetPoseAll();
+                left_arm.forceResetPoseAll();
             }
         }
     }

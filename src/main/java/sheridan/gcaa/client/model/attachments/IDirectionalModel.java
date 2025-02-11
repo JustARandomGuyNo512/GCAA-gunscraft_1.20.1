@@ -26,7 +26,7 @@ public interface IDirectionalModel extends IAttachmentModel{
                 throw new IllegalStateException("Directional Attachment model must have a direction: UPPER(" + UPPER + ") or LOWER(" + LOWER + ")");
             }
             if (thisDirection != slotDirection) {
-                root.zRot += R_180;
+                root.addzRot(R_180);
             }
         }
         root.translateAndRotate(context.poseStack);

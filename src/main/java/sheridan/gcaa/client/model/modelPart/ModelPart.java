@@ -34,6 +34,7 @@ public final class ModelPart {
     private PartPose initialPose = PartPose.ZERO;
     private Polygon[] polygons;
     private boolean meshed = false;
+    private boolean visited = false;
 
     public ModelPart(List<Cube> cubes, Map<String, ModelPart> children) {
         this.cubes = cubes;
@@ -59,7 +60,15 @@ public final class ModelPart {
      * Load initial pose
      * */
     public void resetPose() {
+        if (visited) {
+            this.loadPose(this.initialPose);
+            visited = false;
+        }
+    }
+
+    public void forceResetPose() {
         this.loadPose(this.initialPose);
+        visited = false;
     }
 
     /**
@@ -70,6 +79,17 @@ public final class ModelPart {
         for (ModelPart modelPart : this.children.values()) {
             modelPart.resetPoseAll();
         }
+    }
+
+    public void forceResetPoseAll() {
+        forceResetPose();
+        for (ModelPart modelPart : this.children.values()) {
+            modelPart.forceResetPoseAll();
+        }
+    }
+
+    public void setVisited() {
+        this.visited = true;
     }
 
     /**
@@ -85,6 +105,7 @@ public final class ModelPart {
         xScale = 1.0F;
         yScale = 1.0F;
         zScale = 1.0F;
+        visited = true;
     }
 
     /**
@@ -100,6 +121,7 @@ public final class ModelPart {
         xScale = tag.getFloat(6);
         yScale = tag.getFloat(7);
         zScale = tag.getFloat(8);
+        visited = true;
     }
 
     /**
@@ -115,6 +137,7 @@ public final class ModelPart {
         xScale = translation[6];
         yScale = translation[7];
         zScale = translation[8];
+        visited = true;
     }
 
     /**
@@ -130,6 +153,7 @@ public final class ModelPart {
         x = modelPart.x;
         y = modelPart.y;
         z = modelPart.z;
+        visited = true;
     }
 
     /**
@@ -149,6 +173,7 @@ public final class ModelPart {
         x += (to.x - x) * progress;
         y += (to.y - y) * progress;
         z += (to.z - z) * progress;
+        visited = true;
     }
 
     public void resetChildLayerName(String name, String newName) {
@@ -162,6 +187,96 @@ public final class ModelPart {
     public void addChild(String name, ModelPart child) {
         children.put(name, child);
         child.parent = this;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+        visited = true;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+        visited = true;
+    }
+
+    public void setZ(float z) {
+        this.z = z;
+        visited = true;
+    }
+
+    public void setxRot(float xRot) {
+        this.xRot = xRot;
+        visited = true;
+    }
+
+    public void setyRot(float yRot) {
+        this.yRot = yRot;
+        visited = true;
+    }
+
+    public void setzRot(float zRot) {
+        this.zRot = zRot;
+        visited = true;
+    }
+
+    public void setxScale(float xScale) {
+        this.xScale = xScale;
+        visited = true;
+    }
+
+    public void setyScale(float yScale) {
+        this.yScale = yScale;
+        visited = true;
+    }
+
+    public void setzScale(float zScale) {
+        this.zScale = zScale;
+        visited = true;
+    }
+
+    public void addX(float x) {
+        this.x += x;
+        visited = true;
+    }
+
+    public void addY(float y) {
+        this.y += y;
+        visited = true;
+    }
+
+    public void addZ(float z) {
+        this.z += z;
+        visited = true;
+    }
+
+    public void addxRot(float xRot) {
+        this.xRot += xRot;
+        visited = true;
+    }
+
+    public void addyRot(float yRot) {
+        this.yRot += yRot;
+        visited = true;
+    }
+
+    public void addzRot(float zRot) {
+        this.zRot += zRot;
+        visited = true;
+    }
+
+    public void addxScale(float xScale) {
+        this.xScale += xScale;
+        visited = true;
+    }
+
+    public void addyScale(float yScale) {
+        this.yScale += yScale;
+        visited = true;
+    }
+
+    public void addzScale(float zScale) {
+        this.zScale += zScale;
+        visited = true;
     }
 
     public boolean hasChild(String childName)  {
@@ -198,8 +313,6 @@ public final class ModelPart {
         }
     }
 
-
-
     public ModelPart getUniqueChild() {
         return children.values().iterator().next();
     }
@@ -229,12 +342,14 @@ public final class ModelPart {
         this.x = x;
         this.y = y;
         this.z = z;
+        visited = true;
     }
 
     public void setRotation(float rx, float ry, float rz) {
         this.xRot = rx;
         this.yRot = ry;
         this.zRot = rz;
+        visited = true;
     }
 
     public void render(PoseStack poseStack, VertexConsumer vertexConsumer, int pPackedLight, int pPackedOverlay) {
@@ -372,13 +487,6 @@ public final class ModelPart {
         }
     }
 
-    public void applyInitialPose(PoseStack poseStack) {
-        poseStack.translate(initialPose.x * 0.0625F, initialPose.y * 0.0625F, initialPose.z * 0.0625F);
-        if (initialPose.xRot != 0.0F || initialPose.yRot != 0.0F || initialPose.zRot != 0.0F) {
-            poseStack.mulPose((new Quaternionf()).rotationZYX(this.zRot, this.yRot, this.xRot));
-        }
-    }
-
     private void compile(PoseStack.Pose pose, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
         for(Cube cube : this.cubes) {
             cube.compile(pose, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
@@ -397,18 +505,21 @@ public final class ModelPart {
         this.x += pos.x();
         this.y += pos.y();
         this.z += pos.z();
+        visited = true;
     }
 
     public void offsetRotation(Vector3f rot) {
         this.xRot += rot.x();
         this.yRot += rot.y();
         this.zRot += rot.z();
+        visited = true;
     }
 
     public void offsetScale(Vector3f scale) {
         this.xScale += scale.x();
         this.yScale += scale.y();
         this.zScale += scale.z();
+        visited = true;
     }
 
     public Stream<ModelPart> getAllParts() {

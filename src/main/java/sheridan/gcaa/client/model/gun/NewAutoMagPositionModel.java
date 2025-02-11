@@ -12,6 +12,7 @@ import sheridan.gcaa.items.gun.IGun;
 @OnlyIn(Dist.CLIENT)
 public abstract class NewAutoMagPositionModel extends NewGunModel{
     protected ModelPart mag;
+    protected ModelPart low_quality_mag;
 
     public NewAutoMagPositionModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture, @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture) {
         super(modelPath, animationPath, texture, lowQualityModelPath, lowQualityTexture);
@@ -25,6 +26,9 @@ public abstract class NewAutoMagPositionModel extends NewGunModel{
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {
         super.postInit(main, gun, root);
         mag = main.getChild("mag");
+        if (lowQualityLoaded) {
+            low_quality_mag = lowQualityMain.getChild("mag");
+        }
     }
 
     @Override
@@ -52,8 +56,7 @@ public abstract class NewAutoMagPositionModel extends NewGunModel{
     }
 
     @Override
-    protected void afterRender(GunRenderContext context) {
-        super.afterRender(context);
-        mag.resetPose();
+    protected void renderGunModelLowQuality(GunRenderContext context) {
+        low_quality_mag.visible = context.notHasMag();
     }
 }

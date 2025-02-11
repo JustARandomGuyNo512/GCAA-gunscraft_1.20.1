@@ -40,7 +40,7 @@ public class AnnihilatorModel extends GunModel {
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = context.solid(TEXTURE);
         if (context.ammoLeft == 0 && !ReloadingHandler.isReloading()) {
-            slide.z -= 16;
+            slide.addZ(16);
         }
         context.render(main, vertexConsumer);
         if (context.isFirstPerson) {

@@ -1,6 +1,7 @@
 package sheridan.gcaa.client.model.gun;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -114,6 +115,14 @@ public abstract class NewGunModel extends HierarchicalModel<Entity> implements I
     protected abstract void animationGlobal(GunRenderContext context);
     protected abstract void renderGunModelLowQuality(GunRenderContext context);
 
+    protected VertexConsumer getDefaultVertex(GunRenderContext context) {
+        return context.solid(texture);
+    }
+
+    protected VertexConsumer getDefaultVertexLow(GunRenderContext context) {
+        return context.solid(lowQualityTexture);
+    }
+
     protected void renderAttachmentsModel(GunRenderContext context) {
         AttachmentsRenderContext attachmentsRenderContext = context.attachmentsRenderContext;
         if (attachmentsRenderContext == null) {
@@ -161,12 +170,7 @@ public abstract class NewGunModel extends HierarchicalModel<Entity> implements I
     }
 
     protected void afterRender(GunRenderContext context) {
-        root.resetPose();
-        gun.resetPose();
-        main.resetPose();
-        left_arm.resetPoseAll();
-        right_arm.resetPoseAll();
-        camera.resetPose();
+        root.resetPoseAll();
     }
 
     protected void saveOriginalPoseInFirstPerson(GunRenderContext gunRenderContext) {
