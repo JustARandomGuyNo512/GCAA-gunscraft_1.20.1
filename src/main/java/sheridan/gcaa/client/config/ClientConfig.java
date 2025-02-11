@@ -43,7 +43,7 @@ public class ClientConfig {
         BUILDER.comment("在第一人称渲染已经以上配置之外的情景下渲染低质量模型（如果模型支持），可以提升性能\nRendering low-quality models (if the model supports it) in situations where first-person rendering is already beyond the above configuration can improve performance");
         renderLowQualityModelInOtherView = BUILDER.define("render_low_quality_model_other", false);
         BUILDER.comment("\n");
-        BUILDER.comment("在第一人称下开枪对环境的光照效果，实验性选项可能不稳定\nThe lighting effect on the environment when shooting in first person, experimental options can be unstable");
+        BUILDER.comment("在第一人称下开枪对环境的光照效果，实验性选项可能不稳定，可能造成低FPS\nThe lighting effect on the environment when shooting in first person, experimental options may be unstable and may result in low FPS");
         enableMuzzleFlashLighting = BUILDER.define("enable_muzzle_flash_lighting", true);
         SPEC = BUILDER.build();
     }

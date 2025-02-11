@@ -15,6 +15,7 @@ import sheridan.gcaa.items.gun.IGun;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber
@@ -22,14 +23,17 @@ public class MuzzleFlashLightHandler {
     private static Level level;
     private static Player player;
     private static final Map<BlockPos, BlockState> temp = new HashMap<>();
-    private static final AtomicInteger work = new AtomicInteger(0);
+    private static final AtomicBoolean work = new AtomicBoolean(false);
     private static long timeStamp = 0;
 
     public static void onClientShoot(ItemStack itemStack, IGun gun, Player player) {
+        if (!Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
+            return;
+        }
         if (Gun.MUZZLE_STATE_SUPPRESSOR.equals(gun.getMuzzleFlash(itemStack))) {
             return;
         }
-        work.set(1);
+        work.set(true);
         level = player.level();
         MuzzleFlashLightHandler.player = player;
     }
@@ -40,10 +44,11 @@ public class MuzzleFlashLightHandler {
             if (player == null || level == null) {
                 return;
             }
-            if (work.get() == 1) {
-                BlockPos above = player.getOnPos().above((int) player.getEyeHeight());
+            if (work.get()) {
+                BlockPos above = player.getOnPos().above((int) player.getEyeHeight() + 1);
                 BlockState blockState = player.level().getBlockState(above);
-                if (blockState.isAir() && level.getLightEmission(above) < 10) {
+
+                if (blockState.getFluidState().isEmpty() && level.getLightEmission(above) < 10) {
                     if (!temp.containsKey(above)) {
                         temp.put(above, blockState);
                     }
@@ -51,11 +56,14 @@ public class MuzzleFlashLightHandler {
                     level.getLightEngine().checkBlock(above);
                     timeStamp = System.currentTimeMillis();
                 }
-                work.set(0);
+                work.set(false);
             } else if (timeStamp != 0 && System.currentTimeMillis() - timeStamp > 30) {
                 for (Map.Entry<BlockPos, BlockState> entry : temp.entrySet()) {
-                    level.setBlock(entry.getKey(), entry.getValue(), 1);
-                    level.getLightEngine().checkBlock(entry.getKey());
+                    BlockPos key = entry.getKey();
+                    if (level.getBlockState(key).getFluidState().isEmpty()) {
+                        level.setBlock(key, entry.getValue(), 1);
+                        level.getLightEngine().checkBlock(key);
+                    }
                 }
                 temp.clear();
                 timeStamp = 0;
