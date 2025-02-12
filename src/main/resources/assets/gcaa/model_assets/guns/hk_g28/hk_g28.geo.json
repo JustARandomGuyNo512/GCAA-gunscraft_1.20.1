@@ -185,11 +185,6 @@
 					"pivot": [0, 8.8, -11]
 				},
 				{
-					"name": "s_mag",
-					"parent": "main",
-					"pivot": [0, -7, -16]
-				},
-				{
 					"name": "s_stock",
 					"parent": "main",
 					"pivot": [0, 2.9, 32]

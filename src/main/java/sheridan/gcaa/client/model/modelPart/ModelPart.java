@@ -34,7 +34,7 @@ public final class ModelPart {
     private PartPose initialPose = PartPose.ZERO;
     private Polygon[] polygons;
     private boolean meshed = false;
-    private boolean visited = false;
+    private boolean touched = false;
 
     public ModelPart(List<Cube> cubes, Map<String, ModelPart> children) {
         this.cubes = cubes;
@@ -60,15 +60,15 @@ public final class ModelPart {
      * Load initial pose
      * */
     public void resetPose() {
-        if (visited) {
+        if (touched) {
             this.loadPose(this.initialPose);
-            visited = false;
+            touched = false;
         }
     }
 
     public void forceResetPose() {
         this.loadPose(this.initialPose);
-        visited = false;
+        touched = false;
     }
 
     /**
@@ -88,8 +88,8 @@ public final class ModelPart {
         }
     }
 
-    public void setVisited() {
-        this.visited = true;
+    public void setTouched() {
+        this.touched = true;
     }
 
     /**
@@ -105,7 +105,7 @@ public final class ModelPart {
         xScale = 1.0F;
         yScale = 1.0F;
         zScale = 1.0F;
-        visited = true;
+        touched = true;
     }
 
     /**
@@ -121,7 +121,7 @@ public final class ModelPart {
         xScale = tag.getFloat(6);
         yScale = tag.getFloat(7);
         zScale = tag.getFloat(8);
-        visited = true;
+        touched = true;
     }
 
     /**
@@ -137,7 +137,7 @@ public final class ModelPart {
         xScale = translation[6];
         yScale = translation[7];
         zScale = translation[8];
-        visited = true;
+        touched = true;
     }
 
     /**
@@ -153,7 +153,7 @@ public final class ModelPart {
         x = modelPart.x;
         y = modelPart.y;
         z = modelPart.z;
-        visited = true;
+        touched = true;
     }
 
     /**
@@ -173,7 +173,7 @@ public final class ModelPart {
         x += (to.x - x) * progress;
         y += (to.y - y) * progress;
         z += (to.z - z) * progress;
-        visited = true;
+        touched = true;
     }
 
     public void resetChildLayerName(String name, String newName) {
@@ -191,92 +191,92 @@ public final class ModelPart {
 
     public void setX(float x) {
         this.x = x;
-        visited = true;
+        touched = true;
     }
 
     public void setY(float y) {
         this.y = y;
-        visited = true;
+        touched = true;
     }
 
     public void setZ(float z) {
         this.z = z;
-        visited = true;
+        touched = true;
     }
 
     public void setxRot(float xRot) {
         this.xRot = xRot;
-        visited = true;
+        touched = true;
     }
 
     public void setyRot(float yRot) {
         this.yRot = yRot;
-        visited = true;
+        touched = true;
     }
 
     public void setzRot(float zRot) {
         this.zRot = zRot;
-        visited = true;
+        touched = true;
     }
 
     public void setxScale(float xScale) {
         this.xScale = xScale;
-        visited = true;
+        touched = true;
     }
 
     public void setyScale(float yScale) {
         this.yScale = yScale;
-        visited = true;
+        touched = true;
     }
 
     public void setzScale(float zScale) {
         this.zScale = zScale;
-        visited = true;
+        touched = true;
     }
 
     public void addX(float x) {
         this.x += x;
-        visited = true;
+        touched = true;
     }
 
     public void addY(float y) {
         this.y += y;
-        visited = true;
+        touched = true;
     }
 
     public void addZ(float z) {
         this.z += z;
-        visited = true;
+        touched = true;
     }
 
     public void addxRot(float xRot) {
         this.xRot += xRot;
-        visited = true;
+        touched = true;
     }
 
     public void addyRot(float yRot) {
         this.yRot += yRot;
-        visited = true;
+        touched = true;
     }
 
     public void addzRot(float zRot) {
         this.zRot += zRot;
-        visited = true;
+        touched = true;
     }
 
     public void addxScale(float xScale) {
         this.xScale += xScale;
-        visited = true;
+        touched = true;
     }
 
     public void addyScale(float yScale) {
         this.yScale += yScale;
-        visited = true;
+        touched = true;
     }
 
     public void addzScale(float zScale) {
         this.zScale += zScale;
-        visited = true;
+        touched = true;
     }
 
     public boolean hasChild(String childName)  {
@@ -342,14 +342,14 @@ public final class ModelPart {
         this.x = x;
         this.y = y;
         this.z = z;
-        visited = true;
+        touched = true;
     }
 
     public void setRotation(float rx, float ry, float rz) {
         this.xRot = rx;
         this.yRot = ry;
         this.zRot = rz;
-        visited = true;
+        touched = true;
     }
 
     public void render(PoseStack poseStack, VertexConsumer vertexConsumer, int pPackedLight, int pPackedOverlay) {
@@ -505,21 +505,21 @@ public final class ModelPart {
         this.x += pos.x();
         this.y += pos.y();
         this.z += pos.z();
-        visited = true;
+        touched = true;
     }
 
     public void offsetRotation(Vector3f rot) {
         this.xRot += rot.x();
         this.yRot += rot.y();
         this.zRot += rot.z();
-        visited = true;
+        touched = true;
     }
 
     public void offsetScale(Vector3f scale) {
         this.xScale += scale.x();
         this.yScale += scale.y();
         this.zScale += scale.z();
-        visited = true;
+        touched = true;
     }
 
     public Stream<ModelPart> getAllParts() {

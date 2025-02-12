@@ -1,6 +1,5 @@
 package sheridan.gcaa.client.model.gun.guns;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -45,6 +44,10 @@ public class Mk47Model extends CommonRifleModel {
         grip.visible = context.notHasGrip();
         stock.visible = context.notHasStock();
         handguard.visible = context.notHasHandguard();
+        if (handguard.visible) {
+            context.render(handguard, context.solidNoCullMipMap(texture));
+            handguard.visible = false;
+        }
         IS.visible = context.notContainsScope();
         IS_front.visible = IS.visible;
         super.renderGunModel(context);
@@ -57,10 +60,5 @@ public class Mk47Model extends CommonRifleModel {
         rail_right_rear.visible = context.has("hand_guard_right_rear");
         rail_lower.visible = context.has("hand_guard_lower");
         rail_lower_rear.visible = context.has("hand_guard_grip");
-    }
-
-    @Override
-    protected VertexConsumer getDefaultVertex(GunRenderContext context) {
-        return context.solidMipMap(texture);
     }
 }

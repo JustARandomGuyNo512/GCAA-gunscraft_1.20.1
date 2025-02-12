@@ -82,7 +82,7 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.AWP.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor")).setReplaceableGunPart(new RecoilLowerPart(0, 0.15f, 0.15f)))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10", "gcaa:acog", "gcaa:okp7_b")))
-                .addChild(new AttachmentSlot(MAG, "mag", Set.of("gcaa:sniper_extend_mag")))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:sniper_extend_mag")))
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.M870.get(), AttachmentSlot.root()
@@ -224,7 +224,7 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.FN_BALLISTA.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor")).setReplaceableGunPart(new RecoilLowerPart(0, 0.1f, 0.1f)))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10", "gcaa:acog", "gcaa:okp7_b")))
-                .addChild(new AttachmentSlot(MAG, "mag", Set.of("gcaa:sniper_extend_mag")))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:sniper_extend_mag")))
                 .addChild(new AttachmentSlot("rail_scope", hkg28HandguardScope).upper())
                 .addChild(new AttachmentSlot("rail_lower", hkg28HandguardFrontSlot).lower())
         );

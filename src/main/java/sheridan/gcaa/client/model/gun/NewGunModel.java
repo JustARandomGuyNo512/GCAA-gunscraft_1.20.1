@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
-import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
@@ -237,18 +236,22 @@ public abstract class NewGunModel extends HierarchicalModel<Entity> implements I
 
     protected void defaultPistolAnimation(GunRenderContext gunRenderContext, AnimationDefinition shoot)  {
         if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
+            KeyframeAnimations.animate(this, shoot, gunRenderContext.lastShoot, 1);
             if (gunRenderContext.isFirstPerson) {
                 AnimationHandler.INSTANCE.applyRecoil(this);
                 AnimationHandler.INSTANCE.applyReload(this);
                 CameraAnimationHandler.INSTANCE.mix(camera);
             }
-            KeyframeAnimations.animate(this, shoot, Clients.lastShootMain(), 1);
         }
     }
 
-    protected void defaultAssaultRifleAnimation(GunRenderContext gunRenderContext, AnimationDefinition shoot)  {
+    protected void defaultRifleAnimation(GunRenderContext gunRenderContext, AnimationDefinition shoot)  {
         if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
             KeyframeAnimations.animate(this, shoot, gunRenderContext.lastShoot,1);
+            AnimationDefinition recoil = getRecoil(gunRenderContext);
+            if (recoil != null) {
+                KeyframeAnimations.animate(this, recoil, gunRenderContext.lastShoot, 1);
+            }
             if (gunRenderContext.isFirstPerson) {
                 AnimationHandler.INSTANCE.applyReload(this);
                 CameraAnimationHandler.INSTANCE.mix(camera);

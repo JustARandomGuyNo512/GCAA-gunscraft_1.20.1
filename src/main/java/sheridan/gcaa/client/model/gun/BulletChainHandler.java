@@ -36,6 +36,6 @@ public class BulletChainHandler {
         prevBulletModel.x += x;
         prevBulletModel.y += y;
         prevBulletModel.z += z;
-        prevBulletModel.setVisited();
+        prevBulletModel.setTouched();
     }
 }

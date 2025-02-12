@@ -183,7 +183,7 @@ public class Clients {
                 .usePistolDefaultSprintingTrans()
         );
 
-        ArsenalLib.registerGunModel(ModItems.PYTHON_357.get(), new Python357Model(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.PYTHON_357.get(), PistolModels.PYTHON_357_MODEL, new DisplayData()
                 .setFirstPersonMain(-1.25f,2.125f,-6.725f, POS).set(DisplayData.FIRST_PERSON_MAIN, 0.25f, SCALE)
                 .setThirdPersonRight(0f, -0.4f, 0.1f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, -0.2f, 1.2f, POS).set(DisplayData.GROUND, 0.15f, SCALE)

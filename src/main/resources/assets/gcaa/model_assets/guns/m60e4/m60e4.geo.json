@@ -18,7 +18,7 @@
 				{
 					"name": "gun",
 					"parent": "root",
-					"pivot": [0, 0, -2]
+					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "left_arm",
@@ -157,7 +157,7 @@
 				{
 					"name": "main",
 					"parent": "gun",
-					"pivot": [0, -3, -22]
+					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "body",
@@ -3068,7 +3068,7 @@
 					]
 				},
 				{
-					"name": "bullet_1",
+					"name": "bullet_0",
 					"parent": "mag",
 					"pivot": [14.3, 0.1, -8.4],
 					"cubes": [
@@ -3102,7 +3102,7 @@
 					]
 				},
 				{
-					"name": "bullet_2",
+					"name": "bullet_1",
 					"parent": "mag",
 					"pivot": [12.2, 0.8, -8.6],
 					"cubes": [
@@ -3136,7 +3136,7 @@
 					]
 				},
 				{
-					"name": "bullet_3",
+					"name": "bullet_2",
 					"parent": "mag",
 					"pivot": [10.2, 1.8, -8.6],
 					"cubes": [
@@ -3170,7 +3170,7 @@
 					]
 				},
 				{
-					"name": "bullet_4",
+					"name": "bullet_3",
 					"parent": "mag",
 					"pivot": [8.9, 3.075, -8.5],
 					"cubes": [
@@ -3204,7 +3204,7 @@
 					]
 				},
 				{
-					"name": "bullet_5",
+					"name": "bullet_4",
 					"parent": "mag",
 					"pivot": [7.5, 4.325, -8.4],
 					"cubes": [
@@ -3238,7 +3238,7 @@
 					]
 				},
 				{
-					"name": "bullet_6",
+					"name": "bullet_5",
 					"parent": "mag",
 					"pivot": [5.9, 5.3, -8.4],
 					"cubes": [
@@ -3272,7 +3272,7 @@
 					]
 				},
 				{
-					"name": "bullet_7",
+					"name": "bullet_6",
 					"parent": "mag",
 					"pivot": [3.6, 5.4, -8.5],
 					"cubes": [
@@ -3306,7 +3306,7 @@
 					]
 				},
 				{
-					"name": "bullet_8",
+					"name": "bullet_7",
 					"parent": "mag",
 					"pivot": [1.2, 5.3, -8.5],
 					"cubes": [
@@ -3340,7 +3340,7 @@
 					]
 				},
 				{
-					"name": "bullet_9",
+					"name": "bullet_8",
 					"parent": "mag",
 					"pivot": [-0.2, 4.1, -8.6],
 					"cubes": [

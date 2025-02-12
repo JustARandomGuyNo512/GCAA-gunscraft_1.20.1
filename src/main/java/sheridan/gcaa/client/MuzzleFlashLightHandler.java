@@ -24,12 +24,16 @@ public class MuzzleFlashLightHandler {
     private static final Map<BlockPos, BlockState> temp = new HashMap<>();
     private static final AtomicBoolean work = new AtomicBoolean(false);
     private static long timeStamp = 0;
+    private static final int DELAY = 35;
 
     public static void onClientShoot(ItemStack itemStack, IGun gun, Player player) {
         if (!Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
             return;
         }
         if (Gun.MUZZLE_STATE_SUPPRESSOR.equals(gun.getMuzzleFlash(itemStack))) {
+            return;
+        }
+        if (timeStamp != 0 && System.currentTimeMillis() - timeStamp < DELAY) {
             return;
         }
         work.set(true);
@@ -46,7 +50,6 @@ public class MuzzleFlashLightHandler {
             if (work.get()) {
                 BlockPos above = player.getOnPos().above((int) player.getEyeHeight() + 1);
                 BlockState blockState = player.level().getBlockState(above);
-
                 if (blockState.getFluidState().isEmpty() && level.getLightEmission(above) < 10) {
                     if (!temp.containsKey(above)) {
                         temp.put(above, blockState);
@@ -56,7 +59,7 @@ public class MuzzleFlashLightHandler {
                     timeStamp = System.currentTimeMillis();
                 }
                 work.set(false);
-            } else if (timeStamp != 0 && System.currentTimeMillis() - timeStamp > 30) {
+            } else if (timeStamp != 0 && System.currentTimeMillis() - timeStamp > DELAY) {
                 for (Map.Entry<BlockPos, BlockState> entry : temp.entrySet()) {
                     BlockPos key = entry.getKey();
                     if (level.getBlockState(key).getFluidState().isEmpty()) {

@@ -54,7 +54,6 @@ public class RailClampModel implements IAttachmentModel, ISlotProviderModel {
 
     @Override
     public void render(GunRenderContext context, AttachmentRenderEntry attachmentRenderEntry, ModelPart pose) {
-        System.out.println("rendering rail clamp");
         IGun gun = context.gun;
         ModelPart model = getRoot(gun);
         model.copyFrom(pose);

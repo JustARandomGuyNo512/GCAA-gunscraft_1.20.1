@@ -34,7 +34,7 @@ public class DMRModel extends CommonRifleModel{
     @Override
     protected void animationGlobal(GunRenderContext context) {
         if (context.isFirstPerson && recoil != null) {
-            float scale = Mth.lerp(Clients.getAdsProgress(), 1f, 0.35f);
+            float scale = Mth.lerp(Clients.getAdsProgress(), 1f, adsRecoilAnimationScaleAds);
             KeyframeAnimations.animate(this, recoil, context.lastShoot, scale);
         }
         super.animationGlobal(context);
