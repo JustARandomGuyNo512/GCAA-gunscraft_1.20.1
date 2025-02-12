@@ -28,6 +28,7 @@ public class MGModel extends NewGunModel{
         this.chainSize = chainSize;
         this.reloadingShowBulletsDelay = reloadingShowBulletsDelay;
         this.disableCoverFaceCulling = disableCoverFaceCulling;
+        initChain();
     }
 
     public MGModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture,
@@ -36,18 +37,22 @@ public class MGModel extends NewGunModel{
         this.chainSize = chainSize;
         this.reloadingShowBulletsDelay = reloadingShowBulletsDelay;
         this.disableCoverFaceCulling = disableCoverFaceCulling;
+        initChain();
     }
 
     @Override
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {
         super.postInit(main, gun, root);
         mag = main.getChild("mag");
+        cover = main.getChild("cover");
+        shoot = animations.get("shoot");
+    }
+
+    protected void initChain() {
         bullets = new ModelPart[chainSize];
         for (int i = 0; i < chainSize; i ++) {
             this.bullets[i] = mag.getChild("bullet_" + i);
         }
-        cover = main.getChild("cover");
-        shoot = animations.get("shoot");
     }
 
     @Override
