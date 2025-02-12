@@ -19,7 +19,7 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.config.ClientConfig;
-import sheridan.gcaa.client.model.gun.LodGunModel;
+import sheridan.gcaa.client.model.gun.NewGunModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.items.attachments.Attachment;
@@ -254,7 +254,7 @@ public class GunRenderContext {
     }
 
     public boolean useLowQuality() {
-        return hasLocalKey(LodGunModel.LOW_QUALITY_KEY);
+        return hasLocalKey(NewGunModel.LOW_QUALITY_KEY);
     }
 
     public void popPose() {

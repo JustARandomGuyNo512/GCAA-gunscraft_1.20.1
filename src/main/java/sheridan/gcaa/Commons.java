@@ -65,6 +65,7 @@ public class Commons {
                         "gcaa:red_dot",
                         "gcaa:holographic",
                         "gcaa:acog",
+                        "gcaa:elcan",
                         "gcaa:okp7_b"
                 )).setReplaceableGunPart(new WeightPart(0.5f))),
                 M4a1AttachmentProxy::new
@@ -81,14 +82,14 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.AWP.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor")).setReplaceableGunPart(new RecoilLowerPart(0, 0.15f, 0.15f)))
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10", "gcaa:acog", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10", "gcaa:acog", "gcaa:okp7_b","gcaa:elcan")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:sniper_extend_mag")))
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.M870.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:shotgun_suppressor")))
                 .addChild(new AttachmentSlot(STOCK, Set.of()))
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:elcan", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:shotgun_extend_bay")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of()))
         );
@@ -114,6 +115,7 @@ public class Commons {
                 "gcaa:horizontal_laser_sight",
                 "gcaa:rail_panel",
                 "gcaa:okp7_b",
+                "gcaa:elcan",
                 "gcaa:rail_panel_short"
         );
 
@@ -136,12 +138,13 @@ public class Commons {
                 "gcaa:scope_x10",
                 "gcaa:acog",
                 "gcaa:okp7_b",
+                "gcaa:elcan",
                 "gcaa:rail_panel",
                 "gcaa:rail_panel_short"
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.M249.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog","gcaa:elcan", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor", "gcaa:ar_compensator")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1.2f, 0.1f, 0.08f)))
@@ -153,7 +156,7 @@ public class Commons {
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.VECTOR_45.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog","gcaa:elcan", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:osprey_smg_suppressor"," gcaa:smg_suppressor", "gcaa:smg_compensator")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(0.7f, 0.05f, 0.06f)))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:vector_45_extend_mag", "gcaa:exp_mag_45_straight", "gcaa:drum_45_straight")))
@@ -163,12 +166,12 @@ public class Commons {
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.XM1014.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog","gcaa:elcan", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:shotgun_suppressor")))
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.MK47.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog","gcaa:elcan", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ar_light_handguard")).setReplaceableGunPart(new Mk47Handguard()).asSlotProvider())
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ak_extend_mag", "gcaa:drum_ak")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock", "gcaa:ubr_stock")))
@@ -185,7 +188,7 @@ public class Commons {
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.HK_G28.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10", "gcaa:acog", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10","gcaa:elcan", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor", "gcaa:dmr_compensator")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock", "gcaa:ubr_stock")))
                 .addChild(new AttachmentSlot("handguard_scope", hkg28HandguardScope).upper())
@@ -206,7 +209,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak12_suppressor")).setReplaceableGunPart(new RecoilLowerPart(0, 0.15f, 0.15f)))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag5_45x39", "gcaa:drum_545x39")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube", "gcaa:ak_tactical_stock")).setReplaceableGunPart(new RecoilControlPart(1, 0.12f, 0.12f)))
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic","gcaa:elcan", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot("handguard_grip", Set.of(
                         "gcaa:vertical_grip", "gcaa:gp_25", "gcaa:laser_sight", "gcaa:flashlight", "gcaa:slant_grip"
                 )).lower())
@@ -223,7 +226,7 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.FN_BALLISTA.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:sniper_suppressor")).setReplaceableGunPart(new RecoilLowerPart(0, 0.1f, 0.1f)))
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10", "gcaa:acog", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:scope_x10","gcaa:elcan", "gcaa:acog", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:sniper_extend_mag")))
                 .addChild(new AttachmentSlot("rail_scope", hkg28HandguardScope).upper())
                 .addChild(new AttachmentSlot("rail_lower", hkg28HandguardFrontSlot).lower())
@@ -259,7 +262,7 @@ public class Commons {
                         "gcaa:slant_grip")))
                 .addChild(new AttachmentSlot("handguard_left", mk47HandguardSlot).lower())
                 .addChild(new AttachmentSlot("handguard_right", mk47HandguardSlot).lower())
-                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:elcan", "gcaa:acog", "gcaa:okp7_b")))
         );
 
         registerVendingMachineProducts();

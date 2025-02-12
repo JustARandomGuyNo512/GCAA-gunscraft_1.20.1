@@ -20,6 +20,7 @@ import sheridan.gcaa.items.attachments.mag.*;
 import sheridan.gcaa.items.attachments.muzzle.*;
 import sheridan.gcaa.items.attachments.other.RailClamp;
 import sheridan.gcaa.items.attachments.scope.Acog;
+import sheridan.gcaa.items.attachments.scope.Elcan;
 import sheridan.gcaa.items.attachments.scope.ScopeX10;
 import sheridan.gcaa.items.attachments.sight.*;
 import sheridan.gcaa.items.attachments.stock.AKTacticalStock;
@@ -122,6 +123,7 @@ public class ModItems {
     public static final RegistryObject<UBRStock> UBR_STOCK = ITEMS.register("ubr_stock", UBRStock::new);
     public static final RegistryObject<AKTacticalStock> AK_TACTICAL_STOCK = ITEMS.register("ak_tactical_stock", AKTacticalStock::new);
     public static final RegistryObject<M203> M203 = ITEMS.register("m203", M203::new);
+    public static final RegistryObject<Elcan> ELCAN = ITEMS.register("elcan", Elcan::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

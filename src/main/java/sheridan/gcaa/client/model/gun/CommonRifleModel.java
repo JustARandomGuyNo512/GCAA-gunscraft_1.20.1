@@ -38,7 +38,6 @@ public class CommonRifleModel extends NewAutoMagPositionModel{
         if (autoMagVisible) {
             mag.visible = context.notHasMag();
         }
-        System.out.println(bullet.visible);
         context.render(solid, main);
         if (context.isFirstPerson) {
             context.renderArm(right_arm, true);

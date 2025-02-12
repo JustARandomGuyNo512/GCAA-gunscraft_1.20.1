@@ -64,6 +64,11 @@ public abstract class NewGunModel extends HierarchicalModel<Entity> implements I
         this(modelPath, animationPath, texture, null, null);
     }
 
+    public static void disableLowQuality(GunRenderContext context) {
+        context.saveInLocal(LOW_QUALITY_KEY, null);
+        context.saveInLocal(LOW_QUALITY_DISABLE, true);
+    }
+
     protected void buildAttachmentSlotMap(ModelPart layer) {
         Map<String, ModelPart> children = layer.getChildren();
         if (children != null) {

@@ -50,6 +50,7 @@ import sheridan.gcaa.client.model.attachments.mag.*;
 import sheridan.gcaa.client.model.attachments.muzzle.*;
 import sheridan.gcaa.client.model.attachments.other.RailClampModel;
 import sheridan.gcaa.client.model.attachments.scope.AcogModel;
+import sheridan.gcaa.client.model.attachments.scope.ElcanModel;
 import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
 import sheridan.gcaa.client.model.attachments.sight.*;
 import sheridan.gcaa.client.model.attachments.stock.AKTacticalStockModel;
@@ -544,6 +545,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.UBR_STOCK.get(), new UBRStockModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_TACTICAL_STOCK.get(), new AKTacticalStockModel());
         ArsenalLib.registerAttachmentModel(ModItems.M203.get(), new M203Model());
+        ArsenalLib.registerAttachmentModel(ModItems.ELCAN.get(), new ElcanModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

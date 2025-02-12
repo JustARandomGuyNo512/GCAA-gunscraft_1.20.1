@@ -65,6 +65,9 @@ public class AutoShotGunModel extends NewGunModel{
             context.pushPose().translateTo(reloading_arm).render(shell, vertexConsumer);
             context.popPose();
         }
+        if (!context.isFirstPerson) {
+            reloading_arm.visible = false;
+        }
         context.render(main, vertexConsumer);
         if (context.isFirstPerson) {
             context.renderArm(rightArm, true);

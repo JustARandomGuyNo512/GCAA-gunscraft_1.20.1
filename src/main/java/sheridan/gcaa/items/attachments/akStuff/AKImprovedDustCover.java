@@ -9,7 +9,7 @@ import java.util.Set;
 public class AKImprovedDustCover extends SubSlotProvider {
 
     private final AttachmentSlot root = AttachmentSlot.root()
-            .addChild(new AttachmentSlot("dust_cover_scope", Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")).upper());
+            .addChild(new AttachmentSlot("dust_cover_scope", Set.of("gcaa:red_dot", "gcaa:holographic","gcaa:elcan", "gcaa:acog", "gcaa:okp7_b")).upper());
 
     public AKImprovedDustCover() {
         super(0.4f);
