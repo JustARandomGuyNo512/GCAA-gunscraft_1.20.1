@@ -357,13 +357,14 @@ public class Commons {
                 new GunProduct(ModItems.M4A1.get(), 2900),
                 new GunProduct(ModItems.AK12.get(), 3000),
                 new GunProduct(ModItems.MK47.get(), 3050),
-                new GunProduct(ModItems.AWP.get(), 4750),
+                new GunProduct(ModItems.AWP.get(), 4000),
                 new GunProduct(ModItems.FN_BALLISTA.get(), 6000),
                 new GunProduct(ModItems.HK_G28.get(), 4000),
                 new GunProduct(ModItems.M870.get(), 2000),
                 new GunProduct(ModItems.XM1014.get(), 2400),
                 new GunProduct(ModItems.BERETTA_686.get(), 1800),
-                new GunProduct(ModItems.M249.get(), 4400));
+                new GunProduct(ModItems.M249.get(), 4400),
+                new GunProduct(ModItems.M60E4.get(), 5500));
 
         ProductsRegister.registerProducts(ProductsRegister.AMMUNITION,
                 new AmmunitionProduct(ModItems.AMMO_9X19MM.get(), 100),
@@ -402,6 +403,7 @@ public class Commons {
                 new AttachmentProduct(ModItems.OKP_7_A.get(), 70),
                 new AttachmentProduct(ModItems.OKP_7_B.get(), 120),
                 new AttachmentProduct(ModItems.ACOG.get(), 220),
+                new AttachmentProduct(ModItems.ELCAN.get(), 300),
                 new AttachmentProduct(ModItems.SCOPE_X10.get(), 400),
                 new AttachmentProduct(ModItems.VERTICAL_GRIP.get(), 80),
                 new AttachmentProduct(ModItems.SLANT_GRIP.get(), 100),

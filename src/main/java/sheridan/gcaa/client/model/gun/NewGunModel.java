@@ -253,10 +253,6 @@ public abstract class NewGunModel extends HierarchicalModel<Entity> implements I
     protected void defaultRifleAnimation(GunRenderContext gunRenderContext, AnimationDefinition shoot)  {
         if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
             KeyframeAnimations.animate(this, shoot, gunRenderContext.lastShoot,1);
-            AnimationDefinition recoil = getRecoil(gunRenderContext);
-            if (recoil != null) {
-                KeyframeAnimations.animate(this, recoil, gunRenderContext.lastShoot, 1);
-            }
             if (gunRenderContext.isFirstPerson) {
                 AnimationHandler.INSTANCE.applyReload(this);
                 CameraAnimationHandler.INSTANCE.mix(camera);
