@@ -29,6 +29,7 @@ public class Caliber implements IDataPacketGen {
     public static final ResourceLocation CALIBER_12_GAUGE = new ResourceLocation(GCAA.MODID, "12_gauge");
     public static final ResourceLocation CALIBER_45_ACP = new ResourceLocation(GCAA.MODID, ".45_acp");
     public static final ResourceLocation CALIBER_338_LAPUA_MAGNUM = new ResourceLocation(GCAA.MODID, ".338_lapua_magnum");
+    public static final ResourceLocation CALIBER_57X28MM = new ResourceLocation(GCAA.MODID, "5.7x28mm");
 
     private ResourceLocation name;
     public float baseDamage;

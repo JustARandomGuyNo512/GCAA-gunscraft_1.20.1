@@ -26,4 +26,10 @@ public class PistolModels {
             new ResourceLocation(GCAA.MODID, "model_assets/guns/python_357/python_357_low.png"),
             6, 45);
 
+    public static final GlockModel FN57_MODEL = new GlockModel(
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/fn57/fn57.geo.json"),
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/fn57/fn57.animation.json"),
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/fn57/fn57.png"),
+            5, 0.4f, 0.28f, 4.5f);
+
 }

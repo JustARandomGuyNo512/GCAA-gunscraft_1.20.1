@@ -1,0 +1,29 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"shoot": {
+			"animation_length": 0.12,
+			"bones": {
+				"gun": {
+					"rotation": [0, 0, 0],
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.1": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"recoil": {
+			"animation_length": 0.14,
+			"bones": {
+				"gun": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.08": [0, 0, 0]
+					},
+					"position": [0, 0, 0]
+				}
+			}
+		}
+	}
+}
