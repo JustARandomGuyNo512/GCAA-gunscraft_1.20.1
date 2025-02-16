@@ -688,8 +688,11 @@ public class Clients {
             LOCK.lock();
             IGunFireMode fireMode = gun.getFireMode(stack);
             if (fireMode != null && fireMode.canFire(player, stack, gun)) {
-                fireMode.clientShoot(player, stack, gun);
-                return MAIN_HAND_STATUS.fireDelay.get();
+                int delay = MAIN_HAND_STATUS.fireDelay.get();
+                try {
+                    fireMode.clientShoot(player, stack, gun);
+                } catch (Exception ignored) {}
+                return delay;
             }
         } catch (Exception e) {
             e.printStackTrace();

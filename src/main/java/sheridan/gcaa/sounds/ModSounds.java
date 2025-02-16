@@ -134,7 +134,7 @@ public class ModSounds {
      * play a sound immediately.
      * */
     public static void sound(float vol, float pit, Player player, SoundEvent soundEvent) {
-        player.playSound(soundEvent, vol, pit);
+        player.level().playSeededSound(player, player.getX(), player.getY(), player.getZ(), soundEvent, player.getSoundSource(), vol, pit, 0);
     }
 
     /**
