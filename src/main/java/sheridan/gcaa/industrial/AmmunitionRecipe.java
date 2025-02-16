@@ -6,8 +6,7 @@ import sheridan.gcaa.items.ammunition.Ammunition;
 public class AmmunitionRecipe extends Recipe{
     public Ammunition ammunition;
 
-    public AmmunitionRecipe() {
-    }
+    public AmmunitionRecipe() {}
 
     public AmmunitionRecipe(Ammunition ammunition, int ms) {
         super(ammunition, ms);

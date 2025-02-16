@@ -11,8 +11,7 @@
     "GameRendererMixin",
     "RenderItemMixin",
     "HumanoidModelMixin",
-    "EntityRenderDispatcherMixin",
-    "MuzzleFlashLightMixin"
+    "EntityRenderDispatcherMixin"
   ],
   "injectors": {
     "defaultRequire": 1

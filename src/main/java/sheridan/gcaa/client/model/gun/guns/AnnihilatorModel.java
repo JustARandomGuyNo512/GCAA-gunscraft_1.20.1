@@ -28,9 +28,6 @@ public class AnnihilatorModel extends CommonRifleModel {
     }
 
     @Override
-    protected void renderGunModelLowQuality(GunRenderContext context) {}
-
-    @Override
     public AnimationDefinition getRecoil(GunRenderContext context) {
         return animations.get("shoot");
     }

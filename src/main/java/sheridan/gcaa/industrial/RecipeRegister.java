@@ -37,6 +37,7 @@ public class RecipeRegister {
     public static Map<Ammunition, AmmunitionRecipe> getAmmunitionRecipeMap() {
         return AMMUNITION_RECIPE_MAP;
     }
+
     public static void syncAmmunitionRecipeFromServer(String string) {
         JsonObject jsonObject = GSON.fromJson(string, JsonObject.class);
         Set<Ammunition> set = new HashSet<>();
@@ -55,7 +56,6 @@ public class RecipeRegister {
                 }
             }
         }
-        set.remove(ModItems.AMMO_5_45X39MM.get());
         for (Ammunition ammunition : AMMUNITION_RECIPE_MAP.keySet()) {
             // 客户端删除不存在的配方, 以服务端的配方为准
             if (!set.contains(ammunition)) {

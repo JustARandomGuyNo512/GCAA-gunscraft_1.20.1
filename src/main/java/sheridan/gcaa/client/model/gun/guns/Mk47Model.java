@@ -7,11 +7,11 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.gun.CommonRifleModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.attachments.Attachment;
 
 @OnlyIn(Dist.CLIENT)
 public class Mk47Model extends CommonRifleModel {
-    private ModelPart muzzle, grip, stock, handguard, IS, IS_front;
-    private ModelPart rail_left, rail_left_rear, rail_right,
+    private ModelPart handguard, rail_left, rail_left_rear, rail_right,
             rail_right_rear, rail_lower, rail_lower_rear;
 
     public Mk47Model() {
@@ -30,26 +30,21 @@ public class Mk47Model extends CommonRifleModel {
         rail_right_rear = handguard.getChild("rail_right_rear");
         rail_lower = handguard.getChild("rail_lower");
         rail_lower_rear = handguard.getChild("rail_lower_rear");
-        muzzle = main.getChild("muzzle");
-        grip = main.getChild("grip");
-        stock = main.getChild("stock");
-        IS = main.getChild("IS");
-        IS_front = main.getChild("IS_front");
+        bindSlotReplacement(Attachment.MUZZLE, "muzzle");
+        bindSlotReplacement(Attachment.GRIP, "grip");
+        bindSlotReplacement(Attachment.STOCK, "stock");
+        bindSlotReplacement(GunRenderContext.SCOPE_ALL, "IS");
+        bindSlotReplacement(GunRenderContext.SCOPE_ALL, "IS_front");
     }
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
         handleRailsVisible(context);
-        muzzle.visible = context.notHasMuzzle();
-        grip.visible = context.notHasGrip();
-        stock.visible = context.notHasStock();
         handguard.visible = context.notHasHandguard();
         if (handguard.visible) {
             context.render(handguard, context.solidNoCullMipMap(texture));
             handguard.visible = false;
         }
-        IS.visible = context.notContainsScope();
-        IS_front.visible = IS.visible;
         super.renderGunModel(context);
     }
 

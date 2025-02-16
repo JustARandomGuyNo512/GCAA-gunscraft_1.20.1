@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.model.gun;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.resources.ResourceLocation;
@@ -33,6 +34,18 @@ public abstract class NewGunModel extends HierarchicalModel<Entity> implements I
     protected Map<String, AnimationDefinition> animations;
     protected Map<String, List<ModelPart>> attachmentSlotPathMap;
     protected boolean lowQualityLoaded = false;
+    protected Map<String, Replacement> slotReplacementMap = new HashMap<>();
+    protected Map<String, Replacement> slotReplacementMapLowQuality = new HashMap<>();
+
+    private static class Replacement {
+        public boolean flag;
+        public List<ModelPart> parts;
+
+        public Replacement(boolean flag, List<ModelPart> parts) {
+            this.flag = flag;
+            this.parts = parts;
+        }
+    }
 
     public NewGunModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture,
                        @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture) {
@@ -59,6 +72,50 @@ public abstract class NewGunModel extends HierarchicalModel<Entity> implements I
     }
 
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {}
+
+    public void bindSlotReplacement(String slotName, String... paths) {
+        bindSlotReplacement(slotName, true, paths);
+    }
+
+    public void bindSlotReplacement(String slotName, boolean flag, String... paths) {
+        if (!slotReplacementMap.containsKey(slotName)) {
+            bindSlotReplacement(slotName, flag, false, paths);
+            if (lowQualityLoaded) {
+                bindSlotReplacement(slotName, flag, true, paths);
+            }
+        }
+    }
+
+    private void bindSlotReplacement(String slotName, boolean flag, boolean lod, String... paths) {
+        List<ModelPart> parts = new ArrayList<>();
+        ModelPart mainLayer = lod ? lowQualityMain : main;
+        for (String path : paths) {
+            ModelPart childByPath = mainLayer.findChildByPath(path);
+            if (childByPath != null) {
+                childByPath.visible = !flag;
+                parts.add(childByPath);
+            }
+        }
+        Map<String, Replacement> replacementMap = lod ? slotReplacementMapLowQuality : slotReplacementMap;
+        if (!parts.isEmpty()) {
+            replacementMap.put(slotName, new Replacement(flag, parts));
+        }
+    }
+
+    protected void preGunRender(GunRenderContext context, boolean lowQuality) {
+        Map<String, Replacement> replacementMap = lowQuality ? slotReplacementMapLowQuality : slotReplacementMap;
+        for (Map.Entry<String, Replacement> entry : replacementMap.entrySet()) {
+            boolean has = context.has(entry.getKey());
+            Replacement value = entry.getValue();
+            for (ModelPart part : value.parts) {
+                if (value.flag) {
+                    part.visible = !has;
+                } else {
+                    part.visible = has;
+                }
+            }
+        }
+    }
 
     public NewGunModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture) {
         this(modelPath, animationPath, texture, null, null);
@@ -106,8 +163,10 @@ public abstract class NewGunModel extends HierarchicalModel<Entity> implements I
         handleGunTranslate(gunRenderContext.poseStack);
         if (shouldRenderLowQuality(gunRenderContext)) {
             gunRenderContext.saveInLocal(LOW_QUALITY_KEY, Boolean.TRUE);
+            preGunRender(gunRenderContext, true);
             renderGunModelLowQuality(gunRenderContext);
         } else {
+            preGunRender(gunRenderContext, false);
             renderGunModel(gunRenderContext);
         }
         renderAttachmentsModel(gunRenderContext);

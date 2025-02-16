@@ -36,6 +36,7 @@ public class GunRenderContext {
     public static final String LEFT_ARM_RENDER_REPLACE = "left_arm_render_replace";
     public static final String RIGHT_ARM_RENDER_REPLACE = "right_arm_render_replace";
     public static final String ORIGINAL_GUN_VIEW_POSE_FP = "original_gun_view_pose_fp";
+    public static final String SCOPE_ALL = AttachmentsRenderContext.CONTAINS_SCOPE;
     public MultiBufferSource bufferSource;
     public PoseStack poseStack;
     public ItemStack itemStack;

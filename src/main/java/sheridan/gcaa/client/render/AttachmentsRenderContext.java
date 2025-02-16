@@ -19,6 +19,7 @@ public class AttachmentsRenderContext {
     public Map<String, AttachmentRenderEntry> slotLayer = new HashMap<>();
     public Set<AttachmentRenderEntry> allEntries = new HashSet<>();
     public boolean containsScope = false;
+    public static final String CONTAINS_SCOPE = "CONTAINS_SCOPE";
 
     public void add(AttachmentRenderEntry attachmentRenderEntry) {
         allEntries.add(attachmentRenderEntry);
@@ -55,6 +56,9 @@ public class AttachmentsRenderContext {
     }
 
     public boolean has(String slotName) {
+        if (CONTAINS_SCOPE.equals(slotName)) {
+            return containsScope;
+        }
         return slotLayer.containsKey(slotName);
     }
 

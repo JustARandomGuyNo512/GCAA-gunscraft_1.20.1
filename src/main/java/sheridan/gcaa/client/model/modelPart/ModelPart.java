@@ -92,6 +92,19 @@ public final class ModelPart {
         this.touched = true;
     }
 
+    public ModelPart findChildByPath(String path) {
+        String[] paths = path.split("/");
+        ModelPart target = this;
+        for (String s : paths) {
+            if (target.hasChild(s)) {
+                target = target.getChild(s);
+            } else {
+                return null;
+            }
+        }
+        return target;
+    }
+
     /**
      * Set the model part's pose to the given pose(scale is not included).
      * */

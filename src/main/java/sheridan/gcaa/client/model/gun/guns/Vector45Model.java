@@ -8,10 +8,11 @@ import sheridan.gcaa.client.model.gun.CommonRifleModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.items.ModItems;
+import sheridan.gcaa.items.attachments.Attachment;
 
 @OnlyIn(Dist.CLIENT)
 public class Vector45Model extends CommonRifleModel {
-    private ModelPart exp_part, front_IS, IS, muzzle;
+    private ModelPart exp_part;
 
     public Vector45Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/vector_45/vector_45.geo.json"),
@@ -23,17 +24,13 @@ public class Vector45Model extends CommonRifleModel {
     @Override
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {
         super.postInit(main, gun, root);
-        front_IS = main.getChild("front_IS");
-        IS = main.getChild("IS");
-        muzzle = main.getChild("muzzle");
+        bindSlotReplacement(Attachment.MUZZLE, "muzzle");
+        bindSlotReplacement(Attachment.SCOPE, "IS", "front_IS");
         exp_part = mag.getChild("exp_part");
     }
 
     @Override
     protected void renderGunModel(GunRenderContext context) {
-        muzzle.visible = context.notHasMuzzle();
-        IS.visible = context.notHasScope();
-        front_IS.visible = IS.visible;
         boolean noMag = context.notHasMag();
         boolean showExp = context.attachmentIs("s_mag", ModItems.VECTOR_45_EXTEND_MAG.get());
         if (noMag || showExp) {

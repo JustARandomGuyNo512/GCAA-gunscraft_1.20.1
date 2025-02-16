@@ -7,11 +7,10 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.gun.CommonRifleModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.attachments.Attachment;
 
 @OnlyIn(Dist.CLIENT)
 public class Ak12Model extends CommonRifleModel {
-    private ModelPart IS, muzzle, stock, rail;
-
     public Ak12Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/ak12/ak12.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/ak12/ak12.animation.json"),
@@ -21,19 +20,10 @@ public class Ak12Model extends CommonRifleModel {
     @Override
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {
         super.postInit(main, gun, root);
-        IS = main.getChild("IS");
-        muzzle = main.getChild("muzzle");
-        stock = main.getChild("stock");
-        rail = main.getChild("handguard").getChild("rail");
+        bindSlotReplacement(GunRenderContext.SCOPE_ALL, "IS");
+        bindSlotReplacement(Attachment.MUZZLE, "muzzle");
+        bindSlotReplacement(Attachment.STOCK, "stock");
+        bindSlotReplacement("handguard_left", "handguard/rail");
+        bindSlotReplacement("handguard_right", "handguard/rail");
     }
-
-    @Override
-    protected void renderGunModel(GunRenderContext context) {
-        IS.visible = context.notContainsScope();
-        muzzle.visible = context.notHasMuzzle();
-        stock.visible = context.notHasStock();
-        rail.visible = context.has("handguard_left") || context.has("handguard_right");
-        super.renderGunModel(context);
-    }
-
 }

@@ -37,12 +37,47 @@
 				{
 					"name": "gun",
 					"parent": "root",
-					"pivot": [0, -1.34, 2.88]
+					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "main",
 					"parent": "gun",
-					"pivot": [0, -1.34, 2.88]
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "s_dust_cover",
+					"parent": "main",
+					"pivot": [0, 7.153, -2.706]
+				},
+				{
+					"name": "s_stock",
+					"parent": "main",
+					"pivot": [0, 0.7576, 12.8208]
+				},
+				{
+					"name": "s_muzzle",
+					"parent": "main",
+					"pivot": [0, 3.22, -83.1216]
+				},
+				{
+					"name": "s_handguard",
+					"parent": "main",
+					"pivot": [0, 5.1352, -40.896]
+				},
+				{
+					"name": "s_rail_set",
+					"parent": "main",
+					"pivot": [2.8272, 1.1224, -4.5984]
+				},
+				{
+					"name": "s_mag",
+					"parent": "main",
+					"pivot": [-0.0456, 0.6664, -18.53777]
+				},
+				{
+					"name": "s_grip",
+					"parent": "main",
+					"pivot": [0, -1.34, 5.0688]
 				},
 				{
 					"name": "dust_cover",
@@ -144,41 +179,6 @@
 							}
 						}
 					]
-				},
-				{
-					"name": "s_dust_cover",
-					"parent": "main",
-					"pivot": [0, 7.153, -2.706]
-				},
-				{
-					"name": "s_stock",
-					"parent": "main",
-					"pivot": [0, 0.7576, 12.8208]
-				},
-				{
-					"name": "s_muzzle",
-					"parent": "main",
-					"pivot": [0, 3.22, -83.1216]
-				},
-				{
-					"name": "s_handguard",
-					"parent": "main",
-					"pivot": [0, 5.1352, -40.896]
-				},
-				{
-					"name": "s_rail_set",
-					"parent": "main",
-					"pivot": [2.8272, 1.1224, -4.5984]
-				},
-				{
-					"name": "s_mag",
-					"parent": "main",
-					"pivot": [-0.0456, 0.6664, -18.53777]
-				},
-				{
-					"name": "s_grip",
-					"parent": "main",
-					"pivot": [0, -1.34, 5.0688]
 				},
 				{
 					"name": "mag",

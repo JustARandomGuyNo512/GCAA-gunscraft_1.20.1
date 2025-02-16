@@ -7,10 +7,10 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.gun.MGModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.attachments.Attachment;
 
 @OnlyIn(Dist.CLIENT)
 public class M60E4Model extends MGModel {
-    private ModelPart IS, muzzle;
     public M60E4Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/m60e4/m60e4.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/m60e4/m60e4.animation.json"),
@@ -21,14 +21,7 @@ public class M60E4Model extends MGModel {
     @Override
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {
         super.postInit(main, gun, root);
-        IS = main.getChild("IS");
-        muzzle = main.getChild("muzzle");
-    }
-
-    @Override
-    protected void renderGunModel(GunRenderContext context) {
-        IS.xRot = context.notContainsScope() ? 0 : 1.57079632679489655f;
-        muzzle.visible = context.notHasMuzzle();
-        super.renderGunModel(context);
+        bindSlotReplacement(Attachment.MUZZLE, "muzzle");
+        bindSlotReplacement(GunRenderContext.SCOPE_ALL, "IS");
     }
 }

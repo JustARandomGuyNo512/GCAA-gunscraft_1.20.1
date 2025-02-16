@@ -7,11 +7,10 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.gun.CommonRifleModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.items.attachments.Attachment;
 
 @OnlyIn(Dist.CLIENT)
 public class M4a1Model extends CommonRifleModel {
-    private ModelPart IS, muzzle, handguard, front_IS, stock;
-
     public M4a1Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/m4a1/m4a1.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/m4a1/m4a1.animation.json"),
@@ -21,20 +20,10 @@ public class M4a1Model extends CommonRifleModel {
     @Override
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {
         super.postInit(main, gun, root);
-        IS = main.getChild("IS");
-        muzzle = main.getChild("muzzle");
-        handguard = main.getChild("handguard");
-        front_IS = main.getChild("front_IS");
-        stock = main.getChild("stock");
-    }
-
-    @Override
-    protected void renderGunModel(GunRenderContext context) {
-        IS.visible = context.notContainsScope();
-        muzzle.visible = context.notHasMuzzle();
-        handguard.visible = context.notHasHandguard();
-        front_IS.visible = !context.has("gas_block");
-        stock.visible = context.notHasStock();
-        super.renderGunModel(context);
+        bindSlotReplacement(GunRenderContext.SCOPE_ALL, "IS");
+        bindSlotReplacement(Attachment.MUZZLE, "muzzle");
+        bindSlotReplacement(Attachment.HANDGUARD, "handguard");
+        bindSlotReplacement("gas_block", "front_IS");
+        bindSlotReplacement(Attachment.STOCK, "stock");
     }
 }

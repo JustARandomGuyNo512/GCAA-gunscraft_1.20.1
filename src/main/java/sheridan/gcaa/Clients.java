@@ -660,7 +660,7 @@ public class Clients {
 
     @OnlyIn(Dist.CLIENT)
     public static boolean allowAdsStart(ItemStack stack, IGun gun, Player player) {
-        return MAIN_HAND_STATUS.equipProgress == 0 && !player.isSwimming() && !ReloadingHandler.isReloading();
+        return !player.isSwimming() && !ReloadingHandler.isReloading();
     }
 
     @OnlyIn(Dist.CLIENT)

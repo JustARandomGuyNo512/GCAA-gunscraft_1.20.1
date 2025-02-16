@@ -215,6 +215,10 @@ public class BulletCraftingScreen extends AbstractContainerScreen<BulletCrafting
             ArrayList<Component> list = new ArrayList<>();
             list.add(Component.translatable(ammunition.getDescriptionId()));
             AmmunitionRecipe recipe = RecipeRegister.getRecipe(ammunition);
+            if (recipe == null) {
+                list.add(Component.literal("Error getting recipe content... :D"));
+                return list;
+            }
             for (Map.Entry<Item, Integer> entry : recipe.getIngredients().entrySet()) {
                 String name = Component.translatable(entry.getKey().getDescriptionId()).getString();
                 list.add(Component.literal(name + " x" + entry.getValue()));

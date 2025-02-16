@@ -16,6 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.capability.PlayerStatus;
 import sheridan.gcaa.capability.PlayerStatusProvider;
+import sheridan.gcaa.client.MuzzleFlashLightHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
@@ -101,13 +102,14 @@ public class GunRenderer{
                 if (Clients.shouldHideFPRender) {
                     return;
                 }
-                if (ClientConfig.useDynamicWeaponLighting.get() && !ClientConfig.enableMuzzleFlashLighting.get()) {
+                if (ClientConfig.useDynamicWeaponLighting.get() &&
+                        (!ClientConfig.enableMuzzleFlashLighting.get() || MuzzleFlashLightHandler.isFirstPersonLightOverride())) {
                     long dis = (System.currentTimeMillis() - tempLastFire);
-                    if (dis < 30) {
+                    if (dis < 35) {
                         float particleTick = Minecraft.getInstance().getPartialTick();
                         int blockLight = entityIn.isOnFire() ? 15 :
                                 entityIn.level().getBrightness(LightLayer.BLOCK, BlockPos.containing(entityIn.getEyePosition(particleTick)));
-                        combinedLightIn = LightTexture.pack((int) Math.min(15, blockLight + Math.min(4, dis)), entityIn.level().getBrightness(LightLayer.SKY,
+                        combinedLightIn = LightTexture.pack((int) Math.min(15, blockLight + Math.min(5, dis)), entityIn.level().getBrightness(LightLayer.SKY,
                                 BlockPos.containing(entityIn.getEyePosition(particleTick))));
                     }
                 }
