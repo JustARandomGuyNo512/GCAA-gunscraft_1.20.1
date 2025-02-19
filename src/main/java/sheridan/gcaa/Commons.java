@@ -15,7 +15,6 @@ import sheridan.gcaa.industrial.RecipeRegister;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.attachments.Attachment;
-import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.replaceableParts.Mk47Handguard;
 import sheridan.gcaa.items.attachments.replaceableParts.RecoilControlPart;
 import sheridan.gcaa.items.attachments.replaceableParts.RecoilLowerPart;
@@ -265,6 +264,11 @@ public class Commons {
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:elcan", "gcaa:acog", "gcaa:okp7_b")))
         );
 
+        AttachmentsRegister.registerAttachmentSlot(ModItems.FN57.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:pistol_suppressor", "gcaa:osprey_suppressor")))
+                .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:micro_laser_sight", "gcaa:micro_flashlight")))
+        );
+
         registerVendingMachineProducts();
         registerAmmunitionRecipes();
         checkVendingMachineProductsRegistry();
@@ -300,6 +304,7 @@ public class Commons {
     public static void registerAmmunitionRecipes() {
         RecipeRegister.registerAmmunition(List.of(
                 ModItems.AMMO_9X19MM.get(),
+                ModItems.AMMO_5_7X28MM.get(),
                 ModItems.AMMO_45ACP.get(),
                 ModItems.AMMO_5_56X45MM.get(),
                 ModItems.AMMO_7_62X39MM.get(),
@@ -313,6 +318,8 @@ public class Commons {
         ), List.of (
                 addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
                         List.of(15, 10, 25), new AmmunitionRecipe(ModItems.AMMO_9X19MM.get(), 20 * 1000)),
+                addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, Items.IRON_INGOT),
+                        List.of(12, 12, 15), new AmmunitionRecipe(ModItems.AMMO_5_7X28MM.get(), 25 * 1000)),
                 addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
                         List.of(20, 10, 30), new AmmunitionRecipe(ModItems.AMMO_45ACP.get(), 30 * 1000)),
                 addIngredients(List.of(ModItems.THIN_COPPER_PLATE.get(), Items.GUNPOWDER, ModItems.LEAD_NUGGET.get()),
@@ -350,6 +357,7 @@ public class Commons {
 
         ProductsRegister.registerProducts(ProductsRegister.GUN,
                 new GunProduct(ModItems.G19.get(), 800),
+                new GunProduct(ModItems.FN57.get(), 1000),
                 new GunProduct(ModItems.PYTHON_357.get(), 700),
                 new GunProduct(ModItems.VECTOR_45.get(), 1300),
                 new GunProduct(ModItems.MP5.get(), 1100),
@@ -368,6 +376,7 @@ public class Commons {
 
         ProductsRegister.registerProducts(ProductsRegister.AMMUNITION,
                 new AmmunitionProduct(ModItems.AMMO_9X19MM.get(), 100),
+                new AmmunitionProduct(ModItems.AMMO_5_7X28MM.get(), 200),
                 new AmmunitionProduct(ModItems.AMMO_357MAGNUM.get(), 150),
                 new AmmunitionProduct(ModItems.AMMO_45ACP.get(), 180),
                 new AmmunitionProduct(ModItems.AMMO_7_62X39MM.get(), 300),

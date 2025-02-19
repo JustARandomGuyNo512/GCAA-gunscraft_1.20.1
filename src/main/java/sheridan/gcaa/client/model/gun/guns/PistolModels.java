@@ -30,6 +30,6 @@ public class PistolModels {
             new ResourceLocation(GCAA.MODID, "model_assets/guns/fn57/fn57.geo.json"),
             new ResourceLocation(GCAA.MODID, "model_assets/guns/fn57/fn57.animation.json"),
             new ResourceLocation(GCAA.MODID, "model_assets/guns/fn57/fn57.png"),
-            5, 0.4f, 0.28f, 4.5f);
+            7, 0.5f, 0, 0f);
 
 }

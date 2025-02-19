@@ -97,6 +97,11 @@
   "item.m60e4.m60e4_cover_open": { "subtitle": "item.m60e4.m60e4_cover_open", "sounds": [{ "name": "gcaa:m60e4/m60e4_cover_open" }]},
   "item.m60e4.m60e4_mag_attach": { "subtitle": "item.m60e4.m60e4_mag_attach", "sounds": [{ "name": "gcaa:m60e4/m60e4_mag_attach" }]},
   "item.m60e4.m60e4_mag_off": { "subtitle": "item.m60e4.m60e4_mag_off", "sounds": [{ "name": "gcaa:m60e4/m60e4_mag_off" }]},
+  "item.fn57.fn57_fire": { "subtitle": "item.fn57.fn57_fire", "sounds": [{ "name": "gcaa:fn57/fn57_fire" }]},
+  "item.fn57.fn57_mag_attach": { "subtitle": "item.fn57.fn57_mag_attach", "sounds": [{ "name": "gcaa:fn57/fn57_mag_attach" }]},
+  "item.fn57.fn57_mag_off": { "subtitle": "item.fn57.fn57_mag_off", "sounds": [{ "name": "gcaa:fn57/fn57_mag_off" }]},
+  "item.fn57.fn57_slide_forward": { "subtitle": "item.fn57.fn57_slide_forward", "sounds": [{ "name": "gcaa:fn57/fn57_slide_forward" }]},
+
 
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},

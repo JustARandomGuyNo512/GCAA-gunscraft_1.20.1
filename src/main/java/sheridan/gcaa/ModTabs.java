@@ -89,6 +89,7 @@ public class ModTabs {
                 .icon(() ->new ItemStack(ModItems.AMMO_9X19MM.get()))
                 .displayItems((parameters, tab) -> {
                     tab.accept(ModItems.AMMO_9X19MM.get());
+                    tab.accept(ModItems.AMMO_5_7X28MM.get());
                     tab.accept(ModItems.AMMO_45ACP.get());
                     tab.accept(ModItems.AMMO_5_56X45MM.get());
                     tab.accept(ModItems.AMMO_7_62X39MM.get());
