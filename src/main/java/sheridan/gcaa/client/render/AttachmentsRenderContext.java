@@ -16,7 +16,6 @@ public class AttachmentsRenderContext {
     public Map<String, AttachmentRenderEntry> slotLayer = new HashMap<>();
     public Set<AttachmentRenderEntry> allEntries = new HashSet<>();
     public boolean containsScope = false;
-    public static final String SCOPES = "SCOPES";
 
     public void add(AttachmentRenderEntry attachmentRenderEntry) {
         allEntries.add(attachmentRenderEntry);
