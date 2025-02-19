@@ -201,7 +201,7 @@ public class Clients {
                 .usePistolDefaultSprintingTrans()
         );
 
-        ArsenalLib.registerGunModel(ModItems.AKM.get(), new AkmModel(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.AKM.get(), RifleModels.AKM_MODEL, new DisplayData()
                 .setFirstPersonMain(-12.4f,15.66f,-31.2f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
@@ -221,7 +221,7 @@ public class Clients {
                 .setSprintingTrans(14, 9.5f, 3, 23, -52, 44)
         );
 
-        ArsenalLib.registerGunModel(ModItems.M4A1.get(), new M4a1Model(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.M4A1.get(), RifleModels.M4A1_MODEL, new DisplayData()
                 .setFirstPersonMain(-12.3f,15.1f,-31.3f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
@@ -241,7 +241,7 @@ public class Clients {
                 .setSprintingTrans(10.5f, 8.5f, 2.5f, 28, -45, 36)
         );
 
-        ArsenalLib.registerGunModel(ModItems.AWP.get(), new AwpModel(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.AWP.get(), SniperModels.AWP_MODEL, new DisplayData()
                 .setFirstPersonMain(-10.9f,12.7f,-31.3f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,-1.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
@@ -255,7 +255,7 @@ public class Clients {
                 .setSprintingTrans(9, 20.5f, 2, 16, -51, 27)
         );
 
-        ArsenalLib.registerGunModel(ModItems.M870.get(), new M870Model(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.M870.get(), ShotGunModels.M870_MODEL, new DisplayData()
                 .setFirstPersonMain(-10.5f,14.5f,-22.9f, POS)
                 .setThirdPersonRight(0.0f,-0.2f,-0.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
@@ -274,7 +274,7 @@ public class Clients {
                 .setSprintingTrans(11, 10.5f, 2, 28, -45, 36)
         );
 
-        ArsenalLib.registerGunModel(ModItems.M249.get(), new M249Model(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.M249.get(), CommonMGModels.M249_Model, new DisplayData()
                 .setFirstPersonMain(-9.3f,18f,-31.3f, POS)
                 .setThirdPersonRight(0.0f,-0.5f,-0.8f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
@@ -314,7 +314,7 @@ public class Clients {
                 .setSprintingTrans(12, 9.5f, -1, 19, -45, 36)
         );
 
-        ArsenalLib.registerGunModel(ModItems.XM1014.get(), new Xm1014Model(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.XM1014.get(), ShotGunModels.XM1014_MODEL, new DisplayData()
                 .setFirstPersonMain(-11.4f,11.9f,-26.2f, POS)
                 .setThirdPersonRight(0.0f,-0.4f,-0.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
@@ -353,7 +353,7 @@ public class Clients {
                 .setSprintingTrans(11, 12.5f, -2, 18, -49, 41)
         );
 
-        ArsenalLib.registerGunModel(ModItems.HK_G28.get(), new HkG28Model(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.HK_G28.get(), RifleModels.HK_G28_MODEL, new DisplayData()
                 .setFirstPersonMain(-12.65f,14.7f,-29.1f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.6f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
@@ -373,7 +373,7 @@ public class Clients {
                 .setSprintingTrans(14, 13f, 2, 15, -49, 44)
         );
 
-        ArsenalLib.registerGunModel(ModItems.AK12.get(), new Ak12Model(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.AK12.get(), RifleModels.AK12_MODEL, new DisplayData()
                 .setFirstPersonMain(-14.5f,15.6f,-34.4f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
@@ -409,7 +409,7 @@ public class Clients {
                 .setSprintingTrans(16, 11.5f, 7, 28, -46, 47)
         );
 
-        ArsenalLib.registerGunModel(ModItems.ANNIHILATOR.get(), new AnnihilatorModel(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.ANNIHILATOR.get(), CommonSMGModels.ANNIHILATOR_MODEL, new DisplayData()
                 .setFirstPersonMain(-12.7f,14.5f,-53.5f, POS)
                 .setThirdPersonRight(0.0f,-0.2f,-0.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
@@ -422,7 +422,7 @@ public class Clients {
                 .setBulletShellDisplayData(new BulletShellDisplayData(2f, 4.5127f, -8.9f, new Vector3f(3.5f, 1.6f, -0.5f), BulletShellModel.PISTOL).setScale(1.2f).setRandomRate(0.4f))
         );
 
-        ArsenalLib.registerGunModel(ModItems.MP5.get(), new Mp5Model(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.MP5.get(), CommonSMGModels.MP5_MODEL, new DisplayData()
                 .setFirstPersonMain(-11.7f,18.7f,-38f, POS)
                 .setThirdPersonRight(0.0f,-0.8f,0.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
@@ -442,7 +442,7 @@ public class Clients {
                 .setSprintingTrans(18.1f, 11.5f, 0, 20, -53, 45)
         );
 
-        ArsenalLib.registerGunModel(ModItems.FN_BALLISTA.get(), new FnBallistaModel(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.FN_BALLISTA.get(), SniperModels.FN_BALLISTA_MODEL, new DisplayData()
                 .setFirstPersonMain(-11.8f,13.7f,-32.4f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,-1.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
@@ -456,7 +456,7 @@ public class Clients {
                 .setSprintingTrans(9, 20.5f, 2, 16, -51, 27)
         );
 
-        ArsenalLib.registerGunModel(ModItems.M60E4.get(), new M60E4Model(), new DisplayData()
+        ArsenalLib.registerGunModel(ModItems.M60E4.get(), CommonMGModels.M60E4, new DisplayData()
                 .setFirstPersonMain(-12f,15.5f,-37.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
                 .setThirdPersonRight(0.0f,-0.1f,1.2f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, -1.4f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)

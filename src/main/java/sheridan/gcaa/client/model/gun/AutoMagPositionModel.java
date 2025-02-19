@@ -10,15 +10,15 @@ import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class NewAutoMagPositionModel extends NewGunModel{
+public abstract class AutoMagPositionModel extends GunModel {
     protected ModelPart mag;
     protected ModelPart low_quality_mag;
 
-    public NewAutoMagPositionModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture, @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture) {
+    public AutoMagPositionModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture, @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture) {
         super(modelPath, animationPath, texture, lowQualityModelPath, lowQualityTexture);
     }
 
-    public NewAutoMagPositionModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture) {
+    public AutoMagPositionModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture) {
         super(modelPath, animationPath, texture);
     }
 

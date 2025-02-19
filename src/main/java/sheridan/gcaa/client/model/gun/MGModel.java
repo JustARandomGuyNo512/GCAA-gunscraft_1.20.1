@@ -14,13 +14,14 @@ import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class MGModel extends NewGunModel{
+public class MGModel extends GunModel {
     protected ModelPart[] bullets;
     protected ModelPart cover, mag;
     private final int chainSize;
     private final boolean disableCoverFaceCulling;
     private final int reloadingShowBulletsDelay;
     private AnimationDefinition shoot;
+
     public MGModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture,
                    @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture,
                    int chainSize, int reloadingShowBulletsDelay, boolean disableCoverFaceCulling)  {

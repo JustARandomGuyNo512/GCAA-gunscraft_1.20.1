@@ -43,6 +43,21 @@ public abstract class Attachment extends NoRepairNoEnchantmentItem implements IA
         return ALL_INSTANCES;
     }
 
+    /**
+     * Returns the constant name of the attachment, make string compares faster
+     * */
+    public static String getConstantNameField(String name) {
+        return switch (name) {
+            case "muzzle" -> MUZZLE;
+            case "mag" -> MAG;
+            case "handguard" -> HANDGUARD;
+            case "stock" -> STOCK;
+            case "grip" -> GRIP;
+            case "scope" -> SCOPE;
+            default -> name;
+        };
+    }
+
     @Override
     public AttachResult canAttach(ItemStack stack, IGun gun, AttachmentSlot root, AttachmentSlot prevSlot) {
         if (prevSlot == null) {

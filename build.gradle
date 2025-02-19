@@ -17,7 +17,7 @@ plugins {
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'sheridan'
-version = '0.2.6'
+version = '0.2.5.3'
 
 java {
     archivesBaseName = 'gcaa'

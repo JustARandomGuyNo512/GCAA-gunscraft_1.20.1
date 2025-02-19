@@ -275,7 +275,7 @@
 					]
 				},
 				{
-					"name": "mag",
+					"name": "mag&.mag",
 					"parent": "main",
 					"pivot": [0, -4, -14.6],
 					"cubes": [
@@ -331,7 +331,7 @@
 				},
 				{
 					"name": "bullet",
-					"parent": "mag",
+					"parent": "mag&.mag",
 					"pivot": [0, 4.10778, -12.4],
 					"cubes": [
 						{
@@ -364,7 +364,7 @@
 					]
 				},
 				{
-					"name": "handguard_railed",
+					"name": "handguard_railed&^handguard",
 					"parent": "main",
 					"pivot": [0, 5.45, -44.4],
 					"cubes": [
@@ -573,7 +573,7 @@
 					]
 				},
 				{
-					"name": "handguard",
+					"name": "handguard&.handguard",
 					"parent": "main",
 					"pivot": [0, 6, -34],
 					"cubes": [
@@ -881,7 +881,7 @@
 					]
 				},
 				{
-					"name": "stock_ar",
+					"name": "stock_ar&^stock",
 					"parent": "main",
 					"pivot": [0, 5.4, 33],
 					"cubes": [
@@ -1036,7 +1036,7 @@
 					]
 				},
 				{
-					"name": "stock",
+					"name": "stock&.stock",
 					"parent": "main",
 					"pivot": [0, 5.4, 17],
 					"cubes": [

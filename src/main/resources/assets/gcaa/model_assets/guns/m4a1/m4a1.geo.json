@@ -21,6 +21,80 @@
 					"pivot": [0, 0, 0]
 				},
 				{
+					"name": "left_arm",
+					"parent": "gun",
+					"pivot": [16.9, -17.4, 5.7],
+					"rotation": [-91.54104, 24.55025, 48.48454]
+				},
+				{
+					"name": "left_arm_normal",
+					"parent": "left_arm",
+					"pivot": [19.20425, -76.76658, 6.087],
+					"rotation": [-6.3, -0.075, 25.82]
+				},
+				{
+					"name": "LA",
+					"parent": "left_arm_normal",
+					"pivot": [19.20425, -76.76658, 6.087]
+				},
+				{
+					"name": "LS",
+					"parent": "left_arm_normal",
+					"pivot": [19.20425, -76.76658, 6.087]
+				},
+				{
+					"name": "left_arm_slim",
+					"parent": "left_arm",
+					"pivot": [17.4256, -76.02353, 6.17921],
+					"rotation": [-6.3, 0.0849, 25.85]
+				},
+				{
+					"name": "LAS",
+					"parent": "left_arm_slim",
+					"pivot": [17.4256, -76.02353, 6.17921]
+				},
+				{
+					"name": "LSS",
+					"parent": "left_arm_slim",
+					"pivot": [17.4256, -76.02353, 6.17921]
+				},
+				{
+					"name": "right_arm",
+					"parent": "gun",
+					"pivot": [-4.3, -18.5, 41],
+					"rotation": [-97.49256, -4.30566, 5.60865]
+				},
+				{
+					"name": "right_arm_slim",
+					"parent": "right_arm",
+					"pivot": [-4.3, -66.5, 41]
+				},
+				{
+					"name": "RAS",
+					"parent": "right_arm_slim",
+					"pivot": [-4.3, -66.5, 41]
+				},
+				{
+					"name": "RSS",
+					"parent": "right_arm_slim",
+					"pivot": [-4.3, -66.5, 41]
+				},
+				{
+					"name": "right_arm_normal",
+					"parent": "right_arm",
+					"pivot": [-6.28481, -66.32635, 41.17431]
+				},
+				{
+					"name": "RA",
+					"parent": "right_arm_normal",
+					"pivot": [-6.28481, -66.32635, 41.17431]
+				},
+				{
+					"name": "RS",
+					"parent": "right_arm_normal",
+					"pivot": [-6.28481, -66.32635, 41.17431]
+				},
+				{
 					"name": "main",
 					"parent": "gun",
 					"pivot": [0, 0, 0]
@@ -237,7 +311,7 @@
 					]
 				},
 				{
-					"name": "front_IS",
+					"name": "front_IS&.gas_block",
 					"parent": "main",
 					"pivot": [0, 6.75, -58],
 					"cubes": [
@@ -415,7 +489,7 @@
 					]
 				},
 				{
-					"name": "handguard",
+					"name": "handguard&.handguard",
 					"parent": "main",
 					"pivot": [0, 3.73817, -25.36522],
 					"cubes": [
@@ -965,7 +1039,7 @@
 					]
 				},
 				{
-					"name": "muzzle",
+					"name": "muzzle&.muzzle",
 					"parent": "main",
 					"pivot": [0, 3.7, -84],
 					"cubes": [
@@ -1025,7 +1099,7 @@
 					]
 				},
 				{
-					"name": "stock",
+					"name": "stock&.stock",
 					"parent": "main",
 					"pivot": [0, 5.5, 29.75],
 					"cubes": [
@@ -2484,7 +2558,7 @@
 					]
 				},
 				{
-					"name": "IS",
+					"name": "IS&SCOPES",
 					"parent": "main",
 					"pivot": [0, 12.6, -61.5],
 					"cubes": [
@@ -3135,7 +3209,7 @@
 					]
 				},
 				{
-					"name": "grip",
+					"name": "grip&.grip",
 					"parent": "main",
 					"pivot": [0, 0, 0],
 					"cubes": [
@@ -3210,7 +3284,7 @@
 					]
 				},
 				{
-					"name": "mag",
+					"name": "mag&.mag",
 					"parent": "main",
 					"pivot": [0, -11.6296, -13.95],
 					"cubes": [
@@ -3254,7 +3328,7 @@
 				},
 				{
 					"name": "bullet",
-					"parent": "mag",
+					"parent": "mag&.mag",
 					"pivot": [-0.05, -0.4, -16.48444],
 					"cubes": [
 						{
@@ -3315,80 +3389,6 @@
 					"name": "s_handguard",
 					"parent": "main",
 					"pivot": [0, 3.7929, -38.75]
-				},
-				{
-					"name": "right_arm",
-					"parent": "gun",
-					"pivot": [-4.3, -18.5, 41],
-					"rotation": [-97.49256, -4.30566, 5.60865]
-				},
-				{
-					"name": "right_arm_slim",
-					"parent": "right_arm",
-					"pivot": [-4.3, -66.5, 41]
-				},
-				{
-					"name": "RAS",
-					"parent": "right_arm_slim",
-					"pivot": [-4.3, -66.5, 41]
-				},
-				{
-					"name": "RSS",
-					"parent": "right_arm_slim",
-					"pivot": [-4.3, -66.5, 41]
-				},
-				{
-					"name": "right_arm_normal",
-					"parent": "right_arm",
-					"pivot": [-6.28481, -66.32635, 41.17431]
-				},
-				{
-					"name": "RA",
-					"parent": "right_arm_normal",
-					"pivot": [-6.28481, -66.32635, 41.17431]
-				},
-				{
-					"name": "RS",
-					"parent": "right_arm_normal",
-					"pivot": [-6.28481, -66.32635, 41.17431]
-				},
-				{
-					"name": "left_arm",
-					"parent": "gun",
-					"pivot": [16.9, -17.4, 5.7],
-					"rotation": [-91.54104, 24.55025, 48.48454]
-				},
-				{
-					"name": "left_arm_normal",
-					"parent": "left_arm",
-					"pivot": [19.20425, -76.76658, 6.087],
-					"rotation": [-6.3, -0.075, 25.82]
-				},
-				{
-					"name": "LA",
-					"parent": "left_arm_normal",
-					"pivot": [19.20425, -76.76658, 6.087]
-				},
-				{
-					"name": "LS",
-					"parent": "left_arm_normal",
-					"pivot": [19.20425, -76.76658, 6.087]
-				},
-				{
-					"name": "left_arm_slim",
-					"parent": "left_arm",
-					"pivot": [17.4256, -76.02353, 6.17921],
-					"rotation": [-6.3, 0.0849, 25.85]
-				},
-				{
-					"name": "LAS",
-					"parent": "left_arm_slim",
-					"pivot": [17.4256, -76.02353, 6.17921]
-				},
-				{
-					"name": "LSS",
-					"parent": "left_arm_slim",
-					"pivot": [17.4256, -76.02353, 6.17921]
 				},
 				{
 					"name": "camera",

@@ -317,6 +317,10 @@ public final class ModelPart {
         return this.children;
     }
 
+    public boolean hasChild() {
+        return children != null && !children.isEmpty();
+    }
+
     public ModelPart getChild(String childName) {
         ModelPart modelpart = this.children.get(childName);
         if (modelpart == null) {

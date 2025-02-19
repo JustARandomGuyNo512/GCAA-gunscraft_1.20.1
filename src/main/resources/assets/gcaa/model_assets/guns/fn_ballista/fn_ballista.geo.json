@@ -167,7 +167,7 @@
 					"pivot": [0, 9.13048, -9.18507]
 				},
 				{
-					"name": "IS",
+					"name": "IS&SCOPES",
 					"parent": "main",
 					"pivot": [0, 9.42775, 1.2625],
 					"cubes": [
@@ -567,7 +567,7 @@
 					]
 				},
 				{
-					"name": "exp_mag",
+					"name": "exp_mag&^mag",
 					"parent": "main",
 					"pivot": [0, -9, -9],
 					"cubes": [
@@ -600,7 +600,7 @@
 				},
 				{
 					"name": "exp_mag_bullet",
-					"parent": "exp_mag",
+					"parent": "exp_mag&^mag",
 					"pivot": [-0.175, 2.69348, -8.00272],
 					"cubes": [
 						{
@@ -633,7 +633,7 @@
 					]
 				},
 				{
-					"name": "mag",
+					"name": "mag&.mag",
 					"parent": "main",
 					"pivot": [0, -9, -9],
 					"cubes": [
@@ -666,7 +666,7 @@
 				},
 				{
 					"name": "bullet",
-					"parent": "mag",
+					"parent": "mag&.mag",
 					"pivot": [-0.175, 2.69348, -8.00272],
 					"cubes": [
 						{
@@ -699,7 +699,7 @@
 					]
 				},
 				{
-					"name": "muzzle",
+					"name": "muzzle&.muzzle",
 					"parent": "main",
 					"pivot": [0, 4.0159, -124.54495],
 					"cubes": [

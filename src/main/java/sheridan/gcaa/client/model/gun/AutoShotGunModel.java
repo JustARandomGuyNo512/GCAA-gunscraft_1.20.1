@@ -14,7 +14,7 @@ import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class AutoShotGunModel extends NewGunModel{
+public class AutoShotGunModel extends GunModel {
     private ModelPart reloading_arm, shell;
     private AnimationDefinition shoot, recoil, recoil_ads;
     public AutoShotGunModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture, @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture) {

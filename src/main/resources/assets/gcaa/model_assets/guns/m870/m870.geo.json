@@ -1038,7 +1038,7 @@
 					]
 				},
 				{
-					"name": "mag",
+					"name": "mag&.mag",
 					"parent": "main",
 					"pivot": [0, -0.7571, -81.025],
 					"cubes": [
@@ -1133,7 +1133,7 @@
 					]
 				},
 				{
-					"name": "stock",
+					"name": "stock&.stock",
 					"parent": "main",
 					"pivot": [0, 0.925, 8.1],
 					"rotation": [-2.5, 0, 0],
@@ -1561,7 +1561,7 @@
 					]
 				},
 				{
-					"name": "handguard",
+					"name": "handguard&.handguard",
 					"parent": "main",
 					"pivot": [0, -0.8213, -55.2],
 					"cubes": [

@@ -11,7 +11,7 @@ import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class GlockModel extends NewAutoMagPositionModel{
+public class GlockModel extends AutoMagPositionModel {
     protected ModelPart bullet, slide, barrel;
     protected ModelPart slide_low_quality, barrel_low_quality, mag_low_quality;
     protected AnimationDefinition shoot;

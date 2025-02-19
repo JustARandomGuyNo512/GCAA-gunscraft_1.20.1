@@ -10,10 +10,9 @@ import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class CommonRifleModel extends NewAutoMagPositionModel{
+public class CommonRifleModel extends AutoMagPositionModel {
     protected AnimationDefinition shoot;
     protected ModelPart bullet;
-    protected boolean autoMagVisible = true;
 
     public CommonRifleModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture,
                             @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture) {
@@ -35,9 +34,6 @@ public class CommonRifleModel extends NewAutoMagPositionModel{
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer solid = getDefaultVertex(context);
         bullet.visible = context.shouldBulletRender();
-        if (autoMagVisible) {
-            mag.visible = context.notHasMag();
-        }
         context.render(solid, main);
         if (context.isFirstPerson) {
             context.renderArm(right_arm, true);

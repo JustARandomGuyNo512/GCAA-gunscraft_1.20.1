@@ -16,7 +16,7 @@ import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class RevolverWithLoaderModel extends NewGunModel{
+public class RevolverWithLoaderModel extends GunModel {
     private final int magSize;
     private ModelPart reloading_arm;
     private ModelPart drum, loader;

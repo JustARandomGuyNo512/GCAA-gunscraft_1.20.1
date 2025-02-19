@@ -18,14 +18,11 @@ public class Vector45Model extends CommonRifleModel {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/vector_45/vector_45.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/vector_45/vector_45.animation.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/vector_45/vector_45.png"));
-        autoMagVisible = false;
     }
 
     @Override
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {
         super.postInit(main, gun, root);
-        bindSlotReplacement(Attachment.MUZZLE, "muzzle");
-        bindSlotReplacement(Attachment.SCOPE, "IS", "front_IS");
         exp_part = mag.getChild("exp_part");
     }
 

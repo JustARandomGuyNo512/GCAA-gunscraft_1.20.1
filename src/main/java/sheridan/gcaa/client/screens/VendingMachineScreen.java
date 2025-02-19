@@ -28,7 +28,7 @@ import org.lwjgl.opengl.GL11;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.model.gun.IGunModel;
-import sheridan.gcaa.client.model.gun.NewGunModel;
+import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -256,7 +256,7 @@ public class VendingMachineScreen extends AbstractContainerScreen<VendingMachine
             RenderSystem.setShaderColor(1,1,1,1);
             GunRenderContext gunRenderContext =
                     new GunRenderContext(graphics.bufferSource(), poseStackView, itemStack, gun, ItemDisplayContext.GROUND, 15728880, 655360, false);
-            NewGunModel.disableLowQuality(gunRenderContext);
+            GunModel.disableLowQuality(gunRenderContext);
             DisplayData displayData = GunModelRegister.getDisplayData(gun);
             if (displayData != null) {
                 float[] floats = displayData.get(DisplayData.GROUND);

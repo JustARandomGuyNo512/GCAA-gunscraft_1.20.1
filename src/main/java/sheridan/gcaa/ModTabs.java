@@ -105,6 +105,7 @@ public class ModTabs {
                 .icon(() ->new ItemStack(ModItems.G19.get()))
                 .displayItems((parameters, tab) -> {
                     tab.accept(ModItems.G19.get());
+                    tab.accept(ModItems.FN57.get());
                     tab.accept(ModItems.PYTHON_357.get());
                     tab.accept(ModItems.VECTOR_45.get());
                     tab.accept(ModItems.MP5.get());

@@ -13,7 +13,7 @@ import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
-public class SniperModel extends NewAutoMagPositionModel{
+public class SniperModel extends AutoMagPositionModel {
     protected ModelPart exp_mag, exp_mag_bullet, bullet;
     protected AnimationDefinition recoil, recoil_ads;
     public SniperModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture, @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture) {
