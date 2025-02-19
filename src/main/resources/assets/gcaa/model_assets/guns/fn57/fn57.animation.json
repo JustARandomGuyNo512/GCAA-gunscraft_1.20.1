@@ -514,8 +514,8 @@
 				"0.81": {
 					"effect": "fn57_mag_off"
 				},
-				"1.82": {
-					"effect": "fn57_mag_attach"
+				"1.79": {
+					"effect": "pistol_mag_attach"
 				}
 			}
 		},
@@ -933,10 +933,10 @@
 				"0.81": {
 					"effect": "fn57_mag_off"
 				},
-				"1.83": {
-					"effect": "fn57_mag_attach"
+				"1.79": {
+					"effect": "pistol_mag_attach"
 				},
-				"2.08": {
+				"2.07": {
 					"effect": "fn57_slide_forward"
 				}
 			}

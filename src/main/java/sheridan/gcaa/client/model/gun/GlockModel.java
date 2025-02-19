@@ -52,7 +52,7 @@ public class GlockModel extends AutoMagPositionModel {
         bullet.visible = context.shouldBulletRender();
         mag.visible = context.notHasMag();
         if (context.isFirstPerson && context.ammoLeft == 0 && !ReloadingHandler.isReloading()) {
-            slide.addZ(chargeSlideBack);
+            slide.setZ(slide.getInitialPose().z + chargeSlideBack);
             barrel.addZ(chargeBarrelBack);
             barrel.addY(chargeBarrelDown);
             barrel.addxRot(-chargeBarrelRot);

@@ -113,9 +113,21 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
                 boolean flag = rule.charAt(0) == '^';
                 rule = flag ? rule.substring(1) : rule;
                 if (rule.startsWith(".") || rule.startsWith("s_")) {
-                    // 绑定配件槽替换
-                    rule = rule.startsWith(".") ? rule.substring(1) : rule.substring(2);
-                    controllers.add(new SlotBoundVisibleController(key, flag, Attachment.getConstantNameField(rule)));
+                    String[] split = rule.split("#");
+                    if (split.length > 1) {
+                        String ruleA = split[0].startsWith(".") ? split[0].substring(1) : split[0].substring(2);
+                        String ruleB = split[1];
+                        boolean flagB = ruleB.charAt(0) == '^';
+                        if (flagB) {
+                            ruleB = ruleB.substring(1);
+                        }
+                        ruleB = ruleB.startsWith(".") ? ruleB.substring(1) : ruleB.substring(2);
+                        controllers.add(new OrSlotBoundVisibleController(key, flag, ruleA, flagB, ruleB));
+                    } else {
+                        // 绑定配件槽替换
+                        rule = rule.startsWith(".") ? rule.substring(1) : rule.substring(2);
+                        controllers.add(new SlotBoundVisibleController(key, flag, Attachment.getConstantNameField(rule)));
+                    }
                 } else if ("SCOPES".equals(rule)) {
                     // 是否包含瞄具
                     controllers.add(new containScopeVisibleController(flag, key));
@@ -394,7 +406,7 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     }
 
     private class SlotBoundVisibleController extends VisibleController {
-        private final String slotName;
+        protected final String slotName;
         public SlotBoundVisibleController(ModelPart part, boolean flag, String slotName) {
             super(flag, part);
             this.slotName = slotName;
@@ -407,6 +419,26 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         @Override
         void processLow(GunRenderContext gunRenderContext) {
             lowPart.visible = flag == gunRenderContext.has(slotName);
+        }
+    }
+
+    private class OrSlotBoundVisibleController extends SlotBoundVisibleController {
+        private final String slotNameB;
+        private final boolean flagB;
+        public OrSlotBoundVisibleController(ModelPart part, boolean flag, String slotNameA, boolean flagB, String slotNameB)  {
+            super(part, flag, slotNameA);
+            this.slotNameB = slotNameB;
+            this.flagB = flagB;
+        }
+
+        @Override
+        public void process(GunRenderContext gunRenderContext) {
+            part.visible = (flag == gunRenderContext.has(slotName) || flagB == gunRenderContext.has(slotNameB));
+        }
+
+        @Override
+        void processLow(GunRenderContext gunRenderContext) {
+            lowPart.visible = (flag == gunRenderContext.has(slotName) || flagB == gunRenderContext.has(slotNameB));
         }
     }
 

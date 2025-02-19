@@ -115,7 +115,6 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> M60E4_MAG_ATTACH = registerSound("m60e4_mag_attach", "item.m60e4.m60e4_mag_attach");
     public static RegistryObject<SoundEvent> M60E4_MAG_OFF = registerSound("m60e4_mag_off", "item.m60e4.m60e4_mag_off");
     public static RegistryObject<SoundEvent> FN57_FIRE = registerSound("fn57_fire", "item.fn57.fn57_fire");
-    public static RegistryObject<SoundEvent> FN57_MAG_ATTACH = registerSound("fn57_mag_attach", "item.fn57.fn57_mag_attach");
     public static RegistryObject<SoundEvent> FN57_MAG_OFF = registerSound("fn57_mag_off", "item.fn57.fn57_mag_off");
     public static RegistryObject<SoundEvent> FN57_SLIDE_FORWARD = registerSound("fn57_slide_forward", "item.fn57.fn57_slide_forward");
 
