@@ -73,7 +73,7 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.G19.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:pistol_suppressor", "gcaa:osprey_suppressor")))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:micro_red_dot")))
-                .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:micro_laser_sight", "gcaa:micro_flashlight")))
+                .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:micro_laser_sight", "gcaa:micro_flashlight", "gcaa:glock_mount")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:glock_extend_mag")))
         );
 
@@ -266,7 +266,7 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.FN57.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:pistol_suppressor", "gcaa:osprey_suppressor")))
-                .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:micro_laser_sight", "gcaa:micro_flashlight")))
+                .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:micro_laser_sight", "gcaa:micro_flashlight", "gcaa:glock_mount")))
         );
 
         registerVendingMachineProducts();
@@ -405,6 +405,7 @@ public class Commons {
                 new AttachmentProduct(ModItems.AK_IMPROVED_HANDGUARD.get(), 270),
                 new AttachmentProduct(ModItems.AK_RAIL_BRACKET.get(), 100),
                 new AttachmentProduct(ModItems.RAIL_CLAMP.get(), 100),
+                new AttachmentProduct(ModItems.GLOCK_MOUNT.get(), 110),
                 new AttachmentProduct(ModItems.AK_IMPROVED_DUST_COVER.get(), 100),
                 new AttachmentProduct(ModItems.MICRO_RED_DOT.get(), 75),
                 new AttachmentProduct(ModItems.RED_DOT.get(), 102),

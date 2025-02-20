@@ -276,8 +276,8 @@ public class GunRenderContext {
         return this;
     }
 
-    public AttachmentRenderEntry getAttachmentRenderEntry(String slotName) {
-        return attachmentsRenderContext == null ? null : attachmentsRenderContext.modelSlotLayer.get(slotName);
+    public AttachmentRenderEntry getAttachmentRenderEntry(String modelSlotName) {
+        return attachmentsRenderContext == null ? null : attachmentsRenderContext.modelSlotLayer.get(modelSlotName);
     }
 
     public void renderBulletShell() {

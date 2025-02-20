@@ -11,7 +11,7 @@ public class AKRailBracket extends SubSlotProvider {
             .addChild(new AttachmentSlot("rail_bracket_scope", Set.of("gcaa:red_dot","gcaa:elcan", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")));
 
     public AKRailBracket() {
-        super(0.2f);
+        super(0.4f);
     }
 
     @Override

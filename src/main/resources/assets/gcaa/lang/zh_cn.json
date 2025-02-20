@@ -81,6 +81,7 @@
   "item.gcaa.ak_tactical_stock": "AK 战术后托",
   "item.gcaa.m203": "M203 榴弹发射器",
   "item.gcaa.elcan": "Elcan 瞄准镜",
+  "item.gcaa.glock_mount": "Glock 镜架",
 
   "item.gcaa.ammo9x19mm": "帕拉贝鲁姆9毫米手枪弹",
   "item.gcaa.ammo5_56x45mm": "5.56x45毫米突击步枪弹",
@@ -270,5 +271,7 @@
   "item.gcaa.beretta_686.introduction": "优雅实用的双管霰弹枪，齐射可提供瞬间高爆发，绝对能把敌人崩死，如果没崩死就。。。",
   "item.gcaa.hk_g28.introduction": "高模块化精确射手步枪，威力强劲，精准覆盖中远程目标，适应性极强。",
   "item.gcaa.mp5.introduction": "十分经典的冲锋枪，性能可靠，适合快速突袭与防守。",
-  "item.gcaa.fn_ballista.introduction": "使用.338弹药的狙击枪，威力十分强大，每一发都足以击杀敌人，但射速较慢。"
+  "item.gcaa.fn_ballista.introduction": "使用.338弹药的狙击枪，威力十分强大，每一发都足以击杀敌人，但射速较慢。",
+  "item.gcaa.m60e4.introduction": "强力的通用机枪，兼具威力和持久性，适合持续压制敌人",
+  "item.gcaa.fn57": "小巧精准的手枪，使用5.7mm弹药，具备高穿透力，适合快速反击与精准打击。绝对值得拥有的高端副武器选择。"
 }

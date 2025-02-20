@@ -81,6 +81,7 @@
   "item.gcaa.ak_tactical_stock": "AK Tactical Stock",
   "item.gcaa.m203": "M203 Grenade Launcher",
   "item.gcaa.elcan": "Elcan Scope",
+  "item.gcaa.glock_mount": "Glock Mount",
 
   "item.gcaa.ammo9x19mm": "Parabellum 9mm Pistol Rounds",
   "item.gcaa.ammo5_56x45mm": "5.56x45mm Assault Rifle Rounds",
@@ -269,5 +270,7 @@
   "item.gcaa.beretta_686.introduction": "An elegant and practical double-barrel shotgun. Its volley-fire mode delivers devastating damage—if it doesn’t finish the job, well...",
   "item.gcaa.hk_g28.introduction": "A highly modular designated marksman rifle with powerful precision, covering medium to long-range targets with exceptional adaptability.",
   "item.gcaa.mp5.introduction": "A highly classic submachine gun with reliable performance, ideal for quick assaults and defense.",
-  "item.gcaa.fn_ballista.introduction": "A sniper rifle chambered in .338 ammo, offering immense power with each shot capable of taking down an enemy, but with a relatively slow rate of fire."
+  "item.gcaa.fn_ballista.introduction": "A sniper rifle chambered in .338 ammo, offering immense power with each shot capable of taking down an enemy, but with a relatively slow rate of fire.",
+  "item.gcaa.m60e4.introduction": "A powerful general-purpose machine gun, combining firepower and durability, ideal for sustained enemy suppression.",
+  "item.gcaa.fn57.introduction": "A compact and precise handgun chambered in 5.7mm, offering high penetration. A top-tier sidearm choice worth having."
 }

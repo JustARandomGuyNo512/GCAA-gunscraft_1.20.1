@@ -18,6 +18,7 @@ import sheridan.gcaa.items.attachments.grip.*;
 import sheridan.gcaa.items.attachments.handguard.*;
 import sheridan.gcaa.items.attachments.mag.*;
 import sheridan.gcaa.items.attachments.muzzle.*;
+import sheridan.gcaa.items.attachments.other.GlockMount;
 import sheridan.gcaa.items.attachments.other.RailClamp;
 import sheridan.gcaa.items.attachments.scope.Acog;
 import sheridan.gcaa.items.attachments.scope.Elcan;
@@ -126,6 +127,7 @@ public class ModItems {
     public static final RegistryObject<AKTacticalStock> AK_TACTICAL_STOCK = ITEMS.register("ak_tactical_stock", AKTacticalStock::new);
     public static final RegistryObject<M203> M203 = ITEMS.register("m203", M203::new);
     public static final RegistryObject<Elcan> ELCAN = ITEMS.register("elcan", Elcan::new);
+    public static final RegistryObject<GlockMount> GLOCK_MOUNT = ITEMS.register("glock_mount", GlockMount::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

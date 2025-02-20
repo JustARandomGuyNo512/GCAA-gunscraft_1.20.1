@@ -23,7 +23,7 @@ public class RailClamp extends SubSlotProvider {
     private final AttachmentSlot commonSlot = new AttachmentSlot("rail_clamp_scope", common);
     private final AttachmentSlot rifleSlot = new AttachmentSlot("rail_clamp_scope", rifle);
     public RailClamp() {
-        super(0.3f);
+        super(0.35f);
     }
 
     @Override

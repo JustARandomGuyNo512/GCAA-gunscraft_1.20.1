@@ -48,6 +48,7 @@ import sheridan.gcaa.client.model.attachments.handguard.ARLightHandguardShortMod
 import sheridan.gcaa.client.model.attachments.handguard.ARRailedHandguardModel;
 import sheridan.gcaa.client.model.attachments.mag.*;
 import sheridan.gcaa.client.model.attachments.muzzle.*;
+import sheridan.gcaa.client.model.attachments.other.GlockMountModel;
 import sheridan.gcaa.client.model.attachments.other.RailClampModel;
 import sheridan.gcaa.client.model.attachments.scope.AcogModel;
 import sheridan.gcaa.client.model.attachments.scope.ElcanModel;
@@ -565,6 +566,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.AK_TACTICAL_STOCK.get(), new AKTacticalStockModel());
         ArsenalLib.registerAttachmentModel(ModItems.M203.get(), new M203Model());
         ArsenalLib.registerAttachmentModel(ModItems.ELCAN.get(), new ElcanModel());
+        ArsenalLib.registerAttachmentModel(ModItems.GLOCK_MOUNT.get(), new GlockMountModel());
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {
