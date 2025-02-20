@@ -1,6 +1,7 @@
 package sheridan.gcaa.items.gun.calibers;
 
 import com.google.gson.JsonObject;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -9,7 +10,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import sheridan.gcaa.common.server.projetile.Projectile;
+import sheridan.gcaa.items.ammunition.Ammunition;
+import sheridan.gcaa.items.ammunition.AmmunitionHandler;
+import sheridan.gcaa.items.ammunition.AmmunitionMod;
 import sheridan.gcaa.items.ammunition.IAmmunition;
+import sheridan.gcaa.items.ammunition.ammunitionMods.AmmunitionMods;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.common.server.projetile.ProjectileHandler;
 import sheridan.gcaa.utils.FontUtils;
@@ -52,20 +57,33 @@ public class CaliberGauge12 extends Caliber {
     @Override
     public void fireBullet(IAmmunition ammunition, ItemStack ammunitionStack, IGun gun, Player player, ItemStack gunStack, float spread) {
         Vec3 angle = player.getLookAngle();
-        spread *= Projectile.BASE_SPREAD_INDEX;
-        angle = angle.normalize().add(
-                RenderAndMathUtils.RANDOM.nextGaussian() * spread,
-                RenderAndMathUtils.RANDOM.nextGaussian() * spread,
-                RenderAndMathUtils.RANDOM.nextGaussian() * spread).scale(speed);
-        for (int i = 0; i < projectileNum; i ++) {
+        CompoundTag usingAmmunitionData = gun.getUsingAmmunitionData(gunStack);
+        if (usingAmmunitionData != null &&
+                usingAmmunitionData.getCompound("mods").contains(AmmunitionMods.SLUG.id.toString())) {
             ProjectileHandler.fire(player, angle, penetration, speed, baseDamage, minDamage, baseSpread, effectiveRange, gun, gunStack);
+        } else {
+            spread *= Projectile.BASE_SPREAD_INDEX;
+            angle = angle.normalize().add(
+                    RenderAndMathUtils.RANDOM.nextGaussian() * spread,
+                    RenderAndMathUtils.RANDOM.nextGaussian() * spread,
+                    RenderAndMathUtils.RANDOM.nextGaussian() * spread).scale(speed);
+            for (int i = 0; i < projectileNum; i ++) {
+                ProjectileHandler.fire(player, angle, penetration, speed, baseDamage, minDamage, baseSpread, effectiveRange, gun, gunStack);
+            }
         }
     }
 
     @Override
     public void handleTooltip(ItemStack stack, IGun gun, Level levelIn, List<Component> tooltip, TooltipFlag flagIn, boolean detail) {
         int color = FontUtils.getColor(baseDamage * projectileNum, 35, 1);
-        tooltip.add(FontUtils.dataTip("tooltip.gun_info.damage", baseDamage + " x " + projectileNum, color));
+        CompoundTag usingAmmunitionData = gun.getUsingAmmunitionData(stack);
+        if (usingAmmunitionData != null
+                && usingAmmunitionData.getCompound("mods").contains(AmmunitionMods.SLUG.id.toString())) {
+            CompoundTag dataRate = usingAmmunitionData.getCompound("data_rate");
+            tooltip.add(FontUtils.dataTip("tooltip.gun_info.damage", String.valueOf(baseDamage * dataRate.getFloat(Ammunition.BASE_DAMAGE_RATE)), color));
+        } else {
+            tooltip.add(FontUtils.dataTip("tooltip.gun_info.damage", baseDamage + " x " + projectileNum, color));
+        }
         if (detail) {
             tooltip.add(FontUtils.dataTip("tooltip.gun_info.effective_range", effectiveRange, 10, 1, "gcaa.unit.chunk"));
             tooltip.add(FontUtils.dataTip("tooltip.gun_info.bullet_speed", speed, 12, 1, "gcaa.unit.chunk_pre_second"));

@@ -558,9 +558,10 @@ public class Clients {
                 new StatisticMagModel(StatisticModel.MAG_COLLECTION3, "_45_straight_drum", "_45_straight_drum_bullet"));
         ArsenalLib.registerAttachmentModel(ModItems.DRUM_7_62X51.get(),
                 new StatisticMagModel(StatisticModel.MAG_COLLECTION3, "dmr_308_drum", "dmr_308_drum_bullet"));
+        ArsenalLib.registerAttachmentModel(ModItems.DRUM_5_45X39.get(),
+                new StatisticMagModel(StatisticModel.MAG_COLLECTION3, "5_45x39_drum", "bullet"));
         ArsenalLib.registerAttachmentModel(ModItems.SMG_SUPPRESSOR.get(), new SMGSuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.OSPREY_SMG_SUPPRESSOR.get(), new OspreySMGSuppressorModel());
-        ArsenalLib.registerAttachmentModel(ModItems.DRUM_5_45X39.get(), new Drum5_45x39Model());
         ArsenalLib.registerAttachmentModel(ModItems.AK12_SUPPRESSOR.get(), new AK12SuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.UBR_STOCK.get(), new UBRStockModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_TACTICAL_STOCK.get(), new AKTacticalStockModel());

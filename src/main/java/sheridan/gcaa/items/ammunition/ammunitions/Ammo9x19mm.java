@@ -13,6 +13,7 @@ public class Ammo9x19mm extends Ammunition {
                 AmmunitionMods.EXPLOSIVE,
                 AmmunitionMods.INCENDIARY,
                 AmmunitionMods.HEAL,
+                AmmunitionMods.SOFT_POINT,
                 AmmunitionMods.EFFICIENT_PROPELLANT
         ));
     }

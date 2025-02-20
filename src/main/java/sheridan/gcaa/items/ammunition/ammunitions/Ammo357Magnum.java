@@ -11,6 +11,7 @@ public class Ammo357Magnum extends Ammunition {
                 AmmunitionMods.AP,
                 AmmunitionMods.HOLLOW_POINT,
                 AmmunitionMods.HEAL,
+                AmmunitionMods.SOFT_POINT,
                 AmmunitionMods.EFFICIENT_PROPELLANT
         ));
     }

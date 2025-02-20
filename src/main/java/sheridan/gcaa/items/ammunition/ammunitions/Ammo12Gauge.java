@@ -9,6 +9,7 @@ public class Ammo12Gauge extends Ammunition {
     public Ammo12Gauge() {
         super(100, 5, Set.of(
                 AmmunitionMods.HEAL,
+                AmmunitionMods.SLUG,
                 AmmunitionMods.EFFICIENT_PROPELLANT
         ));
     }

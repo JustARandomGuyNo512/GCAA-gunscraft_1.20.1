@@ -17,7 +17,8 @@ public class StatisticMagModel implements IAttachmentModel {
     private final ResourceLocation TEXTURE;
 
     public StatisticMagModel(StatisticModel collection, String magName, String bulletName) {
-        mag = collection.get(magName).meshing();
+        mag = collection.get(magName);
+        mag.meshingAll();
         bullet = mag.getChild(bulletName).meshing();
         TEXTURE = collection.texture;
     }

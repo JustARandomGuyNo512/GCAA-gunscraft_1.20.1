@@ -245,11 +245,14 @@
   "gcaa.ammunition_mod.incendiary": "燃烧弹",
   "gcaa.ammunition_mod.heal": "治疗弹",
   "gcaa.ammunition_mod.efficient_propellant": "高效燃烧剂",
+  "gcaa.ammunition_mod.soft_point": "软尖弹",
+  "gcaa.ammunition_mod.slug": "独头弹",
 
   "gcaa.ammunition_mod.incendiary_special": "给予额外 $rate 的火焰伤害，点燃目标，点燃TNT",
   "gcaa.ammunition_mod.explosive_special": "给予额外 $rate 的爆炸伤害，点燃TNT",
   "gcaa.ammunition_mod.heal_special": "无条件给予子弹伤害 $rate 的生命值恢复，给予 $time 秒的 $effect 效果",
   "gcaa.ammunition_mod.efficient_propellant_special": "全属性提升2.5%，第一人称射击时不再产生烟雾",
+  "gcaa.ammunition_mod.slug_special": "大幅提升子弹属性，但只发射一枚弹丸",
 
   "gcaa.ammunition_data.base_damage_rate": "基础伤害：",
   "gcaa.ammunition_data.min_damage_rate": "末端伤害：",
@@ -273,5 +276,5 @@
   "item.gcaa.mp5.introduction": "十分经典的冲锋枪，性能可靠，适合快速突袭与防守。",
   "item.gcaa.fn_ballista.introduction": "使用.338弹药的狙击枪，威力十分强大，每一发都足以击杀敌人，但射速较慢。",
   "item.gcaa.m60e4.introduction": "强力的通用机枪，兼具威力和持久性，适合持续压制敌人",
-  "item.gcaa.fn57": "小巧精准的手枪，使用5.7mm弹药，具备高穿透力，适合快速反击与精准打击。绝对值得拥有的高端副武器选择。"
+  "item.gcaa.fn57.introduction": "小巧精准的手枪，使用5.7mm弹药，具备高穿透力，适合快速反击与精准打击。绝对值得拥有的高端副武器选择。"
 }

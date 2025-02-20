@@ -12,6 +12,7 @@ public class Ammo762x39mm extends Ammunition {
                 AmmunitionMods.EXPLOSIVE,
                 AmmunitionMods.INCENDIARY,
                 AmmunitionMods.HEAL,
+                AmmunitionMods.SOFT_POINT,
                 AmmunitionMods.EFFICIENT_PROPELLANT
         ));
     }
