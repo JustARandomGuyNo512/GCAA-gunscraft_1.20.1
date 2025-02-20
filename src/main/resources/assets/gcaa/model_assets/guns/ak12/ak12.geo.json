@@ -1713,7 +1713,7 @@
 					]
 				},
 				{
-					"name": "rail&^.handguard_left#^.handguard_right",
+					"name": "rail&^.handguard_left,^.handguard_right",
 					"parent": "handguard",
 					"pivot": [3.56281, 8.39996, -58.03486],
 					"cubes": [

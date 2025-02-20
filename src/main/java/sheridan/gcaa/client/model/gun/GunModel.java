@@ -14,12 +14,12 @@ import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.config.ClientConfig;
+import sheridan.gcaa.client.model.gun.namingScript.ScriptQueue;
 import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.AttachmentRenderEntry;
 import sheridan.gcaa.client.render.AttachmentsRenderContext;
 import sheridan.gcaa.client.render.GunRenderContext;
-import sheridan.gcaa.items.attachments.Attachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.lib.ArsenalLib;
 
@@ -36,7 +36,8 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     protected Map<String, List<ModelPart>> attachmentSlotPathMap = new Object2ObjectArrayMap<>();
     protected Map<ModelPart, ModelPart> mainToLowMapping = new Object2ObjectArrayMap<>();
     protected Map<ModelPart, ModelPart> lowToMainMapping = new Object2ObjectArrayMap<>();
-    protected Map<ModelPart, List<VisibleController>> visibleControllerMap = new Object2ObjectArrayMap<>();
+    protected Map<String, ModelPart> flatDir = new Object2ObjectArrayMap<>();
+    protected Map<ModelPart, ScriptQueue> namingScriptQueueMap = new Object2ObjectArrayMap<>();
     protected boolean lowQualityLoaded = false;
 
     public GunModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture,
@@ -65,36 +66,33 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
 
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {}
 
-    //提取脚本，重命名part
     private void preScriptProcess(
-            ModelPart topLayer, Map<ModelPart, String[]> scripts, Map<String, ModelPart> flatDir, List<Runnable> renameTasks) {
+            ModelPart topLayer, Map<ModelPart, List<String>> scripts, Map<String, ModelPart> flatDir, List<Runnable> renameTasks) {
         for (Map.Entry<String, ModelPart> entry : topLayer.getChildren().entrySet()) {
             String name = entry.getKey();
-            //配件槽定位点不做处理
             if (name.startsWith("_s")) {
                 continue;
             }
-            String[] split = name.split("&");
-            if (split.length > 1) {
-                //添加延迟任务
+            List<String> split = new ArrayList<>(List.of(name.split("&")));
+            if (split.size() > 1) {
+                String realName = split.get(0);
                 renameTasks.add(() -> {
-                    System.out.println("Find script in: '" + name + "' rename to '" + split[0] + "'");
-                    topLayer.resetChildLayerName(name, split[0]);
+                    System.out.println("Find script in: '" + name + "' rename to '" + realName + "'");
+                    topLayer.resetChildLayerName(name, realName);
+                    flatDir.put(realName, entry.getValue());
                 });
-                String script = split[1];
-                String[] rules = script.split(",");
-                scripts.put(entry.getValue(), rules);
+                split.remove(0);
+                scripts.put(entry.getValue(), split);
+            } else {
+                flatDir.put(name, entry.getValue());
             }
-            //添加
-            flatDir.put(name, entry.getValue());
             preScriptProcess(entry.getValue(), scripts, flatDir, renameTasks);
         }
     }
 
     protected void processModelScript(ModelPart topLayer) {
-        Map<ModelPart, String[]> scripts = new HashMap<>();
-        Map<String, ModelPart> flatDir = new HashMap<>();
         List<Runnable> renameTasks = new ArrayList<>();
+        Map<ModelPart, List<String>> scripts = new HashMap<>();
         preScriptProcess(topLayer, scripts, flatDir, renameTasks);
         for (Runnable task : renameTasks) {
             task.run();
@@ -102,51 +100,18 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         if (lowQualityLoaded) {
             buildLodMapping(main, lowQualityMain);
         }
-        for (Map.Entry<ModelPart, String[]> entry : scripts.entrySet()) {
-            String[] rules = entry.getValue();
-            if (rules.length == 0) {
-                continue;
-            }
-            List<VisibleController> controllers = new ArrayList<>();
-            ModelPart key = entry.getKey();
-            for (String rule : rules) {
-                boolean flag = rule.charAt(0) == '^';
-                rule = flag ? rule.substring(1) : rule;
-                if (rule.startsWith(".") || rule.startsWith("s_")) {
-                    String[] split = rule.split("#");
-                    if (split.length > 1) {
-                        String ruleA = split[0].startsWith(".") ? split[0].substring(1) : split[0].substring(2);
-                        String ruleB = split[1];
-                        boolean flagB = ruleB.charAt(0) == '^';
-                        if (flagB) {
-                            ruleB = ruleB.substring(1);
-                        }
-                        ruleB = ruleB.startsWith(".") ? ruleB.substring(1) : ruleB.substring(2);
-                        controllers.add(new OrSlotBoundVisibleController(key, flag, ruleA, flagB, ruleB));
-                    } else {
-                        // 绑定配件槽替换
-                        rule = rule.startsWith(".") ? rule.substring(1) : rule.substring(2);
-                        controllers.add(new SlotBoundVisibleController(key, flag, Attachment.getConstantNameField(rule)));
-                    }
-                } else if ("SCOPES".equals(rule)) {
-                    // 是否包含瞄具
-                    controllers.add(new containScopeVisibleController(flag, key));
-                } else {
-                    // 绑定其它配件可见性
-                    if (flatDir.containsKey(rule)) {
-                        controllers.add(new PartBoundVisibleController(flag, key, flatDir.get(rule)));
-                    }
-                }
-            }
-            if (!controllers.isEmpty()) {
-                visibleControllerMap.put(key, controllers);
+        for (Map.Entry<ModelPart, List<String>> entry : scripts.entrySet()) {
+            ModelPart target = entry.getKey();
+            List<String> rawScripts = entry.getValue();
+            ScriptQueue scriptQueue = new ScriptQueue(rawScripts.toArray(new String[0]), this);
+            if (!scriptQueue.isEmpty()) {
+                namingScriptQueueMap.put(target, scriptQueue);
             }
         }
     }
 
     protected void buildLodMapping(ModelPart mainLayer, ModelPart lowQualityMainLayer) {
         for (Map.Entry<String, ModelPart> entry : mainLayer.getChildren().entrySet()) {
-            //忽略配件定位槽
             if (entry.getKey().startsWith("s_")) {
                 continue;
             }
@@ -160,28 +125,43 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         }
     }
 
-    protected void preGunRender(GunRenderContext context, boolean lowQuality) {
-        runVisibleProcess(context, lowQuality);
+    public Map<String, AnimationDefinition> getAnimations() {
+        return animations;
     }
 
-    protected void runVisibleProcess(GunRenderContext context, boolean lowQuality) {
-        if (lowQuality) {
-            for (Map.Entry<ModelPart, List<VisibleController>> entry : visibleControllerMap.entrySet()) {
-                //需要存在映射才处理
-                if (!mainToLowMapping.containsKey(entry.getKey())) {
-                    continue;
+    public Map<String, List<ModelPart>> getAttachmentSlotPathMap() {
+        return attachmentSlotPathMap;
+    }
+
+    public Map<ModelPart, ModelPart> getMainToLowMapping() {
+        return mainToLowMapping;
+    }
+
+    public Map<ModelPart, ModelPart> getLowToMainMapping() {
+        return lowToMainMapping;
+    }
+
+    public boolean isLowQualityLoaded() {
+        return lowQualityLoaded;
+    }
+
+    public Map<String, ModelPart> getFlatDir() {
+        return flatDir;
+    }
+
+    protected void preGunRender(GunRenderContext context, boolean lowQuality) {
+        runNamingScriptProcess(context, lowQuality);
+    }
+
+    protected void runNamingScriptProcess(GunRenderContext context, boolean lowQuality) {
+        for (Map.Entry<ModelPart, ScriptQueue> entry : namingScriptQueueMap.entrySet()) {
+            if (lowQuality) {
+                ModelPart modelPart = mainToLowMapping.get(entry.getKey());
+                if (modelPart != null) {
+                    entry.getValue().process(modelPart, context, true);
                 }
-                List<VisibleController> value = entry.getValue();
-                for (VisibleController controller : value) {
-                    controller.processLowQuality(context);
-                }
-            }
-            return;
-        }
-        Collection<List<VisibleController>> values = visibleControllerMap.values();
-        for (List<VisibleController> value : values) {
-            for (VisibleController controller : value) {
-                controller.process(context);
+            } else {
+                entry.getValue().process(entry.getKey(), context, false);
             }
         }
     }
@@ -388,92 +368,4 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         }
     }
 
-    private abstract class VisibleController {
-        protected final boolean flag;
-        protected final ModelPart part, lowPart;
-        public VisibleController(boolean flag, ModelPart part) {
-            this.flag = flag;
-            this.part = part;
-            this.lowPart = mainToLowMapping.get(part);
-        }
-        abstract void process(GunRenderContext gunRenderContext);
-        private void processLowQuality(GunRenderContext gunRenderContext) {
-            if (lowPart != null) {
-                processLow(gunRenderContext);
-            }
-        }
-        abstract void processLow(GunRenderContext gunRenderContext);
-    }
-
-    private class SlotBoundVisibleController extends VisibleController {
-        protected final String slotName;
-        public SlotBoundVisibleController(ModelPart part, boolean flag, String slotName) {
-            super(flag, part);
-            this.slotName = slotName;
-        }
-        @Override
-        public void process(GunRenderContext gunRenderContext) {
-            part.visible = flag == gunRenderContext.has(slotName);
-        }
-
-        @Override
-        void processLow(GunRenderContext gunRenderContext) {
-            lowPart.visible = flag == gunRenderContext.has(slotName);
-        }
-    }
-
-    private class OrSlotBoundVisibleController extends SlotBoundVisibleController {
-        private final String slotNameB;
-        private final boolean flagB;
-        public OrSlotBoundVisibleController(ModelPart part, boolean flag, String slotNameA, boolean flagB, String slotNameB)  {
-            super(part, flag, slotNameA);
-            this.slotNameB = slotNameB;
-            this.flagB = flagB;
-        }
-
-        @Override
-        public void process(GunRenderContext gunRenderContext) {
-            part.visible = (flag == gunRenderContext.has(slotName) || flagB == gunRenderContext.has(slotNameB));
-        }
-
-        @Override
-        void processLow(GunRenderContext gunRenderContext) {
-            lowPart.visible = (flag == gunRenderContext.has(slotName) || flagB == gunRenderContext.has(slotNameB));
-        }
-    }
-
-    private class PartBoundVisibleController extends VisibleController {
-        private final ModelPart other;
-        public PartBoundVisibleController(boolean flag, ModelPart part, ModelPart other)  {
-            super(flag, part);
-            this.other = other;
-        }
-        @Override
-        void process(GunRenderContext gunRenderContext) {
-            part.visible = flag == other.visible;
-        }
-
-        @Override
-        void processLow(GunRenderContext gunRenderContext) {
-            ModelPart lowOther = mainToLowMapping.get(other);
-            if (lowOther != null) {
-                lowPart.visible = flag == lowOther.visible;
-            }
-        }
-    }
-
-    private class containScopeVisibleController extends VisibleController {
-        public containScopeVisibleController(boolean flag, ModelPart part) {
-            super(flag, part);
-        }
-        @Override
-        void process(GunRenderContext gunRenderContext) {
-            part.visible = flag != gunRenderContext.notContainsScope();
-        }
-
-        @Override
-        void processLow(GunRenderContext gunRenderContext) {
-            lowPart.visible = flag != gunRenderContext.notContainsScope();
-        }
-    }
 }
