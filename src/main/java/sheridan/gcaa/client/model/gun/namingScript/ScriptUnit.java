@@ -25,6 +25,10 @@ public class ScriptUnit {
         REGISTER.add(new PartBoundVisible(ModelPart.EMPTY, ModelPart.EMPTY));
     }
 
+    public static void register(IScript<?> instanceForParsingScript) {
+        REGISTER.add(instanceForParsingScript);
+    }
+
     public ScriptUnit(String scripts, GunModel gunModel) {
         scriptList = new ArrayList<>();
         String[] split = scripts.split(",");

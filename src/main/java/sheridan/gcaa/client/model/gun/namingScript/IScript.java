@@ -9,5 +9,8 @@ import sheridan.gcaa.client.render.GunRenderContext;
 public interface IScript<T> {
     boolean value(GunRenderContext context);
     boolean valueLowQuality(GunRenderContext context);
+    /**
+     * return null if the script is invalid!!!
+     * */
     T parse(String script, GunModel gunModel);
 }
