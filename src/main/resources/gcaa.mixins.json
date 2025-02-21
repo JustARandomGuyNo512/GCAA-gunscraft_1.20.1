@@ -11,6 +11,7 @@
     "GameRendererMixin",
     "RenderItemMixin",
     "HumanoidModelMixin",
+    "BlockLightEngineMixin",
     "EntityRenderDispatcherMixin"
   ],
   "injectors": {

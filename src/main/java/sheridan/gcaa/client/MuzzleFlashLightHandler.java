@@ -9,23 +9,24 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import sheridan.gcaa.blocks.ModBlocks;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.IGun;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber
 public class MuzzleFlashLightHandler {
     private static Level level;
     private static Player player;
-    private static final Map<BlockPos, BlockState> temp = new HashMap<>();
     private static final AtomicBoolean work = new AtomicBoolean(false);
     private static long timeStamp = 0;
     private static final int DELAY = 35;
     private static boolean firstPersonLightOverride = false;
+    private static boolean overrideLight = false;
+    private static boolean check = false;
+    private static long packBlockPos = 0;
 
     public static void onClientShoot(ItemStack itemStack, IGun gun, Player player) {
         if (!Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
@@ -47,6 +48,14 @@ public class MuzzleFlashLightHandler {
         return firstPersonLightOverride;
     }
 
+    public static boolean isOverrideLight() {
+        return overrideLight;
+    }
+
+    public static long getPackBlockPos() {
+        return packBlockPos;
+    }
+    private static final Set<Long> tempPos = new HashSet<>();
     @SubscribeEvent
     public static void onRenderTick(TickEvent.RenderTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {
@@ -54,32 +63,32 @@ public class MuzzleFlashLightHandler {
                 return;
             }
             if (work.get()) {
-                BlockPos above = player.getOnPos().above((int) player.getEyeHeight() + 1);
-                BlockState blockState = player.level().getBlockState(above);
-                if (blockState.getFluidState().isEmpty() && !temp.containsKey(above) && blockState.getLightEmission() < 10) {
-                    temp.put(above, blockState);
-                    boolean added = level.setBlock(above, ModBlocks.AIR_LIGHT_BLOCK.get().defaultBlockState(), 1);
-                    if (added) {
+                if (!check) {
+                    BlockPos above = player.getOnPos().above((int) player.getEyeHeight() + 1);
+                    BlockState blockState = player.level().getBlockState(above);
+                    long pos = above.asLong();
+                    if (!tempPos.contains(pos) && blockState.getFluidState().isEmpty() && blockState.getLightEmission() < 10) {
+                        packBlockPos = pos;
                         level.getLightEngine().checkBlock(above);
+                        check = true;
+                        timeStamp = System.currentTimeMillis();
                         firstPersonLightOverride = false;
-                    } else {
-                        firstPersonLightOverride = true;
-
-                    }
-                    timeStamp = System.currentTimeMillis();
-                }
-                work.set(false);
-            } else if (timeStamp != 0 && System.currentTimeMillis() - timeStamp > DELAY) {
-                for (Map.Entry<BlockPos, BlockState> entry : temp.entrySet()) {
-                    BlockPos key = entry.getKey();
-                    if (level.getBlockState(key).getFluidState().isEmpty()) {
-                        level.setBlock(key, entry.getValue(), 1);
-                        level.getLightEngine().checkBlock(key);
+                        tempPos.add(pos);
+                        overrideLight = true;
                     }
                 }
+            }
+            if (timeStamp != 0 && System.currentTimeMillis() - timeStamp > DELAY) {
                 firstPersonLightOverride = false;
-                temp.clear();
                 timeStamp = 0;
+                work.set(false);
+                check = false;
+                overrideLight = false;
+                packBlockPos = 0;
+                for (Long pos : tempPos) {
+                    level.getLightEngine().checkBlock(BlockPos.of(pos));
+                }
+                tempPos.clear();
             }
         }
     }
