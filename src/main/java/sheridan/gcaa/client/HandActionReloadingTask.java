@@ -6,7 +6,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.animation.AnimationHandler;
+import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.items.gun.HandActionGun;
+import sheridan.gcaa.items.gun.Sniper;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.DoneHandActionPacket;
 
@@ -31,7 +33,23 @@ public class HandActionReloadingTask extends ReloadTask {
     @Override
     public void start() {
         if (model != null && !isGenericReloading()) {
-            AnimationHandler.INSTANCE.startReload(needHandAction ? model.getFullReload() : model.getReload());
+            if (gun instanceof Sniper) {
+                AnimationDefinition definition;
+                if (needHandAction) {
+                    definition = gun.getAmmoLeft(itemStack) == 0 ?
+                            model.getFullReload() : model.get("reload_bolt_action");
+                    if (definition == null) {
+                        definition = model.getFullReload();
+                    }
+                } else {
+                    definition = model.getReload();
+                }
+                AnimationHandler.INSTANCE.startReload(definition);
+            } else {
+                AnimationHandler.INSTANCE.startReload(needHandAction ?
+                        model.getFullReload() :
+                        model.getReload());
+            }
         }
         Clients.MAIN_HAND_STATUS.ads = false;
         HandActionHandler.INSTANCE.breakTask();

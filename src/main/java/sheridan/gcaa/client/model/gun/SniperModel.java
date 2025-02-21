@@ -6,6 +6,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
@@ -40,9 +41,9 @@ public class SniperModel extends AutoMagPositionModel {
         mag.visible = context.notHasMag();
         exp_mag.visible = !mag.visible;
         if (mag.visible) {
-            bullet.visible = context.shouldBulletRender();
+            bullet.visible = ReloadingHandler.isReloading();
         } else {
-            exp_mag_bullet.visible = context.shouldBulletRender();
+            exp_mag_bullet.visible = ReloadingHandler.isReloading();
         }
         context.render(main, defaultVertex);
         if (context.isFirstPerson) {
