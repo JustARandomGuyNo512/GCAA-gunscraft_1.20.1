@@ -147,7 +147,6 @@ public class Commons {
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor", "gcaa:ar_compensator")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube")).setReplaceableGunPart(new RecoilControlPart(1.2f, 0.1f, 0.08f)))
-                .addChild(new AttachmentSlot(MAG, Set.of()).setReplaceableGunPart(new WeightPart(3f)))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:m249_railed_handguard")).setReplaceableGunPart(new WeightPart(0.5f)).asSlotProvider())
                 .addChild(new AttachmentSlot("handguard_grip", mk47HandguardGrip.stream().filter(s -> !s.equals("gcaa:gp_25") && !s.equals("gcaa:m203")).collect(Collectors.toSet())).lower().lock())
                 .addChild(new AttachmentSlot("handguard_left", mk47HandguardSlot).lower().lock())

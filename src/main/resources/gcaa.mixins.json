@@ -11,8 +11,8 @@
     "GameRendererMixin",
     "RenderItemMixin",
     "HumanoidModelMixin",
-    "BlockLightEngineMixin",
-    "EntityRenderDispatcherMixin"
+    "EntityRenderDispatcherMixin",
+    "BlockLightEngineMixin"
   ],
   "injectors": {
     "defaultRequire": 1

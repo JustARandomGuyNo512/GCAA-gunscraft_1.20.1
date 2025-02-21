@@ -28,6 +28,7 @@ import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.client.render.fx.muzzleSmoke.MuzzleSmoke;
 import sheridan.gcaa.client.render.fx.muzzleSmoke.MuzzleSmokeRenderer;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
+import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
@@ -109,7 +110,9 @@ public class GunRenderer{
                         float particleTick = Minecraft.getInstance().getPartialTick();
                         int blockLight = entityIn.isOnFire() ? 15 :
                                 entityIn.level().getBrightness(LightLayer.BLOCK, BlockPos.containing(entityIn.getEyePosition(particleTick)));
-                        combinedLightIn = LightTexture.pack((int) Math.min(15, blockLight + Math.min(5, dis)), entityIn.level().getBrightness(LightLayer.SKY,
+                        int lightInc = Gun.MUZZLE_STATE_SUPPRESSOR.equals(gun.getMuzzleFlash(itemStackIn)) ?
+                                5 : 10;
+                        combinedLightIn = LightTexture.pack((int) Math.min(15, blockLight + Math.min(lightInc, dis)), entityIn.level().getBrightness(LightLayer.SKY,
                                 BlockPos.containing(entityIn.getEyePosition(particleTick))));
                     }
                 }

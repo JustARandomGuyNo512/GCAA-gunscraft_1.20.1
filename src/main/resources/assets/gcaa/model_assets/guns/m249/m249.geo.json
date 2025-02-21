@@ -199,15 +199,9 @@
 					"pivot": [0, 5.7, -102.3]
 				},
 				{
-					"name": "s_mag",
-					"parent": "main",
-					"pivot": [7.75, 0.4, -18.55],
-					"rotation": [0, 0, 32.5]
-				},
-				{
 					"name": "s_stock",
 					"parent": "main",
-					"pivot": [0, 0, 18]
+					"pivot": [0, 2, 18.725]
 				},
 				{
 					"name": "s_grip",

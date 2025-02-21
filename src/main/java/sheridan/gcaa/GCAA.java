@@ -75,8 +75,8 @@ public class GCAA {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::onClientSetup));
         modEventBus.addListener(this::commonSetup);
 
-        //AddonHandler.INSTANCE.readAddonPack(FMLLoader.getDist());
-        //AddonHandler.INSTANCE.handleRegister(FMLLoader.getDist());
+        AddonHandler.INSTANCE.readAddonPack(FMLLoader.getDist());
+        AddonHandler.INSTANCE.handleRegister(FMLLoader.getDist());
 
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
@@ -92,7 +92,7 @@ public class GCAA {
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
-        //modEventBus.addListener(this::registerAddonFinder);
+        modEventBus.addListener(this::registerAddonFinder);
     }
 
     private void gatherDataEvent(GatherDataEvent event) {

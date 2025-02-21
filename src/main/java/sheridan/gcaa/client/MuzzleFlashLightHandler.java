@@ -27,6 +27,7 @@ public class MuzzleFlashLightHandler {
     private static boolean overrideLight = false;
     private static boolean check = false;
     private static long packBlockPos = 0;
+    private static boolean lightUpdateReceived = false;
 
     public static void onClientShoot(ItemStack itemStack, IGun gun, Player player) {
         if (!Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
@@ -52,6 +53,10 @@ public class MuzzleFlashLightHandler {
         return overrideLight;
     }
 
+    public static void lightUpdateReceived() {
+        lightUpdateReceived = true;
+    }
+
     public static long getPackBlockPos() {
         return packBlockPos;
     }
@@ -62,6 +67,7 @@ public class MuzzleFlashLightHandler {
             if (player == null || level == null) {
                 return;
             }
+            long now = System.currentTimeMillis();
             if (work.get()) {
                 if (!check) {
                     BlockPos above = player.getOnPos().above((int) player.getEyeHeight() + 1);
@@ -71,14 +77,16 @@ public class MuzzleFlashLightHandler {
                         packBlockPos = pos;
                         level.getLightEngine().checkBlock(above);
                         check = true;
-                        timeStamp = System.currentTimeMillis();
-                        firstPersonLightOverride = false;
+                        timeStamp = now;
                         tempPos.add(pos);
                         overrideLight = true;
                     }
                 }
             }
-            if (timeStamp != 0 && System.currentTimeMillis() - timeStamp > DELAY) {
+            if (work.get() && !lightUpdateReceived && timeStamp != now) {
+                firstPersonLightOverride = true;
+            }
+            if (timeStamp != 0 && now - timeStamp > DELAY) {
                 firstPersonLightOverride = false;
                 timeStamp = 0;
                 work.set(false);
@@ -88,6 +96,7 @@ public class MuzzleFlashLightHandler {
                 for (Long pos : tempPos) {
                     level.getLightEngine().checkBlock(BlockPos.of(pos));
                 }
+                lightUpdateReceived = false;
                 tempPos.clear();
             }
         }
