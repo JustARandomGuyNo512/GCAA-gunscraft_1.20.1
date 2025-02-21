@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
+import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
@@ -37,8 +38,17 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     protected Map<ModelPart, ModelPart> mainToLowMapping = new Object2ObjectArrayMap<>();
     protected Map<ModelPart, ModelPart> lowToMainMapping = new Object2ObjectArrayMap<>();
     protected Map<String, ModelPart> flatDir = new Object2ObjectArrayMap<>();
-    protected Map<ModelPart, ScriptQueue> namingScriptQueueMap = new Object2ObjectArrayMap<>();
+    protected List<NamingScriptQueuePair> namingScriptQueuePairs = new ArrayList<>();
     protected boolean lowQualityLoaded = false;
+
+    private static class NamingScriptQueuePair{
+        public ModelPart modelPart;
+        public ScriptQueue scriptQueue;
+        NamingScriptQueuePair(ModelPart modelPart, ScriptQueue scriptQueue){
+            this.modelPart = modelPart;
+            this.scriptQueue = scriptQueue;
+        }
+    }
 
     public GunModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture,
                     @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture) {
@@ -100,12 +110,68 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         if (lowQualityLoaded) {
             buildLodMapping(main, lowQualityMain);
         }
+        Map<ModelPart, ScriptQueue> namingScriptQueueMap = new Object2ObjectArrayMap<>();
         for (Map.Entry<ModelPart, List<String>> entry : scripts.entrySet()) {
             ModelPart target = entry.getKey();
             List<String> rawScripts = entry.getValue();
             ScriptQueue scriptQueue = new ScriptQueue(rawScripts.toArray(new String[0]), this);
             if (!scriptQueue.isEmpty()) {
                 namingScriptQueueMap.put(target, scriptQueue);
+            }
+        }
+        sortScriptQueuesByDependency(namingScriptQueueMap);
+    }
+
+    public void sortScriptQueuesByDependency(Map<ModelPart, ScriptQueue> namingScriptQueueMap) {
+        List<ModelPart> res = new ArrayList<>();
+        Set<ModelPart> visited = new HashSet<>();
+        for (Map.Entry<ModelPart, ScriptQueue> entry : namingScriptQueueMap.entrySet()) {
+            if (visited.contains(entry.getKey())){
+                continue;
+            }
+            ScriptQueue value = entry.getValue();
+            if (value.hasFrontDepends()) {
+                Stack<ModelPart> depends = new Stack<>();
+                collectDepends(entry.getKey(), depends, new LinkedHashSet<>(), value, namingScriptQueueMap);
+                while (!depends.isEmpty()) {
+                    ModelPart pop = depends.pop();
+                    if (!visited.contains(pop)) {
+                        visited.add(pop);
+                        res.add(pop);
+                    }
+                }
+            }
+            visited.add(entry.getKey());
+            res.add(entry.getKey());
+        }
+        for (ModelPart modelPart : res) {
+            ScriptQueue scriptQueue = namingScriptQueueMap.get(modelPart);
+            if (scriptQueue != null) {
+                namingScriptQueuePairs.add(new NamingScriptQueuePair(modelPart, scriptQueue));
+            }
+        }
+    }
+
+    private void collectDepends(ModelPart prevNode, Stack<ModelPart> depends, Set<ModelPart> visited,
+                                ScriptQueue queue, Map<ModelPart, ScriptQueue> namingScriptQueueMap) {
+        List<ModelPart> frontDepends = queue.getFrontDepends();
+        visited.add(prevNode);
+        for (ModelPart dependency : frontDepends) {
+            if (!visited.contains(dependency)) {
+                depends.push(dependency);
+                ScriptQueue scriptQueue = namingScriptQueueMap.get(dependency);
+                if (scriptQueue != null && scriptQueue.hasFrontDepends()) {
+                    collectDepends(dependency, depends, visited, scriptQueue, namingScriptQueueMap);
+                }
+            } else {
+                StringBuilder builder = new StringBuilder("Found circular dependency while building naming script queue, please check: '" + dependency.debug_name
+                    + "' These " + visited.size() + " guys: ");
+                for (ModelPart dependency1 : visited) {
+                    builder.append(dependency1.debug_name).append(", ");
+                }
+                String string = builder.toString();
+                GCAA.LOGGER.error(string);
+                throw new RuntimeException(string);
             }
         }
     }
@@ -154,14 +220,14 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     }
 
     protected void runNamingScriptProcess(GunRenderContext context, boolean lowQuality) {
-        for (Map.Entry<ModelPart, ScriptQueue> entry : namingScriptQueueMap.entrySet()) {
+        for (NamingScriptQueuePair pair : namingScriptQueuePairs) {
             if (lowQuality) {
-                ModelPart modelPart = mainToLowMapping.get(entry.getKey());
+                ModelPart modelPart = mainToLowMapping.get(pair.modelPart);
                 if (modelPart != null) {
-                    entry.getValue().process(modelPart, context, true);
+                    pair.scriptQueue.process(modelPart, context, true);
                 }
             } else {
-                entry.getValue().process(entry.getKey(), context, false);
+                pair.scriptQueue.process(pair.modelPart, context, false);
             }
         }
     }

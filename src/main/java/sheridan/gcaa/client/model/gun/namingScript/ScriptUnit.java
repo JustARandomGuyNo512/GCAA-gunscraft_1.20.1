@@ -17,6 +17,7 @@ import java.util.List;
 public class ScriptUnit {
     private static final List<IScript<?>> REGISTER = new ArrayList<>();
     private final List<Pair> scriptList;
+    private List<ModelPart> frontDepends = new ArrayList<>();
 
     static {
         REGISTER.add(new SlotBoundVisible(""));
@@ -38,11 +39,20 @@ public class ScriptUnit {
             for (IScript<?> script : REGISTER) {
                 Object parse = script.parse(s, gunModel);
                 if (parse != null) {
-                    scriptList.add(new Pair(!flag, (IScript<?>) parse));
+                    Pair pair = new Pair(!flag, (IScript<?>) parse);
+                    scriptList.add(pair);
+                    ModelPart frontDepend = pair.script.getFrontDepend();
+                    if (frontDepend != null) {
+                        frontDepends.add(frontDepend);
+                    }
                     break;
                 }
             }
         }
+    }
+
+    public List<ModelPart> getFrontDepends() {
+        return frontDepends;
     }
 
     public boolean isEmpty() {

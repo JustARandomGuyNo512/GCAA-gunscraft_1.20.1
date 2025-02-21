@@ -15,7 +15,7 @@ public record PartBoundVisible(ModelPart part,
 
     @Override
     public boolean value(GunRenderContext context) {
-        return part.visible;
+        return !part.visible;
     }
 
     @Override
@@ -38,4 +38,8 @@ public record PartBoundVisible(ModelPart part,
         return null;
     }
 
+    @Override
+    public ModelPart getFrontDepend() {
+        return part;
+    }
 }

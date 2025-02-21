@@ -35,6 +35,7 @@ public final class ModelPart {
     private Polygon[] polygons;
     private boolean meshed = false;
     private boolean touched = false;
+    public String debug_name = "";
 
     public ModelPart(List<Cube> cubes, Map<String, ModelPart> children) {
         this.cubes = cubes;
@@ -194,12 +195,14 @@ public final class ModelPart {
             ModelPart part = children.get(name);
             children.remove(name);
             children.put(newName, part);
+            part.debug_name = newName;
         }
     }
 
     public void addChild(String name, ModelPart child) {
         children.put(name, child);
         child.parent = this;
+        child.debug_name = name;
     }
 
     public void setX(float x) {

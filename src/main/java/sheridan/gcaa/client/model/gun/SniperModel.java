@@ -38,8 +38,6 @@ public class SniperModel extends AutoMagPositionModel {
     @Override
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer defaultVertex = getDefaultVertex(context);
-        mag.visible = context.notHasMag();
-        exp_mag.visible = !mag.visible;
         if (mag.visible) {
             bullet.visible = ReloadingHandler.isReloading();
         } else {
