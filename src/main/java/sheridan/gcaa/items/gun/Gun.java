@@ -137,6 +137,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY,
                     Mth.clamp((pRate - Math.max(0, pControl - 1) * 0.3f), 0.5f, 1f),
                     Mth.clamp((yRate - Math.max(0, yControl - 1) * 0.3f), 0.5f, 1f));
+            //SpringRecoilHandler.onShoot();
         }
 
         RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionX, player,

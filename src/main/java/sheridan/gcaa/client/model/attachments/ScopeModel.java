@@ -13,7 +13,7 @@ import sheridan.gcaa.utils.RenderAndMathUtils;
 public abstract class ScopeModel extends SightModel {
 
     public float modelFovModifyWhenAds() {
-        return 8.5f;
+        return 12f;
     }
 
     public final boolean useModelFovModifyWhenAds() {

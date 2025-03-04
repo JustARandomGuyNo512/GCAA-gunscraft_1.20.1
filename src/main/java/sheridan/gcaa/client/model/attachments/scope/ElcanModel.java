@@ -60,7 +60,7 @@ public class ElcanModel extends ScopeModel {
             context.render(body_low, context.getBuffer(RenderType.entityCutout(TEXTURE)));
         } else {
             boolean active = context.isEffectiveSight(attachmentRenderEntry) && Clients.isInAds() && Clients.getAdsProgress() > 0.95f;
-            SightViewRenderer.renderScope(active, false, 0.7f, 0.7f, context,
+            SightViewRenderer.renderScope(active, false, 0.7f, 0.79f, context,
                     CROSSHAIR_TEXTURE, TEXTURE, crosshair, glass_shape, back_glass, background, body);
         }
     }

@@ -72,7 +72,7 @@ public class AcogModel extends ScopeModel implements ISlotProviderModel {
             AttachmentRenderEntry subScope = attachmentRenderEntry.getChild("s_sub_scope");
             sub_scope_adapter.visible = subScope != null;
             boolean active = context.isEffectiveSight(attachmentRenderEntry) && Clients.isInAds() && Clients.getAdsProgress() > 0.95f;
-            SightViewRenderer.renderScope(active, false, 0.35f, 0.5f, context,
+            SightViewRenderer.renderScope(active, false, 0.35f, 0.563f, context,
                     CROSSHAIR_TEXTURE, TEXTURE, crosshair, glass_shape, back_glass, back_ground, body, sub_scope_adapter);
             context.renderEntry(subScope, sub_scope);
         }

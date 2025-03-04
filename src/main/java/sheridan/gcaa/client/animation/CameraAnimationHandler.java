@@ -34,6 +34,17 @@ public class CameraAnimationHandler {
         }
     }
 
+    public void mix(float yaw, float pitch, float roll)  {
+        if (yaw != 0 || pitch != 0 || roll != 0) {
+            dirty = true;
+        } else {
+            return;
+        }
+        this.yaw += yaw;
+        this.pitch += pitch;
+        this.roll += roll;
+    }
+
 
     public void apply(ViewportEvent.ComputeCameraAngles event) {
         if (dirty) {

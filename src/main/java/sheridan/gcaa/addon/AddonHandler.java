@@ -124,6 +124,15 @@ public class AddonHandler {
                             tab.accept(supplier.get());
                         }
                     }).build());
+            if (dist.isClient()) {
+                handleRegisterClient(addonName, addon);
+            }
+        }
+    }
+
+    private void handleRegisterClient(String addonName, Addon addon) {
+        for (Supplier<Item> gun : addon.guns) {
+
         }
     }
 

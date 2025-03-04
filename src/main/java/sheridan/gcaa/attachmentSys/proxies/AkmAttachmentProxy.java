@@ -5,6 +5,7 @@ import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.AttachmentSlotProxy;
 import sheridan.gcaa.attachmentSys.proxies.utils.BinaryExclusiveProxy;
 import sheridan.gcaa.items.attachments.IAttachment;
+import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.gun.IGun;
 
 public class AkmAttachmentProxy extends AttachmentSlotProxy {
@@ -13,6 +14,8 @@ public class AkmAttachmentProxy extends AttachmentSlotProxy {
     public AkmAttachmentProxy(AttachmentSlot root) {
         super(root);
         binaryMutuallyExclusiveProxy = new BinaryExclusiveProxy(root, "rail_set", "dust_cover");
+        binaryMutuallyExclusiveProxy.addExclusive((prevSlot, other, prevAttachment, otherAttachment) ->
+                !prevSlot.isEmpty() || !other.isEmpty());
     }
 
     @Override

@@ -25,7 +25,6 @@ import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
-import sheridan.gcaa.client.render.fx.muzzleSmoke.MuzzleSmoke;
 import sheridan.gcaa.client.render.fx.muzzleSmoke.MuzzleSmokeRenderer;
 import sheridan.gcaa.client.screens.AttachmentsGuiContext;
 import sheridan.gcaa.items.gun.Gun;

@@ -93,6 +93,8 @@ public class Beretta686 extends Gun {
     }
 
     public static class Volley extends Semi {
+        public int count = 2;
+
         @Override
         public String getName() {
             return "volley";

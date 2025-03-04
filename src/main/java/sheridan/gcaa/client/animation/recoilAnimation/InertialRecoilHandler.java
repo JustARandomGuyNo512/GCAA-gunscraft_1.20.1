@@ -41,6 +41,7 @@ public class InertialRecoilHandler {
     private float randomXSpeed;
     private float randomYSpeed;
     private final boolean[] finished = new boolean[] {false, false, false, false, false};
+    private float shake;
 
     public void applyTransform(PoseStack poseStack, InertialRecoilData data, boolean aiming) {
         if (data == null) {
@@ -71,8 +72,8 @@ public class InertialRecoilHandler {
             }
             float r0 = (rotate + randomY) * scaleRot * ROTATE_FACTOR;
             float r1 = randomX * scaleRot * ROTATE_FACTOR;
-            poseStack.translate(0, - up * UP_FACTOR * scaleY, back * BACK_FACTOR * scaleZ);
-            poseStack.mulPose(new Quaternionf().rotateXYZ(- r0, r1, 0));
+            poseStack.mulPose(new Quaternionf().rotateXYZ(- r0, r1 - 0 * 0.1f, 0 * 0.1f));
+            poseStack.translate(0, - up * UP_FACTOR * scaleY - 0, back * BACK_FACTOR * scaleZ);
         }
     }
 
@@ -88,7 +89,7 @@ public class InertialRecoilHandler {
                         Mth.clamp((1 - (lastBack - lastBackOld)) *
                                         Math.min(back, 1 + (Math.min(0, back - 1) * ((data.back / data.backDec) * 0.158f))),
                                 0, 1.016f),
-                        0.385f, 1.025f);
+                        0.5f, 1f);
                 randomYSpeed += (data.randomY * Mth.clamp(unstableFactor, 0.385f, 1f)) * randomDirectionY ;
                 if (randomYSpeed < 0) {
                     randomYSpeed *= 0.6f;
@@ -96,8 +97,9 @@ public class InertialRecoilHandler {
                 yRate *= unstableFactor;
                 randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f) * yRate;
                 backSpeed += data.back * pRate;
-                rotateSpeed += data.rotate * pRate * unstableFactor;
+                rotateSpeed += data.rotate * pRate;
                 upSpeed += data.up;
+                shake += (float) (data.back * (data.backDec / data.back) * 0.5f * (Math.random() - 0.5f));
                 Arrays.fill(finished, false);
                 if (!data.isCanMix()) {
                     this.data.set(data);
@@ -120,6 +122,7 @@ public class InertialRecoilHandler {
         randomX = randomXSpeed = 0;
         randomY = randomYSpeed = 0;
         lastBack = 0;
+        shake = 0;
         lastBackOld = 0;
         Arrays.fill(finished, false);
         this.data.set(null);
@@ -178,9 +181,9 @@ public class InertialRecoilHandler {
                 }
 
                 if (!finished[2] && (rotate != 0 || rotateSpeed != 0)) {
-                    rotateSpeed -= rotate * recoilData.rotateDec;
-                    rotateSpeed *= 0.85f;
-                    rotate += rotateSpeed * 0.575f;
+                    rotate += rotateSpeed;
+                    rotate *= 1 - Math.abs(recoilData.rotateDec / recoilData.rotate);
+                    rotateSpeed *= 0.75f;
                 }
                 if (shouldClear(rotateSpeed, rotate)) {
                     rotateSpeed = rotate = 0;
@@ -189,7 +192,7 @@ public class InertialRecoilHandler {
 
                 if (!finished[3] && (randomX != 0 || randomXSpeed != 0)) {
                     randomX += randomXSpeed * 0.3f;
-                    randomXSpeed *= 0.925f;
+                    randomXSpeed *= 0.9f;
                     randomX *= 0.9f;
                 }
                 if (shouldClear(randomXSpeed, randomX)) {
@@ -199,14 +202,14 @@ public class InertialRecoilHandler {
 
                 if (!finished[4] && (randomY != 0 || randomYSpeed != 0)) {
                     randomY += randomYSpeed * 0.3f;
-                    randomYSpeed *= 0.925f;
+                    randomYSpeed *= 0.9f;
                     randomY *= 0.92f;
                 }
                 if (shouldClear(randomYSpeed, randomY)) {
                     randomYSpeed = randomY = 0;
                     finished[4] = true;
                 }
-
+                shake *= 0.925f;
                 boolean clear = true;
                 for (boolean v : finished) {
                     if (!v) {

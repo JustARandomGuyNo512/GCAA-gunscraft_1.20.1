@@ -17,6 +17,8 @@ import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.ammunition.ammunitionMods.AmmunitionMods;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.common.server.projetile.ProjectileHandler;
+import sheridan.gcaa.items.gun.IGunFireMode;
+import sheridan.gcaa.items.gun.guns.Beretta686;
 import sheridan.gcaa.utils.FontUtils;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
@@ -60,7 +62,20 @@ public class CaliberGauge12 extends Caliber {
         CompoundTag usingAmmunitionData = gun.getUsingAmmunitionData(gunStack);
         if (usingAmmunitionData != null &&
                 usingAmmunitionData.getCompound("mods").contains(AmmunitionMods.SLUG.id.toString())) {
-            ProjectileHandler.fire(player, angle, penetration, speed, baseDamage, minDamage, baseSpread, effectiveRange, gun, gunStack);
+            IGunFireMode fireMode = gun.getFireMode(gunStack);
+            if (fireMode instanceof Beretta686.Volley volley && volley.count > 1) {
+                int count = Math.min(volley.count, gun.getAmmoLeft(gunStack));
+                for (int i = 0; i < count; i++) {
+                    spread *= Projectile.BASE_SPREAD_INDEX;
+                    angle = angle.normalize().add(
+                            RenderAndMathUtils.RANDOM.nextGaussian() * spread,
+                            RenderAndMathUtils.RANDOM.nextGaussian() * spread,
+                            RenderAndMathUtils.RANDOM.nextGaussian() * spread).scale(speed);
+                    ProjectileHandler.fire(player, angle, penetration, speed, baseDamage, minDamage, baseSpread, effectiveRange, gun, gunStack);
+                }
+            } else {
+                ProjectileHandler.fire(player, angle, penetration, speed, baseDamage, minDamage, baseSpread, effectiveRange, gun, gunStack);
+            }
         } else {
             spread *= Projectile.BASE_SPREAD_INDEX;
             angle = angle.normalize().add(
