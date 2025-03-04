@@ -26,14 +26,18 @@ public class PlayerPosCacheHandler {
     @SubscribeEvent
     public static void updatePlayerPosCache(TickEvent.ServerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
+            Set<UUID> removeSet = new HashSet<>();
             playerPosCache.forEach((playerUUID, posCache) -> {
                 Player player = event.getServer().getPlayerList().getPlayer(playerUUID);
                 if (player == null) {
-                    playerPosCache.remove(playerUUID);
+                    removeSet.add(playerUUID);
                 } else {
                     posCache.update(player);
                 }
             });
+            for (UUID id : removeSet) {
+                playerPosCache.remove(id);
+            }
         }
     }
 
