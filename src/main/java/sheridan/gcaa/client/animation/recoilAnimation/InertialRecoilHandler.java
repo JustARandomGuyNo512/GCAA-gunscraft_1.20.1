@@ -21,7 +21,7 @@ public class InertialRecoilHandler {
     public static final InertialRecoilHandler INSTANCE = new InertialRecoilHandler();
     private final AtomicReference<InertialRecoilData> data = new AtomicReference<>(null);
     private final AtomicBoolean enabled = new AtomicBoolean(false);
-    private static final float UP_FACTOR = 0.09f;
+    private static final float UP_FACTOR = 0.08f;
     private static final float BACK_FACTOR = 0.18f;
     private static final float ROTATE_FACTOR = 0.025f;
 
@@ -99,7 +99,7 @@ public class InertialRecoilHandler {
                 randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f) * yRate;
                 backSpeed += data.back * pRate;
                 rotateSpeed += data.rotate * pRate * (1 - (Math.pow(unstableFactor, 3) - 0.5f) * 1.8f);
-                upSpeed += data.up;
+                upSpeed += data.up * (1 - (unstableFactor - 0.4f) * 1.66666667f);
 //                shakeSpeed = 0.01f * shakeRotIndex;
 //                if (unstableFactor > 0.401f) {
 //                    shakeRotIndex *= -1;
@@ -178,15 +178,15 @@ public class InertialRecoilHandler {
                     lastBackOld = 0;
                 }
 
-                if (!finished[1] && (up != 0 || upSpeed != 0)) {
-                    upSpeed -= up * recoilData.upDec;
-                    upSpeed *= 0.5f;
-                    up += upSpeed * 0.7f;
-                }
-                if (shouldClear(upSpeed, up)) {
-                    upSpeed = up = 0;
-                    finished[1] = true;
-                }
+//                if (!finished[1] && (up != 0 || upSpeed != 0)) {
+//                    up += upSpeed;
+//                    upSpeed -= up * recoilData.upDec;
+//                    upSpeed *= 0.4f;
+//                }
+//                if (shouldClear(upSpeed, up)) {
+//                    upSpeed = up = 0;
+//                    finished[1] = true;
+//                }
 
                 if (!finished[2] && (rotate != 0 || rotateSpeed != 0)) {
                     rotate += rotateSpeed * 0.9f;

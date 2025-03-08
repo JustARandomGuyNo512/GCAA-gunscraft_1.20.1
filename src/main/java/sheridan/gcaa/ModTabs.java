@@ -97,6 +97,7 @@ public class ModTabs {
                     tab.accept(ModItems.AMMO_7_62X39MM.get());
                     tab.accept(ModItems.AMMO_5_45X39MM.get());
                     tab.accept(ModItems.AMMO_7_62X51MM.get());
+                    tab.accept(ModItems.AMMO_6_8X51MM.get());
                     tab.accept(ModItems.AMMO_338_LAPUA_MAGNUM.get());
                     tab.accept(ModItems.AMMO_12GAUGE.get());
                     tab.accept(ModItems.AMMO_357MAGNUM.get());

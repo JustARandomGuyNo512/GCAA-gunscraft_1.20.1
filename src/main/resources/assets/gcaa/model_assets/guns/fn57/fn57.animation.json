@@ -95,34 +95,6 @@
 							"lerp_mode": "catmullrom"
 						}
 					}
-				},
-				"camera": {
-					"rotation": {
-						"0.0": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						},
-						"0.0444": {
-							"post": [0, 0, 0.3],
-							"lerp_mode": "catmullrom"
-						},
-						"0.1333": {
-							"post": [0, 0, -0.25],
-							"lerp_mode": "catmullrom"
-						},
-						"0.2333": {
-							"post": [0, 0, 0.2],
-							"lerp_mode": "catmullrom"
-						},
-						"0.3444": {
-							"post": [0, 0, -0.1],
-							"lerp_mode": "catmullrom"
-						},
-						"0.4889": {
-							"post": [0, 0, 0],
-							"lerp_mode": "catmullrom"
-						}
-					}
 				}
 			}
 		},
