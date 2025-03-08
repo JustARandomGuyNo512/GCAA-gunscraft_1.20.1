@@ -1,8 +1,5 @@
 package sheridan.gcaa.client.animation.recoilAnimation;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class InertialRecoilData {

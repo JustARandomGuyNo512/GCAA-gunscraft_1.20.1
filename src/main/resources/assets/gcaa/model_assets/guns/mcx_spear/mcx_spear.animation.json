@@ -1,0 +1,51 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"reload": {
+			"animation_length": 0.23,
+			"bones": {
+				"gun": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.21": [0, 0, 0]
+					},
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.21": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"full_reload": {
+			"animation_length": 0.37,
+			"bones": {
+				"gun": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"0.3": [0, 0, 0]
+					},
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.3": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"shoot": {
+			"animation_length": 0.1,
+			"bones": {
+				"bolt": {
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.04": {
+							"pre": [0, 0, 19],
+							"post": [0, 0, 19],
+							"lerp_mode": "catmullrom"
+						},
+						"0.1": [0, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

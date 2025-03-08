@@ -115,6 +115,7 @@ public class ModTabs {
                     tab.accept(ModItems.AK12.get());
                     tab.accept(ModItems.M4A1.get());
                     tab.accept(ModItems.MK47.get());
+                    tab.accept(ModItems.MCX_SPEAR.get());
                     tab.accept(ModItems.AWP.get());
                     tab.accept(ModItems.FN_BALLISTA.get());
                     tab.accept(ModItems.HK_G28.get());

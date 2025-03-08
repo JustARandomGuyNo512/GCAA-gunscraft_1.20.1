@@ -364,6 +364,7 @@ public class Commons {
                 new GunProduct(ModItems.M4A1.get(), 2900),
                 new GunProduct(ModItems.AK12.get(), 3000),
                 new GunProduct(ModItems.MK47.get(), 3050),
+                new GunProduct(ModItems.MCX_SPEAR.get(), 4200),
                 new GunProduct(ModItems.AWP.get(), 4000),
                 new GunProduct(ModItems.FN_BALLISTA.get(), 6000),
                 new GunProduct(ModItems.HK_G28.get(), 4000),

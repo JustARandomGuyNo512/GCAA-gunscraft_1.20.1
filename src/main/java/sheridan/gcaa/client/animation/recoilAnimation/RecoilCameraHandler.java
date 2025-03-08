@@ -30,6 +30,8 @@ public class RecoilCameraHandler {
     private float yawSpeed;
     private float pitchControl;
     private float yawControl;
+    private IGun gun;
+    private float lastRecoil = 0;
 
     protected RecoilCameraHandler() {
         cameraShakeHandler = DEFAULT_CAMERA_SHAKE_HANDLER;
@@ -39,12 +41,15 @@ public class RecoilCameraHandler {
         if (pitchVec > 0) {
             pitchSpeed = pitchVec;
             this.pitchControl = pitchControl;
+            lastRecoil = pitchVec;
             enabled.set(true);
+            doRecover = false;
         }
         if (Math.abs(yawVec) != 0) {
             yawSpeed += yawVec;
             this.yawControl = yawControl;
             enabled.set(true);
+            doRecover = false;
         }
     }
 
@@ -52,26 +57,59 @@ public class RecoilCameraHandler {
         float pitchVec = gun.getRecoilPitch(itemStack);
         float yawVec = gun.getRecoilYaw(itemStack) * dx;
         float controlScale = player.isCrouching() ? 1.2f : 1f;
+        this.gun = gun;
         onShoot(pitchVec, yawVec,
                 gun.getRecoilPitchControl(itemStack) * 0.2f * controlScale * pitchScale,
                 gun.getRecoilYawControl(itemStack) * 0.2f * controlScale * yawScale);
     }
 
+    private float lastPitch = Float.NaN;
+    private boolean doRecover = false;
+    private float recoverPitch = Float.NaN;
     public void handle() {
         if (player != null && player.getId() == Clients.clientPlayerId && enabled.get()) {
-            pitchSpeed -= pitchControl;
-            yawSpeed = yawSpeed > 0 ? yawSpeed - yawControl : yawSpeed + yawControl;
-            pitchSpeed *= Mth.clamp(1 - pitchControl * 5f, 0.8f, 0.9f);
-            yawSpeed *= Mth.clamp(1 - yawControl * 5f, 0.8f, 0.9f);
-            float scale = (Clients.isInAds() ? (1 - Clients.getAdsProgress() * 0.25f) : 1f) * 0.2f;
-            player.setXRot(player.getXRot() - pitchSpeed * scale);
-            player.setYRot(player.getYRot() + yawSpeed * scale);
-            if ((pitchSpeed < 0.25f && Math.abs(yawSpeed) < 0.25f) || pitchSpeed < 0) {
-                clear();
+            if (!doRecover) {
+                pitchSpeed -= pitchControl;
+                yawSpeed = yawSpeed > 0 ? yawSpeed - yawControl : yawSpeed + yawControl;
+                pitchSpeed *= Mth.clamp(1 - pitchControl * 5f, 0.8f, 0.9f);
+                yawSpeed *= Mth.clamp(1 - yawControl * 5f, 0.8f, 0.9f);
+                float scale = (Clients.isInAds() ? (1 - Clients.getAdsProgress() * 0.25f) : 1f) * 0.2f;
+                if (Float.isNaN(lastPitch)) {
+                    lastPitch = player.getXRot();
+                }
+                float pitchVec = pitchSpeed * scale;
+                player.setXRot(player.getXRot() - pitchVec);
+                player.setYRot(player.getYRot() + yawSpeed * scale);
+                if (!Float.isNaN(lastPitch)) {
+                    float dis = player.getXRot() - lastPitch;
+                    float bound = dis / -25f;
+                    bound *= 1 + pitchControl * (isPistol() ? 1 : 3f);
+                    player.setXRot(player.getXRot() + pitchVec * bound);
+                }
+            }
+            if (!doRecover && ((pitchSpeed < 0.25f && Math.abs(yawSpeed) < 0.25f) || pitchSpeed < 0)) {
+                doRecover = true;
+                recoverPitch = (player.getXRot() - lastPitch) * (Mth.clamp(pitchControl * 1.5f, 0, 0.5f));
+            }
+            if (doRecover) {
+                if (recoverPitch > 0) {
+                    clear();
+                } else {
+                    player.setXRot(player.getXRot() + recoverPitch * 0.05f);
+                    recoverPitch *= 0.95f;
+                }
             }
         } else {
             player = Minecraft.getInstance().player;
         }
+    }
+
+    private boolean isPistol() {
+        return gun != null && gun.isPistol();
+    }
+
+    public float getLastRecoil() {
+        return lastRecoil;
     }
 
     public void clear() {
@@ -79,6 +117,9 @@ public class RecoilCameraHandler {
         yawSpeed = 0;
         pitchControl = 0;
         yawControl = 0;
+        lastPitch = Float.NaN;
+        recoverPitch = Float.NaN;
+        doRecover = false;
         enabled.set(false);
     }
 
@@ -146,6 +187,13 @@ public class RecoilCameraHandler {
             if (System.currentTimeMillis() - Clients.lastShootMain() < 1000L) {
                 KeyframeAnimations._animateToModelPart(CAMERA, RECOIL_SHAKE, Clients.lastShootMain(), 0, -0.5f, -0.5f, Clients.MAIN_HAND_STATUS.lastRecoilDirection * -0.5f, true);
                 applyToPose(poseStack);
+                float factor = (System.currentTimeMillis() - Clients.lastShootMain()) / 100f;
+                factor = Mth.clamp(factor, 0, 1);
+                factor = - Mth.sin((float) (Math.pow(factor, 0.28f) * Math.PI));
+                poseStack.translate(0,0,
+                        (Mth.clamp(INSTANCE.getLastRecoil(), 0, 3))
+                                * factor * 0.01f);
+
                 reset();
             }
             return false;

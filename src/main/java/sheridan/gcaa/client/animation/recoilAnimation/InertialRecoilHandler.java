@@ -72,11 +72,12 @@ public class InertialRecoilHandler {
             }
             float r0 = (rotate + randomY) * scaleRot * ROTATE_FACTOR;
             float r1 = randomX * scaleRot * ROTATE_FACTOR;
-            poseStack.mulPose(new Quaternionf().rotateXYZ(- r0, r1 - 0 * 0.1f, 0 * 0.1f));
+            poseStack.mulPose(new Quaternionf().rotateXYZ(- r0, r1 - 0 * 0.1f, shake));
             poseStack.translate(0, - up * UP_FACTOR * scaleY - 0, back * BACK_FACTOR * scaleZ);
         }
     }
 
+    static float shakeRotIndex = 0.6f;
     public void onShoot(InertialRecoilData data, float randomDirectionX, float randomDirectionY, float pRate,  float yRate)  {
         if (data == null) {
             clear();
@@ -89,17 +90,22 @@ public class InertialRecoilHandler {
                         Mth.clamp((1 - (lastBack - lastBackOld)) *
                                         Math.min(back, 1 + (Math.min(0, back - 1) * ((data.back / data.backDec) * 0.158f))),
                                 0, 1.016f),
-                        0.5f, 1f);
-                randomYSpeed += (data.randomY * Mth.clamp(unstableFactor, 0.385f, 1f)) * randomDirectionY ;
+                        0.4f, 1f);
+                randomYSpeed += (data.randomY * Mth.clamp(unstableFactor, 0.5f, 1f)) * randomDirectionY ;
                 if (randomYSpeed < 0) {
                     randomYSpeed *= 0.6f;
                 }
                 yRate *= unstableFactor;
                 randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f) * yRate;
                 backSpeed += data.back * pRate;
-                rotateSpeed += data.rotate * pRate;
+                rotateSpeed += data.rotate * pRate * (1 - (Math.pow(unstableFactor, 3) - 0.5f) * 1.8f);
                 upSpeed += data.up;
-                shake += (float) (data.back * (data.backDec / data.back) * 0.5f * (Math.random() - 0.5f));
+                shakeSpeed = 0.01f * shakeRotIndex;
+                if (unstableFactor > 0.401f) {
+                    shakeRotIndex *= -1;
+                } else {
+                    shakeRotIndex = 0.6f;
+                }
                 Arrays.fill(finished, false);
                 if (!data.isCanMix()) {
                     this.data.set(data);
@@ -127,6 +133,7 @@ public class InertialRecoilHandler {
         Arrays.fill(finished, false);
         this.data.set(null);
         this.enabled.set(!disable);
+        shakeRotIndex = 0.6f;
     }
 
 
@@ -136,6 +143,7 @@ public class InertialRecoilHandler {
 
     private float lastBack;
     private float lastBackOld;
+    private float shakeSpeed = 0, antiShake = 0.03f;
     public void update() {
         if (enabled.get() && this.data.get() != null) {
             try {
@@ -181,9 +189,9 @@ public class InertialRecoilHandler {
                 }
 
                 if (!finished[2] && (rotate != 0 || rotateSpeed != 0)) {
-                    rotate += rotateSpeed;
+                    rotate += rotateSpeed * 0.9f;
                     rotate *= 1 - Math.abs(recoilData.rotateDec / recoilData.rotate);
-                    rotateSpeed *= 0.75f;
+                    rotateSpeed *= 0.78f;
                 }
                 if (shouldClear(rotateSpeed, rotate)) {
                     rotateSpeed = rotate = 0;
@@ -191,9 +199,9 @@ public class InertialRecoilHandler {
                 }
 
                 if (!finished[3] && (randomX != 0 || randomXSpeed != 0)) {
-                    randomX += randomXSpeed * 0.3f;
-                    randomXSpeed *= 0.9f;
-                    randomX *= 0.9f;
+                    randomX += randomXSpeed * 0.47f;
+                    randomXSpeed *= 0.85f;
+                    randomX *= 0.8f;
                 }
                 if (shouldClear(randomXSpeed, randomX)) {
                     randomXSpeed = randomX = 0;
@@ -201,15 +209,17 @@ public class InertialRecoilHandler {
                 }
 
                 if (!finished[4] && (randomY != 0 || randomYSpeed != 0)) {
-                    randomY += randomYSpeed * 0.3f;
+                    randomY += randomYSpeed * 0.57f;
                     randomYSpeed *= 0.9f;
-                    randomY *= 0.92f;
+                    randomY *= 0.8f;
                 }
                 if (shouldClear(randomYSpeed, randomY)) {
                     randomYSpeed = randomY = 0;
                     finished[4] = true;
                 }
-                shake *= 0.925f;
+                shake += shakeSpeed * 0.4f;
+                shakeSpeed -= antiShake * shake;
+                shakeSpeed *= 0.8f;
                 boolean clear = true;
                 for (boolean v : finished) {
                     if (!v) {

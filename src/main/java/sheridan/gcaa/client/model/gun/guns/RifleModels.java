@@ -38,4 +38,14 @@ public class RifleModels {
             return context.solidMipMap(texture);
         }
     };
+
+    public static CommonRifleModel MCX_SPEAR_MODEL = new CommonRifleModel(
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/mcx_spear/mcx_spear.geo.json"),
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/mcx_spear/mcx_spear.animation.json"),
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/mcx_spear/mcx_spear.png")) {
+        @Override
+        protected VertexConsumer getDefaultVertex(GunRenderContext context) {
+            return context.solidMipMap(texture);
+        }
+    };
 }
