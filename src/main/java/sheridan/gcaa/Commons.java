@@ -15,10 +15,7 @@ import sheridan.gcaa.industrial.RecipeRegister;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.attachments.Attachment;
-import sheridan.gcaa.items.attachments.replaceableParts.Mk47Handguard;
-import sheridan.gcaa.items.attachments.replaceableParts.RecoilControlPart;
-import sheridan.gcaa.items.attachments.replaceableParts.RecoilLowerPart;
-import sheridan.gcaa.items.attachments.replaceableParts.WeightPart;
+import sheridan.gcaa.items.attachments.replaceableParts.*;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.service.ProductsRegister;
 import sheridan.gcaa.service.product.*;
@@ -268,6 +265,26 @@ public class Commons {
                 .addChild(new AttachmentSlot(GRIP, Set.of("gcaa:micro_laser_sight", "gcaa:micro_flashlight", "gcaa:glock_mount")))
         );
 
+        AttachmentsRegister.registerAttachmentSlot(ModItems.MCX_SPEAR.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:dmr_compensator")).setReplaceableGunPart(new MCXSpearMuzzle()))
+                .addChild(new AttachmentSlot(GRIP, Set.of()))
+                .addChild(new AttachmentSlot("handguard_grip", Set.of(
+                        "gcaa:laser_sight",
+                        "gcaa:horizontal_laser_sight",
+                        "gcaa:flashlight",
+                        "gcaa:rail_panel",
+                        "gcaa:rail_panel_short",
+                        "gcaa:vertical_grip",
+                        "gcaa:slant_grip"
+                )))
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog","gcaa:elcan", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot("handguard_scope", mk47HandguardScopeSlot))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock", "gcaa:ubr_stock")))
+                .addChild(new AttachmentSlot("handguard_left", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight")))
+                .addChild(new AttachmentSlot("handguard_right", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight")))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:mcx_spear_exp_mag")))
+        );
+
         registerVendingMachineProducts();
         registerAmmunitionRecipes();
         checkVendingMachineProductsRegistry();
@@ -437,6 +454,7 @@ public class Commons {
                 new AttachmentProduct(ModItems.EXP_MAG5_45X39.get(), 160),
                 new AttachmentProduct(ModItems.DRUM_5_45X39.get(), 380),
                 new AttachmentProduct(ModItems.EXP_MAG7_62X51.get(), 200),
+                new AttachmentProduct(ModItems.MCX_SPEAR_EXP_MAG.get(), 100),
                 new AttachmentProduct(ModItems.DRUM_7_62X51.get(), 500),
                 new AttachmentProduct(ModItems.GLOCK_EXTEND_MAG.get(), 70),
                 new AttachmentProduct(ModItems.VECTOR_45_EXTEND_MAG.get(), 130),

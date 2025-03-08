@@ -100,7 +100,8 @@
   "item.fn57.fn57_fire": { "subtitle": "item.fn57.fn57_fire", "sounds": [{ "name": "gcaa:fn57/fn57_fire" }]},
   "item.fn57.fn57_mag_off": { "subtitle": "item.fn57.fn57_mag_off", "sounds": [{ "name": "gcaa:fn57/fn57_mag_off" }]},
   "item.fn57.fn57_slide_forward": { "subtitle": "item.fn57.fn57_slide_forward", "sounds": [{ "name": "gcaa:fn57/fn57_slide_forward" }]},
-
+  "item.mcx_spear.fire": { "subtitle": "item.mcx_spear.fire", "sounds": [{ "name": "gcaa:mcx_spear/mcx_spear_fire" }]},
+  "item.mcx_spear.fire_suppressed": { "subtitle": "item.mcx_spear.fire_suppressed", "sounds": [{ "name": "gcaa:mcx_spear/mcx_spear_fire_suppressed" }]},
 
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},

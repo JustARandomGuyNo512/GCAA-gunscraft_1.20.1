@@ -1,5 +1,7 @@
 package sheridan.gcaa.items.gun.guns;
 
+
+import net.minecraft.nbt.CompoundTag;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.GunProperties;
@@ -19,6 +21,14 @@ public class MCXSpear extends Gun {
         super(new GunProperties(3f, 0.75f, 2.8f, 0.85f, 0.2f,
                 4f, GunProperties.toRPM(800), getTicks(2.4f), getTicks(3.0f), 20,
                 3.1f, 0.8f, 0.14f, 0.13f, 14.4f, Arrays.asList(Semi.SEMI, Auto.AUTO),
-                ModSounds.AK12_FIRE, null, caliber));
+                ModSounds.MCX_SPEAR_FIRE, ModSounds.MCX_SPEAR_FIRE_SUPPRESSED, caliber));
     }
+
+    @Override
+    public CompoundTag getInitialData() {
+        CompoundTag initialData = super.getInitialData();
+        getGunProperties().setMuzzleFlash(initialData, MUZZLE_STATE_SUPPRESSOR);
+        return initialData;
+    }
+
 }

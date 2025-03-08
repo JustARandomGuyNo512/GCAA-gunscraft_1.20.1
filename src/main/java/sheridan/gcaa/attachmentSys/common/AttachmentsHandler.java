@@ -30,7 +30,7 @@ public class AttachmentsHandler {
     static final String NONE = AttachmentSlot.NONE;
 
     public void checkAndUpdate(ItemStack itemStack, IGun gun, Player player) {
-        CompoundTag properties = gun.getGunProperties().getInitialData();
+        CompoundTag properties = gun.getGun().getInitialData();
         //当前枪械的配件列表
         ListTag attachments = gun.getAttachmentsListTag(itemStack);
         //更新后的配件列表

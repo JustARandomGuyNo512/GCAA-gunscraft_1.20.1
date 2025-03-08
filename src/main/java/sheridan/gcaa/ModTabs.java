@@ -68,6 +68,7 @@ public class ModTabs {
                     tab.accept(ModItems.EXP_MAG_45_STRAIGHT.get());
                     tab.accept(ModItems.EXP_MAG9X19.get());
                     tab.accept(ModItems.SNIPER_EXTEND_MAG.get());
+                    tab.accept(ModItems.MCX_SPEAR_EXP_MAG.get());
                     tab.accept(ModItems.SHOTGUN_EXTEND_BAY.get());
                     tab.accept(ModItems.DRUM_9X19_ARC.get());
                     tab.accept(ModItems.DRUM_45_STRAIGHT.get());

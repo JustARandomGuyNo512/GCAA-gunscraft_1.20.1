@@ -117,6 +117,8 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> FN57_FIRE = registerSound("fn57_fire", "item.fn57.fn57_fire");
     public static RegistryObject<SoundEvent> FN57_MAG_OFF = registerSound("fn57_mag_off", "item.fn57.fn57_mag_off");
     public static RegistryObject<SoundEvent> FN57_SLIDE_FORWARD = registerSound("fn57_slide_forward", "item.fn57.fn57_slide_forward");
+    public static RegistryObject<SoundEvent> MCX_SPEAR_FIRE = registerSound("mcx_spear_fire", "item.mcx_spear.fire");
+    public static RegistryObject<SoundEvent> MCX_SPEAR_FIRE_SUPPRESSED = registerSound("mcx_spear_fire_suppressed", "item.mcx_spear.fire_suppressed");
 
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");

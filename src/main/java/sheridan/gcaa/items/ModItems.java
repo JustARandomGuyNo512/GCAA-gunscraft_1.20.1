@@ -129,6 +129,7 @@ public class ModItems {
     public static final RegistryObject<M203> M203 = ITEMS.register("m203", M203::new);
     public static final RegistryObject<Elcan> ELCAN = ITEMS.register("elcan", Elcan::new);
     public static final RegistryObject<GlockMount> GLOCK_MOUNT = ITEMS.register("glock_mount", GlockMount::new);
+    public static final RegistryObject<MCXSpearExpMag> MCX_SPEAR_EXP_MAG = ITEMS.register("mcx_spear_exp_mag", MCXSpearExpMag::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

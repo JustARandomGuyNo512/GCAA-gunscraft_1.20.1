@@ -563,7 +563,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             nbt.putInt("ammo_left", this.gunProperties.magSize);
         }
         if (!nbt.contains("properties")) {
-            nbt.put("properties", gunProperties.getInitialData());
+            nbt.put("properties", getInitialData());
         }
         if (!nbt.contains("attachments")) {
             nbt.put("attachments", new ListTag());
@@ -588,6 +588,10 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     public String getIdentity(ItemStack stack) {
         CompoundTag nbt = checkAndGet(stack);
         return nbt.contains("identity_temp") ? nbt.getString("identity_temp") : "";
+    }
+
+    public CompoundTag getInitialData() {
+        return gunProperties.getInitialData();
     }
 
     @Override
