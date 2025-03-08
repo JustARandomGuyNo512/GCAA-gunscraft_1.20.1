@@ -212,7 +212,7 @@ public class Clients {
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0f, 0f, 0.55f,
-                                0.06f, 0.58f,  0.08f,
+                                0.06f, 0.58f,  0.065f,
                                 0.5f, 0.4f,
                                 0.3f, 0.6f, 0.25f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.4f, -96f).setScale(1.8f))
@@ -232,7 +232,7 @@ public class Clients {
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0f, 0f, 0.45f,
-                                0.06f, 0.4f, 0.08f,
+                                0.06f, 0.4f, 0.06f,
                                 0.3f, 0.7f, 0.35f, 0.7f,
                                 0.2f, 0.7f, 0.25f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 3.725f, -88f).setScale(1.8f))
@@ -384,7 +384,7 @@ public class Clients {
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0, 0, 0.45f,
-                                0.055f, 0.48f, 0.08f,
+                                0.055f, 0.48f, 0.06f,
                                 0.3f, 0.7f, 0.3f, 0.5f,
                                 0.5f, 0.6f, 0.25f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.4561f, -102f).setScale(2.8f))
@@ -433,7 +433,7 @@ public class Clients {
                 .setAttachmentScreen(1f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0, 0, 0.45f,
-                                0.06f, 0.4f,  0.08f,
+                                0.06f, 0.45f,  0.0675f,
                                 0.3f, 0.7f, 0.35f                                                                                                                                                       , 0.7f,
                                 0.5f, 0.7f, 0.15f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 5.4f, -57.6f).setScale(1.8f))
@@ -467,7 +467,7 @@ public class Clients {
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0, 0, 0.5f,
-                                0.048f, 0.4f,  0.035f,
+                                0.048f, 0.4f,  0.04f,
                                 0.32f,  0.3f,
                                 0.1f, 0.7f, 0.3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.4f, -96.6f).setScale(2f))
@@ -497,7 +497,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.MCX_SPEAR.get(), RifleModels.MCX_SPEAR_MODEL, new DisplayData()
-                .setFirstPersonMain(-12.1f,19.5f,-35f, POS)
+                .setFirstPersonMain(-12.5f,19.7f,-35.2f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -507,7 +507,7 @@ public class Clients {
                 .setInertialRecoilData(
                         new InertialRecoilData(0f, 0f, 0.6f,
                                 0.055f, 0.52f, 0.058f,
-                                0.5f, 0.6f, 0.5f, 0.6f,
+                                0.48f, 0.6f, 0.48f, 0.6f,
                                 0.2f, 0.7f, 0.25f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.6f, -113.4f).setScale(2.4f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2.4f))
