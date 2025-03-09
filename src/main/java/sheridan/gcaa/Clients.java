@@ -512,7 +512,7 @@ public class Clients {
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.6f, -85f).setScale(2.2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4.6f, -113.4f).setScale(2.4f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AR_COMPENSATOR, new MuzzleFlashDisplayData().setScale(3.6f))
-                .setBulletShellDisplayData(new BulletShellDisplayData(4f, 5.6f, -10.4f, new Vector3f(3.5f, 1.6f, -0.5f), BulletShellModel.RIFLE).setRandomRate(0.4f).setScale(1.3f))
+                .setBulletShellDisplayData(new BulletShellDisplayData(4f, 5.6f, -10.4f, new Vector3f(3.5f, 1.3f, -0.6f), BulletShellModel.RIFLE).setRandomRate(0.4f).setScale(1.2f))
                 .setSprintingTrans(15f, 12f, 5f, 22.5f, -49, 38.5f)
         );
 

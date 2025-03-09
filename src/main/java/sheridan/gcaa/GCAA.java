@@ -35,6 +35,7 @@ import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.MuzzleFlashLightHandler;
 import sheridan.gcaa.client.UnloadTask;
+import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
 import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.events.*;
 import sheridan.gcaa.client.render.entity.GrenadeRenderer;
@@ -114,6 +115,7 @@ public class GCAA {
         MinecraftForge.EVENT_BUS.register(ClientEvents.class);
         MinecraftForge.EVENT_BUS.register(MuzzleSmokeRenderer.class);
         MinecraftForge.EVENT_BUS.register(MuzzleFlashLightHandler.class);
+        MinecraftForge.EVENT_BUS.register(RecoilCameraHandler.class);
         event.enqueueWork(() -> MenuScreens.register(ModContainers.ATTACHMENTS.get(), GunModifyScreen::new));
         event.enqueueWork(() -> MenuScreens.register(ModContainers.AMMUNITION_MODIFY_MENU.get(), AmmunitionModifyScreen::new));
         event.enqueueWork(() -> MenuScreens.register(ModContainers.VENDING_MACHINE_MENU.get(), VendingMachineScreen::new));

@@ -2,12 +2,16 @@ package sheridan.gcaa.client.animation.recoilAnimation;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.MouseHandler;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.joml.Quaternionf;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationChannel;
@@ -20,11 +24,12 @@ import sheridan.gcaa.items.gun.IGun;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @OnlyIn(Dist.CLIENT)
+@Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class RecoilCameraHandler {
     private static final ICameraShakeHandler DEFAULT_CAMERA_SHAKE_HANDLER = new CameraShakeHandler();
     public static final RecoilCameraHandler INSTANCE = new RecoilCameraHandler();
     private ICameraShakeHandler cameraShakeHandler;
-    private final AtomicBoolean enabled = new AtomicBoolean(false);
+    private static final AtomicBoolean enabled = new AtomicBoolean(false);
     private Player player;
     private float pitchSpeed;
     private float yawSpeed;
@@ -32,6 +37,7 @@ public class RecoilCameraHandler {
     private float yawControl;
     private IGun gun;
     private float lastRecoil = 0;
+
 
     protected RecoilCameraHandler() {
         cameraShakeHandler = DEFAULT_CAMERA_SHAKE_HANDLER;
@@ -43,13 +49,11 @@ public class RecoilCameraHandler {
             this.pitchControl = pitchControl;
             lastRecoil = pitchVec;
             enabled.set(true);
-            doRecover = false;
         }
         if (Math.abs(yawVec) != 0) {
             yawSpeed += yawVec;
             this.yawControl = yawControl;
             enabled.set(true);
-            doRecover = false;
         }
     }
 
@@ -64,40 +68,24 @@ public class RecoilCameraHandler {
     }
 
     private float lastPitch = Float.NaN;
-    private boolean doRecover = false;
-    private float recoverPitch = Float.NaN;
+
     public void handle() {
         if (player != null && player.getId() == Clients.clientPlayerId && enabled.get()) {
-            if (!doRecover) {
-                pitchSpeed -= pitchControl;
-                yawSpeed = yawSpeed > 0 ? yawSpeed - yawControl : yawSpeed + yawControl;
-                pitchSpeed *= Mth.clamp(1 - pitchControl * 5f, 0.8f, 0.9f);
-                yawSpeed *= Mth.clamp(1 - yawControl * 5f, 0.8f, 0.9f);
-                float scale = (Clients.isInAds() ? (1 - Clients.getAdsProgress() * 0.25f) : 1f) * 0.2f;
-                if (Float.isNaN(lastPitch)) {
-                    lastPitch = player.getXRot();
-                }
-                float pitchVec = pitchSpeed * scale;
-                player.setXRot(player.getXRot() - pitchVec);
-                player.setYRot(player.getYRot() + yawSpeed * scale);
-                if (!Float.isNaN(lastPitch)) {
-                    float dis = player.getXRot() - lastPitch;
-                    float bound = dis / -25f;
-                    bound *= 1 + pitchControl * (isPistol() ? 1 : 3f);
-                    player.setXRot(player.getXRot() + pitchVec * bound);
-                }
+//            MouseHandler mouseHandler = Minecraft.getInstance().mouseHandler;
+//            System.out.println(mouseHandler.getXVelocity() + " " + mouseHandler.getYVelocity() + " " + mouseHandler.xpos() + " " + mouseHandler.ypos());
+            pitchSpeed -= pitchControl;
+            yawSpeed = yawSpeed > 0 ? yawSpeed - yawControl : yawSpeed + yawControl;
+            pitchSpeed *= Mth.clamp(1 - pitchControl * 5f, 0.8f, 0.9f);
+            yawSpeed *= Mth.clamp(1 - yawControl * 5f, 0.8f, 0.9f);
+            float scale = (Clients.isInAds() ? (1 - Clients.getAdsProgress() * 0.25f) : 1f) * 0.2f;
+            if (Float.isNaN(lastPitch)) {
+                lastPitch = player.getXRot();
             }
-            if (!doRecover && ((pitchSpeed < 0.25f && Math.abs(yawSpeed) < 0.25f) || pitchSpeed < 0)) {
-                doRecover = true;
-                recoverPitch = (player.getXRot() - lastPitch) * (Mth.clamp(pitchControl * 1.5f, 0, 0.5f));
-            }
-            if (doRecover) {
-                if (recoverPitch > 0) {
-                    clear();
-                } else {
-                    player.setXRot(player.getXRot() + recoverPitch * 0.05f);
-                    recoverPitch *= 0.95f;
-                }
+            float pitchVec = pitchSpeed * scale;
+            player.setXRot(player.getXRot() - pitchVec);
+            player.setYRot(player.getYRot() + yawSpeed * scale);
+            if ((pitchSpeed < 0.25f && Math.abs(yawSpeed) < 0.25f) || pitchSpeed < 0) {
+                clear();
             }
         } else {
             player = Minecraft.getInstance().player;
@@ -118,8 +106,6 @@ public class RecoilCameraHandler {
         pitchControl = 0;
         yawControl = 0;
         lastPitch = Float.NaN;
-        recoverPitch = Float.NaN;
-        doRecover = false;
         enabled.set(false);
     }
 
