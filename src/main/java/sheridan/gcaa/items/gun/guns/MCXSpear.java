@@ -20,7 +20,7 @@ public class MCXSpear extends Gun {
     public MCXSpear() {
         super(new GunProperties(3f, 0.75f, 2.8f, 0.85f, 0.2f,
                 4f, GunProperties.toRPM(800), getTicks(2.4f), getTicks(2.8f), 20,
-                3.1f, 0.8f, 0.14f, 0.13f, 14.4f, Arrays.asList(Semi.SEMI, Auto.AUTO),
+                3.1f, 0.8f, 0.14f, 0.13f, 17.6f, Arrays.asList(Semi.SEMI, Auto.AUTO),
                 ModSounds.MCX_SPEAR_FIRE, ModSounds.MCX_SPEAR_FIRE_SUPPRESSED, caliber));
     }
 
