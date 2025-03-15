@@ -83,34 +83,28 @@ public class InertialRecoilHandler {
             clear();
         } else {
             try {
-                lock.lock();
-                lastBackOld = lastBack;
-                lastBack = back;
-                float unstableFactor = Mth.lerp(
-                        Mth.clamp((1 - (lastBack - lastBackOld)) *
-                                        Math.min(back, 1 + (Math.min(0, back - 1) * ((data.back / data.backDec) * 0.158f))),
-                                0, 1.016f),
-                        0.4f, 1f);
-                randomYSpeed += (data.randomY * Mth.clamp(unstableFactor, 0.5f, 1f)) * randomDirectionY ;
-                if (randomYSpeed < 0) {
-                    randomYSpeed *= 0.6f;
+                this.lock.lock();
+                this.lastBackOld = this.lastBack;
+                this.lastBack = this.back;
+                float unstableFactor = Mth.clamp(Mth.clamp((1.0F - (this.lastBack - this.lastBackOld)) *
+                        Math.min(this.back, 1.0F + Math.min(0.0F, this.back - 1.0F) * data.back / data.backDec * 0.158F), 0.0F, 1.016F),
+                        0.385F, 1.025F);
+                this.randomYSpeed += data.randomY * Mth.clamp(unstableFactor, 0.385F, 1.0F) * randomDirectionY;
+                if (this.randomYSpeed < 0.0F) {
+                    this.randomYSpeed *= 0.6F;
                 }
+
                 yRate *= unstableFactor;
-                randomXSpeed += data.randomX * randomDirectionX * (0.75 + Math.random() * 0.5f) * yRate;
-                backSpeed += data.back * pRate;
-                rotateSpeed += data.rotate * pRate * (1 - (Math.pow(unstableFactor, 3) - 0.5f) * 1.8f);
-                upSpeed += data.up * (1 - (unstableFactor - 0.4f) * 1.66666667f);
-//                shakeSpeed = 0.01f * shakeRotIndex;
-//                if (unstableFactor > 0.401f) {
-//                    shakeRotIndex *= -1;
-//                } else {
-//                    shakeRotIndex = 0.6f;
-//                }
-                Arrays.fill(finished, false);
+                this.randomXSpeed = (float)((double)this.randomXSpeed + (double)(data.randomX * randomDirectionX) * (0.75D + Math.random() * 0.5D) * (double)yRate);
+                this.backSpeed += data.back * pRate;
+                this.rotateSpeed += data.rotate * pRate * unstableFactor;
+                this.upSpeed += data.up;
+                Arrays.fill(this.finished, false);
                 if (!data.isCanMix()) {
                     this.data.set(data);
                 }
-                enabled.set(true);
+
+                this.enabled.set(true);
             } finally {
                 lock.unlock();
             }

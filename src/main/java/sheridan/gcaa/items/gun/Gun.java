@@ -31,10 +31,12 @@ import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilHandler;
 import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
+import sheridan.gcaa.client.animation.recoilAnimation.SpringRecoilHandler;
 import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
+import sheridan.gcaa.common.config.CommonConfig;
 import sheridan.gcaa.items.NoRepairNoEnchantmentItem;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.ammunition.AmmunitionHandler;
@@ -106,7 +108,9 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         Clients.MAIN_HAND_STATUS.lastShoot = System.currentTimeMillis();
         PlayerStatusProvider.setLastShoot(player, System.currentTimeMillis());
         PlayerStatusProvider.updateLocalTimeOffset(player);
-        PacketHandler.simpleChannel.sendToServer(new GunFirePacket(Clients.getSpread(this, player, stack)));
+        if (Clients.DO_SEND_FIRE_PACKET) {
+            PacketHandler.simpleChannel.sendToServer(new GunFirePacket(Clients.getSpread(this, player, stack)));
+        }
         DisplayData data = GunModelRegister.getDisplayData(this);
         InertialRecoilData inertialRecoilData = data == null ? null : data.getInertialRecoilData();
         boolean hasInertialRecoil = inertialRecoilData != null;
@@ -134,10 +138,10 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             float directionY = InertialRecoilHandler.randomIndexY(inertialRecoilData.randomYChangeRate);
             float pRate = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH, tag, 1);
             float yRate = gunProperties.getPropertyRate(GunProperties.RECOIL_YAW, tag, 1);
-            AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY,
-                    Mth.clamp((pRate - Math.max(0, pControl - 1) * 0.3f), 0.5f, 1f),
-                    Mth.clamp((yRate - Math.max(0, yControl - 1) * 0.3f), 0.5f, 1f));
-            //SpringRecoilHandler.onShoot();
+//            AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY,
+//                    Mth.clamp((pRate - Math.max(0, pControl - 1) * 0.3f), 0.5f, 1f),
+//                    Mth.clamp((yRate - Math.max(0, yControl - 1) * 0.3f), 0.5f, 1f));
+            SpringRecoilHandler.INSTANCE.onShoot(directionX, directionY);
         }
 
         RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionX, player,
@@ -152,7 +156,10 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             spread *= 0.7f;
         }
         Clients.MAIN_HAND_STATUS.spread += spread;
-        setAmmoLeft(stack, getAmmoLeft(stack) > 0 ? getAmmoLeft(stack) - 1 : 0);
+        boolean notUseAmmo = player.isCreative() && !CommonConfig.creativeModeUseAmmo.get();
+        if (!notUseAmmo) {
+            setAmmoLeft(stack, getAmmoLeft(stack) > 0 ? getAmmoLeft(stack) - 1 : 0);
+        }
         List<IAmmunitionMod> mods = Clients.MAIN_HAND_STATUS.ammunitionMods;
         if (!mods.isEmpty()) {
             for (IAmmunitionMod mod : mods) {
@@ -206,7 +213,10 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
                 caliber.fireBullet(null, null, this, player, stack, spread);
                 handleFireSoundServer(stack, player);
             }
-            setAmmoLeft(stack, ammoLeft - 1);
+            boolean notUseAmmo = player.isCreative() && !CommonConfig.creativeModeUseAmmo.get();
+            if (!notUseAmmo) {
+                setAmmoLeft(stack, ammoLeft - 1);
+            }
         }
     }
 

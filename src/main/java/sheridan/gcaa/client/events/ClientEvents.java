@@ -10,6 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.AnimationHandler;
+import sheridan.gcaa.client.screens.RecoilModifyScreen;
 import sheridan.gcaa.items.AutoRegister;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
@@ -22,8 +23,13 @@ public class ClientEvents {
         Player player = minecraft.player;
         if (event.phase == TickEvent.Phase.START) {
             try {
-                Clients.cancelLooperWork.set(!Minecraft.getInstance().isWindowActive() || minecraft.isPaused() || minecraft.screen != null);
-                Clients.cancelLooperWorkWithCoolDown.set(player == null || player.isSpectator() || player.isSwimming() || player.isInLava());
+                if (minecraft.screen instanceof RecoilModifyScreen) {
+                    Clients.cancelLooperWork.set(false);
+                    Clients.cancelLooperWorkWithCoolDown.set(false);
+                } else {
+                    Clients.cancelLooperWork.set(!Minecraft.getInstance().isWindowActive() || minecraft.isPaused() || minecraft.screen != null);
+                    Clients.cancelLooperWorkWithCoolDown.set(player == null || player.isSpectator() || player.isSwimming() || player.isInLava());
+                }
                 AnimationHandler.INSTANCE.onClientTick();
                 Clients.LOCK.lock();
             } catch (Exception ignored) {}

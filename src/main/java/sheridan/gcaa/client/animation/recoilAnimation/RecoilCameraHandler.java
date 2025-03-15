@@ -37,6 +37,7 @@ public class RecoilCameraHandler {
     private float yawControl;
     private IGun gun;
     private float lastRecoil = 0;
+    public boolean disable = false;
 
 
     protected RecoilCameraHandler() {
@@ -44,6 +45,9 @@ public class RecoilCameraHandler {
     }
 
     public void onShoot(float pitchVec, float yawVec, float pitchControl, float yawControl) {
+        if (disable) {
+            return;
+        }
         if (pitchVec > 0) {
             pitchSpeed = pitchVec;
             this.pitchControl = pitchControl;
@@ -58,6 +62,9 @@ public class RecoilCameraHandler {
     }
 
     public void onShoot(IGun gun, ItemStack itemStack, float dx, Player player, float pitchScale, float yawScale) {
+        if (disable) {
+            return;
+        }
         float pitchVec = gun.getRecoilPitch(itemStack);
         float yawVec = gun.getRecoilYaw(itemStack) * dx;
         float controlScale = player.isCrouching() ? 1.2f : 1f;

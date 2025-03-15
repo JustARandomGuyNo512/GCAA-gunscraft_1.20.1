@@ -33,6 +33,7 @@ public class CommonConfig {
     public static ForgeConfigSpec.BooleanValue enableHeadShot;
     public static ForgeConfigSpec.BooleanValue bulletBreakGlass;
     public static ForgeConfigSpec.BooleanValue bulletCrossLeafBlock;
+    public static ForgeConfigSpec.BooleanValue creativeModeUseAmmo;
 
     private static boolean verifyHeadShotModify(Object obj) {
         if (obj instanceof String str) {
@@ -146,6 +147,11 @@ public class CommonConfig {
                 Bullets can go through leaves.
                 子弹穿透树叶方块""");
         bulletCrossLeafBlock = BUILDER.define("bullet_cross_leaf_block", true);
+        BUILDER.comment("""
+                
+                Creative mode use ammo.
+                创造模式消耗子弹""");
+        creativeModeUseAmmo = BUILDER.define("creative_mode_use_ammo", false);
         SPEC = BUILDER.build();
     }
 }

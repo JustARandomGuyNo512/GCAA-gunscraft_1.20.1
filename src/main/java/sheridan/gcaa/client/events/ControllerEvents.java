@@ -20,8 +20,8 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingHandler;
-import sheridan.gcaa.client.screens.ClientSettingsScreen;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
+import sheridan.gcaa.client.screens.RecoilModifyScreen;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.attachments.IInteractive;
 import sheridan.gcaa.items.attachments.Scope;
@@ -183,9 +183,9 @@ public class ControllerEvents {
                 ReloadingHandler.INSTANCE.breakTask();
                 HandActionHandler.INSTANCE.breakTask();
             }
-//            else if (KeyBinds.OPEN_CLIENT_SETTINGS_SCREEN.isDown() && event.getAction() == 1) {
-//                Minecraft.getInstance().setScreen(new ClientSettingsScreen());
-//            }
+            else if (GCAA.ALLOW_DEBUG && KeyBinds.OPEN_CLIENT_SETTINGS_SCREEN.isDown() && event.getAction() == 1) {
+                Minecraft.getInstance().setScreen(new RecoilModifyScreen());
+            }
             else if (KeyBinds.SWITCH_EFFECTIVE_SIGHT.isDown() && event.getAction() == 1) {
                 Clients.MAIN_HAND_STATUS.attachmentsStatus.onSwitchEffectiveSight();
             }

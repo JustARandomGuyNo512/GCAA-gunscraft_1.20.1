@@ -4338,7 +4338,7 @@
 					"name": "left_arm_slim",
 					"parent": "left_arm",
 					"pivot": [22.7, -81.9, -17.1],
-					"rotation": [0.5, 0, -0.5]
+					"rotation": [1, 0, -0.5]
 				},
 				{
 					"name": "LAS",
@@ -4365,7 +4365,7 @@
 					"name": "left_arm_normal",
 					"parent": "left_arm",
 					"pivot": [24.7, -81.9, -17.1],
-					"rotation": [0.5, 0, -0.5]
+					"rotation": [1, 0, -0.5]
 				},
 				{
 					"name": "LA",

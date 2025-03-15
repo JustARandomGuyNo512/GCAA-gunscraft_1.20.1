@@ -21,6 +21,7 @@ import sheridan.gcaa.client.animation.CameraAnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.AnimationHandler;
+import sheridan.gcaa.client.animation.recoilAnimation.SpringRecoilHandler;
 import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
@@ -127,7 +128,8 @@ public class GunRenderer{
                     context.saveInLocal(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP, original);
                 }
                 if (inertialRecoilData != null) {
-                    AnimationHandler.INSTANCE.applyInertialRecoil(context.poseStack, inertialRecoilData);
+                    //AnimationHandler.INSTANCE.applyInertialRecoil(context.poseStack, inertialRecoilData);
+                    SpringRecoilHandler.INSTANCE.apply(context.poseStack);
                 }
                 model.render(context);
             } else {

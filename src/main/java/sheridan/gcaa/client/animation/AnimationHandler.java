@@ -10,6 +10,7 @@ import sheridan.gcaa.client.animation.frameAnimation.KeyframeAnimations;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilHandler;
 import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
+import sheridan.gcaa.client.animation.recoilAnimation.SpringRecoilHandler;
 import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
 
 import java.util.*;
@@ -37,6 +38,7 @@ public class AnimationHandler {
                     if (enableInertialRecoil.get()) {
                         INERTIAL_RECOIL_HANDLER.update();
                     }
+                    SpringRecoilHandler.INSTANCE.update();
                     RecoilCameraHandler.INSTANCE.handle();
                 } catch (Exception ignore) {}
             }
