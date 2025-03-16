@@ -17,18 +17,17 @@ public class NewRecoilData {
     public static final String TRANS_X = "X", TRANS_Y = "Y", TRANS_Z = "Z", ROT_X = "RX", ROT_Y = "RY", ROT_Z = "RZ";
     public static final String BACK = "Back", UP_ROT = "UpRot", RANDOM_X = "RandomX", RANDOM_Y = "RandomY", SHAKE = "Shake",
             PITCH_CONTROL = "PControl", YAW_CONTROL = "YControl", P_RATE = "PRate", Y_RATE = "YRate", RANDOM = "Random";
-    public static final int MAX_TRACK_SIZE = 3;
     public static Map<String, Variable> GLOBAL_VARIABLES = new Object2ObjectArrayMap<>();
-    public Map<String, List<Track>> data = new Object2ObjectArrayMap<>();
+    public Map<String, Track[]> data = new Object2ObjectArrayMap<>();
     public Map<String, Variable> localVariables = new Object2ObjectArrayMap<>();
     public Param back, upRot, randomX, randomY, shake;
-    public List<Track> X = new ArrayList<>();
-    public List<Track> Y = new ArrayList<>();
-    public List<Track> Z = new ArrayList<>();
-    public List<Track> RX = new ArrayList<>();
-    public List<Track> RY = new ArrayList<>();
-    public List<Track> RZ = new ArrayList<>();
-    private final List<Track> ALL = new ArrayList<>();
+    public Track[] X = new Track[] {Track.empty(), Track.empty(), Track.empty()};
+    public Track[] Y = new Track[] {Track.empty(), Track.empty(), Track.empty()};
+    public Track[] Z = new Track[] {Track.empty(), Track.empty(), Track.empty()};
+    public Track[] RX = new Track[] {Track.empty(), Track.empty(), Track.empty()};
+    public Track[] RY = new Track[] {Track.empty(), Track.empty(), Track.empty()};
+    public Track[] RZ = new Track[] {Track.empty(), Track.empty(), Track.empty()};
+    public Track[] ALL = new Track[] {X[0], X[1], X[2], Y[0], Y[1], Y[2], Z[0], Z[1], Z[2], RX[0], RX[1], RX[2], RY[0], RY[1], RY[2], RZ[0], RZ[1], RZ[2]};
     private String lastIdentity;
     private float pitchControl, yawControl, pRate, yRate, random;
 
@@ -63,38 +62,26 @@ public class NewRecoilData {
 
     protected void updateMass(ItemStack itemStack, IGun gun) {
         float weight = gun.getWeight(itemStack);
-        for (Track track : ALL) {
-            track.spring.setMass(weight);
+        for (Track t : ALL) {
+            t.setMass(weight);
         }
     }
 
     public void apply(PoseStack poseStack) {
         float rx = 0, ry = 0, rz = 0, x = 0, y = 0, z = 0;
-        for (Track track : RX) {
-            rx += track.val();
-        }
-        for (Track track : RY) {
-            ry += track.val();
-        }
-        for (Track track : RZ) {
-            rz += track.val();
-        }
+        rx += (RX[0].val() + RX[1].val() + RX[2].val());
+        ry += (RY[0].val() + RY[1].val() + RY[2].val());
+        rz += (RZ[0].val() + RZ[1].val() + RZ[2].val());
         poseStack.mulPose(new Quaternionf().rotateXYZ(rx, ry, rz));
-        for (Track track : X) {
-            x += track.val();
-        }
-        for (Track track : Y) {
-            y += track.val();
-        }
-        for (Track track : Z) {
-            z += track.val();
-        }
+        x += (X[0].val() + X[1].val() + X[2].val());
+        y += (Y[0].val() + Y[1].val() + Y[2].val());
+        z += (Z[0].val() + Z[1].val() + Z[2].val());
         poseStack.translate(x, y, z);
     }
 
     public void update() {
-        for (Track track : ALL) {
-            track.update();
+        for (Track t : ALL) {
+            t.update();
         }
     }
 
@@ -117,11 +104,19 @@ public class NewRecoilData {
             this.data = data;
         }
         public double val() {
-            return spring.getPosition() * flag;
+            return spring == null ? 0 : spring.getPosition() * flag;
         }
 
         public void update() {
-            spring.update();
+            if (spring != null) {
+                spring.update();
+            }
+        }
+
+        public void setMass(float weight) {
+            if (spring != null) {
+                spring.setMass(weight);
+            }
         }
 
         public void applyImpulse() {
@@ -131,22 +126,14 @@ public class NewRecoilData {
         public void readScript(String script) {
 
         }
-    }
 
-    public void add(String type, MassDampingSpring spring, int flag) {
-        if (data.get(type).size() < MAX_TRACK_SIZE) {
-            data.get(type).add(new Track(spring, flag, this));
-            ALL.add(new Track(spring, flag, this));
+        public static Track empty() {
+            return new Track(null, 0, null);
         }
     }
 
-    public void remove(String type, int index) {
-        Track remove = data.get(type).remove(index);
-        ALL.remove(remove);
-    }
-
     public Track get(String type, int index) {
-        return data.get(type).get(index);
+        return data.get(type)[index];
     }
 
     public void addLocalVariable(String type, Variable variable) {

@@ -1,11 +1,10 @@
 package sheridan.gcaa.client.animation.recoilAnimation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MassDampingSpring {
+    static Set<String> names;
+    private String name = "A1";
     public Param mass;          // 质量
     public Param stiffness;     // 刚度
     public Param dampingForward; // 向前（后坐时）的阻尼
@@ -29,6 +28,18 @@ public class MassDampingSpring {
         double acceleration = (- getStiffness() * position - currentDamping * velocity) / getMass();
         velocity += acceleration;
         position += velocity;
+    }
+
+    public void setName(String name) {
+        if (names.contains(name)) {
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Invalid name: " + name);
+        }
+    }
+
+    public String name() {
+        return name;
     }
 
     public void applyImpulse(double force) {
@@ -82,5 +93,12 @@ public class MassDampingSpring {
 
     public double getDampingBackward() {
         return dampingBackward.val();
+    }
+
+    static {
+        names = Set.of(
+                "A1", "A2", "A3", "A4", "A5", "A6",
+                "B1", "B2", "B3", "B4", "B5", "B6",
+                "C1", "C2", "C3", "C4", "C5", "C6");
     }
 }

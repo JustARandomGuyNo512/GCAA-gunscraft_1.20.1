@@ -21,8 +21,6 @@ import sheridan.gcaa.client.animation.recoilAnimation.*;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -49,13 +47,14 @@ public class RecoilModifyScreen extends Screen {
     public boolean springEditionVisible = true;
     public List<Label> labels = new ArrayList<>();
     public MassDampingSpring onModifySpring;
-    EditBox back, upRot, randomX, randomY, shake;
-    EditBox stiffness, dampingForward, dampingBackward, upperLimit, lowerLimit;
-    public static Map<String, Supplier<MassDampingSpring>> springFactory = new HashMap<>();
+    public EditBox back, upRot, randomX, randomY, shake;
+    public EditBox stiffness, dampingForward, dampingBackward, upperLimit, lowerLimit;
     public Label springTypeName = new Label("Spring Type: None", 265, 85, 0xffffff);
     public ConcurrentLinkedDeque<Task> affirmTasks = new ConcurrentLinkedDeque<>();
     public List<Button> springPoolBtnList = new ArrayList<>();
-    static Map<String, Integer> colorMap = new HashMap<>();
+    public TrackBox selectedTrackBox;
+    static final Map<String, Integer> COLOR_MAP = new HashMap<>();
+    static final Map<String, Supplier<MassDampingSpring>> SPRING_FACTORY = new HashMap<>();
 
     @Override
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
@@ -64,18 +63,12 @@ public class RecoilModifyScreen extends Screen {
             String warn = "Any action that triggers the interface to reload will result in the loss of unsaved data";
             Font font = Minecraft.getInstance().font;
             pGuiGraphics.drawString(font, warn, (int) (this.width / 2 - font.width(warn) / 2.5f), 10, 0xff0000);
-        }
-
-        if (!hide) {
             for (Label label : labels) {
                 label.render(pGuiGraphics);
             }
             if (springEditionVisible) {
                 springTypeName.render(pGuiGraphics);
             }
-        }
-
-        if (!hide) {
             pGuiGraphics.drawString(this.font, mx + " " + my, mx + this.font.width("."), my - this.font.lineHeight, 0xffffff);
             pGuiGraphics.hLine(0, this.width, my, FastColor.ABGR32.color(255,0,255,0));
             pGuiGraphics.vLine(mx, 0, this.height, FastColor.ABGR32.color(255,0,0,255));
@@ -94,6 +87,12 @@ public class RecoilModifyScreen extends Screen {
     @Override
     protected void init() {
         super.init();
+        if (this.minecraft != null && this.minecraft.player != null) {
+            ItemStack mainHandItem = this.minecraft.player.getMainHandItem();
+            if (mainHandItem.getItem() instanceof IGun gun) {
+                this.newRecoilData = NewRecoilData.get(gun);
+            }
+        }
         GridLayout gridlayout = new GridLayout();
         gridlayout.defaultCellSetting().padding(4, 4, 4, 0);
         GridLayout.RowHelper rowHelper = gridlayout.createRowHelper(2);
@@ -107,7 +106,7 @@ public class RecoilModifyScreen extends Screen {
             Clients.MAIN_HAND_STATUS.buttonDown.set(true);
             Clients.DO_SEND_FIRE_PACKET = false;
             RecoilCameraHandler.INSTANCE.disable = true;
-        }).size(20, 16).pos(40, 8).build();
+        }).size(25, 12).pos(40, 10).build();
         rowHelper.addChild(fire);
         rowHelper.addChild(Button.builder(Component.literal("Hide"), (b) -> {
             hide = !hide;
@@ -120,15 +119,9 @@ public class RecoilModifyScreen extends Screen {
             fire.visible = true;
             springEditionsVisible(springEditionVisible);
             trackEditionsVisible(trackEditionVisible);
-        }).size(20, 16).pos(65, 8).build());
+        }).size(25, 12).pos(70, 10).build());
         gridlayout.visitWidgets(this::addRenderableWidget);
-        if (this.minecraft != null && this.minecraft.player != null) {
-            ItemStack mainHandItem = this.minecraft.player.getMainHandItem();
-            if (mainHandItem.getItem() instanceof IGun gun) {
-                this.newRecoilData = NewRecoilData.get(gun);
-                syncRecoilData();
-            }
-        }
+        syncRecoilData();
     }
 
     public RecoilModifyScreen() {
@@ -188,12 +181,14 @@ public class RecoilModifyScreen extends Screen {
             if (this.minecraft != null) {
                 this.minecraft.screen = null;
             }
+            return;
         }
         for (Button btn : springPoolBtnList) {
             String string = btn.getMessage().getString();
-            int color = springPool.get(string) == null ? Color.GRAY.getRGB() : colorMap.getOrDefault(string, 0xffffff);
+            int color = springPool.get(string) == null ? Color.GRAY.getRGB() : COLOR_MAP.getOrDefault(string, 0xffffff);
             btn.setMessage(Component.literal(string).withStyle(Style.EMPTY.withColor(color)));
         }
+        TrackBox.tickAll();
     }
 
     private void syncRecoilData() {
@@ -205,6 +200,11 @@ public class RecoilModifyScreen extends Screen {
         randomX.setValue(newRecoilData.randomX.strVal());
         randomY.setValue(newRecoilData.randomY.strVal());
         shake.setValue(newRecoilData.shake.strVal());
+        for (NewRecoilData.Track track : newRecoilData.ALL) {
+            if (track.spring != null) {
+                springPool.put(track.spring.name(), track.spring);
+            }
+        }
     }
 
     private void applyRecoilData() {
@@ -231,29 +231,29 @@ public class RecoilModifyScreen extends Screen {
 
     private void initTrackMap(GridLayout.RowHelper rowHelper) {
         trackMap.put(NewRecoilData.TRANS_X, List.of(
-                new TrackBox(Minecraft.getInstance().font, 40, 30, 18, 12, Component.literal("")),
-                new TrackBox(Minecraft.getInstance().font, 62, 30, 18, 12, Component.literal("")),
-                new TrackBox(Minecraft.getInstance().font, 84, 30, 18, 12, Component.literal(""))));
+                new TrackBox(40, 30, 25, 12, Component.literal(""), newRecoilData.X[0]),
+                new TrackBox(70, 30, 25, 12, Component.literal(""), newRecoilData.X[1]),
+                new TrackBox(100, 30, 25, 12, Component.literal(""), newRecoilData.X[2])));
         trackMap.put(NewRecoilData.TRANS_Y, List.of(
-                new TrackBox(Minecraft.getInstance().font, 40, 45, 18, 12, Component.literal("")),
-                new TrackBox(Minecraft.getInstance().font, 62, 45, 18, 12, Component.literal("")),
-                new TrackBox(Minecraft.getInstance().font, 84, 45, 18, 12, Component.literal(""))));
+                new TrackBox(40, 45, 25, 12, Component.literal(""), newRecoilData.Y[0]),
+                new TrackBox(70, 45, 25, 12, Component.literal(""), newRecoilData.Y[1]),
+                new TrackBox(100, 45, 25, 12, Component.literal(""), newRecoilData.Y[2])));
         trackMap.put(NewRecoilData.TRANS_Z, List.of(
-                new TrackBox(Minecraft.getInstance().font, 40, 60, 18, 12, Component.literal("")),
-                new TrackBox(Minecraft.getInstance().font, 62, 60, 18, 12, Component.literal("")),
-                new TrackBox(Minecraft.getInstance().font, 84, 60, 18, 12, Component.literal(""))));
+                new TrackBox(40, 60, 25, 12, Component.literal(""), newRecoilData.Z[0]),
+                new TrackBox(70, 60, 25, 12, Component.literal(""), newRecoilData.Z[1]),
+                new TrackBox(100, 60, 25, 12, Component.literal(""), newRecoilData.Z[2])));
         trackMap.put(NewRecoilData.ROT_X, List.of(
-                new TrackBox(Minecraft.getInstance().font, 40, 75, 18, 12, Component.literal("")),
-                new TrackBox(Minecraft.getInstance().font, 62, 75, 18, 12, Component.literal("")),
-                new TrackBox(Minecraft.getInstance().font, 84, 75, 18, 12, Component.literal(""))));
+                new TrackBox(40, 75, 25, 12, Component.literal(""), newRecoilData.RX[0]),
+                new TrackBox(70, 75, 25, 12, Component.literal(""), newRecoilData.RX[1]),
+                new TrackBox(100, 75, 25, 12, Component.literal(""), newRecoilData.RX[2])));
         trackMap.put(NewRecoilData.ROT_Y, List.of(
-                new TrackBox(Minecraft.getInstance().font, 40, 90, 18, 12, Component.literal("")),
-                new TrackBox(Minecraft.getInstance().font, 62, 90, 18, 12, Component.literal("")),
-                new TrackBox(Minecraft.getInstance().font, 84, 90, 18, 12, Component.literal(""))));
+                new TrackBox(40, 90, 25, 12, Component.literal(""), newRecoilData.RY[0]),
+                new TrackBox(70, 90, 25, 12, Component.literal(""), newRecoilData.RY[1]),
+                new TrackBox(100, 90, 25, 12, Component.literal(""), newRecoilData.RY[2])));
         trackMap.put(NewRecoilData.ROT_Z, List.of(
-                new TrackBox(Minecraft.getInstance().font, 40, 105, 18, 12, Component.literal("")),
-                new TrackBox(Minecraft.getInstance().font, 62, 105, 18, 12, Component.literal("")),
-                new TrackBox(Minecraft.getInstance().font, 84, 105, 18, 12, Component.literal(""))));
+                new TrackBox(40, 105, 25, 12, Component.literal(""), newRecoilData.RZ[0]),
+                new TrackBox(70, 105, 25, 12, Component.literal(""), newRecoilData.RZ[1]),
+                new TrackBox(100, 105, 25, 12, Component.literal(""), newRecoilData.RZ[2])));
         trackMap.values().forEach(list -> list.forEach(rowHelper::addChild));
     }
 
@@ -314,10 +314,6 @@ public class RecoilModifyScreen extends Screen {
         }
     }
 
-    private void onTrackBoxClick(EditBox box) {
-
-    }
-
     private void initRecoilData(GridLayout.RowHelper rowHelper) {
         back = new EditBox(Minecraft.getInstance().font, 40, 200, 35, 12, Component.literal(""));
         back.setTooltip(Tooltip.create(Component.literal("Back")));
@@ -339,19 +335,22 @@ public class RecoilModifyScreen extends Screen {
         }).size(25, 12).pos(40, 180).tooltip(Tooltip.create(Component.literal("Read from memory"))).build());
         rowHelper.addChild(Button.builder(Component.literal("Apply"), (b) -> {
             applyRecoilData();
-        }).size(25, 12).pos(75, 180).tooltip(Tooltip.create(Component.literal("Apply to recoil data in memory"))).build());
+        }).size(25, 12).pos(70, 180).tooltip(Tooltip.create(Component.literal("Apply to recoil data in memory"))).build());
     }
 
     private void initSpringEditions(GridLayout.RowHelper rowHelper) {
-        Button apply = Button.builder(Component.literal("OK"), (b) -> {
-            onModifySpringSave();
-        }).size(20, 12).pos(240, 85).tooltip(Tooltip.create(Component.literal("Apply to spring data in memory"))).build();
+        Button apply = Button.builder(Component.literal("OK"), (b) ->
+                onModifySpringSave()).size(20, 12).pos(240, 85)
+                .tooltip(Tooltip.create(Component.literal("Apply to spring data in memory"))).build();
         clampedSpringBtn = Button.builder(Component.literal("ClampedSpring"),
-                (b) -> onSpringTypeClicked("ClampedSpring")).size(70, 12).pos(240, 100).tooltip(Tooltip.create(Component.literal("ClampedSpring"))).build();
+                (b) -> onSpringTypeClicked("ClampedSpring")).size(70, 12).pos(315, 100)
+                .tooltip(Tooltip.create(Component.literal("ClampedSpring"))).build();
         massDampingSpring = Button.builder(Component.literal("MassDampingSpring"),
-                (b) -> onSpringTypeClicked("MassDampingSpring")).size(70, 12).pos(315, 100).tooltip(Tooltip.create(Component.literal("MassDampingSpring"))).build();
+                (b) -> onSpringTypeClicked("MassDampingSpring")).size(70, 12).pos(240, 100)
+                .tooltip(Tooltip.create(Component.literal("MassDampingSpring"))).build();
         steadyStateSpring = Button.builder(Component.literal("SteadyStateSpring"),
-                (b) -> onSpringTypeClicked("SteadyStateSpring")).size(70, 12).pos(240, 115).tooltip(Tooltip.create(Component.literal("SteadyStateSpring"))).build();
+                (b) -> onSpringTypeClicked("SteadyStateSpring")).size(70, 12).pos(240, 115)
+                .tooltip(Tooltip.create(Component.literal("SteadyStateSpring"))).build();
         stiffness = new EditBox(Minecraft.getInstance().font, 240, 130, 100, 12, Component.literal(""));
         stiffness.setTooltip(Tooltip.create(Component.literal("Stiffness")));
         dampingForward = new EditBox(Minecraft.getInstance().font, 240, 145, 100, 12, Component.literal(""));
@@ -410,9 +409,10 @@ public class RecoilModifyScreen extends Screen {
 
     private void onSpringTypeClicked(String type) {
         Runnable r = () -> {
-            Supplier<MassDampingSpring> massDampingSpringSupplier = springFactory.get(type);
+            Supplier<MassDampingSpring> massDampingSpringSupplier = SPRING_FACTORY.get(type);
             onModifySpring = massDampingSpringSupplier.get();
             springPool.put(selectedSpringBtnName, onModifySpring);
+            onModifySpring.setName(selectedSpringBtnName);
             syncSpringDataToEditions();
             springEditionBoxesVisible();
             updateSpringTypeName();
@@ -463,11 +463,11 @@ public class RecoilModifyScreen extends Screen {
             String tooltipStr = "+".equals(flagStr) ? "Direction (positive)" : "Direction (negative)";
             b.setTooltip(Tooltip.create(Component.literal(tooltipStr)));
             //Logic here...
-        }).size(20, 12).pos(40, 125).tooltip(Tooltip.create(Component.literal("Direction (positive)"))).build();
+        }).size(25, 12).pos(40, 125).tooltip(Tooltip.create(Component.literal("Direction (positive)"))).build();
 
         Button apply = Button.builder(Component.literal("Apply"), (b) -> {
 
-        }).size(25, 12).pos(80, 125).tooltip(Tooltip.create(Component.literal("Apply to track data in memory"))).build();
+        }).size(25, 12).pos(70, 125).tooltip(Tooltip.create(Component.literal("Apply to track data in memory"))).build();
 
         impulseScript = new EditBox(Minecraft.getInstance().font, 40, 145, 345, 15, Component.literal(""));
         impulseScript.setTooltip(Tooltip.create(Component.literal(
@@ -494,6 +494,10 @@ public class RecoilModifyScreen extends Screen {
         springEditionVisible = visible;
         springEditionBoxesVisible();
         updateSpringTypeName();
+        if (visible) {
+            trackEditionsVisible(false);
+            selectedTrackBox = null;
+        }
     }
 
     private void updateSpringTypeName() {
@@ -526,19 +530,60 @@ public class RecoilModifyScreen extends Screen {
             widget.visible = visible;
         }
         trackEditionVisible = visible;
+        if (trackEditionVisible) {
+            springEditionsVisible(false);
+        }
     }
 
     private class TrackBox extends EditBox {
-
-        public TrackBox(Font pFont, int pX, int pY, int pWidth, int pHeight, Component pMessage) {
-            super(pFont, pX, pY, pWidth, pHeight, pMessage);
+        static List<TrackBox> allInstances = new ArrayList<>();
+        public NewRecoilData.Track track;
+        public TrackBox(int pX, int pY, int pWidth, int pHeight, Component pMessage, NewRecoilData.Track track)  {
+            super(Minecraft.getInstance().font, pX, pY, pWidth, pHeight, pMessage);
             this.setMaxLength(2);
+            this.track = track;
+            allInstances.add(this);
         }
 
         @Override
         public void onClick(double pMouseX, double pMouseY) {
             super.onClick(pMouseX, pMouseY);
-            onTrackBoxClick(this);
+            if (selectedTrackBox == this) {
+                selectedTrackBox = null;
+                return;
+            }
+            selectedTrackBox = this;
+        }
+
+        public static void tickAll() {
+            for (TrackBox box : allInstances) {
+                box.tick();
+            }
+        }
+
+        public void tick() {
+            if (track.spring != null) {
+                setValue(track.spring.name());
+            }
+            String value = getValue();
+            MassDampingSpring massDampingSpring = springPool.get(value);
+            if (massDampingSpring != null) {
+                setTextColor(COLOR_MAP.get(value));
+            }
+            track.spring = massDampingSpring;
+            if (!this.isFocused() && massDampingSpring == null) {
+                setValue("");
+            }
+            if (selectedTrackBox == this) {
+                if (massDampingSpring != null) {
+                    if (!trackEditionVisible) {
+                        trackEditionsVisible(true);
+                    }
+                } else if (trackEditionVisible) {
+                    trackEditionsVisible(false);
+                }
+
+            }
         }
     }
 
@@ -573,31 +618,32 @@ public class RecoilModifyScreen extends Screen {
     }
 
     static {
-        springFactory.put("MassDampingSpring", () -> new MassDampingSpring("0", "0", "0", "0"));
-        springFactory.put("ClampedSpring", () -> new ClampedSpring("0", "0", "0", "0", "0","0"));
-        springFactory.put("SteadyStateSpring", () -> new SteadyStateSpring("0", "0", "0", "0"));
+        SPRING_FACTORY.put("MassDampingSpring", () -> new MassDampingSpring("0", "0", "0", "0"));
+        SPRING_FACTORY.put("ClampedSpring", () -> new ClampedSpring("0", "0", "0", "0", "0","0"));
+        SPRING_FACTORY.put("SteadyStateSpring", () -> new SteadyStateSpring("0", "0", "0", "0"));
 
-        colorMap.put("A1", 0xFF5733); // 鲜艳橙红
-        colorMap.put("A2", 0xE74C3C); // 深红色
-        colorMap.put("A3", 0xFF8C00); // 橙色
-        colorMap.put("A4", 0xFFD700); // 金黄色
-        colorMap.put("A5", 0xFFA500); // 标准橙色
-        colorMap.put("A6", 0xF4A460); // 沙褐色
+        // A 组：红-橙-黄系
+        COLOR_MAP.put("A1", 0xFF5733); // 鲜艳橙红
+        COLOR_MAP.put("A2", 0xE74C3C); // 深红色
+        COLOR_MAP.put("A3", 0xFF8C00); // 橙色
+        COLOR_MAP.put("A4", 0xFFD700); // 金黄色
+        COLOR_MAP.put("A5", 0xFFA500); // 标准橙色
+        COLOR_MAP.put("A6", 0xF4A460); // 沙褐色
 
         // B 组：绿-青-蓝系
-        colorMap.put("B1", 0x2ECC71); // 亮绿色
-        colorMap.put("B2", 0x27AE60); // 深绿色
-        colorMap.put("B3", 0x1ABC9C); // 亮青色
-        colorMap.put("B4", 0x3498DB); // 天蓝色
-        colorMap.put("B5", 0x2980B9); // 深蓝色
-        colorMap.put("B6", 0x0E4D92); // 皇家蓝
+        COLOR_MAP.put("B1", 0x2ECC71); // 亮绿色
+        COLOR_MAP.put("B2", 0x27AE60); // 深绿色
+        COLOR_MAP.put("B3", 0x1ABC9C); // 亮青色
+        COLOR_MAP.put("B4", 0x3498DB); // 天蓝色
+        COLOR_MAP.put("B5", 0x2980B9); // 深蓝色
+        COLOR_MAP.put("B6", 0x0E4D92); // 皇家蓝
 
         // C 组：紫-粉-棕-灰系
-        colorMap.put("C1", 0x9B59B6); // 紫罗兰
-        colorMap.put("C2", 0x8E44AD); // 深紫色
-        colorMap.put("C3", 0xFF69B4); // 热粉色
-        colorMap.put("C4", 0xD2691E); // 巧克力色
-        colorMap.put("C5", 0xA52A2A); // 棕色
-        colorMap.put("C6", 0x7F8C8D); // 深灰色
+        COLOR_MAP.put("C1", 0x9B59B6); // 紫罗兰
+        COLOR_MAP.put("C2", 0x8E44AD); // 深紫色
+        COLOR_MAP.put("C3", 0xFF69B4); // 热粉色
+        COLOR_MAP.put("C4", 0xD2691E); // 巧克力色
+        COLOR_MAP.put("C5", 0xA52A2A); // 棕色
+        COLOR_MAP.put("C6", 0xE0FFFF); // 亮青色
     }
 }
