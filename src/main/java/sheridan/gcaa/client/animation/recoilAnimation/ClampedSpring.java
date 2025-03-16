@@ -6,13 +6,11 @@ import java.util.Map;
 public class ClampedSpring extends MassDampingSpring{
     public Param upperLimit;
     public Param lowerLimit;
-    //public Param originalStiffness;
 
     public ClampedSpring(String mass, String stiffness, String dampingForward, String dampingBackward, String upperLimit, String lowerLimit)  {
         super(mass, stiffness, dampingForward, dampingBackward);
         this.upperLimit = Param.of(upperLimit);
         this.lowerLimit = Param.of(lowerLimit);
-        //this.originalStiffness = Param.of(stiffness);
     }
 
     @Override

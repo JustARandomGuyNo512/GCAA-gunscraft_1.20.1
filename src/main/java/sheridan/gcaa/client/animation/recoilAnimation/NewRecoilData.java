@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Quaternionf;
+import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class NewRecoilData {
     public static Map<String, Variable> GLOBAL_VARIABLES = new Object2ObjectArrayMap<>();
     public Map<String, List<Track>> data = new Object2ObjectArrayMap<>();
     public Map<String, Variable> localVariables = new Object2ObjectArrayMap<>();
-    public float back, upRot, randomX, randomY, shake;
+    public Param back, upRot, randomX, randomY, shake;
     public List<Track> X = new ArrayList<>();
     public List<Track> Y = new ArrayList<>();
     public List<Track> Z = new ArrayList<>();
@@ -31,18 +32,20 @@ public class NewRecoilData {
     private String lastIdentity;
     private float pitchControl, yawControl, pRate, yRate, random;
 
-    public NewRecoilData(float back, float upRot, float randomX, float randomY, float shake)  {
+    public static final NewRecoilData __TEST__ = new NewRecoilData("1", "0.5", "0.25", "0.25", "0.1");
+
+    public NewRecoilData(String back, String upRot, String randomX, String randomY, String shake)  {
         data.put(TRANS_X, X);
         data.put(TRANS_Y, Y);
         data.put(TRANS_Z, Z);
         data.put(ROT_X, RX);
         data.put(ROT_Y, RY);
         data.put(ROT_Z, RZ);
-        this.back = back;
-        this.upRot = upRot;
-        this.randomX = randomX;
-        this.randomY = randomY;
-        this.shake = shake;
+        this.back = Param.of(back);
+        this.upRot = Param.of(upRot);
+        this.randomX = Param.of(randomX);
+        this.randomY = Param.of(randomY);
+        this.shake = Param.of(shake);
     }
 
     public void onShoot(ItemStack itemStack, IGun gun, float pitchControl, float yawControl, float pRate, float yRate) {
@@ -176,11 +179,11 @@ public class NewRecoilData {
     }
 
     static {
-        GLOBAL_VARIABLES.put(BACK, (data) -> data.back);
-        GLOBAL_VARIABLES.put(UP_ROT, (data) -> data.upRot);
-        GLOBAL_VARIABLES.put(RANDOM_X, (data) -> data.randomX);
-        GLOBAL_VARIABLES.put(RANDOM_Y, (data) -> data.randomY);
-        GLOBAL_VARIABLES.put(SHAKE, (data) -> data.shake);
+        GLOBAL_VARIABLES.put(BACK, (data) -> data.back.val());
+        GLOBAL_VARIABLES.put(UP_ROT, (data) -> data.upRot.val());
+        GLOBAL_VARIABLES.put(RANDOM_X, (data) -> data.randomX.val());
+        GLOBAL_VARIABLES.put(RANDOM_Y, (data) -> data.randomY.val());
+        GLOBAL_VARIABLES.put(SHAKE, (data) -> data.shake.val());
         GLOBAL_VARIABLES.put(PITCH_CONTROL, (data) -> data.pitchControl);
         GLOBAL_VARIABLES.put(YAW_CONTROL, (data) -> data.yawControl);
         GLOBAL_VARIABLES.put(P_RATE, (data) -> data.pRate);

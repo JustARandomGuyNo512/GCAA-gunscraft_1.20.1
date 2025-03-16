@@ -184,7 +184,10 @@ public class ControllerEvents {
                 HandActionHandler.INSTANCE.breakTask();
             }
             else if (GCAA.ALLOW_DEBUG && KeyBinds.OPEN_CLIENT_SETTINGS_SCREEN.isDown() && event.getAction() == 1) {
-                Minecraft.getInstance().setScreen(new RecoilModifyScreen());
+                ItemStack mainHandItem = player.getMainHandItem();
+                if (mainHandItem.getItem() instanceof IGun) {
+                    Minecraft.getInstance().setScreen(new RecoilModifyScreen());
+                }
             }
             else if (KeyBinds.SWITCH_EFFECTIVE_SIGHT.isDown() && event.getAction() == 1) {
                 Clients.MAIN_HAND_STATUS.attachmentsStatus.onSwitchEffectiveSight();

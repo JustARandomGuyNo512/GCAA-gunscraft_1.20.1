@@ -31,6 +31,7 @@ import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.ClientWeaponLooper;
 import sheridan.gcaa.client.ClientWeaponStatus;
+import sheridan.gcaa.client.animation.recoilAnimation.NewRecoilData;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.model.BulletShellModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
@@ -591,6 +592,9 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.ELCAN.get(), new ElcanModel());
         ArsenalLib.registerAttachmentModel(ModItems.GLOCK_MOUNT.get(), new GlockMountModel());
         ArsenalLib.registerAttachmentModel(ModItems.MCX_SPEAR_EXP_MAG.get(), IAttachmentModel.EMPTY);
+
+        //TEST!!!
+        NewRecoilData.register(ModItems.M4A1.get(), NewRecoilData.__TEST__);
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

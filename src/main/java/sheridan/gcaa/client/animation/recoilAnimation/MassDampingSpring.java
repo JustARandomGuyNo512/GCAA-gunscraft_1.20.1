@@ -23,6 +23,7 @@ public class MassDampingSpring {
         this.velocity = 0.0;
     }
 
+
     public void update() {
         double currentDamping = velocity > 0 ? getDampingForward() : getDampingBackward();
         double acceleration = (- getStiffness() * position - currentDamping * velocity) / getMass();
