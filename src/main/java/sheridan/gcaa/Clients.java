@@ -594,7 +594,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.MCX_SPEAR_EXP_MAG.get(), IAttachmentModel.EMPTY);
 
         //TEST!!!
-        NewRecoilData.register(ModItems.M4A1.get(), NewRecoilData.__TEST__);
+        NewRecoilData.register(ModItems.M4A1.get(), NewRecoilData._TEST_);
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

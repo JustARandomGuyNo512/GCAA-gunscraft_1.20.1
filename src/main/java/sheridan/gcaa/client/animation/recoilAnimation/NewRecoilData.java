@@ -4,34 +4,32 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Quaternionf;
-import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.IGun;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.function.DoubleSupplier;
 
 public class NewRecoilData {
     private static final Map<IGun, NewRecoilData> RECOIL_DATA_REGISTER = new HashMap<>();
+    public static final ImpulseScriptParser IMPULSE_SCRIPT_PARSER = new ImpulseScriptParser();
     public static final String TRANS_X = "X", TRANS_Y = "Y", TRANS_Z = "Z", ROT_X = "RX", ROT_Y = "RY", ROT_Z = "RZ";
     public static final String BACK = "Back", UP_ROT = "UpRot", RANDOM_X = "RandomX", RANDOM_Y = "RandomY", SHAKE = "Shake",
             PITCH_CONTROL = "PControl", YAW_CONTROL = "YControl", P_RATE = "PRate", Y_RATE = "YRate", RANDOM = "Random";
-    public static Map<String, Variable> GLOBAL_VARIABLES = new Object2ObjectArrayMap<>();
+    public Map<String, DoubleSupplier> variables = new Object2ObjectArrayMap<>();
     public Map<String, Track[]> data = new Object2ObjectArrayMap<>();
-    public Map<String, Variable> localVariables = new Object2ObjectArrayMap<>();
     public Param back, upRot, randomX, randomY, shake;
-    public Track[] X = new Track[] {Track.empty(), Track.empty(), Track.empty()};
-    public Track[] Y = new Track[] {Track.empty(), Track.empty(), Track.empty()};
-    public Track[] Z = new Track[] {Track.empty(), Track.empty(), Track.empty()};
-    public Track[] RX = new Track[] {Track.empty(), Track.empty(), Track.empty()};
-    public Track[] RY = new Track[] {Track.empty(), Track.empty(), Track.empty()};
-    public Track[] RZ = new Track[] {Track.empty(), Track.empty(), Track.empty()};
+    public Track[] X = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
+    public Track[] Y = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
+    public Track[] Z = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
+    public Track[] RX = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
+    public Track[] RY = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
+    public Track[] RZ = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
     public Track[] ALL = new Track[] {X[0], X[1], X[2], Y[0], Y[1], Y[2], Z[0], Z[1], Z[2], RX[0], RX[1], RX[2], RY[0], RY[1], RY[2], RZ[0], RZ[1], RZ[2]};
     private String lastIdentity;
     private float pitchControl, yawControl, pRate, yRate, random;
 
-    public static final NewRecoilData __TEST__ = new NewRecoilData("1", "0.5", "0.25", "0.25", "0.1");
+    public static final NewRecoilData _TEST_ = new NewRecoilData("1", "0.5", "0.25", "0.25", "0.1");
 
     public NewRecoilData(String back, String upRot, String randomX, String randomY, String shake)  {
         data.put(TRANS_X, X);
@@ -45,6 +43,7 @@ public class NewRecoilData {
         this.randomX = Param.of(randomX);
         this.randomY = Param.of(randomY);
         this.shake = Param.of(shake);
+        initDefaultVariables();
     }
 
     public void onShoot(ItemStack itemStack, IGun gun, float pitchControl, float yawControl, float pRate, float yRate) {
@@ -58,6 +57,9 @@ public class NewRecoilData {
         this.pRate = pRate;
         this.yRate = yRate;
         this.random = (float) Math.random();
+        for (Track t : ALL) {
+            t.applyImpulse();
+        }
     }
 
     protected void updateMass(ItemStack itemStack, IGun gun) {
@@ -97,11 +99,14 @@ public class NewRecoilData {
         public NewRecoilData data;
         public MassDampingSpring spring;
         public int flag;
+        public DoubleSupplier valueSupplier;
+        public String rawScript;
 
         Track(MassDampingSpring spring, int flag, NewRecoilData data) {
             this.spring = spring;
             this.flag = flag;
             this.data = data;
+            valueSupplier = () -> 0;
         }
         public double val() {
             return spring == null ? 0 : spring.getPosition() * flag;
@@ -120,15 +125,21 @@ public class NewRecoilData {
         }
 
         public void applyImpulse() {
-
+            if (spring != null) {
+                spring.applyImpulse(valueSupplier.getAsDouble());
+            }
         }
 
-        public void readScript(String script) {
-
+        public void setRawScript(String rawScript) {
+            this.rawScript = rawScript;
         }
 
-        public static Track empty() {
-            return new Track(null, 0, null);
+        public void parseScript() {
+            IMPULSE_SCRIPT_PARSER.parse(rawScript, data);
+        }
+
+        public static Track empty(NewRecoilData data) {
+            return new Track(null, 1, data);
         }
     }
 
@@ -136,45 +147,25 @@ public class NewRecoilData {
         return data.get(type)[index];
     }
 
-    public void addLocalVariable(String type, Variable variable) {
-        localVariables.put(type, variable);
+    public void addLocalVariable(String type, DoubleSupplier variable) {
+        variables.put(type, variable);
     }
 
-    public Variable getVariable(String key) {
-        Variable variable = GLOBAL_VARIABLES.get(key);
-        if (variable == null) {
-            return localVariables.get(key);
-        }
-        return variable;
+    public DoubleSupplier getVariable(String key) {
+        return variables.get(key);
     }
 
-    public interface Variable {
-        double get(NewRecoilData data);
+    private void initDefaultVariables() {
+        variables.put(BACK, () -> back.val());
+        variables.put(UP_ROT, () -> upRot.val());
+        variables.put(RANDOM_X, () -> randomX.val());
+        variables.put(RANDOM_Y, () -> randomY.val());
+        variables.put(SHAKE, () -> shake.val());
+        variables.put(PITCH_CONTROL, () -> pitchControl);
+        variables.put(YAW_CONTROL, () -> yawControl);
+        variables.put(P_RATE, () -> pRate);
+        variables.put(Y_RATE, () -> yRate);
+        variables.put(RANDOM, () -> random);
     }
 
-    public static class SteadyVariable implements Variable {
-        public SteadyStateSpring steadyStateSpring;
-
-        public SteadyVariable(SteadyStateSpring steadyStateSpring)  {
-            this.steadyStateSpring = steadyStateSpring;
-        }
-
-        @Override
-        public double get(NewRecoilData data) {
-            return steadyStateSpring.getProgress();
-        }
-    }
-
-    static {
-        GLOBAL_VARIABLES.put(BACK, (data) -> data.back.val());
-        GLOBAL_VARIABLES.put(UP_ROT, (data) -> data.upRot.val());
-        GLOBAL_VARIABLES.put(RANDOM_X, (data) -> data.randomX.val());
-        GLOBAL_VARIABLES.put(RANDOM_Y, (data) -> data.randomY.val());
-        GLOBAL_VARIABLES.put(SHAKE, (data) -> data.shake.val());
-        GLOBAL_VARIABLES.put(PITCH_CONTROL, (data) -> data.pitchControl);
-        GLOBAL_VARIABLES.put(YAW_CONTROL, (data) -> data.yawControl);
-        GLOBAL_VARIABLES.put(P_RATE, (data) -> data.pRate);
-        GLOBAL_VARIABLES.put(Y_RATE, (data) -> data.yRate);
-        GLOBAL_VARIABLES.put(RANDOM, (data) -> data.random);
-    }
 }

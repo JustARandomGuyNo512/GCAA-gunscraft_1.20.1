@@ -30,6 +30,7 @@ import java.util.function.Supplier;
 public class RecoilModifyScreen extends Screen {
     public NewRecoilData newRecoilData;
     public IGun gun;
+    public ItemStack itemStack;
     public Map<String, List<TrackBox>> trackMap = new HashMap<>();
     public Map<String, MassDampingSpring> springPool = new HashMap<>();
     public Set<AbstractWidget> springEditions = new HashSet<>();
@@ -53,6 +54,7 @@ public class RecoilModifyScreen extends Screen {
     public ConcurrentLinkedDeque<Task> affirmTasks = new ConcurrentLinkedDeque<>();
     public List<Button> springPoolBtnList = new ArrayList<>();
     public TrackBox selectedTrackBox;
+    public Button flag;
     static final Map<String, Integer> COLOR_MAP = new HashMap<>();
     static final Map<String, Supplier<MassDampingSpring>> SPRING_FACTORY = new HashMap<>();
 
@@ -91,6 +93,7 @@ public class RecoilModifyScreen extends Screen {
             ItemStack mainHandItem = this.minecraft.player.getMainHandItem();
             if (mainHandItem.getItem() instanceof IGun gun) {
                 this.newRecoilData = NewRecoilData.get(gun);
+                this.itemStack = mainHandItem;
             }
         }
         GridLayout gridlayout = new GridLayout();
@@ -110,6 +113,11 @@ public class RecoilModifyScreen extends Screen {
         rowHelper.addChild(fire);
         rowHelper.addChild(Button.builder(Component.literal("Hide"), (b) -> {
             hide = !hide;
+            if (hide) {
+                springEditionsVisible(false);
+                trackEditionsVisible(false);
+                selectedTrackBox = null;
+            }
             RecoilModifyScreen.this.renderables.forEach(r -> {
                 if (r instanceof AbstractWidget abstractWidget) {
                     abstractWidget.visible = !hide;
@@ -156,6 +164,13 @@ public class RecoilModifyScreen extends Screen {
             return false;
         }
         return super.keyPressed(pKeyCode, pScanCode, pModifiers);
+    }
+
+    private String getGunMass() {
+        if (gun == null) {
+            return "10";
+        }
+        return gun.getWeight(itemStack) + "";
     }
 
     @Override
@@ -456,7 +471,7 @@ public class RecoilModifyScreen extends Screen {
     }
 
     private void initTrackEditions(GridLayout.RowHelper rowHelper) {
-        Button flag = Button.builder(Component.literal("+"), (b) -> {
+        flag = Button.builder(Component.literal("+"), (b) -> {
             String flagStr = b.getMessage().getString();
             flagStr = "+".equals(flagStr) ? "-" : "+";
             b.setMessage(Component.literal(flagStr));
@@ -466,7 +481,7 @@ public class RecoilModifyScreen extends Screen {
         }).size(25, 12).pos(40, 125).tooltip(Tooltip.create(Component.literal("Direction (positive)"))).build();
 
         Button apply = Button.builder(Component.literal("Apply"), (b) -> {
-
+            applyTrackEdition();
         }).size(25, 12).pos(70, 125).tooltip(Tooltip.create(Component.literal("Apply to track data in memory"))).build();
 
         impulseScript = new EditBox(Minecraft.getInstance().font, 40, 145, 345, 15, Component.literal(""));
@@ -485,6 +500,21 @@ public class RecoilModifyScreen extends Screen {
         trackEditions.add(impulseScript);
         trackEditions.add(variables);
         trackEditionsVisible(false);
+    }
+
+    private void applyTrackEdition() {
+        if (selectedTrackBox != null) {
+            selectedTrackBox.track.flag = "+".equals(flag.getMessage().getString()) ? 1 : -1;
+            String originalScript = selectedTrackBox.track.rawScript;
+            selectedTrackBox.track.setRawScript(impulseScript.getValue().trim());
+            try {
+                selectedTrackBox.track.parseScript();
+            } catch (Exception e) {
+                e.printStackTrace();
+                selectedTrackBox.track.rawScript = originalScript;
+                affirmTask("There is some error in impulseScript", () -> {});
+            }
+        }
     }
 
     private void springEditionsVisible(boolean visible) {
@@ -550,6 +580,7 @@ public class RecoilModifyScreen extends Screen {
             super.onClick(pMouseX, pMouseY);
             if (selectedTrackBox == this) {
                 selectedTrackBox = null;
+                trackEditionsVisible(false);
                 return;
             }
             selectedTrackBox = this;
@@ -564,6 +595,10 @@ public class RecoilModifyScreen extends Screen {
         public void tick() {
             if (track.spring != null) {
                 setValue(track.spring.name());
+                track.spring.mass.setValue(getGunMass());
+                if (selectedTrackBox == this) {
+                    this.setFocused(true);
+                }
             }
             String value = getValue();
             MassDampingSpring massDampingSpring = springPool.get(value);
@@ -578,11 +613,12 @@ public class RecoilModifyScreen extends Screen {
                 if (massDampingSpring != null) {
                     if (!trackEditionVisible) {
                         trackEditionsVisible(true);
+                        flag.setMessage(Component.literal(track.flag == 1 ? "+" : "-"));
+                        impulseScript.setValue(track.rawScript);
                     }
                 } else if (trackEditionVisible) {
                     trackEditionsVisible(false);
                 }
-
             }
         }
     }
@@ -618,9 +654,9 @@ public class RecoilModifyScreen extends Screen {
     }
 
     static {
-        SPRING_FACTORY.put("MassDampingSpring", () -> new MassDampingSpring("0", "0", "0", "0"));
-        SPRING_FACTORY.put("ClampedSpring", () -> new ClampedSpring("0", "0", "0", "0", "0","0"));
-        SPRING_FACTORY.put("SteadyStateSpring", () -> new SteadyStateSpring("0", "0", "0", "0"));
+        SPRING_FACTORY.put("MassDampingSpring", () -> new MassDampingSpring("10", "0", "0", "0"));
+        SPRING_FACTORY.put("ClampedSpring", () -> new ClampedSpring("10", "0", "0", "0", "0","0"));
+        SPRING_FACTORY.put("SteadyStateSpring", () -> new SteadyStateSpring("10", "0", "0", "0"));
 
         // A 组：红-橙-黄系
         COLOR_MAP.put("A1", 0xFF5733); // 鲜艳橙红
