@@ -206,7 +206,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.AKM.get(), RifleModels.AKM_MODEL, new DisplayData()
-                .setFirstPersonMain(-12.6f,13.16f,-31.2f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
+                .setFirstPersonMain(-12.6f,13.15f,-31.25f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
                 .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
@@ -594,7 +594,10 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.MCX_SPEAR_EXP_MAG.get(), IAttachmentModel.EMPTY);
 
         //TEST!!!
-        NewRecoilData.register(ModItems.M4A1.get(), NewRecoilData._TEST_);
+        List<Gun> allInstances = Gun.getAllInstances();
+        for (Gun gun : allInstances) {
+            NewRecoilData.register(gun, new NewRecoilData("1", "0.5", "0.25", "0.25", "0.1"));
+        }
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

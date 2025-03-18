@@ -1,31 +1,35 @@
 package sheridan.gcaa.client.animation.recoilAnimation;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import sheridan.gcaa.items.gun.IGun;
 
 @OnlyIn(Dist.CLIENT)
 public class SpringRecoilHandler {
     public static final SpringRecoilHandler INSTANCE = new SpringRecoilHandler();
-    public static RecoilData test = new RecoilData(
-            new SteadyStateSpring("10", "0.7", "2", "8"),
-            new ClampedSpring("10", "0.3", "0.5", "5", "10", "2.5"),
-            new MassDampingSpring("10", "0.1", "0.5", "0.5"),
-            new MassDampingSpring("10", "0.5", "1", "1"),
-            new ClampedSpring("10", "0.5", "1.2", "1.2", "2", "2"),
-            "1.5", "0.12", "0.01", "0.03", "0.15"
-    );
+    private static NewRecoilData recoilData;
 
 
     public void apply(PoseStack poseStack) {
-        test.apply(poseStack);
+        if (recoilData != null) {
+            recoilData.apply(poseStack);
+        }
     }
 
-    public void onShoot(float randomDX, float randomDY) {
-        test.onShoot(randomDX, randomDY, 1, 1);
+    public void onShoot(IGun gun, ItemStack itemStack, float pControl, float yControl,
+                        float pRate, float yRate, float directionX, float directionY) {
+        NewRecoilData newRecoilData = NewRecoilData.get(gun);
+        if (newRecoilData != null) {
+            newRecoilData.onShoot(itemStack, gun, pControl, yControl, pRate, yRate, directionX, directionY);
+            recoilData = newRecoilData;
+        }
     }
 
     public void update() {
-        test.update();
+        if (recoilData != null) {
+            recoilData.update();
+        }
     }
 }

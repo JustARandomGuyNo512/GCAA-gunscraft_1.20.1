@@ -189,6 +189,12 @@ public class RecoilModifyScreen extends Screen {
     }
 
     @Override
+    public void onClose() {
+        super.onClose();
+        Clients.DO_SEND_FIRE_PACKET = true;
+    }
+
+    @Override
     public void tick() {
         super.tick();
         if (newRecoilData == null) {
@@ -304,11 +310,10 @@ public class RecoilModifyScreen extends Screen {
         selectedSpringBtn = btn;
         selectedSpringBtnName = name;
         MassDampingSpring massDampingSpring = springPool.get(name);
+        onModifySpring = massDampingSpring;
         if (massDampingSpring != null) {
             syncSpringDataToEditions();
-            // sync data to Editions components
         }
-        onModifySpring = massDampingSpring;
         if (clickOnSame) {
             springEditionsVisible(!springEditionVisible);
         } else {
@@ -345,12 +350,12 @@ public class RecoilModifyScreen extends Screen {
         rowHelper.addChild(randomX);
         rowHelper.addChild(randomY);
         rowHelper.addChild(shake);
-        rowHelper.addChild(Button.builder(Component.literal("Read"), (b) -> {
-            syncRecoilData();
-        }).size(25, 12).pos(40, 180).tooltip(Tooltip.create(Component.literal("Read from memory"))).build());
-        rowHelper.addChild(Button.builder(Component.literal("Apply"), (b) -> {
-            applyRecoilData();
-        }).size(25, 12).pos(70, 180).tooltip(Tooltip.create(Component.literal("Apply to recoil data in memory"))).build());
+        rowHelper.addChild(Button.builder(Component.literal("Read"), (b) ->
+                syncRecoilData()).size(25, 12).pos(40, 180)
+                .tooltip(Tooltip.create(Component.literal("Read from memory"))).build());
+        rowHelper.addChild(Button.builder(Component.literal("Apply"), (b) ->
+                applyRecoilData()).size(25, 12).pos(70, 180)
+                .tooltip(Tooltip.create(Component.literal("Apply to recoil data in memory"))).build());
     }
 
     private void initSpringEditions(GridLayout.RowHelper rowHelper) {
@@ -376,7 +381,6 @@ public class RecoilModifyScreen extends Screen {
         upperLimit.setTooltip(Tooltip.create(Component.literal("Upper Limit")));
         lowerLimit = new EditBox(Minecraft.getInstance().font, 240, 190, 100, 12, Component.literal(""));
         lowerLimit.setTooltip(Tooltip.create(Component.literal("Lower Limit")));
-
         rowHelper.addChild(apply);
         rowHelper.addChild(clampedSpringBtn);
         rowHelper.addChild(massDampingSpring);
@@ -480,9 +484,9 @@ public class RecoilModifyScreen extends Screen {
             //Logic here...
         }).size(25, 12).pos(40, 125).tooltip(Tooltip.create(Component.literal("Direction (positive)"))).build();
 
-        Button apply = Button.builder(Component.literal("Apply"), (b) -> {
-            applyTrackEdition();
-        }).size(25, 12).pos(70, 125).tooltip(Tooltip.create(Component.literal("Apply to track data in memory"))).build();
+        Button apply = Button.builder(Component.literal("Apply"), (b) ->
+                applyTrackEdition()).size(25, 12).pos(70, 125)
+                .tooltip(Tooltip.create(Component.literal("Apply to track data in memory"))).build();
 
         impulseScript = new EditBox(Minecraft.getInstance().font, 40, 145, 345, 15, Component.literal(""));
         impulseScript.setTooltip(Tooltip.create(Component.literal(
@@ -490,15 +494,30 @@ public class RecoilModifyScreen extends Screen {
         impulseScript.setMaxLength(81);
         variables = Button.builder(Component.literal("Variables"), (b) -> {}).size(40, 12).pos(345, 125)
                 .tooltip(Tooltip.create(Component.literal("All named Variables:\n"))).build();
+        Button clear = Button.builder(Component.literal("CANCEL"), (b) ->
+                {
+                    if (selectedTrackBox != null) {
+                        selectedTrackBox.track.spring = null;
+                        selectedTrackBox.track.rawScript = null;
+                        selectedTrackBox.track.valueSupplier = null;
+                        selectedTrackBox.setValue("");
+                        trackEditionsVisible(false);
+                        selectedTrackBox.setFocused(false);
+                        selectedTrackBox = null;
+                    }
+                }).size(25, 12).pos(100, 125)
+                .tooltip(Tooltip.create(Component.literal("Cancel track data in memory"))).build();
 
         rowHelper.addChild(apply);
         rowHelper.addChild(flag);
         rowHelper.addChild(impulseScript);
         rowHelper.addChild(variables);
+        rowHelper.addChild(clear);
         trackEditions.add(flag);
         trackEditions.add(apply);
         trackEditions.add(impulseScript);
         trackEditions.add(variables);
+        trackEditions.add(clear);
         trackEditionsVisible(false);
     }
 
@@ -581,9 +600,33 @@ public class RecoilModifyScreen extends Screen {
             if (selectedTrackBox == this) {
                 selectedTrackBox = null;
                 trackEditionsVisible(false);
-                return;
+            } else {
+                selectedTrackBox = this;
+                trackEditionsVisible(track.spring != null);
+                if (track.spring != null) {
+                    // sync data
+                    impulseScript.setValue(track.rawScript);
+                    flag.setMessage(Component.literal(track.flag == 1 ? "+" : "-"));
+                } else {
+                    impulseScript.setValue("");
+                }
             }
-            selectedTrackBox = this;
+        }
+
+        @Override
+        public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
+            if (pKeyCode == 257 && selectedTrackBox == this) {
+                String name = getValue();
+                track.spring = springPool.get(name);
+                if (track.spring != null) {
+                    trackEditionsVisible(true);
+                } else {
+                    selectedTrackBox = null;
+                    trackEditionsVisible(false);
+                    setTextColor(Color.GRAY.getRGB());
+                }
+            }
+            return super.keyPressed(pKeyCode, pScanCode, pModifiers);
         }
 
         public static void tickAll() {
@@ -593,33 +636,18 @@ public class RecoilModifyScreen extends Screen {
         }
 
         public void tick() {
-            if (track.spring != null) {
-                setValue(track.spring.name());
-                track.spring.mass.setValue(getGunMass());
-                if (selectedTrackBox == this) {
-                    this.setFocused(true);
-                }
-            }
-            String value = getValue();
-            MassDampingSpring massDampingSpring = springPool.get(value);
-            if (massDampingSpring != null) {
-                setTextColor(COLOR_MAP.get(value));
-            }
-            track.spring = massDampingSpring;
-            if (!this.isFocused() && massDampingSpring == null) {
-                setValue("");
-            }
-            if (selectedTrackBox == this) {
-                if (massDampingSpring != null) {
-                    if (!trackEditionVisible) {
-                        trackEditionsVisible(true);
-                        flag.setMessage(Component.literal(track.flag == 1 ? "+" : "-"));
-                        impulseScript.setValue(track.rawScript);
-                    }
-                } else if (trackEditionVisible) {
-                    trackEditionsVisible(false);
-                }
-            }
+             if (track.spring != null) {
+                 if (!isFocused()) {
+                     setValue(track.spring.name());
+                     track.spring.mass.setValue(getGunMass());
+                     setTextColor(COLOR_MAP.get(track.spring.name()));
+                 } else {
+                     String value = getValue();
+                     setTextColor(springPool.containsKey(value) ? COLOR_MAP.get(value) : Color.GRAY.getRGB());
+                 }
+             } else {
+                 setTextColor(Color.GRAY.getRGB());
+             }
         }
     }
 
@@ -642,10 +670,6 @@ public class RecoilModifyScreen extends Screen {
             this.color = color;
             this.x = x;
             this.y = y;
-        }
-
-        public Label(String str, int x, int y) {
-            this(str, x, y,0xffffff);
         }
 
         public void render(GuiGraphics graphics) {

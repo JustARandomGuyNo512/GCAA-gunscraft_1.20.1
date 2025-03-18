@@ -8,6 +8,7 @@ import sheridan.gcaa.items.gun.IGun;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.DoubleSupplier;
 
 public class NewRecoilData {
@@ -16,7 +17,7 @@ public class NewRecoilData {
     public static final String TRANS_X = "X", TRANS_Y = "Y", TRANS_Z = "Z", ROT_X = "RX", ROT_Y = "RY", ROT_Z = "RZ";
     public static final String BACK = "Back", UP_ROT = "UpRot", RANDOM_X = "RandomX", RANDOM_Y = "RandomY", SHAKE = "Shake",
             PITCH_CONTROL = "PControl", YAW_CONTROL = "YControl", P_RATE = "PRate", Y_RATE = "YRate", RANDOM = "Random";
-    public Map<String, DoubleSupplier> variables = new Object2ObjectArrayMap<>();
+    public Map<String, DoubleSupplier> variables = new ConcurrentHashMap<>();
     public Map<String, Track[]> data = new Object2ObjectArrayMap<>();
     public Param back, upRot, randomX, randomY, shake;
     public Track[] X = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
@@ -27,9 +28,9 @@ public class NewRecoilData {
     public Track[] RZ = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
     public Track[] ALL = new Track[] {X[0], X[1], X[2], Y[0], Y[1], Y[2], Z[0], Z[1], Z[2], RX[0], RX[1], RX[2], RY[0], RY[1], RY[2], RZ[0], RZ[1], RZ[2]};
     private String lastIdentity;
-    private float pitchControl, yawControl, pRate, yRate, random;
+    private float pitchControl, yawControl, pRate, yRate, random, directionX, directionY;
 
-    public static final NewRecoilData _TEST_ = new NewRecoilData("1", "0.5", "0.25", "0.25", "0.1");
+    //public static final NewRecoilData _TEST_ = new NewRecoilData("1", "0.5", "0.25", "0.25", "0.1");
 
     public NewRecoilData(String back, String upRot, String randomX, String randomY, String shake)  {
         data.put(TRANS_X, X);
@@ -46,7 +47,8 @@ public class NewRecoilData {
         initDefaultVariables();
     }
 
-    public void onShoot(ItemStack itemStack, IGun gun, float pitchControl, float yawControl, float pRate, float yRate) {
+    public void onShoot(ItemStack itemStack, IGun gun, float pitchControl, float yawControl,
+                        float pRate, float yRate, float directionX, float directionY) {
         String identity = gun.getIdentity(itemStack);
         if (!identity.equals(lastIdentity)) {
             updateMass(itemStack, gun);
@@ -57,6 +59,8 @@ public class NewRecoilData {
         this.pRate = pRate;
         this.yRate = yRate;
         this.random = (float) Math.random();
+        this.directionX = directionX;
+        this.directionY = directionY;
         for (Track t : ALL) {
             t.applyImpulse();
         }
@@ -87,6 +91,24 @@ public class NewRecoilData {
         }
     }
 
+    public void updateVariables() {
+        variables.clear();
+        initDefaultVariables();
+        for (Track t : ALL) {
+            try {
+                if (t.spring != null) {
+                    variables.put(t.spring.name() + ".val", () -> t.spring.getPosition());
+                    if (t.spring instanceof SteadyStateSpring steadyStateSpring) {
+                        variables.put(t.spring.name() + ".steady", steadyStateSpring::getProgress);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
     public static NewRecoilData get(IGun gun) {
         return RECOIL_DATA_REGISTER.get(gun);
     }
@@ -108,6 +130,7 @@ public class NewRecoilData {
             this.data = data;
             valueSupplier = () -> 0;
         }
+
         public double val() {
             return spring == null ? 0 : spring.getPosition() * flag;
         }
@@ -135,7 +158,7 @@ public class NewRecoilData {
         }
 
         public void parseScript() {
-            IMPULSE_SCRIPT_PARSER.parse(rawScript, data);
+            valueSupplier = IMPULSE_SCRIPT_PARSER.parse(rawScript, data);
         }
 
         public static Track empty(NewRecoilData data) {
@@ -158,8 +181,8 @@ public class NewRecoilData {
     private void initDefaultVariables() {
         variables.put(BACK, () -> back.val());
         variables.put(UP_ROT, () -> upRot.val());
-        variables.put(RANDOM_X, () -> randomX.val());
-        variables.put(RANDOM_Y, () -> randomY.val());
+        variables.put(RANDOM_X, () -> randomX.val() * directionX);
+        variables.put(RANDOM_Y, () -> randomY.val() * directionY);
         variables.put(SHAKE, () -> shake.val());
         variables.put(PITCH_CONTROL, () -> pitchControl);
         variables.put(YAW_CONTROL, () -> yawControl);
