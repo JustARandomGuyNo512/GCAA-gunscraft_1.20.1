@@ -3,8 +3,8 @@ package sheridan.gcaa.client.animation.recoilAnimation;
 import java.util.*;
 import java.util.function.DoubleSupplier;
 
+@Deprecated
 public class ImpulseScriptParser {
-
     public DoubleSupplier parse(String expression, NewRecoilData newRecoilData) {
         List<String> tokens = tokenize(expression);
         List<String> rpn = toRPN(tokens);
@@ -134,6 +134,6 @@ public class ImpulseScriptParser {
     }
 
     public DoubleSupplier getVariables(String name, NewRecoilData newRecoilData) {
-        return newRecoilData.getVariable(name);
+        return () -> 0;
     }
 }

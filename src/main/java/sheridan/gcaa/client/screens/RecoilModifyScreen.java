@@ -48,7 +48,7 @@ public class RecoilModifyScreen extends Screen {
     public boolean springEditionVisible = true;
     public List<Label> labels = new ArrayList<>();
     public MassDampingSpring onModifySpring;
-    public EditBox back, upRot, randomX, randomY, shake;
+    public EditBox back, upRot, randomX, randomY, shake, xRotCenter, yRotCenter;
     public EditBox stiffness, dampingForward, dampingBackward, upperLimit, lowerLimit;
     public Label springTypeName = new Label("Spring Type: None", 265, 85, 0xffffff);
     public ConcurrentLinkedDeque<Task> affirmTasks = new ConcurrentLinkedDeque<>();
@@ -221,9 +221,11 @@ public class RecoilModifyScreen extends Screen {
         randomX.setValue(newRecoilData.randomX.strVal());
         randomY.setValue(newRecoilData.randomY.strVal());
         shake.setValue(newRecoilData.shake.strVal());
+        xRotCenter.setValue(newRecoilData.xRotCenter.strVal());
+        yRotCenter.setValue(newRecoilData.yRotCenter.strVal());
         for (NewRecoilData.Track track : newRecoilData.ALL) {
             if (track.spring != null) {
-                springPool.put(track.spring.name(), track.spring);
+                springPool.put(track.spring.name(), (MassDampingSpring) track.spring.copy());
             }
         }
     }
@@ -246,6 +248,12 @@ public class RecoilModifyScreen extends Screen {
         } catch (Exception e)  {e.printStackTrace();}
         try {
             newRecoilData.shake.setValue(shake.getValue().trim());
+        } catch (Exception e)  {e.printStackTrace();}
+        try {
+            newRecoilData.xRotCenter.setValue(xRotCenter.getValue().trim());
+        } catch (Exception e)  {e.printStackTrace();}
+        try {
+            newRecoilData.yRotCenter.setValue(yRotCenter.getValue().trim());
         } catch (Exception e)  {e.printStackTrace();}
         syncRecoilData();
     }
@@ -310,9 +318,11 @@ public class RecoilModifyScreen extends Screen {
         selectedSpringBtn = btn;
         selectedSpringBtnName = name;
         MassDampingSpring massDampingSpring = springPool.get(name);
-        onModifySpring = massDampingSpring;
         if (massDampingSpring != null) {
+            onModifySpring = (MassDampingSpring) massDampingSpring.copy();
             syncSpringDataToEditions();
+        } else {
+            onModifySpring = null;
         }
         if (clickOnSame) {
             springEditionsVisible(!springEditionVisible);
@@ -345,11 +355,17 @@ public class RecoilModifyScreen extends Screen {
         randomY.setTooltip(Tooltip.create(Component.literal("Random Y")));
         shake = new EditBox(Minecraft.getInstance().font, 200, 200, 35, 12, Component.literal(""));
         shake.setTooltip(Tooltip.create(Component.literal("Shake")));
+        xRotCenter = new EditBox(Minecraft.getInstance().font, 100, 180, 35, 12, Component.literal(""));
+        xRotCenter.setTooltip(Tooltip.create(Component.literal("xRotCenter")));
+        yRotCenter = new EditBox(Minecraft.getInstance().font, 140, 180, 35, 12, Component.literal(""));
+        yRotCenter.setTooltip(Tooltip.create(Component.literal("yRotCenter")));
         rowHelper.addChild(back);
         rowHelper.addChild(upRot);
         rowHelper.addChild(randomX);
         rowHelper.addChild(randomY);
         rowHelper.addChild(shake);
+        rowHelper.addChild(xRotCenter);
+        rowHelper.addChild(yRotCenter);
         rowHelper.addChild(Button.builder(Component.literal("Read"), (b) ->
                 syncRecoilData()).size(25, 12).pos(40, 180)
                 .tooltip(Tooltip.create(Component.literal("Read from memory"))).build());
@@ -423,6 +439,11 @@ public class RecoilModifyScreen extends Screen {
                 clampedSpring.lowerLimit.setValue(lowerLimit.getValue().trim());
             } catch (Exception e) {e.printStackTrace();}
         }
+        for (NewRecoilData.Track track : newRecoilData.ALL) {
+            if (track.spring != null && track.spring.name().equals(onModifySpring.name())) {
+                track.spring = (MassDampingSpring) onModifySpring.copy();
+            }
+        }
         syncSpringDataToEditions();
     }
 
@@ -430,8 +451,13 @@ public class RecoilModifyScreen extends Screen {
         Runnable r = () -> {
             Supplier<MassDampingSpring> massDampingSpringSupplier = SPRING_FACTORY.get(type);
             onModifySpring = massDampingSpringSupplier.get();
-            springPool.put(selectedSpringBtnName, onModifySpring);
             onModifySpring.setName(selectedSpringBtnName);
+            springPool.put(selectedSpringBtnName, onModifySpring);
+            for (NewRecoilData.Track track : newRecoilData.ALL) {
+                if (track.spring != null && track.spring.name().equals(selectedSpringBtnName)) {
+                    track.spring = (MassDampingSpring) onModifySpring.copy();
+                }
+            }
             syncSpringDataToEditions();
             springEditionBoxesVisible();
             updateSpringTypeName();
@@ -609,6 +635,7 @@ public class RecoilModifyScreen extends Screen {
                     flag.setMessage(Component.literal(track.flag == 1 ? "+" : "-"));
                 } else {
                     impulseScript.setValue("");
+                    flag.setMessage(Component.literal("+"));
                 }
             }
         }
@@ -617,10 +644,16 @@ public class RecoilModifyScreen extends Screen {
         public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
             if (pKeyCode == 257 && selectedTrackBox == this) {
                 String name = getValue();
-                track.spring = springPool.get(name);
-                if (track.spring != null) {
+                MassDampingSpring massDampingSpring = springPool.get(name);
+                System.out.println(name);
+                //track.spring = springPool.get(name);
+                if (massDampingSpring != null) {
+                    this.track.spring = (MassDampingSpring) massDampingSpring.copy();
                     trackEditionsVisible(true);
                 } else {
+                    selectedTrackBox.track.spring = null;
+                    selectedTrackBox.track.rawScript = null;
+                    selectedTrackBox.track.valueSupplier = null;
                     selectedTrackBox = null;
                     trackEditionsVisible(false);
                     setTextColor(Color.GRAY.getRGB());

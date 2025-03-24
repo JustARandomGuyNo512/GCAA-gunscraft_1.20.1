@@ -4,7 +4,7 @@ import java.util.*;
 
 public class MassDampingSpring {
     static Set<String> names;
-    private String name = "A1";
+    protected String name = "A1";
     public Param mass;          // 质量
     public Param stiffness;     // 刚度
     public Param dampingForward; // 向前（后坐时）的阻尼
@@ -30,12 +30,17 @@ public class MassDampingSpring {
         position += velocity;
     }
 
-    public void setName(String name) {
+    public MassDampingSpring setName(String name) {
         if (names.contains(name)) {
             this.name = name;
         } else {
             throw new IllegalArgumentException("Invalid name: " + name);
         }
+        return this;
+    }
+
+    public Object copy() {
+        return new MassDampingSpring(mass.strVal(), stiffness.strVal(), dampingForward.strVal(), dampingBackward.strVal()).setName(name);
     }
 
     public String name() {

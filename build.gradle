@@ -167,6 +167,14 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    minecraftLibrary 'org.javassist:javassist:3.29.2-GA'
+
+//    implementation ('org.matheclipse:matheclipse-core:2.0.0') {
+//        exclude group: 'com.google.guava', module: 'failureaccess'
+//    }
+//    implementation 'org.javassist:javassist:3.29.2-GA'
+//    runtimeOnly 'org.javassist:javassist:3.29.2-GA'
     //implementation fg.deobf("curse.maven:oculus-581495:5108615")
 }
 

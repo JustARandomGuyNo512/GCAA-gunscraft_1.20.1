@@ -15,7 +15,7 @@ public class ClampedSpring extends MassDampingSpring{
 
     @Override
     public double getStiffness() {
-        double boundary = position > 0 ? Math.toRadians(upperLimit.val()) : Math.toRadians(lowerLimit.val());
+        double boundary = position > 0 ? upperLimit.val() : lowerLimit.val();
         if (Math.abs(position) > boundary) {
             double exceedRatio = Math.abs(position) / boundary;
             return stiffness.val() * Math.max(1, exceedRatio * exceedRatio);
@@ -41,12 +41,18 @@ public class ClampedSpring extends MassDampingSpring{
     }
 
     @Override
+    public Object copy() {
+        return new ClampedSpring(mass.strVal(), stiffness.strVal(), dampingForward.strVal(), dampingBackward.strVal(), upperLimit.strVal(), lowerLimit.strVal()).setName(name);
+    }
+
+    @Override
     public void updateByMap(Map<String, String> valueMap) {
         super.updateByMap(valueMap);
         upperLimit = Param.of(valueMap.getOrDefault("upperLimit", "0"));
         lowerLimit = Param.of(valueMap.getOrDefault("lowerLimit", "0"));
         //originalStiffness = Param.of(valueMap.getOrDefault("stiffness", "0"));
     }
+
 
     @Override
     public void clear() {
