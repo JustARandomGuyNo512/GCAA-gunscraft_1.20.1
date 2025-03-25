@@ -38,6 +38,11 @@ public class SteadyStateSpring extends MassDampingSpring {
     }
 
     @Override
+    public String genJavaNewCode() {
+        return super.genJavaNewCode().replace("MassDampingSpring", "SteadyStateSpring");
+    }
+
+    @Override
     public Object copy() {
         return new SteadyStateSpring(mass.strVal(), stiffness.strVal(), dampingForward.strVal(), dampingBackward.strVal()).setName(name);
     }

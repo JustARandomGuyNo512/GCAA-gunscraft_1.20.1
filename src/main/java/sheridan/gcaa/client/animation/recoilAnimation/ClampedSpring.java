@@ -1,5 +1,7 @@
 package sheridan.gcaa.client.animation.recoilAnimation;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +38,6 @@ public class ClampedSpring extends MassDampingSpring{
         Map<String, String> valueMap = super.getValueMap();
         valueMap.put("upperLimit", upperLimit.strVal());
         valueMap.put("lowerLimit", lowerLimit.strVal());
-        //valueMap.put("stiffness", originalStiffness.strVal());
         return valueMap;
     }
 
@@ -50,13 +51,30 @@ public class ClampedSpring extends MassDampingSpring{
         super.updateByMap(valueMap);
         upperLimit = Param.of(valueMap.getOrDefault("upperLimit", "0"));
         lowerLimit = Param.of(valueMap.getOrDefault("lowerLimit", "0"));
-        //originalStiffness = Param.of(valueMap.getOrDefault("stiffness", "0"));
     }
 
+    @Override
+    public void writeData(JsonObject jsonObject) {
+        super.writeData(jsonObject);
+        jsonObject.addProperty("upperLimit", upperLimit.strVal());
+        jsonObject.addProperty("lowerLimit", lowerLimit.strVal());
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+        super.loadData(jsonObject);
+        upperLimit = Param.of(jsonObject.get("upperLimit").getAsString());
+        lowerLimit = Param.of(jsonObject.get("lowerLimit").getAsString());
+    }
+
+    @Override
+    public String genJavaNewCode() {
+        return String.format("new ClampedSpring(\"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\")", mass.strVal(), stiffness.strVal(),
+                dampingForward.strVal(), dampingBackward.strVal(), upperLimit.strVal(), lowerLimit.strVal());
+    }
 
     @Override
     public void clear() {
         super.clear();
-        //stiffness = originalStiffness;
     }
 }

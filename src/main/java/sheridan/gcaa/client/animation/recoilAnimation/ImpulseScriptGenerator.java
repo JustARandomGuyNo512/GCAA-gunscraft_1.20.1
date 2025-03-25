@@ -9,7 +9,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.DoubleSupplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * @Warn
+ * 请勿在任何环境下直接调用次类，这将导致JVM泄露！！！
+ * 这个工具的设计适用于加载时生成指定的有限数量的类，而不是无限生成类
+ *
+ * Please do not call this class directly in any environment, this will cause JVM leaks!!!
+ * This tool is designed for generating specified limited number of classes at load time, not infinite generation of classes
+ * */
 public class ImpulseScriptGenerator {
     static Pattern pattern = Pattern.compile("\\b[A-Za-z_][A-Za-z0-9_]*\\b");
     static AtomicInteger counter = new AtomicInteger(0);
@@ -25,7 +32,6 @@ public class ImpulseScriptGenerator {
             double v = Double.parseDouble(script.trim());
             return () -> v;
         } catch (Exception ignored) {}
-        System.out.println("aaa");
         String code = processScript(script, externalInstance);
         String className = NewRecoilData.class.getName();
         ClassPool pool = ClassPool.getDefault();
@@ -73,7 +79,7 @@ public class ImpulseScriptGenerator {
 
 
 //    byte[] byteCode = cc.toBytecode();
-//        loader.addClass(classNameGen, byteCode); // 将字节码添加到自定义类加载器
-//                Class<?> clazz = loader.loadClass(classNameGen); // 使用自定义类加载器加载类
+//        loader.addClass(classNameGen, byteCode);
+//                Class<?> clazz = loader.loadClass(classNameGen);
 //        return (DoubleSupplier) clazz.getDeclaredConstructor(NewRecoilData.class)
 //        .newInstance(externalInstance);

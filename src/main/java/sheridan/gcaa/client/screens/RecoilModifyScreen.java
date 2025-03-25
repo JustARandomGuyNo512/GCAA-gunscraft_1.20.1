@@ -1,5 +1,8 @@
 package sheridan.gcaa.client.screens;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -21,6 +24,8 @@ import sheridan.gcaa.client.animation.recoilAnimation.*;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -28,6 +33,8 @@ import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 public class RecoilModifyScreen extends Screen {
+    static int warningTick = 0;
+    static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     public NewRecoilData newRecoilData;
     public IGun gun;
     public ItemStack itemStack;
@@ -48,13 +55,13 @@ public class RecoilModifyScreen extends Screen {
     public boolean springEditionVisible = true;
     public List<Label> labels = new ArrayList<>();
     public MassDampingSpring onModifySpring;
-    public EditBox back, upRot, randomX, randomY, shake, xRotCenter, yRotCenter;
+    public EditBox back, upRot, randomX, randomY, shake, xRotCenter, yRotCenter, flag;
     public EditBox stiffness, dampingForward, dampingBackward, upperLimit, lowerLimit;
     public Label springTypeName = new Label("Spring Type: None", 265, 85, 0xffffff);
     public ConcurrentLinkedDeque<Task> affirmTasks = new ConcurrentLinkedDeque<>();
     public List<Button> springPoolBtnList = new ArrayList<>();
     public TrackBox selectedTrackBox;
-    public Button flag;
+
     static final Map<String, Integer> COLOR_MAP = new HashMap<>();
     static final Map<String, Supplier<MassDampingSpring>> SPRING_FACTORY = new HashMap<>();
 
@@ -62,9 +69,11 @@ public class RecoilModifyScreen extends Screen {
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         if (!hide) {
-            String warn = "Any action that triggers the interface to reload will result in the loss of unsaved data";
             Font font = Minecraft.getInstance().font;
-            pGuiGraphics.drawString(font, warn, (int) (this.width / 2 - font.width(warn) / 2.5f), 10, 0xff0000);
+            if (warningTick < 60) {
+                String warn = "Any action that triggers the interface to reload will result in the loss of unsaved data";
+                pGuiGraphics.drawString(font, warn, (int) (this.width / 2 - font.width(warn) / 2.5f), 10, 0xff0000);
+            }
             for (Label label : labels) {
                 label.render(pGuiGraphics);
             }
@@ -81,14 +90,26 @@ public class RecoilModifyScreen extends Screen {
             if (peek != null) {
                 renderBackground(pGuiGraphics);
                 String info = peek.info();
-                pGuiGraphics.drawString(font, info, (int) (this.width / 2 - font.width(info) / 2f), this.height / 2, 0xffffff);
+                String[] split = info.split("\n");
+                int left, top, rows = 0, maxWidth = Integer.MIN_VALUE;
+                for (String s : split) {
+                    maxWidth = Math.max(maxWidth, font.width(s));
+                    rows++;
+                }
+                left = (int) (this.width / 2 - maxWidth / 2f);
+                top = (int) (this.height / 2 - rows * font.lineHeight / 2f);
+                for (int i = 0; i < split.length; i++) {
+                    pGuiGraphics.drawString(font, split[i], left, top + i * rows * font.lineHeight, 0xffffff);
+                }
             }
         }
     }
 
+
     @Override
     protected void init() {
         super.init();
+        warningTick = 0;
         if (this.minecraft != null && this.minecraft.player != null) {
             ItemStack mainHandItem = this.minecraft.player.getMainHandItem();
             if (mainHandItem.getItem() instanceof IGun gun) {
@@ -128,6 +149,14 @@ public class RecoilModifyScreen extends Screen {
             springEditionsVisible(springEditionVisible);
             trackEditionsVisible(trackEditionVisible);
         }).size(25, 12).pos(70, 10).build());
+        Button fetch = Button.builder(Component.literal("Fetch"), (b) -> {
+            JsonObject jsonObject = new JsonObject();
+            newRecoilData.writeData(jsonObject);
+            Minecraft.getInstance().keyboardHandler.setClipboard(GSON.toJson(jsonObject));
+            System.out.println(newRecoilData.genJavaNewCode());
+        }).size(25, 12).pos(100, 10).build();
+        fetch.setMessage(Component.literal("Copy Json data to clipboard and print java creation code to console"));
+        rowHelper.addChild(fetch);
         gridlayout.visitWidgets(this::addRenderableWidget);
         syncRecoilData();
     }
@@ -210,6 +239,7 @@ public class RecoilModifyScreen extends Screen {
             btn.setMessage(Component.literal(string).withStyle(Style.EMPTY.withColor(color)));
         }
         TrackBox.tickAll();
+        warningTick = Math.min(61, warningTick + 1);
     }
 
     private void syncRecoilData() {
@@ -260,29 +290,29 @@ public class RecoilModifyScreen extends Screen {
 
     private void initTrackMap(GridLayout.RowHelper rowHelper) {
         trackMap.put(NewRecoilData.TRANS_X, List.of(
-                new TrackBox(40, 30, 25, 12, Component.literal(""), newRecoilData.X[0]),
-                new TrackBox(70, 30, 25, 12, Component.literal(""), newRecoilData.X[1]),
-                new TrackBox(100, 30, 25, 12, Component.literal(""), newRecoilData.X[2])));
+                new TrackBox(40, 30, 25, 12, Component.literal(""), newRecoilData.ALL[0]).toolTip("X1"),
+                new TrackBox(70, 30, 25, 12, Component.literal(""), newRecoilData.ALL[1]).toolTip("X2"),
+                new TrackBox(100, 30, 25, 12, Component.literal(""), newRecoilData.ALL[2]).toolTip("X3")));
         trackMap.put(NewRecoilData.TRANS_Y, List.of(
-                new TrackBox(40, 45, 25, 12, Component.literal(""), newRecoilData.Y[0]),
-                new TrackBox(70, 45, 25, 12, Component.literal(""), newRecoilData.Y[1]),
-                new TrackBox(100, 45, 25, 12, Component.literal(""), newRecoilData.Y[2])));
+                new TrackBox(40, 45, 25, 12, Component.literal(""), newRecoilData.ALL[3]).toolTip("Y1"),
+                new TrackBox(70, 45, 25, 12, Component.literal(""), newRecoilData.ALL[4]).toolTip("Y2"),
+                new TrackBox(100, 45, 25, 12, Component.literal(""), newRecoilData.ALL[5]).toolTip("Y3")));
         trackMap.put(NewRecoilData.TRANS_Z, List.of(
-                new TrackBox(40, 60, 25, 12, Component.literal(""), newRecoilData.Z[0]),
-                new TrackBox(70, 60, 25, 12, Component.literal(""), newRecoilData.Z[1]),
-                new TrackBox(100, 60, 25, 12, Component.literal(""), newRecoilData.Z[2])));
+                new TrackBox(40, 60, 25, 12, Component.literal(""), newRecoilData.ALL[6]).toolTip("Z1"),
+                new TrackBox(70, 60, 25, 12, Component.literal(""), newRecoilData.ALL[7]).toolTip("Z1"),
+                new TrackBox(100, 60, 25, 12, Component.literal(""), newRecoilData.ALL[8]).toolTip("Z1")));
         trackMap.put(NewRecoilData.ROT_X, List.of(
-                new TrackBox(40, 75, 25, 12, Component.literal(""), newRecoilData.RX[0]),
-                new TrackBox(70, 75, 25, 12, Component.literal(""), newRecoilData.RX[1]),
-                new TrackBox(100, 75, 25, 12, Component.literal(""), newRecoilData.RX[2])));
+                new TrackBox(40, 75, 25, 12, Component.literal(""), newRecoilData.ALL[9]).toolTip("RX1"),
+                new TrackBox(70, 75, 25, 12, Component.literal(""), newRecoilData.ALL[10]).toolTip("RX1"),
+                new TrackBox(100, 75, 25, 12, Component.literal(""), newRecoilData.ALL[11]).toolTip("RX1")));
         trackMap.put(NewRecoilData.ROT_Y, List.of(
-                new TrackBox(40, 90, 25, 12, Component.literal(""), newRecoilData.RY[0]),
-                new TrackBox(70, 90, 25, 12, Component.literal(""), newRecoilData.RY[1]),
-                new TrackBox(100, 90, 25, 12, Component.literal(""), newRecoilData.RY[2])));
+                new TrackBox(40, 90, 25, 12, Component.literal(""), newRecoilData.ALL[12]).toolTip("RY1"),
+                new TrackBox(70, 90, 25, 12, Component.literal(""), newRecoilData.ALL[13]).toolTip("RY1"),
+                new TrackBox(100, 90, 25, 12, Component.literal(""), newRecoilData.ALL[14]).toolTip("RY1")));
         trackMap.put(NewRecoilData.ROT_Z, List.of(
-                new TrackBox(40, 105, 25, 12, Component.literal(""), newRecoilData.RZ[0]),
-                new TrackBox(70, 105, 25, 12, Component.literal(""), newRecoilData.RZ[1]),
-                new TrackBox(100, 105, 25, 12, Component.literal(""), newRecoilData.RZ[2])));
+                new TrackBox(40, 105, 25, 12, Component.literal(""), newRecoilData.ALL[15]).toolTip("RZ1"),
+                new TrackBox(70, 105, 25, 12, Component.literal(""), newRecoilData.ALL[16]).toolTip("RZ1"),
+                new TrackBox(100, 105, 25, 12, Component.literal(""), newRecoilData.ALL[17]).toolTip("RZ1")));
         trackMap.values().forEach(list -> list.forEach(rowHelper::addChild));
     }
 
@@ -445,6 +475,21 @@ public class RecoilModifyScreen extends Screen {
             }
         }
         syncSpringDataToEditions();
+        updateVariables();
+    }
+
+    private void updateVariables() {
+        try {
+            newRecoilData.updateVariables(true);
+            if (trackEditionVisible) {
+                impulseScript.setValue(selectedTrackBox.track.rawScript);
+            }
+        } catch (Exception e) {
+            affirmTask("Error updating script: " + e.getMessage(), () -> {}, () -> {});
+            if (trackEditionVisible) {
+                impulseScript.setValue(selectedTrackBox.track.rawScript);
+            }
+        }
     }
 
     private void onSpringTypeClicked(String type) {
@@ -461,6 +506,7 @@ public class RecoilModifyScreen extends Screen {
             syncSpringDataToEditions();
             springEditionBoxesVisible();
             updateSpringTypeName();
+            updateVariables();
         };
         if (onModifySpring == null) {
             r.run();
@@ -501,17 +547,8 @@ public class RecoilModifyScreen extends Screen {
     }
 
     private void initTrackEditions(GridLayout.RowHelper rowHelper) {
-        flag = Button.builder(Component.literal("+"), (b) -> {
-            String flagStr = b.getMessage().getString();
-            flagStr = "+".equals(flagStr) ? "-" : "+";
-            b.setMessage(Component.literal(flagStr));
-            String tooltipStr = "+".equals(flagStr) ? "Direction (positive)" : "Direction (negative)";
-            b.setTooltip(Tooltip.create(Component.literal(tooltipStr)));
-            //Logic here...
-        }).size(25, 12).pos(40, 125).tooltip(Tooltip.create(Component.literal("Direction (positive)"))).build();
-
         Button apply = Button.builder(Component.literal("Apply"), (b) ->
-                applyTrackEdition()).size(25, 12).pos(70, 125)
+                applyTrackEdition()).size(25, 12).pos(75, 125)
                 .tooltip(Tooltip.create(Component.literal("Apply to track data in memory"))).build();
 
         impulseScript = new EditBox(Minecraft.getInstance().font, 40, 145, 345, 15, Component.literal(""));
@@ -530,10 +567,13 @@ public class RecoilModifyScreen extends Screen {
                         trackEditionsVisible(false);
                         selectedTrackBox.setFocused(false);
                         selectedTrackBox = null;
+                        updateVariables();
                     }
-                }).size(25, 12).pos(100, 125)
+                }).size(25, 12).pos(105, 125)
                 .tooltip(Tooltip.create(Component.literal("Cancel track data in memory"))).build();
 
+        flag = new EditBox(Minecraft.getInstance().font, 40, 125, 30, 12, Component.literal(""));
+        flag.setValue("1");
         rowHelper.addChild(apply);
         rowHelper.addChild(flag);
         rowHelper.addChild(impulseScript);
@@ -549,15 +589,18 @@ public class RecoilModifyScreen extends Screen {
 
     private void applyTrackEdition() {
         if (selectedTrackBox != null) {
-            selectedTrackBox.track.flag = "+".equals(flag.getMessage().getString()) ? 1 : -1;
+            try {
+                selectedTrackBox.track.flag.setValue(flag.getValue());
+            } catch (Exception e) {e.printStackTrace();}
             String originalScript = selectedTrackBox.track.rawScript;
-            selectedTrackBox.track.setRawScript(impulseScript.getValue().trim());
+            selectedTrackBox.track.setRawScript(impulseScript.getValue());
+            updateVariables();
             try {
                 selectedTrackBox.track.parseScript();
             } catch (Exception e) {
                 e.printStackTrace();
                 selectedTrackBox.track.rawScript = originalScript;
-                affirmTask("There is some error in impulseScript", () -> {});
+                affirmTask("There is some error in impulseScript:\n" + e.getMessage(), () -> {});
             }
         }
     }
@@ -620,6 +663,11 @@ public class RecoilModifyScreen extends Screen {
             allInstances.add(this);
         }
 
+        public TrackBox toolTip(String str) {
+            this.setTooltip(Tooltip.create(Component.literal(str)));
+            return this;
+        }
+
         @Override
         public void onClick(double pMouseX, double pMouseY) {
             super.onClick(pMouseX, pMouseY);
@@ -630,9 +678,8 @@ public class RecoilModifyScreen extends Screen {
                 selectedTrackBox = this;
                 trackEditionsVisible(track.spring != null);
                 if (track.spring != null) {
-                    // sync data
                     impulseScript.setValue(track.rawScript);
-                    flag.setMessage(Component.literal(track.flag == 1 ? "+" : "-"));
+                    flag.setValue(track.flag.strVal());
                 } else {
                     impulseScript.setValue("");
                     flag.setMessage(Component.literal("+"));
@@ -645,8 +692,6 @@ public class RecoilModifyScreen extends Screen {
             if (pKeyCode == 257 && selectedTrackBox == this) {
                 String name = getValue();
                 MassDampingSpring massDampingSpring = springPool.get(name);
-                System.out.println(name);
-                //track.spring = springPool.get(name);
                 if (massDampingSpring != null) {
                     this.track.spring = (MassDampingSpring) massDampingSpring.copy();
                     trackEditionsVisible(true);

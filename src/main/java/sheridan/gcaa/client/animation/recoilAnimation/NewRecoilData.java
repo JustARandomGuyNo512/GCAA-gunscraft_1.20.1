@@ -1,11 +1,12 @@
 package sheridan.gcaa.client.animation.recoilAnimation;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Quaternionf;
-import sheridan.gcaa.GCAA;
+import sheridan.gcaa.data.IDataPacketGen;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.util.HashMap;
@@ -13,41 +14,35 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.DoubleSupplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class NewRecoilData {
+public class NewRecoilData implements IDataPacketGen {
+    private static Pattern VARIABLE_PATTEN = Pattern.compile("(\\w+\\.\\w+)");
     private static final Map<IGun, NewRecoilData> RECOIL_DATA_REGISTER = new HashMap<>();
-    //public static final ImpulseScriptParser IMPULSE_SCRIPT_PARSER = new ImpulseScriptParser();
+    private static final Map<String, String> TRACK_VARIABLE_NAME_MAPPING = new HashMap<>();
     public static final String TRANS_X = "X", TRANS_Y = "Y", TRANS_Z = "Z", ROT_X = "RX", ROT_Y = "RY", ROT_Z = "RZ";
     public static final String BACK = "Back", UP_ROT = "UpRot", RANDOM_X = "RandomX", RANDOM_Y = "RandomY", SHAKE = "Shake",
             PITCH_CONTROL = "PControl", YAW_CONTROL = "YControl", P_RATE = "PRate", Y_RATE = "YRate", RANDOM = "Random";
     public static final Map<String, String> GLOBAL_VARIABLES = new ConcurrentHashMap<>();
     public Map<String, String> variables = new ConcurrentHashMap<>();
-    public Map<String, Track[]> data = new Object2ObjectArrayMap<>();
-    private Random rand;
+    private final Random rand;
     public Param back, upRot, randomX, randomY, shake, xRotCenter, yRotCenter;
-    public Track[] X = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
-    public Track[] Y = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
-    public Track[] Z = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
-    public Track[] RX = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
-    public Track[] RY = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
-    public Track[] RZ = new Track[] {Track.empty(this), Track.empty(this), Track.empty(this)};
-    public Track[] ALL = new Track[] {X[0], X[1], X[2], Y[0], Y[1], Y[2], Z[0], Z[1], Z[2], RX[0], RX[1], RX[2], RY[0], RY[1], RY[2], RZ[0], RZ[1], RZ[2]};
+    public Track[] ALL = new Track[] {
+            Track.empty(this), Track.empty(this), Track.empty(this),
+            Track.empty(this), Track.empty(this), Track.empty(this),
+            Track.empty(this), Track.empty(this), Track.empty(this),
+            Track.empty(this), Track.empty(this), Track.empty(this),
+            Track.empty(this), Track.empty(this), Track.empty(this),
+            Track.empty(this), Track.empty(this), Track.empty(this)};
     private String lastIdentity;
     public float pitchControl, yawControl, pRate, yRate, random, directionX, directionY, shakeVal;
-
-    public static final NewRecoilData _TEST_ = new NewRecoilData("1", "0.5", "0.25", "0.25", "0.1");
 
     public NewRecoilData(String back, String upRot, String randomX, String randomY, String shake)  {
         this(back, upRot, randomX, randomY, shake, "0", "0");
     }
 
     public NewRecoilData(String back, String upRot, String randomX, String randomY, String shake, String xRotCenter, String yRotCenter)  {
-        data.put(TRANS_X, X);
-        data.put(TRANS_Y, Y);
-        data.put(TRANS_Z, Z);
-        data.put(ROT_X, RX);
-        data.put(ROT_Y, RY);
-        data.put(ROT_Z, RZ);
         this.back = Param.of(back);
         this.upRot = Param.of(upRot);
         this.randomX = Param.of(randomX);
@@ -88,13 +83,13 @@ public class NewRecoilData {
 
     public void apply(PoseStack poseStack) {
         float rx = 0, ry = 0, rz = 0, x = 0, y = 0, z = 0;
-        rx += (RX[0].val() + RX[1].val() + RX[2].val());
-        ry += (RY[0].val() + RY[1].val() + RY[2].val());
-        rz += (RZ[0].val() + RZ[1].val() + RZ[2].val());
+        rx += (ALL[9].val() + ALL[10].val() + ALL[11].val());
+        ry += (ALL[12].val() + ALL[13].val() + ALL[14].val());
+        rz += (ALL[15].val() + ALL[16].val() + ALL[17].val());
         poseStack.mulPose(new Quaternionf().rotateXYZ(rx, ry, rz));
-        x += (X[0].val() + X[1].val() + X[2].val() + yRotCenter.val() * Math.sin(Math.toRadians(ry)));
-        y += (Y[0].val() + Y[1].val() + Y[2].val() + xRotCenter.val() * Math.sin(Math.toRadians(rx)));
-        z += (Z[0].val() + Z[1].val() + Z[2].val());
+        x += (ALL[0].val() + ALL[1].val() + ALL[2].val() + yRotCenter.val() * Math.sin(Math.toRadians(ry)));
+        y += (ALL[3].val() + ALL[4].val() + ALL[5].val() + xRotCenter.val() * Math.sin(Math.toRadians(rx)));
+        z += (ALL[6].val() + ALL[7].val() + ALL[8].val());
         poseStack.translate(x, y, z);
     }
 
@@ -104,48 +99,163 @@ public class NewRecoilData {
         }
     }
 
-    public void updateVariables() {
+    private String getTrackPrefix(int index) {
+        String prefix;
+        if (index < 3) {
+            prefix = "X" + (index % 3 + 1);
+        } else if (index < 6) {
+            prefix = "Y" + (index % 3 + 1);
+        } else if (index < 9) {
+            prefix = "Z" + (index % 3+ 1);
+        } else if (index < 12) {
+            prefix = "RX" + (index % 3+ 1);
+        } else if (index < 15) {
+            prefix = "RY" + (index % 3+ 1);
+        } else {
+            prefix = "RZ" + (index % 3+ 1);
+        }
+        return prefix;
+    }
+
+    public void updateVariables(boolean checkIfRecompileScripts) throws RuntimeException {
         variables.clear();
         initDefaultVariables();
-//        for (Track t : ALL) {
-//            try {
-//                if (t.spring != null) {
-//                    variables.put(t.spring.name() + ".val", () -> t.spring.getPosition());
-//                    if (t.spring instanceof SteadyStateSpring steadyStateSpring) {
-//                        variables.put(t.spring.name() + ".steady", steadyStateSpring::getSteady);
-//                    }
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-
+        for (int i = 0; i < ALL.length; i++) {
+            if (ALL[i].spring != null) {
+                Track track = ALL[i];
+                String prefix = getTrackPrefix(i);
+                String codeMapping = TRACK_VARIABLE_NAME_MAPPING.get(prefix);
+                variables.put(prefix + "_val", "recoilDataInstance." + codeMapping + ".val()");
+                if (track.spring instanceof SteadyStateSpring) {
+                    variables.put(prefix + "_steady", "((SteadyStateSpring)(recoilDataInstance." + codeMapping + ".spring)).getSteady()");
+                }
+            }
+        }
+        if (!checkIfRecompileScripts) {
+            return;
+        }
+        for (int i = 0; i < ALL.length; i ++) {
+            Track track = ALL[i];
+            if (track != null && track.spring != null && track.rawScript != null && !track.rawScript.isBlank()) {
+                String script = track.rawScript;
+                try {
+                    ImpulseScriptGenerator.processScript(script, this);
+                } catch (Exception e) {
+                    track.valueSupplier = () -> 0;
+                    track.rawScript = null;
+                    String message = e.getMessage();
+                    throw new RuntimeException("The script of track: " + getTrackPrefix(i) + " is not valid now. Please check the script and try again. \n" + message);
+                }
+            }
+        }
     }
 
     public static NewRecoilData get(IGun gun) {
         return RECOIL_DATA_REGISTER.get(gun);
     }
 
+    public NewRecoilData setTrack(int index, Track track) throws Exception {
+        ALL[index] = track;
+        track.data = this;
+        try {
+            track.parseScript();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return this;
+    }
+
     public static void register(IGun gun, NewRecoilData recoilData) {
         RECOIL_DATA_REGISTER.put(gun, recoilData);
     }
 
-    public static class Track {
+    public String genJavaNewCode() {
+        StringBuilder str = new StringBuilder("new NewRecoilData(\"" + back.strVal() + "\", \"" + upRot.strVal() + "\", \"" + randomX.strVal() + "\"," +
+                " \"" + randomY.strVal() + "\", \"" + shake.strVal() + "\", \"" + xRotCenter.strVal() + "\", \"" + yRotCenter.strVal() + "\")");
+        for (int i = 0; i < ALL.length; i++) {
+            Track track = ALL[i];
+            if (track.spring != null) {
+                str.append("\n");
+                String s = track.genJavaNewCode();
+                str.append(".setTrack(").append(i).append(", ").append(s).append(")");
+            }
+        }
+        str.append(";");
+        return str.toString();
+    }
+
+    @Override
+    public void writeData(JsonObject jsonObject) {
+        jsonObject.addProperty("back", back.strVal());
+        jsonObject.addProperty("upRot", upRot.strVal());
+        jsonObject.addProperty("randomX", randomX.strVal());
+        jsonObject.addProperty("randomY", randomY.strVal());
+        jsonObject.addProperty("shake", shake.strVal());
+        jsonObject.addProperty("xRotCenter", xRotCenter.strVal());
+        jsonObject.addProperty("yRotCenter", yRotCenter.strVal());
+        JsonArray tracks = new JsonArray();
+        for (int i = 0; i < ALL.length; i++) {
+            Track track = ALL[i];
+            if (track.spring != null) {
+                JsonObject trackDef = new JsonObject();
+                trackDef.addProperty("index", i);
+                JsonObject trackData = new JsonObject();
+                track.writeData(trackData);
+                trackDef.add("track", trackData);
+                tracks.add(trackDef);
+            }
+        }
+        jsonObject.add("tracks", tracks);
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+        back = Param.of(jsonObject.get("back").getAsString());
+        upRot = Param.of(jsonObject.get("upRot").getAsString());
+        randomX = Param.of(jsonObject.get("randomX").getAsString());
+        randomY = Param.of(jsonObject.get("randomY").getAsString());
+        shake = Param.of(jsonObject.get("shake").getAsString());
+        xRotCenter = Param.of(jsonObject.get("xRotCenter").getAsString());
+        yRotCenter = Param.of(jsonObject.get("yRotCenter").getAsString());
+        JsonArray tracks = jsonObject.getAsJsonArray("tracks");
+        for (JsonElement track : tracks) {
+            JsonObject trackDef = track.getAsJsonObject();
+            int index = trackDef.get("index").getAsInt();
+            ALL[index] = Track.empty(this);
+            JsonObject trackData = trackDef.getAsJsonObject("track");
+            ALL[index].loadData(trackData);
+        }
+    }
+
+    public static class Track implements IDataPacketGen{
         public NewRecoilData data;
         public MassDampingSpring spring;
-        public int flag;
+        public Param flag;
         public DoubleSupplier valueSupplier;
         public String rawScript;
 
-        Track(MassDampingSpring spring, int flag, NewRecoilData data) {
+        Track(MassDampingSpring spring, String flag, String rawScript, NewRecoilData data) {
             this.spring = spring;
-            this.flag = flag;
+            this.flag = Param.of(flag);
             this.data = data;
+            this.rawScript = rawScript;
             valueSupplier = () -> 0;
         }
 
+        Track(MassDampingSpring spring, String flag, String rawScript) {
+            this(spring, flag, rawScript, null);
+        }
+
+        public String genJavaNewCode() {
+            return String.format("new Track(%s, \"%s\", %s)",
+                    spring == null ? "null" : spring.genJavaNewCode(),
+                    flag.strVal(),
+                    rawScript == null ? "null" : "\"" + rawScript + "\"");
+        }
+
         public double val() {
-            return spring == null ? 0 : spring.getPosition() * flag;
+            return spring == null ? 0 : spring.getPosition() * flag.val();
         }
 
         public void update() {
@@ -167,20 +277,45 @@ public class NewRecoilData {
         }
 
         public void setRawScript(String rawScript) {
-            this.rawScript = rawScript;
+            this.rawScript = rawScript.trim().replace(" ", "");
         }
 
         public void parseScript() throws Exception {
+            if (rawScript == null || rawScript.isBlank()) {
+                return;
+            }
             valueSupplier = ImpulseScriptGenerator.createDoubleSupplier(data, rawScript);
         }
 
         public static Track empty(NewRecoilData data) {
-            return new Track(null, 1, data);
+            return new Track(null, "1", null, data);
         }
-    }
 
-    public Track get(String type, int index) {
-        return data.get(type)[index];
+        @Override
+        public void writeData(JsonObject jsonObject) {
+            if (spring != null) {
+                JsonObject springObject = new JsonObject();
+                spring.writeData(springObject);
+                jsonObject.add("spring", springObject);
+                jsonObject.addProperty("flag", flag.strVal());
+                jsonObject.addProperty("rawScript", rawScript);
+            }
+        }
+
+        @Override
+        public void loadData(JsonObject jsonObject) {
+            JsonObject spring = jsonObject.getAsJsonObject("spring");
+            String clazz = spring.get("class").getAsString();
+            try {
+                this.spring = (MassDampingSpring) Class.forName(clazz).getConstructor().newInstance();
+            } catch (Exception ignore) {}
+            this.spring.loadData(spring);
+            this.rawScript = jsonObject.get("rawScript").getAsString();
+            try {
+                parseScript();
+            } catch (Exception ignore) {}
+            this.flag = Param.of(jsonObject.get("flag").getAsString());
+        }
     }
 
     public String getScriptMapping(String key) {
@@ -215,5 +350,24 @@ public class NewRecoilData {
         GLOBAL_VARIABLES.put("RADIANS", "java.lang.Math.toRadians");
         GLOBAL_VARIABLES.put("POW", "java.lang.Math.pow");
         GLOBAL_VARIABLES.put("LERP", "sheridan.gcaa.client.animation.recoilAnimation.NewRecoilData.lerp");
+
+        TRACK_VARIABLE_NAME_MAPPING.put("X1", "ALL[0]");
+        TRACK_VARIABLE_NAME_MAPPING.put("X2", "ALL[1]");
+        TRACK_VARIABLE_NAME_MAPPING.put("X3", "ALL[2]");
+        TRACK_VARIABLE_NAME_MAPPING.put("Y1", "ALL[3]");
+        TRACK_VARIABLE_NAME_MAPPING.put("Y2", "ALL[4]");
+        TRACK_VARIABLE_NAME_MAPPING.put("Y3", "ALL[5]");
+        TRACK_VARIABLE_NAME_MAPPING.put("Z1", "ALL[6]");
+        TRACK_VARIABLE_NAME_MAPPING.put("Z2", "ALL[7]");
+        TRACK_VARIABLE_NAME_MAPPING.put("Z3", "ALL[8]");
+        TRACK_VARIABLE_NAME_MAPPING.put("RX1", "ALL[9]");
+        TRACK_VARIABLE_NAME_MAPPING.put("RX2", "ALL[10]");
+        TRACK_VARIABLE_NAME_MAPPING.put("RX3", "ALL[11]");
+        TRACK_VARIABLE_NAME_MAPPING.put("RY1", "ALL[12]");
+        TRACK_VARIABLE_NAME_MAPPING.put("RY2", "ALL[13]");
+        TRACK_VARIABLE_NAME_MAPPING.put("RY3", "ALL[14]");
+        TRACK_VARIABLE_NAME_MAPPING.put("RZ1", "ALL[15]");
+        TRACK_VARIABLE_NAME_MAPPING.put("RZ2", "ALL[16]");
+        TRACK_VARIABLE_NAME_MAPPING.put("RZ3", "ALL[17]");
     }
 }

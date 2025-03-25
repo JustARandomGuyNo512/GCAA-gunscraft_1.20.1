@@ -1,8 +1,11 @@
 package sheridan.gcaa.client.animation.recoilAnimation;
 
+import com.google.gson.JsonObject;
+import sheridan.gcaa.data.IDataPacketGen;
+
 import java.util.*;
 
-public class MassDampingSpring {
+public class MassDampingSpring implements IDataPacketGen {
     static Set<String> names;
     protected String name = "A1";
     public Param mass;          // 质量
@@ -68,6 +71,10 @@ public class MassDampingSpring {
         return map;
     }
 
+    public String genJavaNewCode() {
+        return "new MassDampingSpring(\"" + mass.strVal() + "\", \"" + stiffness.strVal() + "\", \"" + dampingForward.strVal() + "\", \"" + dampingBackward.strVal() + "\")";
+    }
+
     public void updateByMap(Map<String, String> valueMap) {
         mass = Param.of(valueMap.getOrDefault("mass", "0"));
         stiffness = Param.of(valueMap.getOrDefault("stiffness", "0"));
@@ -105,5 +112,24 @@ public class MassDampingSpring {
                 "A1", "A2", "A3", "A4", "A5", "A6",
                 "B1", "B2", "B3", "B4", "B5", "B6",
                 "C1", "C2", "C3", "C4", "C5", "C6");
+    }
+
+    @Override
+    public void writeData(JsonObject jsonObject) {
+        jsonObject.addProperty("class", getClass().getName());
+        jsonObject.addProperty("name", name);
+        jsonObject.addProperty("mass", mass.strVal());
+        jsonObject.addProperty("stiffness", stiffness.strVal());
+        jsonObject.addProperty("dampingForward", dampingForward.strVal());
+        jsonObject.addProperty("dampingBackward", dampingBackward.strVal());
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+        name = jsonObject.get("name").getAsString();
+        mass = Param.of(jsonObject.get("mass").getAsString());
+        stiffness = Param.of(jsonObject.get("stiffness").getAsString());
+        dampingForward = Param.of(jsonObject.get("dampingForward").getAsString());
+        dampingBackward = Param.of(jsonObject.get("dampingBackward").getAsString());
     }
 }
