@@ -128,8 +128,8 @@ public class GunRenderer{
                     context.saveInLocal(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP, original);
                 }
                 if (inertialRecoilData != null) {
-                    //AnimationHandler.INSTANCE.applyInertialRecoil(context.poseStack, inertialRecoilData);
-                    SpringRecoilHandler.INSTANCE.apply(context.poseStack);
+                    AnimationHandler.INSTANCE.applyInertialRecoil(context.poseStack, inertialRecoilData);
+                    //SpringRecoilHandler.INSTANCE.apply(context.poseStack);
                 }
                 model.render(context);
             } else {

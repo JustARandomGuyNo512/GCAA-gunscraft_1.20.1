@@ -138,11 +138,11 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
             float directionY = InertialRecoilHandler.randomIndexY(inertialRecoilData.randomYChangeRate);
             float pRate = gunProperties.getPropertyRate(GunProperties.RECOIL_PITCH, tag, 1);
             float yRate = gunProperties.getPropertyRate(GunProperties.RECOIL_YAW, tag, 1);
-//            AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY,
-//                    Mth.clamp((pRate - Math.max(0, pControl - 1) * 0.3f), 0.5f, 1f),
-//                    Mth.clamp((yRate - Math.max(0, yControl - 1) * 0.3f), 0.5f, 1f));
+            AnimationHandler.INSTANCE.pushRecoil(inertialRecoilData, directionX, directionY,
+                    Mth.clamp((pRate - Math.max(0, pControl - 1) * 0.3f), 0.5f, 1f),
+                    Mth.clamp((yRate - Math.max(0, yControl - 1) * 0.3f), 0.5f, 1f));
 
-            SpringRecoilHandler.INSTANCE.onShoot(this, stack, pControl, yControl, pRate, yRate, directionX, directionY);
+            //SpringRecoilHandler.INSTANCE.onShoot(this, stack, pControl, yControl, pRate, yRate, directionX, directionY);
         }
 
         RecoilCameraHandler.INSTANCE.onShoot(this, stack, directionX, player,
