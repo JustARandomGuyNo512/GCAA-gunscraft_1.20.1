@@ -25,8 +25,6 @@ import sheridan.gcaa.client.animation.recoilAnimation.*;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -519,6 +517,8 @@ public class RecoilModifyScreen extends Screen {
                 affirmTask("Recreate spring object from: '" + simpleName + "' to: '" + type + "' ?", r);
             }
         }
+        updateVariablesTip();
+        updateFunctionsTip();
     }
 
     private interface Task {
@@ -643,6 +643,34 @@ public class RecoilModifyScreen extends Screen {
         functions.setTooltip(Tooltip.create(literal));
     }
 
+    private void updateVariablesTip() {
+        Set<String> strings = newRecoilData.variables.keySet();
+        MutableComponent literal = Component.literal("All named Variables:\n");
+        int i = 0;
+        for (String s : strings) {
+            i ++;
+            literal.append(Component.literal(s).append(" "));
+            if (i % 2 == 0) {
+                literal.append(Component.literal("\n"));
+            }
+        }
+        variables.setTooltip(Tooltip.create(literal));
+    }
+
+    private void updateFunctionsTip() {
+        MutableComponent literal = Component.literal("All named Variables:\n");
+        Set<String> strings = NewRecoilData.GLOBAL_VARIABLES.keySet();
+        int i = 0;
+        for (String s : strings) {
+            i ++;
+            literal.append(Component.literal(s).append(" "));
+            if (i % 2 == 0) {
+                literal.append(Component.literal("\n"));
+            }
+        }
+        functions.setTooltip(Tooltip.create(literal));
+    }
+
     private void springEditionsVisible(boolean visible) {
         for (AbstractWidget widget : springEditions) {
             widget.visible = visible;
@@ -687,6 +715,8 @@ public class RecoilModifyScreen extends Screen {
         }
         trackEditionVisible = visible;
         if (trackEditionVisible) {
+            updateFunctionsTip();
+            updateVariablesTip();
             springEditionsVisible(false);
             updateVariablesTooltip();
             updateFunctionsTooltip();
