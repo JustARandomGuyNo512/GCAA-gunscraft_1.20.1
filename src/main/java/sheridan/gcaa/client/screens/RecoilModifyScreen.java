@@ -13,6 +13,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.item.ItemStack;
@@ -46,7 +47,7 @@ public class RecoilModifyScreen extends Screen {
     public EditBox impulseScript;
     public Button selectedSpringBtn;
     public String selectedSpringBtnName;
-    public Button variables;
+    public Button variables, functions;
     public Button clampedSpringBtn;
     public Button massDampingSpring;
     public Button steadyStateSpring;
@@ -155,7 +156,7 @@ public class RecoilModifyScreen extends Screen {
             Minecraft.getInstance().keyboardHandler.setClipboard(GSON.toJson(jsonObject));
             System.out.println(newRecoilData.genJavaNewCode());
         }).size(25, 12).pos(100, 10).build();
-        fetch.setMessage(Component.literal("Copy Json data to clipboard and print java creation code to console"));
+        fetch.setTooltip(Tooltip.create(Component.literal("Copy Json data to clipboard and print java construct code to console")));
         rowHelper.addChild(fetch);
         gridlayout.visitWidgets(this::addRenderableWidget);
         syncRecoilData();
@@ -490,6 +491,8 @@ public class RecoilModifyScreen extends Screen {
                 impulseScript.setValue(selectedTrackBox.track.rawScript);
             }
         }
+        updateVariablesTooltip();
+        updateFunctionsTooltip();
     }
 
     private void onSpringTypeClicked(String type) {
@@ -557,6 +560,8 @@ public class RecoilModifyScreen extends Screen {
         impulseScript.setMaxLength(81);
         variables = Button.builder(Component.literal("Variables"), (b) -> {}).size(40, 12).pos(345, 125)
                 .tooltip(Tooltip.create(Component.literal("All named Variables:\n"))).build();
+        functions = Button.builder(Component.literal("Functions"), (b) -> {}).size(40, 12).pos(300, 125)
+                .tooltip(Tooltip.create(Component.literal("All usable Functions:\n"))).build();
         Button clear = Button.builder(Component.literal("CANCEL"), (b) ->
                 {
                     if (selectedTrackBox != null) {
@@ -578,11 +583,13 @@ public class RecoilModifyScreen extends Screen {
         rowHelper.addChild(flag);
         rowHelper.addChild(impulseScript);
         rowHelper.addChild(variables);
+        rowHelper.addChild(functions);
         rowHelper.addChild(clear);
         trackEditions.add(flag);
         trackEditions.add(apply);
         trackEditions.add(impulseScript);
         trackEditions.add(variables);
+        trackEditions.add(functions);
         trackEditions.add(clear);
         trackEditionsVisible(false);
     }
@@ -603,6 +610,37 @@ public class RecoilModifyScreen extends Screen {
                 affirmTask("There is some error in impulseScript:\n" + e.getMessage(), () -> {});
             }
         }
+        updateVariablesTooltip();
+    }
+
+    private void updateVariablesTooltip() {
+        MutableComponent literal = Component.literal("All named Variables:\n");
+        Set<String> strings = newRecoilData.variables.keySet();
+        List<String> strList = new ArrayList<>(strings);
+        int i = 0;
+        for (String str : strList) {
+            literal.append(Component.literal(str + " "));
+            if (i != 0 && i %2 == 0) {
+                literal.append(Component.literal("\n"));
+            }
+            i ++;
+        }
+        variables.setTooltip(Tooltip.create(literal));
+    }
+
+    private void updateFunctionsTooltip() {
+        MutableComponent literal = Component.literal("All usable Functions:\n");
+        Set<String> strings = NewRecoilData.GLOBAL_VARIABLES.keySet();
+        List<String> strList = new ArrayList<>(strings);
+        int i = 0;
+        for (String str : strList) {
+            literal.append(Component.literal(str + " "));
+            if (i != 0 && i % 2 == 0) {
+                literal.append(Component.literal("\n"));
+            }
+            i ++;
+        }
+        functions.setTooltip(Tooltip.create(literal));
     }
 
     private void springEditionsVisible(boolean visible) {
@@ -650,6 +688,8 @@ public class RecoilModifyScreen extends Screen {
         trackEditionVisible = visible;
         if (trackEditionVisible) {
             springEditionsVisible(false);
+            updateVariablesTooltip();
+            updateFunctionsTooltip();
         }
     }
 
