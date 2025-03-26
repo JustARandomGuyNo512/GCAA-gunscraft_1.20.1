@@ -127,7 +127,7 @@ public class NewRecoilData implements IDataPacketGen {
                 String codeMapping = TRACK_VARIABLE_NAME_MAPPING.get(prefix);
                 variables.put(prefix + "_val", "recoilDataInstance." + codeMapping + ".val()");
                 if (track.spring instanceof SteadyStateSpring) {
-                    variables.put(prefix + "_steady", "((SteadyStateSpring)(recoilDataInstance." + codeMapping + ".spring)).getSteady()");
+                    variables.put(prefix + "_steady", "((sheridan.gcaa.client.animation.recoilAnimation.SteadyStateSpring)(recoilDataInstance." + codeMapping + ".spring)).getSteady()");
                 }
             }
         }
