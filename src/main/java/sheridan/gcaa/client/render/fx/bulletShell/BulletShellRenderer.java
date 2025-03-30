@@ -7,6 +7,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import sheridan.gcaa.client.model.BulletShellModel;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -20,10 +21,12 @@ public class BulletShellRenderer {
         public BulletShellDisplayData displayData;
         public long timeStamp;
         public float[] randomSeeds;
+        public PoseStack poseStack;
 
-        public Task(BulletShellDisplayData displayData, long timeStamp) {
+        public Task(BulletShellDisplayData displayData, PoseStack poseStack, long timeStamp) {
             this.displayData = displayData;
             this.timeStamp = timeStamp;
+            this.poseStack = RenderAndMathUtils.copyPoseStack(poseStack);
             Vector3f random = new Vector3f(
                     (float) (Math.random() * 2 - 1),
                     (float) (Math.random() * 2 - 1),
@@ -40,7 +43,7 @@ public class BulletShellRenderer {
             return System.currentTimeMillis() - timeStamp > displayData.maxDisplayTime;
         }
 
-        public void render(PoseStack poseStack, GunRenderContext context, VertexConsumer globalVertexConsumer) {
+        public void render(GunRenderContext context, VertexConsumer globalVertexConsumer) {
             boolean finished = outOfTime();
             if (!finished) {
                 poseStack.pushPose();
@@ -50,11 +53,11 @@ public class BulletShellRenderer {
         }
     }
 
-    public static void push(BulletShellDisplayData bulletShellDisplayData, long timeStamp) {
+    public static void push(BulletShellDisplayData bulletShellDisplayData, PoseStack poseStack, long timeStamp) {
         if (bulletShells.size() >= MAX_NUM) {
             bulletShells.removeFirst();
         }
-        bulletShells.push(new Task(bulletShellDisplayData, timeStamp));
+        bulletShells.push(new Task(bulletShellDisplayData, poseStack, timeStamp));
     }
 
     public static void update() {
@@ -69,10 +72,10 @@ public class BulletShellRenderer {
             return;
         }
         VertexConsumer vertexConsumer = BulletShellModel.getVertexConsumer(context.bufferSource);
-        Object obj = context.getLocalSaved(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP);
-        PoseStack poseStack = obj == null ? context.poseStack : (PoseStack) obj;
+        //Object obj = context.getLocalSaved(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP);
+        //PoseStack poseStack = obj == null ? context.poseStack : (PoseStack) obj;
         for (Task task : bulletShells) {
-            task.render(poseStack, context, vertexConsumer);
+            task.render(context, vertexConsumer);
         }
     }
 

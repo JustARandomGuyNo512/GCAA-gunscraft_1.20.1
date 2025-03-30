@@ -32,11 +32,14 @@ import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import static net.minecraft.world.item.ItemDisplayContext.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GunRenderer{
     private static long tempLastFire = 0;
+    public static AtomicBoolean pushBulletShell = new AtomicBoolean(false);
 
     public static void renderInAttachmentScreen(PoseStack poseStack, ItemStack itemStack, IGun gun, IGunModel model, MultiBufferSource bufferSource, DisplayData displayData, float x, float y, float rx, float ry, float scale, AttachmentsGuiContext context) {
         if (displayData != null) {
@@ -85,17 +88,10 @@ public class GunRenderer{
                     GlobalWeaponBobbing.INSTANCE.handleTranslation(poseStack);
                 }
                 CameraAnimationHandler.INSTANCE.clear();
-                InertialRecoilData inertialRecoilData = displayData.getInertialRecoilData();
                 boolean newShoot = false;
                 if (tempLastFire != Clients.lastShootMain()) {
                     tempLastFire = Clients.lastShootMain();
                     newShoot = true;
-                    if (gun.shootCreateBulletShell()) {
-                        BulletShellDisplayData bulletShellDisplayData = displayData.getBulletShellDisplayData();
-                        if (bulletShellDisplayData != null) {
-                            BulletShellRenderer.push(bulletShellDisplayData, tempLastFire);
-                        }
-                    }
                     if (muzzleFlashEntry.muzzleFlash.hasMuzzleSmoke()) {
                         MuzzleSmokeRenderer.INSTANCE.openTaskQueue();
                     }
@@ -127,9 +123,26 @@ public class GunRenderer{
                     PoseStack original = RenderAndMathUtils.copyPoseStack(poseStack);
                     context.saveInLocal(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP, original);
                 }
+                InertialRecoilData inertialRecoilData = displayData.getInertialRecoilData();
                 if (inertialRecoilData != null) {
                     AnimationHandler.INSTANCE.applyInertialRecoil(context.poseStack, inertialRecoilData);
                     //SpringRecoilHandler.INSTANCE.apply(context.poseStack);
+                }
+                if (newShoot) {
+                    if (gun.shootCreateBulletShell()) {
+                        BulletShellDisplayData bulletShellDisplayData = displayData.getBulletShellDisplayData();
+                        if (bulletShellDisplayData != null) {
+                            BulletShellRenderer.push(bulletShellDisplayData, context.poseStack, tempLastFire);
+                            pushBulletShell.set(false);
+                        }
+                    }
+                }
+                if (pushBulletShell.get()) {
+                    BulletShellDisplayData bulletShellDisplayData = displayData.getBulletShellDisplayData();
+                    if (bulletShellDisplayData != null) {
+                        BulletShellRenderer.push(bulletShellDisplayData, context.poseStack, System.currentTimeMillis());
+                    }
+                    pushBulletShell.set(false);
                 }
                 model.render(context);
             } else {

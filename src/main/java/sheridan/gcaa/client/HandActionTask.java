@@ -9,6 +9,7 @@ import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
+import sheridan.gcaa.client.render.GunRenderer;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellRenderer;
 import sheridan.gcaa.items.gun.HandActionGun;
@@ -52,11 +53,7 @@ public class HandActionTask implements IHandActionTask{
             }
         }
         if (startDelay != 0 && tick == throwBulletShellDelay + startDelay) {
-            DisplayData displayData = GunModelRegister.getDisplayData(gun);
-            BulletShellDisplayData bulletShellDisplayData = displayData.getBulletShellDisplayData();
-            if (bulletShellDisplayData != null) {
-                BulletShellRenderer.push(bulletShellDisplayData, System.currentTimeMillis());
-            }
+            GunRenderer.pushBulletShell.set(true);
         }
         if (tick == length) {
             if (gun.getAmmoLeft(itemStack) > 0) {

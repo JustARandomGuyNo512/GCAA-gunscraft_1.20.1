@@ -502,7 +502,7 @@ public class Clients {
         );
 
         ArsenalLib.registerGunModel(ModItems.MCX_SPEAR.get(), RifleModels.MCX_SPEAR_MODEL, new DisplayData()
-                .setFirstPersonMain(-12.5f,16.7f,-35f, POS)
+                .setFirstPersonMain(-12.3f,16.5f,-34.3f, POS)
                 .setThirdPersonRight(0.0f,-1.2f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
