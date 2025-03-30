@@ -1,6 +1,7 @@
 package sheridan.gcaa.client.render;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -9,20 +10,22 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
+import sheridan.gcaa.client.model.BulletShellModel;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlash;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
-import sheridan.gcaa.data.IDataPacketGen;
+import sheridan.gcaa.data.IJsonSyncable;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DisplayData implements IDataPacketGen {
+public class DisplayData implements IJsonSyncable {
 
     public enum DataType {
         POS, ROT, SCALE
@@ -39,10 +42,10 @@ public class DisplayData implements IDataPacketGen {
             SPRINTING = 7;
     private final float[][] transforms = new float[][]{
             {0, 0, 0, 0, 0, 0, 1, 1, 1},
-            {},
             {0, 0, 0, 0, 0, 0, 1, 1, 1},
-            {},
-            {},
+            {0, 0, 0, 0, 0, 0, 1, 1, 1},
+            {0, 0, 0, 0, 0, 0, 1, 1, 1},
+            {0, 0, 0, 0, 0, 0, 1, 1, 1},
             {0, 0, 0, 0, 0, 0, 1, 1, 1},
             {0, 0, 0, 0, 0, 0, 1, 1, 1},
             {0, 0, 0, 0, 0, 0, 1, 1, 1}};
@@ -359,43 +362,97 @@ public class DisplayData implements IDataPacketGen {
 
     @Override
     public void writeData(JsonObject jsonObject) {
+        JsonObject translation = new JsonObject();
         for (int i = 0; i < transforms.length; i ++) {
             JsonObject transData = new JsonObject();
             float[] transform = transforms[i];
             boolean[] emptyMark = emptyMarks[i];
-            JsonArray trans = new JsonArray();
-            JsonArray marks = new JsonArray();
-            for (float v : transform) {
-                trans.add(v);
-            }
-            for (boolean b : emptyMark) {
-                marks.add(b);
-            }
-            transData.add("transform", trans);
-            transData.add("emptyMark", marks);
-            jsonObject.add("" + i, transData);
+//            JsonArray trans = new JsonArray();
+//            JsonArray marks = new JsonArray();
+//            for (float v : transform) {
+//                trans.add(v);
+//            }
+//            for (boolean b : emptyMark) {
+//                marks.add(b);
+//            }
+            String trans = transform[0] + ", " + transform[1] + ", " + transform[2] + ", " + transform[3] + ", " + transform[4] + ", " + transform[5] + ", " + transform[6] + ", " + transform[7] + ", " + transform[8];
+            String marks = emptyMark[0] + ", " + emptyMark[1] + ", " + emptyMark[2];
+            transData.addProperty("transform", trans);
+            transData.addProperty("emptyMark", marks);
+            translation.add("" + i, transData);
         }
+        jsonObject.add("translation", translation);
+        JsonObject muzzleFlashes = new JsonObject();
+        for (Map.Entry<String, MuzzleFlashEntry> entry : muzzleFlashMap.entrySet()) {
+            String status = entry.getKey();
+            JsonObject muzzleFlash = new JsonObject();
+            MuzzleFlashEntry value = entry.getValue();
+            muzzleFlash.addProperty("name", value.muzzleFlash.name);
+            JsonObject display = new JsonObject();
+            value.displayData.writeData(display);
+            muzzleFlash.add("display", display);
+            muzzleFlashes.add(status, muzzleFlash);
+        }
+        jsonObject.add("muzzleFlashes", muzzleFlashes);
+        JsonObject bulletShell = new JsonObject();
+        bulletShell.addProperty("pos", bulletShellDisplayData.pos[0] + ", " + bulletShellDisplayData.pos[1] + ", " + bulletShellDisplayData.pos[2]);
+        bulletShell.addProperty("scale", bulletShellDisplayData.scale[0] + ", " + bulletShellDisplayData.scale[1] + ", " + bulletShellDisplayData.scale[2]);
+        bulletShell.addProperty("velocity", bulletShellDisplayData.velocity.x + ", " + bulletShellDisplayData.velocity.y + ", " + bulletShellDisplayData.velocity.z);
+        bulletShell.addProperty("randomRate", bulletShellDisplayData.randomRate);
+        bulletShell.addProperty("dropRate", bulletShellDisplayData.dropRate);
+        bulletShell.addProperty("rotateSpeed", bulletShellDisplayData.rotateSpeed);
+        bulletShell.addProperty("type", bulletShellDisplayData.type);
+        bulletShell.addProperty("maxDisplayTime", bulletShellDisplayData.maxDisplayTime);
+        jsonObject.add("bulletShell", bulletShell);
     }
 
     @Override
     public void loadData(JsonObject jsonObject) {
+        JsonObject translation = jsonObject.get("translation").getAsJsonObject();
         for (int i = 0; i < transforms.length; i ++) {
-            if (!jsonObject.has("" + i)) {
+            if (!translation.has("" + i)) {
                 continue;
             }
-            JsonObject transData = jsonObject.get("" + i).getAsJsonObject();
-            JsonArray trans = transData.get("transform").getAsJsonArray();
-            JsonArray marks = transData.get("emptyMark").getAsJsonArray();
-            float[] transform = new float[trans.size()];
-            boolean[] emptyMark = new boolean[marks.size()];
-            for (int j = 0; j < 9; j ++) {
-                transform[j] = trans.get(j).getAsFloat();
-            }
-            for (int j = 0; j < 3; j ++) {
-                emptyMark[j] = marks.get(j).getAsBoolean();
-            }
+            JsonObject transData = translation.get("" + i).getAsJsonObject();
+            String[] transStr = transData.get("transform").getAsString().split(",");
+            String[] marksStr = transData.get("emptyMark").getAsString().split(",");
+            float[] transform = new float[]{
+                    Float.parseFloat(transStr[0].trim()), Float.parseFloat(transStr[1].trim()), Float.parseFloat(transStr[2].trim()),
+                    Float.parseFloat(transStr[3].trim()), Float.parseFloat(transStr[4].trim()), Float.parseFloat(transStr[5].trim()),
+                    Float.parseFloat(transStr[6].trim()), Float.parseFloat(transStr[7].trim()), Float.parseFloat(transStr[8].trim())};
+            boolean[] emptyMark = new boolean[] {
+                    Boolean.parseBoolean(marksStr[0].trim()),
+                    Boolean.parseBoolean(marksStr[1].trim()),
+                    Boolean.parseBoolean(marksStr[2].trim())};
             transforms[i] = transform;
             emptyMarks[i] = emptyMark;
         }
+        JsonObject MuzzleFlashes = jsonObject.get("muzzleFlashes").getAsJsonObject();
+        for (Map.Entry<String, JsonElement> entry : MuzzleFlashes.entrySet()) {
+            String status = entry.getKey();
+            JsonObject muzzleFlash = entry.getValue().getAsJsonObject();
+            String name = muzzleFlash.get("name").getAsString();
+            MuzzleFlash muzzleFlashObject = MuzzleFlash.get(name);
+            JsonObject display = muzzleFlash.get("display").getAsJsonObject();
+            MuzzleFlashDisplayData muzzleFlashDisplayData = new MuzzleFlashDisplayData();
+            muzzleFlashDisplayData.loadData(display);
+            muzzleFlashMap.put(status, new MuzzleFlashEntry(muzzleFlashDisplayData, muzzleFlashObject));
+        }
+        JsonObject bulletShell = jsonObject.get("bulletShell").getAsJsonObject();
+        String[] posStr = bulletShell.get("pos").getAsString().split(",");
+        float[] pos = {Float.parseFloat(posStr[0].trim()), Float.parseFloat(posStr[1].trim()), Float.parseFloat(posStr[2].trim())};
+        String[] velocityStr = bulletShell.get("velocity").getAsString().split(",");
+        float[] velocity = {Float.parseFloat(velocityStr[0].trim()), Float.parseFloat(velocityStr[1].trim()), Float.parseFloat(velocityStr[2].trim())};
+        String[] scaleStr = bulletShell.get("scale").getAsString().split(",");
+        float[] scale = {Float.parseFloat(scaleStr[0].trim()), Float.parseFloat(scaleStr[1].trim()), Float.parseFloat(scaleStr[2].trim())};
+        this.setBulletShellDisplayData(new BulletShellDisplayData(
+                pos[0], pos[1], pos[2],
+                new Vector3f(velocity[0], velocity[1], velocity[2]), bulletShell.get("type").getAsString())
+                .setRandomRate(bulletShell.get("randomRate").getAsFloat())
+                .setDropRate(bulletShell.get("dropRate").getAsFloat())
+                .setRandomRate(bulletShell.get("rotateSpeed").getAsFloat())
+                .setRotateSpeed(bulletShell.get("rotateSpeed").getAsFloat())
+                .setMaxDisplayTime(bulletShell.get("maxDisplayTime").getAsInt())
+                .setScale(scale[0], scale[1], scale[2]));
     }
 }

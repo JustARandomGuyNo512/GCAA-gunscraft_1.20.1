@@ -8,7 +8,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.data.IDataPacketGen;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.items.gun.IGun;
 

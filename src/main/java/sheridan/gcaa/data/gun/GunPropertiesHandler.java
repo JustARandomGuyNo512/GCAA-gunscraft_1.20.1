@@ -16,7 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.data.IDataPacketGen;
+import sheridan.gcaa.data.IJsonSyncable;
 import sheridan.gcaa.data.Utils;
 import sheridan.gcaa.items.gun.Gun;
 import sheridan.gcaa.network.PacketHandler;
@@ -45,7 +45,7 @@ public class GunPropertiesHandler extends SimplePreparableReloadListener<Map<Str
             pResourceManager.getResource(location).ifPresent(res -> {
                 try {
                     try (BufferedReader reader = new BufferedReader(new InputStreamReader(res.open(), StandardCharsets.UTF_8))) {
-                        JsonObject jsonObject = GsonHelper.fromJson(IDataPacketGen.GSON, reader, JsonObject.class);
+                        JsonObject jsonObject = GsonHelper.fromJson(IJsonSyncable.GSON, reader, JsonObject.class);
                         propertiesMap.put(forgeKey, jsonObject);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -80,13 +80,13 @@ public class GunPropertiesHandler extends SimplePreparableReloadListener<Map<Str
         if (data != null) {
             try {
                 String str = Utils.decompress(data);
-                JsonObject object = IDataPacketGen.GSON.fromJson(str, JsonObject.class);
+                JsonObject object = IJsonSyncable.GSON.fromJson(str, JsonObject.class);
                 handleSync(object);
                 return;
             } catch (Exception exception) {exception.printStackTrace();}
         }
         if (strData != null) {
-            JsonObject object = IDataPacketGen.GSON.fromJson(strData, JsonObject.class);
+            JsonObject object = IJsonSyncable.GSON.fromJson(strData, JsonObject.class);
             handleSync(object);
         }
     }

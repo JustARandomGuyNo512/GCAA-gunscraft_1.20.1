@@ -6,13 +6,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
-import sheridan.gcaa.data.IDataPacketGen;
+import sheridan.gcaa.data.IJsonSyncable;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Recipe implements IDataPacketGen {
+public class Recipe implements IJsonSyncable {
     public Item item;
     public Map<Item, Integer> ingredients;
     public int craftingTicks;

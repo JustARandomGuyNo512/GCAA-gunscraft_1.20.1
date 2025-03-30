@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.data.IDataPacketGen;
+import sheridan.gcaa.data.IJsonSyncable;
 import sheridan.gcaa.data.Utils;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.s2c.UpdateVendingMachineProductsPacket;
@@ -42,7 +42,7 @@ public class VendingMachineProductsHandler extends SimplePreparableReloadListene
         pResourceManager.getResource(location).ifPresent(res -> {
             try {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(res.open(), StandardCharsets.UTF_8))) {
-                    JsonObject jsonObject = GsonHelper.fromJson(IDataPacketGen.GSON, reader, JsonObject.class);
+                    JsonObject jsonObject = GsonHelper.fromJson(IJsonSyncable.GSON, reader, JsonObject.class);
                     Set<String> allCategories = ProductsRegister.getAllCategories();
                     for (String category : allCategories) {
                         if (jsonObject.has(category)) {
@@ -189,7 +189,7 @@ public class VendingMachineProductsHandler extends SimplePreparableReloadListene
         }
 
         public static IndexedProductRegistry fromString(String string) {
-            JsonObject object = IDataPacketGen.GSON.fromJson(string, JsonObject.class);
+            JsonObject object = IJsonSyncable.GSON.fromJson(string, JsonObject.class);
             return new IndexedProductRegistry(
                     object.get("id").getAsInt(),
                     object.get("category").getAsString(),

@@ -15,14 +15,12 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.data.IDataPacketGen;
-import sheridan.gcaa.data.gun.GunPropertiesHandler;
+import sheridan.gcaa.data.IJsonSyncable;
 import sheridan.gcaa.industrial.AmmunitionRecipe;
 import sheridan.gcaa.industrial.RecipeRegister;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.s2c.UpdateBulletCraftingRecipePacket;
-import sheridan.gcaa.network.packets.s2c.UpdateGunPropertiesPacket;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -45,7 +43,7 @@ public class Handler extends SimplePreparableReloadListener<Map<String, JsonObje
             ResourceLocation location = new ResourceLocation(GCAA.MODID, name);
             resourceManager.getResource(location).ifPresent(res -> {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(res.open(), StandardCharsets.UTF_8))) {
-                    JsonObject jsonObject = GsonHelper.fromJson(IDataPacketGen.GSON, reader, JsonObject.class);
+                    JsonObject jsonObject = GsonHelper.fromJson(IJsonSyncable.GSON, reader, JsonObject.class);
                     map.put(forgeKey, jsonObject);
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -1,6 +1,7 @@
 package sheridan.gcaa.client.render.fx.bulletShell;
 
 
+import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraftforge.api.distmarker.Dist;
@@ -9,10 +10,11 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import sheridan.gcaa.client.model.BulletShellModel;
 import sheridan.gcaa.client.render.GunRenderContext;
+import sheridan.gcaa.data.IJsonSyncable;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 @OnlyIn(Dist.CLIENT)
-public class BulletShellDisplayData {
+public class BulletShellDisplayData{
     private static final float SPEED_RATE = 5.5f;
     public float[] pos = new float[] {0, 0, 0};
     public float[] scale = new float[] {1, 1, 1};
@@ -80,4 +82,5 @@ public class BulletShellDisplayData {
         }
         BulletShellModel.render(type, poseStack, globalVertexConsumer, context.packedLight, context.packedOverlay);
     }
+
 }

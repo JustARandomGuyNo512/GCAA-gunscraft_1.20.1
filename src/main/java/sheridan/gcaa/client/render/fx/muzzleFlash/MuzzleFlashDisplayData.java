@@ -1,12 +1,14 @@
 package sheridan.gcaa.client.render.fx.muzzleFlash;
 
+import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
+import sheridan.gcaa.data.IJsonSyncable;
 
 @OnlyIn(Dist.CLIENT)
-public class MuzzleFlashDisplayData {
+public class MuzzleFlashDisplayData  implements IJsonSyncable {
     public int length = 30;
     public float[] translate = null;
     public float[] scale = new float[]{1,1,1};
@@ -68,6 +70,33 @@ public class MuzzleFlashDisplayData {
         }
         if (size != 1 || (scale[0] != 1 || scale[1] != 1 || scale[2] != 1)) {
             stack.scale(scale[0] * size, scale[1] * size, scale[2] * size);
+        }
+    }
+
+    @Override
+    public void writeData(JsonObject jsonObject) {
+        jsonObject.addProperty("length", length);
+        if (translate != null) {
+            jsonObject.addProperty("translate", translate[0] + "," + translate[1] + "," + translate[2]);
+        }
+        jsonObject.addProperty("scale", scale[0] + "," + scale[1] + "," + scale[2]);
+        if (rotate != null) {
+            jsonObject.addProperty("rotate", rotate[0] + "," + rotate[1] + "," + rotate[2]);
+        }
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+        length = jsonObject.get("length").getAsInt();
+        if (jsonObject.has("translate")) {
+            String[] translate = jsonObject.get("translate").getAsString().split(",");
+            this.translate = new float[] {Float.parseFloat(translate[0]), Float.parseFloat(translate[1]), Float.parseFloat(translate[2])};
+        }
+        String[] scale = jsonObject.get("scale").getAsString().split(",");
+        this.scale = new float[] {Float.parseFloat(scale[0].trim()), Float.parseFloat(scale[1].trim()), Float.parseFloat(scale[2].trim())};
+        if (jsonObject.has("rotate")) {
+            String[] rotate = jsonObject.get("rotate").getAsString().split(",");
+            this.rotate = new float[] {Float.parseFloat(rotate[0].trim()), Float.parseFloat(rotate[1].trim()), Float.parseFloat(rotate[2].trim())};
         }
     }
 }

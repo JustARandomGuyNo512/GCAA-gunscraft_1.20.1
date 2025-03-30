@@ -1,11 +1,11 @@
 package sheridan.gcaa.client.animation.recoilAnimation;
 
 import com.google.gson.JsonObject;
-import sheridan.gcaa.data.IDataPacketGen;
+import sheridan.gcaa.data.IJsonSyncable;
 
 import java.util.*;
 
-public class MassDampingSpring implements IDataPacketGen {
+public class MassDampingSpring implements IJsonSyncable {
     static Set<String> names;
     protected String name = "A1";
     public Param mass;          // 质量

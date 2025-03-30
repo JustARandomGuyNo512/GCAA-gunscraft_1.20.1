@@ -6,12 +6,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
-import sheridan.gcaa.data.IDataPacketGen;
+import sheridan.gcaa.data.IJsonSyncable;
 import sheridan.gcaa.items.gun.calibers.Caliber;
 
 import java.util.*;
 
-public class GunProperties implements IDataPacketGen {
+public class GunProperties implements IJsonSyncable {
     public static final String ADS_SPEED = "ads_speed";
     public static final String MIN_SPREAD = "min_spread";
     public static final String MAX_SPREAD = "max_spread";

@@ -10,26 +10,36 @@ import sheridan.gcaa.client.render.fx.muzzleSmoke.CommonMuzzleSmokeEffects;
 import sheridan.gcaa.client.render.fx.muzzleSmoke.MuzzleSmoke;
 import sheridan.gcaa.client.render.fx.muzzleSmoke.MuzzleSmokeRenderer;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public class MuzzleFlash {
+    static final Map<String, MuzzleFlash> REGISTRY = new HashMap<>();
     private static final Random RANDOM = new Random();
     private final List<MuzzleFlashTexture> textures;
     private boolean randomRotate;
     private float rotation;
     private int rotateSeed;
     private MuzzleSmoke muzzleSmoke = CommonMuzzleSmokeEffects.COMMON;
+    public String name;
 
 
-    public MuzzleFlash(List<MuzzleFlashTexture> textures, boolean randomRotate, int rotateSeed) {
+    public MuzzleFlash(String name, List<MuzzleFlashTexture> textures, boolean randomRotate, int rotateSeed) {
         this(textures);
         if (rotateSeed > 0) {
             this.randomRotate = randomRotate;
             this.rotateSeed = rotateSeed;
             this.rotation = (float) Math.toRadians(360f / rotateSeed);
         }
+        this.name = name;
+        REGISTRY.put(name, this);
+    }
+
+    public static MuzzleFlash get(String name) {
+        return REGISTRY.get(name);
     }
 
     /**

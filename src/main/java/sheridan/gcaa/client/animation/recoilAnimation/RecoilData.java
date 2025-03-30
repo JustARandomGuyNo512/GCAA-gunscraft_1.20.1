@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Quaternionf;
-import sheridan.gcaa.data.IDataPacketGen;
+import sheridan.gcaa.data.IJsonSyncable;
 import sheridan.gcaa.items.gun.IGun;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.DoubleSupplier;
 import java.util.regex.Pattern;
 
-public class RecoilData implements IDataPacketGen {
+public class RecoilData implements IJsonSyncable {
     private static Pattern VARIABLE_PATTEN = Pattern.compile("(\\w+\\.\\w+)");
     private static final Map<IGun, RecoilData> RECOIL_DATA_REGISTER = new HashMap<>();
     private static final Map<String, String> TRACK_VARIABLE_NAME_MAPPING = new HashMap<>();
@@ -227,7 +227,7 @@ public class RecoilData implements IDataPacketGen {
         }
     }
 
-    public static class Track implements IDataPacketGen{
+    public static class Track implements IJsonSyncable {
         public RecoilData data;
         public MassDampingSpring spring;
         public Param flag;

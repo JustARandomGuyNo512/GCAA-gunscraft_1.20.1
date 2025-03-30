@@ -2,9 +2,9 @@ package sheridan.gcaa.service.product;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import sheridan.gcaa.data.IDataPacketGen;
+import sheridan.gcaa.data.IJsonSyncable;
 
-public interface IProduct extends IDataPacketGen {
+public interface IProduct extends IJsonSyncable {
     int getPrice(ItemStack itemStack);
     int getDefaultPrice();
     Item getItem();

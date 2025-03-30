@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.data.IDataPacketGen;
+import sheridan.gcaa.data.IJsonSyncable;
 import sheridan.gcaa.items.ammunition.Ammunition;
 import sheridan.gcaa.items.ammunition.IAmmunition;
 import sheridan.gcaa.items.gun.IGun;
@@ -19,7 +19,7 @@ import sheridan.gcaa.utils.FontUtils;
 import java.util.List;
 
 
-public class Caliber implements IDataPacketGen {
+public class Caliber implements IJsonSyncable {
     public static final ResourceLocation CALIBER_762X39MM = new ResourceLocation(GCAA.MODID, "7.62x39mm");
     public static final ResourceLocation CALIBER_556X45MM = new ResourceLocation(GCAA.MODID, "5.56x45mm");
     public static final ResourceLocation CALIBER_545X39MM = new ResourceLocation(GCAA.MODID, "5.45x39mm");
