@@ -24,14 +24,16 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.joml.Vector3f;
+import sheridan.gcaa.addon.AddonHandler;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.ClientWeaponLooper;
 import sheridan.gcaa.client.ClientWeaponStatus;
-import sheridan.gcaa.client.animation.recoilAnimation.NewRecoilData;
+import sheridan.gcaa.client.animation.recoilAnimation.RecoilData;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.model.BulletShellModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
@@ -594,10 +596,11 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.MCX_SPEAR_EXP_MAG.get(), IAttachmentModel.EMPTY);
 
         //TEST!!!
-        List<Gun> allInstances = Gun.getAllInstances();
-        for (Gun gun : allInstances) {
-            NewRecoilData.register(gun, new NewRecoilData("1", "0.5", "0.25", "0.25", "0.1"));
-        }
+//        List<Gun> allInstances = Gun.getAllInstances();
+//        for (Gun gun : allInstances) {
+//            RecoilData.register(gun, new RecoilData("1", "0.5", "0.25", "0.25", "0.1"));
+//        }
+        AddonHandler.INSTANCE.handleRegisterClient();
     }
 
     public static void handleClientSound(float originalVol, float volModify, float pitch, float x, float y, float z, String soundName) {

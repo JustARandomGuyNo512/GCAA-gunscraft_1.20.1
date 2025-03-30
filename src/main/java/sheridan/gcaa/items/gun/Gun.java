@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.Commons;
+import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.*;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
@@ -62,6 +63,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     protected static final List<Gun> ALL_INSTANCES = new ArrayList<>();
     private final GunProperties gunProperties;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    public String id = GCAA.MODID;
 
     public Gun(GunProperties gunProperties) {
         super(new Properties().stacksTo(1));
@@ -69,6 +71,11 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         defaultModifiers = ArrayListMultimap.create();
         defaultModifiers.put(Attributes.ATTACK_SPEED, new EditableAttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", 0, AttributeModifier.Operation.ADDITION));
         ALL_INSTANCES.add(this);
+    }
+
+    public Gun resetId(String id) {
+        this.id = id;
+        return this;
     }
 
     public static List<Gun> getAllInstances() {
@@ -724,15 +731,17 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {
-        gunBaseInfo(stack, levelIn, tooltip, flagIn);
-        if (Clients.displayGunInfoDetails) {
-            gunDetailInfo(stack, levelIn, tooltip, flagIn);
-        } else {
-            String showDetail = Component.translatable("tooltip.gcaa.show_full_gun_info").getString();
-            showDetail = showDetail.replace("$key", KeyBinds.SHOW_FULL_GUN_INFO.getTranslatedKeyMessage().getString());
-            tooltip.add(FontUtils.helperTip(Component.literal(showDetail)));
-            tooltip.add(FontUtils.getExcellentWorse());
-        }
+        try {
+            gunBaseInfo(stack, levelIn, tooltip, flagIn);
+            if (Clients.displayGunInfoDetails) {
+                gunDetailInfo(stack, levelIn, tooltip, flagIn);
+            } else {
+                String showDetail = Component.translatable("tooltip.gcaa.show_full_gun_info").getString();
+                showDetail = showDetail.replace("$key", KeyBinds.SHOW_FULL_GUN_INFO.getTranslatedKeyMessage().getString());
+                tooltip.add(FontUtils.helperTip(Component.literal(showDetail)));
+                tooltip.add(FontUtils.getExcellentWorse());
+            }
+        } catch (Exception e) {}
     }
 
     protected void gunBaseInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {

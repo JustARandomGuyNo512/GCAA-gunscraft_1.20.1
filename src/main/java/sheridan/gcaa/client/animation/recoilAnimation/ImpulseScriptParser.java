@@ -5,7 +5,7 @@ import java.util.function.DoubleSupplier;
 
 @Deprecated
 public class ImpulseScriptParser {
-    public DoubleSupplier parse(String expression, NewRecoilData newRecoilData) {
+    public DoubleSupplier parse(String expression, RecoilData newRecoilData) {
         List<String> tokens = tokenize(expression);
         List<String> rpn = toRPN(tokens);
         return evaluateRPN(rpn, newRecoilData);
@@ -58,7 +58,7 @@ public class ImpulseScriptParser {
         return output;
     }
 
-    public DoubleSupplier evaluateRPN(List<String> rpnTokens, NewRecoilData newRecoilData) {
+    public DoubleSupplier evaluateRPN(List<String> rpnTokens, RecoilData newRecoilData) {
         System.out.println(Arrays.toString(rpnTokens.toArray()));
         Deque<Object> stack = new ArrayDeque<>();
         for (String token : rpnTokens) {
@@ -133,7 +133,7 @@ public class ImpulseScriptParser {
         return str.matches("-?\\d+(\\.\\d+)?");
     }
 
-    public DoubleSupplier getVariables(String name, NewRecoilData newRecoilData) {
+    public DoubleSupplier getVariables(String name, RecoilData newRecoilData) {
         return () -> 0;
     }
 }

@@ -151,7 +151,7 @@ public class CommonConfig {
                 
                 Creative mode use ammo.
                 创造模式消耗子弹""");
-        creativeModeUseAmmo = BUILDER.define("creative_mode_use_ammo", false);
+        creativeModeUseAmmo = BUILDER.define("creative_mode_use_ammo", true);
         SPEC = BUILDER.build();
     }
 }

@@ -10,7 +10,7 @@ import java.util.function.DoubleSupplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /**
- * @Warn
+ * @Warning
  * 请勿在任何环境下直接调用次类，这将导致JVM泄露！！！
  * 这个工具的设计适用于加载时生成指定的有限数量的类，而不是无限生成类
  *
@@ -22,10 +22,10 @@ public class ImpulseScriptGenerator {
     static AtomicInteger counter = new AtomicInteger(0);
     static Map<String, Class<?>> classesCache = new WeakHashMap<>();
 
-    public static DoubleSupplier createDoubleSupplier(NewRecoilData externalInstance, String script) throws Exception {
+    public static DoubleSupplier createDoubleSupplier(RecoilData externalInstance, String script) throws Exception {
         Class<?> orDefault = classesCache.getOrDefault(script, null);
         if (orDefault != null) {
-            return (DoubleSupplier) classesCache.get(script).getDeclaredConstructor(NewRecoilData.class)
+            return (DoubleSupplier) classesCache.get(script).getDeclaredConstructor(RecoilData.class)
                     .newInstance(externalInstance);
         }
         try {
@@ -33,9 +33,9 @@ public class ImpulseScriptGenerator {
             return () -> v;
         } catch (Exception ignored) {}
         String code = processScript(script, externalInstance);
-        String className = NewRecoilData.class.getName();
+        String className = RecoilData.class.getName();
         ClassPool pool = ClassPool.getDefault();
-        String classNameGen = NewRecoilData.class.getPackage().getName() + ".DynamicDoubleSupplier" + counter.getAndIncrement();
+        String classNameGen = RecoilData.class.getPackage().getName() + ".DynamicDoubleSupplier" + counter.getAndIncrement();
         CtClass cc = pool.makeClass(classNameGen);
         CtClass doubleSupplierInterface = pool.get("java.util.function.DoubleSupplier");
         cc.addInterface(doubleSupplierInterface);
@@ -55,11 +55,11 @@ public class ImpulseScriptGenerator {
         byte[] byteCode = cc.toBytecode();
         Class<?> clazz = MethodHandles.lookup()
                 .defineClass(byteCode);
-        return (DoubleSupplier) clazz.getDeclaredConstructor(NewRecoilData.class)
+        return (DoubleSupplier) clazz.getDeclaredConstructor(RecoilData.class)
                 .newInstance(externalInstance);
     }
 
-    public static String processScript(String expression, NewRecoilData externalInstance) {
+    public static String processScript(String expression, RecoilData externalInstance) {
         Matcher matcher = pattern.matcher(expression);
         StringBuilder result = new StringBuilder();
         while (matcher.find()) {
@@ -81,5 +81,5 @@ public class ImpulseScriptGenerator {
 //    byte[] byteCode = cc.toBytecode();
 //        loader.addClass(classNameGen, byteCode);
 //                Class<?> clazz = loader.loadClass(classNameGen);
-//        return (DoubleSupplier) clazz.getDeclaredConstructor(NewRecoilData.class)
+//        return (DoubleSupplier) clazz.getDeclaredConstructor(RecoilData.class)
 //        .newInstance(externalInstance);

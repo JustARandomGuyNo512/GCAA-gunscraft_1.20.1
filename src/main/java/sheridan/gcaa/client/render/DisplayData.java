@@ -1,5 +1,7 @@
 package sheridan.gcaa.client.render;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
@@ -13,14 +15,15 @@ import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.client.render.fx.bulletShell.BulletShellDisplayData;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlash;
 import sheridan.gcaa.client.render.fx.muzzleFlash.MuzzleFlashDisplayData;
+import sheridan.gcaa.data.IDataPacketGen;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-@OnlyIn(Dist.CLIENT)
-public class DisplayData {
+public class DisplayData implements IDataPacketGen {
+
     public enum DataType {
         POS, ROT, SCALE
     }
@@ -32,14 +35,32 @@ public class DisplayData {
             FRAME = 3,
             GUI = 4,
             AIMING = 5,
-            ATTACHMENT_SCREEN = 6;
-    private final float[][] transforms = new float[][]{{0, 0, 0, 0, 0, 0, 1, 1, 1}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {}, {}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 0, 1, 1, 1}};
-    private final boolean[][] emptyMarks = new boolean[][]{{}, {}, {}, {}, {}, {}, {}, {}};
+            ATTACHMENT_SCREEN = 6,
+            SPRINTING = 7;
+    private final float[][] transforms = new float[][]{
+            {0, 0, 0, 0, 0, 0, 1, 1, 1},
+            {},
+            {0, 0, 0, 0, 0, 0, 1, 1, 1},
+            {},
+            {},
+            {0, 0, 0, 0, 0, 0, 1, 1, 1},
+            {0, 0, 0, 0, 0, 0, 1, 1, 1},
+            {0, 0, 0, 0, 0, 0, 1, 1, 1}};
+    private final boolean[][] emptyMarks = new boolean[][]{
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}};
     private final Map<String, MuzzleFlashEntry> muzzleFlashMap = new HashMap<>();
     private InertialRecoilData inertialRecoilData;
     private BulletShellDisplayData bulletShellDisplayData;
 
     public DisplayData() {}
+
 
     public void applyTransform(ItemDisplayContext displayContext, PoseStack poseStack) {
         switch (displayContext) {
@@ -200,9 +221,9 @@ public class DisplayData {
     }
 
     public DisplayData setSprintingTrans(float x, float y, float z, float rx, float ry, float rz) {
-        emptyMarks[7] = emptyMarks[7].length == 0 ? new boolean[] {false, false, false} : emptyMarks[7];
-        setData(transforms[7], x, y, z, DataType.POS, emptyMarks[7]);
-        setData(transforms[7], rx, ry, rz, DataType.ROT, emptyMarks[7]);
+        emptyMarks[SPRINTING] = emptyMarks[SPRINTING].length == 0 ? new boolean[] {false, false, false} : emptyMarks[SPRINTING];
+        setData(transforms[SPRINTING], x, y, z, DataType.POS, emptyMarks[SPRINTING]);
+        setData(transforms[SPRINTING], rx, ry, rz, DataType.ROT, emptyMarks[SPRINTING]);
         return this;
     }
 
@@ -333,6 +354,48 @@ public class DisplayData {
         public MuzzleFlashEntry(MuzzleFlashDisplayData displayData, MuzzleFlash muzzleFlash) {
             this.displayData = displayData;
             this.muzzleFlash = muzzleFlash;
+        }
+    }
+
+    @Override
+    public void writeData(JsonObject jsonObject) {
+        for (int i = 0; i < transforms.length; i ++) {
+            JsonObject transData = new JsonObject();
+            float[] transform = transforms[i];
+            boolean[] emptyMark = emptyMarks[i];
+            JsonArray trans = new JsonArray();
+            JsonArray marks = new JsonArray();
+            for (float v : transform) {
+                trans.add(v);
+            }
+            for (boolean b : emptyMark) {
+                marks.add(b);
+            }
+            transData.add("transform", trans);
+            transData.add("emptyMark", marks);
+            jsonObject.add("" + i, transData);
+        }
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+        for (int i = 0; i < transforms.length; i ++) {
+            if (!jsonObject.has("" + i)) {
+                continue;
+            }
+            JsonObject transData = jsonObject.get("" + i).getAsJsonObject();
+            JsonArray trans = transData.get("transform").getAsJsonArray();
+            JsonArray marks = transData.get("emptyMark").getAsJsonArray();
+            float[] transform = new float[trans.size()];
+            boolean[] emptyMark = new boolean[marks.size()];
+            for (int j = 0; j < 9; j ++) {
+                transform[j] = trans.get(j).getAsFloat();
+            }
+            for (int j = 0; j < 3; j ++) {
+                emptyMark[j] = marks.get(j).getAsBoolean();
+            }
+            transforms[i] = transform;
+            emptyMarks[i] = emptyMark;
         }
     }
 }

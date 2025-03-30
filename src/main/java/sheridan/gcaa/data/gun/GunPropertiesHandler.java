@@ -41,7 +41,7 @@ public class GunPropertiesHandler extends SimplePreparableReloadListener<Map<Str
             String fileName = gun.getDescriptionId().split("\\.")[2];
             String forgeKey = String.valueOf(ForgeRegistries.ITEMS.getKey(gun));
             String name = "gun_properties/" + fileName + ".json";
-            ResourceLocation location = new ResourceLocation(GCAA.MODID, name);
+            ResourceLocation location = new ResourceLocation(gun.id, name);
             pResourceManager.getResource(location).ifPresent(res -> {
                 try {
                     try (BufferedReader reader = new BufferedReader(new InputStreamReader(res.open(), StandardCharsets.UTF_8))) {

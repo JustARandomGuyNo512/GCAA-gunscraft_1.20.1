@@ -34,7 +34,7 @@ import java.util.function.Supplier;
 public class RecoilModifyScreen extends Screen {
     static int warningTick = 0;
     static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    public NewRecoilData newRecoilData;
+    public RecoilData newRecoilData;
     public IGun gun;
     public ItemStack itemStack;
     public Map<String, List<TrackBox>> trackMap = new HashMap<>();
@@ -112,7 +112,7 @@ public class RecoilModifyScreen extends Screen {
         if (this.minecraft != null && this.minecraft.player != null) {
             ItemStack mainHandItem = this.minecraft.player.getMainHandItem();
             if (mainHandItem.getItem() instanceof IGun gun) {
-                this.newRecoilData = NewRecoilData.get(gun);
+                this.newRecoilData = RecoilData.get(gun);
                 this.itemStack = mainHandItem;
             }
         }
@@ -252,7 +252,7 @@ public class RecoilModifyScreen extends Screen {
         shake.setValue(newRecoilData.shake.strVal());
         xRotCenter.setValue(newRecoilData.xRotCenter.strVal());
         yRotCenter.setValue(newRecoilData.yRotCenter.strVal());
-        for (NewRecoilData.Track track : newRecoilData.ALL) {
+        for (RecoilData.Track track : newRecoilData.ALL) {
             if (track.spring != null) {
                 springPool.put(track.spring.name(), (MassDampingSpring) track.spring.copy());
             }
@@ -288,27 +288,27 @@ public class RecoilModifyScreen extends Screen {
     }
 
     private void initTrackMap(GridLayout.RowHelper rowHelper) {
-        trackMap.put(NewRecoilData.TRANS_X, List.of(
+        trackMap.put(RecoilData.TRANS_X, List.of(
                 new TrackBox(40, 30, 25, 12, Component.literal(""), newRecoilData.ALL[0]).toolTip("X1"),
                 new TrackBox(70, 30, 25, 12, Component.literal(""), newRecoilData.ALL[1]).toolTip("X2"),
                 new TrackBox(100, 30, 25, 12, Component.literal(""), newRecoilData.ALL[2]).toolTip("X3")));
-        trackMap.put(NewRecoilData.TRANS_Y, List.of(
+        trackMap.put(RecoilData.TRANS_Y, List.of(
                 new TrackBox(40, 45, 25, 12, Component.literal(""), newRecoilData.ALL[3]).toolTip("Y1"),
                 new TrackBox(70, 45, 25, 12, Component.literal(""), newRecoilData.ALL[4]).toolTip("Y2"),
                 new TrackBox(100, 45, 25, 12, Component.literal(""), newRecoilData.ALL[5]).toolTip("Y3")));
-        trackMap.put(NewRecoilData.TRANS_Z, List.of(
+        trackMap.put(RecoilData.TRANS_Z, List.of(
                 new TrackBox(40, 60, 25, 12, Component.literal(""), newRecoilData.ALL[6]).toolTip("Z1"),
                 new TrackBox(70, 60, 25, 12, Component.literal(""), newRecoilData.ALL[7]).toolTip("Z1"),
                 new TrackBox(100, 60, 25, 12, Component.literal(""), newRecoilData.ALL[8]).toolTip("Z1")));
-        trackMap.put(NewRecoilData.ROT_X, List.of(
+        trackMap.put(RecoilData.ROT_X, List.of(
                 new TrackBox(40, 75, 25, 12, Component.literal(""), newRecoilData.ALL[9]).toolTip("RX1"),
                 new TrackBox(70, 75, 25, 12, Component.literal(""), newRecoilData.ALL[10]).toolTip("RX1"),
                 new TrackBox(100, 75, 25, 12, Component.literal(""), newRecoilData.ALL[11]).toolTip("RX1")));
-        trackMap.put(NewRecoilData.ROT_Y, List.of(
+        trackMap.put(RecoilData.ROT_Y, List.of(
                 new TrackBox(40, 90, 25, 12, Component.literal(""), newRecoilData.ALL[12]).toolTip("RY1"),
                 new TrackBox(70, 90, 25, 12, Component.literal(""), newRecoilData.ALL[13]).toolTip("RY1"),
                 new TrackBox(100, 90, 25, 12, Component.literal(""), newRecoilData.ALL[14]).toolTip("RY1")));
-        trackMap.put(NewRecoilData.ROT_Z, List.of(
+        trackMap.put(RecoilData.ROT_Z, List.of(
                 new TrackBox(40, 105, 25, 12, Component.literal(""), newRecoilData.ALL[15]).toolTip("RZ1"),
                 new TrackBox(70, 105, 25, 12, Component.literal(""), newRecoilData.ALL[16]).toolTip("RZ1"),
                 new TrackBox(100, 105, 25, 12, Component.literal(""), newRecoilData.ALL[17]).toolTip("RZ1")));
@@ -468,7 +468,7 @@ public class RecoilModifyScreen extends Screen {
                 clampedSpring.lowerLimit.setValue(lowerLimit.getValue().trim());
             } catch (Exception e) {e.printStackTrace();}
         }
-        for (NewRecoilData.Track track : newRecoilData.ALL) {
+        for (RecoilData.Track track : newRecoilData.ALL) {
             if (track.spring != null && track.spring.name().equals(onModifySpring.name())) {
                 track.spring = (MassDampingSpring) onModifySpring.copy();
             }
@@ -499,7 +499,7 @@ public class RecoilModifyScreen extends Screen {
             onModifySpring = massDampingSpringSupplier.get();
             onModifySpring.setName(selectedSpringBtnName);
             springPool.put(selectedSpringBtnName, onModifySpring);
-            for (NewRecoilData.Track track : newRecoilData.ALL) {
+            for (RecoilData.Track track : newRecoilData.ALL) {
                 if (track.spring != null && track.spring.name().equals(selectedSpringBtnName)) {
                     track.spring = (MassDampingSpring) onModifySpring.copy();
                 }
@@ -630,7 +630,7 @@ public class RecoilModifyScreen extends Screen {
 
     private void updateFunctionsTooltip() {
         MutableComponent literal = Component.literal("All usable Functions:\n");
-        Set<String> strings = NewRecoilData.GLOBAL_VARIABLES.keySet();
+        Set<String> strings = RecoilData.GLOBAL_VARIABLES.keySet();
         List<String> strList = new ArrayList<>(strings);
         int i = 0;
         for (String str : strList) {
@@ -659,7 +659,7 @@ public class RecoilModifyScreen extends Screen {
 
     private void updateFunctionsTip() {
         MutableComponent literal = Component.literal("All named Variables:\n");
-        Set<String> strings = NewRecoilData.GLOBAL_VARIABLES.keySet();
+        Set<String> strings = RecoilData.GLOBAL_VARIABLES.keySet();
         int i = 0;
         for (String s : strings) {
             i ++;
@@ -725,8 +725,8 @@ public class RecoilModifyScreen extends Screen {
 
     private class TrackBox extends EditBox {
         static List<TrackBox> allInstances = new ArrayList<>();
-        public NewRecoilData.Track track;
-        public TrackBox(int pX, int pY, int pWidth, int pHeight, Component pMessage, NewRecoilData.Track track)  {
+        public RecoilData.Track track;
+        public TrackBox(int pX, int pY, int pWidth, int pHeight, Component pMessage, RecoilData.Track track)  {
             super(Minecraft.getInstance().font, pX, pY, pWidth, pHeight, pMessage);
             this.setMaxLength(2);
             this.track = track;

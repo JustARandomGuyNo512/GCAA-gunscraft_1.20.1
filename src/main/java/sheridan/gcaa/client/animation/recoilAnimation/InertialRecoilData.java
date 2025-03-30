@@ -1,8 +1,12 @@
 package sheridan.gcaa.client.animation.recoilAnimation;
 
+import com.google.gson.JsonObject;
+import sheridan.gcaa.data.IDataPacketGen;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class InertialRecoilData {
+@Deprecated
+public class InertialRecoilData implements IDataPacketGen {
     private static final AtomicInteger TEMP_ID = new AtomicInteger(0);
     public float up;
     public float upDec;
@@ -75,4 +79,13 @@ public class InertialRecoilData {
         return canMix;
     }
 
+    @Override
+    public void writeData(JsonObject jsonObject) {
+
+    }
+
+    @Override
+    public void loadData(JsonObject jsonObject) {
+
+    }
 }

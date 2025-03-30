@@ -29,8 +29,15 @@ import sheridan.gcaa.items.attachments.stock.CTRStock;
 import sheridan.gcaa.items.attachments.stock.UBRStock;
 import sheridan.gcaa.items.gun.guns.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, GCAA.MODID);
+    public static final Map<String, DeferredRegister<Item>> ADDON_ITEMS = new HashMap();
+    //public static final DeferredRegister<Item> ITEMS2 = DeferredRegister.create(ForgeRegistries.ITEMS, "sbg");
 
     public static final RegistryObject<Ammo9x19mm> AMMO_9X19MM = ITEMS.register("ammo9x19mm", Ammo9x19mm::new);
     public static final RegistryObject<Ammo556x45mm> AMMO_5_56X45MM = ITEMS.register("ammo5_56x45mm", Ammo556x45mm::new);

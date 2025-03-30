@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.screens;
 
+import com.google.gson.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -18,6 +19,8 @@ import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.gun.IGun;
 
+import java.lang.reflect.Type;
+
 @OnlyIn(Dist.CLIENT)
 public class GunDebugAdjustScreen extends Screen {
     private boolean originalInit = false;
@@ -26,6 +29,11 @@ public class GunDebugAdjustScreen extends Screen {
     private int operationIndex = 0;
     private int viewIndex = 0;
     private EditBox editBox;
+    static Gson GSON = new GsonBuilder()
+            //.registerTypeAdapter(JsonArray.class, new JsonArraySerializer())
+            .disableHtmlEscaping()
+            .setPrettyPrinting()
+            .create();
     private float p;
     private static final String[] viewModeNames = {"FirstPersonMain", "ThirdPersonRight", "Ground","Frame", "GUI", "Aiming", "AttachmentScreen", "Sprinting"};
     public GunDebugAdjustScreen() {
@@ -80,6 +88,15 @@ public class GunDebugAdjustScreen extends Screen {
             rowHelper.addChild(Button.builder(Component.literal("p" + i + "-"), (p_280814_) -> dec(finalI)).width(30).pos(90, 45 + 20 * i).build());
             rowHelper.addChild(Button.builder(Component.literal("reset"), (p_280814_) -> resetData(finalI)).width(35).pos(130, 45 + 20 * i).build());
         }
+        rowHelper.addChild(Button.builder(Component.literal("copy"), (p_280814_) -> {
+            if (displayData != null) {
+                JsonObject jsonObject = new JsonObject();
+                displayData.writeData(jsonObject);
+                String s = GSON.toJson(jsonObject);
+                Minecraft.getInstance().keyboardHandler.setClipboard(s);
+                System.out.println(s);
+            }
+        }).width(100).pos(155, 180).build());
     }
 
     private void printToConsole() {
@@ -154,5 +171,27 @@ public class GunDebugAdjustScreen extends Screen {
         }
     }
 
-
+//    static class JsonArraySerializer implements JsonSerializer<JsonArray> {
+//        @Override
+//        public JsonElement serialize(JsonArray src, Type typeOfSrc, JsonSerializationContext context) {
+//            System.out.println("serialize");
+//            StringBuilder sb = new StringBuilder();
+//            sb.append("[");
+//            for (int i = 0; i < src.size(); i++) {
+//                JsonElement element = src.get(i);
+//                if (!(element.isJsonObject())) {
+//                    System.out.println("element is not JsonObject");
+//                    sb.append(element.toString());
+//                } else {
+//                    System.out.println("element is JsonObject");
+//                    sb.append("\n  ").append(element.toString());
+//                }
+//                if (i < src.size() - 1) {
+//                    sb.append(",");
+//                }
+//            }
+//            sb.append("]");
+//            return JsonParser.parseString(sb.toString());
+//        }
+//    }
 }

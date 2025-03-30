@@ -9,7 +9,7 @@ import sheridan.gcaa.items.gun.IGun;
 @OnlyIn(Dist.CLIENT)
 public class SpringRecoilHandler {
     public static final SpringRecoilHandler INSTANCE = new SpringRecoilHandler();
-    private static NewRecoilData recoilData;
+    private static RecoilData recoilData;
 
 
     public void apply(PoseStack poseStack) {
@@ -20,7 +20,7 @@ public class SpringRecoilHandler {
 
     public void onShoot(IGun gun, ItemStack itemStack, float pControl, float yControl,
                         float pRate, float yRate, float directionX, float directionY) {
-        NewRecoilData newRecoilData = NewRecoilData.get(gun);
+        RecoilData newRecoilData = RecoilData.get(gun);
         if (newRecoilData != null) {
             newRecoilData.onShoot(itemStack, gun, pControl, yControl, pRate, yRate, directionX, directionY);
             recoilData = newRecoilData;

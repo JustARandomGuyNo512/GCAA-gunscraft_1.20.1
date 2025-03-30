@@ -14,12 +14,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.DoubleSupplier;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NewRecoilData implements IDataPacketGen {
+public class RecoilData implements IDataPacketGen {
     private static Pattern VARIABLE_PATTEN = Pattern.compile("(\\w+\\.\\w+)");
-    private static final Map<IGun, NewRecoilData> RECOIL_DATA_REGISTER = new HashMap<>();
+    private static final Map<IGun, RecoilData> RECOIL_DATA_REGISTER = new HashMap<>();
     private static final Map<String, String> TRACK_VARIABLE_NAME_MAPPING = new HashMap<>();
     public static final String TRANS_X = "X", TRANS_Y = "Y", TRANS_Z = "Z", ROT_X = "RX", ROT_Y = "RY", ROT_Z = "RZ";
     public static final String BACK = "Back", UP_ROT = "UpRot", RANDOM_X = "RandomX", RANDOM_Y = "RandomY", SHAKE = "Shake",
@@ -38,11 +37,11 @@ public class NewRecoilData implements IDataPacketGen {
     private String lastIdentity;
     public float pitchControl, yawControl, pRate, yRate, random, directionX, directionY, shakeVal;
 
-    public NewRecoilData(String back, String upRot, String randomX, String randomY, String shake)  {
+    public RecoilData(String back, String upRot, String randomX, String randomY, String shake)  {
         this(back, upRot, randomX, randomY, shake, "0", "0");
     }
 
-    public NewRecoilData(String back, String upRot, String randomX, String randomY, String shake, String xRotCenter, String yRotCenter)  {
+    public RecoilData(String back, String upRot, String randomX, String randomY, String shake, String xRotCenter, String yRotCenter)  {
         this.back = Param.of(back);
         this.upRot = Param.of(upRot);
         this.randomX = Param.of(randomX);
@@ -150,11 +149,11 @@ public class NewRecoilData implements IDataPacketGen {
         }
     }
 
-    public static NewRecoilData get(IGun gun) {
+    public static RecoilData get(IGun gun) {
         return RECOIL_DATA_REGISTER.get(gun);
     }
 
-    public NewRecoilData setTrack(int index, Track track) throws Exception {
+    public RecoilData setTrack(int index, Track track) throws Exception {
         ALL[index] = track;
         track.data = this;
         try {
@@ -166,7 +165,7 @@ public class NewRecoilData implements IDataPacketGen {
         return this;
     }
 
-    public static void register(IGun gun, NewRecoilData recoilData) {
+    public static void register(IGun gun, RecoilData recoilData) {
         RECOIL_DATA_REGISTER.put(gun, recoilData);
     }
 
@@ -229,13 +228,13 @@ public class NewRecoilData implements IDataPacketGen {
     }
 
     public static class Track implements IDataPacketGen{
-        public NewRecoilData data;
+        public RecoilData data;
         public MassDampingSpring spring;
         public Param flag;
         public DoubleSupplier valueSupplier;
         public String rawScript;
 
-        Track(MassDampingSpring spring, String flag, String rawScript, NewRecoilData data) {
+        Track(MassDampingSpring spring, String flag, String rawScript, RecoilData data) {
             this.spring = spring;
             this.flag = Param.of(flag);
             this.data = data;
@@ -287,7 +286,7 @@ public class NewRecoilData implements IDataPacketGen {
             valueSupplier = ImpulseScriptGenerator.createDoubleSupplier(data, rawScript);
         }
 
-        public static Track empty(NewRecoilData data) {
+        public static Track empty(RecoilData data) {
             return new Track(null, "1", null, data);
         }
 

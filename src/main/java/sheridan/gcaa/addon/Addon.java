@@ -31,37 +31,60 @@ import java.util.function.Supplier;
 
 public class Addon {
     private static final Gson GSON = new Gson();
-    public final String name;
+    public final String name, prefix;
     public List<Supplier<Item>> guns;
-    public Path path;
+    public Path rootPath;
+    public Path assetsPath;
     public boolean completed = false;
+    public Map<Supplier<Item>, JsonObject> configMapping = new HashMap<>();
 
-    protected Addon(String name, Path path) {
+
+    protected Addon(String name, String prefix, Path path) {
         this.name = name;
-        this.path = path;
+        this.rootPath = path;
+        this.assetsPath = path.resolve("assets/" + prefix);
+        this.prefix = prefix;
         this.guns = new ArrayList<>();
     }
 
     public static Addon read(Path p) {
         String name = p.getFileName().toString();
-        Addon addon = new Addon(name, p);
-        Path guns = p.resolve("assets/gcaa/guns/guns.json");
+        String prefix;
+        if (Files.exists(p.resolve("pack.mcmeta"))) {
+            try (BufferedReader reader = Files.newBufferedReader(p.resolve("pack.mcmeta")))  {
+                JsonObject object = GsonHelper.fromJson(GSON, reader, JsonObject.class);
+                prefix = object.get("pack").getAsJsonObject().get("registry_id").getAsString();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+        Addon addon = new Addon(name, prefix, p);
+        Path guns = p.resolve("assets/" + prefix + "/guns/guns.json");
         if (Files.exists(guns)) {
             try (BufferedReader reader = Files.newBufferedReader(guns))  {
                 JsonObject object = GsonHelper.fromJson(GSON, reader, JsonObject.class);
+                if (!ModItems.ADDON_ITEMS.containsKey(addon.prefix)) {
+                    ModItems.ADDON_ITEMS.put(addon.prefix, DeferredRegister.create(ForgeRegistries.ITEMS, addon.prefix));
+                }
+                DeferredRegister<Item> itemDeferredRegister = ModItems.ADDON_ITEMS.get(addon.prefix);
                 for (String gunName : object.keySet()) {
-                    if (hasRegistry(ModItems.ITEMS, gunName)) {
-                        GCAA.LOGGER.info("Gun Name" + gunName + " already registered, skipping");
+                    if (hasRegistry(itemDeferredRegister, addon.prefix, gunName)) {
+                        GCAA.LOGGER.info("Gun Name: '" + gunName + "' already registered, skipping");
                         continue;
                     }
                     JsonObject gun = object.getAsJsonObject(gunName);
-                    RegistryObject<BaseItem> gunRegistryObject = ModItems.ITEMS.register(gunName,
-                            () -> GunFactory.create(gunName, gun));
+                    RegistryObject<BaseItem> gunRegistryObject = itemDeferredRegister.register(gunName,
+                            () -> GunFactory.create(gunName, addon.prefix, gun));
                     if (gunRegistryObject == null) {
                         GCAA.LOGGER.error("Failed to create gun " + gunName);
                         continue;
                     }
-                    addon.guns.add(gunRegistryObject::get);
+                    Supplier<Item> gunSupplier = gunRegistryObject::get;
+                    addon.guns.add(gunSupplier);
+                    addon.configMapping.put(gunSupplier, gun);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -77,9 +100,9 @@ public class Addon {
         return null;
     }
 
-    private static boolean hasRegistry(DeferredRegister<Item> items, String key) {
+    private static boolean hasRegistry(DeferredRegister<Item> items, String id, String key) {
         Collection<RegistryObject<Item>> itemEntries = items.getEntries();
-        return itemEntries.contains(RegistryObject.create(new ResourceLocation(GCAA.MODID, key), ForgeRegistries.ITEMS));
+        return itemEntries.contains(RegistryObject.create(new ResourceLocation(id, key), ForgeRegistries.ITEMS));
     }
 
     public static class GunFactory {
@@ -124,14 +147,14 @@ public class Addon {
             FACTORIES.put("PISTOL", FACTORIES.get("RIFLE"));
         }
 
-        public static Gun create(String name, JsonObject gun) {
+        public static Gun create(String name, String id, JsonObject gun) {
             try {
                 String type = gun.get("type").getAsString();
                 gunGetter getter = FACTORIES.getOrDefault(type, null);
                 if (getter == null) {
                     throw new RuntimeException("Gun type " + type + " is not registered");
                 }
-                return getter.get(gun);
+                return getter.get(gun).resetId(id);
             } catch (Exception e) {
                 GCAA.LOGGER.info("Failed to create gun " + name + " due to: " + e.getMessage());
                 e.printStackTrace();

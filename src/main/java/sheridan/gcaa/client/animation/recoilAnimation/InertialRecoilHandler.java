@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 
+@Deprecated
 @OnlyIn(Dist.CLIENT)
 public class InertialRecoilHandler {
     private final ReentrantLock lock = new ReentrantLock();

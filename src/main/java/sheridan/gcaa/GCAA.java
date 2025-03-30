@@ -8,6 +8,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -27,6 +28,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.registries.DeferredRegister;
 import org.slf4j.Logger;
 import sheridan.gcaa.addon.AddonHandler;
 import sheridan.gcaa.blocks.ModBlocks;
@@ -80,6 +82,9 @@ public class GCAA {
         AddonHandler.INSTANCE.handleRegister(FMLLoader.getDist());
 
         ModItems.ITEMS.register(modEventBus);
+        for (DeferredRegister<Item> items : ModItems.ADDON_ITEMS.values()) {
+            items.register(modEventBus);
+        }
         ModBlocks.BLOCKS.register(modEventBus);
         ModTabs.MOD_TABS.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
