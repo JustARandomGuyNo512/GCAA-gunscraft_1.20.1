@@ -367,14 +367,6 @@ public class DisplayData implements IJsonSyncable {
             JsonObject transData = new JsonObject();
             float[] transform = transforms[i];
             boolean[] emptyMark = emptyMarks[i];
-//            JsonArray trans = new JsonArray();
-//            JsonArray marks = new JsonArray();
-//            for (float v : transform) {
-//                trans.add(v);
-//            }
-//            for (boolean b : emptyMark) {
-//                marks.add(b);
-//            }
             String trans = transform[0] + ", " + transform[1] + ", " + transform[2] + ", " + transform[3] + ", " + transform[4] + ", " + transform[5] + ", " + transform[6] + ", " + transform[7] + ", " + transform[8];
             String marks = emptyMark[0] + ", " + emptyMark[1] + ", " + emptyMark[2];
             transData.addProperty("transform", trans);
@@ -404,6 +396,11 @@ public class DisplayData implements IJsonSyncable {
         bulletShell.addProperty("type", bulletShellDisplayData.type);
         bulletShell.addProperty("maxDisplayTime", bulletShellDisplayData.maxDisplayTime);
         jsonObject.add("bulletShell", bulletShell);
+        if (this.inertialRecoilData != null) {
+            JsonObject recoilData = new JsonObject();
+            this.inertialRecoilData.writeData(recoilData);
+            jsonObject.add("recoilData", recoilData);
+        }
     }
 
     @Override
@@ -454,5 +451,12 @@ public class DisplayData implements IJsonSyncable {
                 .setRotateSpeed(bulletShell.get("rotateSpeed").getAsFloat())
                 .setMaxDisplayTime(bulletShell.get("maxDisplayTime").getAsInt())
                 .setScale(scale[0], scale[1], scale[2]));
+        if (jsonObject.has("recoilData")) {
+            JsonObject recoilData = jsonObject.get("recoilData").getAsJsonObject();
+            if (this.inertialRecoilData == null) {
+                this.inertialRecoilData = new InertialRecoilData();
+            }
+            this.inertialRecoilData.loadData(recoilData);
+        }
     }
 }

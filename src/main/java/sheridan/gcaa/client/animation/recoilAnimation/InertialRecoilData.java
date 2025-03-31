@@ -75,6 +75,10 @@ public class InertialRecoilData implements IJsonSyncable {
         this.canMix = true;
     }
 
+    public InertialRecoilData() {
+        this.id = TEMP_ID.getAndIncrement();
+    }
+
     public boolean isCanMix() {
         return canMix;
     }
@@ -92,7 +96,6 @@ public class InertialRecoilData implements IJsonSyncable {
         jsonObject.addProperty("aimingRotateScale", aimingRotateScale);
         jsonObject.addProperty("randomX", randomX);
         jsonObject.addProperty("randomY", randomY);
-        jsonObject.addProperty("id", id);
         jsonObject.addProperty("randomXChangeRate", randomXChangeRate);
         jsonObject.addProperty("randomYChangeRate", randomYChangeRate);
         jsonObject.addProperty("canMix", canMix);
@@ -111,7 +114,6 @@ public class InertialRecoilData implements IJsonSyncable {
         aimingRotateScale = jsonObject.get("aimingRotateScale").getAsFloat();
         randomX = jsonObject.get("randomX").getAsFloat();
         randomY = jsonObject.get("randomY").getAsFloat();
-        id = jsonObject.get("id").getAsInt();
         randomXChangeRate = jsonObject.get("randomXChangeRate").getAsFloat();
         randomYChangeRate = jsonObject.get("randomYChangeRate").getAsFloat();
         canMix = jsonObject.get("canMix").getAsBoolean();
