@@ -121,6 +121,9 @@ public class AddonHandler {
         for (Map.Entry<String, Addon> entry : addonMap.entrySet()) {
             String addonName  = entry.getKey();
             Addon addon = entry.getValue();
+            for (Runnable runnable : addon.soundRegistry) {
+                runnable.run();
+            }
             ModTabs.MOD_TABS.register(addonName, () -> CreativeModeTab.builder().title(Component.translatable("itemGroup." + addonName))
                     .icon(() -> addon.guns.isEmpty() ?
                             new ItemStack(ModItems.G19.get()) :

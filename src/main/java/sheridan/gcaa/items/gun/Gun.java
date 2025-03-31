@@ -217,13 +217,15 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         int ammoLeft = getAmmoLeft(stack);
         if (ammoLeft > 0) {
             Caliber caliber = gunProperties.caliber;
-            if (!player.level().isClientSide) {
-                caliber.fireBullet(null, null, this, player, stack, spread);
-                handleFireSoundServer(stack, player);
-            }
             boolean notUseAmmo = player.isCreative() && !CommonConfig.creativeModeUseAmmo.get();
             if (!notUseAmmo) {
                 setAmmoLeft(stack, ammoLeft - 1);
+            }
+            if (!player.level().isClientSide) {
+                caliber.fireBullet(null, null, this, player, stack, spread);
+                try {
+                    handleFireSoundServer(stack, player);
+                } catch (Exception ignored) {}
             }
         }
     }

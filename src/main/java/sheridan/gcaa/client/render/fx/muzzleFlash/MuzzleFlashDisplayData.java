@@ -77,7 +77,7 @@ public class MuzzleFlashDisplayData  implements IJsonSyncable {
     public void writeData(JsonObject jsonObject) {
         jsonObject.addProperty("length", length);
         if (translate != null) {
-            jsonObject.addProperty("translate", translate[0] + "," + translate[1] + "," + translate[2]);
+            jsonObject.addProperty("translate", translate[0] * -16 + "," + translate[1] * -16 + "," + translate[2] * 16);
         }
         jsonObject.addProperty("scale", scale[0] + "," + scale[1] + "," + scale[2]);
         if (rotate != null) {
@@ -90,7 +90,7 @@ public class MuzzleFlashDisplayData  implements IJsonSyncable {
         length = jsonObject.get("length").getAsInt();
         if (jsonObject.has("translate")) {
             String[] translate = jsonObject.get("translate").getAsString().split(",");
-            this.translate = new float[] {Float.parseFloat(translate[0]), Float.parseFloat(translate[1]), Float.parseFloat(translate[2])};
+            this.translate = new float[] {Float.parseFloat(translate[0]) / -16, Float.parseFloat(translate[1]) / -16, Float.parseFloat(translate[2]) / 16};
         }
         String[] scale = jsonObject.get("scale").getAsString().split(",");
         this.scale = new float[] {Float.parseFloat(scale[0].trim()), Float.parseFloat(scale[1].trim()), Float.parseFloat(scale[2].trim())};

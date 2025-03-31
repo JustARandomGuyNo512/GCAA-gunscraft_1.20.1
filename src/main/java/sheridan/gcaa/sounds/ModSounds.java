@@ -13,8 +13,12 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.s2c.ClientSoundPacket;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ModSounds {
     public static final DeferredRegister<SoundEvent> MOD_SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, GCAA.MODID);
+    public static final Map<String, DeferredRegister<SoundEvent>> ADDON_SOUNDS = new HashMap<>();
     public static RegistryObject<SoundEvent> AK_MAG_OFF = registerSound("ak_mag_off", "item.generic.ak_mag_off");
     public static RegistryObject<SoundEvent> AK_MAG_ATTACH = registerSound("ak_mag_attach", "item.generic.ak_mag_attach");
     public static RegistryObject<SoundEvent> AK_CHARGE = registerSound("ak_charge", "item.generic.ak_charge");
@@ -49,7 +53,6 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> AK12_MAG_OFF = registerSound("ak12_mag_off", "item.generic.ak12_mag_off");
     public static RegistryObject<SoundEvent> AK12_MAG_ATTACH = registerSound("ak12_mag_attach", "item.generic.ak12_mag_attach");
     public static RegistryObject<SoundEvent> PYTHON_357_MAG_ROTATE = registerSound("python_357_mag_rotate", "item.python_357.python_357_mag_rotate");
-
 
     public static RegistryObject<SoundEvent> MG_UNLOAD = registerSound("mg_unload", "item.generic.mg_unload");
     public static RegistryObject<SoundEvent> PISTOL_UNLOAD = registerSound("pistol_unload", "item.generic.pistol_unload");
@@ -128,11 +131,31 @@ public class ModSounds {
             HEADSHOT_1, HEADSHOT_2, HEADSHOT_3
     };
     private static RegistryObject<SoundEvent> registerSound(String name, String path) {
-        return MOD_SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(GCAA.MODID, path)));
+        return registerSound(name, path, GCAA.MODID);
+                //MOD_SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(GCAA.MODID, path)));
     }
+
+    public static RegistryObject<SoundEvent> registerSound(String name, String path, String id) {
+        if (GCAA.MODID.equals(id)) {
+            return MOD_SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(GCAA.MODID, path)));
+        } else {
+            if (!ADDON_SOUNDS.containsKey(id)) {
+                ADDON_SOUNDS.put(id, DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, id));
+            }
+            DeferredRegister<SoundEvent> soundEventDeferredRegister = ADDON_SOUNDS.get(id);
+            return soundEventDeferredRegister.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(id, path)));
+        }
+    }
+
+//    public static RegistryObject<SoundEvent> getSoundRegistry(String name, String id) {
+//
+//    }
 
     public static void register(IEventBus bus) {
         MOD_SOUNDS.register(bus);
+        for (DeferredRegister<SoundEvent> sounds : ADDON_SOUNDS.values()) {
+            sounds.register(bus);
+        }
     }
 
     /**

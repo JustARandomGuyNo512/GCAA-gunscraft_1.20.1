@@ -386,16 +386,11 @@ public class DisplayData implements IJsonSyncable {
             muzzleFlashes.add(status, muzzleFlash);
         }
         jsonObject.add("muzzleFlashes", muzzleFlashes);
-        JsonObject bulletShell = new JsonObject();
-        bulletShell.addProperty("pos", bulletShellDisplayData.pos[0] + ", " + bulletShellDisplayData.pos[1] + ", " + bulletShellDisplayData.pos[2]);
-        bulletShell.addProperty("scale", bulletShellDisplayData.scale[0] + ", " + bulletShellDisplayData.scale[1] + ", " + bulletShellDisplayData.scale[2]);
-        bulletShell.addProperty("velocity", bulletShellDisplayData.velocity.x + ", " + bulletShellDisplayData.velocity.y + ", " + bulletShellDisplayData.velocity.z);
-        bulletShell.addProperty("randomRate", bulletShellDisplayData.randomRate);
-        bulletShell.addProperty("dropRate", bulletShellDisplayData.dropRate);
-        bulletShell.addProperty("rotateSpeed", bulletShellDisplayData.rotateSpeed);
-        bulletShell.addProperty("type", bulletShellDisplayData.type);
-        bulletShell.addProperty("maxDisplayTime", bulletShellDisplayData.maxDisplayTime);
-        jsonObject.add("bulletShell", bulletShell);
+        if (this.bulletShellDisplayData != null) {
+            JsonObject bulletShell = new JsonObject();
+            this.bulletShellDisplayData.writeData(bulletShell);
+            jsonObject.add("bulletShell", bulletShell);
+        }
         if (this.inertialRecoilData != null) {
             JsonObject recoilData = new JsonObject();
             this.inertialRecoilData.writeData(recoilData);
@@ -435,22 +430,13 @@ public class DisplayData implements IJsonSyncable {
             muzzleFlashDisplayData.loadData(display);
             muzzleFlashMap.put(status, new MuzzleFlashEntry(muzzleFlashDisplayData, muzzleFlashObject));
         }
-        JsonObject bulletShell = jsonObject.get("bulletShell").getAsJsonObject();
-        String[] posStr = bulletShell.get("pos").getAsString().split(",");
-        float[] pos = {Float.parseFloat(posStr[0].trim()), Float.parseFloat(posStr[1].trim()), Float.parseFloat(posStr[2].trim())};
-        String[] velocityStr = bulletShell.get("velocity").getAsString().split(",");
-        float[] velocity = {Float.parseFloat(velocityStr[0].trim()), Float.parseFloat(velocityStr[1].trim()), Float.parseFloat(velocityStr[2].trim())};
-        String[] scaleStr = bulletShell.get("scale").getAsString().split(",");
-        float[] scale = {Float.parseFloat(scaleStr[0].trim()), Float.parseFloat(scaleStr[1].trim()), Float.parseFloat(scaleStr[2].trim())};
-        this.setBulletShellDisplayData(new BulletShellDisplayData(
-                pos[0], pos[1], pos[2],
-                new Vector3f(velocity[0], velocity[1], velocity[2]), bulletShell.get("type").getAsString())
-                .setRandomRate(bulletShell.get("randomRate").getAsFloat())
-                .setDropRate(bulletShell.get("dropRate").getAsFloat())
-                .setRandomRate(bulletShell.get("rotateSpeed").getAsFloat())
-                .setRotateSpeed(bulletShell.get("rotateSpeed").getAsFloat())
-                .setMaxDisplayTime(bulletShell.get("maxDisplayTime").getAsInt())
-                .setScale(scale[0], scale[1], scale[2]));
+        if (jsonObject.has("bulletShell")) {
+            JsonObject bulletShell = jsonObject.get("bulletShell").getAsJsonObject();
+            if (this.bulletShellDisplayData == null) {
+                this.bulletShellDisplayData = new BulletShellDisplayData();
+            }
+            this.bulletShellDisplayData.loadData(bulletShell);
+        }
         if (jsonObject.has("recoilData")) {
             JsonObject recoilData = jsonObject.get("recoilData").getAsJsonObject();
             if (this.inertialRecoilData == null) {

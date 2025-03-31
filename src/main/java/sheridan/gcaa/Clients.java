@@ -217,13 +217,13 @@ public class Clients {
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0, 0, 0.55f,
-                                0.06f, 0.65f,  0.065f,
-                                0.5f, 0.45f,
-                                0.3f, 0.6f, 0.2f))
+                                0.06f, 0.7f,  0.07f,
+                                0.55f, 0.5f,
+                                0.3f, 0.6f, 0.3f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.4f, -99f).setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setScale(3f))
-                .setBulletShellDisplayData(new BulletShellDisplayData(2.8f, 5.2f, -24.5f, new Vector3f(3.2f, 1.5f, 0.5f), BulletShellModel.RIFLE).setRandomRate(0.35f))
+                .setBulletShellDisplayData(new BulletShellDisplayData(2.8f, 4.2f, -21f, new Vector3f(3.2f, 1.5f, 0.5f), BulletShellModel.RIFLE).setRandomRate(0.35f))
                 .setSprintingTrans(14, 9.5f, 3, 23, -52, 44)
         );
 

@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,6 +22,7 @@ import sheridan.gcaa.items.gun.calibers.Caliber;
 import sheridan.gcaa.items.gun.fireModes.Auto;
 import sheridan.gcaa.items.gun.fireModes.Burst;
 import sheridan.gcaa.items.gun.fireModes.Semi;
+import sheridan.gcaa.sounds.ModSounds;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,7 +39,8 @@ public class Addon {
     public Path assetsPath;
     public boolean completed = false;
     public Map<Supplier<Item>, JsonObject> configMapping = new HashMap<>();
-
+    public List<Runnable> soundRegistry = new ArrayList<>();
+    private final Map<String, RegistryObject<SoundEvent>> soundRegistryObjectCache = new HashMap<>();
 
     protected Addon(String name, String prefix, Path path) {
         this.name = name;
@@ -77,7 +80,7 @@ public class Addon {
                     }
                     JsonObject gun = object.getAsJsonObject(gunName);
                     RegistryObject<BaseItem> gunRegistryObject = itemDeferredRegister.register(gunName,
-                            () -> GunFactory.create(gunName, addon.prefix, gun));
+                            () -> GunFactory.create(gunName, addon.prefix, gun, addon));
                     if (gunRegistryObject == null) {
                         GCAA.LOGGER.error("Failed to create gun " + gunName);
                         continue;
@@ -89,6 +92,23 @@ public class Addon {
             } catch (IOException e) {
                 e.printStackTrace();
                 return addon;
+            }
+        }
+
+        Path sounds = p.resolve("assets/" + prefix + "/sounds.json");
+        if (Files.exists(sounds)) {
+            try (BufferedReader reader = Files.newBufferedReader(sounds))  {
+                JsonObject object = GsonHelper.fromJson(GSON, reader, JsonObject.class);
+                for (String soundName : object.keySet()) {
+                    String[] split = soundName.split("\\.");
+                    addon.soundRegistry.add(() -> {
+                        GCAA.LOGGER.info("Registering sound, name  " + split[split.length - 1] + " path " + soundName + " id " + prefix);
+                        RegistryObject<SoundEvent> soundEventRegistryObject = ModSounds.registerSound(split[split.length - 1], soundName, prefix);
+                        addon.soundRegistryObjectCache.put(soundName, soundEventRegistryObject);
+                    });
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         addon.completed = true;
@@ -109,11 +129,11 @@ public class Addon {
         private static final Map<String, gunGetter> FACTORIES = new HashMap<>();
 
         public interface gunGetter {
-            Gun get(JsonObject jsonObject);
+            Gun get(JsonObject jsonObject, Addon addon);
         }
 
         static {
-            FACTORIES.put("RIFLE", (json) -> {
+            FACTORIES.put("RIFLE", (json, addon) -> {
                 GunProperties instance = GunProperties.createInstance();
                 instance.caliber = new Caliber();
                 JsonArray fireModes = json.get("fire_modes").getAsJsonArray();
@@ -141,20 +161,25 @@ public class Addon {
                 if (value instanceof IAmmunition ammunition) {
                     instance.caliber.ammunition = ammunition;
                 }
-
+                String fireSound = json.get("fire_sound").getAsString();
+                instance.fireSound = addon.soundRegistryObjectCache.get(fireSound);
+                if (json.has("suppressed_fire_sound")) {
+                    fireSound = json.get("suppressed_fire_sound").getAsString();
+                    instance.suppressedSound = addon.soundRegistryObjectCache.get(fireSound);
+                }
                 return new Gun(instance);
             });
             FACTORIES.put("PISTOL", FACTORIES.get("RIFLE"));
         }
 
-        public static Gun create(String name, String id, JsonObject gun) {
+        public static Gun create(String name, String id, JsonObject gun, Addon addon) {
             try {
                 String type = gun.get("type").getAsString();
                 gunGetter getter = FACTORIES.getOrDefault(type, null);
                 if (getter == null) {
                     throw new RuntimeException("Gun type " + type + " is not registered");
                 }
-                return getter.get(gun).resetId(id);
+                return getter.get(gun, addon).resetId(id);
             } catch (Exception e) {
                 GCAA.LOGGER.info("Failed to create gun " + name + " due to: " + e.getMessage());
                 e.printStackTrace();

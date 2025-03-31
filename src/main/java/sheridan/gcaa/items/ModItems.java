@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, GCAA.MODID);
-    public static final Map<String, DeferredRegister<Item>> ADDON_ITEMS = new HashMap();
+    public static final Map<String, DeferredRegister<Item>> ADDON_ITEMS = new HashMap<>();
     //public static final DeferredRegister<Item> ITEMS2 = DeferredRegister.create(ForgeRegistries.ITEMS, "sbg");
 
     public static final RegistryObject<Ammo9x19mm> AMMO_9X19MM = ITEMS.register("ammo9x19mm", Ammo9x19mm::new);
