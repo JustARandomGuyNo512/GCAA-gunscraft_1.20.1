@@ -52,18 +52,23 @@ public class Addon {
 
     public static Addon read(Path p) {
         String name = p.getFileName().toString();
+        GCAA.LOGGER.info(" Start Reading addon " + name);
         String prefix;
         if (Files.exists(p.resolve("pack.mcmeta"))) {
+            GCAA.LOGGER.info("Reading addon mcmeta for " + name);
             try (BufferedReader reader = Files.newBufferedReader(p.resolve("pack.mcmeta")))  {
                 JsonObject object = GsonHelper.fromJson(GSON, reader, JsonObject.class);
                 prefix = object.get("pack").getAsJsonObject().get("registry_id").getAsString();
+                GCAA.LOGGER.info("Addon prefix is " + prefix);
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
             }
         } else {
+            GCAA.LOGGER.info("Can't find pack.mcmeta for " + name + " path " + p.resolve("pack.mcmeta") + " skipping");
             return null;
         }
+        GCAA.LOGGER.info("Addon object created for " + name + " prefix " + prefix);
         Addon addon = new Addon(name, prefix, p);
         Path guns = p.resolve("assets/" + prefix + "/guns/guns.json");
         if (Files.exists(guns)) {
