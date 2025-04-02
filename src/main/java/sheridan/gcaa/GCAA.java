@@ -21,6 +21,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -29,6 +30,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import org.slf4j.Logger;
 import sheridan.gcaa.addon.AddonHandler;
 import sheridan.gcaa.blocks.ModBlocks;
@@ -77,13 +79,16 @@ public class GCAA {
         ALLOW_DEBUG = !FMLLoader.isProduction();
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modEventBus.addListener(this::onClientSetup));
         modEventBus.addListener(this::commonSetup);
-
-        AddonHandler.INSTANCE.readAddonPack(FMLLoader.getDist());
-        AddonHandler.INSTANCE.handleRegister(FMLLoader.getDist());
-
+        boolean notRunData = isNotRunData();
+        if (notRunData) {
+            AddonHandler.INSTANCE.readAddonPack(FMLLoader.getDist());
+            AddonHandler.INSTANCE.handleRegister(FMLLoader.getDist());
+        }
         ModItems.ITEMS.register(modEventBus);
-        for (DeferredRegister<Item> items : ModItems.ADDON_ITEMS.values()) {
-            items.register(modEventBus);
+        if (notRunData) {
+            for (DeferredRegister<Item> items : ModItems.ADDON_ITEMS.values()) {
+                items.register(modEventBus);
+            }
         }
         ModBlocks.BLOCKS.register(modEventBus);
         ModTabs.MOD_TABS.register(modEventBus);
@@ -98,8 +103,9 @@ public class GCAA {
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::gatherDataEvent);
-
-        modEventBus.addListener(this::registerAddonFinder);
+        if (notRunData) {
+            modEventBus.addListener(this::registerAddonFinder);
+        }
     }
 
     private void gatherDataEvent(GatherDataEvent event) {
@@ -150,6 +156,10 @@ public class GCAA {
 
     private void registerAddonFinder(AddPackFindersEvent event) {
         event.addRepositorySource(AddonHandler.INSTANCE.getRepositorySource());
+    }
+
+    public static boolean isNotRunData() {
+        return ServerLifecycleHooks.getCurrentServer() != null || !ModList.get().isLoaded("forge");
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
