@@ -18,6 +18,7 @@
   "item.gcaa.annihilator": "Object Annihilator",
   "item.gcaa.fn57": "FN-57",
   "item.gcaa.mcx_spear": "MCX-SPEAR",
+  "item.gcaa.aug_a3": "AUG-A3",
 
   "item.gcaa.unknown_attachment": "未知的配件",
   "item.gcaa.ak_suppressor": "AK消音器",
@@ -279,5 +280,7 @@
   "item.gcaa.mp5.introduction": "十分经典的冲锋枪，性能可靠，适合快速突袭与防守。",
   "item.gcaa.fn_ballista.introduction": "使用.338弹药的狙击枪，威力十分强大，每一发都足以击杀敌人，但射速较慢。",
   "item.gcaa.m60e4.introduction": "强力的通用机枪，兼具威力和持久性，适合持续压制敌人",
-  "item.gcaa.fn57.introduction": "小巧精准的手枪，使用5.7mm弹药，具备高穿透力，适合快速反击与精准打击。绝对值得拥有的高端副武器选择。"
+  "item.gcaa.fn57.introduction": "小巧精准的手枪，使用5.7mm弹药，具备高穿透力，适合快速反击与精准打击。绝对值得拥有的高端副武器选择。",
+  "item.gcaa.mcx_spear.introduction": "SIG的最新力作，精准、强劲的战术步枪，适应多种战场环境，能提供超凡的远程打击能力。",
+  "item.gcaa.aug_a3.introduction": "经典无托步枪的现代化改进版，高精准度与稳定性并存，战术操作更加顺滑，适合各种战斗场景。"
 }

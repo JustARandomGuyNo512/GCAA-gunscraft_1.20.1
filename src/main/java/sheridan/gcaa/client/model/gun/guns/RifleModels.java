@@ -29,6 +29,11 @@ public class RifleModels {
             new ResourceLocation(GCAA.MODID, "model_assets/guns/m4a1/m4a1.animation.json"),
             new ResourceLocation(GCAA.MODID, "model_assets/guns/m4a1/m4a1.png"));
 
+    public static CommonRifleModel AUG_A3_MODEL = new CommonRifleModel(
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/aug_a3/aug_a3.geo.json"),
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/aug_a3/aug_a3.animation.json"),
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/aug_a3/aug_a3.png"));
+
     public static DMRModel HK_G28_MODEL = new DMRModel(
             new ResourceLocation(GCAA.MODID, "model_assets/guns/hk_g28/hk_g28.geo.json"),
             new ResourceLocation(GCAA.MODID, "model_assets/guns/hk_g28/hk_g28.animation.json"),

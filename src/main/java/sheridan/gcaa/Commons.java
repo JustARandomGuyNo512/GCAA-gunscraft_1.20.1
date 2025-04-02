@@ -286,6 +286,17 @@ public class Commons {
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:mcx_spear_exp_mag")))
         );
 
+        AttachmentsRegister.registerAttachmentSlot(ModItems.AUG_A3.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ar_suppressor", "gcaa:ar_compensator")))
+                .addChild(new AttachmentSlot(GRIP, Set.of(
+                        "gcaa:vertical_grip", "gcaa:gp_25", "gcaa:laser_sight", "gcaa:flashlight", "gcaa:slant_grip"
+                )).lower())
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog","gcaa:elcan", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot("left", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight")).lower())
+                .addChild(new AttachmentSlot("right", Set.of("gcaa:laser_sight", "gcaa:flashlight")).lower())
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ar_extend_mag")))
+        );
+
         registerVendingMachineProducts();
         registerAmmunitionRecipes();
         checkVendingMachineProductsRegistry();
@@ -386,6 +397,7 @@ public class Commons {
                 new GunProduct(ModItems.AK12.get(), 3000),
                 new GunProduct(ModItems.MK47.get(), 3050),
                 new GunProduct(ModItems.MCX_SPEAR.get(), 4200),
+                new GunProduct(ModItems.AUG_A3.get(), 2700),
                 new GunProduct(ModItems.AWP.get(), 4000),
                 new GunProduct(ModItems.FN_BALLISTA.get(), 6000),
                 new GunProduct(ModItems.HK_G28.get(), 4000),
