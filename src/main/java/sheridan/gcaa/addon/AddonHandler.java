@@ -14,6 +14,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.resource.DelegatingPackResources;
 import net.minecraftforge.resource.PathPackResources;
@@ -23,7 +24,6 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.ModTabs;
 import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.model.gun.GunModelFactory;
-import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
 import sheridan.gcaa.items.ModItems;
 import sheridan.gcaa.items.gun.IGun;
@@ -136,6 +136,7 @@ public class AddonHandler {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     public void handleRegisterClient() {
         for (Map.Entry<String, Addon> entry : addonMap.entrySet()) {
             String addonName  = entry.getKey();
@@ -144,8 +145,9 @@ public class AddonHandler {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     private void handleRegisterClient(String addonName, Addon addon) {
-        System.out.println("Registering addon in client side: " + addonName);
+        GCAA.LOGGER.info("Registering addon in client side: " + addonName);
         for (Supplier<Item> gun : addon.configMapping.keySet()) {
             JsonObject config = addon.configMapping.get(gun);
             if (config == null) {
@@ -178,6 +180,7 @@ public class AddonHandler {
         return data;
     }
 
+    @OnlyIn(Dist.CLIENT)
     private GunModel createGunModel(JsonObject modelDef, Addon addon) {
         return GunModelFactory.createGunModel(modelDef, addon);
     }
