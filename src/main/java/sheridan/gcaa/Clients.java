@@ -523,11 +523,11 @@ public class Clients {
 
         ArsenalLib.registerGunModel(ModItems.AUG_A3.get(), RifleModels.AUG_A3_MODEL, new DisplayData()
                 .setFirstPersonMain(-10.1f,16.2f,-21f, POS)
-                .setThirdPersonRight(0.0f,-1.2f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
-                .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
+                .setThirdPersonRight(0.0f,0f,2.4f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
+                .setGround(0f, -0.6f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
                 .setGUI(-3.2f, 0.9f, 0, POS).setGUI(-25f, -45f, -35f, ROT).set(DisplayData.GUI, 0.20f, SCALE)
-                .setAds(0,14.6f,-15f, POS)
+                .setAds(0,14.6f,-14.2f, POS)
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0f, 0f, 0.485f,
