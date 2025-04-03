@@ -18,7 +18,7 @@ public class AugA3 extends Gun {
     public AugA3() {
         super(new GunProperties(4f, 0.6f, 2.1f, 0.72f, 0.2f,
                 3.5f, GunProperties.toRPM(750), getTicks(2.8f), getTicks(3.25f), 30,
-                1.75f, 0.4f, 0.14f, 0.14f, 13f, Arrays.asList(Semi.SEMI, Auto.AUTO),
+                1.85f, 0.4f, 0.14f, 0.14f, 13f, Arrays.asList(Semi.SEMI, Auto.AUTO),
                 ModSounds.AUG_A3_FIRE, null, caliber));
     }
 }
