@@ -73,8 +73,8 @@ public class InertialRecoilHandler {
             }
             float r0 = (rotate + randomY) * scaleRot * ROTATE_FACTOR;
             float r1 = randomX * scaleRot * ROTATE_FACTOR;
+            poseStack.translate(0, 0, back * BACK_FACTOR * scaleZ);
             poseStack.mulPose(new Quaternionf().rotateXYZ(-r0, r1, 0));
-            poseStack.translate(0, - up * UP_FACTOR * scaleY - 0, back * BACK_FACTOR * scaleZ);
         }
     }
 
@@ -99,7 +99,7 @@ public class InertialRecoilHandler {
                 this.randomXSpeed = (float)((double)this.randomXSpeed + (double)(data.randomX * randomDirectionX) * (0.75D + Math.random() * 0.5D) * (double)yRate);
                 this.backSpeed += data.back * pRate;
                 this.rotateSpeed += data.rotate * pRate * unstableFactor;
-                this.upSpeed += data.up;
+                this.upSpeed += data.xRotOffset;
                 Arrays.fill(this.finished, false);
                 if (!data.isCanMix()) {
                     this.data.set(data);
