@@ -20,7 +20,6 @@ public class MGModel extends GunModel {
     private final int chainSize;
     private final boolean disableCoverFaceCulling;
     private final int reloadingShowBulletsDelay;
-    private AnimationDefinition shoot;
 
     public MGModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture,
                    @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture,
@@ -75,15 +74,10 @@ public class MGModel extends GunModel {
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
-        if (context.isFirstPerson) {
-            KeyframeAnimations.animate(this, shoot, Clients.lastShootMain(),1);
-            AnimationHandler.INSTANCE.applyReload(this);
-            CameraAnimationHandler.INSTANCE.mix(camera);
-        }
+        defaultAnimation(context);
     }
 
     @Override
     protected void renderGunModelLowQuality(GunRenderContext context) {
-
     }
 }

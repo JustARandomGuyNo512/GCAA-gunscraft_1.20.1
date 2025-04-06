@@ -11,7 +11,6 @@ import sheridan.gcaa.client.render.GunRenderContext;
 
 @OnlyIn(Dist.CLIENT)
 public class CommonRifleModel extends AutoMagPositionModel {
-    protected AnimationDefinition shoot;
     protected ModelPart bullet;
 
     public CommonRifleModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture,
@@ -26,7 +25,6 @@ public class CommonRifleModel extends AutoMagPositionModel {
     @Override
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {
         super.postInit(main, gun, root);
-        shoot = animations.get("shoot");
         bullet = mag.getChild("bullet");
     }
 
@@ -43,7 +41,7 @@ public class CommonRifleModel extends AutoMagPositionModel {
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
-        defaultRifleAnimation(context, shoot);
+        defaultAnimation(context);
     }
 
     @Override

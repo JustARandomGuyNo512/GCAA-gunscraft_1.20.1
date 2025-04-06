@@ -6,7 +6,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 import sheridan.gcaa.client.ReloadingHandler;
-import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 
@@ -14,7 +13,6 @@ import sheridan.gcaa.client.render.GunRenderContext;
 public class GlockModel extends AutoMagPositionModel {
     protected ModelPart bullet, slide, barrel;
     protected ModelPart slide_low_quality, barrel_low_quality, mag_low_quality;
-    protected AnimationDefinition shoot;
     protected float chargeSlideBack, chargeBarrelBack, chargeBarrelDown, chargeBarrelRot;
 
     public GlockModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture,
@@ -43,7 +41,6 @@ public class GlockModel extends AutoMagPositionModel {
             barrel_low_quality = lowQualityMain.getChild("barrel");
             mag_low_quality = lowQualityMain.getChild("mag");
         }
-        shoot = get("shoot");
     }
 
     @Override
@@ -66,7 +63,7 @@ public class GlockModel extends AutoMagPositionModel {
 
     @Override
     protected void animationGlobal(GunRenderContext context) {
-        defaultPistolAnimation(context, shoot);
+        defaultAnimation(context);
     }
 
     @Override

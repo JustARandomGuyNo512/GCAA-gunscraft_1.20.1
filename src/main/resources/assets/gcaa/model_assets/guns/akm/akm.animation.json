@@ -7,7 +7,7 @@
 				"slide": {
 					"position": {
 						"0.0": [0, 0, 0],
-						"0.05": {
+						"0.02": {
 							"pre": [0, 0, 22],
 							"post": [0, 0, 22],
 							"lerp_mode": "catmullrom"

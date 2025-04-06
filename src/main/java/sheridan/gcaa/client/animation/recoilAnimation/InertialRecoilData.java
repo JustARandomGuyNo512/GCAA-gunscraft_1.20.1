@@ -8,8 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Deprecated
 public class InertialRecoilData implements IJsonSyncable {
     private static final AtomicInteger TEMP_ID = new AtomicInteger(0);
-    public float xRotOffset;
-    public float yRotOffset;
+    public float up;
+    public float upDec;
     public float back;
     public float backDec;
     public float rotate;
@@ -24,10 +24,10 @@ public class InertialRecoilData implements IJsonSyncable {
     public float randomXChangeRate = 0.5f;
     public float randomYChangeRate = 0.5f;
 
-    public InertialRecoilData(float xRotOffset, float yRotOffset, float back, float backDec, float rotate, float rotateDec, float randomX, float randomXChangeRate,
+    public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX, float randomXChangeRate,
                               float randomY, float randomYChangeRate, float aimingScaleUp, float aimingBackScale, float aimingRotateScale) {
-        this.xRotOffset = xRotOffset / 16f;
-        this.yRotOffset = yRotOffset / 16f;
+        this.up = up ;
+        this.upDec = upDec;
         this.back = back;
         this.backDec = backDec;
         this.rotate = rotate;
@@ -42,10 +42,10 @@ public class InertialRecoilData implements IJsonSyncable {
         this.id = TEMP_ID.getAndIncrement();
     }
 
-    public InertialRecoilData(float xRotOffset, float yRotOffset, float back, float backDec, float rotate, float rotateDec, float randomX,
+    public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX,
                               float randomY, float aimingScaleUp, float aimingBackScale, float aimingRotateScale) {
-        this.xRotOffset = xRotOffset / 16f;
-        this.yRotOffset = yRotOffset / 16f;
+        this.up = up;
+        this.upDec = upDec;
         this.back = back;
         this.backDec = backDec;
         this.rotate = rotate;
@@ -58,9 +58,9 @@ public class InertialRecoilData implements IJsonSyncable {
         this.id = TEMP_ID.getAndIncrement();
     }
 
-    public InertialRecoilData(float xRotOffset, float yRotOffset, float back, float backDec, float rotate, float rotateDec, float randomX, float randomY) {
-        this.xRotOffset = xRotOffset / 16f;
-        this.yRotOffset = yRotOffset / 16f;
+    public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX, float randomY) {
+        this.up = up;
+        this.upDec = upDec;
         this.back = back;
         this.backDec = backDec;
         this.rotate = rotate;
@@ -85,8 +85,8 @@ public class InertialRecoilData implements IJsonSyncable {
 
     @Override
     public void writeData(JsonObject jsonObject) {
-        jsonObject.addProperty("xRotOffset", xRotOffset * 16f);
-        jsonObject.addProperty("yRotOffset", yRotOffset * 16f);
+        jsonObject.addProperty("xRotOffset", up * 16f);
+        jsonObject.addProperty("yRotOffset", upDec * 16f);
         jsonObject.addProperty("back", back);
         jsonObject.addProperty("backDec", backDec);
         jsonObject.addProperty("rotate", rotate);
@@ -103,8 +103,8 @@ public class InertialRecoilData implements IJsonSyncable {
 
     @Override
     public void loadData(JsonObject jsonObject) {
-        xRotOffset = jsonObject.get("xRotOffset").getAsFloat() / 16f;
-        yRotOffset = jsonObject.get("yRotOffset").getAsFloat() / 16f;
+        up = jsonObject.get("xRotOffset").getAsFloat() / 16f;
+        upDec = jsonObject.get("yRotOffset").getAsFloat() / 16f;
         back = jsonObject.get("back").getAsFloat();
         backDec = jsonObject.get("backDec").getAsFloat();
         rotate = jsonObject.get("rotate").getAsFloat();

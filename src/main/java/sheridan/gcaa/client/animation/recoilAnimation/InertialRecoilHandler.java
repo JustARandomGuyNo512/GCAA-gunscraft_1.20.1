@@ -26,7 +26,7 @@ public class InertialRecoilHandler {
     private static final float BACK_FACTOR = 0.18f;
     private static final float ROTATE_FACTOR = 0.025f;
 
-    private static SplittableRandom SPLITTABLE_RANDOM = new SplittableRandom();
+    private static final SplittableRandom SPLITTABLE_RANDOM = new SplittableRandom();
     private static int randomIndexX = SPLITTABLE_RANDOM.nextBoolean() ? 1 : -1;
     private static int randomIndexY = SPLITTABLE_RANDOM.nextBoolean() ? 1 : -1;
 
@@ -74,7 +74,7 @@ public class InertialRecoilHandler {
             float r0 = (rotate + randomY) * scaleRot * ROTATE_FACTOR;
             float r1 = randomX * scaleRot * ROTATE_FACTOR;
             float backDist = back * BACK_FACTOR * scaleZ;
-            poseStack.translate(0, 0, backDist * 0.6f);
+            poseStack.translate(0, -this.up * UP_FACTOR * scaleY, backDist * 0.6f);
             poseStack.mulPose(new Quaternionf().rotateXYZ(-r0, r1, 0));
             poseStack.translate(0, 0, backDist * 0.4f);
         }
@@ -101,7 +101,7 @@ public class InertialRecoilHandler {
                 this.randomXSpeed = (float)((double)this.randomXSpeed + (double)(data.randomX * randomDirectionX) * (0.8D + Math.random() * 0.4D) * (double)yRate);
                 this.backSpeed += data.back * pRate;
                 this.rotateSpeed += data.rotate * pRate * unstableFactor;
-                this.upSpeed += data.xRotOffset;
+                this.upSpeed += data.up;
                 Arrays.fill(this.finished, false);
                 if (!data.isCanMix()) {
                     this.data.set(data);
@@ -175,15 +175,15 @@ public class InertialRecoilHandler {
                     lastBackOld = 0;
                 }
 
-//                if (!finished[1] && (up != 0 || upSpeed != 0)) {
-//                    up += upSpeed;
-//                    upSpeed -= up * recoilData.upDec;
-//                    upSpeed *= 0.4f;
-//                }
-//                if (shouldClear(upSpeed, up)) {
-//                    upSpeed = up = 0;
-//                    finished[1] = true;
-//                }
+                if (!finished[1] && (up != 0 || upSpeed != 0)) {
+                    up += upSpeed;
+                    upSpeed -= up * recoilData.upDec;
+                    upSpeed *= 0.4f;
+                }
+                if (shouldClear(upSpeed, up)) {
+                    upSpeed = up = 0;
+                    finished[1] = true;
+                }
 
                 if (!finished[2] && (rotate != 0 || rotateSpeed != 0)) {
                     rotate += rotateSpeed * 0.9f;

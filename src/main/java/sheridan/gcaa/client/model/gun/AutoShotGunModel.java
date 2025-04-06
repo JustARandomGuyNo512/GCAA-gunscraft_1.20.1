@@ -16,7 +16,6 @@ import sheridan.gcaa.client.render.GunRenderContext;
 @OnlyIn(Dist.CLIENT)
 public class AutoShotGunModel extends GunModel {
     private ModelPart reloading_arm, shell;
-    private AnimationDefinition shoot, recoil, recoil_ads;
     public AutoShotGunModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture, @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture) {
         super(modelPath, animationPath, texture, lowQualityModelPath, lowQualityTexture);
     }
@@ -30,9 +29,6 @@ public class AutoShotGunModel extends GunModel {
         super.postInit(main, gun, root);
         reloading_arm = main.getChild("reloading_arm");
         shell = reloading_arm.getChild("shell");
-        shoot = animations.get("shoot");
-        recoil = animations.get("recoil");
-        recoil_ads = animations.get("recoil_ads");
         processReloadingArm();
     }
 
@@ -88,8 +84,4 @@ public class AutoShotGunModel extends GunModel {
     @Override
     protected void renderGunModelLowQuality(GunRenderContext context) {}
 
-    @Override
-    public AnimationDefinition getRecoil(GunRenderContext context) {
-        return Clients.getAdsProgress() > 0.5 ? recoil_ads : recoil;
-    }
 }

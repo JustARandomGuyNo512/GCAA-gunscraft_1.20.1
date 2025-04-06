@@ -16,7 +16,7 @@ import sheridan.gcaa.items.gun.guns.Beretta686;
 
 @OnlyIn(Dist.CLIENT)
 public class Beretta686Model extends GunModel {
-    private AnimationDefinition recoil, recoil_volley;
+    private AnimationDefinition recoil_volley;
     public Beretta686Model() {
         super(new ResourceLocation(GCAA.MODID, "model_assets/guns/beretta_686/beretta_686.geo.json"),
                 new ResourceLocation(GCAA.MODID, "model_assets/guns/beretta_686/beretta_686.animation.json"),
@@ -26,7 +26,6 @@ public class Beretta686Model extends GunModel {
     @Override
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {
         super.postInit(main, gun, root);
-        recoil = animations.get("recoil");
         recoil_volley = animations.get("recoil_volley");
     }
 

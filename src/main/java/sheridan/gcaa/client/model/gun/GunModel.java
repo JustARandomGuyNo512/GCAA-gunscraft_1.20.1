@@ -1,14 +1,17 @@
 package sheridan.gcaa.client.model.gun;
 
+import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
+import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.CameraAnimationHandler;
@@ -40,6 +43,13 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     protected Map<String, ModelPart> flatDir = new Object2ObjectArrayMap<>();
     protected List<NamingScriptQueuePair> namingScriptQueuePairs = new ArrayList<>();
     protected boolean lowQualityLoaded = false;
+    protected AnimationDefinition shoot;
+    protected AnimationDefinition recoil;
+    protected AnimationDefinition recoil_ads;
+    protected AnimationDefinition shake;
+    protected float adsShakeFactor = 0.35f;
+    protected VertexConsumerGetter vertexConsumerGetter;
+    protected VertexConsumerGetter vertexConsumerGetterLow;
 
     private static class NamingScriptQueuePair{
         public ModelPart modelPart;
@@ -61,6 +71,12 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         left_arm = gun.getChild("left_arm");
         right_arm = gun.getChild("right_arm");
         animations = ArsenalLib.loadBedRockAnimationWithSound(animationPath);
+        shoot = animations.get("shoot");
+        recoil = animations.get("recoil");
+        recoil_ads = animations.get("recoil_ads");
+        shake = animations.get("shake");
+        vertexConsumerGetter = (context -> context.solid(texture));
+        vertexConsumerGetterLow = (context -> context.solid(lowQualityTexture));
         if (lowQualityModelPath != null && lowQualityTexture != null) {
             lowQualityRoot = ArsenalLib.loadBedRockGunModel(lowQualityModelPath).bakeRoot().getChild("root");
             lowQualityRoot.meshingAll();
@@ -75,6 +91,48 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     }
 
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {}
+
+    public GunModel setOptions(String... args) {
+        if (args != null && args.length % 2 == 0) {
+            Map<String, String> options = new HashMap<>();
+            for (int i = 0; i < args.length; i += 2) {
+                options.put(args[i], args[i + 1]);
+            }
+            handleOptions(options);
+        } else {
+            GCAA.LOGGER.warn("Invalid options for gun model, must be key value pairs");
+        }
+        return this;
+    }
+
+    public GunModel setOptions(Map<String, String> options) {
+        handleOptions(options);
+        return this;
+    }
+
+    protected void handleOptions(Map<String, String> options) {
+        VertexConsumerGetter renderType = createVertexConsumerGetter(options.getOrDefault("renderType", null));
+        if (renderType != null) {
+            vertexConsumerGetter = renderType;
+        }
+        VertexConsumerGetter renderTypeLow = createVertexConsumerGetter(options.getOrDefault("renderTypeLow", null));
+        if (renderTypeLow != null) {
+            vertexConsumerGetterLow = renderTypeLow;
+        }
+
+    }
+
+    protected VertexConsumerGetter createVertexConsumerGetter(String type) {
+        if (type == null) {
+            return null;
+        }
+        return switch (type) {
+            case "solidMipMap" -> (context -> context.solidMipMap(texture));
+            case "solidNoCull" -> (context -> context.solidNoCull(texture));
+            case "solidNoCullMipMap" -> (context -> context.solidNoCullMipMap(texture));
+            default -> null;
+        };
+    }
 
     private void preScriptProcess(
             ModelPart topLayer, Map<ModelPart, List<String>> scripts, Map<String, ModelPart> flatDir, List<Runnable> renameTasks) {
@@ -294,11 +352,11 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
     protected abstract void renderGunModelLowQuality(GunRenderContext context);
 
     protected VertexConsumer getDefaultVertex(GunRenderContext context) {
-        return context.solid(texture);
+        return vertexConsumerGetter.get(context);
     }
 
     protected VertexConsumer getDefaultVertexLow(GunRenderContext context) {
-        return context.solid(lowQualityTexture);
+        return vertexConsumerGetterLow.get(context);
     }
 
     protected void renderAttachmentsModel(GunRenderContext context) {
@@ -370,7 +428,9 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
 
     @Override
     public AnimationDefinition getRecoil(GunRenderContext context) {
-        return animations.get("recoil");
+        return Clients.getAdsProgress() > 0.5f ?
+                recoil_ads == null ? recoil : recoil_ads :
+                recoil;
     }
 
     @Override
@@ -413,10 +473,16 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         return context.localRenderStorage != null && context.localRenderStorage.get(LOW_QUALITY_KEY) != null;
     }
 
-    protected void defaultPistolAnimation(GunRenderContext gunRenderContext, AnimationDefinition shoot)  {
+    protected void defaultAnimation(GunRenderContext gunRenderContext)  {
         if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
-            KeyframeAnimations.animate(this, shoot, gunRenderContext.lastShoot, 1);
+            if (this.shoot != null) {
+                KeyframeAnimations.animate(this, this.shoot, gunRenderContext.lastShoot, 1);
+            }
             if (gunRenderContext.isFirstPerson) {
+                if (shake != null) {
+                    float scale = Mth.lerp(Clients.getAdsProgress(), 1f, adsShakeFactor);
+                    KeyframeAnimations.animate(this, shake, gunRenderContext.lastShoot, scale);
+                }
                 AnimationHandler.INSTANCE.applyRecoil(this);
                 AnimationHandler.INSTANCE.applyReload(this);
                 CameraAnimationHandler.INSTANCE.mix(camera);
@@ -424,14 +490,8 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         }
     }
 
-    protected void defaultRifleAnimation(GunRenderContext gunRenderContext, AnimationDefinition shoot)  {
-        if (gunRenderContext.isFirstPerson || gunRenderContext.isThirdPerson()) {
-            KeyframeAnimations.animate(this, shoot, gunRenderContext.lastShoot,1);
-            if (gunRenderContext.isFirstPerson) {
-                AnimationHandler.INSTANCE.applyReload(this);
-                CameraAnimationHandler.INSTANCE.mix(camera);
-            }
-        }
+    public interface VertexConsumerGetter {
+        VertexConsumer get(GunRenderContext context);
     }
 
 }

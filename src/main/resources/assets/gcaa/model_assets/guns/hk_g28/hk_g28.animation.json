@@ -719,19 +719,7 @@
 				}
 			}
 		},
-		"shoot": {
-			"animation_length": 0.09,
-			"bones": {
-				"bolt": {
-					"position": {
-						"0.0": [0, 0, 0],
-						"0.05": [0, 0, 14],
-						"0.09": [0, 0, 0]
-					}
-				}
-			}
-		},
-		"recoil": {
+		"shake": {
 			"animation_length": 0.63,
 			"bones": {
 				"gun": {
@@ -816,6 +804,22 @@
 							"post": [0, 0, 0],
 							"lerp_mode": "catmullrom"
 						}
+					}
+				}
+			}
+		},
+		"shoot": {
+			"animation_length": 0.03,
+			"bones": {
+				"bolt": {
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.03": {
+							"pre": [0, 0, 15],
+							"post": [0, 0, 15],
+							"lerp_mode": "catmullrom"
+						},
+						"0.07": [0, 0, 0]
 					}
 				}
 			}

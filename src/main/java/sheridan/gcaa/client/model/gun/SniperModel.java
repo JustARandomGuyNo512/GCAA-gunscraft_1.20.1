@@ -16,7 +16,6 @@ import sheridan.gcaa.client.render.GunRenderContext;
 @OnlyIn(Dist.CLIENT)
 public class SniperModel extends AutoMagPositionModel {
     protected ModelPart exp_mag, exp_mag_bullet, bullet;
-    protected AnimationDefinition recoil, recoil_ads;
     public SniperModel(ResourceLocation modelPath, ResourceLocation animationPath, ResourceLocation texture, @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture) {
         super(modelPath, animationPath, texture, lowQualityModelPath, lowQualityTexture);
     }
@@ -28,8 +27,6 @@ public class SniperModel extends AutoMagPositionModel {
     @Override
     protected void postInit(ModelPart main, ModelPart gun, ModelPart root) {
         super.postInit(main, gun, root);
-        recoil = animations.get("recoil");
-        recoil_ads = animations.get("recoil_ads");
         exp_mag = main.getChild("exp_mag");
         exp_mag_bullet = exp_mag.getChild("exp_mag_bullet");
         bullet = mag.getChild("bullet");
@@ -58,10 +55,5 @@ public class SniperModel extends AutoMagPositionModel {
             AnimationHandler.INSTANCE.applyHandAction(this);
             CameraAnimationHandler.INSTANCE.mix(camera);
         }
-    }
-
-    @Override
-    public AnimationDefinition getRecoil(GunRenderContext context) {
-        return (Clients.isInAds() && Clients.getAdsProgress() > 0.5f) ? recoil_ads : recoil;
     }
 }

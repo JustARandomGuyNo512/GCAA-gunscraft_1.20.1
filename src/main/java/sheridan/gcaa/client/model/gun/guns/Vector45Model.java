@@ -8,7 +8,6 @@ import sheridan.gcaa.client.model.gun.CommonRifleModel;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.items.ModItems;
-import sheridan.gcaa.items.attachments.Attachment;
 
 @OnlyIn(Dist.CLIENT)
 public class Vector45Model extends CommonRifleModel {
