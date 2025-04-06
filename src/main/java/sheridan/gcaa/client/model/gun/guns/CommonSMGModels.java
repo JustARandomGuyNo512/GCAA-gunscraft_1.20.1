@@ -5,6 +5,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.client.animation.frameAnimation.AnimationDefinition;
 import sheridan.gcaa.client.model.gun.CommonRifleModel;
 import sheridan.gcaa.client.render.GunRenderContext;
@@ -22,7 +23,15 @@ public class CommonSMGModels {
             new ResourceLocation(GCAA.MODID, "model_assets/guns/annihilator/annihilator.png")) {
         @Override
         public AnimationDefinition getRecoil(GunRenderContext context) {
-            return Clients.getAdsProgress() > 0.5f ? animations.get("shoot_ads") : animations.get("shoot");
+            return Clients.getAdsProgress() > 0.5f ? animations.get("recoil_ads") : animations.get("recoil");
+        }
+
+        @Override
+        protected void animationGlobal(GunRenderContext context) {
+            super.animationGlobal(context);
+            if (context.isFirstPerson) {
+                AnimationHandler.INSTANCE.applyRecoil(this);
+            }
         }
     };
 }
