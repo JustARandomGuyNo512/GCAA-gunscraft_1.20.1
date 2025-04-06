@@ -2557,7 +2557,7 @@
 				{
 					"name": "s_scope",
 					"parent": "cover",
-					"pivot": [0, 11.6, 4.65]
+					"pivot": [0, 11.6, 3.65]
 				},
 				{
 					"name": "muzzle&.muzzle",

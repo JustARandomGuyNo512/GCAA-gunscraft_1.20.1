@@ -1234,7 +1234,7 @@
 				{
 					"name": "min_dis_z",
 					"parent": "root",
-					"pivot": [0, 5.841, 18.5]
+					"pivot": [0, 5.841, 19.5]
 				},
 				{
 					"name": "back_ground",

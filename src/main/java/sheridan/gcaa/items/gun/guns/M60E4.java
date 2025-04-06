@@ -17,7 +17,7 @@ public class M60E4 extends MG {
     public M60E4() {
         super(new GunProperties(2.2f, 1.3f, 3.7f, 0.9f, 0.14f,
                 4.4f, 22, getTicks(6f), getTicks(7), 100,
-                3.5f, 0.75f, 0.1f, 0.11f, 35f, List.of(Auto.AUTO),
+                3f, 0.75f, 0.1f, 0.11f, 35f, List.of(Auto.AUTO),
                 ModSounds.M60E4_FIRE, null, caliber));
     }
 }

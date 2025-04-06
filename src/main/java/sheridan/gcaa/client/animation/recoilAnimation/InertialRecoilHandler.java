@@ -73,8 +73,10 @@ public class InertialRecoilHandler {
             }
             float r0 = (rotate + randomY) * scaleRot * ROTATE_FACTOR;
             float r1 = randomX * scaleRot * ROTATE_FACTOR;
-            poseStack.translate(0, 0, back * BACK_FACTOR * scaleZ);
+            float backDist = back * BACK_FACTOR * scaleZ;
+            poseStack.translate(0, 0, backDist * 0.6f);
             poseStack.mulPose(new Quaternionf().rotateXYZ(-r0, r1, 0));
+            poseStack.translate(0, 0, backDist * 0.4f);
         }
     }
 
@@ -89,14 +91,14 @@ public class InertialRecoilHandler {
                 this.lastBack = this.back;
                 float unstableFactor = Mth.clamp(Mth.clamp((1.0F - (this.lastBack - this.lastBackOld)) *
                         Math.min(this.back, 1.0F + Math.min(0.0F, this.back - 1.0F) * data.back / data.backDec * 0.158F), 0.0F, 1.016F),
-                        0.385F, 1.025F);
+                        0.4F, 1.025F);
                 this.randomYSpeed += data.randomY * Mth.clamp(unstableFactor, 0.385F, 1.0F) * randomDirectionY;
                 if (this.randomYSpeed < 0.0F) {
                     this.randomYSpeed *= 0.6F;
                 }
 
                 yRate *= unstableFactor;
-                this.randomXSpeed = (float)((double)this.randomXSpeed + (double)(data.randomX * randomDirectionX) * (0.75D + Math.random() * 0.5D) * (double)yRate);
+                this.randomXSpeed = (float)((double)this.randomXSpeed + (double)(data.randomX * randomDirectionX) * (0.8D + Math.random() * 0.4D) * (double)yRate);
                 this.backSpeed += data.back * pRate;
                 this.rotateSpeed += data.rotate * pRate * unstableFactor;
                 this.upSpeed += data.xRotOffset;
