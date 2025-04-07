@@ -1,6 +1,5 @@
 package sheridan.gcaa.client.model.gun;
 
-import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
@@ -329,6 +328,11 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         return attachmentSlotPathMap.containsKey(modelSlotName);
     }
 
+    static long total = 0;
+    static long t = 0;
+    static int times = 0;
+    static long avg = 0;
+
     @Override
     public void render(GunRenderContext gunRenderContext) {
         saveOriginalPoseInFirstPerson(gunRenderContext);
@@ -340,11 +344,31 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
             renderGunModelLowQuality(gunRenderContext);
         } else {
             preGunRender(gunRenderContext, false);
+//            boolean count = false;
+//            if (gunRenderContext.isFirstPerson && Clients.isInAds()) {
+//                t = System.nanoTime();
+//                count = true;
+//            }
             renderGunModel(gunRenderContext);
+//            if (count) {
+//                total += System.nanoTime() - t;
+//                times ++;
+//                avg = total / times;
+//                System.out.println("compile: " + (
+//                            ModelPart._use_new_compile_ ? "new " : "old "
+//                        ) + "avg: " + avg);
+//            }
         }
         renderAttachmentsModel(gunRenderContext);
         renderPostEffect(gunRenderContext);
         afterRender(gunRenderContext);
+    }
+
+    public static void _clear_test_() {
+        total = 0;
+        t = 0;
+        times = 0;
+        avg = 0;
     }
 
     protected abstract void renderGunModel(GunRenderContext context);

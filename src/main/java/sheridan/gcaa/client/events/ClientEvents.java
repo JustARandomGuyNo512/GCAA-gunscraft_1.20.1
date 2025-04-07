@@ -10,6 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.AnimationHandler;
+import sheridan.gcaa.client.model.gun.GunModel;
 import sheridan.gcaa.client.screens.RecoilModifyScreen;
 import sheridan.gcaa.items.AutoRegister;
 
@@ -23,6 +24,9 @@ public class ClientEvents {
         Player player = minecraft.player;
         if (event.phase == TickEvent.Phase.START) {
             try {
+//                if (!Clients.isInAds()) {
+//                    GunModel._clear_test_();
+//                }
                 if (minecraft.screen instanceof RecoilModifyScreen) {
                     Clients.cancelLooperWork.set(false);
                     Clients.cancelLooperWorkWithCoolDown.set(false);

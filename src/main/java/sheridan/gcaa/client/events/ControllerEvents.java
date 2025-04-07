@@ -20,6 +20,7 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.HandActionHandler;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingHandler;
+import sheridan.gcaa.client.model.modelPart.ModelPart;
 import sheridan.gcaa.client.screens.GunDebugAdjustScreen;
 import sheridan.gcaa.client.screens.RecoilModifyScreen;
 import sheridan.gcaa.items.ammunition.Ammunition;
@@ -178,6 +179,7 @@ public class ControllerEvents {
                 }
             } else if (KeyBinds.RELOAD.isDown() && event.getAction() == 1) {
                 handleReload(stackMain, player);
+//                ModelPart._use_new_compile_ = !ModelPart._use_new_compile_;
             } else if (KeyBinds.OPEN_GUN_MODIFY_SCREEN.isDown() && event.getAction() == 1) {
                 PacketHandler.simpleChannel.sendToServer(new OpenGunModifyScreenPacket());
                 ReloadingHandler.INSTANCE.breakTask();

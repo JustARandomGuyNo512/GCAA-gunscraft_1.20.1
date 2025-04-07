@@ -32,7 +32,7 @@ public final class ModelPart {
     private final List<Cube> cubes;
     private final Map<String, ModelPart> children;
     private PartPose initialPose = PartPose.ZERO;
-    private Polygon[] polygons;
+    //private Polygon[] polygons;
     private boolean meshed = false;
     private boolean touched = false;
     public String debug_name = "";
@@ -380,8 +380,7 @@ public final class ModelPart {
         render(pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha, true);
     }
 
-    private final Vector3f normal = new Vector3f();
-    private final Vector4f vec = new Vector4f();
+
     public void render(PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha, boolean usePose) {
         if (this.visible) {
             if (!this.cubes.isEmpty() || !this.children.isEmpty()) {
@@ -390,27 +389,7 @@ public final class ModelPart {
                     this.translateAndRotate(pPoseStack);
                 }
                 if (!this.skipDraw) {
-                    if (meshed && this.polygons != null) {
-                        Matrix4f matrix4f = pPoseStack.last().pose();
-                        Matrix3f matrix3f = pPoseStack.last().normal();
-                        for(Polygon polygon : this.polygons) {
-                            Vector3f vector3f = matrix3f.transform(normal.set(polygon.normal.x, polygon.normal.y, polygon.normal.z));
-                            for(Vertex vertex : polygon.vertices) {
-                                float f3 = vertex.pos.x() * 0.0625F;
-                                float f4 = vertex.pos.y() * 0.0625F;
-                                float f5 = vertex.pos.z() * 0.0625F;
-                                Vector4f vector4f = matrix4f.transform(vec.set(f3, f4, f5, 1.0F));
-                                pVertexConsumer.vertex(
-                                        vector4f.x, vector4f.y, vector4f.z,
-                                        pRed, pGreen, pBlue, pAlpha,
-                                        vertex.u, vertex.v,
-                                        pPackedOverlay, pPackedLight,
-                                        vector3f.x, vector3f.y, vector3f.z);
-                            }
-                        }
-                    } else {
                         this.compile(pPoseStack.last(), pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
-                    }
                 }
                 for(ModelPart modelpart : this.children.values()) {
                     modelpart.render(pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha, true);
@@ -455,11 +434,6 @@ public final class ModelPart {
         for (String key : removeParts) {
             this.children.remove(key);
         }
-        List<Polygon> allPolygon = new ArrayList<>();
-        for (Cube cube : cubes) {
-            cube.polygons(allPolygon);
-        }
-        polygons = allPolygon.toArray(new Polygon[0]);
         meshed = true;
         return this;
     }
@@ -507,10 +481,17 @@ public final class ModelPart {
         }
     }
 
+    public static boolean _use_new_compile_ = true;
     private void compile(PoseStack.Pose pose, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
-        for(Cube cube : this.cubes) {
-            cube.compile(pose, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
-        }
+//        if (_use_new_compile_) {
+            for(Cube cube : this.cubes) {
+                cube.compileNew(pose, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+            }
+//        } else {
+//            for(Cube cube : this.cubes) {
+//                cube.compile(pose, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+//            }
+//        }
     }
 
     public Cube getRandomCube(RandomSource randomSource) {
@@ -646,6 +627,7 @@ public final class ModelPart {
             }
         }
 
+
         /**
          * For minecraft hardcode java edition entity model...
          * */
@@ -713,7 +695,6 @@ public final class ModelPart {
             if (directions.contains(Direction.SOUTH)) {
                 this.polygons[i] = new Polygon(new Vertex[]{vertex3, vertex4, vertex5, vertex6}, f8, f11, f9, f12, textureWidth, textureHeight, mirror, Direction.SOUTH);
             }
-
         }
 
         public void compile(PoseStack.Pose pose, VertexConsumer vertexConsumer, int light, int overlay, float r, float g, float b, float a) {
@@ -722,10 +703,11 @@ public final class ModelPart {
             for(Polygon polygon : this.polygons) {
                 Vector3f vector3f = matrix3f.transform(new Vector3f(polygon.normal));
                 for(Vertex vertex : polygon.vertices) {
-                    float f3 = vertex.pos.x() * 0.0625F;
-                    float f4 = vertex.pos.y() * 0.0625F;
-                    float f5 = vertex.pos.z() * 0.0625F;
-                    Vector4f vector4f = matrix4f.transform(new Vector4f(f3, f4, f5, 1.0F));
+                    Vector4f vector4f = matrix4f.transform(new Vector4f(
+                            vertex.pos.x(),
+                            vertex.pos.y(),
+                            vertex.pos.z(),
+                            1.0F));
                     vertexConsumer.vertex(
                             vector4f.x(), vector4f.y(), vector4f.z(),
                             r, g, b, a,
@@ -734,8 +716,30 @@ public final class ModelPart {
                             vector3f.x(), vector3f.y(), vector3f.z());
                 }
             }
-
         }
+
+        Vector3f destVec3 = new Vector3f();
+        public void compileNew(PoseStack.Pose pose, VertexConsumer vertexConsumer, int light, int overlay, float r, float g, float b, float a) {
+            Matrix4f matrix4f = pose.pose();
+            Matrix3f matrix3f = pose.normal();
+            for(Polygon polygon : this.polygons) {
+                matrix3f.transform(polygon.normal.x, polygon.normal.y, polygon.normal.z, destVec3);
+                for(Vertex vertex : polygon.vertices) {
+                    float x = vertex.pos.x();
+                    float y = vertex.pos.y();
+                    float z = vertex.pos.z();
+                    vertexConsumer.vertex(
+                            matrix4f.m00() * x + matrix4f.m10() * y + matrix4f.m20() * z + matrix4f.m30(),
+                            matrix4f.m01() * x + matrix4f.m11() * y + matrix4f.m21() * z + matrix4f.m31(),
+                            matrix4f.m02() * x + matrix4f.m12() * y + matrix4f.m22() * z + matrix4f.m32(),
+                            r, g, b, a,
+                            vertex.u, vertex.v,
+                            overlay, light,
+                            destVec3.x(), destVec3.y(), destVec3.z());
+                }
+            }
+        }
+
 
         public boolean collisionNoRot(Cube other)  {
             return this.maxX >= other.minX && this.minX <= other.maxX &&
@@ -831,17 +835,17 @@ public final class ModelPart {
         public final float v;
 
         public Vertex(float x, float y, float z, float u, float v) {
-            this(new Vector3f(x, y, z), u, v);
+            this(new Vector3f(x / 16, y / 16, z / 16), u, v);
         }
 
         public Vertex(float x, float y, float z) {
-            this(new Vector3f(x, y, z));
+            this(new Vector3f(x / 16, y / 16, z / 16));
         }
 
         public Vertex(Vector3f pos) {
             this.pos = pos;
-            u =0;
-            v=0;
+            u = 0;
+            v = 0;
         }
 
         public Vertex remap(float u, float v) {
@@ -855,7 +859,7 @@ public final class ModelPart {
         }
 
         public void move(float x, float y, float z) {
-            this.pos.add(x, y, z);
+            this.pos.add(x / 16, y / 16, z / 16);
         }
 
         public Vertex rotate(float angleX, float angleY, float angleZ) {
@@ -871,7 +875,6 @@ public final class ModelPart {
             float cosZ = (float) Math.cos(angleZ);
             float sinZ = (float) Math.sin(angleZ);
             newPos.set(newPos.x * cosZ - newPos.y * sinZ, newPos.x * sinZ + newPos.y * cosZ, newPos.z);
-
             return new Vertex(newPos, u, v);
         }
     }
