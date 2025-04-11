@@ -74,9 +74,9 @@ public class InertialRecoilHandler {
             float r0 = (rotate + randomY) * scaleRot * ROTATE_FACTOR;
             float r1 = randomX * scaleRot * ROTATE_FACTOR;
             float backDist = back * BACK_FACTOR * scaleZ;
-            poseStack.translate(0, -this.up * UP_FACTOR * scaleY, backDist * 0.75f);
+            poseStack.translate(0, -this.up * UP_FACTOR * scaleY, backDist * 0.7f);
             poseStack.mulPose(new Quaternionf().rotateXYZ(-r0, r1, 0));
-            poseStack.translate(0, 0, backDist * 0.25f);
+            poseStack.translate(0, 0, backDist * 0.3f);
         }
     }
 

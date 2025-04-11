@@ -41,4 +41,6 @@ public interface IReloadTask {
     }
 
     float getProgress();
+
+    void onMouseButton(int btn, int action);
 }

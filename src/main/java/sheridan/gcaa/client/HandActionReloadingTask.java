@@ -26,6 +26,9 @@ public class HandActionReloadingTask extends ReloadTask {
         if (tick >= length && needHandAction) {
             ((HandActionGun) gun).setNeedHandAction(itemStack, false);
             PacketHandler.simpleChannel.sendToServer(new DoneHandActionPacket());
+            if (adsOnFinished) {
+                Clients.MAIN_HAND_STATUS.ads = true;
+            }
         }
         super.tick(clientPlayer);
     }
@@ -50,6 +53,9 @@ public class HandActionReloadingTask extends ReloadTask {
                         model.getFullReload() :
                         model.getReload());
             }
+        }
+        if (Clients.MAIN_HAND_STATUS.ads) {
+            adsOnFinished = true;
         }
         Clients.MAIN_HAND_STATUS.ads = false;
         HandActionHandler.INSTANCE.breakTask();

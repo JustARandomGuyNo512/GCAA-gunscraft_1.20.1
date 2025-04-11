@@ -743,7 +743,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
                 tooltip.add(FontUtils.helperTip(Component.literal(showDetail)));
                 tooltip.add(FontUtils.getExcellentWorse());
             }
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
     }
 
     protected void gunBaseInfo(ItemStack stack, @Nullable Level levelIn, List<Component> tooltip, TooltipFlag flagIn) {

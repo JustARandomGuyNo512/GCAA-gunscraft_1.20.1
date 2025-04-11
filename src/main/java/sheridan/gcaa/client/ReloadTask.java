@@ -27,6 +27,7 @@ public class ReloadTask implements IReloadTask {
     public IGunModel model;
     public boolean completed;
     private boolean isGenericReloading = false;
+    protected boolean adsOnFinished = false;
 
     public ReloadTask(ItemStack itemStack, IGun gun) {
         this.itemStack = itemStack;
@@ -54,6 +55,9 @@ public class ReloadTask implements IReloadTask {
             PacketHandler.simpleChannel.sendToServer(new GunReloadPacket());
             gun.reload(itemStack, clientPlayer);
             completed = true;
+            if (adsOnFinished) {
+                Clients.MAIN_HAND_STATUS.ads = true;
+            }
             return;
         }
         tick++;
@@ -91,6 +95,9 @@ public class ReloadTask implements IReloadTask {
             AnimationHandler.INSTANCE.startReload(gun.getGun().shouldUseFullReload(itemStack)
                     ? model.getFullReload() : model.getReload());
         }
+        if (Clients.MAIN_HAND_STATUS.ads) {
+            adsOnFinished = true;
+        }
         Clients.MAIN_HAND_STATUS.ads = false;
         HandActionHandler.INSTANCE.breakTask();
         if (isGenericReloading) {
@@ -103,5 +110,13 @@ public class ReloadTask implements IReloadTask {
     public float getProgress() {
         return length == 0 ? 0 : tick / (float) length;
     }
+
+    @Override
+    public void onMouseButton(int btn, int action) {
+        if (btn == 1) {
+            adsOnFinished = action == 1;
+        }
+    }
+
 
 }

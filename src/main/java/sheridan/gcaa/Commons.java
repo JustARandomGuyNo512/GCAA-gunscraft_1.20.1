@@ -6,10 +6,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import sheridan.gcaa.attachmentSys.AttachmentSlot;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
-import sheridan.gcaa.attachmentSys.proxies.AkmAttachmentProxy;
-import sheridan.gcaa.attachmentSys.proxies.HkG28AttachmentProxy;
-import sheridan.gcaa.attachmentSys.proxies.M4a1AttachmentProxy;
-import sheridan.gcaa.attachmentSys.proxies.Mk47AttachmentProxy;
+import sheridan.gcaa.attachmentSys.proxies.*;
 import sheridan.gcaa.industrial.AmmunitionRecipe;
 import sheridan.gcaa.industrial.RecipeRegister;
 import sheridan.gcaa.items.ModItems;
@@ -179,7 +176,7 @@ public class Commons {
                 .addChild(new AttachmentSlot("hand_guard_right_rear", mk47HandguardSlot).lower())
                 .addChild(new AttachmentSlot("hand_guard_lower", hkg28HandguardFrontSlot).lower())
                 .addChild(new AttachmentSlot("hand_guard_grip", mk47HandguardGrip).lower()),
-                Mk47AttachmentProxy::new
+                (slot) -> new GrenadeExclusiveProxy(slot, "hand_guard_lower", "hand_guard_grip")
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.HK_G28.get(), AttachmentSlot.root()
@@ -194,7 +191,7 @@ public class Commons {
                 .addChild(new AttachmentSlot("handguard_front_right", hkg28HandguardFrontSlot).lower())
                 .addChild(new AttachmentSlot(GRIP, mk47HandguardGrip).lower())
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag7_62x51", "gcaa:drum_762x51"))),
-                HkG28AttachmentProxy::new
+                (slot) -> new GrenadeExclusiveProxy(slot, "grip", "handguard_front")
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.BERETTA_686.get(), AttachmentSlot.root()
@@ -275,6 +272,8 @@ public class Commons {
                         "gcaa:rail_panel",
                         "gcaa:rail_panel_short",
                         "gcaa:vertical_grip",
+                        "gcaa:gp_25",
+                        "gcaa:m203",
                         "gcaa:slant_grip"
                 )))
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog","gcaa:elcan", "gcaa:okp7_b")))
@@ -283,7 +282,8 @@ public class Commons {
                 .addChild(new AttachmentSlot("handguard_left", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight")).lower())
                 .addChild(new AttachmentSlot("handguard_right", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight")).lower())
                 .addChild(new AttachmentSlot("handguard_front", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight")).lower())
-                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:mcx_spear_exp_mag")))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:mcx_spear_exp_mag"))),
+                (slot) -> new GrenadeExclusiveProxy(slot, "handguard_grip", "handguard_front")
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.AUG_A3.get(), AttachmentSlot.root()

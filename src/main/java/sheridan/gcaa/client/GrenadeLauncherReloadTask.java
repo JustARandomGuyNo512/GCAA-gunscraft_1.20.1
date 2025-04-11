@@ -28,6 +28,7 @@ public class GrenadeLauncherReloadTask implements IReloadTask {
     private int tick = 0;
     private boolean completed = false;
     private final String attachmentId;
+    private boolean adsOnFinished = false;
 
     public GrenadeLauncherReloadTask(String attachmentId, int length, IGun gun, ItemStack itemStack) {
         this.length = length;
@@ -48,6 +49,9 @@ public class GrenadeLauncherReloadTask implements IReloadTask {
             PacketHandler.simpleChannel.sendToServer(new GrenadeLauncherReloadPacket(attachmentId));
             GrenadeLauncher.reload(attachmentId, itemStack, gun, clientPlayer);
             completed = true;
+            if (adsOnFinished) {
+                Clients.MAIN_HAND_STATUS.ads = true;
+            }
             return;
         }
         tick++;
@@ -82,6 +86,9 @@ public class GrenadeLauncherReloadTask implements IReloadTask {
             AnimationHandler.INSTANCE.startReload(animatedModel.getAnimation("gun_reload"));
             AnimationHandler.INSTANCE.startAnimation(GrenadeLauncherModel.RELOAD_ANIMATION_KEY, animatedModel.getAnimation("attachment_reload"), false, false);
         }
+        if (Clients.MAIN_HAND_STATUS.ads) {
+            adsOnFinished = true;
+        }
         Clients.MAIN_HAND_STATUS.ads = false;
         HandActionHandler.INSTANCE.breakTask();
     }
@@ -89,5 +96,12 @@ public class GrenadeLauncherReloadTask implements IReloadTask {
     @Override
     public float getProgress() {
         return length == 0 ? 0 : tick / (float) length;
+    }
+
+    @Override
+    public void onMouseButton(int btn, int action) {
+        if (btn == 1) {
+            adsOnFinished = action == 1;
+        }
     }
 }

@@ -48,6 +48,9 @@ public class AutoShotgunReloadTask extends SingleReloadTask{
             if (tick >= length) {
                 PlayerStatusProvider.setReloading(clientPlayer, false);
                 completed = true;
+                if (adsOnFinished) {
+                    Clients.MAIN_HAND_STATUS.ads = true;
+                }
                 return;
             }
             tick++;
@@ -73,6 +76,9 @@ public class AutoShotgunReloadTask extends SingleReloadTask{
             } else {
                 super.start();
             }
+        }
+        if (Clients.MAIN_HAND_STATUS.ads) {
+            adsOnFinished = true;
         }
         Clients.MAIN_HAND_STATUS.ads = false;
         HandActionHandler.INSTANCE.breakTask();

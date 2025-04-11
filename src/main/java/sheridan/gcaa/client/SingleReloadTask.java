@@ -58,6 +58,9 @@ public class SingleReloadTask extends ReloadTask {
                 IHandActionTask task = handActionGun.getHandActionTask(itemStack, true);
                 HandActionHandler.INSTANCE.setHandActionTask(task);
             }
+            if (adsOnFinished) {
+                Clients.MAIN_HAND_STATUS.ads = true;
+            }
             return;
         }
         tick++;
@@ -79,6 +82,9 @@ public class SingleReloadTask extends ReloadTask {
                     .append(new Mark(single).setLoopTimes(reloadNum).enableSound(true).soundOnServer(true))
                     .append(new Mark(exit));
             AnimationHandler.INSTANCE.startReload(sequence);
+        }
+        if (Clients.MAIN_HAND_STATUS.ads) {
+            adsOnFinished = true;
         }
         Clients.MAIN_HAND_STATUS.ads = false;
         HandActionHandler.INSTANCE.breakTask();

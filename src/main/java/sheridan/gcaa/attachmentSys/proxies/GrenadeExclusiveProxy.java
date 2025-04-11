@@ -8,11 +8,11 @@ import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.attachments.functional.GrenadeLauncher;
 import sheridan.gcaa.items.gun.IGun;
 
-public class HkG28AttachmentProxy extends AttachmentSlotProxy {
+public class GrenadeExclusiveProxy extends AttachmentSlotProxy {
     private final BinaryExclusiveProxy binaryMutuallyExclusiveProxy;
-    public HkG28AttachmentProxy(AttachmentSlot root) {
+    public GrenadeExclusiveProxy(AttachmentSlot root, String grenadeSlot, String frontSlot)  {
         super(root);
-        binaryMutuallyExclusiveProxy = new BinaryExclusiveProxy(root, "grip", "handguard_front");
+        binaryMutuallyExclusiveProxy = new BinaryExclusiveProxy(root, grenadeSlot, frontSlot);
         binaryMutuallyExclusiveProxy.addExclusive((prevSlot, other, prevAttachment, otherAttachment) -> prevAttachment instanceof GrenadeLauncher || otherAttachment instanceof GrenadeLauncher);
     }
 

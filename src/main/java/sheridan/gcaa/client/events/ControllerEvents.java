@@ -18,6 +18,7 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.client.HandActionHandler;
+import sheridan.gcaa.client.IReloadTask;
 import sheridan.gcaa.client.KeyBinds;
 import sheridan.gcaa.client.ReloadingHandler;
 import sheridan.gcaa.client.model.modelPart.ModelPart;
@@ -106,12 +107,20 @@ public class ControllerEvents {
                         Clients.MAIN_HAND_STATUS.buttonDown.set(false);
                         Clients.MAIN_HAND_STATUS.fireCount = 0;
                     }
+                    IReloadTask reloadingTask = ReloadingHandler.INSTANCE.getReloadingTask();
+                    if (reloadingTask != null) {
+                        reloadingTask.onMouseButton(0, event.getAction());
+                    }
                     event.setCanceled(true);
                 } else if (event.getButton() == 1) {
                     if (shouldHandleRightClick()) {
                         Clients.MAIN_HAND_STATUS.ads = (event.getAction() == 1 && Clients.allowAdsStart(stack, gun, player));
                         boolean cancel = ReloadingHandler.isReloading() || !gun.canUseWithShield() || !(player.getOffhandItem().getItem() instanceof ShieldItem);
                         event.setCanceled(cancel);
+                        IReloadTask reloadingTask = ReloadingHandler.INSTANCE.getReloadingTask();
+                        if (reloadingTask != null) {
+                            reloadingTask.onMouseButton(1, event.getAction());
+                        }
                     }
                 }
                 AttachmentsHandler.INSTANCE.getAttachments(stack, gun).forEach((attachment) -> {

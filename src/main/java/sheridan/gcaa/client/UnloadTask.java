@@ -122,6 +122,11 @@ public class UnloadTask implements IReloadTask{
         return length == 0 ? 0 : tick / (float) length;
     }
 
+    @Override
+    public void onMouseButton(int btn, int action) {
+
+    }
+
     public record UnloadData(int length, SoundEvent sound) {}
 
 }
