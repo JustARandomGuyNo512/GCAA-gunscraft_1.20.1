@@ -5,7 +5,7 @@ import sheridan.gcaa.data.IJsonSyncable;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Deprecated
+
 public class InertialRecoilData implements IJsonSyncable {
     private static final AtomicInteger TEMP_ID = new AtomicInteger(0);
     public float up;

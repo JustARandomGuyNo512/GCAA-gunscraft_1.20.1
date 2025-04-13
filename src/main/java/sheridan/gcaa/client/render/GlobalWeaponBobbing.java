@@ -118,7 +118,7 @@ public class GlobalWeaponBobbing {
             float bob = Mth.lerp(particleTick, player.oBob, player.bob);
             sprintingFactor = player.isSprinting() ? Math.min(bob * 10f, 1f) : 1f;
             scaleFactor = aimingFactor * (player.isSprinting() ? 1f + sprintingFactor * 0.3f : 1f);
-            float idleScale = Math.min((System.currentTimeMillis() - Clients.lastShootMain()) * 0.001f, 0.8f) * scaleFactor * (player.isCrouching() ? 0.5f : 0.8f);
+            float idleScale = Math.min((System.currentTimeMillis() - Clients.lastShootMain()) * 0.1f, 0.8f) * scaleFactor * (player.isCrouching() ? 0.5f : 0.8f);
             float scaledBob = bob * scaleFactor * (1 - sprintingProgress);
             float pistolFactor = gun.isPistol() ? 0.5f : 1f;
             float zRot = InertialBobbingHandler.getXOffset() * scaleFactor * (pistolFactor * pistolFactor);

@@ -167,8 +167,8 @@ public class Grenade extends Entity{
     public void explode() {
         if (!this.level().isClientSide) {
             this.level().explode(this, this.getX(), this.getY() + 0.0625f, this.getZ(), explodeRadius, false, Level.ExplosionInteraction.NONE);
+            this.discard();
         }
-        this.discard();
     }
 
     private void onHitEntity(Entity entity) {
