@@ -1260,7 +1260,7 @@
 				{
 					"name": "min_z_dis",
 					"parent": "root",
-					"pivot": [0, 5.7373, 28.022]
+					"pivot": [0, 5.7373, 26.822]
 				},
 				{
 					"name": "sub_scope_adapter",

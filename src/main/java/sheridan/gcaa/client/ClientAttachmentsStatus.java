@@ -214,11 +214,9 @@ public class ClientAttachmentsStatus {
             }
         }
         if (AttachmentsRegister.getModel(effectiveSight.getAttachmentId()) instanceof SightModel sightModel) {
-            if (sightModel instanceof ScopeModel scopeModel) {
-                Clients.weaponAdsZMinDistance = scopeModel.handleMinZTranslation(RenderAndMathUtils.copyPoseStack(poseStack));
-            } else {
-                Clients.weaponAdsZMinDistance = Float.NaN;
-            }
+            //if (sightModel instanceof ScopeModel scopeModel) {
+            Clients.weaponAdsZMinDistance = sightModel.handleMinZTranslation(RenderAndMathUtils.copyPoseStack(poseStack));
+            //}
             sightModel.handleCrosshairTranslation(poseStack);
         }
         Vector3f translation = poseStack.last().pose().getTranslation(new Vector3f(0, 0, 0));

@@ -135,7 +135,9 @@ public class DisplayData implements IJsonSyncable {
     }
 
     protected float lerpMinZ(float defaultVal) {
-        if (Float.isNaN(Clients.weaponAdsZMinDistance) || Float.isNaN(Clients.gunModelFovModify)) {
+        if (Float.isNaN(Clients.weaponAdsZMinDistance)
+                //|| Float.isNaN(Clients.gunModelFovModify)
+        ) {
             return defaultVal;
         }
         return - Clients.weaponAdsZMinDistance;
