@@ -36,10 +36,7 @@ import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.ApplyAmmunitionModifyPacket;
 import sheridan.gcaa.utils.FontUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
 public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionModifyMenu> {
@@ -61,6 +58,7 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
     private final Set<IAmmunitionMod> ammoAlreadyHas = new HashSet<>();
     private boolean needUpdate = false;
     private long balance;
+    private Set<Integer> tempSelectedMods = new HashSet<>();
 
     public AmmunitionModifyScreen(AmmunitionModifyMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -202,18 +200,26 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
             suitableAmmunitionMods.clear();
             return;
         }
+        Set<Integer> idSet = new HashSet<>();
         Set<IAmmunitionMod> suitableMods = currentAmmo.getSuitableMods();
         ArrayList<AmmunitionModRegister.ModEntry> allEntries = new ArrayList<>();
         for (IAmmunitionMod mod : suitableMods) {
             AmmunitionModRegister.ModEntry entry = AmmunitionModRegister.getEntry(mod);
             if (entry != null) {
                 allEntries.add(entry);
+                idSet.add(entry.index());
             }
         }
         suitableAmmunitionMods.clear();
         for (int i = 0; i < allEntries.size(); i += PAGE_SIZE) {
             suitableAmmunitionMods.add(new ArrayList<>(allEntries.subList(i, Math.min(i + PAGE_SIZE, allEntries.size()))));
         }
+        Iterator<Integer> iterator = tempSelectedMods.iterator();
+        iterator.forEachRemaining(id -> {
+            if (!idSet.contains(id)) {
+                iterator.remove();
+            }
+        });
     }
 
     @Override
@@ -289,6 +295,10 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
 
     public void updateClient(String modsUUID, int maxModCapability, CompoundTag modsTag, long balance) {
         needUpdate = false;
+        tempSelectedMods.clear();
+        for (AmmunitionModRegister.ModEntry modEntry : selectedMods) {
+            tempSelectedMods.add(modEntry.index());
+        }
         selectedMods.clear();
         updateAmmoAlreadyHas();
         for (int i = 0; i < PAGE_SIZE; i++) {
@@ -428,6 +438,7 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
                 if (selectedMods.contains(entry)) {
                     selectedMods.remove(entry);
                     selected = false;
+                    tempSelectedMods.remove(entry.index());
                 } else {
                     if (!blocked && canAddMod(entry.mod())) {
                         selectedMods.add(entry);
@@ -450,7 +461,7 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
             setOffset(new Vector2i(uvs.x, uvs.y));
             setCurrentTexture(entry.mod().getIconTexture(), uvs.z, uvs.w);
             if (canAddMod(entry.mod())) {
-                if (selectedMods.contains(entry)) {
+                if (selectedMods.contains(entry) || tempSelectedMods.contains(entry.index())) {
                     select();
                 }
                 blocked = false;
@@ -458,6 +469,12 @@ public class AmmunitionModifyScreen extends AbstractContainerScreen<AmmunitionMo
             } else {
                 blocked = true;
                 genTooltip(entry, true);
+            }
+            for (AmmunitionModRegister.ModEntry e : selectedMods) {
+                if (e.index() == entry.index()) {
+                    selected = true;
+                    break;
+                }
             }
         }
 

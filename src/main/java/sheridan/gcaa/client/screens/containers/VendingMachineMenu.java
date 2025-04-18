@@ -93,6 +93,11 @@ public class VendingMachineMenu extends AbstractContainerMenu {
         public boolean mayPickup(@NotNull Player pPlayer) {
             return false;
         }
+
+        @Override
+        public boolean mayPlace(ItemStack pStack) {
+            return false;
+        }
     }
 
     public VendingMachineMenu(int i, Inventory inventory, Level level, BlockPos pos) {
