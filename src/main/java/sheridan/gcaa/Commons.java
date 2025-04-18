@@ -279,9 +279,9 @@ public class Commons {
                 .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:holographic", "gcaa:acog","gcaa:elcan", "gcaa:okp7_b")))
                 .addChild(new AttachmentSlot("handguard_scope", mk47HandguardScopeSlot).upper())
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock", "gcaa:ubr_stock")).setReplaceableGunPart(new RecoilControlPart(1.1f, 0.13f, 0.1f)))
-                .addChild(new AttachmentSlot("handguard_left", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight")).lower())
-                .addChild(new AttachmentSlot("handguard_right", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight")).lower())
-                .addChild(new AttachmentSlot("handguard_front", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight")).lower())
+                .addChild(new AttachmentSlot("handguard_left", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight", "gcaa:rail_panel_short")).lower())
+                .addChild(new AttachmentSlot("handguard_right", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight", "gcaa:rail_panel_short")).lower())
+                .addChild(new AttachmentSlot("handguard_front", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight", "gcaa:rail_panel_short")).lower())
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:mcx_spear_exp_mag"))),
                 (slot) -> new GrenadeExclusiveProxy(slot, "handguard_grip", "handguard_front")
         );

@@ -159,7 +159,8 @@ public class GCAA {
     }
 
     public static boolean isNotRunData() {
-        return ServerLifecycleHooks.getCurrentServer() != null || !ModList.get().isLoaded("forge");
+        return true;
+                //ServerLifecycleHooks.getCurrentServer() != null || !ModList.get().isLoaded("forge");
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)

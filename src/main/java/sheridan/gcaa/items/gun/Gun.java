@@ -707,7 +707,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
         if (slotChanged) {
             ReloadingHandler.INSTANCE.cancelTask();
             HandActionHandler.INSTANCE.breakTask();
-            SprintingHandler.INSTANCE.exitSprinting(40);
+            SprintingHandler.INSTANCE.exitSprinting(RenderAndMathUtils.secondsToTicks(1.25f));
             BulletShellRenderer.clear();
             Clients.MAIN_HAND_STATUS.buttonDown.set(false);
             Clients.MAIN_HAND_STATUS.ads = false;

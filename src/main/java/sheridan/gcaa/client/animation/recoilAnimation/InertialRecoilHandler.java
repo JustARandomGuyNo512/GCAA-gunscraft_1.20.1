@@ -77,21 +77,23 @@ public class InertialRecoilHandler {
             poseStack.translate(0, -this.up * UP_FACTOR * scaleY, backDist * 0.7f);
             poseStack.mulPose(new Quaternionf().rotateXYZ(-r0, r1, 0));
             poseStack.translate(0, 0, backDist * 0.3f);
-            float timeDis = (System.currentTimeMillis() - Clients.lastShootMain()) / 1000f;
-            //Clients.MAIN_HAND_STATUS.fireCount
-            if (timeDis < 1) {
-                shake = (float) (timeDis * Math.PI * 18f * ((1 - timeDis) * 0.6f) + 0.4f);
-                float scale = (float) ((float) (Math.pow(1 - timeDis, 3) * 0.024f) *
-                                        (SPLITTABLE_RANDOM.nextDouble() * 0.4f + 0.6f));
-                float factor = (float) (Math.sin(shake) * scale);
-                int index = (
-                        Clients.MAIN_HAND_STATUS.fireCount % 2 == 0 && Clients.getAdsProgress() > 0.75f
-                ) ? -1 : 1;
-                poseStack.mulPose(new Quaternionf().rotateXYZ(
-                        (float) (factor * (0.5f + SPLITTABLE_RANDOM.nextDouble() * 0.1f)),
-                        factor * 0.12f * randomIndexX,
-                        factor * index * (1 - Clients.getAdsProgress() * 0.8f)
-                ));
+            if (data.shake != null) {
+                float timeDis = (System.currentTimeMillis() - Clients.lastShootMain()) / 1000f;
+                if (timeDis < 1) {
+                    shake = (float) (timeDis * Math.PI * data.shake.period * 10 * ((1 - timeDis) * 0.6f) + 0.4f);
+                    float scale = (float) ((Math.pow(1 - timeDis, 3) * data.shake.size) *
+                            (SPLITTABLE_RANDOM.nextDouble() * 0.4f + 0.6f));
+                    float factor = (float) (Math.sin(shake) * scale);
+                    int index = (
+                            Clients.MAIN_HAND_STATUS.fireCount % 2 == 0 && Clients.getAdsProgress() > 0.75f
+                    ) ? -1 : 1;
+                    float f = 1 - Clients.getAdsProgress();
+                    poseStack.mulPose(new Quaternionf().rotateXYZ(
+                            (float) ((factor * (data.shake.xRotScaleFactor + SPLITTABLE_RANDOM.nextDouble() * 0.1f)) * Mth.lerp(f, data.shake.adsRotXScale, 1)),
+                            factor * data.shake.yRotScaleFactor * Mth.lerp(f, data.shake.adsRotYScale, 1) * randomIndexX,
+                            factor * index * Mth.lerp(f, data.shake.adsRotZScale, 1)
+                    ));
+                }
             }
         }
     }

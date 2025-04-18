@@ -11,6 +11,7 @@ import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
 import sheridan.gcaa.items.gun.PumpActionShotgun;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 public class HandAction implements IGunFireMode {
     public static final HandAction HAND_ACTION = new HandAction();
@@ -22,7 +23,7 @@ public class HandAction implements IGunFireMode {
 
     @Override
     public boolean canFire(Player player, ItemStack itemStack, IGun gun) {
-        SprintingHandler.INSTANCE.exitSprinting(40);
+        SprintingHandler.INSTANCE.exitSprinting(RenderAndMathUtils.secondsToTicks(1.25f));
         if (SprintingHandler.INSTANCE.getSprintingProgress() != 0) {
             return false;
         }

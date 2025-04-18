@@ -23,6 +23,7 @@ public class InertialRecoilData implements IJsonSyncable {
     private boolean canMix = false;
     public float randomXChangeRate = 0.5f;
     public float randomYChangeRate = 0.5f;
+    public Shake shake;
 
     public InertialRecoilData(float up, float upDec, float back, float backDec, float rotate, float rotateDec, float randomX, float randomXChangeRate,
                               float randomY, float randomYChangeRate, float aimingScaleUp, float aimingBackScale, float aimingRotateScale) {
@@ -79,6 +80,11 @@ public class InertialRecoilData implements IJsonSyncable {
         this.id = TEMP_ID.getAndIncrement();
     }
 
+    public InertialRecoilData shake(float size, float xRotScaleFactor, float yRotScaleFactor, float period, float adsRotZScale, float adsRotYScale, float adsRotXScale) {
+        this.shake = new Shake(size, xRotScaleFactor, yRotScaleFactor, period, adsRotZScale, adsRotYScale, adsRotXScale);
+        return this;
+    }
+
     public boolean isCanMix() {
         return canMix;
     }
@@ -99,6 +105,11 @@ public class InertialRecoilData implements IJsonSyncable {
         jsonObject.addProperty("randomXChangeRate", randomXChangeRate);
         jsonObject.addProperty("randomYChangeRate", randomYChangeRate);
         jsonObject.addProperty("canMix", canMix);
+        if (shake != null) {
+            JsonObject shakeObject = new JsonObject();
+            shake.writeData(shakeObject);
+            jsonObject.add("shake", shakeObject);
+        }
     }
 
     @Override
@@ -117,5 +128,57 @@ public class InertialRecoilData implements IJsonSyncable {
         randomXChangeRate = jsonObject.get("randomXChangeRate").getAsFloat();
         randomYChangeRate = jsonObject.get("randomYChangeRate").getAsFloat();
         canMix = jsonObject.get("canMix").getAsBoolean();
+        if (jsonObject.has("shake")) {
+            shake = Shake.create();
+            shake.loadData(jsonObject.get("shake").getAsJsonObject());
+        }
+    }
+
+    public static class Shake implements IJsonSyncable{
+        public float size;
+        public float xRotScaleFactor;
+        public float yRotScaleFactor;
+        public float period;
+        public float adsRotZScale;
+        public float adsRotYScale;
+        public float adsRotXScale;
+
+        public Shake(float size, float xRotScaleFactor, float yRotScaleFactor, float period, float adsRotZScale, float adsRotYScale, float adsRotXScale) {
+            this.size = size;
+            this.xRotScaleFactor = xRotScaleFactor;
+            this.yRotScaleFactor = yRotScaleFactor;
+            this.period = period;
+            this.adsRotZScale = adsRotZScale;
+            this.adsRotYScale = adsRotYScale;
+            this.adsRotXScale = adsRotXScale;
+        }
+
+        private Shake() {}
+
+        public static Shake create() {
+            return new Shake();
+        }
+
+        @Override
+        public void writeData(JsonObject jsonObject) {
+            jsonObject.addProperty("size", size);
+            jsonObject.addProperty("xRotScaleFactor", xRotScaleFactor);
+            jsonObject.addProperty("yRotScaleFactor", yRotScaleFactor);
+            jsonObject.addProperty("period", period);
+            jsonObject.addProperty("adsRotZScale", adsRotZScale);
+            jsonObject.addProperty("adsRotYScale", adsRotYScale);
+            jsonObject.addProperty("adsRotXScale", adsRotXScale);
+        }
+
+        @Override
+        public void loadData(JsonObject jsonObject) {
+            size = jsonObject.get("size").getAsFloat();
+            xRotScaleFactor = jsonObject.get("xRotScaleFactor").getAsFloat();
+            yRotScaleFactor = jsonObject.get("yRotScaleFactor").getAsFloat();
+            period = jsonObject.get("period").getAsFloat();
+            adsRotZScale = jsonObject.get("adsRotZScale").getAsFloat();
+            adsRotYScale = jsonObject.get("adsRotYScale").getAsFloat();
+            adsRotXScale = jsonObject.get("adsRotXScale").getAsFloat();
+        }
     }
 }

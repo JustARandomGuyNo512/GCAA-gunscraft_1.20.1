@@ -193,7 +193,7 @@ public class GrenadeLauncher extends Attachment implements IArmReplace, IInterac
     public void onKeyPress(int key, int action, ItemStack stack, IGun gun, Player player) {
         if (KeyBinds.USE_GRENADE_LAUNCHER.isDown() && action == 1) {
             if (SprintingHandler.INSTANCE.getSprintingProgress() != 0) {
-                SprintingHandler.INSTANCE.exitSprinting(40);
+                SprintingHandler.INSTANCE.exitSprinting(RenderAndMathUtils.secondsToTicks(1.25f));
                 return;
             }
             if (hasGrenade(stack, gun)) {
