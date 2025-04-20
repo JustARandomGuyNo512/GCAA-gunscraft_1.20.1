@@ -798,7 +798,7 @@
 					]
 				},
 				{
-					"name": "grip&.grip",
+					"name": "grip",
 					"parent": "main",
 					"pivot": [0, -7, 3],
 					"cubes": [

@@ -235,6 +235,7 @@ public class Commons {
                         "gcaa:horizontal_laser_sight",
                         "gcaa:flashlight",
                         "gcaa:rail_panel",
+                        "gcaa:gp_25",
                         "gcaa:rail_panel_short",
                         "gcaa:vertical_grip",
                         "gcaa:slant_grip"
@@ -295,6 +296,19 @@ public class Commons {
                 .addChild(new AttachmentSlot("left", Set.of("gcaa:laser_sight", "gcaa:flashlight","gcaa:horizontal_laser_sight")).lower())
                 .addChild(new AttachmentSlot("right", Set.of("gcaa:laser_sight", "gcaa:flashlight")).lower())
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ar_extend_mag")))
+        );
+
+        AttachmentsRegister.registerAttachmentSlot(ModItems.SAIGA_12K.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:shotgun_suppressor")))
+                .addChild(new AttachmentSlot(GRIP, Set.of()))
+                .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket", "gcaa:okp7_a")))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:saiga_12k_exp_mag", "gcaa:saiga_12k_drum")))
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube", "gcaa:ak_tactical_stock")).setReplaceableGunPart(new RecoilControlPart(1, 0.1f, 0.1f)))
+                .addChild(new AttachmentSlot("handguard_grip", mk47HandguardGrip).lock().lower())
+                .addChild(new AttachmentSlot("handguard_left", mk47HandguardSlot).lock().lower())
+                .addChild(new AttachmentSlot("handguard_right", mk47HandguardSlot).lock().lower())
+                .addChild(new AttachmentSlot("handguard_scope", mk47HandguardScopeSlot).lock().upper())
+                .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:saiga_12k_tactical_handguard")).setReplaceableGunPart(new WeightPart(0.75f)))
         );
 
         registerVendingMachineProducts();
@@ -403,6 +417,7 @@ public class Commons {
                 new GunProduct(ModItems.HK_G28.get(), 4000),
                 new GunProduct(ModItems.M870.get(), 2000),
                 new GunProduct(ModItems.XM1014.get(), 2400),
+                new GunProduct(ModItems.SAIGA_12K.get(), 3100),
                 new GunProduct(ModItems.BERETTA_686.get(), 1800),
                 new GunProduct(ModItems.M249.get(), 4400),
                 new GunProduct(ModItems.M60E4.get(), 5500));
@@ -460,6 +475,7 @@ public class Commons {
                 new AttachmentProduct(ModItems.AR_LIGHT_HANDGUARD.get(), 300),
                 new AttachmentProduct(ModItems.MP5_RAIL_HANDGUARD.get(), 150),
                 new AttachmentProduct(ModItems.M249_RAILED_HANDGUARD.get(), 100),
+                new AttachmentProduct(ModItems.SAIGA_12K_TACTICAL_HANDGUARD.get(), 200),
                 new AttachmentProduct(ModItems.EXP_MAG_45_STRAIGHT.get(), 160),
                 new AttachmentProduct(ModItems.DRUM_45_STRAIGHT.get(), 280),
                 new AttachmentProduct(ModItems.EXP_MAG9X19.get(), 150),
@@ -472,7 +488,9 @@ public class Commons {
                 new AttachmentProduct(ModItems.DRUM_5_45X39.get(), 380),
                 new AttachmentProduct(ModItems.EXP_MAG7_62X51.get(), 200),
                 new AttachmentProduct(ModItems.MCX_SPEAR_EXP_MAG.get(), 100),
+                new AttachmentProduct(ModItems.SAIGA_12K_EXP_MAG.get(), 100),
                 new AttachmentProduct(ModItems.DRUM_7_62X51.get(), 500),
+                new AttachmentProduct(ModItems.SAIGA_12K_DRUM.get(), 320),
                 new AttachmentProduct(ModItems.GLOCK_EXTEND_MAG.get(), 70),
                 new AttachmentProduct(ModItems.VECTOR_45_EXTEND_MAG.get(), 130),
                 new AttachmentProduct(ModItems.SNIPER_EXTEND_MAG.get(), 50),

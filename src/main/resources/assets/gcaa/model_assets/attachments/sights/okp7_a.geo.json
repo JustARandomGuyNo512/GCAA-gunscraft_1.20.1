@@ -23,7 +23,7 @@
 				{
 					"name": "min_z_dis",
 					"parent": "root",
-					"pivot": [-2.9, 11.94825, 22]
+					"pivot": [-2.9, 11.94825, 21]
 				},
 				{
 					"name": "body",

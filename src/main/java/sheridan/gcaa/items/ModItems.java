@@ -73,6 +73,7 @@ public class ModItems {
     public static final RegistryObject<Fn57> FN57 = ITEMS.register("fn57", Fn57::new);
     public static final RegistryObject<MCXSpear> MCX_SPEAR = ITEMS.register("mcx_spear", MCXSpear::new);
     public static final RegistryObject<AugA3> AUG_A3 = ITEMS.register("aug_a3", AugA3::new);
+    public static final RegistryObject<Saiga12K> SAIGA_12K = ITEMS.register("saiga_12k", Saiga12K::new);
 
     public static final RegistryObject<UnknownAttachment> UNKNOWN_ATTACHMENT = ITEMS.register("unknown_attachment", UnknownAttachment::new);
     public static final RegistryObject<AKSuppressor> AK_SUPPRESSOR = ITEMS.register("ak_suppressor", AKSuppressor::new);
@@ -139,6 +140,9 @@ public class ModItems {
     public static final RegistryObject<Elcan> ELCAN = ITEMS.register("elcan", Elcan::new);
     public static final RegistryObject<GlockMount> GLOCK_MOUNT = ITEMS.register("glock_mount", GlockMount::new);
     public static final RegistryObject<MCXSpearExpMag> MCX_SPEAR_EXP_MAG = ITEMS.register("mcx_spear_exp_mag", MCXSpearExpMag::new);
+    public static final RegistryObject<Saiga12kExpMag> SAIGA_12K_EXP_MAG = ITEMS.register("saiga_12k_exp_mag", Saiga12kExpMag::new);
+    public static final RegistryObject<Saiga12kDrum> SAIGA_12K_DRUM = ITEMS.register("saiga_12k_drum", Saiga12kDrum::new);
+    public static final RegistryObject<Saiga12kTacticalHandguard> SAIGA_12K_TACTICAL_HANDGUARD = ITEMS.register("saiga_12k_tactical_handguard", Saiga12kTacticalHandguard::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

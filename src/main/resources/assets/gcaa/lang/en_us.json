@@ -19,6 +19,7 @@
   "item.gcaa.fn57": "FN-57",
   "item.gcaa.mcx_spear": "MCX-SPEAR",
   "item.gcaa.aug_a3": "AUG-A3",
+  "item.gcaa.saiga_12k": "Saiga-12K",
 
   "item.gcaa.unknown_attachment": "Unknown Attachment",
   "item.gcaa.ak_suppressor": "AK Suppressor",
@@ -85,6 +86,9 @@
   "item.gcaa.elcan": "Elcan Scope",
   "item.gcaa.glock_mount": "Glock Mount",
   "item.gcaa.mcx_spear_exp_mag": "MCX-SPEAR Extended Mag",
+  "item.gcaa.saiga_12k_exp_mag": "Saiga-12K Extended Mag",
+  "item.gcaa.saiga_12k_drum": "Saiga-12K Drum",
+  "item.gcaa.saiga_12k_tactical_handguard": "Saiga-12K Tactical Handguard",
 
   "item.gcaa.ammo9x19mm": "Parabellum 9mm Pistol Rounds",
   "item.gcaa.ammo5_56x45mm": "5.56x45mm Assault Rifle Rounds",

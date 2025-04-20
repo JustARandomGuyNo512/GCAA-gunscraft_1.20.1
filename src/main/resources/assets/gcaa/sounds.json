@@ -103,6 +103,9 @@
   "item.mcx_spear.fire": { "subtitle": "item.mcx_spear.fire", "sounds": [{ "name": "gcaa:mcx_spear/mcx_spear_fire" }]},
   "item.mcx_spear.fire_suppressed": { "subtitle": "item.mcx_spear.fire_suppressed", "sounds": [{ "name": "gcaa:mcx_spear/mcx_spear_fire_suppressed" }]},
   "item.aug_a3.fire": { "subtitle": "item.aug_a3.fire", "sounds": [{ "name": "gcaa:aug_a3/aug_a3_fire" }]},
+  "item.saiga_12k.fire": { "subtitle": "item.saiga_12k.fire", "sounds": [{ "name": "gcaa:saiga_12k/saiga_12k_fire" }]},
+  "item.saiga_12k.fire_suppressed": { "subtitle": "item.saiga_12k.fire_suppressed", "sounds": [{ "name": "gcaa:saiga_12k/saiga_12k_fire_suppressed" }]},
+
 
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},

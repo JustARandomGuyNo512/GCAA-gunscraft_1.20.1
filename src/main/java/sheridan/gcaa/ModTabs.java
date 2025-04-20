@@ -58,6 +58,7 @@ public class ModTabs {
                     tab.accept(ModItems.AR_LIGHT_HANDGUARD.get());
                     tab.accept(ModItems.MP5_RAIL_HANDGUARD.get());
                     tab.accept(ModItems.M249_RAILED_HANDGUARD.get());
+                    tab.accept(ModItems.SAIGA_12K_TACTICAL_HANDGUARD.get());
                     tab.accept(ModItems.AR_EXTEND_MAG.get());
                     tab.accept(ModItems.MAG_SURE_FIRE_60.get());
                     tab.accept(ModItems.AK_EXTEND_MAG.get());
@@ -69,12 +70,14 @@ public class ModTabs {
                     tab.accept(ModItems.EXP_MAG9X19.get());
                     tab.accept(ModItems.SNIPER_EXTEND_MAG.get());
                     tab.accept(ModItems.MCX_SPEAR_EXP_MAG.get());
+                    tab.accept(ModItems.SAIGA_12K_EXP_MAG.get());
                     tab.accept(ModItems.SHOTGUN_EXTEND_BAY.get());
                     tab.accept(ModItems.DRUM_9X19_ARC.get());
                     tab.accept(ModItems.DRUM_45_STRAIGHT.get());
                     tab.accept(ModItems.DRUM_5_45X39.get());
                     tab.accept(ModItems.DRUM_AK.get());
                     tab.accept(ModItems.DRUM_7_62X51.get());
+                    tab.accept(ModItems.SAIGA_12K_DRUM.get());
                     tab.accept(ModItems.CTR_STOCK.get());
                     tab.accept(ModItems.UBR_STOCK.get());
                     tab.accept(ModItems.AK_TACTICAL_STOCK.get());
@@ -125,6 +128,7 @@ public class ModTabs {
                     tab.accept(ModItems.M870.get());
                     tab.accept(ModItems.BERETTA_686.get());
                     tab.accept(ModItems.XM1014.get());
+                    tab.accept(ModItems.SAIGA_12K.get());
                     tab.accept(ModItems.M249.get());
                     tab.accept(ModItems.M60E4.get());
                 }).build());

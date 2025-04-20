@@ -123,6 +123,8 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> MCX_SPEAR_FIRE = registerSound("mcx_spear_fire", "item.mcx_spear.fire");
     public static RegistryObject<SoundEvent> MCX_SPEAR_FIRE_SUPPRESSED = registerSound("mcx_spear_fire_suppressed", "item.mcx_spear.fire_suppressed");
     public static RegistryObject<SoundEvent> AUG_A3_FIRE = registerSound("aug_a3_fire", "item.aug_a3.fire");
+    public static RegistryObject<SoundEvent> SAIGA_12K_FIRE = registerSound("saiga_12k_fire", "item.saiga_12k.fire");
+    public static RegistryObject<SoundEvent> SAIGA_12K_FIRE_SUPPRESSED = registerSound("saiga_12k_fire_suppressed", "item.saiga_12k.fire_suppressed");
 
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");
