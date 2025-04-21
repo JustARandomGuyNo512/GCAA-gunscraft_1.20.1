@@ -129,6 +129,8 @@ public abstract class Attachment extends NoRepairNoEnchantmentItem implements IA
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         pTooltipComponents.add(Component.translatable("tooltip.gun_info.weight").append("" + weight));
+        List<Component> effectsInGunModifyScreen = getEffectsInGunModifyScreen();
+        pTooltipComponents.addAll(effectsInGunModifyScreen);
     }
 
     @Override

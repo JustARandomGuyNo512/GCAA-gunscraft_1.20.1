@@ -17,6 +17,7 @@ public class ARHandguardSlots {
                     "gcaa:rail_panel_short")).lower())
             .addChild(new AttachmentSlot("handguard_scope", Set.of(
                     "gcaa:red_dot",
+                    "gcaa:kobra_sight",
                     "gcaa:holographic",
                     "gcaa:acog",
                     "gcaa:okp7_b",
@@ -50,6 +51,7 @@ public class ARHandguardSlots {
                     "gcaa:rail_panel_short")).lower())
             .addChild(new AttachmentSlot("handguard_scope", Set.of(
                     "gcaa:red_dot",
+                    "gcaa:kobra_sight",
                     "gcaa:holographic",
                     "gcaa:acog",
                     "gcaa:elcan",

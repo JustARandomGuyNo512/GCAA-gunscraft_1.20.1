@@ -143,6 +143,7 @@ public class ModItems {
     public static final RegistryObject<Saiga12kExpMag> SAIGA_12K_EXP_MAG = ITEMS.register("saiga_12k_exp_mag", Saiga12kExpMag::new);
     public static final RegistryObject<Saiga12kDrum> SAIGA_12K_DRUM = ITEMS.register("saiga_12k_drum", Saiga12kDrum::new);
     public static final RegistryObject<Saiga12kTacticalHandguard> SAIGA_12K_TACTICAL_HANDGUARD = ITEMS.register("saiga_12k_tactical_handguard", Saiga12kTacticalHandguard::new);
+    public static final RegistryObject<KobraSight> KOBRA_SIGHT = ITEMS.register("kobra_sight", KobraSight::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

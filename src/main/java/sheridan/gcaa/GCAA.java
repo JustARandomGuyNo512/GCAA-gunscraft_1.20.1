@@ -155,7 +155,9 @@ public class GCAA {
     }
 
     private void registerAddonFinder(AddPackFindersEvent event) {
-        event.addRepositorySource(AddonHandler.INSTANCE.getRepositorySource());
+        if (isNotRunData()) {
+            event.addRepositorySource(AddonHandler.INSTANCE.getRepositorySource());
+        }
     }
 
     public static boolean isNotRunData() {
