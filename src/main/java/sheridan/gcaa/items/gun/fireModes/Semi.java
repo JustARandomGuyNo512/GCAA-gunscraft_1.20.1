@@ -7,6 +7,7 @@ import sheridan.gcaa.Clients;
 import sheridan.gcaa.items.gun.HandActionGun;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 public class Semi implements IGunFireMode {
 
@@ -22,7 +23,7 @@ public class Semi implements IGunFireMode {
         if (gun instanceof HandActionGun handActionGun && handActionGun.needHandAction(itemStack)) {
             return false;
         }
-        return fireInSprinting(player, itemStack, gun, 40);
+        return fireInSprinting(player, itemStack, gun, RenderAndMathUtils.secondsToTicks(1.25f));
     }
 
     @Override

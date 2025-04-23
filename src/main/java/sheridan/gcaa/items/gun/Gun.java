@@ -32,7 +32,6 @@ import sheridan.gcaa.client.animation.AnimationHandler;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilHandler;
 import sheridan.gcaa.client.animation.recoilAnimation.RecoilCameraHandler;
-import sheridan.gcaa.client.animation.recoilAnimation.SpringRecoilHandler;
 import sheridan.gcaa.client.config.ClientConfig;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;

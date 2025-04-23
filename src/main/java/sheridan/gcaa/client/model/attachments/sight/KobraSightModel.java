@@ -10,6 +10,6 @@ public class KobraSightModel extends CommonSightModel {
                 new ResourceLocation(GCAA.MODID, "model_assets/attachments/sights/kobra_sight.png"),
                 new ResourceLocation(GCAA.MODID, "model_assets/attachments/sights/kobra_sight.png"),
                 new ResourceLocation(GCAA.MODID, "model_assets/attachments/sights/kobra.png"),
-                "low", "min_z_dis", "body", "crosshair", 0.14f);
+                "low", "min_z_dis", "body", "crosshair", 0.12f);
     }
 }

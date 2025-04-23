@@ -439,8 +439,8 @@ public class Commons {
                 new AmmunitionProduct(ModItems.AMMO_6_8X51MM.get(), 350),
                 new AmmunitionProduct(ModItems.AMMO_338_LAPUA_MAGNUM.get(), 600),
                 new AmmunitionProduct(ModItems.AMMO_12GAUGE.get(), 200),
-                new GrenadeProduct(ModItems.AMMO_VOG_25.get(), 140),
-                new GrenadeProduct(ModItems.AMMO_M433.get(), 180));
+                new GrenadeProduct(ModItems.AMMO_VOG_25.get(), 180),
+                new GrenadeProduct(ModItems.AMMO_M433.get(), 240));
 
         ProductsRegister.registerProducts(ProductsRegister.ATTACHMENT,
                 new AttachmentProduct(ModItems.PISTOL_SUPPRESSOR.get(), 50),

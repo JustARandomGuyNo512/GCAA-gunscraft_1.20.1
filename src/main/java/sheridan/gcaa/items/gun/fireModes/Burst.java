@@ -6,6 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.items.gun.IGunFireMode;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 public class Burst implements IGunFireMode {
     public final int burstCount;
@@ -21,7 +22,7 @@ public class Burst implements IGunFireMode {
 
     @Override
     public boolean canFire(Player player, ItemStack itemStack, IGun gun) {
-        return fireInSprinting(player, itemStack, gun, 40);
+        return fireInSprinting(player, itemStack, gun, RenderAndMathUtils.secondsToTicks(1.25f));
     }
 
     @Override

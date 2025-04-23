@@ -6,6 +6,6 @@ import java.util.Set;
 
 public class AmmoVOG25 extends Ammunition {
     public AmmoVOG25() {
-        super(25, 5, Set.of());
+        super(35, 5, Set.of());
     }
 }
