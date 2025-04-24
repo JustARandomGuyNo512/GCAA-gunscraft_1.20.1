@@ -651,13 +651,24 @@ public class Clients {
         if (soundEvent != null) {
             Player player = Minecraft.getInstance().player;
             if (player != null) {
-                float dis = (float) ((player.position().x - x) * (player.position().x - x) +
-                        (player.position().y - y) * (player.position().y - y) +
-                        (player.position().z - z) * (player.position().z - z));
+                float dis = (float) Math.sqrt(Math.pow(player.position().x - x, 2) +
+                        Math.pow(player.position().y - y, 2) +
+                        Math.pow(player.position().z - z, 2));
+
                 float range = soundEvent.getRange(originalVol);
-                float prevVol = calculateVolume(dis, range * range);
-                if (prevVol != 0) {
-                    ModSounds.sound(prevVol * volModify, pitch, player, soundEvent);
+                float prevVol = calculateSmoothVolume(dis, range);
+
+                if (prevVol > 0) {
+                    float[] playerDir = {(float) player.getLookAngle().x, (float) player.getLookAngle().y, (float) player.getLookAngle().z};
+                    float[] soundDir = {(float) (x - player.position().x), (float) (y - player.position().y), (float) (z - player.position().z)};
+                    float playerDirMagnitude = (float) Math.sqrt(playerDir[0] * playerDir[0] + playerDir[1] * playerDir[1] + playerDir[2] * playerDir[2]);
+                    float soundDirMagnitude = (float) Math.sqrt(soundDir[0] * soundDir[0] + soundDir[1] * soundDir[1] + soundDir[2] * soundDir[2]);
+
+                    float dotProduct = (playerDir[0] * soundDir[0] + playerDir[1] * soundDir[1] + playerDir[2] * soundDir[2]) /
+                            (playerDirMagnitude * soundDirMagnitude);
+                    float angleFactor = (float) (1.0 - Math.acos(dotProduct) / Math.PI) * 0.5f + 0.5f;
+                    float adjustedVol = prevVol * volModify * angleFactor;
+                    ModSounds.sound(adjustedVol, pitch, player, soundEvent);
                 }
             }
         }
@@ -678,8 +689,13 @@ public class Clients {
         RenderEvents.callHeadShotFeedBack(isHeadshot);
     }
 
-    public static float calculateVolume(float disSq, float rangeSq) {
-        return disSq >= rangeSq ? 0 : (1 - disSq / rangeSq);
+    public static float calculateSmoothVolume(float distance, float range) {
+        // 如果超出范围则音量为 0
+        if (distance >= range) {
+            return 0;
+        }
+        // 平滑衰减，采用距离的平方根作为衰减因子
+        return (float) (1 - Math.pow(distance / range, 2));
     }
 
     public static void updateClientPlayerStatus(int id, long lastShoot, long lastChamber, long localTimeOffset,
