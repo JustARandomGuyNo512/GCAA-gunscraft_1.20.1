@@ -27,9 +27,7 @@ import sheridan.gcaa.items.attachments.IAttachment;
 import sheridan.gcaa.items.gun.IGun;
 import sheridan.gcaa.utils.RenderAndMathUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GunRenderContext {
@@ -55,6 +53,7 @@ public class GunRenderContext {
     public Map<String, Object> localRenderStorage;
     public int ammoLeft;
     public int envLight;
+    public List<Runnable> delayedTasks;
 
     public boolean renderArmNew = false;
     public boolean inAttachmentScreen = false;
@@ -129,6 +128,13 @@ public class GunRenderContext {
         long timeDis = (System.currentTimeMillis()) - lastShoot;
         float shootDelay = (float) gun.getFireDelay(itemStack) * 5;
         return timeDis >= shootDelay ? 0 : timeDis / shootDelay;
+    }
+
+    public void addDelayedRender(Runnable runnable) {
+        if (delayedTasks == null) {
+            delayedTasks = new ArrayList<>();
+        }
+        delayedTasks.add(runnable);
     }
 
     public void render(ModelPart part, VertexConsumer vertexConsumer) {

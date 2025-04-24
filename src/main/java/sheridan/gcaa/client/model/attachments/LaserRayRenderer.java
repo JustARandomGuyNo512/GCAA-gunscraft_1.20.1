@@ -16,6 +16,7 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.modelPart.*;
 import sheridan.gcaa.client.render.GunRenderContext;
 import sheridan.gcaa.client.render.RenderTypes;
+import sheridan.gcaa.utils.RenderAndMathUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,10 +30,7 @@ public class LaserRayRenderer<T extends Entity> extends EntityModel<T> {
     public static final String RED = "red";
     public static final String BLUE = "blue";
 
-    private final ModelPart root;
-
     private LaserRayRenderer(ModelPart root) {
-        this.root = root;
         MODELS.put(GREEN, root.getChild("green"));
         MODELS.put(RED, root.getChild("red"));
         MODELS.put(BLUE, root.getChild("blue"));
@@ -51,14 +49,18 @@ public class LaserRayRenderer<T extends Entity> extends EntityModel<T> {
         ModelPart part = INSTANCE.get(color);
         if (part != null) {
             part.copyFrom(pose);
-            VertexConsumer vertexConsumer = context.getBuffer(RenderTypes.getMuzzleFlash(TEXTURE));
+            PoseStack poseStack = RenderAndMathUtils.copyPoseStack(context.poseStack);
             part.zScale = longRay ? 2.7f : 2f;
             part.xScale = 0.35f;
             part.yScale = 0.35f;
             part.zRot = 0.7854F;
-            context.pushPose().translateTo(INSTANCE.root).render(part, 157288880, 655360, 0.9f, vertexConsumer);
-            context.popPose();
+            part.translateAndRotate(poseStack);
             part.resetPose();
+            Runnable r = () -> {
+                VertexConsumer vertexConsumer = context.getBuffer(RenderTypes.getMuzzleFlash(TEXTURE));
+                part.render(poseStack, vertexConsumer, 157288880, 655360, 1f, 1f, 1f, 1f, false);
+            };
+            context.addDelayedRender(r);
         }
     }
 

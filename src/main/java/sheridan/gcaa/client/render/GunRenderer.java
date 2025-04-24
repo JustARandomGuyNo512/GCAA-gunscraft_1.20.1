@@ -145,6 +145,7 @@ public class GunRenderer{
                     pushBulletShell.set(false);
                 }
                 model.render(context);
+
             } else {
                 if (entityIn instanceof Player player) {
                     stackIn.mulPose(Axis.ZP.rotationDegrees(180));

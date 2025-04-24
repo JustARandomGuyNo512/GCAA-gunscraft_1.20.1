@@ -344,23 +344,15 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
             renderGunModelLowQuality(gunRenderContext);
         } else {
             preGunRender(gunRenderContext, false);
-//            boolean count = false;
-//            if (gunRenderContext.isFirstPerson && Clients.isInAds()) {
-//                t = System.nanoTime();
-//                count = true;
-//            }
             renderGunModel(gunRenderContext);
-//            if (count) {
-//                total += System.nanoTime() - t;
-//                times ++;
-//                avg = total / times;
-//                System.out.println("compile: " + (
-//                            ModelPart._use_new_compile_ ? "new " : "old "
-//                        ) + "avg: " + avg);
-//            }
         }
         renderAttachmentsModel(gunRenderContext);
         renderPostEffect(gunRenderContext);
+        if (gunRenderContext.delayedTasks != null) {
+            for (Runnable task : gunRenderContext.delayedTasks) {
+                task.run();
+            }
+        }
         afterRender(gunRenderContext);
     }
 
