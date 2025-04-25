@@ -59,15 +59,6 @@ public class Sks extends Gun {
     }
 
     @Override
-    public void clientShoot(ItemStack stack, Player player, IGunFireMode fireMode) {
-        if (ReloadingHandler.isReloading()) {
-            ReloadingHandler.INSTANCE.tryShoot();
-            return;
-        }
-        super.clientShoot(stack, player, fireMode);
-    }
-
-    @Override
     public IReloadTask getReloadingTask(ItemStack stack, Player player) {
         boolean empty = getAmmoLeft(stack) == 0;
         return new SksReloadTask(stack, this,
@@ -78,8 +69,4 @@ public class Sks extends Gun {
                 extension.triggerReloadDelay);
     }
 
-    @Override
-    public boolean allowShootWhileReloading() {
-        return true;
-    }
 }

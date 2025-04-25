@@ -53,17 +53,21 @@ public class SksReloadTask extends SingleReloadTask{
     }
 
     @Override
-    public void onTryShoot() {
+    public void onMouseButton(int btn, int action) {
+        super.onMouseButton(btn, action);
         if (tryShoot) {
             return;
         }
-        tryShoot = true;
-        AnimationHandler.INSTANCE.clearReload();
-        if (model != null && !isGenericReloading()) {
-            AnimationDefinition exit = model.get(emptyReload ? "exit_reload_empty" : "exit_reload");
-            AnimationHandler.INSTANCE.startReload(exit);
+        if (btn == 0 && action == 1) {
+            tryShoot = true;
+            AnimationHandler.INSTANCE.clearReload();
+            if (model != null && !isGenericReloading()) {
+                AnimationDefinition exit = model.get(emptyReload ? "exit_reload_empty" : "exit_reload");
+                AnimationHandler.INSTANCE.startReload(exit);
+            }
+            length = exitLength;
+            tick = 0;
         }
-        length = exitLength;
-        tick = 0;
     }
+
 }

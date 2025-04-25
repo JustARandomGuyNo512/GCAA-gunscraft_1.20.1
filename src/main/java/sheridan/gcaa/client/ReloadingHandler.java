@@ -64,11 +64,6 @@ public class ReloadingHandler {
         clearTask();
     }
 
-    public void tryShoot() {
-        if (reloadingTask != null && !reloadingTask.isCompleted()) {
-            reloadingTask.onTryShoot();
-        }
-    }
 
     public static boolean disFromLastReload(long ms) {
         return System.currentTimeMillis() - INSTANCE.getLastStartReload() > ms;

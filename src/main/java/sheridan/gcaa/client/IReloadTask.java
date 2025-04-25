@@ -44,5 +44,4 @@ public interface IReloadTask {
 
     void onMouseButton(int btn, int action);
 
-    default void onTryShoot() {}
 }
