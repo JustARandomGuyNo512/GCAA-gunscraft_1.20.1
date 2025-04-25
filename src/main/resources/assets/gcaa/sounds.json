@@ -105,7 +105,11 @@
   "item.aug_a3.fire": { "subtitle": "item.aug_a3.fire", "sounds": [{ "name": "gcaa:aug_a3/aug_a3_fire" }]},
   "item.saiga_12k.fire": { "subtitle": "item.saiga_12k.fire", "sounds": [{ "name": "gcaa:saiga_12k/saiga_12k_fire" }]},
   "item.saiga_12k.fire_suppressed": { "subtitle": "item.saiga_12k.fire_suppressed", "sounds": [{ "name": "gcaa:saiga_12k/saiga_12k_fire_suppressed" }]},
-
+  "item.sks.fire": { "subtitle": "item.sks.fire", "sounds": [{ "name": "gcaa:sks/sks_fire" }]},
+  "item.sks.fire_suppressed": { "subtitle": "item.sks.fire_suppressed", "sounds": [{ "name": "gcaa:sks/sks_fire_suppressed" }]},
+  "item.sks.sks_bolt_back": { "subtitle": "item.sks.sks_bolt_back", "sounds": [{ "name": "gcaa:sks/sks_bolt_back" }]},
+  "item.sks.sks_bolt_forward": { "subtitle": "item.sks.sks_bolt_forward", "sounds": [{ "name": "gcaa:sks/sks_bolt_forward" }]},
+  "item.sks.sks_insert_ammo": { "subtitle": "item.sks.sks_insert_ammo", "sounds": [{ "name": "gcaa:sks/sks_insert_ammo" }]},
 
 
   "effect.headshot.1": { "subtitle": "effect.headshot.1", "sounds": [{ "name": "gcaa:generic/headshot_1" }]},

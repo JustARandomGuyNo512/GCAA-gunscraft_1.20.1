@@ -560,6 +560,27 @@ public class Clients {
                 .setSprintingTrans(14, 9.5f, 3, 23, -52, 44)
         );
 
+        ArsenalLib.registerGunModel(ModItems.SKS.get(), RifleModels.SKS_MODEL, new DisplayData()
+                .setFirstPersonMain(-13f,15.3f,-25.5f, POS).set(DisplayData.FIRST_PERSON_MAIN, 1f, SCALE)
+                .setThirdPersonRight(0.0f,-0.2f,1.3f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
+                .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
+                .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
+                .setAds(0,10.7f,-15.5f, POS)
+                .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
+                .setInertialRecoilData(
+                        new InertialRecoilData(0f, 0f, 0.8f,
+                                0.065f, 0.6f,  0.06f,
+                                0.5f, 0.5f,
+                                0.3f, 0.7f, 0.35f)
+                                .shake(0.029f, 0.5f, 0.15f,
+                                        1.85f, 0.12f, 0.5f, 0.5f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 4f, -123.9f).setScale(2.5f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2.5f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setScale(3.5f))
+                .setBulletShellDisplayData(new BulletShellDisplayData(1f, 7f, -26.5f, new Vector3f(2.5f, 2f, -0.6f), BulletShellModel.RIFLE).setRandomRate(0.35f))
+                .setSprintingTrans(14, 9.5f, 3, 23, -52, 44)
+        );
+
         //attachment models register
         ArsenalLib.registerAttachmentModel(ModItems.PISTOL_SUPPRESSOR.get(), new PistolSuppressorModel());
         ArsenalLib.registerAttachmentModel(ModItems.AK_SUPPRESSOR.get(), new AKSuppressorModel());

@@ -45,4 +45,6 @@ public class RifleModels {
             new ResourceLocation(GCAA.MODID, "model_assets/guns/mcx_spear/mcx_spear.animation.json"),
             new ResourceLocation(GCAA.MODID, "model_assets/guns/mcx_spear/mcx_spear.png"))
             .setOptions("renderType", "solidMipMap");
+
+    public static IGunModel SKS_MODEL = new SksModel();
 }

@@ -54,8 +54,8 @@ public class AutoShotGunModel extends GunModel {
     @Override
     protected void renderGunModel(GunRenderContext context) {
         VertexConsumer vertexConsumer = getDefaultVertex(context);
-        ModelPart leftArm = left_arm.xScale > 0 ? left_arm : reloading_arm;
-        ModelPart rightArm = right_arm.xScale > 0 ? right_arm : reloading_arm;
+        ModelPart leftArm = left_arm.xScale > 1e-6 ? left_arm : reloading_arm;
+        ModelPart rightArm = right_arm.xScale > 1e-6 ? right_arm : reloading_arm;
         if (context.isFirstPerson && (leftArm == reloading_arm ||rightArm == reloading_arm)) {
             reloading_arm.visible = false;
             context.pushPose().translateTo(reloading_arm).render(shell, vertexConsumer);

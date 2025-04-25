@@ -3848,7 +3848,7 @@
 					]
 				},
 				{
-					"name": "bullet_reloading",
+					"name": "shell",
 					"parent": "reloading_arm",
 					"pivot": [-37.12449, -97.84396, 16.94345],
 					"rotation": [143.30854, 16.27014, -11.79198],
@@ -3895,22 +3895,22 @@
 				{
 					"name": "left_arm",
 					"parent": "gun",
-					"pivot": [21.9, -37.7, -28],
+					"pivot": [21.9, -37.7, -30],
 					"rotation": [-113.31247, 57.83853, 35.83723]
 				},
 				{
 					"name": "left_arm_slim",
 					"parent": "left_arm",
-					"pivot": [19.9, -85.7, -28],
-					"rotation": [1, 0, -1]
+					"pivot": [19.9, -85.7, -30],
+					"rotation": [0.99997, -2.456, -3.54324]
 				},
 				{
 					"name": "LAS",
 					"parent": "left_arm_slim",
-					"pivot": [19.9, -85.7, -28],
+					"pivot": [19.9, -85.7, -30],
 					"cubes": [
 						{
-							"origin": [13.9, -85.7, -36],
+							"origin": [13.9, -85.7, -38],
 							"size": [12, 48, 16],
 							"uv": {
 								"north": {"uv": [144, 208], "uv_size": [12, 48]},
@@ -3926,10 +3926,10 @@
 				{
 					"name": "LSS",
 					"parent": "left_arm_slim",
-					"pivot": [19.9, -85.7, -28],
+					"pivot": [19.9, -85.7, -30],
 					"cubes": [
 						{
-							"origin": [13.9, -85.7, -36],
+							"origin": [13.9, -85.7, -38],
 							"size": [12, 48, 16],
 							"uv": {
 								"north": {"uv": [176, 144], "uv_size": [12, 48]},
@@ -3945,16 +3945,16 @@
 				{
 					"name": "left_arm_normal",
 					"parent": "left_arm",
-					"pivot": [21.9, -85.7, -28],
-					"rotation": [1, 0, -1]
+					"pivot": [21.9, -85.7, -30],
+					"rotation": [0.99997, -2.456, -3.54324]
 				},
 				{
 					"name": "LA",
 					"parent": "left_arm_normal",
-					"pivot": [21.9, -85.7, -28],
+					"pivot": [21.9, -85.7, -30],
 					"cubes": [
 						{
-							"origin": [13.9, -85.7, -36],
+							"origin": [13.9, -85.7, -38],
 							"size": [16, 48, 16],
 							"uv": {
 								"north": {"uv": [144, 208], "uv_size": [16, 48]},
@@ -3970,10 +3970,10 @@
 				{
 					"name": "LS",
 					"parent": "left_arm_normal",
-					"pivot": [21.9, -85.7, -28],
+					"pivot": [21.9, -85.7, -30],
 					"cubes": [
 						{
-							"origin": [13.9, -85.7, -36],
+							"origin": [13.9, -85.7, -38],
 							"size": [16, 48, 16],
 							"uv": {
 								"north": {"uv": [176, 144], "uv_size": [16, 48]},
@@ -4081,7 +4081,7 @@
 				{
 					"name": "camera",
 					"parent": "root",
-					"pivot": [12.2, 15.3, 25]
+					"pivot": [13, 15.3, 25.5]
 				}
 			]
 		}

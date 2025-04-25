@@ -314,6 +314,11 @@ public class Commons {
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:saiga_12k_tactical_handguard")).setReplaceableGunPart(new WeightPart(0.75f)))
         );
 
+        AttachmentsRegister.registerAttachmentSlot(ModItems.SKS.get(), AttachmentSlot.root()
+                        .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak_suppressor", "gcaa:ak_compensator")))
+                        .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket", "gcaa:okp7_a")))
+        );
+
         registerVendingMachineProducts();
         registerAmmunitionRecipes();
         checkVendingMachineProductsRegistry();
