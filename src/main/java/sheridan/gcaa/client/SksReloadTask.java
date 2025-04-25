@@ -23,6 +23,9 @@ public class SksReloadTask extends SingleReloadTask{
         if (tryShoot) {
             if (tick >= length) {
                 completed = true;
+                if (adsOnFinished) {
+                    Clients.MAIN_HAND_STATUS.ads = true;
+                }
             }
             tick ++;
             return;
