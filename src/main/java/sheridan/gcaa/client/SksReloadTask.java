@@ -60,7 +60,6 @@ public class SksReloadTask extends SingleReloadTask{
         }
         if (btn == 0 && action == 1) {
             tryShoot = true;
-            //AnimationHandler.INSTANCE.clearReload();
             if (model != null && !isGenericReloading()) {
                 AnimationDefinition exit = model.get(emptyReload ? "exit_reload_empty" : "exit_reload");
                 AnimationHandler.INSTANCE.startReload(exit);

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class FnBallista extends Sniper {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_338_LAPUA_MAGNUM, 37, 20, 15f, 18.5f, 1.6f)
+            new Caliber(Caliber.CALIBER_338_LAPUA_MAGNUM, 40, 20, 15f, 18.5f, 1.6f)
                     .setAmmunition(ModItems.AMMO_338_LAPUA_MAGNUM.get());
 
     public FnBallista() {
