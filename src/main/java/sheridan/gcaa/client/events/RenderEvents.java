@@ -93,7 +93,8 @@ public class RenderEvents {
     static float range = 20f;
     static float lightFov = 5f;
     static float MinZ = 0;
-    static float HALF_FOV = (float) Math.tan(Math.toRadians(32.35f));
+    static float lastFov = -1;
+    static float fovOffsetFactor = 1;
 
     public static void clearFlashlightEffectData() {
         doFlashlightEffect = false;
@@ -109,6 +110,7 @@ public class RenderEvents {
                 Minecraft.getInstance().screen instanceof GunDebugAdjustScreen;
     }
 
+
     public static void callFlashlightEffect(GunRenderContext context, ModelPart near, ModelPart far, float luminance) {
         if (canNotCallFlashlight()) {
             return;
@@ -119,8 +121,15 @@ public class RenderEvents {
         PoseStack farPose = RenderAndMathUtils.copyPoseStack(context.poseStack);
         far.translateAndRotate(farPose);
         Vector3f end = farPose.last().pose().getTranslation(new Vector3f(0,0,0));
-        float deg = Minecraft.getInstance().options.fov().get() / 2f;
-        float fovOffsetFactor = (float) (1 * (Math.tan(Math.toRadians(deg)) / HALF_FOV));
+        float deg = Minecraft.getInstance().options.fov().get();
+        if (lastFov != deg) {
+            lastFov = deg;
+            deg *= 0.5f;
+            float f = Math.max(0, deg - 33f) * 0.16f;
+            fovOffsetFactor = (float) (1 * (
+                    Math.tan(Math.toRadians(deg)) /
+                            Math.tan(Math.toRadians(33f - f))));
+        }
         RenderEvents.To = new Vector3f(
                 (end.x - from.x) * fovOffsetFactor,
                 (end.y - from.y) * fovOffsetFactor,
