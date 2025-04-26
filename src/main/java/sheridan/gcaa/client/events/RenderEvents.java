@@ -93,6 +93,7 @@ public class RenderEvents {
     static float range = 20f;
     static float lightFov = 5f;
     static float MinZ = 0;
+    static float HALF_FOV = (float) Math.tan(Math.toRadians(32.35f));
 
     public static void clearFlashlightEffectData() {
         doFlashlightEffect = false;
@@ -118,7 +119,12 @@ public class RenderEvents {
         PoseStack farPose = RenderAndMathUtils.copyPoseStack(context.poseStack);
         far.translateAndRotate(farPose);
         Vector3f end = farPose.last().pose().getTranslation(new Vector3f(0,0,0));
-        RenderEvents.To = new Vector3f(end.x - from.x, end.y - from.y, end.z - from.z - from.z * 0.1f);
+        float deg = Minecraft.getInstance().options.fov().get() / 2f;
+        float fovOffsetFactor = (float) (1 * (Math.tan(Math.toRadians(deg)) / HALF_FOV));
+        RenderEvents.To = new Vector3f(
+                (end.x - from.x) * fovOffsetFactor,
+                (end.y - from.y) * fovOffsetFactor,
+                end.z - from.z);
         if (Clients.currentStage != RenderLevelStageEvent.Stage.AFTER_LEVEL) {
             Matrix4f m0 = new Matrix4f(RenderSystem.getModelViewMatrix());
             Matrix4f m1 = new Matrix4f(RenderSystem.getProjectionMatrix());

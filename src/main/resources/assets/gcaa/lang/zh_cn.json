@@ -167,7 +167,7 @@
   "tooltip.gun_info.bullet_speed": "初速：",
   "tooltip.gun_info.caliber": "口径：",
   "tooltip.gun_info.mag_size": "载弹量：",
-  "tooltip.gun_info.rpm": "RPM：",
+  "tooltip.gun_info.rpm": "射速：",
   "tooltip.gun_info.recoil_pitch": "垂直后座：",
   "tooltip.gun_info.recoil_horizontal": "水平后座：",
   "tooltip.gun_info.recoil_control_pitch": "垂直后座控制：",
