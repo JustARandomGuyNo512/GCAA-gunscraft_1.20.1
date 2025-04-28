@@ -217,7 +217,7 @@ public class Clients {
                                 0.0535f, 0.52f,  0.055f,
                                 0.4f, 0.6f,
                                 0.3f, 0.7f, 0.35f)
-                                .shake(0.0255f, 0.5f, 0.12f,
+                                .shake(0.025f, 0.5f, 0.1f,
                                         1.75f, 0.11f, 0.5f, 0.6f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 3.3f, -96f).setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
@@ -238,7 +238,7 @@ public class Clients {
                                 0.06f, 0.4f, 0.06f,
                                 0.3f, 0.7f, 0.35f, 0.7f,
                                 0.2f, 0.7f, 0.25f)
-                                .shake(0.022f, 0.5f, 0.12f,
+                                .shake(0.022f, 0.4f, 0.11f,
                                         1.9f, 0.11f, 0.5f, 0.6f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 3.725f, -88f).setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))
@@ -350,7 +350,7 @@ public class Clients {
                                 0.05f, 0.53f,  0.06f,
                                 0.5f, 0.45f,
                                 0.4f, 0.6f, 0.25f)
-                                .shake(0.026f, 0.5f, 0.12f,
+                                .shake(0.0255f, 0.5f, 0.12f,
                                         1.8f, 0.1f, 0.6f, 0.6f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 3.2f, -87.2f).setScale(1.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2f))

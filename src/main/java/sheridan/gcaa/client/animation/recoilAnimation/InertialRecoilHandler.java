@@ -83,7 +83,7 @@ public class InertialRecoilHandler {
             if (data.shake != null) {
                 float timeDis = (System.currentTimeMillis() - Clients.lastShootMain()) / 1000f;
                 if (timeDis < 1) {
-                    shake = (float) (timeDis * Math.PI * data.shake.period * 10 * ((1 - timeDis) * 0.6f) + (0.3f + shakeRandomSeed3));
+                    shake = (float) (timeDis * Math.PI * data.shake.period * 10 * ((1 - timeDis) * 0.6f) + (0.4f + shakeRandomSeed3));
                     float scale = (float) ((Math.pow(1 - timeDis, 3) * data.shake.size) *
                             (shakeRandomSeed1 * 0.4f + 0.6f));
                     float factor = (float) (Math.sin(shake) * scale);
@@ -129,7 +129,7 @@ public class InertialRecoilHandler {
                 }
                 shakeRandomSeed1 = (float) SPLITTABLE_RANDOM.nextDouble();
                 shakeRandomSeed2 = (float) SPLITTABLE_RANDOM.nextDouble();
-                shakeRandomSeed3 = (float) SPLITTABLE_RANDOM.nextDouble() * 0.25f;
+                shakeRandomSeed3 = (float) SPLITTABLE_RANDOM.nextDouble() * 0.2f;
                 this.enabled.set(true);
             } finally {
                 lock.unlock();
