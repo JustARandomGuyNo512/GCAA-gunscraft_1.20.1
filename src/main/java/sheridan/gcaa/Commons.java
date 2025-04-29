@@ -319,6 +319,22 @@ public class Commons {
                         .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket", "gcaa:okp7_a")))
         );
 
+        AttachmentsRegister.registerAttachmentSlot(ModItems.RPK_16.get(), AttachmentSlot.root()
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak12_suppressor")))
+                .addChild(new AttachmentSlot("handguard_grip", Set.of(
+                        "gcaa:vertical_grip", "gcaa:gp_25", "gcaa:laser_sight", "gcaa:flashlight", "gcaa:slant_grip"
+                )).lower())
+                .addChild(new AttachmentSlot(SCOPE, Set.of("gcaa:red_dot", "gcaa:kobra_sight", "gcaa:holographic","gcaa:elcan", "gcaa:acog", "gcaa:okp7_b")))
+                .addChild(new AttachmentSlot(MAG, Set.of("gcaa:exp_mag5_45x39", "gcaa:drum_545x39")))
+                .addChild(new AttachmentSlot("handguard_left", Set.of(
+                        "gcaa:laser_sight", "gcaa:flashlight"
+                )).lower())
+                .addChild(new AttachmentSlot("handguard_right", Set.of(
+                        "gcaa:laser_sight", "gcaa:flashlight"
+                )).lower())
+        );
+
+
         registerVendingMachineProducts();
         registerAmmunitionRecipes();
         checkVendingMachineProductsRegistry();

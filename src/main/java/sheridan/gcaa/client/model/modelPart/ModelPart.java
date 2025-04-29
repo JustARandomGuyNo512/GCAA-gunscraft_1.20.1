@@ -38,6 +38,7 @@ public final class ModelPart {
     private boolean touched = false;
     public MeshedModelBone meshedModelBone;
     public String debug_name = "";
+    private static final Cube ZERO = new Cube(0,0,0,0,0,0,0,0,0,0,0,false,Set.of());
 
     public ModelPart(List<Cube> cubes, Map<String, ModelPart> children) {
         this.cubes = cubes;
@@ -366,7 +367,6 @@ public final class ModelPart {
         render(pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha, true);
     }
 
-
     public void render(PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha, boolean usePose) {
         if (this.visible) {
             if (!this.cubes.isEmpty() || !this.children.isEmpty()) {
@@ -375,8 +375,8 @@ public final class ModelPart {
                     this.translateAndRotate(pPoseStack);
                 }
                 if (!this.skipDraw) {
-                    if (meshedModelBone != null) {
-                        meshedModelBone.compile(pPoseStack.last(), pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+                    if (this.meshedModelBone != null) {
+                        this.meshedModelBone.compile(pPoseStack.last(), pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
                     } else {
                         this.compile(pPoseStack.last(), pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
                     }
@@ -409,9 +409,10 @@ public final class ModelPart {
         for (String key : removeParts) {
             this.children.remove(key);
         }
-        meshedModelBone = MeshedModelBone.convert(this);
-        if (meshedModelBone != null) {
+        this.meshedModelBone = MeshedModelBone.convert(this);
+        if (this.meshedModelBone != null) {
             cubes.clear();
+            cubes.add(ZERO);
         }
         meshed = true;
         return this;

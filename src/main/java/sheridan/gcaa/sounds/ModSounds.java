@@ -130,6 +130,7 @@ public class ModSounds {
     public static RegistryObject<SoundEvent> SKS_BOLT_BACK = registerSound("sks_bolt_back", "item.sks.sks_bolt_back");
     public static RegistryObject<SoundEvent> SKS_BOLT_FORWARD = registerSound("sks_bolt_forward", "item.sks.sks_bolt_forward");
     public static RegistryObject<SoundEvent> SKS_INSERT_AMMO = registerSound("sks_insert_ammo", "item.sks.sks_insert_ammo");
+    public static RegistryObject<SoundEvent> RPK_16_FIRE = registerSound("rpk_16_fire", "item.rpk_16.fire");
 
 
     public static RegistryObject<SoundEvent> HEADSHOT_1 = registerSound("headshot_1", "effect.headshot.1");

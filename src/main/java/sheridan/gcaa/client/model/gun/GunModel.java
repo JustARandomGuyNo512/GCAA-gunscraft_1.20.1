@@ -3,6 +3,8 @@ package sheridan.gcaa.client.model.gun;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -63,7 +65,6 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
                     @Nullable ResourceLocation lowQualityModelPath, @Nullable ResourceLocation lowQualityTexture) {
         this.texture = texture;
         root = ArsenalLib.loadBedRockGunModel(modelPath).bakeRoot().getChild("root");
-        root.meshingAll();
         camera = root.getChild("camera");
         gun = root.getChild("gun");
         main = gun.getChild("main");
@@ -78,11 +79,14 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         vertexConsumerGetterLow = (context -> context.solid(lowQualityTexture));
         if (lowQualityModelPath != null && lowQualityTexture != null) {
             lowQualityRoot = ArsenalLib.loadBedRockGunModel(lowQualityModelPath).bakeRoot().getChild("root");
-            lowQualityRoot.meshingAll();
             lowQualityGun = lowQualityRoot.getChild("gun");
             lowQualityMain = lowQualityGun.getChild("main");
             this.lowQualityTexture = lowQualityTexture;
             lowQualityLoaded = true;
+        }
+        main.meshingAll();
+        if (lowQualityLoaded) {
+            lowQualityMain.meshingAll();
         }
         buildAttachmentSlotMap(main);
         processModelScript(main);

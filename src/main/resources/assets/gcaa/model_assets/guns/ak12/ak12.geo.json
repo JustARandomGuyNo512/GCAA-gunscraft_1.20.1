@@ -129,7 +129,7 @@
 				{
 					"name": "s_handguard_grip",
 					"parent": "main",
-					"pivot": [0, -2.6647, -44.9459]
+					"pivot": [0, -2.6647, -42.9459]
 				},
 				{
 					"name": "s_handguard_scope",

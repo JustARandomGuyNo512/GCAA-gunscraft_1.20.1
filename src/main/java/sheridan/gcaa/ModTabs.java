@@ -132,6 +132,7 @@ public class ModTabs {
                     tab.accept(ModItems.XM1014.get());
                     tab.accept(ModItems.SAIGA_12K.get());
                     tab.accept(ModItems.M249.get());
+                    tab.accept(ModItems.RPK_16.get());
                     tab.accept(ModItems.M60E4.get());
                 }).build());
 

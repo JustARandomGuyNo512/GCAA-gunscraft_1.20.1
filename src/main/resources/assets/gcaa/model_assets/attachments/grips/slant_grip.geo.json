@@ -307,38 +307,38 @@
 				{
 					"name": "left_arm_new",
 					"parent": "root",
-					"pivot": [27.2, -28.7, 27.4],
+					"pivot": [27.2, -29.7, 28.9],
 					"rotation": [-133.62287, -9.52757, -49.06254]
 				},
 				{
 					"name": "left_arm_slim",
 					"parent": "left_arm_new",
-					"pivot": [27.2, -76.7, 27.4]
+					"pivot": [27.2, -77.7, 28.9]
 				},
 				{
 					"name": "LAS",
 					"parent": "left_arm_slim",
-					"pivot": [27.2, -76.7, 27.4]
+					"pivot": [27.2, -77.7, 28.9]
 				},
 				{
 					"name": "LSS",
 					"parent": "left_arm_slim",
-					"pivot": [27.2, -76.7, 27.4]
+					"pivot": [27.2, -77.7, 28.9]
 				},
 				{
 					"name": "left_arm_normal",
 					"parent": "left_arm_new",
-					"pivot": [27.2, -76.7, 27.4]
+					"pivot": [27.2, -77.7, 28.9]
 				},
 				{
 					"name": "LA",
 					"parent": "left_arm_normal",
-					"pivot": [27.2, -76.7, 27.4]
+					"pivot": [27.2, -77.7, 28.9]
 				},
 				{
 					"name": "LS",
 					"parent": "left_arm_normal",
-					"pivot": [27.2, -76.7, 27.4]
+					"pivot": [27.2, -77.7, 28.9]
 				}
 			]
 		}

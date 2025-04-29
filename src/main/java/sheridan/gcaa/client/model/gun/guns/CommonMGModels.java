@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import sheridan.gcaa.GCAA;
+import sheridan.gcaa.client.model.gun.AKModel;
 import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.model.gun.MGModel;
 
@@ -20,4 +21,10 @@ public class CommonMGModels {
             new ResourceLocation(GCAA.MODID, "model_assets/guns/m249/m249.animation.json"),
             new ResourceLocation(GCAA.MODID, "model_assets/guns/m249/m249.png"),
             11, 2400, true);
+
+    public static IGunModel RPK_16_MODEL = new AKModel(
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/rpk_16/rpk_16.geo.json"),
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/rpk_16/rpk_16.animation.json"),
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/rpk_16/rpk_16.png"))
+            .setOptions("renderType", "solidMipMap");
 }
