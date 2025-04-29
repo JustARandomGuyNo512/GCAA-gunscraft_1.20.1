@@ -366,7 +366,7 @@ public final class ModelPart {
         render(pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha, true);
     }
 
-    public static boolean __TEST__USE_NEW_RENDER__ = false;
+
     public void render(PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha, boolean usePose) {
         if (this.visible) {
             if (!this.cubes.isEmpty() || !this.children.isEmpty()) {
@@ -375,7 +375,7 @@ public final class ModelPart {
                     this.translateAndRotate(pPoseStack);
                 }
                 if (!this.skipDraw) {
-                    if (meshedModelBone != null && __TEST__USE_NEW_RENDER__) {
+                    if (meshedModelBone != null) {
                         meshedModelBone.compile(pPoseStack.last(), pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
                     } else {
                         this.compile(pPoseStack.last(), pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
@@ -411,8 +411,7 @@ public final class ModelPart {
         }
         meshedModelBone = MeshedModelBone.convert(this);
         if (meshedModelBone != null) {
-            //cubes.clear();
-            System.out.println("Meshing Successful");
+            cubes.clear();
         }
         meshed = true;
         return this;

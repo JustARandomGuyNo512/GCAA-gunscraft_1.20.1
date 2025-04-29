@@ -328,11 +328,6 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
         return attachmentSlotPathMap.containsKey(modelSlotName);
     }
 
-    static long total = 0;
-    static long t = 0;
-    static int times = 0;
-    static long avg = 0;
-
     @Override
     public void render(GunRenderContext gunRenderContext) {
         saveOriginalPoseInFirstPerson(gunRenderContext);
@@ -344,19 +339,7 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
             renderGunModelLowQuality(gunRenderContext);
         } else {
             preGunRender(gunRenderContext, false);
-            t = System.nanoTime();
             renderGunModel(gunRenderContext);
-            t = System.nanoTime() - t;
-            total += t;
-            times ++;
-            if (times >= 200) {
-                avg = total / times;
-                times = 0;
-                total = 0;
-                if (Clients.isInAds()) {
-                    System.out.println("avg time: " + ((double) avg / 1000000d) + " ms new render: " + ModelPart.__TEST__USE_NEW_RENDER__);
-                }
-            }
         }
         renderAttachmentsModel(gunRenderContext);
         renderPostEffect(gunRenderContext);

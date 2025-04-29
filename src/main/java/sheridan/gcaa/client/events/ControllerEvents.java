@@ -187,7 +187,6 @@ public class ControllerEvents {
                     }
                 }
             } else if (KeyBinds.RELOAD.isDown() && event.getAction() == 1) {
-                ModelPart.__TEST__USE_NEW_RENDER__ = !ModelPart.__TEST__USE_NEW_RENDER__;
                 handleReload(stackMain, player);
             } else if (KeyBinds.OPEN_GUN_MODIFY_SCREEN.isDown() && event.getAction() == 1) {
                 PacketHandler.simpleChannel.sendToServer(new OpenGunModifyScreenPacket());
