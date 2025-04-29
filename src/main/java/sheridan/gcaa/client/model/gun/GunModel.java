@@ -344,7 +344,19 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
             renderGunModelLowQuality(gunRenderContext);
         } else {
             preGunRender(gunRenderContext, false);
+            t = System.nanoTime();
             renderGunModel(gunRenderContext);
+            t = System.nanoTime() - t;
+            total += t;
+            times ++;
+            if (times >= 200) {
+                avg = total / times;
+                times = 0;
+                total = 0;
+                if (Clients.isInAds()) {
+                    System.out.println("avg time: " + ((double) avg / 1000000d) + " ms new render: " + ModelPart.__TEST__USE_NEW_RENDER__);
+                }
+            }
         }
         renderAttachmentsModel(gunRenderContext);
         renderPostEffect(gunRenderContext);
@@ -354,13 +366,6 @@ public abstract class GunModel extends HierarchicalModel<Entity> implements IGun
             }
         }
         afterRender(gunRenderContext);
-    }
-
-    public static void _clear_test_() {
-        total = 0;
-        t = 0;
-        times = 0;
-        avg = 0;
     }
 
     protected abstract void renderGunModel(GunRenderContext context);

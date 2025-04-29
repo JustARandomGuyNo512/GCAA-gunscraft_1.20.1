@@ -72,8 +72,6 @@ public class BulletShellRenderer {
             return;
         }
         VertexConsumer vertexConsumer = BulletShellModel.getVertexConsumer(context.bufferSource);
-        //Object obj = context.getLocalSaved(GunRenderContext.ORIGINAL_GUN_VIEW_POSE_FP);
-        //PoseStack poseStack = obj == null ? context.poseStack : (PoseStack) obj;
         for (Task task : bulletShells) {
             task.render(context, vertexConsumer);
         }

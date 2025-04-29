@@ -1,0 +1,45 @@
+{
+  "input": {
+    "head": {
+      "bizno": "6115",
+      "sysno": "TRTJ",
+      "tarno": "ZLHIS",
+      "time": "2023-2-13 11:00:00",
+      "action_no": "trtj_20210305134300456"
+    },
+    "eisai_odistrg_list": [
+      {
+        "eisai_stock": "340",
+        "eisai_item_id": "19971",
+        "eisai_item_mfrs": "卫材制造厂",
+        "eisai_lotno": "1",
+        "eisai_batch": "1214488",
+        "eisai_qunt": 10,
+        "eisai_item_cost_price": 1500,
+        "eisai_editor": "系统管理员",
+        "eisai_edit_date": "2023-08-28 13:10:10",
+        "eisai_auditor": "系统管理员",
+        "eisai_audi_date": "2023-08-28 15:10:10",
+        "eisai_summ": "摘要",
+        "eisai_barcode": "",
+        "eisai_barseq": ""
+      },
+      {
+        "eisai_stock": "340",
+        "eisai_item_id": "21827",
+        "eisai_item_mfrs": "卫材制造厂",
+        "eisai_lotno": "20220301",
+        "eisai_batch": "1201521",
+        "eisai_qunt": 1,
+        "eisai_item_cost_price": 200,
+        "eisai_editor": "系统管理员",
+        "eisai_edit_date": "2023-08-28 13:10:10",
+        "eisai_auditor": "系统管理员",
+        "eisai_audi_date": "2023-08-28 15:10:10",
+        "eisai_summ": "摘要",
+        "eisai_barcode": "",
+        "eisai_barseq": ""
+      }
+    ]
+  }
+}

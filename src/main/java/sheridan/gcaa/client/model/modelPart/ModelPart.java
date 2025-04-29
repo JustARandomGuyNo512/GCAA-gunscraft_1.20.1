@@ -9,6 +9,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.*;
+import org.joml.Runtime;
 
 import java.lang.Math;
 import java.util.*;
@@ -35,6 +36,7 @@ public final class ModelPart {
     //private Polygon[] polygons;
     private boolean meshed = false;
     private boolean touched = false;
+    public MeshedModelBone meshedModelBone;
     public String debug_name = "";
 
     public ModelPart(List<Cube> cubes, Map<String, ModelPart> children) {
@@ -205,6 +207,10 @@ public final class ModelPart {
         child.debug_name = name;
     }
 
+    public List<Cube> getCubes() {
+        return cubes;
+    }
+
     public void setX(float x) {
         this.x = x;
         touched = true;
@@ -312,10 +318,6 @@ public final class ModelPart {
         }
     }
 
-    public List<Cube> getCubes() {
-        return this.cubes;
-    }
-
     public Map<String, ModelPart> getChildren() {
         return this.children;
     }
@@ -337,22 +339,6 @@ public final class ModelPart {
         return children.values().iterator().next();
     }
 
-    public boolean collisionNoRot(ModelPart other) {
-        if (this == other) {
-            return false;
-        }
-        List<Cube> cubes = other.getCubes();
-        if (!cubes.isEmpty()) {
-            for (Cube cube : this.cubes) {
-                for (Cube cube2 : cubes) {
-                    if (cube.collisionNoRot(cube2)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
 
     public ModelPart getChildNoThrow(String childName) {
         return this.children.get(childName);
@@ -380,7 +366,7 @@ public final class ModelPart {
         render(pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha, true);
     }
 
-
+    public static boolean __TEST__USE_NEW_RENDER__ = false;
     public void render(PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha, boolean usePose) {
         if (this.visible) {
             if (!this.cubes.isEmpty() || !this.children.isEmpty()) {
@@ -389,7 +375,11 @@ public final class ModelPart {
                     this.translateAndRotate(pPoseStack);
                 }
                 if (!this.skipDraw) {
+                    if (meshedModelBone != null && __TEST__USE_NEW_RENDER__) {
+                        meshedModelBone.compile(pPoseStack.last(), pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+                    } else {
                         this.compile(pPoseStack.last(), pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+                    }
                 }
                 for(ModelPart modelpart : this.children.values()) {
                     modelpart.render(pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha, true);
@@ -399,21 +389,6 @@ public final class ModelPart {
         }
     }
 
-
-    /**
-     * This method consolidates the child parts of the model into a single mesh.
-     * It processes child parts with names starting with "_SUB_R_", applying
-     * their respective rotations and translations, and combines their polygons
-     * into a unified structure for optimized rendering.
-     * <p>
-     * This method is crucial for preparing the model for efficient rendering,
-     * ensuring that all necessary transformations are applied and reducing the
-     * complexity of the rendering process.
-     * </p>
-     *
-     * Note: This method should be called only once. Subsequent calls will have
-     * no effect if the mesh has already been processed.
-     */
     public ModelPart meshing() {
         if (meshed) {
             return this;
@@ -433,6 +408,11 @@ public final class ModelPart {
         }
         for (String key : removeParts) {
             this.children.remove(key);
+        }
+        meshedModelBone = MeshedModelBone.convert(this);
+        if (meshedModelBone != null) {
+            //cubes.clear();
+            System.out.println("Meshing Successful");
         }
         meshed = true;
         return this;
@@ -481,17 +461,10 @@ public final class ModelPart {
         }
     }
 
-    public static boolean _use_new_compile_ = true;
     private void compile(PoseStack.Pose pose, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
-//        if (_use_new_compile_) {
-            for(Cube cube : this.cubes) {
-                cube.compileNew(pose, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
-            }
-//        } else {
-//            for(Cube cube : this.cubes) {
-//                cube.compile(pose, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
-//            }
-//        }
+        for(Cube cube : this.cubes) {
+            cube.compileNew(pose, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+        }
     }
 
     public Cube getRandomCube(RandomSource randomSource) {
@@ -697,26 +670,6 @@ public final class ModelPart {
             }
         }
 
-        public void compile(PoseStack.Pose pose, VertexConsumer vertexConsumer, int light, int overlay, float r, float g, float b, float a) {
-            Matrix4f matrix4f = pose.pose();
-            Matrix3f matrix3f = pose.normal();
-            for(Polygon polygon : this.polygons) {
-                Vector3f vector3f = matrix3f.transform(new Vector3f(polygon.normal));
-                for(Vertex vertex : polygon.vertices) {
-                    Vector4f vector4f = matrix4f.transform(new Vector4f(
-                            vertex.pos.x(),
-                            vertex.pos.y(),
-                            vertex.pos.z(),
-                            1.0F));
-                    vertexConsumer.vertex(
-                            vector4f.x(), vector4f.y(), vector4f.z(),
-                            r, g, b, a,
-                            vertex.u, vertex.v,
-                            overlay, light,
-                            vector3f.x(), vector3f.y(), vector3f.z());
-                }
-            }
-        }
 
         Vector3f destVec3 = new Vector3f();
         public void compileNew(PoseStack.Pose pose, VertexConsumer vertexConsumer, int light, int overlay, float r, float g, float b, float a) {
@@ -733,9 +686,8 @@ public final class ModelPart {
                             matrix4f.m01() * x + matrix4f.m11() * y + matrix4f.m21() * z + matrix4f.m31(),
                             matrix4f.m02() * x + matrix4f.m12() * y + matrix4f.m22() * z + matrix4f.m32(),
                             r, g, b, a,
-                            vertex.u, vertex.v,
-                            overlay, light,
-                            destVec3.x(), destVec3.y(), destVec3.z());
+                            vertex.u, vertex.v, overlay, light,
+                            destVec3.x, destVec3.y, destVec3.z);
                 }
             }
         }
@@ -749,6 +701,10 @@ public final class ModelPart {
 
        public void polygons(List<Polygon> polygons) {
             polygons.addAll(Arrays.asList(this.polygons));
+       }
+
+       public Polygon[] getPolygons() {
+            return polygons;
        }
 
         @Override
