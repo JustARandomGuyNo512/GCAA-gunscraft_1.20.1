@@ -387,7 +387,7 @@ public class Clients {
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0, 0, 0.48f,
-                                0.055f, 0.5f, 0.06f,
+                                0.055f, 0.4f, 0.06f,
                                 0.3f, 0.7f, 0.3f, 0.5f,
                                 0.5f, 0.6f, 0.25f)
                                 .shake(0.021f, 0.5f, 0.1f,
