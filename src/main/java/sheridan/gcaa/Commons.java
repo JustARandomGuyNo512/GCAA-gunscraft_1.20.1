@@ -320,7 +320,7 @@ public class Commons {
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.RPK_16.get(), AttachmentSlot.root()
-                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak12_suppressor")))
+                .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak12_suppressor", "gcaa:ak_compensator")))
                 .addChild(new AttachmentSlot("handguard_grip", Set.of(
                         "gcaa:vertical_grip", "gcaa:gp_25", "gcaa:laser_sight", "gcaa:flashlight", "gcaa:slant_grip"
                 )).lower())
