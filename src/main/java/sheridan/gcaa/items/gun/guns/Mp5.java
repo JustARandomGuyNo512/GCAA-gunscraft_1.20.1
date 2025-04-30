@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class Mp5 extends SMG {
     private static final Caliber caliber =
-            new Caliber(Caliber.CALIBER_9MM,6f, 4.5f, 4.5f, 5.5f, 0.6f)
+            new Caliber(Caliber.CALIBER_9MM,6f, 4f, 4.5f, 5.5f, 0.6f)
                     .setAmmunition(ModItems.AMMO_9X19MM.get());
 
     public Mp5() {
