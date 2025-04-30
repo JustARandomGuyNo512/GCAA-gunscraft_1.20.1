@@ -447,6 +447,7 @@ public class Commons {
                 new GunProduct(ModItems.SAIGA_12K.get(), 3600),
                 new GunProduct(ModItems.BERETTA_686.get(), 1800),
                 new GunProduct(ModItems.M249.get(), 4400),
+                new GunProduct(ModItems.RPK_16.get(), 3200),
                 new GunProduct(ModItems.M60E4.get(), 5500));
 
         ProductsRegister.registerProducts(ProductsRegister.AMMUNITION,
@@ -538,16 +539,25 @@ public class Commons {
         potionTag.putString("Potion", "minecraft:strong_regeneration");
 
         ProductsRegister.registerProducts(ProductsRegister.OTHER,
-                new CommonProduct(Items.IRON_INGOT, 20),
+                new CommonProduct(Items.IRON_INGOT, 30),
+                new CommonProduct(Items.COPPER_INGOT, 20),
                 new CommonProduct(Items.REDSTONE, 50),
                 new CommonProduct(Items.GOLD_INGOT, 100),
                 new CommonProduct(Items.DIAMOND, 200),
                 new CommonProduct(Items.EMERALD, 300),
                 new CommonProduct(ModItems.VENDING_MACHINE.get(), 200),
                 new CommonProduct(ModItems.AMMUNITION_PROCESSOR.get(), 160),
+                new CommonProduct(ModItems.TRANSACTION_TERMINAL.get(), 260),
                 new CommonProduct(Items.COOKED_BEEF, 20),
+                new CommonProduct(Items.BREAD, 10),
                 new CommonProduct(Items.CARROT, 5),
                 new CommonProduct(Items.APPLE, 5),
+                new CommonProduct(Items.IRON_PICKAXE, 100),
+                new CommonProduct(Items.IRON_AXE, 100),
+                new CommonProduct(Items.IRON_CHESTPLATE, 240),
+                new CommonProduct(Items.IRON_LEGGINGS, 210),
+                new CommonProduct(Items.IRON_BOOTS, 120),
+                new CommonProduct(Items.IRON_HELMET, 150),
                 new CommonProduct(Items.GOLDEN_APPLE, 805),
                 new CommonProduct(ModItems.BULLET_CRAFTING.get(), 200),
                 new NBTAttachedProduct(Items.POTION, 100, potionTag));

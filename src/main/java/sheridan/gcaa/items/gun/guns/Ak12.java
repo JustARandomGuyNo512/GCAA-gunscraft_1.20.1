@@ -17,7 +17,7 @@ public class Ak12 extends Gun {
 
     public Ak12() {
         super(new GunProperties(4f, 0.6f, 2.15f, 0.65f, 0.18f,
-                3f, GunProperties.toRPM(650), getTicks(2.4f), getTicks(3.0f), 30,
+                3f, GunProperties.toRPM(700), getTicks(2.4f), getTicks(3.0f), 30,
                 1.6f, 0.4f, 0.15f, 0.12f, 11.5f, Arrays.asList(Semi.SEMI, Auto.AUTO),
                 ModSounds.AK12_FIRE, null, caliber));
     }
