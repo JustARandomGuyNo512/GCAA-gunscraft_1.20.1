@@ -332,6 +332,13 @@ public class Commons {
                 .addChild(new AttachmentSlot("handguard_right", Set.of(
                         "gcaa:laser_sight", "gcaa:flashlight"
                 )).lower())
+                .addChild(new AttachmentSlot("handguard_front", Set.of(
+                        "gcaa:laser_sight", "gcaa:flashlight"
+                )).lower())
+                .addChild(new AttachmentSlot("handguard_scope", mk47HandguardScopeSlot).upper())
+                .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ctr_stock", "gcaa:ubr_stock")))
+                .addChild(new AttachmentSlot("stock_tube", Set.of("gcaa:ak_tactical_stock"))),
+                Rpk16AttachmentProxy::new
         );
 
 
@@ -447,7 +454,7 @@ public class Commons {
                 new GunProduct(ModItems.SAIGA_12K.get(), 3600),
                 new GunProduct(ModItems.BERETTA_686.get(), 1800),
                 new GunProduct(ModItems.M249.get(), 4400),
-                new GunProduct(ModItems.RPK_16.get(), 3200),
+                new GunProduct(ModItems.RPK_16.get(), 2700),
                 new GunProduct(ModItems.M60E4.get(), 5500));
 
         ProductsRegister.registerProducts(ProductsRegister.AMMUNITION,

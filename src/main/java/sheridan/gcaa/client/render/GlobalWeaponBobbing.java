@@ -124,10 +124,10 @@ public class GlobalWeaponBobbing {
             float zRot = InertialBobbingHandler.getXOffset() * scaleFactor * (pistolFactor * pistolFactor);
             float bobRY = Mth.rotLerp(particleTick, player.yBobO, player.yBob);
             float headRY = Mth.rotLerp(particleTick, player.yHeadRotO, player.yHeadRot);
-            swingRy = Mth.clamp((headRY - bobRY) * 0.003f, -0.1f, 0.1f) * pistolFactor;
+            swingRy = Mth.clamp((headRY - bobRY) * 0.0025f, -0.1f, 0.1f) * pistolFactor;
             float bobRX = Mth.rotLerp(particleTick, player.xBobO, player.xBob);
             float headRX = Mth.rotLerp(particleTick, player.xRotO, player.getXRot());
-            swingRx = Mth.clamp((headRX - bobRX) * 0.003f, -0.1f, 0.1f) * pistolFactor;
+            swingRx = Mth.clamp((headRX - bobRX) * 0.0025f, -0.1f, 0.1f) * pistolFactor;
             idlePitch = Mth.sin(idle + PI * 0.75f) * 0.0035f;
             idleYaw = Mth.sin(idle) * 0.01f;
             idleRoll = Mth.sin(idle) * 0.00025f;
