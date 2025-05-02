@@ -50,11 +50,11 @@ public interface IGun {
     IReloadTask getUnloadingTask(ItemStack stack, Player player);
     long getDate(ItemStack stack);
     void updateDate(ItemStack stack);
-    String getAttachmentsModifiedUUID(ItemStack stack);
-    String getEffectiveSightUUID(ItemStack stack);
-    void setEffectiveSightUUID(ItemStack stack, String uuid);
-    void newAttachmentsModifiedUUID(ItemStack stack);
-    String getSelectedAmmunitionTypeUUID(ItemStack stack);
+    String getAttachmentsModifiedID(ItemStack stack);
+    String getEffectiveSightID(ItemStack stack);
+    void setEffectiveSightID(ItemStack stack, String uuid);
+    void newAttachmentsModifiedID(ItemStack stack);
+    String getSelectedAmmunitionTypeID(ItemStack stack);
     void bindAmmunition(ItemStack gunStack, ItemStack ammunitionStack, IAmmunition ammunition);
     void clearAmmo(ItemStack gunStack, Player player);
     boolean isNotUsingSelectedAmmo(ItemStack itemStack);

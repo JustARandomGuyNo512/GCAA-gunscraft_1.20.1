@@ -49,6 +49,7 @@ import sheridan.gcaa.client.model.attachments.handguard.ARLightHandguardShortMod
 import sheridan.gcaa.client.model.attachments.handguard.ARRailedHandguardModel;
 import sheridan.gcaa.client.model.attachments.mag.*;
 import sheridan.gcaa.client.model.attachments.muzzle.*;
+import sheridan.gcaa.client.model.attachments.other.CantedSightSetModel;
 import sheridan.gcaa.client.model.attachments.other.GlockMountModel;
 import sheridan.gcaa.client.model.attachments.other.RailClampModel;
 import sheridan.gcaa.client.model.attachments.scope.AcogModel;
@@ -680,6 +681,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.SAIGA_12K_TACTICAL_HANDGUARD.get(), IAttachmentModel.EMPTY);
         ArsenalLib.registerAttachmentModel(ModItems.KOBRA_SIGHT.get(), new KobraSightModel());
         ArsenalLib.registerAttachmentModel(ModItems.PU_SCOPE.get(), new PuScopeModel());
+        ArsenalLib.registerAttachmentModel(ModItems.CANTED_SIGHT_SET.get(), new CantedSightSetModel());
 
         //TEST!!!
 //        List<Gun> allInstances = Gun.getAllInstances();

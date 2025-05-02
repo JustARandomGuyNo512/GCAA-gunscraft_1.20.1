@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class AKRailBracket extends SubSlotProvider {
     private final AttachmentSlot root = AttachmentSlot.root()
-            .addChild(new AttachmentSlot("rail_bracket_scope", Set.of("gcaa:red_dot", "gcaa:kobra_sight","gcaa:elcan", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")));
+            .addChild(new AttachmentSlot("rail_bracket_scope", Set.of("gcaa:red_dot", "gcaa:kobra_sight", "gcaa:canted_sight_set", "gcaa:elcan", "gcaa:holographic", "gcaa:acog", "gcaa:okp7_b")));
 
     public AKRailBracket() {
         super(0.4f);

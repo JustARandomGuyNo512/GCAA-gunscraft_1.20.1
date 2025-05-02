@@ -18,6 +18,7 @@ import sheridan.gcaa.items.attachments.grip.*;
 import sheridan.gcaa.items.attachments.handguard.*;
 import sheridan.gcaa.items.attachments.mag.*;
 import sheridan.gcaa.items.attachments.muzzle.*;
+import sheridan.gcaa.items.attachments.other.CantedSightSet;
 import sheridan.gcaa.items.attachments.other.GlockMount;
 import sheridan.gcaa.items.attachments.other.RailClamp;
 import sheridan.gcaa.items.attachments.scope.Acog;
@@ -148,6 +149,7 @@ public class ModItems {
     public static final RegistryObject<Saiga12kTacticalHandguard> SAIGA_12K_TACTICAL_HANDGUARD = ITEMS.register("saiga_12k_tactical_handguard", Saiga12kTacticalHandguard::new);
     public static final RegistryObject<KobraSight> KOBRA_SIGHT = ITEMS.register("kobra_sight", KobraSight::new);
     public static final RegistryObject<PuScope> PU_SCOPE = ITEMS.register("pu_scope", PuScope::new);
+    public static final RegistryObject<CantedSightSet> CANTED_SIGHT_SET = ITEMS.register("canted_sight_set", CantedSightSet::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 

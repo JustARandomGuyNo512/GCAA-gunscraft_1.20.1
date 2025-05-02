@@ -37,6 +37,7 @@ public class ModTabs {
                     tab.accept(ModItems.AK_IMPROVED_HANDGUARD.get());
                     tab.accept(ModItems.AK_RAIL_BRACKET.get());
                     tab.accept(ModItems.RAIL_CLAMP.get());
+                    tab.accept(ModItems.CANTED_SIGHT_SET.get());
                     tab.accept(ModItems.GLOCK_MOUNT.get());
                     tab.accept(ModItems.AK_IMPROVED_DUST_COVER.get());
                     tab.accept(ModItems.MICRO_RED_DOT.get());

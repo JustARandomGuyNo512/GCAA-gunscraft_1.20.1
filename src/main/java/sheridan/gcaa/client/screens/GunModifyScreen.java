@@ -279,7 +279,7 @@ public class GunModifyScreen extends AbstractContainerScreen<GunModifyMenu> {
                     ammoSelectBtn.setPrevented(false);
                     ammoSelectBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.ammo_select")));
                 } else {
-                    String selectedAmmunitionTypeID = gun.getSelectedAmmunitionTypeUUID(gunStack);
+                    String selectedAmmunitionTypeID = gun.getSelectedAmmunitionTypeID(gunStack);
                     if (!Objects.equals(selectedAmmunitionTypeID, ammunition.getModsUUID(itemStack))) {
                         ammoSelectBtn.setPrevented(false);
                         ammoSelectBtn.setTooltip(Tooltip.create(Component.translatable("tooltip.btn.ammo_select")));

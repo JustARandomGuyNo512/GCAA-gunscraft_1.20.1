@@ -254,7 +254,7 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     @Override
     public void setAttachmentsListTag(ItemStack stack, ListTag list) {
         checkAndGet(stack).put("attachments", list);
-        newAttachmentsModifiedUUID(stack);
+        newAttachmentsModifiedID(stack);
     }
 
     @Override
@@ -468,28 +468,28 @@ public class Gun extends NoRepairNoEnchantmentItem implements IGun {
     }
 
     @Override
-    public String getAttachmentsModifiedUUID(ItemStack stack) {
+    public String getAttachmentsModifiedID(ItemStack stack) {
         return checkAndGet(stack).getString("attachments_modified_uuid");
     }
 
     @Override
-    public String getEffectiveSightUUID(ItemStack stack) {
+    public String getEffectiveSightID(ItemStack stack) {
         return checkAndGet(stack).getString("effective_sight_uuid");
     }
 
     @Override
-    public void setEffectiveSightUUID(ItemStack stack, String uuid) {
+    public void setEffectiveSightID(ItemStack stack, String uuid) {
         checkAndGet(stack).putString("effective_sight_uuid", uuid);
     }
 
     @Override
-    public void newAttachmentsModifiedUUID(ItemStack stack) {
+    public void newAttachmentsModifiedID(ItemStack stack) {
         CompoundTag tag = checkAndGet(stack);
         tag.putString("attachments_modified_uuid", UUID.randomUUID().toString());
     }
 
     @Override
-    public String getSelectedAmmunitionTypeUUID(ItemStack stack) {
+    public String getSelectedAmmunitionTypeID(ItemStack stack) {
         CompoundTag tag = checkAndGet(stack);
         if (tag.contains("selected_ammunition_type_uuid")) {
             return tag.getString("selected_ammunition_type_uuid");
