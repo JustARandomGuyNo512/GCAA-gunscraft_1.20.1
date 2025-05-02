@@ -45,6 +45,7 @@ public class ModTabs {
                     tab.accept(ModItems.OKP_7_A.get());
                     tab.accept(ModItems.OKP_7_B.get());
                     tab.accept(ModItems.KOBRA_SIGHT.get());
+                    tab.accept(ModItems.PU_SCOPE.get());
                     tab.accept(ModItems.ACOG.get());
                     tab.accept(ModItems.ELCAN.get());
                     tab.accept(ModItems.SCOPE_X10.get());

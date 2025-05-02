@@ -36,7 +36,7 @@ public class Commons {
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak_suppressor", "gcaa:ak_compensator")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:ak_extend_mag", "gcaa:drum_ak")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
-                .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket", "gcaa:okp7_a")))
+                .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket", "gcaa:okp7_a", "gcaa:pu_scope")))
                 .addChild(new AttachmentSlot(HANDGUARD, Set.of("gcaa:ak_improved_handguard")).setReplaceableGunPart(new WeightPart(1)))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube", "gcaa:ak_tactical_stock")).setReplaceableGunPart(new RecoilControlPart(1, 0.1f, 0.1f)))
                 .addChild(new AttachmentSlot("dust_cover", Set.of("gcaa:ak_improved_dust_cover")).setReplaceableGunPart(new WeightPart(0.3f))),
@@ -304,7 +304,7 @@ public class Commons {
         AttachmentsRegister.registerAttachmentSlot(ModItems.SAIGA_12K.get(), AttachmentSlot.root()
                 .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:shotgun_suppressor")))
                 .addChild(new AttachmentSlot(GRIP, Set.of()))
-                .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket", "gcaa:okp7_a")))
+                .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket", "gcaa:okp7_a", "gcaa:pu_scope")))
                 .addChild(new AttachmentSlot(MAG, Set.of("gcaa:saiga_12k_exp_mag", "gcaa:saiga_12k_drum")))
                 .addChild(new AttachmentSlot(STOCK, Set.of("gcaa:ar_stock_tube", "gcaa:ak_tactical_stock")).setReplaceableGunPart(new RecoilControlPart(1, 0.1f, 0.1f)))
                 .addChild(new AttachmentSlot("handguard_grip", mk47HandguardGrip).lock().lower())
@@ -316,7 +316,7 @@ public class Commons {
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.SKS.get(), AttachmentSlot.root()
                         .addChild(new AttachmentSlot(MUZZLE, Set.of("gcaa:ak_suppressor", "gcaa:ak_compensator")))
-                        .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket", "gcaa:okp7_a")))
+                        .addChild(new AttachmentSlot("rail_set", Set.of("gcaa:ak_rail_bracket", "gcaa:okp7_a", "gcaa:pu_scope")))
         );
 
         AttachmentsRegister.registerAttachmentSlot(ModItems.RPK_16.get(), AttachmentSlot.root()
@@ -497,6 +497,7 @@ public class Commons {
                 new AttachmentProduct(ModItems.OKP_7_A.get(), 70),
                 new AttachmentProduct(ModItems.OKP_7_B.get(), 120),
                 new AttachmentProduct(ModItems.KOBRA_SIGHT.get(), 80),
+                new AttachmentProduct(ModItems.PU_SCOPE.get(), 150),
                 new AttachmentProduct(ModItems.ACOG.get(), 220),
                 new AttachmentProduct(ModItems.ELCAN.get(), 300),
                 new AttachmentProduct(ModItems.SCOPE_X10.get(), 400),

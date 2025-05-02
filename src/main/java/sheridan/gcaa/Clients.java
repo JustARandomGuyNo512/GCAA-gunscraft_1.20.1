@@ -24,7 +24,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.joml.Vector3f;
 import sheridan.gcaa.addon.AddonHandler;
@@ -33,7 +32,6 @@ import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.ClientWeaponLooper;
 import sheridan.gcaa.client.ClientWeaponStatus;
-import sheridan.gcaa.client.animation.recoilAnimation.RecoilData;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.model.BulletShellModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
@@ -55,6 +53,7 @@ import sheridan.gcaa.client.model.attachments.other.GlockMountModel;
 import sheridan.gcaa.client.model.attachments.other.RailClampModel;
 import sheridan.gcaa.client.model.attachments.scope.AcogModel;
 import sheridan.gcaa.client.model.attachments.scope.ElcanModel;
+import sheridan.gcaa.client.model.attachments.scope.PuScopeModel;
 import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
 import sheridan.gcaa.client.model.attachments.sight.*;
 import sheridan.gcaa.client.model.attachments.stock.AKTacticalStockModel;
@@ -680,6 +679,7 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.SAIGA_12K_EXP_MAG.get(), IAttachmentModel.EMPTY);
         ArsenalLib.registerAttachmentModel(ModItems.SAIGA_12K_TACTICAL_HANDGUARD.get(), IAttachmentModel.EMPTY);
         ArsenalLib.registerAttachmentModel(ModItems.KOBRA_SIGHT.get(), new KobraSightModel());
+        ArsenalLib.registerAttachmentModel(ModItems.PU_SCOPE.get(), new PuScopeModel());
 
         //TEST!!!
 //        List<Gun> allInstances = Gun.getAllInstances();

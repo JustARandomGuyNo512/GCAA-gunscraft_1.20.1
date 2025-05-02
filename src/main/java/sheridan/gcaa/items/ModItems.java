@@ -22,6 +22,7 @@ import sheridan.gcaa.items.attachments.other.GlockMount;
 import sheridan.gcaa.items.attachments.other.RailClamp;
 import sheridan.gcaa.items.attachments.scope.Acog;
 import sheridan.gcaa.items.attachments.scope.Elcan;
+import sheridan.gcaa.items.attachments.scope.PuScope;
 import sheridan.gcaa.items.attachments.scope.ScopeX10;
 import sheridan.gcaa.items.attachments.sight.*;
 import sheridan.gcaa.items.attachments.stock.AKTacticalStock;
@@ -146,6 +147,7 @@ public class ModItems {
     public static final RegistryObject<Saiga12kDrum> SAIGA_12K_DRUM = ITEMS.register("saiga_12k_drum", Saiga12kDrum::new);
     public static final RegistryObject<Saiga12kTacticalHandguard> SAIGA_12K_TACTICAL_HANDGUARD = ITEMS.register("saiga_12k_tactical_handguard", Saiga12kTacticalHandguard::new);
     public static final RegistryObject<KobraSight> KOBRA_SIGHT = ITEMS.register("kobra_sight", KobraSight::new);
+    public static final RegistryObject<PuScope> PU_SCOPE = ITEMS.register("pu_scope", PuScope::new);
 
     public static final RegistryObject<TransactionTerminal> TRANSACTION_TERMINAL = ITEMS.register("transaction_terminal", TransactionTerminal::new);
 
