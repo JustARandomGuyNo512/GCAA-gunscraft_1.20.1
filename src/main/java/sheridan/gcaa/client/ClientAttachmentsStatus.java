@@ -75,8 +75,8 @@ public class ClientAttachmentsStatus {
             Clients.weaponAdsZMinDistance = Float.NaN;
             scopeMagnificationRate = 0;
             originalScopeMagnification = 0;
-            sightSwitchingProgress = 0.9f;
-            tempSightSwitchingProgress = 0.9f;
+            sightSwitchingProgress = 0.99999f;
+            tempSightSwitchingProgress = 0.99999f;
             String sightUUID = gun.getEffectiveSightID(stack);
             if (slot != null) {
                 slot.onTravel(slot -> {

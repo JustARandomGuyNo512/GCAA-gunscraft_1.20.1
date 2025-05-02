@@ -161,7 +161,7 @@ public class GCAA {
     }
 
     public static boolean isNotRunData() {
-        return true;
+        return false;
                 //ServerLifecycleHooks.getCurrentServer() != null || !ModList.get().isLoaded("forge");
     }
 
