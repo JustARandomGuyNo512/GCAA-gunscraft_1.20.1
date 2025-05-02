@@ -106,7 +106,7 @@ public class GunProperties implements IJsonSyncable {
     }
 
     public int getRPM() {
-        return 60000 / (fireDelay * 5);
+        return Math.round(60000f / (fireDelay * 5));
     }
 
     /**
