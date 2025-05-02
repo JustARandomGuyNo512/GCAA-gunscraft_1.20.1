@@ -132,6 +132,10 @@ public class ClientAttachmentsStatus {
         }
     }
 
+    public float getLerpedSwitchingProgress(float particleTick) {
+        return Mth.lerp(particleTick, tempSightSwitchingProgress, sightSwitchingProgress);
+    }
+
     public float[] getLerpedSightAimPos(float particleTick) {
         if (sightAimPos != null) {
             if (tempSightAimPos != null) {
