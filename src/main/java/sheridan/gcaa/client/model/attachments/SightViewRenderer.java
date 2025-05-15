@@ -131,6 +131,7 @@ public class SightViewRenderer {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         poseStack.popPose();
         SCOPE_VIEW_BUFFER.clear();
+
     }
 
     private static void renderCrosshair(PoseStack poseStack, VertexConsumer vertexConsumer) {

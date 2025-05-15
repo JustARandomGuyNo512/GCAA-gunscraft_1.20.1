@@ -34,7 +34,7 @@ import java.util.*;
 public abstract class GunModel extends HierarchicalModel<Entity> implements IGunModel {
     public static final String LOW_QUALITY_KEY = "__low_quality__";
     public static final String LOW_QUALITY_DISABLE = "__low_quality_disable__";
-    protected ResourceLocation texture, lowQualityTexture;
+    public ResourceLocation texture, lowQualityTexture;
     public final ModelPart root, gun, main, left_arm, right_arm, camera;
     public ModelPart lowQualityRoot, lowQualityGun, lowQualityMain;
     protected Map<String, AnimationDefinition> animations;
