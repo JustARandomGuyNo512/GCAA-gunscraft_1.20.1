@@ -92,6 +92,8 @@
   "item.gcaa.saiga_12k_drum": "Saiga-12K Drum",
   "item.gcaa.saiga_12k_tactical_handguard": "Saiga-12K Tactical Handguard",
   "item.gcaa.kobra_sight": "Kobra Sight",
+  "item.gcaa.pu_scope": "PU Scope",
+  "item.gcaa.canted_sight_set": "Canted Sight Set",
 
   "item.gcaa.ammo9x19mm": "Parabellum 9mm Pistol Rounds",
   "item.gcaa.ammo5_56x45mm": "5.56x45mm Assault Rifle Rounds",
@@ -288,5 +290,8 @@
   "item.gcaa.m60e4.introduction": "A powerful general-purpose machine gun, combining firepower and durability, ideal for sustained enemy suppression.",
   "item.gcaa.fn57.introduction": "A compact and precise handgun chambered in 5.7mm, offering high penetration. A top-tier sidearm choice worth having.",
   "item.gcaa.mcx_spear.introduction.en": "SIG’s latest tactical rifle, precise, powerful, and great for long-range combat.",
-  "item.gcaa.aug_a3.introduction.en": "A modern bullpup rifle with high accuracy, stability, and smooth handling."
+  "item.gcaa.aug_a3.introduction.en": "A modern bullpup rifle with high accuracy, stability, and smooth handling.",
+  "item.gcaa.sks.introduction": "A classic semi-automatic rifle—accurate and reliable. The slow fire rate trains your patience. It's a sniper and a rifle all in one.",
+  "item.gcaa.saiga_12k.introduction": "A fully automatic shotgun with AK lineage. Fires fast and hard without pause—it's basically an AK that shoots shells!",
+  "item.gcaa.rpk_16.introduction": "Yes, it's basically a big AK-12."
 }

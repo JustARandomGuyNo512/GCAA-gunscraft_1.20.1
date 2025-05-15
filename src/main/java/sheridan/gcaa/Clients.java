@@ -24,7 +24,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.joml.Vector3f;
 import sheridan.gcaa.addon.AddonHandler;
@@ -33,7 +32,6 @@ import sheridan.gcaa.client.animation.recoilAnimation.InertialRecoilData;
 import sheridan.gcaa.capability.PlayerStatusProvider;
 import sheridan.gcaa.client.ClientWeaponLooper;
 import sheridan.gcaa.client.ClientWeaponStatus;
-import sheridan.gcaa.client.animation.recoilAnimation.RecoilData;
 import sheridan.gcaa.client.events.RenderEvents;
 import sheridan.gcaa.client.model.BulletShellModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
@@ -51,10 +49,12 @@ import sheridan.gcaa.client.model.attachments.handguard.ARLightHandguardShortMod
 import sheridan.gcaa.client.model.attachments.handguard.ARRailedHandguardModel;
 import sheridan.gcaa.client.model.attachments.mag.*;
 import sheridan.gcaa.client.model.attachments.muzzle.*;
+import sheridan.gcaa.client.model.attachments.other.CantedSightSetModel;
 import sheridan.gcaa.client.model.attachments.other.GlockMountModel;
 import sheridan.gcaa.client.model.attachments.other.RailClampModel;
 import sheridan.gcaa.client.model.attachments.scope.AcogModel;
 import sheridan.gcaa.client.model.attachments.scope.ElcanModel;
+import sheridan.gcaa.client.model.attachments.scope.PuScopeModel;
 import sheridan.gcaa.client.model.attachments.scope.ScopeX10Model;
 import sheridan.gcaa.client.model.attachments.sight.*;
 import sheridan.gcaa.client.model.attachments.stock.AKTacticalStockModel;
@@ -387,11 +387,11 @@ public class Clients {
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
                         new InertialRecoilData(0, 0, 0.48f,
-                                0.055f, 0.38f, 0.06f,
+                                0.055f, 0.4f, 0.06f,
                                 0.3f, 0.7f, 0.3f, 0.5f,
-                                0.5f, 0.6f, 0.22f)
+                                0.5f, 0.6f, 0.25f)
                                 .shake(0.021f, 0.5f, 0.1f,
-                                        1.75f, 0.11f, 0.5f, 0.4f))
+                                        1.75f, 0.11f, 0.5f, 0.5f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 1.4561f, -103f).setScale(2.8f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2.1f))
                 .setBulletShellDisplayData(new BulletShellDisplayData(2.2f, 4.5f, -18f, new Vector3f(3.5f, 1.6f, -0.5f), BulletShellModel.RIFLE).setRandomRate(0.4f))
@@ -468,11 +468,11 @@ public class Clients {
                 .setAds(0,14.7f,-21f, POS)
                 .setAttachmentScreen(3.5f,-0.6f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
-                        new InertialRecoilData(0, 0, 0.52f,
-                                0.048f, 0.5f,  0.04f,
+                        new InertialRecoilData(0, 0, 0.5f,
+                                0.05f, 0.5f,  0.04f,
                                 0.4f,  0.3f,
                                 0.1f, 0.7f, 0.3f)
-                                .shake(0.026f, 0.4f, 0.12f,
+                                .shake(0.025f, 0.4f, 0.12f,
                                         1.6f, 0.1f, 0.6f, 0.5f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.4f, -106.6f).setScale(2f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AR_COMPENSATOR, new MuzzleFlashDisplayData().setScale(3f))
@@ -583,21 +583,22 @@ public class Clients {
 
 
         ArsenalLib.registerGunModel(ModItems.RPK_16.get(), CommonMGModels.RPK_16_MODEL, new DisplayData()
-                .setFirstPersonMain(-15f,14.7f,-35.6f, POS)
+                .setFirstPersonMain(-14.5f,14.4f,-35.3f, POS)
                 .setThirdPersonRight(0.0f,-0.7f,0.7f, POS).set(DisplayData.THIRD_PERSON_RIGHT, 0.15f, SCALE)
                 .setGround(0f, 0f, 3, POS).set(DisplayData.GROUND, 0.15f, SCALE)
                 .setFrame(-4, 0f, 0, POS).setFrame(0f, -90, 0, ROT).set(DisplayData.FRAME, 0.3f, SCALE)
-                .setAds(0,11.1026f,-23.3f, POS)
+                .setAds(0,11.062599f,-22.8f, POS)
                 .setAttachmentScreen(4f,-0.3f,-22.1f, 0f, 90f, 0, 0.225f, 0.225f, 0.225f)
                 .setInertialRecoilData(
-                        new InertialRecoilData(0, 0, 0.5f,
-                                0.055f, 0.35f, 0.06f,
-                                0.35f, 0.6f, 0.4f, 0.5f,
+                        new InertialRecoilData(0, 0, 0.46f,
+                                0.054f, 0.38f, 0.055f,
+                                0.4f, 0.7f, 0.5f, 0.5f,
                                 0.5f, 0.6f, 0.25f)
-                                .shake(0.019f, 0.4f, 0.08f,
+                                .shake(0.019f, 0.4f, -0.08f,
                                         1.85f, 0.11f, 0.5f, 0.5f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_NORMAL, CommonMuzzleFlashes.COMMON, new MuzzleFlashDisplayData().setDefaultTranslate(0f, 2.6f, -128f).setScale(2.4f))
                 .addMuzzleFlash(Gun.MUZZLE_STATE_SUPPRESSOR, CommonMuzzleFlashes.SUPPRESSOR_COMMON, new MuzzleFlashDisplayData().setScale(2.3f))
+                .addMuzzleFlash(Gun.MUZZLE_STATE_COMPENSATOR, CommonMuzzleFlashes.AK_COMPENSATOR, new MuzzleFlashDisplayData().setScale(3f))
                 .setBulletShellDisplayData(new BulletShellDisplayData(2.2f, 4.5f, -18f, new Vector3f(3.5f, 1.6f, -0.5f), BulletShellModel.RIFLE).setRandomRate(0.4f))
                 .setSprintingTrans(16.5f, 10.5f, 4.5f, 27, -51, 45)
         );
@@ -679,6 +680,8 @@ public class Clients {
         ArsenalLib.registerAttachmentModel(ModItems.SAIGA_12K_EXP_MAG.get(), IAttachmentModel.EMPTY);
         ArsenalLib.registerAttachmentModel(ModItems.SAIGA_12K_TACTICAL_HANDGUARD.get(), IAttachmentModel.EMPTY);
         ArsenalLib.registerAttachmentModel(ModItems.KOBRA_SIGHT.get(), new KobraSightModel());
+        ArsenalLib.registerAttachmentModel(ModItems.PU_SCOPE.get(), new PuScopeModel());
+        ArsenalLib.registerAttachmentModel(ModItems.CANTED_SIGHT_SET.get(), new CantedSightSetModel());
 
         //TEST!!!
 //        List<Gun> allInstances = Gun.getAllInstances();

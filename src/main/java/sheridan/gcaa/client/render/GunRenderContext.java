@@ -62,7 +62,7 @@ public class GunRenderContext {
     private static AttachmentsRenderContext tempAttachmentContext = null;
     public static GunRenderContext getClientMainHand(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, ItemDisplayContext transformType, DisplayData.MuzzleFlashEntry muzzleFlashEntry, int packedLight, int envLight, int packedOverlay) {
         GunRenderContext context = new GunRenderContext(bufferSource, poseStack, itemStack, gun, transformType, packedLight, packedOverlay, envLight, muzzleFlashEntry, Clients.lastShootMain() + 10L, false);
-        String uuid = gun.getAttachmentsModifiedUUID(itemStack);
+        String uuid = gun.getAttachmentsModifiedID(itemStack);
         if (!lastAttachmentContextUUID.equals(uuid)) {
             lastAttachmentContextUUID = uuid;
             tempAttachmentContext = AttachmentsHandler.INSTANCE.getRenderContext(itemStack, gun);
@@ -78,7 +78,7 @@ public class GunRenderContext {
     public static GunRenderContext getGUI(MultiBufferSource bufferSource, PoseStack poseStack, ItemStack itemStack, IGun gun, int packedLight, int packedOverlay, boolean useAttachmentContext) {
         GunRenderContext context = new GunRenderContext(bufferSource, poseStack, itemStack, gun, ItemDisplayContext.GUI, packedLight, packedOverlay, false);
         if (useAttachmentContext) {
-            String uuid = gun.getAttachmentsModifiedUUID(itemStack);
+            String uuid = gun.getAttachmentsModifiedID(itemStack);
             context.attachmentsRenderContext = lastAttachmentContextUUID.equals(uuid) ? tempAttachmentContext : AttachmentsHandler.INSTANCE.getRenderContext(itemStack, gun);
             if (tempAttachmentContext != null) {
                 tempAttachmentContext.reset();

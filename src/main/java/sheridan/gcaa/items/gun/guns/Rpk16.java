@@ -17,7 +17,7 @@ public class Rpk16 extends Gun {
 
     public Rpk16() {
         super(new GunProperties(3.5f, 0.55f, 2.35f, 0.65f, 0.16f,
-                3f, GunProperties.toRPM(650), getTicks(2.4f), getTicks(3.0f), 30,
+                3f, GunProperties.toRPM(650), getTicks(2.6f), getTicks(3.5f), 30,
                 1.6f, 0.45f, 0.14f, 0.12f, 16.7f, Arrays.asList(Semi.SEMI, Auto.AUTO),
                 ModSounds.RPK_16_FIRE, null, caliber));
     }

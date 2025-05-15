@@ -13,7 +13,7 @@ import java.util.*;
 public class AmmunitionHandler {
 
     public static void checkAndUpdateAmmunitionBind(Player player, ItemStack gunStack, IGun gun) {
-        String modsUUID = gun.getSelectedAmmunitionTypeUUID(gunStack);
+        String modsUUID = gun.getSelectedAmmunitionTypeID(gunStack);
         NonNullList<ItemStack> items = player.getInventory().items;
         IAmmunition gunAmmunition = gun.getGunProperties().caliber.ammunition;
         ItemStack useAmmo = null;
@@ -178,7 +178,7 @@ public class AmmunitionHandler {
                 if (!isAmmunitionBind) {
                     gun.bindAmmunition(gunStack, stack, gunAmmunition);
                 }
-                if (Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeUUID(gunStack))) {
+                if (Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeID(gunStack))) {
                     int ammoLeft = ammunition.getAmmoLeft(stack);
                     if (ammoLeft >= exceptedReloadLeft) {
                         findCount += exceptedReloadLeft;
@@ -210,7 +210,7 @@ public class AmmunitionHandler {
         IAmmunition gunAmmunition = gun.getGunProperties().caliber.ammunition;
         for (ItemStack stack : items) {
             if (stack.getItem() instanceof IAmmunition ammunition &&
-                    ammunition == gunAmmunition && Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeUUID(gunStack))) {
+                    ammunition == gunAmmunition && Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeID(gunStack))) {
                 int ammoLeft = ammunition.getAmmoLeft(stack);
                 findCount += ammoLeft;
             }
@@ -234,7 +234,7 @@ public class AmmunitionHandler {
         for (ItemStack stack : items) {
             if (stack.getItem() == ammunition) {
                 if (isAmmunitionBind) {
-                    if (Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeUUID(gunStack))) {
+                    if (Objects.equals(ammunition.getModsUUID(stack), gun.getSelectedAmmunitionTypeID(gunStack))) {
                         return ammunition.getAmmoLeft(stack) > 0;
                     }
                 } else {

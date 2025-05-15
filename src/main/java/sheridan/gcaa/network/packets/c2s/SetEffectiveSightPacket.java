@@ -35,7 +35,7 @@ public class SetEffectiveSightPacket implements IPacket<SetEffectiveSightPacket>
             if (player != null) {
                 ItemStack heldItem = player.getMainHandItem();
                 if (heldItem.getItem() instanceof IGun gun) {
-                    gun.setEffectiveSightUUID(heldItem, message.uuid);
+                    gun.setEffectiveSightID(heldItem, message.uuid);
                 }
             }
         });

@@ -37,6 +37,7 @@ public class ModTabs {
                     tab.accept(ModItems.AK_IMPROVED_HANDGUARD.get());
                     tab.accept(ModItems.AK_RAIL_BRACKET.get());
                     tab.accept(ModItems.RAIL_CLAMP.get());
+                    tab.accept(ModItems.CANTED_SIGHT_SET.get());
                     tab.accept(ModItems.GLOCK_MOUNT.get());
                     tab.accept(ModItems.AK_IMPROVED_DUST_COVER.get());
                     tab.accept(ModItems.MICRO_RED_DOT.get());
@@ -45,6 +46,7 @@ public class ModTabs {
                     tab.accept(ModItems.OKP_7_A.get());
                     tab.accept(ModItems.OKP_7_B.get());
                     tab.accept(ModItems.KOBRA_SIGHT.get());
+                    tab.accept(ModItems.PU_SCOPE.get());
                     tab.accept(ModItems.ACOG.get());
                     tab.accept(ModItems.ELCAN.get());
                     tab.accept(ModItems.SCOPE_X10.get());

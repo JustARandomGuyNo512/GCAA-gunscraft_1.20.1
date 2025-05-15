@@ -10,11 +10,13 @@ import java.util.Set;
 public class RailClamp extends SubSlotProvider {
     Set<String> common = Set.of(
             "gcaa:red_dot",
+            "gcaa:kobra_sight",
             "gcaa:holographic",
             "gcaa:acog",
             "gcaa:okp7_b");
     Set<String> rifle = Set.of(
             "gcaa:red_dot",
+            "gcaa:kobra_sight",
             "gcaa:holographic",
             "gcaa:acog",
             "gcaa:okp7_b",

@@ -202,6 +202,10 @@ public class ClientWeaponStatus {
         return attachmentsStatus.getLerpedSightAimPos(particleTick);
     }
 
+    public float getLerpedSwitchingSightProgress(float particleTick) {
+        return  attachmentsStatus == null ? 1 : attachmentsStatus.getLerpedSwitchingProgress(particleTick);
+    }
+
     public float getLerpAdsProgress(float particleTick) {
         return Mth.lerp(particleTick, lastAdsProgress, adsProgress);
     }

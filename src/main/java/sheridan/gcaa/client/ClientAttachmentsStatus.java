@@ -1,11 +1,9 @@
 package sheridan.gcaa.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.ParticleStatus;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.SandBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
@@ -16,7 +14,6 @@ import sheridan.gcaa.attachmentSys.common.AttachmentsHandler;
 import sheridan.gcaa.attachmentSys.common.AttachmentsRegister;
 import sheridan.gcaa.client.model.ISlotProviderModel;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
-import sheridan.gcaa.client.model.attachments.ScopeModel;
 import sheridan.gcaa.client.model.attachments.SightModel;
 import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
@@ -66,7 +63,7 @@ public class ClientAttachmentsStatus {
     public void checkAndUpdate(ItemStack stack, IGun gun, Player player) {
         itemStack = stack;
         this.gun = gun;
-        String modifiedUUID = gun.getAttachmentsModifiedUUID(stack);
+        String modifiedUUID = gun.getAttachmentsModifiedID(stack);
         if (!lastModifiedUUID.equals(modifiedUUID)) {
             slot = AttachmentsHandler.INSTANCE.getAttachmentSlots(itemStack);
             sights.clear();
@@ -78,9 +75,9 @@ public class ClientAttachmentsStatus {
             Clients.weaponAdsZMinDistance = Float.NaN;
             scopeMagnificationRate = 0;
             originalScopeMagnification = 0;
-            sightSwitchingProgress = 0.9f;
-            tempSightSwitchingProgress = 0.9f;
-            String sightUUID = gun.getEffectiveSightUUID(stack);
+            sightSwitchingProgress = 0.99999f;
+            tempSightSwitchingProgress = 0.99999f;
+            String sightUUID = gun.getEffectiveSightID(stack);
             if (slot != null) {
                 slot.onTravel(slot -> {
                     slotFlatDir.put(slot.getId(), slot);
@@ -133,6 +130,10 @@ public class ClientAttachmentsStatus {
             scopeMagnificationRate = gun.getGun().getMagnificationsRateFor(id, itemStack);
             originalScopeMagnification = scopeMagnificationRate;
         }
+    }
+
+    public float getLerpedSwitchingProgress(float particleTick) {
+        return Mth.lerp(particleTick, tempSightSwitchingProgress, sightSwitchingProgress);
     }
 
     public float[] getLerpedSightAimPos(float particleTick) {
@@ -214,9 +215,7 @@ public class ClientAttachmentsStatus {
             }
         }
         if (AttachmentsRegister.getModel(effectiveSight.getAttachmentId()) instanceof SightModel sightModel) {
-            //if (sightModel instanceof ScopeModel scopeModel) {
             Clients.weaponAdsZMinDistance = sightModel.handleMinZTranslation(RenderAndMathUtils.copyPoseStack(poseStack));
-            //}
             sightModel.handleCrosshairTranslation(poseStack);
         }
         Vector3f translation = poseStack.last().pose().getTranslation(new Vector3f(0, 0, 0));
@@ -240,7 +239,7 @@ public class ClientAttachmentsStatus {
             tempSightAimPos = null;
             PacketHandler.simpleChannel.sendToServer(new SetEffectiveSightPacket(effectiveSight.getId()));
         } else if (sights.size() == 1) {
-            String sightUUID = gun.getEffectiveSightUUID(itemStack);
+            String sightUUID = gun.getEffectiveSightID(itemStack);
             if (!sightUUID.equals(sights.get(0).getId())) {
                 PacketHandler.simpleChannel.sendToServer(new SetEffectiveSightPacket(sights.get(0).getId()));
             }

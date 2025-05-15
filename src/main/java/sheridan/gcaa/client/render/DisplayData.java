@@ -90,18 +90,18 @@ public class DisplayData implements IJsonSyncable {
             float lerpProgress = RenderAndMathUtils.sLerp(progress);
             float yLerp = Clients.isInAds() ? lerpProgress * lerpProgress : lerpProgress;
 
+            if (emptyMarks[0][1] ||  emptyMarks[5][1] || sightAimPos != null) {
+                float rx = Mth.lerp(lerpProgress, transforms[0][3], transforms[5][3]);
+                float ry = Mth.lerp(lerpProgress, transforms[0][4], transforms[5][4]);
+                float rz = Mth.lerp(lerpProgress, transforms[0][5], (sightAimPos == null ? transforms[5][5] : - sightAimPos[2]));
+                poseStack.mulPose(new Quaternionf().rotateXYZ(rx, ry, rz));
+            }
+
             if (emptyMarks[0][0] || emptyMarks[5][0]) {
                 float x = Mth.lerp(lerpProgress, transforms[0][0], (sightAimPos == null ? transforms[5][0] : - sightAimPos[0]));
                 float y = Mth.lerp(yLerp, transforms[0][1], (sightAimPos == null ? transforms[5][1] : - sightAimPos[1]));
                 float z = getMinDisZ(lerpProgress);
                 poseStack.translate(x, y, z);
-            }
-
-            if (emptyMarks[0][1] || emptyMarks[5][1]) {
-                float rx = Mth.lerp(lerpProgress, transforms[0][3], transforms[5][3]);
-                float ry = Mth.lerp(lerpProgress, transforms[0][4], transforms[5][4]);
-                float rz = Mth.lerp(lerpProgress, transforms[0][5], (sightAimPos == null ? transforms[5][5] : - sightAimPos[2]));
-                poseStack.mulPose(new Quaternionf().rotateXYZ(rx, ry, rz));
             }
 
         } else {
@@ -112,12 +112,12 @@ public class DisplayData implements IJsonSyncable {
                 poseStack.mulPose(new Quaternionf().rotateXYZ(transforms[0][3], transforms[0][4], transforms[0][5]));
             }
         }
-        boolean modifyZ = !Float.isNaN(Clients.gunModelFovModify);
+        //boolean modifyZ = !Float.isNaN(Clients.gunModelFovModify);
+        System.out.println(getGunModelFovRatio(particleTick));
         if (emptyMarks[0][2]) {
-            float scaleZRate = modifyZ ? getGunModelFovRatio() : 1;
-            poseStack.scale(transforms[0][6], transforms[0][7], transforms[0][8] * scaleZRate);
-        } else if (modifyZ) {
-            poseStack.scale(1F, 1F, getGunModelFovRatio());
+            poseStack.scale(transforms[0][6], transforms[0][7], transforms[0][8] * getGunModelFovRatio(particleTick));
+        } else {
+            poseStack.scale(1F, 1F, getGunModelFovRatio(particleTick));
         }
         if (Clients.isInSprintingTransAdjust) {
             poseStack.translate(transforms[7][0], transforms[7][1], transforms[7][2]);
@@ -130,8 +130,18 @@ public class DisplayData implements IJsonSyncable {
         return (float) Mth.lerp(Math.pow(progress, 3), transforms[0][2], minZ);
     }
 
-    protected float getGunModelFovRatio() {
-        return (float) (Math.tan(Math.toRadians(Clients.gunModelFovModify / 2f)) / 0.7002075382097097f);
+    static float lastGunModelFovRatio = 1;
+    protected float getGunModelFovRatio(float particleTick) {
+        if (Float.isNaN(Clients.gunModelFovModify)) {
+            if (Clients.isInAds()) {
+                float lerpedSwitchingSightProgress = Clients.MAIN_HAND_STATUS.getLerpedSwitchingSightProgress(particleTick);
+                return (float) Mth.lerp(Math.sqrt(lerpedSwitchingSightProgress), lastGunModelFovRatio, 1);
+            }
+            return 1;
+        } else {
+            lastGunModelFovRatio = (float) (Math.tan(Math.toRadians(Clients.gunModelFovModify / 2f)) / 0.7002075382097097f);
+            return lastGunModelFovRatio;
+        }
     }
 
     protected float lerpMinZ(float defaultVal) {
