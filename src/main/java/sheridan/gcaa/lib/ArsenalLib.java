@@ -14,7 +14,7 @@ import sheridan.gcaa.client.ClientWeaponStatus;
 import sheridan.gcaa.client.model.attachments.IAttachmentModel;
 import sheridan.gcaa.client.model.gun.IGunModel;
 import sheridan.gcaa.client.animation.io.AnimationLoader;
-import sheridan.gcaa.client.model.io.ModelLoader;
+import sheridan.gcaa.client.model.io.GeoModelLoader;
 import sheridan.gcaa.client.model.modelPart.LayerDefinition;
 import sheridan.gcaa.client.model.registry.GunModelRegister;
 import sheridan.gcaa.client.render.DisplayData;
@@ -27,10 +27,10 @@ public class ArsenalLib {
 
     /**
      * This method relies on Minecraft ResourceManager.
-     * @see ModelLoader#loadModelLayer(ResourceLocation)
+     * @see GeoModelLoader#loadModelLayer(ResourceLocation)
      * */
     public static LayerDefinition loadBedRockGunModel(ResourceLocation modelLocation) {
-        return ModelLoader.loadModelLayer(modelLocation);
+        return GeoModelLoader.loadModelLayer(modelLocation);
     }
 
     /**

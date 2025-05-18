@@ -1,16 +1,20 @@
 package sheridan.gcaa.client.events;
 
 
+import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import sheridan.gcaa.client.model.modelPart.BufferedMeshModelBone;
+import sheridan.gcaa.client.model.io.GltfLoader;
+import sheridan.gcaa.client.model.modelPart.BufferedModelBone;
 
 import java.io.IOException;
 
@@ -30,18 +34,24 @@ public class Test {
         return testShader;
     }
 
-    static boolean start = false;
 
     @SubscribeEvent
     public static void onRender(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SOLID_BLOCKS) {
-            if (!start) {
-                BufferedMeshModelBone.__start_test__();
-            }
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_ENTITIES) {
             LocalPlayer player = Minecraft.getInstance().player;
             if (player != null && player.getMainHandItem().getItem() == Items.APPLE) {
-                BufferedMeshModelBone.__test_render__();
+                BufferedModelBone.__test_render__(Minecraft.getInstance().getEntityRenderDispatcher().getPackedLightCoords(player, event.getPartialTick()));
             }
+        }
+    }
+
+    static boolean test = false;
+    @SubscribeEvent
+    public static void test(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END && !test) {
+            System.out.println("Player logged in test load gltf");
+            GltfLoader.test();
+            test = true;
         }
     }
 

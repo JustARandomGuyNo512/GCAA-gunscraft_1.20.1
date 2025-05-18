@@ -17,6 +17,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL43;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.nio.IntBuffer;
 import java.util.Random;
 import java.util.SplittableRandom;
@@ -217,4 +219,40 @@ public class RenderAndMathUtils {
         return (coord.z / coord.w) / 2f + 0.5f;
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public static void copyPoseTo(PoseStack from, PoseStack dist) {
+        dist.pushPose();
+        dist.last().pose().set(from.last().pose());
+        dist.last().normal().set(from.last().normal());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static boolean isShaderEnabled() {
+        return isOptifineShaderEnabled() || isIrisShaderEnabled();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static boolean isOptifineShaderEnabled() {
+        try {
+            Class<?> shadersClass = Class.forName("net.optifine.shaders.Shaders");
+            Field shaderPackLoaded = shadersClass.getDeclaredField("shaderPackLoaded");
+            shaderPackLoaded.setAccessible(true);
+            return (Boolean) shaderPackLoaded.get(null);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static boolean isIrisShaderEnabled() {
+        try {
+            Class<?> irisClass = Class.forName("net.coderbot.iris.Iris");
+            Field currentPackField = irisClass.getDeclaredField("currentPack");
+            currentPackField.setAccessible(true);
+            Object currentPack = currentPackField.get(null);
+            return currentPack != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

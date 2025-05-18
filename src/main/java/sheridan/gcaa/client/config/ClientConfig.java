@@ -1,7 +1,5 @@
 package sheridan.gcaa.client.config;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class ClientConfig {
@@ -11,7 +9,6 @@ public class ClientConfig {
     public static ForgeConfigSpec.BooleanValue renderAttachmentsInGuiView;
     public static ForgeConfigSpec.BooleanValue renderAttachmentsInGroundView;
     public static ForgeConfigSpec.BooleanValue renderVanillaModelInGroundView;
-    public static ForgeConfigSpec.BooleanValue useDynamicWeaponLighting;
     public static ForgeConfigSpec.BooleanValue enableMuzzleFlashScaleModifyOnUsingScope;
     public static ForgeConfigSpec.BooleanValue renderLowQualityModelInTPView;
     public static ForgeConfigSpec.BooleanValue renderLowQualityModelInGroundView;
@@ -28,9 +25,6 @@ public class ClientConfig {
         BUILDER.comment("在渲染枪械掉落物时原版枪械模型，设置为true可能大幅提升性能\nWhen rendering gun item drops on ground use the vanilla gun model, setting to true may significantly improve performance");
         renderVanillaModelInGroundView = BUILDER.define("render_vanilla_model_in_ground_view", false);
         BUILDER.comment("\n");
-        BUILDER.comment("渲染枪械模型时使用随枪口火焰变化地动态亮度\nUse dynamic brightness that varies with the muzzle flame when rendering a gun model");
-        useDynamicWeaponLighting = BUILDER.define("use_dynamic_weapon_lighting", true);
-        BUILDER.comment("\n");
         BUILDER.comment("渲染第一人称开镜视野时缩放枪口火焰尺寸以免遮挡视野\nZoom the muzzle flame size when rendering the first-person view to avoid blocking the view");
         enableMuzzleFlashScaleModifyOnUsingScope = BUILDER.define("enable_muzzle_flash_scale_modify_on_using_scope", true);
         BUILDER.comment("\n");
@@ -44,7 +38,7 @@ public class ClientConfig {
         renderLowQualityModelInOtherView = BUILDER.define("render_low_quality_model_other", false);
         BUILDER.comment("\n");
         BUILDER.comment("在第一人称下开枪对环境的光照效果，实验性选项可能不稳定，可能造成低FPS\nThe lighting effect on the environment when shooting in first person, experimental options may be unstable and may result in low FPS");
-        enableMuzzleFlashLighting = BUILDER.define("enable_muzzle_flash_lighting", true);
+        enableMuzzleFlashLighting = BUILDER.define("enable_muzzle_flash_lighting", false);
         SPEC = BUILDER.build();
     }
 

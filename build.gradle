@@ -170,12 +170,14 @@ dependencies {
 
     minecraftLibrary 'org.javassist:javassist:3.29.2-GA'
 
+    minecraftLibrary 'org.jmonkeyengine:jme3-plugins:3.7.0-stable'
+
 //    implementation ('org.matheclipse:matheclipse-core:2.0.0') {
 //        exclude group: 'com.google.guava', module: 'failureaccess'
 //    }
 //    implementation 'org.javassist:javassist:3.29.2-GA'
 //    runtimeOnly 'org.javassist:javassist:3.29.2-GA'
-    //implementation fg.deobf("curse.maven:oculus-581495:5108615")
+    implementation fg.deobf("curse.maven:oculus-581495:5108615")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

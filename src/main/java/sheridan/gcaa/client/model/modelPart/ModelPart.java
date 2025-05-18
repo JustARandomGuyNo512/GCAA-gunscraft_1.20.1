@@ -9,14 +9,13 @@ import net.minecraft.util.RandomSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.*;
-import org.joml.Runtime;
 
 import java.lang.Math;
 import java.util.*;
 import java.util.stream.Stream;
 
 @OnlyIn(Dist.CLIENT)
-public final class ModelPart {
+public final class ModelPart implements IAnimatedModelPart {
     public static final ModelPart EMPTY = new ModelPart(List.of(), Map.of());
     public ModelPart parent;
     public float x;
@@ -33,10 +32,9 @@ public final class ModelPart {
     private final List<Cube> cubes;
     private final Map<String, ModelPart> children;
     private PartPose initialPose = PartPose.ZERO;
-    //private Polygon[] polygons;
     private boolean meshed = false;
     private boolean touched = false;
-    public MeshedModelBone meshedModelBone;
+    public MergedModelPartData meshedModelBone;
     public String debug_name = "";
     private static final Cube ZERO = new Cube(0,0,0,0,0,0,0,0,0,0,0,false,Set.of());
 
@@ -46,6 +44,11 @@ public final class ModelPart {
         for (ModelPart modelPart : children.values()) {
             modelPart.parent = this;
         }
+    }
+
+    public ModelPart() {
+        cubes = new ArrayList<>();
+        children = new HashMap<>();
     }
 
     public PartPose storePose() {
@@ -409,7 +412,7 @@ public final class ModelPart {
         for (String key : removeParts) {
             this.children.remove(key);
         }
-        this.meshedModelBone = MeshedModelBone.convert(this);
+        this.meshedModelBone = MergedModelPartData.convert(this);
         if (this.meshedModelBone != null) {
             cubes.clear();
             cubes.add(ZERO);
@@ -475,6 +478,7 @@ public final class ModelPart {
         return this.cubes.isEmpty();
     }
 
+    @Override
     public void offsetPos(Vector3f pos) {
         this.x += pos.x();
         this.y += pos.y();
@@ -482,6 +486,7 @@ public final class ModelPart {
         touched = true;
     }
 
+    @Override
     public void offsetRotation(Vector3f rot) {
         this.xRot += rot.x();
         this.yRot += rot.y();
@@ -489,6 +494,7 @@ public final class ModelPart {
         touched = true;
     }
 
+    @Override
     public void offsetScale(Vector3f scale) {
         this.xScale += scale.x();
         this.yScale += scale.y();
@@ -496,7 +502,8 @@ public final class ModelPart {
         touched = true;
     }
 
-    public Stream<ModelPart> getAllParts() {
+    @Override
+    public Stream<IAnimatedModelPart> getAllParts() {
         return Stream.concat(Stream.of(this), this.children.values().stream().flatMap(ModelPart::getAllParts));
     }
 

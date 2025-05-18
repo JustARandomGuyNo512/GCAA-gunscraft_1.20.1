@@ -164,7 +164,8 @@ public class Clients {
     public static long localTimeOffset = 0;
     @OnlyIn(Dist.CLIENT)
     public static boolean DO_SEND_FIRE_PACKET = true;
-
+    @OnlyIn(Dist.CLIENT)
+    public static boolean IS_SHADER_ENABLED = false;
 
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {

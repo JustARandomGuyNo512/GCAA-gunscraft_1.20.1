@@ -9,7 +9,7 @@ import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
-import sheridan.gcaa.client.model.modelPart.ModelPart;
+import sheridan.gcaa.client.model.modelPart.IAnimatedModelPart;
 
 @OnlyIn(Dist.CLIENT)
 public record AnimationChannel(AnimationChannel.Target target, Keyframe... keyframes) {
@@ -24,14 +24,14 @@ public record AnimationChannel(AnimationChannel.Target target, Keyframe... keyfr
 
     @OnlyIn(Dist.CLIENT)
     public interface Target {
-        void apply(ModelPart var1, Vector3f var2);
+        void apply(IAnimatedModelPart var1, Vector3f var2);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static class Targets {
-        public static final AnimationChannel.Target POSITION = ModelPart::offsetPos;
-        public static final AnimationChannel.Target ROTATION = ModelPart::offsetRotation;
-        public static final AnimationChannel.Target SCALE = ModelPart::offsetScale;
+        public static final AnimationChannel.Target POSITION = IAnimatedModelPart::offsetPos;
+        public static final AnimationChannel.Target ROTATION = IAnimatedModelPart::offsetRotation;
+        public static final AnimationChannel.Target SCALE = IAnimatedModelPart::offsetScale;
 
         public Targets() {}
     }

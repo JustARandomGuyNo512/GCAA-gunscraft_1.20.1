@@ -9,7 +9,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.modelPart.HierarchicalModel;
-import sheridan.gcaa.client.model.modelPart.ModelPart;
+import sheridan.gcaa.client.model.modelPart.IAnimatedModelPart;
 import sheridan.gcaa.network.PacketHandler;
 import sheridan.gcaa.network.packets.c2s.PlayerSoundPacket;
 import sheridan.gcaa.sounds.ModSounds;
@@ -29,7 +29,7 @@ public class KeyframeAnimations {
         }
         float f = definition.looping() ? timeDis % definition.lengthInSeconds() : timeDis;
         for(Map.Entry<String, List<AnimationChannel>> entry : definition.boneAnimations().entrySet()) {
-            Optional<ModelPart> optional = root.getAnyDescendantWithName(entry.getKey());
+            Optional<IAnimatedModelPart> optional = root.getAnyDescendantWithName(entry.getKey());
             List<AnimationChannel> list = entry.getValue();
             optional.ifPresent((modelPart) -> list.forEach((channel) -> {
                 Keyframe[] keyframes = channel.keyframes();
@@ -38,7 +38,7 @@ public class KeyframeAnimations {
         }
     }
 
-    private static void applyFrame(Keyframe[] keyframes, float timer, AnimationChannel channel, ModelPart bone, float scaleX, float scaleY, float scaleZ) {
+    private static void applyFrame(Keyframe[] keyframes, float timer, AnimationChannel channel, IAnimatedModelPart bone, float scaleX, float scaleY, float scaleZ) {
         if (keyframes.length > 0) {
             int currentIndex = Math.max(0, Mth.binarySearch(0, keyframes.length, (index) -> timer <= keyframes[index].timestamp()) - 1);
             int nextIndex = Math.min(keyframes.length - 1, currentIndex + 1);
@@ -60,7 +60,7 @@ public class KeyframeAnimations {
         return (System.currentTimeMillis() - startTime - shift) * 0.001F;
     }
 
-    public static void _animateToModelPart(ModelPart root, AnimationDefinition definition, long startTime, long shift, float scaleX, float scaleY, float scaleZ, boolean stopIfOutOfTime) {
+    public static void _animateToModelPart(IAnimatedModelPart root, AnimationDefinition definition, long startTime, long shift, float scaleX, float scaleY, float scaleZ, boolean stopIfOutOfTime) {
         float timeDis = getTimeDis(startTime, shift);
         if (stopIfOutOfTime && (!definition.looping() && timeDis > definition.lengthInSeconds())) {
             return;
@@ -68,7 +68,7 @@ public class KeyframeAnimations {
         float f = definition.looping() ? timeDis % definition.lengthInSeconds() : timeDis;
         for(Map.Entry<String, List<AnimationChannel>> entry : definition.boneAnimations().entrySet()) {
             String name = entry.getKey();
-            Optional<ModelPart> optional = name.equals("root") ?
+            Optional<IAnimatedModelPart> optional = name.equals("root") ?
                     Optional.of(root) :
                     root.getAllParts().filter((part) -> part.hasChild(name)).findFirst().map((part) -> part.getChild(name));
             List<AnimationChannel> list = entry.getValue();

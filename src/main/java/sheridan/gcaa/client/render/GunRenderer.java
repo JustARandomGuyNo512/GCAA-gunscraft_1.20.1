@@ -99,18 +99,15 @@ public class GunRenderer{
                 if (Clients.shouldHideFPRender) {
                     return;
                 }
-                if (ClientConfig.useDynamicWeaponLighting.get() &&
-                        (!ClientConfig.enableMuzzleFlashLighting.get() || MuzzleFlashLightHandler.isFirstPersonLightOverride())) {
-                    long dis = (System.currentTimeMillis() - tempLastFire);
-                    if (dis < 35) {
-                        float particleTick = Minecraft.getInstance().getPartialTick();
-                        int blockLight = entityIn.isOnFire() ? 15 :
-                                entityIn.level().getBrightness(LightLayer.BLOCK, BlockPos.containing(entityIn.getEyePosition(particleTick)));
-                        int lightInc = Gun.MUZZLE_STATE_SUPPRESSOR.equals(gun.getMuzzleFlash(itemStackIn)) ?
-                                5 : 10;
-                        combinedLightIn = LightTexture.pack((int) Math.min(15, blockLight + Math.min(lightInc, dis)), entityIn.level().getBrightness(LightLayer.SKY,
-                                BlockPos.containing(entityIn.getEyePosition(particleTick))));
-                    }
+                long dis = (System.currentTimeMillis() - tempLastFire);
+                if (dis < 35) {
+                    float particleTick = Minecraft.getInstance().getPartialTick();
+                    int blockLight = entityIn.isOnFire() ? 15 :
+                            entityIn.level().getBrightness(LightLayer.BLOCK, BlockPos.containing(entityIn.getEyePosition(particleTick)));
+                    int lightInc = Gun.MUZZLE_STATE_SUPPRESSOR.equals(gun.getMuzzleFlash(itemStackIn)) ?
+                            5 : 10;
+                    combinedLightIn = LightTexture.pack((int) Math.min(15, blockLight + Math.min(lightInc, dis)), entityIn.level().getBrightness(LightLayer.SKY,
+                            BlockPos.containing(entityIn.getEyePosition(particleTick))));
                 }
                 GunRenderContext context = GunRenderContext.getClientMainHand(bufferIn, poseStack, itemStackIn, gun, type, muzzleFlashEntry, combinedLightIn, combinedLightIn, combinedOverlayIn);
                 if (newShoot) {
@@ -126,7 +123,6 @@ public class GunRenderer{
                 InertialRecoilData inertialRecoilData = displayData.getInertialRecoilData();
                 if (inertialRecoilData != null) {
                     AnimationHandler.INSTANCE.applyInertialRecoil(context.poseStack, inertialRecoilData);
-                    //SpringRecoilHandler.INSTANCE.apply(context.poseStack);
                 }
                 if (newShoot) {
                     if (gun.shootCreateBulletShell()) {

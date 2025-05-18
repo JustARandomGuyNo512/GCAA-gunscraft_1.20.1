@@ -31,9 +31,9 @@ public abstract class HierarchicalModel<E extends Entity> extends EntityModel<E>
     @Override
     public void setupAnim(E pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {}
 
-    public abstract ModelPart root();
+    public abstract IAnimatedModelPart root();
 
-    public Optional<ModelPart> getAnyDescendantWithName(String pName) {
+    public Optional<IAnimatedModelPart> getAnyDescendantWithName(String pName) {
         return pName.equals("root") ? Optional.of(this.root()) : this.root().getAllParts().filter((part) -> {
             return part.hasChild(pName);
         }).findFirst().map((part) -> {

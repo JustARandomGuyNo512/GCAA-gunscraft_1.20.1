@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 @OnlyIn(Dist.CLIENT)
-public class ModelLoader {
+public class GeoModelLoader {
     private static final Gson GSON_INSTANCE = new Gson();
 
     /**

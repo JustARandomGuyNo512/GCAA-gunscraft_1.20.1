@@ -11,7 +11,7 @@ import org.joml.Vector3f;
 import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
-public class MeshedModelBone {
+public class MergedModelPartData {
     public static final float NORMAL_DELTA_TO_EQUIV = 1e-5f;
     public static final int VERTEX_PACK_SIZE = 5;
     public static final int NORMAL_PACK_SIZE = 3;
@@ -51,7 +51,7 @@ public class MeshedModelBone {
         }
     }
 
-    public static MeshedModelBone convert(ModelPart modelPart) {
+    public static MergedModelPartData convert(ModelPart modelPart) {
         List<ModelPart.Cube> cubes = modelPart.getCubes();
         Map<Normal, List<ModelPart.Vertex>> normalToVertices = new HashMap<>();
         int vertexCount = 0;
@@ -70,7 +70,7 @@ public class MeshedModelBone {
         if (vertexCount == 0 || normalToVertices.isEmpty()) {
             return null;
         }
-        MeshedModelBone meshedModelBone = new MeshedModelBone();
+        MergedModelPartData meshedModelBone = new MergedModelPartData();
         meshedModelBone.normals = new float[normalToVertices.size() * NORMAL_PACK_SIZE];
         meshedModelBone.vertices = new float[vertexCount * VERTEX_PACK_SIZE];
         meshedModelBone.normalToVertices = new int[normalToVertices.size() * NORMAL_TO_VERTEX_PACK_SIZE];

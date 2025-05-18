@@ -249,6 +249,8 @@ public class RenderEvents {
             } else {
                 BulletShellRenderer.clear();
             }
+        } else {
+            Clients.IS_SHADER_ENABLED = RenderAndMathUtils.isShaderEnabled();
         }
     }
 

@@ -11,10 +11,9 @@ import sheridan.gcaa.client.MuzzleFlashLightHandler;
 @Mixin(BlockLightEngine.class)
 public class BlockLightEngineMixin {
 
-
-
     @Inject(method = "getEmission", at= @At("HEAD"), cancellable = true, remap = true)
     private void onGetLightEmission(long pPackedPos, BlockState pState, CallbackInfoReturnable<Integer> cir) {
+        System.out.println("getEmission " + MuzzleFlashLightHandler.isOverrideLight() + " " + (pPackedPos == MuzzleFlashLightHandler.getPackBlockPos()));
         if (MuzzleFlashLightHandler.isOverrideLight() && pPackedPos == MuzzleFlashLightHandler.getPackBlockPos()) {
             MuzzleFlashLightHandler.lightUpdateReceived();
             cir.setReturnValue(10);

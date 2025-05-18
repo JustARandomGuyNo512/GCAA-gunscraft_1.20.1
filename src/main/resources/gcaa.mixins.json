@@ -12,6 +12,7 @@
     "RenderItemMixin",
     "HumanoidModelMixin",
     "EntityRenderDispatcherMixin",
+    "LightTextureAccessor",
     "BlockLightEngineMixin"
   ],
   "injectors": {

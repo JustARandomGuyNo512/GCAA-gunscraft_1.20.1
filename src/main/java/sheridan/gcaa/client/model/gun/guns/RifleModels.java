@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.model.gun.guns;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -7,6 +8,8 @@ import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.gun.AKModel;
 import sheridan.gcaa.client.model.gun.CommonRifleModel;
 import sheridan.gcaa.client.model.gun.IGunModel;
+import sheridan.gcaa.client.model.modelPart.ModelPart;
+import sheridan.gcaa.client.render.GunRenderContext;
 
 import java.util.Map;
 
@@ -44,7 +47,7 @@ public class RifleModels {
             new ResourceLocation(GCAA.MODID, "model_assets/guns/mcx_spear/mcx_spear.geo.json"),
             new ResourceLocation(GCAA.MODID, "model_assets/guns/mcx_spear/mcx_spear.animation.json"),
             new ResourceLocation(GCAA.MODID, "model_assets/guns/mcx_spear/mcx_spear.png"))
-            .setOptions("renderType", "solidMipMap");
+            .setOptions("renderType", "solidMipMap") ;
 
     public static IGunModel SKS_MODEL = new SksModel();
 }

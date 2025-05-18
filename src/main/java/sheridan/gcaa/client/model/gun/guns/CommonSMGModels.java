@@ -17,6 +17,5 @@ public class CommonSMGModels {
     public static final IGunModel ANNIHILATOR_MODEL = new CommonRifleModel(
             new ResourceLocation(GCAA.MODID, "model_assets/guns/annihilator/annihilator.geo.json"),
             new ResourceLocation(GCAA.MODID, "model_assets/guns/annihilator/annihilator.animation.json"),
-            new ResourceLocation(GCAA.MODID, "model_assets/guns/annihilator/annihilator.png")) {
-    };
+            new ResourceLocation(GCAA.MODID, "model_assets/guns/annihilator/annihilator.png"));
 }
