@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.model.modelPart;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
@@ -10,11 +11,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.*;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL20;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.client.model.gun.CommonRifleModel;
 import sheridan.gcaa.client.model.gun.guns.RifleModels;
+import org.lwjgl.opengl.GL30;
+import static org.lwjgl.opengl.GL20.*;
 
 import java.lang.Math;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +109,10 @@ public class BufferedModelBone implements IAnimatedModelPart{
         RenderSystem.applyModelViewMatrix();
         if (vertexBuffer != null) {
             ShaderInstance shader = GameRenderer.getRendertypeEntityCutoutShader();
+            //test shader:
+            printAllAttributes(shader.getId());
+
+            //test shader end<
             renderType.setupRenderState();
             if (Clients.IS_SHADER_ENABLED) {
                 vertexBuffer.bind();
@@ -129,6 +139,53 @@ public class BufferedModelBone implements IAnimatedModelPart{
         RenderSystem.applyModelViewMatrix();
     }
 
+//IRIS:
+//    Attribute #0: iris_Color (location=1, size=1, type=vec4)
+//    Attribute #1: iris_Entity (location=7, size=1, type=Unknown(35668))
+//    Attribute #2: iris_Normal (location=5, size=1, type=vec3)
+//    Attribute #3: iris_Position (location=0, size=1, type=vec3)
+//    Attribute #4: iris_UV0 (location=2, size=1, type=vec2)
+//    Attribute #5: iris_UV1 (location=3, size=1, type=Unknown(35667))
+//    Attribute #6: iris_UV2 (location=4, size=1, type=Unknown(35667))
+
+
+    public static void printAllAttributes(int shaderProgram) {
+        // 获取活动attribute数量
+        int numAttributes = glGetProgrami(shaderProgram, GL_ACTIVE_ATTRIBUTES);
+
+        System.out.println("Active Attributes: " + numAttributes);
+
+        // 准备缓冲区
+        IntBuffer sizeBuf = BufferUtils.createIntBuffer(1);
+        IntBuffer typeBuf = BufferUtils.createIntBuffer(1);
+
+        for (int i = 0; i < numAttributes; i++) {
+            // 获取attribute信息
+            String attrName = glGetActiveAttrib(shaderProgram, i, sizeBuf, typeBuf);
+            int attrSize = sizeBuf.get(0);
+            int attrType = typeBuf.get(0);
+
+            // 获取attribute的位置(slot)
+            int location = glGetAttribLocation(shaderProgram, attrName);
+
+            System.out.printf("Attribute #%d: %s (location=%d, size=%d, type=%s)%n",
+                    i, attrName, location, attrSize, getTypeName(attrType));
+        }
+    }
+
+    private static String getTypeName(int type) {
+        switch (type) {
+            case GL_FLOAT: return "float";
+            case GL_FLOAT_VEC2: return "vec2";
+            case GL_FLOAT_VEC3: return "vec3";
+            case GL_FLOAT_VEC4: return "vec4";
+            case GL_FLOAT_MAT2: return "mat2";
+            case GL_FLOAT_MAT3: return "mat3";
+            case GL_FLOAT_MAT4: return "mat4";
+            default: return "Unknown(" + type + ")";
+        }
+    }
+
     public void updateBufferLightmapUV(int lightmap) {
 
     }
@@ -149,7 +206,7 @@ public class BufferedModelBone implements IAnimatedModelPart{
             }
             boolean maskLight = Clients.IS_SHADER_ENABLED;
             if (maskLight) {
-                LightmapMask.maskLight(light);
+                //LightmapMask.maskLight(light);
             }
             float timeDis = (System.currentTimeMillis() - lastRender) / 50f;
             lastRender = System.currentTimeMillis();
@@ -173,7 +230,7 @@ public class BufferedModelBone implements IAnimatedModelPart{
             TEST.render(light);
             TEST.resetPose();
             if (maskLight) {
-                LightmapMask.reset();
+                //LightmapMask.reset();
             }
         }
     }

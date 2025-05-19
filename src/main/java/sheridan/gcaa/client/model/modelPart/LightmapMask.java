@@ -1,5 +1,6 @@
 package sheridan.gcaa.client.model.modelPart;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
@@ -30,8 +31,8 @@ public class LightmapMask {
             }
         }
 
-        int distU = 15 - (packedLight & '\uffff') / 16;//13
-        int distV = 15 - (packedLight >> 16 & '\uffff') / 16;//2
+        int distU = 15 - (packedLight & '\uffff') / 16;
+        int distV = 15 - (packedLight >> 16 & '\uffff') / 16;
 
         for (int i = 15; i >= 0; i --) {
             for (int j = 15; j >= 0; j --) {
