@@ -250,7 +250,9 @@ public class RenderEvents {
                 BulletShellRenderer.clear();
             }
         } else {
-            Clients.IS_SHADER_ENABLED = RenderAndMathUtils.isShaderEnabled();
+            Clients.IS_IRIS_SHADER_ENABLED = RenderAndMathUtils.isIrisShaderEnabled();
+            Clients.IS_OPTIFINE_SHADER_ENABLED = RenderAndMathUtils.isOptifineShaderEnabled();
+            Clients.IS_SHADER_ENABLED = Clients.IS_IRIS_SHADER_ENABLED || Clients.IS_OPTIFINE_SHADER_ENABLED;
         }
     }
 

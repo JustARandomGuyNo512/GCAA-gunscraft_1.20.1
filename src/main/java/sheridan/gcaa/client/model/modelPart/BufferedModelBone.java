@@ -14,10 +14,14 @@ import org.joml.*;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 import sheridan.gcaa.Clients;
+import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.gun.CommonRifleModel;
 import sheridan.gcaa.client.model.gun.guns.RifleModels;
 import org.lwjgl.opengl.GL30;
+import sheridan.gcaa.client.render.RenderTypes;
+
 import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.glVertexAttribI2i;
 
 import java.lang.Math;
 import java.nio.IntBuffer;
@@ -29,6 +33,7 @@ import java.util.stream.Stream;
 @OnlyIn(Dist.CLIENT)
 public class BufferedModelBone implements IAnimatedModelPart{
     private static int lastLightMapUV;
+    public static boolean lastShaderEnabled = false;
     public RenderType renderType;
     public BufferBuilder buffer;
     public BufferBuilder.RenderedBuffer renderedBuffer;
@@ -107,17 +112,18 @@ public class BufferedModelBone implements IAnimatedModelPart{
         modelViewStack.pushPose();
         translateAndRotate(modelViewStack);
         RenderSystem.applyModelViewMatrix();
-        if (vertexBuffer != null) {
-            ShaderInstance shader = GameRenderer.getRendertypeEntityCutoutShader();
-            //test shader:
-            printAllAttributes(shader.getId());
-
-            //test shader end<
+        ShaderInstance shader = GameRenderer.getRendertypeEntityCutoutShader();
+        if (vertexBuffer != null && shader != null) {
             renderType.setupRenderState();
-            if (Clients.IS_SHADER_ENABLED) {
-                vertexBuffer.bind();
+            vertexBuffer.bind();
+            if (Clients.IS_IRIS_SHADER_ENABLED) {
+                int u = light & '\uffff', v = light >> 16 & '\uffff';
+                glDisableVertexAttribArray(4);
+                glVertexAttribI2i(4, u, v);
                 vertexBuffer.drawWithShader(RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), shader);
-                VertexBuffer.unbind();
+                glEnableVertexAttribArray(4);
+            } else if (Clients.IS_OPTIFINE_SHADER_ENABLED) {
+
             } else {
                 float[] shaderColor = RenderSystem.getShaderColor();
                 float r = shaderColor[0];
@@ -125,11 +131,11 @@ public class BufferedModelBone implements IAnimatedModelPart{
                 float b = shaderColor[2];
                 float a = shaderColor[3];
                 applyLightmapBrightness(light);
-                vertexBuffer.bind();
                 vertexBuffer.drawWithShader(RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), shader);
                 VertexBuffer.unbind();
                 RenderSystem.setShaderColor(r, g, b, a);
             }
+            VertexBuffer.unbind();
             renderType.clearRenderState();
         }
         for (BufferedModelBone child : children.values()) {
@@ -200,13 +206,13 @@ public class BufferedModelBone implements IAnimatedModelPart{
     public static BufferedModelBone TEST;
     public static void __test_render__(int light) {
         if (TEST != null) {
+            if (lastShaderEnabled != Clients.IS_SHADER_ENABLED) {
+                TEST.compile(RenderTypes.getMeshCutOut(new ResourceLocation(GCAA.MODID, "model_assets/test_gltf/m1a2.png")));
+            }
+            lastShaderEnabled = Clients.IS_SHADER_ENABLED;
             if (lastRender == 0) {
                 lastRender = System.currentTimeMillis();
                 return;
-            }
-            boolean maskLight = Clients.IS_SHADER_ENABLED;
-            if (maskLight) {
-                //LightmapMask.maskLight(light);
             }
             float timeDis = (System.currentTimeMillis() - lastRender) / 50f;
             lastRender = System.currentTimeMillis();
@@ -229,9 +235,6 @@ public class BufferedModelBone implements IAnimatedModelPart{
             TEST.zScale = 0.2f;
             TEST.render(light);
             TEST.resetPose();
-            if (maskLight) {
-                //LightmapMask.reset();
-            }
         }
     }
 

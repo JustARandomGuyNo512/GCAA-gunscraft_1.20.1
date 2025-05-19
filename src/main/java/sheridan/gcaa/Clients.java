@@ -166,6 +166,10 @@ public class Clients {
     public static boolean DO_SEND_FIRE_PACKET = true;
     @OnlyIn(Dist.CLIENT)
     public static boolean IS_SHADER_ENABLED = false;
+    @OnlyIn(Dist.CLIENT)
+    public static boolean IS_IRIS_SHADER_ENABLED = false;
+    @OnlyIn(Dist.CLIENT)
+    public static boolean IS_OPTIFINE_SHADER_ENABLED = false;
 
     @OnlyIn(Dist.CLIENT)
     public static void onSetUp(final FMLClientSetupEvent event) {

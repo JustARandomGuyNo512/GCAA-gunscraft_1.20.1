@@ -99,13 +99,8 @@ public class RenderTypes extends RenderType {
     }
 
     public static RenderType getMeshCutOut(ResourceLocation location) {
-        String baseKey = location.toString() + ":" + "cutout_no_cull_mip_map";
-        if (TEMP.containsKey(baseKey)) {
-            return TEMP.get(baseKey);
-        } else {
-            RenderType.CompositeState type = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ENTITY_CUTOUT_SHADER).setTextureState(new RenderStateShard.TextureStateShard(location, false, false)).setTransparencyState(NO_TRANSPARENCY).setLightmapState(LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(true);
-            return create("mesh_cutout", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, false, type);
-        }
+        RenderType.CompositeState type = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ENTITY_CUTOUT_SHADER).setTextureState(new RenderStateShard.TextureStateShard(location, false, false)).setTransparencyState(NO_TRANSPARENCY).setLightmapState(LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(true);
+        return create("mesh_cutout", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, false, type);
     }
 
     public static RenderType getCutOutNoCullMipmap(ResourceLocation location) {

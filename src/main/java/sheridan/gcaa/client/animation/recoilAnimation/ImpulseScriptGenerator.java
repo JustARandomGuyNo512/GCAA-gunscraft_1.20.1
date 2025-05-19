@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
  * Please do not call this class directly in any environment, this will cause JVM leaks!!!
  * This tool is designed for generating specified limited number of classes at load time, not infinite generation of classes
  * */
+@Deprecated
 public class ImpulseScriptGenerator {
     static Pattern pattern = Pattern.compile("\\b[A-Za-z_][A-Za-z0-9_]*\\b");
     static AtomicInteger counter = new AtomicInteger(0);
