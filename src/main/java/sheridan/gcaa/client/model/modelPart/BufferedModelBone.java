@@ -105,7 +105,9 @@ public class BufferedModelBone implements IAnimatedModelPart{
             ShaderInstance shader = GameRenderer.getRendertypeEntityCutoutShader();
             renderType.setupRenderState();
             if (Clients.IS_SHADER_ENABLED) {
-                //TODO: 快速更新lightmap->upload->draw->记录lastLightmapUV
+                vertexBuffer.bind();
+                vertexBuffer.drawWithShader(RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), shader);
+                VertexBuffer.unbind();
             } else {
                 float[] shaderColor = RenderSystem.getShaderColor();
                 float r = shaderColor[0];
@@ -145,6 +147,10 @@ public class BufferedModelBone implements IAnimatedModelPart{
                 lastRender = System.currentTimeMillis();
                 return;
             }
+            boolean maskLight = Clients.IS_SHADER_ENABLED;
+            if (maskLight) {
+                LightmapMask.maskLight(light);
+            }
             float timeDis = (System.currentTimeMillis() - lastRender) / 50f;
             lastRender = System.currentTimeMillis();
             timer += timeDis;
@@ -158,17 +164,17 @@ public class BufferedModelBone implements IAnimatedModelPart{
             IAnimatedModelPart power_wheel_r = TEST.getChild("visual").getChild("body").getChild("wheels_r").getChild("power_wheel_r");
             ((BufferedModelBone) power_wheel_r).xRot = (float) Math.toRadians((-timer * 5) % 360);
 
-
-            IAnimatedModelPart w1 = TEST.getChild("visual").getChild("body").getChild("wheels_l").getChild("w1");
-            ((BufferedModelBone) w1).xRot = (float) Math.toRadians((-timer) % 10);
-            IAnimatedModelPart w1_e = w1.getChild("wheel");
-            ((BufferedModelBone) w1_e).xRot = (float) Math.toRadians((-timer * 5) % 360);
+            IAnimatedModelPart cannon = TEST.getChild("visual").getChild("turret").getChild("cannon");
+            ((BufferedModelBone) cannon).xRot = (float) Math.toRadians(10);
 
             TEST.xScale = 0.2f;
             TEST.yScale = 0.2f;
             TEST.zScale = 0.2f;
             TEST.render(light);
             TEST.resetPose();
+            if (maskLight) {
+                LightmapMask.reset();
+            }
         }
     }
 

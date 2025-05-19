@@ -11,4 +11,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface LightTextureAccessor {
     @Accessor("lightTexture")
     DynamicTexture getLightTexture();
+
+    @Accessor("lightPixels")
+    NativeImage getLightPixels();
 }
