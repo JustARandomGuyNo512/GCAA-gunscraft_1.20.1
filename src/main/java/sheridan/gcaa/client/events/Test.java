@@ -2,19 +2,24 @@ package sheridan.gcaa.client.events;
 
 
 import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import sheridan.gcaa.GCAA;
 import sheridan.gcaa.client.model.io.GltfLoader;
 import sheridan.gcaa.client.model.modelPart.BufferedModelBone;
+import sheridan.gcaa.client.model.modelPart.GCAAShaderInstance;
 
 import java.io.IOException;
 
@@ -55,10 +60,15 @@ public class Test {
         }
     }
 
-//    @SubscribeEvent
-//    public static void onPlayerTick(TickEvent.PlayerTickEvent event)  {
-//        if (event.phase == TickEvent.Phase.END) {
-//            System.out.println(PlayerStatusProvider.getStatus(event.player).isReloading() + " " + event.player.level().isClientSide);
-//        }
-//    }
+    public static ShaderInstance SHADER_FOR_ENTITY_CUTOUT;
+    @SubscribeEvent
+    public static void registerShader(RegisterShadersEvent event) {
+        try {
+            event.registerShader(new GCAAShaderInstance(event.getResourceProvider(), new ResourceLocation(GCAA.MODID, "rendertype_entity_cutout.json"), DefaultVertexFormat.NEW_ENTITY), (shader) -> {
+                SHADER_FOR_ENTITY_CUTOUT = shader;
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

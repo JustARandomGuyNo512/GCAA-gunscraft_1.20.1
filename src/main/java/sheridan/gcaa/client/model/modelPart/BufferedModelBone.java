@@ -1,6 +1,5 @@
 package sheridan.gcaa.client.model.modelPart;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
@@ -12,13 +11,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.*;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL20;
 import sheridan.gcaa.Clients;
 import sheridan.gcaa.GCAA;
-import sheridan.gcaa.client.model.gun.CommonRifleModel;
-import sheridan.gcaa.client.model.gun.guns.RifleModels;
-import org.lwjgl.opengl.GL30;
 import sheridan.gcaa.client.render.RenderTypes;
+import sheridan.gcaa.mixin.RenderSystemAccessor;
 
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glVertexAttribI2i;
@@ -130,10 +126,13 @@ public class BufferedModelBone implements IAnimatedModelPart{
                 float g = shaderColor[1];
                 float b = shaderColor[2];
                 float a = shaderColor[3];
-                applyLightmapBrightness(light);
+                applyLightModify(light, modelViewStack);
                 vertexBuffer.drawWithShader(RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), shader);
                 VertexBuffer.unbind();
                 RenderSystem.setShaderColor(r, g, b, a);
+                Vector3f[] lightDirs = RenderSystemAccessor.getShaderLightDirections();
+                lightDirs[0].set(savedLightDir1);
+                lightDirs[1].set(savedLightDir2);
             }
             VertexBuffer.unbind();
             renderType.clearRenderState();
@@ -196,9 +195,21 @@ public class BufferedModelBone implements IAnimatedModelPart{
 
     }
 
-    public static void applyLightmapBrightness(int packedLight) {
+    static Vector3f savedLightDir1 = new Vector3f();
+    static Vector3f savedLightDir2 = new Vector3f();
+    public void applyLightModify(int packedLight, PoseStack poseStack) {
         Vector3f init = LightmapColorHelper.init(packedLight);
         RenderSystem.setShaderColor(init.x, init.y, init.z, 1.0f);
+
+        Matrix3f matrix = new Matrix3f(poseStack.last().normal());
+        matrix.invert();
+        Vector3f[] lightDirs = RenderSystemAccessor.getShaderLightDirections();
+        Vector3f original1 = lightDirs[0];
+        Vector3f transformed = matrix.transform(new Vector3f(original1));
+        original1.set(transformed.normalize());
+        Vector3f original2 = lightDirs[1];
+        Vector3f transformed2 = matrix.transform(new Vector3f(original2));
+        original2.set(transformed2.normalize());
     }
 
     static long lastRender;
@@ -229,6 +240,12 @@ public class BufferedModelBone implements IAnimatedModelPart{
 
             IAnimatedModelPart cannon = TEST.getChild("visual").getChild("turret").getChild("cannon");
             ((BufferedModelBone) cannon).xRot = (float) Math.toRadians(10);
+
+            Vector3f[] lightDirs = RenderSystemAccessor.getShaderLightDirections();
+            Vector3f original1 = lightDirs[0];
+            savedLightDir1.set(original1);
+            Vector3f original2 = lightDirs[1];
+            savedLightDir2.set(original2);
 
             TEST.xScale = 0.2f;
             TEST.yScale = 0.2f;
