@@ -171,15 +171,6 @@ dependencies {
 
     minecraftLibrary 'org.javassist:javassist:3.29.2-GA'
 
-    minecraftLibrary ('org.jmonkeyengine:jme3-plugins:3.7.0-stable')  {
-        exclude group: 'com.google.code.gson', module: 'gson'
-    }
-
-    minecraftLibrary ('org.jmonkeyengine:jme3-core:3.7.0-stable')  {
-        exclude group: 'com.google.code.gson', module: 'gson'
-    }
-
-    implementation fg.deobf("curse.maven:oculus-581495:5108615")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
